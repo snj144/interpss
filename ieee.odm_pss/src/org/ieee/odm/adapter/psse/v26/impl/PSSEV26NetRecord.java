@@ -32,7 +32,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
 import org.ieee.odm.model.DataSetter;
 import org.ieee.odm.model.ParserHelper;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 
 public class PSSEV26NetRecord {
 	public final static String Token_CaseDesc = "Case Description";     
@@ -45,7 +45,7 @@ public class PSSEV26NetRecord {
 		if (strAry == null)
 			return false;
 		
-		final double baseMva = StringUtil.getDouble(strAry[1], 100.0);
+		final double baseMva = ModelStringUtil.getDouble(strAry[1], 100.0);
 	    logger.fine("BaseKva: "  + baseMva);
 	    DataSetter.setPowerMva(baseCaseNet.addNewBasePower(), baseMva);   
 
@@ -67,15 +67,15 @@ public class PSSEV26NetRecord {
 		final String[] strAry = getAreaInterchangeDataFields(str);
 		
 		//     Area number , no zeros! *
-		final int no = StringUtil.getInt(strAry[0], 0);
+		final int no = ModelStringUtil.getInt(strAry[0], 0);
 		
 		//       swing bus name [A]
 		final String swingBusName = strAry[1];
 
 		//        Area interchange export, MW [F] (+ = out) *
 		//        Area interchange tolerance, MW [F] *
-		final double mw = StringUtil.getDouble(strAry[2], 0.0);
-		final double err = StringUtil.getDouble(strAry[3], 0.0);
+		final double mw = ModelStringUtil.getDouble(strAry[2], 0.0);
+		final double err = ModelStringUtil.getDouble(strAry[3], 0.0);
     
 		PowerInterchangeXmlType interchange = baseCaseNet.addNewInterchangeList().addNewInterchange().addNewPowerEx();
 	

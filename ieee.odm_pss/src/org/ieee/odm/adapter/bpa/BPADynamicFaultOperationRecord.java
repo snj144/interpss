@@ -40,7 +40,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.model.DataSetter;
 import org.ieee.odm.model.ParserHelper;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 
 public class BPADynamicFaultOperationRecord {
 	
@@ -408,45 +408,45 @@ private static String[] getFaultOperationDataFields ( final String str, int mode
 	final String[] strAry = new String[13];		
 	try{
 		if(mode==1||mode==2||mode==3||mode==-1||mode==-2||mode==-3){
-			strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
-			strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 4).trim();
-			strAry[2]=StringUtil.getStringReturnEmptyString(str,5, 12).trim();
-			strAry[3]=StringUtil.getStringReturnEmptyString(str,13, 16).trim();
-			strAry[4]=StringUtil.getStringReturnEmptyString(str,18, 18).trim();
-			strAry[5]=StringUtil.getStringReturnEmptyString(str,19, 26).trim();
-			strAry[6]=StringUtil.getStringReturnEmptyString(str,27, 30).trim();
-			strAry[7]=StringUtil.getStringReturnEmptyString(str,32, 32).trim();
-			strAry[8]=StringUtil.getStringReturnEmptyString(str,36, 37).trim();			
-			strAry[9]=StringUtil.getStringReturnEmptyString(str,40, 45).trim();
-			strAry[10]=StringUtil.getStringReturnEmptyString(str,46, 51).trim();
-			strAry[11]=StringUtil.getStringReturnEmptyString(str,52, 57).trim();
-			strAry[12]=StringUtil.getStringReturnEmptyString(str,58, 63).trim();
+			strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+			strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 4).trim();
+			strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+			strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
+			strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,18, 18).trim();
+			strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
+			strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();
+			strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,32, 32).trim();
+			strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,36, 37).trim();			
+			strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,40, 45).trim();
+			strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,46, 51).trim();
+			strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,52, 57).trim();
+			strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,58, 63).trim();
 		}else if(mode==4){
-			strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
-			strAry[1]=StringUtil.getStringReturnEmptyString(str,5, 12).trim();
-			strAry[2]=StringUtil.getStringReturnEmptyString(str,13, 16).trim();
-			strAry[3]=StringUtil.getStringReturnEmptyString(str,17, 17).trim();
-			strAry[4]=StringUtil.getStringReturnEmptyString(str,37, 37).trim();
-			strAry[5]=StringUtil.getStringReturnEmptyString(str,40, 45).trim();
-			strAry[6]=StringUtil.getStringReturnEmptyString(str,46, 50).trim();
-			strAry[7]=StringUtil.getStringReturnEmptyString(str,51, 55).trim();
-			strAry[8]=StringUtil.getStringReturnEmptyString(str,56, 60).trim();
-			strAry[9]=StringUtil.getStringReturnEmptyString(str,61, 65).trim();
-			strAry[10]=StringUtil.getStringReturnEmptyString(str,66, 70).trim();
-			strAry[11]=StringUtil.getStringReturnEmptyString(str,72, 75).trim();
-			strAry[12]=StringUtil.getStringReturnEmptyString(str,76, 80).trim();
+			strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+			strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+			strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
+			strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,17, 17).trim();
+			strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,37, 37).trim();
+			strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,40, 45).trim();
+			strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,46, 50).trim();
+			strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,51, 55).trim();
+			strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,56, 60).trim();
+			strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,61, 65).trim();
+			strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,66, 70).trim();
+			strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,72, 75).trim();
+			strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,76, 80).trim();
 		}else if(mode==5){
-			strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
-			strAry[1]=StringUtil.getStringReturnEmptyString(str,5, 12).trim();
-			strAry[2]=StringUtil.getStringReturnEmptyString(str,13, 16).trim();
-			strAry[3]=StringUtil.getStringReturnEmptyString(str,19, 26).trim();
-			strAry[4]=StringUtil.getStringReturnEmptyString(str,27, 30).trim();
-			strAry[5]=StringUtil.getStringReturnEmptyString(str,32, 33).trim();
-			strAry[6]=StringUtil.getStringReturnEmptyString(str,37, 37).trim();
-			strAry[7]=StringUtil.getStringReturnEmptyString(str,40, 45).trim();
-			strAry[8]=StringUtil.getStringReturnEmptyString(str,46, 51).trim();
-			strAry[9]=StringUtil.getStringReturnEmptyString(str,52, 57).trim();
-			strAry[10]=StringUtil.getStringReturnEmptyString(str,58, 63).trim();			
+			strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+			strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+			strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
+			strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
+			strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();
+			strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,32, 33).trim();
+			strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,37, 37).trim();
+			strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,40, 45).trim();
+			strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,46, 51).trim();
+			strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,52, 57).trim();
+			strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,58, 63).trim();			
 		}
 	}catch(Exception e){
 		adapter.logErr(e.toString());

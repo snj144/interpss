@@ -52,9 +52,10 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.model.DataSetter;
+import org.ieee.odm.model.ModelContansts;
+import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ParserHelper;
-import org.ieee.odm.model.StringUtil;
 
 /*
 	UCTE data exchange format for load flow and three phase short circuit studies (UCTE-DEF)
@@ -200,15 +201,15 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 				scMVA3P, x_rRatio;
 		String powerPlanType;
 		try {
-			id = StringUtil.getString(str, 1, 8).trim().replace(' ', '_');
-			name = StringUtil.getString(str, 10, 21).trim();
+			id = ModelStringUtil.getString(str, 1, 8).trim().replace(' ', '_');
+			name = ModelStringUtil.getString(str, 10, 21).trim();
 
 			if (!customBaseVoltage)
 				baseKv = getBaseVoltageKv(id);
 
-			status = StringUtil.getInt(str, 23, 23);  // 0 real, 1 equivalent
-			nodeType = StringUtil.getInt(str, 25, 25);  // 0 PQ, 1 QAng, 2 PV, 3 Swing
-			voltage = StringUtil.getDouble(str, 27, 32);  
+			status = ModelStringUtil.getInt(str, 23, 23);  // 0 real, 1 equivalent
+			nodeType = ModelStringUtil.getInt(str, 25, 25);  // 0 PQ, 1 QAng, 2 PV, 3 Swing
+			voltage = ModelStringUtil.getDouble(str, 27, 32);  
 			if (customBaseVoltage) {
 				baseKv = findCustomBaseVoltage(voltage);
 				if (baseKv == 0.0) {
@@ -221,22 +222,22 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 					voltage = baseKv;
 			}
 			
-			pLoadMW = StringUtil.getDouble(str, 34, 40);  
-			qLoadMvar = StringUtil.getDouble(str, 42, 48);  
-			pGenMW = -StringUtil.getDouble(str, 50, 56);    // UCTE assumes out next as the positive direction
-			qGenMvar = -StringUtil.getDouble(str, 58, 64);
+			pLoadMW = ModelStringUtil.getDouble(str, 34, 40);  
+			qLoadMvar = ModelStringUtil.getDouble(str, 42, 48);  
+			pGenMW = -ModelStringUtil.getDouble(str, 50, 56);    // UCTE assumes out next as the positive direction
+			qGenMvar = -ModelStringUtil.getDouble(str, 58, 64);
 			
 			// optional fields
-			minGenMW = -StringUtil.getDouble(str, 66, 72); 
-			maxGenMW = -StringUtil.getDouble(str, 74, 80);
-			minGenMVar = -StringUtil.getDouble(str, 82, 88); 
-			maxGenMVar = -StringUtil.getDouble(str, 90, 96); 
-			staticPrimaryControl = StringUtil.getDouble(str, 98, 102); 
-			normalPowerPrimaryControl = StringUtil.getDouble(str, 104, 110);
-			scMVA3P = StringUtil.getDouble(str, 112, 118);
-			x_rRatio = StringUtil.getDouble(str, 120, 126);
+			minGenMW = -ModelStringUtil.getDouble(str, 66, 72); 
+			maxGenMW = -ModelStringUtil.getDouble(str, 74, 80);
+			minGenMVar = -ModelStringUtil.getDouble(str, 82, 88); 
+			maxGenMVar = -ModelStringUtil.getDouble(str, 90, 96); 
+			staticPrimaryControl = ModelStringUtil.getDouble(str, 98, 102); 
+			normalPowerPrimaryControl = ModelStringUtil.getDouble(str, 104, 110);
+			scMVA3P = ModelStringUtil.getDouble(str, 112, 118);
+			x_rRatio = ModelStringUtil.getDouble(str, 120, 126);
 
-			powerPlanType = StringUtil.getString(str, 128, 128);
+			powerPlanType = ModelStringUtil.getString(str, 128, 128);
 		} catch (Exception e) {
 			logErr(e.toString());
 			return;
@@ -331,17 +332,17 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		int status, currentLimit;
 		double rOhm, xOhm, bMuS;  
 		try {
-			fromNodeId = StringUtil.getString(str, 1, 8).trim().replace(' ', '_');
-			toNodeId = StringUtil.getString(str, 10, 17).trim().replace(' ', '_');
-			orderCode = StringUtil.getString(str, 19, 19);
+			fromNodeId = ModelStringUtil.getString(str, 1, 8).trim().replace(' ', '_');
+			toNodeId = ModelStringUtil.getString(str, 10, 17).trim().replace(' ', '_');
+			orderCode = ModelStringUtil.getString(str, 19, 19);
 
-			status = StringUtil.getInt(str, 21, 21);  // 0 real, i equivalent
-			rOhm = StringUtil.getDouble(str, 23, 28);  
-			xOhm = StringUtil.getDouble(str, 30, 35);  
-			bMuS = StringUtil.getDouble(str, 37, 44);  
-			currentLimit = StringUtil.getInt(str, 46, 51);  
+			status = ModelStringUtil.getInt(str, 21, 21);  // 0 real, i equivalent
+			rOhm = ModelStringUtil.getDouble(str, 23, 28);  
+			xOhm = ModelStringUtil.getDouble(str, 30, 35);  
+			bMuS = ModelStringUtil.getDouble(str, 37, 44);  
+			currentLimit = ModelStringUtil.getInt(str, 46, 51);  
 
-			elemName = StringUtil.getString(str, 53, 64);
+			elemName = ModelStringUtil.getString(str, 53, 64);
 		} catch (Exception e) {
 			logErr(e.toString());
 			return;
@@ -381,21 +382,21 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		double fromRatedKV, toRatedKV, normialMva,
 		       rOhm, xOhm, bMuS, gMuS;  
 		try {
-			fromNodeId = StringUtil.getString(str, 1, 8).trim().replace(' ', '_');
-			toNodeId = StringUtil.getString(str, 10, 17).trim().replace(' ', '_');
-			orderCode = StringUtil.getString(str, 19, 19);
+			fromNodeId = ModelStringUtil.getString(str, 1, 8).trim().replace(' ', '_');
+			toNodeId = ModelStringUtil.getString(str, 10, 17).trim().replace(' ', '_');
+			orderCode = ModelStringUtil.getString(str, 19, 19);
 
-			status = StringUtil.getInt(str, 21, 21);  // 0 real, i equivalent
-			fromRatedKV = StringUtil.getDouble(str, 23, 27);  
-			toRatedKV = StringUtil.getDouble(str, 29, 33);  
-			normialMva = StringUtil.getDouble(str, 35, 39);  
-			rOhm = StringUtil.getDouble(str, 41, 46);  
-			xOhm = StringUtil.getDouble(str, 48, 53);  
-			bMuS = StringUtil.getDouble(str, 55, 62);  
-			gMuS = StringUtil.getDouble(str, 64, 69);  
-			currentLimit = StringUtil.getInt(str, 71, 76);  
+			status = ModelStringUtil.getInt(str, 21, 21);  // 0 real, i equivalent
+			fromRatedKV = ModelStringUtil.getDouble(str, 23, 27);  
+			toRatedKV = ModelStringUtil.getDouble(str, 29, 33);  
+			normialMva = ModelStringUtil.getDouble(str, 35, 39);  
+			rOhm = ModelStringUtil.getDouble(str, 41, 46);  
+			xOhm = ModelStringUtil.getDouble(str, 48, 53);  
+			bMuS = ModelStringUtil.getDouble(str, 55, 62);  
+			gMuS = ModelStringUtil.getDouble(str, 64, 69);  
+			currentLimit = ModelStringUtil.getInt(str, 71, 76);  
 
-			elemName = StringUtil.getString(str, 78, 89);
+			elemName = ModelStringUtil.getString(str, 78, 89);
 		} catch (Exception e) {
 			logErr(e.toString());
 			return;
@@ -456,22 +457,22 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		int nAngle, n1Angle;  
 
 		try {
-			fromNodeId = StringUtil.getString(str, 1, 8).trim().replace(' ', '_');
-			toNodeId = StringUtil.getString(str, 10, 17).trim().replace(' ', '_');
-			orderCode = StringUtil.getString(str, 19, 19);
+			fromNodeId = ModelStringUtil.getString(str, 1, 8).trim().replace(' ', '_');
+			toNodeId = ModelStringUtil.getString(str, 10, 17).trim().replace(' ', '_');
+			orderCode = ModelStringUtil.getString(str, 19, 19);
 
-			dUPhase = StringUtil.getDouble(str, 21, 25);  
-			nPhase = StringUtil.getInt(str, 27, 28);  
-			n1Phase = StringUtil.getInt(str, 30, 32);  
-			uKvPhase = StringUtil.getDouble(str, 34, 38);  
+			dUPhase = ModelStringUtil.getDouble(str, 21, 25);  
+			nPhase = ModelStringUtil.getInt(str, 27, 28);  
+			n1Phase = ModelStringUtil.getInt(str, 30, 32);  
+			uKvPhase = ModelStringUtil.getDouble(str, 34, 38);  
 
-			dUAngle = StringUtil.getDouble(str, 40, 44);  
-			thetaDegAngle = StringUtil.getDouble(str, 46, 50);  
-			nAngle = StringUtil.getInt(str, 52, 53);  
-			n1Angle = StringUtil.getInt(str, 55, 57);  
-			pMwAngle = StringUtil.getDouble(str, 59, 63);  
+			dUAngle = ModelStringUtil.getDouble(str, 40, 44);  
+			thetaDegAngle = ModelStringUtil.getDouble(str, 46, 50);  
+			nAngle = ModelStringUtil.getInt(str, 52, 53);  
+			n1Angle = ModelStringUtil.getInt(str, 55, 57);  
+			pMwAngle = ModelStringUtil.getDouble(str, 59, 63);  
 
-			type = StringUtil.getString(str, 65, 68);
+			type = ModelStringUtil.getString(str, 65, 68);
 		} catch (Exception e) {
 			logErr(e.toString());
 			return;
@@ -561,7 +562,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 					x = 1.0 / Math.sqrt(1.0 + a*a);
 				}
 				else {
-					double theta = thetaDegAngle * ParserHelper.Deg2Rad,
+					double theta = thetaDegAngle * ModelContansts.Deg2Rad,
 					       asin = a*Math.sin(theta),
 					       acos = 1.0 + a*Math.cos(theta),
 					       asinMax = aMax*Math.sin(theta),
@@ -582,7 +583,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			
 			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
 			
-			DataSetter.setAngleData(branchData.addNewToAngle(), -ang*ParserHelper.Rad2Deg, AngleUnitType.DEG);
+			DataSetter.setAngleData(branchData.addNewToAngle(), -ang*ModelContansts.Rad2Deg, AngleUnitType.DEG);
 			DataSetter.setTapPU(branchData.addNewToTurnRatio(), ratioFactor/x);
 			
 			if (pMwAngle != 0.0) {
@@ -618,10 +619,10 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		double exPower;  
 
 		try {
-			fromIsoId = StringUtil.getString(str, 1, 2);
-			toIsoId = StringUtil.getString(str, 4, 5);
-			exPower = StringUtil.getDouble(str, 7, 13);  
-			comment = StringUtil.getString(str, 15, 26);
+			fromIsoId = ModelStringUtil.getString(str, 1, 2);
+			toIsoId = ModelStringUtil.getString(str, 4, 5);
+			exPower = ModelStringUtil.getDouble(str, 7, 13);  
+			comment = ModelStringUtil.getString(str, 15, 26);
 		} catch (Exception e) {
 			logErr(e.toString());
 			return;
@@ -651,7 +652,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
     private double getBaseVoltageKv(String nodeId) throws Exception {
         // According to the spec the node base voltage code is stored at the 7th char
-    	int code = StringUtil.getInt(nodeId, 7, 7);
+    	int code = ModelStringUtil.getInt(nodeId, 7, 7);
     	return getBaseVoltageKv(code);
     }
     

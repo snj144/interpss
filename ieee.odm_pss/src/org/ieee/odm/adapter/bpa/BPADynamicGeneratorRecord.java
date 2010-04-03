@@ -41,7 +41,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZeroSequenceDataListXmlType;
 import org.ieee.odm.model.DataSetter;
 import org.ieee.odm.model.ParserHelper;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 
 public class BPADynamicGeneratorRecord {
 	
@@ -84,18 +84,18 @@ public class BPADynamicGeneratorRecord {
     		if(!strAry[7].equals("")){
     			owner= strAry[7];
     		}
-    		double xd11=StringUtil.getDouble(strAry[8], 0.0);  
+    		double xd11=ModelStringUtil.getDouble(strAry[8], 0.0);  
     		
     		posGen.setZRPos(0.0);
     		posGen.setZXPos(xd11);
     	
     		subTranGen.setXd11(xd11);
-    		double xq11=StringUtil.getDouble(strAry[9], 0.0);
+    		double xq11=ModelStringUtil.getDouble(strAry[9], 0.0);
     		subTranGen.setXq11(xq11);
-    		double td011=StringUtil.getDouble(strAry[10], 0.0);
+    		double td011=ModelStringUtil.getDouble(strAry[10], 0.0);
     		DataSetter.setTimePeriodData(subTranGen.addNewTd011(), 
 					td011, TimePeriodUnitType.SEC);
-    		double tq011=StringUtil.getDouble(strAry[11], 0.0);
+    		double tq011=ModelStringUtil.getDouble(strAry[11], 0.0);
     		DataSetter.setTimePeriodData(subTranGen.addNewTq011(), 
 					tq011, TimePeriodUnitType.SEC);    		
     		
@@ -116,8 +116,8 @@ public class BPADynamicGeneratorRecord {
 				SubTransientMachineXmlType subTranGen=gen
                 .getGeneratorModel().getSubTransientModel();
 				
-				double pContri=StringUtil.getDouble(strAry[5], 0.0);
-				double qContri=StringUtil.getDouble(strAry[6], 0.0);
+				double pContri=ModelStringUtil.getDouble(strAry[5], 0.0);
+				double qContri=ModelStringUtil.getDouble(strAry[6], 0.0);
 			
 				if(pContri<=1.0&&pContri!=0.0){
 				   pContri=pContri*100;				
@@ -129,9 +129,9 @@ public class BPADynamicGeneratorRecord {
 				}
 				
 								
-				double Emws=StringUtil.getDouble(strAry[4], 0.0);
+				double Emws=ModelStringUtil.getDouble(strAry[4], 0.0);
 				
-				double MvaBase=StringUtil.getDouble(strAry[7], baseCaseNet.getBasePower().getValue());
+				double MvaBase=ModelStringUtil.getDouble(strAry[7], baseCaseNet.getBasePower().getValue());
 				
 				DataSetter.setActivePower(subTranGen.addNewBasePower(), MvaBase, ActivePowerUnitType.MW);   
 				double h=0.0;
@@ -143,34 +143,34 @@ public class BPADynamicGeneratorRecord {
 					subTranGen.setH(h);
 				}
 				
-				double ra=StringUtil.getDouble(strAry[8], 0.0);
+				double ra=ModelStringUtil.getDouble(strAry[8], 0.0);
 				subTranGen.setRa(ra);	    			
 	    		
-				double xd1=StringUtil.getDouble(strAry[9], 0.0);
+				double xd1=ModelStringUtil.getDouble(strAry[9], 0.0);
 				subTranGen.setXd1(xd1);	    			
 	    		
 				
 	    		posGen.setZRPos(0.0);
 	    		posGen.setZXPos(xd1);
 				
-				double xq1=StringUtil.getDouble(strAry[10], 0.0);
+				double xq1=ModelStringUtil.getDouble(strAry[10], 0.0);
 				subTranGen.setXq1(xq1);	    			
 	    		
-				double xd=StringUtil.getDouble(strAry[11], 0.0);
+				double xd=ModelStringUtil.getDouble(strAry[11], 0.0);
 				subTranGen.setXd(xd);	    			
 	    		
-				double xq=StringUtil.getDouble(strAry[12], 0.0);
+				double xq=ModelStringUtil.getDouble(strAry[12], 0.0);
 				subTranGen.setXq(xq);	    			
 	    		
-				double td01=StringUtil.getDouble(strAry[13], 0.0);
+				double td01=ModelStringUtil.getDouble(strAry[13], 0.0);
 	    		DataSetter.setTimePeriodData(subTranGen.addNewTdo1(), 
 	    					td01, TimePeriodUnitType.SEC);
 	    		
-	    		double tq01=StringUtil.getDouble(strAry[14], 0.0);
+	    		double tq01=ModelStringUtil.getDouble(strAry[14], 0.0);
 	    		DataSetter.setTimePeriodData(subTranGen.addNewTq01(), 
 	    					tq01, TimePeriodUnitType.SEC);
 	    		
-	    		double xl=StringUtil.getDouble(strAry[15], 0.0);
+	    		double xl=ModelStringUtil.getDouble(strAry[15], 0.0);
 				subTranGen.setXr(xl);	    			
 	    		
 				double E1=1.0, SE1=0.0;
@@ -246,30 +246,30 @@ public class BPADynamicGeneratorRecord {
 					tranGen.setH(h);
 				}
 				
-				double ra=StringUtil.getDouble(strAry[8], 0.0);
+				double ra=ModelStringUtil.getDouble(strAry[8], 0.0);
 				tranGen.setRa(ra);	    			
 	    		
-				double xd1=StringUtil.getDouble(strAry[9], 0.0);
+				double xd1=ModelStringUtil.getDouble(strAry[9], 0.0);
 				tranGen.setXd1(xd1);	    			
 	    		
 				
 	    		posGen.setZRPos(0.0);
 	    		posGen.setZXPos(xd1);
 				
-				double xq1=StringUtil.getDouble(strAry[10], 0.0);
+				double xq1=ModelStringUtil.getDouble(strAry[10], 0.0);
 				tranGen.setXq1(xq1);	    			
 	    		
-				double xd=StringUtil.getDouble(strAry[11], 0.0);
+				double xd=ModelStringUtil.getDouble(strAry[11], 0.0);
 				tranGen.setXd(xd);	    			
 	    		
-				double xq=StringUtil.getDouble(strAry[12], 0.0);
+				double xq=ModelStringUtil.getDouble(strAry[12], 0.0);
 				tranGen.setXq(xq);	    			
 	    		
-				double td01=StringUtil.getDouble(strAry[13], 0.0);
+				double td01=ModelStringUtil.getDouble(strAry[13], 0.0);
 	    		DataSetter.setTimePeriodData(tranGen.addNewTdo1(), 
 	    					td01, TimePeriodUnitType.SEC);
 	    		
-	    		double tq01=StringUtil.getDouble(strAry[14], 0.0);
+	    		double tq01=ModelStringUtil.getDouble(strAry[14], 0.0);
 	    		DataSetter.setTimePeriodData(tranGen.addNewTq01(), 
 	    					tq01, TimePeriodUnitType.SEC);
 	    			    		
@@ -447,53 +447,53 @@ public class BPADynamicGeneratorRecord {
 		try{
 			if(str.substring(0, 2).trim().equals("M")){
 				
-				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
-				strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
-				strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
-				strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
-				strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 21).trim();
-				strAry[5]=StringUtil.getStringReturnEmptyString(str,23, 25).trim();
-				strAry[6]=StringUtil.getStringReturnEmptyString(str,31, 32).trim();
-				strAry[7]=StringUtil.getStringReturnEmptyString(str,34, 36).trim();
-				strAry[8]=StringUtil.getStringReturnEmptyString(str,38, 42).trim();
-				strAry[9]=StringUtil.getStringReturnEmptyString(str,43, 47).trim();
-				strAry[10]=StringUtil.getStringReturnEmptyString(str,48, 51).trim();
-				strAry[11]=StringUtil.getStringReturnEmptyString(str,52, 55).trim();			
+				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
+				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 21).trim();
+				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,23, 25).trim();
+				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,31, 32).trim();
+				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,34, 36).trim();
+				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,38, 42).trim();
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
+				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,48, 51).trim();
+				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,52, 55).trim();			
 				
 			}else if(str.substring(0, 2).trim().equals("MC")||str.substring(0, 2).trim().equals("MF")){
 				
-				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
-				strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
-				strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
-				strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
-				strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 22).trim();
-				strAry[5]=StringUtil.getStringReturnEmptyString(str,23, 25).trim();
-				strAry[6]=StringUtil.getStringReturnEmptyString(str,26, 28).trim();
-				strAry[7]=StringUtil.getStringReturnEmptyString(str,29, 32).trim();
-				strAry[8]=StringUtil.getStringReturnEmptyString(str,33, 36).trim();
-				strAry[9]=StringUtil.getStringReturnEmptyString(str,37, 41).trim();
-				strAry[10]=StringUtil.getStringReturnEmptyString(str,42, 46).trim();
-				strAry[11]=StringUtil.getStringReturnEmptyString(str,47, 51).trim();
-				strAry[12]=StringUtil.getStringReturnEmptyString(str,52, 56).trim();
-				strAry[13]=StringUtil.getStringReturnEmptyString(str,57, 60).trim();
-				strAry[14]=StringUtil.getStringReturnEmptyString(str,61, 63).trim();
-				strAry[15]=StringUtil.getStringReturnEmptyString(str,64, 68).trim();
-				strAry[16]=StringUtil.getStringReturnEmptyString(str,69, 73).trim();
-				strAry[17]=StringUtil.getStringReturnEmptyString(str,74, 77).trim();
-				strAry[18]=StringUtil.getStringReturnEmptyString(str,78, 80).trim();
+				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
+				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 22).trim();
+				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,23, 25).trim();
+				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,26, 28).trim();
+				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,29, 32).trim();
+				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,33, 36).trim();
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,37, 41).trim();
+				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,42, 46).trim();
+				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,47, 51).trim();
+				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,52, 56).trim();
+				strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,57, 60).trim();
+				strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,61, 63).trim();
+				strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,64, 68).trim();
+				strAry[16]=ModelStringUtil.getStringReturnEmptyString(str,69, 73).trim();
+				strAry[17]=ModelStringUtil.getStringReturnEmptyString(str,74, 77).trim();
+				strAry[18]=ModelStringUtil.getStringReturnEmptyString(str,78, 80).trim();
 			}else if(str.substring(0, 2).trim().equals("LN")){
 				
-				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
-				strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
-				strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
-				strAry[3]=StringUtil.getStringReturnEmptyString(str,19, 26).trim();
-				strAry[4]=StringUtil.getStringReturnEmptyString(str,27, 30).trim();
-				strAry[5]=StringUtil.getStringReturnEmptyString(str,34, 41).trim();
-				strAry[6]=StringUtil.getStringReturnEmptyString(str,42, 45).trim();
-				strAry[7]=StringUtil.getStringReturnEmptyString(str,50, 56).trim();
-				strAry[8]=StringUtil.getStringReturnEmptyString(str,57, 60).trim();
-				strAry[9]=StringUtil.getStringReturnEmptyString(str,64, 71).trim();
-				strAry[10]=StringUtil.getStringReturnEmptyString(str,72, 75).trim();
+				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
+				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();
+				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,34, 41).trim();
+				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,42, 45).trim();
+				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,50, 56).trim();
+				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,57, 60).trim();
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,64, 71).trim();
+				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,72, 75).trim();
 			}
 		}catch(Exception e){
 			adapter.logErr(e.toString());

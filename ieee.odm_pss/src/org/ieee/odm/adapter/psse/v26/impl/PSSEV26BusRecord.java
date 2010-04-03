@@ -41,7 +41,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.model.DataSetter;
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ParserHelper;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 
 public class PSSEV26BusRecord {
 	public static void processBusData(final String str, final ODMModelParser parser, Logger logger) {
@@ -62,11 +62,11 @@ public class PSSEV26BusRecord {
 			return;
 		}
 		
-		busRec.setNumber(StringUtil.getInt(strAry[0], 0));
+		busRec.setNumber(ModelStringUtil.getInt(strAry[0], 0));
 		
-		final String busName = StringUtil.removeSingleQuote(strAry[1]);
+		final String busName = ModelStringUtil.removeSingleQuote(strAry[1]);
 		busRec.setName(busName);
-		double baseKv = StringUtil.getDouble(strAry[2], 0.0);
+		double baseKv = ModelStringUtil.getDouble(strAry[2], 0.0);
 		if (baseKv == 0.0) {
 			logger.severe("Error: base kv = 0.0");
 			baseKv = 1.0;
@@ -81,8 +81,8 @@ public class PSSEV26BusRecord {
 	
 		// vm voltage, p.u. [F] *
 		//va angle, degrees [F] *
-		final double vpu = StringUtil.getDouble(strAry[8], 1.0);
-		final double angDeg = StringUtil.getDouble(strAry[9], 0.0);
+		final double vpu = ModelStringUtil.getDouble(strAry[8], 1.0);
+		final double angDeg = ModelStringUtil.getDouble(strAry[9], 0.0);
 		DataSetter.setVoltageData(busData.addNewVoltage(), vpu,
 				VoltageUnitType.PU);
 
@@ -96,7 +96,7 @@ public class PSSEV26BusRecord {
 			4 - disconnected (isolated) bus
 			IDE = 1 by default.
 		*/			
-		final int IDE = StringUtil.getInt(strAry[3], 1);
+		final int IDE = ModelStringUtil.getInt(strAry[3], 1);
 		if (IDE ==3){//Swing bus
 			busData.addNewGenData();;
 			LoadflowGenDataXmlType equivGen = busData.getGenData().addNewEquivGen();
@@ -117,16 +117,16 @@ public class PSSEV26BusRecord {
 		}
 		
 		//GL BL
-		final double gPU = StringUtil.getDouble(strAry[4], 0.0);
-		final double bPU = StringUtil.getDouble(strAry[5], 0.0);
+		final double gPU = ModelStringUtil.getDouble(strAry[4], 0.0);
+		final double bPU = ModelStringUtil.getDouble(strAry[5], 0.0);
 		if (gPU != 0.0 || bPU != 0.0) {
 			DataSetter.setYData(busData.addNewShuntY(), gPU, bPU, YUnitType.PU);
 		}
 		//area zone	
 		final String areaNo = strAry[6];
 		final String zoneNo = strAry[7];
-		busRec.setAreaNumber(StringUtil.getInt(areaNo, 0));
-		busRec.setZoneNumber(StringUtil.getInt(zoneNo, 0));		
+		busRec.setAreaNumber(ModelStringUtil.getInt(areaNo, 0));
+		busRec.setZoneNumber(ModelStringUtil.getInt(zoneNo, 0));		
 	}
 		
 	public static  void processLoadData(final String str,final ODMModelParser parser, Logger logger) {
@@ -161,9 +161,9 @@ public class PSSEV26BusRecord {
 		contribLoad.setId(loadId);
 		
 		// STATUS - Initial load status of one for in-service and zero for out-of-service. STATUS = 1 by default
-		int status = StringUtil.getInt(strAry[1], 1);
-		int area = StringUtil.getInt(strAry[2], 1);
-		int zone = StringUtil.getInt(strAry[3], 1);
+		int status = ModelStringUtil.getInt(strAry[1], 1);
+		int area = ModelStringUtil.getInt(strAry[2], 1);
+		int zone = ModelStringUtil.getInt(strAry[3], 1);
 		contribLoad.setOffLine(status != 1);
 		contribLoad.setAreaNumber(area);
 		contribLoad.setZoneNumber(zone);
@@ -173,14 +173,14 @@ public class PSSEV26BusRecord {
 		ParserHelper.addOwner(contribLoad, owner, 1.0);
 		    
 	    //Constant-P load
-		final double CPloadMw = StringUtil.getDouble(strAry[5], 0.0);
-		final double CQloadMvar = StringUtil.getDouble(strAry[6], 0.0);
+		final double CPloadMw = ModelStringUtil.getDouble(strAry[5], 0.0);
+		final double CQloadMvar = ModelStringUtil.getDouble(strAry[6], 0.0);
 		//Constant-I load
-		final double CIloadMw = StringUtil.getDouble(strAry[7], 0.0);
-		final double CIloadMvar = StringUtil.getDouble(strAry[8], 0.0);
+		final double CIloadMw = ModelStringUtil.getDouble(strAry[7], 0.0);
+		final double CIloadMvar = ModelStringUtil.getDouble(strAry[8], 0.0);
 		//Constant-Y load
-		final double CYloadMw = StringUtil.getDouble(strAry[9], 0.0);
-		final double CYloadMvar = StringUtil.getDouble(strAry[10], 0.0);
+		final double CYloadMw = ModelStringUtil.getDouble(strAry[9], 0.0);
+		final double CYloadMvar = ModelStringUtil.getDouble(strAry[10], 0.0);
 
 		if (CPloadMw!=0.0 || CQloadMvar!=0.0 )
 			DataSetter.setPowerData(contribLoad.addNewConstPLoad(),
@@ -238,12 +238,12 @@ public class PSSEV26BusRecord {
 		final String genId = strAry[1];
 		contriGen.setId(genId);
 		
-		double mbase = StringUtil.getDouble(strAry[8], 0.0),
-		       zr = StringUtil.getDouble(strAry[9], 0.0),
-		       zx = StringUtil.getDouble(strAry[10], 0.0),
-		       rt = StringUtil.getDouble(strAry[11], 0.0),
-		       xt = StringUtil.getDouble(strAry[12], 0.0),
-		       gtap = StringUtil.getDouble(strAry[13], 0.0); 
+		double mbase = ModelStringUtil.getDouble(strAry[8], 0.0),
+		       zr = ModelStringUtil.getDouble(strAry[9], 0.0),
+		       zx = ModelStringUtil.getDouble(strAry[10], 0.0),
+		       rt = ModelStringUtil.getDouble(strAry[11], 0.0),
+		       xt = ModelStringUtil.getDouble(strAry[12], 0.0),
+		       gtap = ModelStringUtil.getDouble(strAry[13], 0.0); 
 		DataSetter.setPowerMva(contriGen.addNewRatedPower(), mbase);
 		if(zr != 0.0 || zx != 0.0)
 			DataSetter.setZValue(contriGen.addNewSourceZ(), zr, zx, ZUnitType.PU);
@@ -252,37 +252,37 @@ public class PSSEV26BusRecord {
 		contriGen.setXfrTap(gtap);
 		
 		// STATUS - Initial load status of one for in-service and zero for out-of-service. STATUS = 1 by default
-		int status = StringUtil.getInt(strAry[14], 1);
+		int status = ModelStringUtil.getInt(strAry[14], 1);
 		contriGen.setOffLine(status != 1);
 		
-		final double genMw = StringUtil.getDouble(strAry[2], 0.0);
-		final double genMvar = StringUtil.getDouble(strAry[3], 0.0);
+		final double genMw = ModelStringUtil.getDouble(strAry[2], 0.0);
+		final double genMvar = ModelStringUtil.getDouble(strAry[3], 0.0);
 		DataSetter.setPowerData(contriGen.addNewPower(), genMw, genMvar, ApparentPowerUnitType.MVA);
 
 		ParserHelper.addOwner(contriGen, 
-				strAry[18], StringUtil.getDouble(strAry[19], 0.0), 
-				strAry[20], StringUtil.getDouble(strAry[21], 0.0), 
-				strAry[22], StringUtil.getDouble(strAry[23], 0.0), 
-				strAry[24], StringUtil.getDouble(strAry[25], 0.0));
+				strAry[18], ModelStringUtil.getDouble(strAry[19], 0.0), 
+				strAry[20], ModelStringUtil.getDouble(strAry[21], 0.0), 
+				strAry[22], ModelStringUtil.getDouble(strAry[23], 0.0), 
+				strAry[24], ModelStringUtil.getDouble(strAry[25], 0.0));
 
 		// processing Equiv Gen Data
 		if (!contriGen.getOffLine()) {
 			DataSetter.setPowerData(equivGen.addNewPower(), genMw, genMvar, ApparentPowerUnitType.MVA);
 
-			final double vSpecPu = StringUtil.getDouble(strAry[6], 1.0);
+			final double vSpecPu = ModelStringUtil.getDouble(strAry[6], 1.0);
 			if (genData.getEquivGen().getCode() == LFGenCodeEnumType.SWING) {
 				DataSetter.setVoltageData(equivGen.addNewDesiredVoltage(), vSpecPu, VoltageUnitType.PU);
 			}
 			else {
 				// qmax, gmin in Mvar
-				final double max = StringUtil.getDouble(strAry[4], 0.0);
-				final double min = StringUtil.getDouble(strAry[5], 0.0);
+				final double max = ModelStringUtil.getDouble(strAry[4], 0.0);
+				final double min = ModelStringUtil.getDouble(strAry[5], 0.0);
 				DataSetter.setVoltageData(equivGen.addNewDesiredVoltage(), vSpecPu, VoltageUnitType.PU);
 				DataSetter.setReactivePowerLimitData(equivGen.addNewQLimit(), max, min, ReactivePowerUnitType.MVAR);
 
 				// Desired volts (pu) (This is desired remote voltage if this bus is controlling another bus.)
 				/*  IREG  */
-		      	final int iReg = StringUtil.getInt(strAry[7], 0);
+		      	final int iReg = ModelStringUtil.getInt(strAry[7], 0);
 				if (iReg > 0) {
 					final String reBusId = ODMModelParser.BusIdPreFix+strAry[7];
 					equivGen.addNewRemoteVoltageControlBus().setIdRef(reBusId);

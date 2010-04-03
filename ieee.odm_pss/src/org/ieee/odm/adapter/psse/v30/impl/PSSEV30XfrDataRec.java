@@ -44,7 +44,7 @@ import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.DataSetter;
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ParserHelper;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 
 public class PSSEV30XfrDataRec {
 	private static int i, j, k, cw, cz, cm, stat, nmetr;
@@ -75,7 +75,7 @@ public class PSSEV30XfrDataRec {
 		final String fid = ODMModelParser.BusIdPreFix+i;
 		final String tid = ODMModelParser.BusIdPreFix+j;
 		final String tertId = ODMModelParser.BusIdPreFix+k;
-		String branchId = is3W? StringUtil.formBranchId(fid, tid, tertId, ckt) : StringUtil.formBranchId(fid, tid, ckt);
+		String branchId = is3W? ModelStringUtil.formBranchId(fid, tid, tertId, ckt) : ModelStringUtil.formBranchId(fid, tid, ckt);
 
 		BranchRecordXmlType branchRec;
 		try {

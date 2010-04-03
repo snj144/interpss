@@ -32,7 +32,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZeroSequenceDataListXmlType;
 import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.TranStabSimuHelper;
 
 
@@ -74,11 +74,11 @@ public class BPADynamicSequenceRecord {
 			}			
 			xfrZero.setCirId(cirId);
 			//X0
-			double x0=StringUtil.getDouble(strAry[7], 0.0);
+			double x0=ModelStringUtil.getDouble(strAry[7], 0.0);
 			xfrZero.setX1(x0);
 						
 			//R0
-			double r0=StringUtil.getDouble(strAry[8], 0.0);
+			double r0=ModelStringUtil.getDouble(strAry[8], 0.0);
 			xfrZero.setR1(r0);
 		}else if(strAry[0].equals("XR")){
 			ZeroSequenceDataListXmlType.ShuntLoadZeroList.ShuntLoadZero SHZero=
@@ -87,11 +87,11 @@ public class BPADynamicSequenceRecord {
 			String bus1=strAry[1];
 			SHZero.addNewBusId().setName(bus1);	    	
     		//r0
-			double r0=StringUtil.getDouble(strAry[3], 0.0);
+			double r0=ModelStringUtil.getDouble(strAry[3], 0.0);
 			SHZero.setRZer(r0);
 			  		
     		//x0
-			double x0=StringUtil.getDouble(strAry[4], 0.0);
+			double x0=ModelStringUtil.getDouble(strAry[4], 0.0);
 			SHZero.setXZer(x0);
 			    		
 		}else if(strAry[0].equals("LO")){
@@ -111,27 +111,27 @@ public class BPADynamicSequenceRecord {
 				lineZero.setCirId(cirId);
 			}			
     		//R0			
-			double r0=StringUtil.getDouble(strAry[7], 0.0);
+			double r0=ModelStringUtil.getDouble(strAry[7], 0.0);
 			lineZero.setRLineZer(r0);
 			    		
     		//X0
-			double x0=StringUtil.getDouble(strAry[8], 0.0);
+			double x0=ModelStringUtil.getDouble(strAry[8], 0.0);
 			lineZero.setXLineZer(x0);
 			     		
     		//G1
-			double g1=StringUtil.getDouble(strAry[9], 0.0);
+			double g1=ModelStringUtil.getDouble(strAry[9], 0.0);
 			lineZero.setGfZer(g1);
 			   		
     		//B1
-			double b1=StringUtil.getDouble(strAry[10], 0.0);
+			double b1=ModelStringUtil.getDouble(strAry[10], 0.0);
 			lineZero.setBfZer(b1);
 			     		
     		//G2
-    		double g2=StringUtil.getDouble(strAry[11], 0.0);
+    		double g2=ModelStringUtil.getDouble(strAry[11], 0.0);
 			lineZero.setGtZer(g2);
 			     		
     		//B2
-			double b2=StringUtil.getDouble(strAry[12], 0.0);
+			double b2=ModelStringUtil.getDouble(strAry[12], 0.0);
 			lineZero.setBtZer(b2);
 		}else if(strAry[0].equals("LM")){
 			ZeroSequenceDataListXmlType.MutualImpedanceZeroList.MutualImpedanceZero mutZero=
@@ -161,11 +161,11 @@ public class BPADynamicSequenceRecord {
 				mutZero.setBranch2CirId(cir2Id);
 			}	    		
 			//R0			
-			double r0=StringUtil.getDouble(strAry[11], 0.0);
+			double r0=ModelStringUtil.getDouble(strAry[11], 0.0);
 			mutZero.setRM(r0);
 			      		
     		//X0
-			double x0=StringUtil.getDouble(strAry[12], 0.0);
+			double x0=ModelStringUtil.getDouble(strAry[12], 0.0);
 			mutZero.setXM(x0);
 		}
 	}
@@ -249,84 +249,84 @@ public class BPADynamicSequenceRecord {
 		
 		try{
 			if(str.substring(0, 2).startsWith("XO")){
-				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 	    		//bus1
-	    		strAry[1]=StringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
 	    		//bus1 Voltage
-	    		strAry[2]=StringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
 	    		//bus2
-	    		strAry[3]=StringUtil.getStringReturnEmptyString(str,19, 26).trim();
+	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
 	    		//bus2 Voltage
-	    		strAry[4]=StringUtil.getStringReturnEmptyString(str,27, 30).trim();
+	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();
 	    		//zrLocation
-	    		strAry[5]=StringUtil.getStringReturnEmptyString(str,32, 32).trim();
+	    		strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,32, 32).trim();
 	    		//par
-	    		strAry[6]=StringUtil.getStringReturnEmptyString(str,34, 34).trim();
+	    		strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,34, 34).trim();
 	    		//X0
-	    		strAry[7]=StringUtil.getStringReturnEmptyString(str,38, 44).trim();
+	    		strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,38, 44).trim();
 	    		//R0
-	    		strAry[8]=StringUtil.getStringReturnEmptyString(str,45, 51).trim();			
+	    		strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,45, 51).trim();			
 				
 			}else if(str.substring(0, 2).startsWith("XR")){			
-				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 	    		//bus1
-	    		strAry[1]=StringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
 	    		//bus1 Voltage
-	    		strAry[2]=StringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
 	    		//r0
-	    		strAry[3]=StringUtil.getStringReturnEmptyString(str,22, 28).trim();
+	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,22, 28).trim();
 	    		//x0
-	    		strAry[4]=StringUtil.getStringReturnEmptyString(str,29, 35).trim();
+	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,29, 35).trim();
 			}else if(str.substring(0, 2).startsWith("LO")){			
-				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 	    		//bus1
-	    		strAry[1]=StringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
 	    		//bus1 Voltage
-	    		strAry[2]=StringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
 	    		//bus2
-	    		strAry[3]=StringUtil.getStringReturnEmptyString(str,19, 26).trim();
+	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
 	    		//bus2 Voltage
-	    		strAry[4]=StringUtil.getStringReturnEmptyString(str,27, 30).trim();    		
+	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();    		
 	    		//par
-	    		strAry[6]=StringUtil.getStringReturnEmptyString(str,33, 33).trim();
+	    		strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,33, 33).trim();
 	    		//R0
-	    		strAry[7]=StringUtil.getStringReturnEmptyString(str,36, 42).trim();
+	    		strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,36, 42).trim();
 	    		//X0
-	    		strAry[8]=StringUtil.getStringReturnEmptyString(str,43, 49).trim();
+	    		strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,43, 49).trim();
 	    		//G1
-	    		strAry[9]=StringUtil.getStringReturnEmptyString(str,50, 56).trim();
+	    		strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,50, 56).trim();
 	    		//B1
-	    		strAry[10]=StringUtil.getStringReturnEmptyString(str,57, 63).trim();
+	    		strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,57, 63).trim();
 	    		//G2
-	    		strAry[11]=StringUtil.getStringReturnEmptyString(str,64, 70).trim();
+	    		strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,64, 70).trim();
 	    		//B2
-	    		strAry[12]=StringUtil.getStringReturnEmptyString(str,71, 77).trim();
+	    		strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,71, 77).trim();
 			}else if(str.substring(0, 2).startsWith("LM")){
-				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 	    		//busI line 1
-	    		strAry[1]=StringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
 	    		//busI Voltage
-	    		strAry[2]=StringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
 	    		//busJ line 1
-	    		strAry[3]=StringUtil.getStringReturnEmptyString(str,19, 26).trim();
+	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
 	    		//busJ Voltage
-	    		strAry[4]=StringUtil.getStringReturnEmptyString(str,27, 30).trim();    		
+	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();    		
 	    		//par
-	    		strAry[5]=StringUtil.getStringReturnEmptyString(str,33, 33).trim();
+	    		strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,33, 33).trim();
 	    		//busK line2
-	    		strAry[6]=StringUtil.getStringReturnEmptyString(str,36, 43).trim();
+	    		strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,36, 43).trim();
 	    		//busk voltage
-	    		strAry[7]=StringUtil.getStringReturnEmptyString(str,44, 47).trim();
+	    		strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,44, 47).trim();
 	    		//busL line2
-	    		strAry[8]=StringUtil.getStringReturnEmptyString(str,50, 57).trim();
+	    		strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,50, 57).trim();
 	    		//busL voltage
-	    		strAry[9]=StringUtil.getStringReturnEmptyString(str,58, 61).trim();
+	    		strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,58, 61).trim();
 	    		//par2
-	    		strAry[10]=StringUtil.getStringReturnEmptyString(str,64, 64).trim();
+	    		strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,64, 64).trim();
 	    		//r
-	    		strAry[11]=StringUtil.getStringReturnEmptyString(str,67, 73).trim();
+	    		strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,67, 73).trim();
 	    		//x
-	    		strAry[12]=StringUtil.getStringReturnEmptyString(str,74, 80).trim();
+	    		strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,74, 80).trim();
 			}
 		}catch(Exception e){
 			adapter.logErr(e.toString());

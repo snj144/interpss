@@ -54,7 +54,7 @@ import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.model.DataSetter;
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ParserHelper;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 
 public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	public final static String Token_Date = "Date";
@@ -322,7 +322,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		branchRec.setZoneNumber(new Integer(zoneNo).intValue());
 		branchRec.setCircuitId(cirId);
 
-		branchRec.setId(StringUtil.formBranchId(fid, tid, cirId));
+		branchRec.setId(ModelStringUtil.formBranchId(fid, tid, cirId));
 		LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
 		branchData.addNewXfrInfo();
 
@@ -558,11 +558,11 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				//Columns 32-37   MVA Base [F] *
 				strAry[2] = str.substring(31, 37); // in MVA
 				//Columns 39-42   Year [I]
-				strAry[3] = StringUtil.getString(str, 38, 42);
+				strAry[3] = ModelStringUtil.getString(str, 38, 42);
 				//Column  44      Season (S - Summer, W - Winter)
-				strAry[4] = StringUtil.getString(str, 43, 44);
+				strAry[4] = ModelStringUtil.getString(str, 43, 44);
 				//Column  46-73   Case identification [A]
-				strAry[5] = StringUtil.getString(str, 46, 73);
+				strAry[5] = ModelStringUtil.getString(str, 46, 73);
 			} catch (Exception e) {
 				this.logErr("Error: Network data line has problem, " + str);
 				this.logErr(e.toString());
@@ -619,19 +619,19 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 			//Columns 107-114 Shunt conductance G (per unit) [F] *
 			//Columns 115-122 Shunt susceptance B (per unit) [F] *
-			strAry[15] = StringUtil.getString(str,107, 114);
-			strAry[16] = StringUtil.getString(str,115, 122);
+			strAry[15] = ModelStringUtil.getString(str,107, 114);
+			strAry[16] = ModelStringUtil.getString(str,115, 122);
 
 			//Columns 85-90   Desired volts (pu) [F] (This is desired remote voltage if this bus is controlling another bus.)
-			strAry[12] = StringUtil.getString(str,85, 90);
+			strAry[12] = ModelStringUtil.getString(str,85, 90);
 
 			//Columns 91-98   Minimum MVAR or voltage limit [F]
 			//Columns 99-106  Maximum MVAR or voltage limit [F]
-			strAry[13] = StringUtil.getString(str,91, 98);
-			strAry[14] = StringUtil.getString(str,99, 106);
+			strAry[13] = ModelStringUtil.getString(str,91, 98);
+			strAry[14] = ModelStringUtil.getString(str,99, 106);
 
 			//Columns 124-127 Remote controlled bus number
-			strAry[17] = StringUtil.getString(str,123, 127).trim();
+			strAry[17] = ModelStringUtil.getString(str,123, 127).trim();
 		}
 		return strAry;
 	}

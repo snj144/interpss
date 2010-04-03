@@ -15,7 +15,7 @@ import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.DataSetter;
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ParserHelper;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 
 public class PSSEV30LineDataRec {
 	private static int i, j, status;
@@ -44,7 +44,7 @@ public class PSSEV30LineDataRec {
       	
 		final String fid = ODMModelParser.BusIdPreFix+i;
 		final String tid = ODMModelParser.BusIdPreFix+j;
-		String branchId = StringUtil.formBranchId(fid, tid, ckt);
+		String branchId = ModelStringUtil.formBranchId(fid, tid, ckt);
 
 		BranchRecordXmlType branchRec;
 		try {

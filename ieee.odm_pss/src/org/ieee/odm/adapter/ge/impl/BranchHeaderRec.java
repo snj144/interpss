@@ -30,7 +30,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ParserHelper;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 
 public class BranchHeaderRec {
 	public int f_bus, t_bus, sec;
@@ -74,7 +74,7 @@ public class BranchHeaderRec {
 			branchRec.addNewFromBus().setIdRef(fid);
 			branchRec.addNewToBus().setIdRef(tid);
 			branchRec.setCircuitId(ck.replace(' ', '_'));
-			branchRec.setId(StringUtil.formBranchId(fid, tid, ck));
+			branchRec.setId(ModelStringUtil.formBranchId(fid, tid, ck));
 			branchRec.setName(f_name + "-" + t_name + "_" + ck);
 		}
 		return branchRec;
