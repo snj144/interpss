@@ -35,7 +35,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.odm.model.DataSetter;
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ParserHelper;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.TranStabSimuHelper;
 
 
@@ -66,35 +66,35 @@ public class BPADynamicTurbineGovernorRecord {
     			tg.addNewTgId().setName(tgId);
     		}			
 			//PMAX 
-    		double pmax=StringUtil.getDouble(strAry[4], 0.0);
+    		double pmax=ModelStringUtil.getDouble(strAry[4], 0.0);
     		gg.setPMAX(pmax);
 			//R
-    		double r=StringUtil.getDouble(strAry[5], 0.0);
+    		double r=ModelStringUtil.getDouble(strAry[5], 0.0);
     		gg.setR(r);
 			
 			//T1
-    		double T1=StringUtil.getDouble(strAry[6], 0.0);
+    		double T1=ModelStringUtil.getDouble(strAry[6], 0.0);
     		DataSetter.setTimePeriodData(gg.addNewT1(), 
     					T1, TimePeriodUnitType.SEC);
 			//T2
-    	    double T2=StringUtil.getDouble(strAry[7], 0.0);
+    	    double T2=ModelStringUtil.getDouble(strAry[7], 0.0);
 		    DataSetter.setTimePeriodData(gg.addNewT2(), 
 					       T2, TimePeriodUnitType.SEC);		   
 			//T3
-		    double T3=StringUtil.getDouble(strAry[8], 0.0);
+		    double T3=ModelStringUtil.getDouble(strAry[8], 0.0);
 		    DataSetter.setTimePeriodData(gg.addNewT3(), 
 					       T3, TimePeriodUnitType.SEC);			
 			// T4
-		    double T4=StringUtil.getDouble(strAry[9], 0.0);
+		    double T4=ModelStringUtil.getDouble(strAry[9], 0.0);
 		    DataSetter.setTimePeriodData(gg.addNewT4(), 
 					       T4, TimePeriodUnitType.SEC);			
 			//T5
-		    double T5=StringUtil.getDouble(strAry[10], 0.0);
+		    double T5=ModelStringUtil.getDouble(strAry[10], 0.0);
 		    DataSetter.setTimePeriodData(gg.addNewT5(), 
 					       T5, TimePeriodUnitType.SEC);
 			
 			//F
-		    double f=StringUtil.getDouble(strAry[11], 0.0);
+		    double f=ModelStringUtil.getDouble(strAry[11], 0.0);
     		gg.setF(f);
 			
     	}else if(strAry[0].equals("GH")){
@@ -106,7 +106,7 @@ public class BPADynamicTurbineGovernorRecord {
     		String busId=strAry[1];
     		tg.addNewLocatedBus().setName(busId);			
 			//bus Voltage
-    		double v= StringUtil.getDouble(strAry[2], 0.0);
+    		double v= ModelStringUtil.getDouble(strAry[2], 0.0);
     		DataSetter.setVoltageData(tg.addNewBusRatedVoltage(), v,
     				VoltageUnitType.KV);			
 			//excId
@@ -116,38 +116,38 @@ public class BPADynamicTurbineGovernorRecord {
     			tg.addNewTgId().setName(tgId);
     		}			
 			//PMAX 
-    		double pmax=StringUtil.getDouble(strAry[4], 0.0);
+    		double pmax=ModelStringUtil.getDouble(strAry[4], 0.0);
     		gh.setPMAX(pmax);
     		//R
-    		double r=StringUtil.getDouble(strAry[5], 0.0);
+    		double r=ModelStringUtil.getDouble(strAry[5], 0.0);
     		gh.setR(r);
 			//TG
-    		double Tg=StringUtil.getDouble(strAry[6], 0.0);    		
+    		double Tg=ModelStringUtil.getDouble(strAry[6], 0.0);    		
     		
 		    DataSetter.setTimePeriodData(gh.addNewTG(), 
 					       Tg, TimePeriodUnitType.SEC);			
 			//TP
-		    double Tp=StringUtil.getDouble(strAry[7], 0.0);
+		    double Tp=ModelStringUtil.getDouble(strAry[7], 0.0);
 		    DataSetter.setTimePeriodData(gh.addNewTP(), 
 					       Tp, TimePeriodUnitType.SEC);		
 			//TD
-		    double Td= StringUtil.getDouble(strAry[8], 0.0);
+		    double Td= ModelStringUtil.getDouble(strAry[8], 0.0);
 		    DataSetter.setTimePeriodData(gh.addNewTD(), 
 				       Td, TimePeriodUnitType.SEC);			
 			// TW/2
-		    double Tw= StringUtil.getDouble(strAry[9], 0.0);
+		    double Tw= ModelStringUtil.getDouble(strAry[9], 0.0);
 		    DataSetter.setTimePeriodData(gh.addNewTWhalf(), 
 				       Tw, TimePeriodUnitType.SEC);			
 			//VELCLOSE
-		    double Uc=StringUtil.getDouble(strAry[10], 0.0);
+		    double Uc=ModelStringUtil.getDouble(strAry[10], 0.0);
     		gh.setUc(Uc);
 			
 			//FVELOPEN
-    		double Uo=StringUtil.getDouble(strAry[11], 0.0);
+    		double Uo=ModelStringUtil.getDouble(strAry[11], 0.0);
     		gh.setUo(Uo);
 			
 			//Dd
-    		double Dd=StringUtil.getDouble(strAry[12], 0.0);
+    		double Dd=ModelStringUtil.getDouble(strAry[12], 0.0);
     		gh.setD4(Dd);		
     	}else if(strAry[0].equals("GS")){
     		TurbineGovernorXmlType tg=TranStabSimuHelper.addNewTurbineGovernor(tranSimu);
@@ -158,7 +158,7 @@ public class BPADynamicTurbineGovernorRecord {
     		String busId=strAry[1];
     		tg.addNewLocatedBus().setName(busId);
     		//bus Voltage
-    		double v= StringUtil.getDouble(strAry[2], 0.0);    		
+    		double v= ModelStringUtil.getDouble(strAry[2], 0.0);    		
     		DataSetter.setVoltageData(tg.addNewBusRatedVoltage(), v,
     				VoltageUnitType.KV);			
 			//excId
@@ -171,32 +171,32 @@ public class BPADynamicTurbineGovernorRecord {
     		double pmax=new Double(strAry[4]).doubleValue();
     		gs.setPMAX(pmax);
     		//PMIN
-    		double pmin=StringUtil.getDouble(strAry[5], 0.0);
+    		double pmin=ModelStringUtil.getDouble(strAry[5], 0.0);
     		gs.setPMIN(pmin);	
     			
     		//R
-    		double r=StringUtil.getDouble(strAry[6], 0.0);
+    		double r=ModelStringUtil.getDouble(strAry[6], 0.0);
     		gs.setR(r);
 			//T1
-    		double T1=StringUtil.getDouble(strAry[7], 0.0);
+    		double T1=ModelStringUtil.getDouble(strAry[7], 0.0);
     		DataSetter.setTimePeriodData(gs.addNewT1(), 
     				       T1, TimePeriodUnitType.SEC);
     		
     					
 			//T2
-    		double T2=StringUtil.getDouble(strAry[8], 0.0);
+    		double T2=ModelStringUtil.getDouble(strAry[8], 0.0);
     		DataSetter.setTimePeriodData(gs.addNewT2(), 
     				       T2, TimePeriodUnitType.SEC);
     				    		
 			// T3
-		    double T3= StringUtil.getDouble(strAry[9], 0.0);
+		    double T3= ModelStringUtil.getDouble(strAry[9], 0.0);
 		    DataSetter.setTimePeriodData(gs.addNewT3(), 
 				       T3, TimePeriodUnitType.SEC);			
 			//VELOPEN
-		    double Uo=StringUtil.getDouble(strAry[4], 0.0);
+		    double Uo=ModelStringUtil.getDouble(strAry[4], 0.0);
     		gs.setU0(Uo);			
 			//FVELCLOSE
-    		double Uc=StringUtil.getDouble(strAry[11], 0.0);
+    		double Uc=ModelStringUtil.getDouble(strAry[11], 0.0);
     		gs.setUC(Uc);
     	}else if(strAry[0].equals("TA")){
     		//busId
@@ -234,26 +234,26 @@ public class BPADynamicTurbineGovernorRecord {
     			SteamTurbineXmlType steamTur=tur.addNewSteamTurbine();
     			
     			//TCH
-    			double TCH= StringUtil.getDouble(strAry[4], 0.0);
+    			double TCH= ModelStringUtil.getDouble(strAry[4], 0.0);
     		    DataSetter.setTimePeriodData(steamTur.addNewTCH(),
     		    		TCH, TimePeriodUnitType.SEC);	  
     			//FHP
-    		    double FHP= StringUtil.getDouble(strAry[5], 0.0);
+    		    double FHP= ModelStringUtil.getDouble(strAry[5], 0.0);
     			steamTur.setFHP(FHP);
     			//TRH
-    		    double TRH= StringUtil.getDouble(strAry[6], 0.0);
+    		    double TRH= ModelStringUtil.getDouble(strAry[6], 0.0);
     		    DataSetter.setTimePeriodData(steamTur.addNewTRH(),
     		    		TRH, TimePeriodUnitType.SEC);	    			
     			//FIP
-    		    double FIP= StringUtil.getDouble(strAry[7], 0.0);
+    		    double FIP= ModelStringUtil.getDouble(strAry[7], 0.0);
     		    steamTur.setFIP(FIP);    			
     			//TCO
-    		    double TCO=StringUtil.getDouble(strAry[8], 0.0);
+    		    double TCO=ModelStringUtil.getDouble(strAry[8], 0.0);
     		    DataSetter.setTimePeriodData(steamTur.addNewTCO(),
         		    		TCO, TimePeriodUnitType.SEC);
     		       		    	    			
     			// FLP
-    		    double FLP=StringUtil.getDouble(strAry[9], 0.0);
+    		    double FLP=ModelStringUtil.getDouble(strAry[9], 0.0);
        		    steamTur.setFLP(FLP);
     		        		        			
     		}    
@@ -267,117 +267,117 @@ public class BPADynamicTurbineGovernorRecord {
 	    	
 	    	try{
 	    		if(str.substring(0, 2).trim().equals("GG")){
-		    		strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+		    		strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 					//busId
-					strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+					strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 					//bus Voltage
-					strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+					strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 					//excId
-					strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+					strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
 					//PMAX 
-					strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 22).trim();
+					strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 22).trim();
 					//R
-					strAry[5]=StringUtil.getStringReturnEmptyString(str,23, 27).trim();
+					strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,23, 27).trim();
 					//T1
-					strAry[6]=StringUtil.getStringReturnEmptyString(str,28, 32).trim();
+					strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,28, 32).trim();
 					//T2
-					strAry[7]=StringUtil.getStringReturnEmptyString(str,33, 37).trim();
+					strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,33, 37).trim();
 					//T3
-					strAry[8]=StringUtil.getStringReturnEmptyString(str,38, 42).trim();
+					strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,38, 42).trim();
 					// T4
-					strAry[9]=StringUtil.getStringReturnEmptyString(str,43, 47).trim();
+					strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
 					//T5
-					strAry[10]=StringUtil.getStringReturnEmptyString(str,48, 52).trim();
+					strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,48, 52).trim();
 					//F
-					strAry[11]=StringUtil.getStringReturnEmptyString(str,53, 57).trim();
+					strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,53, 57).trim();
 					
 		    		
 		    	}else if(str.substring(0, 2).trim().equals("GH")){
-		    		strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+		    		strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 					//busId
-					strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+					strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 					//bus Voltage
-					strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+					strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 					//excId
-					strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+					strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
 					//PMAX 
-					strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 22).trim();
+					strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 22).trim();
 					//R
-					strAry[5]=StringUtil.getStringReturnEmptyString(str,23, 27).trim();
+					strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,23, 27).trim();
 					//TG
-					strAry[6]=StringUtil.getStringReturnEmptyString(str,28, 32).trim();					
+					strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,28, 32).trim();					
 					//TP
-					strAry[7]=StringUtil.getStringReturnEmptyString(str,33, 37).trim();
+					strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,33, 37).trim();
 					//TD
-					strAry[8]=StringUtil.getStringReturnEmptyString(str,38, 42).trim();
+					strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,38, 42).trim();
 					// TW/2
-					strAry[9]=StringUtil.getStringReturnEmptyString(str,43, 47).trim();
+					strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
 					//VELCLOSE
-					strAry[10]=StringUtil.getStringReturnEmptyString(str,48, 52).trim();
+					strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,48, 52).trim();
 					//FVELOPEN
-					strAry[11]=StringUtil.getStringReturnEmptyString(str,53, 57).trim();
+					strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,53, 57).trim();
 					//Dd
-					strAry[12]=StringUtil.getStringReturnEmptyString(str,58, 62).trim();
+					strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,58, 62).trim();
 					
 		    		
 		    	}
 		    	else if(str.substring(0, 2).trim().equals("GS")){
-		    		strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+		    		strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 					//busId
-					strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+					strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 					//bus Voltage
-					strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+					strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 					//excId
-					strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+					strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
 					//PMAX 
-					strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 22).trim();
+					strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 22).trim();
 					//PMIN
-					strAry[5]=StringUtil.getStringReturnEmptyString(str,23, 28).trim();
+					strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,23, 28).trim();
 					//R
-					strAry[6]=StringUtil.getStringReturnEmptyString(str,29, 33).trim();
+					strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,29, 33).trim();
 					//T1
-					strAry[7]=StringUtil.getStringReturnEmptyString(str,34, 38).trim();
+					strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,34, 38).trim();
 					//T2
-					strAry[8]=StringUtil.getStringReturnEmptyString(str,39, 43).trim();
+					strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,39, 43).trim();
 					// T3
-					strAry[9]=StringUtil.getStringReturnEmptyString(str,44, 48).trim();
+					strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,44, 48).trim();
 					//VELOPEN
-					strAry[10]=StringUtil.getStringReturnEmptyString(str,49, 54).trim();
+					strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,49, 54).trim();
 					//FVELCLOSE
-					strAry[11]=StringUtil.getStringReturnEmptyString(str,55, 60).trim();			
+					strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,55, 60).trim();			
 		    		
 		    	}else if(str.substring(0, 2).trim().equals("TA")){
-		    		strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+		    		strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 					//busId
-					strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+					strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 					//bus Voltage
-					strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+					strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 					//excId
-					strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+					strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
 					//TCH
-					strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 21).trim();
+					strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 21).trim();
 					//k1
-					strAry[5]=StringUtil.getStringReturnEmptyString(str,23, 26).trim();
+					strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,23, 26).trim();
 		    	}else if(str.substring(0, 2).trim().equals("TB")){
-		    		strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+		    		strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 					//busId
-					strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+					strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 					//bus Voltage
-					strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+					strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 					//excId
-					strAry[3]=StringUtil.getStringReturnEmptyString(str,14, 16).trim();
+					strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,14, 16).trim();
 					//tch
-					strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 21).trim();
+					strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 21).trim();
 					//FHP
-					strAry[5]=StringUtil.getStringReturnEmptyString(str,22, 26).trim();
+					strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,22, 26).trim();
 					//TRH
-					strAry[6]=StringUtil.getStringReturnEmptyString(str,32, 36).trim();
+					strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,32, 36).trim();
 					//FIP
-					strAry[7]=StringUtil.getStringReturnEmptyString(str,37, 41).trim();
+					strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,37, 41).trim();
 					//TCO
-					strAry[8]=StringUtil.getStringReturnEmptyString(str,47, 51).trim();
+					strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,47, 51).trim();
 					// FLP
-					strAry[9]=StringUtil.getStringReturnEmptyString(str,52, 56).trim();
+					strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,52, 56).trim();
 					
 		    	}
 	    	}catch(Exception e){

@@ -27,7 +27,7 @@ package org.ieee.odm.adapter.bpa;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DLoadIEEEStaticLoadXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 
 public class BPADynamicLoadCharacteristicRecord {
 	
@@ -136,35 +136,35 @@ private static String[] getLoadDataFields(String str, BPAAdapter adapter){
 	
 	try{
 		if(str.substring(0, 2).trim().equals("LA")||str.substring(0, 2).trim().equals("LB")){
-			strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+			strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 			//busId
-			strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+			strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 			//bus Voltage
-			strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+			strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 			//zone name
-			strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 17).trim();
+			strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 17).trim();
 			//area name
-			strAry[4]=StringUtil.getStringReturnEmptyString(str,18, 27).trim();
+			strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,18, 27).trim();
 			//pz
-			strAry[5]=StringUtil.getStringReturnEmptyString(str,28, 32).trim();
+			strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,28, 32).trim();
 			//qz
-			strAry[6]=StringUtil.getStringReturnEmptyString(str,33, 37).trim();
+			strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,33, 37).trim();
 			//pi
-			strAry[7]=StringUtil.getStringReturnEmptyString(str,38, 42).trim();
+			strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,38, 42).trim();
 			//qi
-			strAry[8]=StringUtil.getStringReturnEmptyString(str,43, 47).trim();
+			strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
 			// pp
-			strAry[9]=StringUtil.getStringReturnEmptyString(str,48, 52).trim();
+			strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,48, 52).trim();
 			//qp
-			strAry[10]=StringUtil.getStringReturnEmptyString(str,53, 57).trim();
+			strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,53, 57).trim();
 			//pf
-			strAry[11]=StringUtil.getStringReturnEmptyString(str,58, 62).trim();
+			strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,58, 62).trim();
 			// qf
-			strAry[12]=StringUtil.getStringReturnEmptyString(str,63, 67).trim();
+			strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,63, 67).trim();
 			//Ldp
-			strAry[13]=StringUtil.getStringReturnEmptyString(str,68, 72).trim();
+			strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,68, 72).trim();
 			//Ldq
-			strAry[14]=StringUtil.getStringReturnEmptyString(str,73, 77).trim();
+			strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,73, 77).trim();
 			
 				
 	   }else if(str.substring(0, 2).trim().equals("MI")){

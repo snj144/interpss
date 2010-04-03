@@ -34,7 +34,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 
 public class BPABusRecord {
 	
@@ -108,9 +108,9 @@ public class BPABusRecord {
 			shuntVar= new Double(strAry[9]).doubleValue();
 		}		       
 		double G = shuntMw/(baseKv*baseKv);
-		final double g=StringUtil.getNumberFormat(G);
+		final double g=ModelStringUtil.getNumberFormat(G);
 		double B = shuntVar/(baseKv*baseKv);
-		final double b=StringUtil.getNumberFormat(B);
+		final double b=ModelStringUtil.getNumberFormat(B);
 		// set pGenMax
 		double pGenMax=0.0;
 		if(!strAry[10].equals("")){
@@ -339,46 +339,46 @@ public class BPABusRecord {
 		
 		try{
 			//Columns  1- 2   Bus type
-		    strAry[0] = StringUtil.getStringReturnEmptyString(str,1, 2); 
+		    strAry[0] = ModelStringUtil.getStringReturnEmptyString(str,1, 2); 
 			//Columns  3 code for modification			
-			strAry[1] = StringUtil.getStringReturnEmptyString(str,3, 3).trim();
+			strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,3, 3).trim();
 			//Columns 3-5   owner code
 			//Columns 6-13 busName  14-17 rated voltage
-			strAry[2] = StringUtil.getStringReturnEmptyString(str,4, 6).trim();
-			strAry[3] = StringUtil.getStringReturnEmptyString(str,7, 14).trim();			
-			strAry[4] = StringUtil.getStringReturnEmptyString(str,15, 18).trim();
+			strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,4, 6).trim();
+			strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();			
+			strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,15, 18).trim();
 			//Columns 18-19   zone name
-			strAry[5] = StringUtil.getStringReturnEmptyString(str,19, 20).trim();
+			strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,19, 20).trim();
 
 			//Columns 20-24   Load MW [F] *
 			//Columns 25-29   Load MVAR [F] *
-			strAry[6] = StringUtil.getStringReturnEmptyString(str,21, 25).trim();
+			strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,21, 25).trim();
 			
 			
-			strAry[7] = StringUtil.getStringReturnEmptyString(str,26, 30).trim();			
+			strAry[7] = ModelStringUtil.getStringReturnEmptyString(str,26, 30).trim();			
 			//Columns 30-33   shunt MW [F] *
 			//Columns 34-39   shunt MVAR [F] *
-			strAry[8] = StringUtil.getStringReturnEmptyString(str,31, 34).trim();
-			strAry[9] = StringUtil.getStringReturnEmptyString(str,35, 38).trim();	
+			strAry[8] = ModelStringUtil.getStringReturnEmptyString(str,31, 34).trim();
+			strAry[9] = ModelStringUtil.getStringReturnEmptyString(str,35, 38).trim();	
 			
 			// Columns 38-41 pmax
 			// Columns 42-46 pmax
-			strAry[10] = StringUtil.getStringReturnEmptyString(str,39, 42).trim();			
+			strAry[10] = ModelStringUtil.getStringReturnEmptyString(str,39, 42).trim();			
 					
-			strAry[11] = StringUtil.getStringReturnEmptyString(str,43, 47).trim();
+			strAry[11] = ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
 			
 			//Qmax Qmin
-			strAry[12]= StringUtil.getStringReturnEmptyString(str,48, 52).trim();
-			strAry[13]= StringUtil.getStringReturnEmptyString(str,53, 57).trim();			
+			strAry[12]= ModelStringUtil.getStringReturnEmptyString(str,48, 52).trim();
+			strAry[13]= ModelStringUtil.getStringReturnEmptyString(str,53, 57).trim();			
 			//scheduled V or Vmax, Vmin
-			strAry[14]= StringUtil.getStringReturnEmptyString(str,58, 61).trim();			
-			strAry[15]=StringUtil.getStringReturnEmptyString(str,62, 65).trim();
+			strAry[14]= ModelStringUtil.getStringReturnEmptyString(str,58, 61).trim();			
+			strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,62, 65).trim();
 			
 			//remoted busName, rated voltage
-			strAry[16]= StringUtil.getStringReturnEmptyString(str,66, 73).trim();
-			strAry[17]= StringUtil.getStringReturnEmptyString(str,74, 77).trim();
+			strAry[16]= ModelStringUtil.getStringReturnEmptyString(str,66, 73).trim();
+			strAry[17]= ModelStringUtil.getStringReturnEmptyString(str,74, 77).trim();
 			// used in remoted bus control, var fraction
-			strAry[18]= StringUtil.getStringReturnEmptyString(str,78, 80).trim();
+			strAry[18]= ModelStringUtil.getStringReturnEmptyString(str,78, 80).trim();
 			
 		}catch(Exception e){
 			adapter.logErr(e.toString());
@@ -391,33 +391,33 @@ public class BPABusRecord {
 		
 		try{
 			//Columns  1- 2   Bus type
-		    strAry[0] = StringUtil.getStringReturnEmptyString(str,1, 2);			
+		    strAry[0] = ModelStringUtil.getStringReturnEmptyString(str,1, 2);			
 			//Columns  3 code for modification			
-			strAry[1] = StringUtil.getStringReturnEmptyString(str,3, 3).trim();
+			strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,3, 3).trim();
 			//Columns 3-5   owner code
-			strAry[2] = StringUtil.getStringReturnEmptyString(str,4, 6).trim();
+			strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,4, 6).trim();
 			
 			//Columns 6-13 busName  14-17 rated voltage			
-			strAry[3] = StringUtil.getStringReturnEmptyString(str,7, 14).trim();
-			strAry[4] = StringUtil.getStringReturnEmptyString(str,15, 18).trim();
+			strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
+			strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,15, 18).trim();
 			//Columns 18-19   zone name
-			strAry[5] = StringUtil.getStringReturnEmptyString(str,19, 20).trim();
+			strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,19, 20).trim();
 
 			//bridge per brckt
-			strAry[6] = StringUtil.getStringReturnEmptyString(str,24, 25).trim();
+			strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,24, 25).trim();
 			//smooth reactor
-			strAry[7] = StringUtil.getStringReturnEmptyString(str,26, 30).trim();			
+			strAry[7] = ModelStringUtil.getStringReturnEmptyString(str,26, 30).trim();			
 			
-			strAry[8] =StringUtil.getStringReturnEmptyString(str,31, 35).trim();
+			strAry[8] =ModelStringUtil.getStringReturnEmptyString(str,31, 35).trim();
 			
-			strAry[9] = StringUtil.getStringReturnEmptyString(str,36, 40).trim();			
+			strAry[9] = ModelStringUtil.getStringReturnEmptyString(str,36, 40).trim();			
 			// Columns 38-41 pmax
 			// Columns 42-46 pmax
-			strAry[10] = StringUtil.getStringReturnEmptyString(str,41, 45).trim();
-			strAry[11] = StringUtil.getStringReturnEmptyString(str,46, 50).trim();		
+			strAry[10] = ModelStringUtil.getStringReturnEmptyString(str,41, 45).trim();
+			strAry[11] = ModelStringUtil.getStringReturnEmptyString(str,46, 50).trim();		
 			//Qmax Qmin
-			strAry[12]= StringUtil.getStringReturnEmptyString(str,51, 58).trim();
-			strAry[13]= StringUtil.getStringReturnEmptyString(str,59, 62).trim();
+			strAry[12]= ModelStringUtil.getStringReturnEmptyString(str,51, 58).trim();
+			strAry[13]= ModelStringUtil.getStringReturnEmptyString(str,59, 62).trim();
 			
 		}catch (Exception e){
 			adapter.logErr("This DCLine bus data is not filled completely:   "+str);

@@ -28,7 +28,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.TranStabSimuHelper;
 
 public class BPADynamicRecord {	
@@ -166,28 +166,28 @@ public class BPADynamicRecord {
 		
 		try{// for SOL card
 			if(str.startsWith("SOL")){
-				strAry[0]=StringUtil.getStringReturnEmptyString(str, 0, 3);
-				strAry[1]=StringUtil.getStringReturnEmptyString(str, 5, 6);
-				strAry[2]=StringUtil.getStringReturnEmptyString(str,9, 9);
-				strAry[3]=StringUtil.getStringReturnEmptyString(str,12, 12);
+				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str, 0, 3);
+				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str, 5, 6);
+				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,9, 9);
+				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,12, 12);
 			}		
 			// for Case card
 			else if(str.startsWith("CASE")){
-				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 4);
-				strAry[1]=StringUtil.getStringReturnEmptyString(str,6, 15);
-				strAry[2]=StringUtil.getStringReturnEmptyString(str,16, 17);
-				strAry[3]=StringUtil.getStringReturnEmptyString(str,20, 20);
-				strAry[4]=StringUtil.getStringReturnEmptyString(str,22, 22);
-				strAry[5]=StringUtil.getStringReturnEmptyString(str,23, 23);
-				strAry[6]=StringUtil.getStringReturnEmptyString(str,24, 24);
-				strAry[7]=StringUtil.getStringReturnEmptyString(str,24, 34);
-				strAry[8]=StringUtil.getStringReturnEmptyString(str,45, 49);
-				strAry[9]=StringUtil.getStringReturnEmptyString(str,50, 54);
-				strAry[10]=StringUtil.getStringReturnEmptyString(str,55, 59);
-				strAry[11]=StringUtil.getStringReturnEmptyString(str,60, 64);
-				strAry[12]=StringUtil.getStringReturnEmptyString(str,65, 69);
-				strAry[13]=StringUtil.getStringReturnEmptyString(str,70, 74);
-				strAry[14]=StringUtil.getStringReturnEmptyString(str,75, 80);			
+				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 4);
+				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,6, 15);
+				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,16, 17);
+				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,20, 20);
+				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,22, 22);
+				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,23, 23);
+				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,24, 24);
+				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,24, 34);
+				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,45, 49);
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,50, 54);
+				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,55, 59);
+				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,60, 64);
+				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,65, 69);
+				strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,70, 74);
+				strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,75, 80);			
 			}
 			}catch(Exception e){
 				adapter.logErr(e.toString());

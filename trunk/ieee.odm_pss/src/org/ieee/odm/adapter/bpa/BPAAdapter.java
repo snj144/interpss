@@ -43,7 +43,7 @@ import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.model.DataSetter;
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ParserHelper;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 
 
 public class BPAAdapter  extends AbstractODMAdapter {
@@ -397,33 +397,33 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		try{
 			if (str.trim().startsWith("A")||str.trim().startsWith("AC")){			
 
-				strAry[0] = StringUtil.getStringReturnEmptyString(str, 1, 2);
-				strAry[1] = StringUtil.getStringReturnEmptyString(str, 3, 3);
-				strAry[2] = StringUtil.getStringReturnEmptyString(str, 4, 13);
-				strAry[3] = StringUtil.getStringReturnEmptyString(str, 14, 21);
-				strAry[4] = StringUtil.getStringReturnEmptyString(str, 22, 25);
-				strAry[5] = StringUtil.getStringReturnEmptyString(str, 26, 34);
+				strAry[0] = ModelStringUtil.getStringReturnEmptyString(str, 1, 2);
+				strAry[1] = ModelStringUtil.getStringReturnEmptyString(str, 3, 3);
+				strAry[2] = ModelStringUtil.getStringReturnEmptyString(str, 4, 13);
+				strAry[3] = ModelStringUtil.getStringReturnEmptyString(str, 14, 21);
+				strAry[4] = ModelStringUtil.getStringReturnEmptyString(str, 22, 25);
+				strAry[5] = ModelStringUtil.getStringReturnEmptyString(str, 26, 34);
 				// zones within area
 				int strlength=str.trim().length();
 				
-				strAry[6] = StringUtil.getStringReturnEmptyString(str,36, strlength);;
+				strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,36, strlength);;
 				
 				
 			  }else if(str.trim().startsWith("AO")){ 
-				    strAry[0] = StringUtil.getStringReturnEmptyString(str,1, 2).trim();
-					strAry[1] = StringUtil.getStringReturnEmptyString(str,3, 3).trim();
+				    strAry[0] = ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+					strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,3, 3).trim();
 					// area name
-					strAry[2] = StringUtil.getStringReturnEmptyString(str,4, 13).trim();
+					strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,4, 13).trim();
 					// zones within the area
 					int strlength=str.length();
-					strAry[3] = StringUtil.getStringReturnEmptyString(str,15, strlength).trim();				
+					strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,15, strlength).trim();				
 				  
 			  }else if(str.trim().startsWith("I")){
-				    strAry[0] = StringUtil.getStringReturnEmptyString(str, 1, 1);
-					strAry[1] = StringUtil.getStringReturnEmptyString(str, 3, 3);
-					strAry[2] = StringUtil.getStringReturnEmptyString(str, 4, 13);
-					strAry[3] = StringUtil.getStringReturnEmptyString(str, 15, 24);
-					strAry[4] = StringUtil.getStringReturnEmptyString(str, 27, 34);		
+				    strAry[0] = ModelStringUtil.getStringReturnEmptyString(str, 1, 1);
+					strAry[1] = ModelStringUtil.getStringReturnEmptyString(str, 3, 3);
+					strAry[2] = ModelStringUtil.getStringReturnEmptyString(str, 4, 13);
+					strAry[3] = ModelStringUtil.getStringReturnEmptyString(str, 15, 24);
+					strAry[4] = ModelStringUtil.getStringReturnEmptyString(str, 27, 34);		
 			  }	
 		}catch (Exception e){
 			adapter.logErr("error there is");

@@ -50,7 +50,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 import org.ieee.odm.model.DataSetter;
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ParserHelper;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 
 public class BPABranchRecord {
 	public static void processBranchData(final String str, final BranchRecordXmlType branchRec,
@@ -145,7 +145,7 @@ public class BPABranchRecord {
 			
 			LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
 			
-			branchRec.setId(StringUtil.formBranchId(fid, tid, cirId));			
+			branchRec.setId(ModelStringUtil.formBranchId(fid, tid, cirId));			
 			branchData.setCode(LFBranchCodeEnumType.LINE);
 			
 			String multiSectionId="";
@@ -166,14 +166,14 @@ public class BPABranchRecord {
 				if(rpu>10.0){
 					rpu=rpu/100000;
 				}
-				rpu=StringUtil.getNumberFormat(rpu);
+				rpu=ModelStringUtil.getNumberFormat(rpu);
 			}
 			if(!strAry[13].equals("")){
 				xpu = new Double(strAry[13]).doubleValue();
 				if(xpu>10.0){
 					xpu=xpu/100000;
 				}
-				xpu=StringUtil.getNumberFormat(xpu);
+				xpu=ModelStringUtil.getNumberFormat(xpu);
 			}
 			if(!strAry[14].equals("")){
 				halfGpu = new Double(strAry[14]).doubleValue();
@@ -297,7 +297,7 @@ public class BPABranchRecord {
 			
 			LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
 			
-			branchRec.setId(StringUtil.formBranchId(fid, tid, cirId));			
+			branchRec.setId(ModelStringUtil.formBranchId(fid, tid, cirId));			
 			branchData.setCode(LFBranchCodeEnumType.LINE);
 			
 			String multiSectionId="";
@@ -431,7 +431,7 @@ public class BPABranchRecord {
 		}
 			
 		branchRec.setCircuitId(cirId);			
-		branchRec.setId(StringUtil.formBranchId(fid, tid, cirId));
+		branchRec.setId(ModelStringUtil.formBranchId(fid, tid, cirId));
 			
 		final String multiSectionId = strAry[9];
 		//set rated current
@@ -852,56 +852,56 @@ public class BPABranchRecord {
 */	
 	private static String[] getBranchDataFields(final String str,BPAAdapter adapter) {
 		final String[] strAry = new String[20];
-		strAry[0] = StringUtil.getStringReturnEmptyString(str,1, 2).trim();
-        strAry[1] = StringUtil.getStringReturnEmptyString(str,3, 3).trim();
-		strAry[2] = StringUtil.getStringReturnEmptyString(str,4, 6).trim();		
-		strAry[3] = StringUtil.getStringReturnEmptyString(str,7, 14).trim();
-		strAry[4] = StringUtil.getStringReturnEmptyString(str,15, 18).trim();
-		strAry[5] = StringUtil.getStringReturnEmptyString(str,19, 19).trim();
-		strAry[6] = StringUtil.getStringReturnEmptyString(str,20, 27).trim();
-		strAry[7] = StringUtil.getStringReturnEmptyString(str,28, 31).trim();
-		strAry[8] = StringUtil.getStringReturnEmptyString(str,32, 32).trim();
-		strAry[9] = StringUtil.getStringReturnEmptyString(str,33, 33).trim();
-		strAry[10] = StringUtil.getStringReturnEmptyString(str,34, 37).trim();
-		strAry[11] = StringUtil.getStringReturnEmptyString(str,38, 38).trim();
-		strAry[12] = StringUtil.getStringReturnEmptyString(str,39, 44).trim();
-		strAry[13] = StringUtil.getStringReturnEmptyString(str,45, 50).trim();
-		strAry[14] = StringUtil.getStringReturnEmptyString(str,51, 56).trim();
-		strAry[15] = StringUtil.getStringReturnEmptyString(str,57, 62).trim();
+		strAry[0] = ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+        strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,3, 3).trim();
+		strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,4, 6).trim();		
+		strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
+		strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,15, 18).trim();
+		strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,19, 19).trim();
+		strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,20, 27).trim();
+		strAry[7] = ModelStringUtil.getStringReturnEmptyString(str,28, 31).trim();
+		strAry[8] = ModelStringUtil.getStringReturnEmptyString(str,32, 32).trim();
+		strAry[9] = ModelStringUtil.getStringReturnEmptyString(str,33, 33).trim();
+		strAry[10] = ModelStringUtil.getStringReturnEmptyString(str,34, 37).trim();
+		strAry[11] = ModelStringUtil.getStringReturnEmptyString(str,38, 38).trim();
+		strAry[12] = ModelStringUtil.getStringReturnEmptyString(str,39, 44).trim();
+		strAry[13] = ModelStringUtil.getStringReturnEmptyString(str,45, 50).trim();
+		strAry[14] = ModelStringUtil.getStringReturnEmptyString(str,51, 56).trim();
+		strAry[15] = ModelStringUtil.getStringReturnEmptyString(str,57, 62).trim();
 		if(strAry[0]=="L"){
-			strAry[16] = StringUtil.getStringReturnEmptyString(str,63, 66).trim();
-			strAry[17] = StringUtil.getStringReturnEmptyString(str,67, 74).trim();
+			strAry[16] = ModelStringUtil.getStringReturnEmptyString(str,63, 66).trim();
+			strAry[17] = ModelStringUtil.getStringReturnEmptyString(str,67, 74).trim();
 		}else{
-			strAry[16] = StringUtil.getStringReturnEmptyString(str,63, 67).trim();
-			strAry[17] = StringUtil.getStringReturnEmptyString(str,69, 74).trim();
+			strAry[16] = ModelStringUtil.getStringReturnEmptyString(str,63, 67).trim();
+			strAry[17] = ModelStringUtil.getStringReturnEmptyString(str,69, 74).trim();
 		}		
-		strAry[18] = StringUtil.getStringReturnEmptyString(str,75, 77).trim();		
-		strAry[19] = StringUtil.getStringReturnEmptyString(str,78, 80).trim();		
+		strAry[18] = ModelStringUtil.getStringReturnEmptyString(str,75, 77).trim();		
+		strAry[19] = ModelStringUtil.getStringReturnEmptyString(str,78, 80).trim();		
             
 		return strAry;
     }
 	private static String[] getXformerDataFields(final String str,BPAAdapter adapter) {
 		final String[] strAry = new String[20];
 		try{
-			strAry[0] = StringUtil.getStringReturnEmptyString(str,1, 2);
-            strAry[1] = StringUtil.getStringReturnEmptyString(str,3, 3).trim();
-			strAry[2] = StringUtil.getStringReturnEmptyString(str,4, 6).trim();
+			strAry[0] = ModelStringUtil.getStringReturnEmptyString(str,1, 2);
+            strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,3, 3).trim();
+			strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,4, 6).trim();
 			
-			strAry[3] = StringUtil.getStringReturnEmptyString(str,7, 14).trim();
-			strAry[4] = StringUtil.getStringReturnEmptyString(str,15, 18).trim();
-			strAry[5] = StringUtil.getStringReturnEmptyString(str,19, 19).trim();
-			strAry[6] = StringUtil.getStringReturnEmptyString(str,20, 27).trim();
+			strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
+			strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,15, 18).trim();
+			strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,19, 19).trim();
+			strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,20, 27).trim();
 
-			strAry[7] = StringUtil.getStringReturnEmptyString(str,28, 31).trim();
-			strAry[8] = StringUtil.getStringReturnEmptyString(str,32, 32).trim();
-			strAry[9] = StringUtil.getStringReturnEmptyString(str,33, 33).trim();
-			strAry[10] = StringUtil.getStringReturnEmptyString(str,34, 37).trim();
-			strAry[11] = StringUtil.getStringReturnEmptyString(str,38, 38).trim();
-			strAry[12] = StringUtil.getStringReturnEmptyString(str,39, 44).trim();
-			strAry[13] = StringUtil.getStringReturnEmptyString(str,45, 50).trim();
-			strAry[14] = StringUtil.getStringReturnEmptyString(str,51, 56).trim();
-			strAry[15] = StringUtil.getStringReturnEmptyString(str,57, 62).trim();
-			strAry[16] = StringUtil.getStringReturnEmptyString(str,63, 67).trim();
+			strAry[7] = ModelStringUtil.getStringReturnEmptyString(str,28, 31).trim();
+			strAry[8] = ModelStringUtil.getStringReturnEmptyString(str,32, 32).trim();
+			strAry[9] = ModelStringUtil.getStringReturnEmptyString(str,33, 33).trim();
+			strAry[10] = ModelStringUtil.getStringReturnEmptyString(str,34, 37).trim();
+			strAry[11] = ModelStringUtil.getStringReturnEmptyString(str,38, 38).trim();
+			strAry[12] = ModelStringUtil.getStringReturnEmptyString(str,39, 44).trim();
+			strAry[13] = ModelStringUtil.getStringReturnEmptyString(str,45, 50).trim();
+			strAry[14] = ModelStringUtil.getStringReturnEmptyString(str,51, 56).trim();
+			strAry[15] = ModelStringUtil.getStringReturnEmptyString(str,57, 62).trim();
+			strAry[16] = ModelStringUtil.getStringReturnEmptyString(str,63, 67).trim();
 			
 			//strAry[17] ="";
 			strAry[17] = str.substring(67, 72).trim();
@@ -923,32 +923,32 @@ public class BPABranchRecord {
 		
 		try{
 			// type 		
-            strAry[0] = StringUtil.getStringReturnEmptyString(str,1, 2).trim();
-            strAry[1] = StringUtil.getStringReturnEmptyString(str,3, 3).trim();
-			strAry[2] = StringUtil.getStringReturnEmptyString(str,4, 6).trim();
+            strAry[0] = ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+            strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,3, 3).trim();
+			strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,4, 6).trim();
 			//from bus name
-			strAry[3] = StringUtil.getStringReturnEmptyString(str,7, 14).trim();
+			strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
 			// rated v
-			strAry[4] = StringUtil.getStringReturnEmptyString(str,15, 18).trim();
-			strAry[5] = StringUtil.getStringReturnEmptyString(str,19, 19).trim();
+			strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,15, 18).trim();
+			strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,19, 19).trim();
 			//to bus name
-			strAry[6] = StringUtil.getStringReturnEmptyString(str,20, 27).trim();
+			strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,20, 27).trim();
 			// to rated v
-			strAry[7] = StringUtil.getStringReturnEmptyString(str,28, 31).trim();
+			strAry[7] = ModelStringUtil.getStringReturnEmptyString(str,28, 31).trim();
 			// controlled bus name and rated v
-			strAry[8] = StringUtil.getStringReturnEmptyString(str,34, 41).trim();
-			strAry[9] = StringUtil.getStringReturnEmptyString(str,42, 45).trim();
+			strAry[8] = ModelStringUtil.getStringReturnEmptyString(str,34, 41).trim();
+			strAry[9] = ModelStringUtil.getStringReturnEmptyString(str,42, 45).trim();
 			
 			//for R RV RQ RN
 			//max tap
-			strAry[10] = StringUtil.getStringReturnEmptyString(str,46, 50).trim();
+			strAry[10] = ModelStringUtil.getStringReturnEmptyString(str,46, 50).trim();
 			// min tap
-			strAry[11] = StringUtil.getStringReturnEmptyString(str,51, 55).trim();
+			strAry[11] = ModelStringUtil.getStringReturnEmptyString(str,51, 55).trim();
 			// total tap
-			strAry[12] = StringUtil.getStringReturnEmptyString(str,56, 57).trim();
+			strAry[12] = ModelStringUtil.getStringReturnEmptyString(str,56, 57).trim();
 			
-			strAry[13] = StringUtil.getStringReturnEmptyString(str,58, 62).trim();
-			strAry[14] = StringUtil.getStringReturnEmptyString(str,63, 67).trim();
+			strAry[13] = ModelStringUtil.getStringReturnEmptyString(str,58, 62).trim();
+			strAry[14] = ModelStringUtil.getStringReturnEmptyString(str,63, 67).trim();
 		}catch(Exception e){
 			adapter.logErr(e.toString());
 		}
@@ -961,27 +961,27 @@ public class BPABranchRecord {
 	private static String[] getDCLineBranchDataFields(final String str,BPAAdapter adapter) {
 		final String[] strAry = new String[20];
 		try{
-			strAry[0] = StringUtil.getStringReturnEmptyString(str,1, 2);
-            strAry[1] = StringUtil.getStringReturnEmptyString(str,3, 3).trim();
-			strAry[2] = StringUtil.getStringReturnEmptyString(str,4, 6).trim();
+			strAry[0] = ModelStringUtil.getStringReturnEmptyString(str,1, 2);
+            strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,3, 3).trim();
+			strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,4, 6).trim();
 			
-			strAry[3] = StringUtil.getStringReturnEmptyString(str,7, 14).trim();
-			strAry[4] = StringUtil.getStringReturnEmptyString(str,15, 18).trim();
-			strAry[5] = StringUtil.getStringReturnEmptyString(str,19, 19).trim();
-			strAry[6] = StringUtil.getStringReturnEmptyString(str,20, 27).trim();
+			strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
+			strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,15, 18).trim();
+			strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,19, 19).trim();
+			strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,20, 27).trim();
 
-			strAry[7] = StringUtil.getStringReturnEmptyString(str,28, 31).trim();
-			strAry[8] = StringUtil.getStringReturnEmptyString(str,34, 37).trim();
-			strAry[9] = StringUtil.getStringReturnEmptyString(str,38, 43).trim();
-			strAry[10] = StringUtil.getStringReturnEmptyString(str,44, 49).trim();
-			strAry[11] = StringUtil.getStringReturnEmptyString(str,50, 55).trim();
-			strAry[12] = StringUtil.getStringReturnEmptyString(str,56, 56).trim();
-			strAry[13] = StringUtil.getStringReturnEmptyString(str,57, 61).trim();
-			strAry[14] = StringUtil.getStringReturnEmptyString(str,62, 66).trim();
-			strAry[15] = StringUtil.getStringReturnEmptyString(str,67, 70).trim();
-			strAry[16] = StringUtil.getStringReturnEmptyString(str,71, 74).trim();
+			strAry[7] = ModelStringUtil.getStringReturnEmptyString(str,28, 31).trim();
+			strAry[8] = ModelStringUtil.getStringReturnEmptyString(str,34, 37).trim();
+			strAry[9] = ModelStringUtil.getStringReturnEmptyString(str,38, 43).trim();
+			strAry[10] = ModelStringUtil.getStringReturnEmptyString(str,44, 49).trim();
+			strAry[11] = ModelStringUtil.getStringReturnEmptyString(str,50, 55).trim();
+			strAry[12] = ModelStringUtil.getStringReturnEmptyString(str,56, 56).trim();
+			strAry[13] = ModelStringUtil.getStringReturnEmptyString(str,57, 61).trim();
+			strAry[14] = ModelStringUtil.getStringReturnEmptyString(str,62, 66).trim();
+			strAry[15] = ModelStringUtil.getStringReturnEmptyString(str,67, 70).trim();
+			strAry[16] = ModelStringUtil.getStringReturnEmptyString(str,71, 74).trim();
 			
-			strAry[17] = StringUtil.getStringReturnEmptyString(str,75, 78).trim();
+			strAry[17] = ModelStringUtil.getStringReturnEmptyString(str,75, 78).trim();
 		}catch(Exception e){
 			adapter.logErr(e.toString());
 		}

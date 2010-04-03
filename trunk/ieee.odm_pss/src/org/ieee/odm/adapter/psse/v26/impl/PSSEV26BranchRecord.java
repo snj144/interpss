@@ -40,7 +40,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.model.DataSetter;
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ParserHelper;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 
 public class PSSEV26BranchRecord {
 	public static  void processBranchData(final String str, final ODMModelParser parser, Logger logger) {
@@ -62,8 +62,8 @@ public class PSSEV26BranchRecord {
 		final String[] strAry = getBranchDataFields(str);		
 		final String fid = ODMModelParser.BusIdPreFix+strAry[0];
 		final String tid = ODMModelParser.BusIdPreFix+strAry[1];
-		final String cirId = StringUtil.formatCircuitId(strAry[2]);
-		String branchId = StringUtil.formBranchId(fid, tid, cirId);
+		final String cirId = ModelStringUtil.formatCircuitId(strAry[2]);
+		String branchId = ModelStringUtil.formBranchId(fid, tid, cirId);
 		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		
 		BranchRecordXmlType branchRec;
@@ -77,7 +77,7 @@ public class PSSEV26BranchRecord {
 		branchRec.addNewToBus().setIdRef(tid);	
 		branchRec.setCircuitId(cirId);
 		
-		int status = StringUtil.getInt(strAry[15], 0);
+		int status = ModelStringUtil.getInt(strAry[15], 0);
 		branchRec.setOffLine(status == 0);
 		
 		LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();	
@@ -85,12 +85,12 @@ public class PSSEV26BranchRecord {
         //      Branch resistance R, per unit  *
 		//      Branch reactance X, per unit  * No zero impedance lines
 		//    	Line charging B, per unit  * (total line charging, +B), Xfr B is negative
-		final double rpu = StringUtil.getDouble(strAry[3], 0.0);
-		final double xpu = StringUtil.getDouble(strAry[4], 0.0);
-		final double bpu = StringUtil.getDouble(strAry[5], 0.0);
+		final double rpu = ModelStringUtil.getDouble(strAry[3], 0.0);
+		final double xpu = ModelStringUtil.getDouble(strAry[4], 0.0);
+		final double bpu = ModelStringUtil.getDouble(strAry[5], 0.0);
 		
-		final double ratio = StringUtil.getDouble(strAry[9], 0.0);
-		final double angle = StringUtil.getDouble(strAry[10], 0.0);;
+		final double ratio = ModelStringUtil.getDouble(strAry[9], 0.0);
+		final double angle = ModelStringUtil.getDouble(strAry[10], 0.0);;
 
 		final double fromTap = ratio, toTap = 1.0;
 		final double fromAng = angle, toAng = 0.0;
@@ -107,9 +107,9 @@ public class PSSEV26BranchRecord {
 					ZUnitType.PU, fromTap, toTap, fromAng, toAng, AngleUnitType.DEG);			
 		}
 		
-		final double rating1Mvar = StringUtil.getDouble(strAry[6], 0.0);
-		final double rating2Mvar = StringUtil.getDouble(strAry[7], 0.0);
-		final double rating3Mvar = StringUtil.getDouble(strAry[8], 0.0);
+		final double rating1Mvar = ModelStringUtil.getDouble(strAry[6], 0.0);
+		final double rating2Mvar = ModelStringUtil.getDouble(strAry[7], 0.0);
+		final double rating3Mvar = ModelStringUtil.getDouble(strAry[8], 0.0);
 		
 		DataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
 				rating1Mvar, rating2Mvar, rating3Mvar,
@@ -117,8 +117,8 @@ public class PSSEV26BranchRecord {
 				null);
 		
 		//From side shuntY
-		final double GI= StringUtil.getDouble(strAry[11], 0.0);
-		final double BI= StringUtil.getDouble(strAry[12], 0.0);
+		final double GI= ModelStringUtil.getDouble(strAry[11], 0.0);
+		final double BI= ModelStringUtil.getDouble(strAry[12], 0.0);
         if(GI!=0.0 || BI!=0.0 )  {
         	YXmlType y;
         	if (branchData.getCode() == LFBranchCodeEnumType.LINE)
@@ -131,8 +131,8 @@ public class PSSEV26BranchRecord {
         }
 
 	    //To side shuntY
-		final double GJ= StringUtil.getDouble(strAry[13], 0.0);
-		final double BJ= StringUtil.getDouble(strAry[14], 0.0);
+		final double GJ= ModelStringUtil.getDouble(strAry[13], 0.0);
+		final double BJ= ModelStringUtil.getDouble(strAry[14], 0.0);
 	    if(GJ!=0.0 || BJ!=0.0)  {
         	YXmlType y;
         	if (branchData.getCode() == LFBranchCodeEnumType.LINE)
@@ -166,12 +166,12 @@ public class PSSEV26BranchRecord {
 		final String[] strAry = getXfrAdjDataFields(str);		
 		final String fid = ODMModelParser.BusIdPreFix+strAry[0];
 		final String tid = ODMModelParser.BusIdPreFix+strAry[1];
-		final String cirId = StringUtil.formatCircuitId(strAry[2]);
+		final String cirId = ModelStringUtil.formatCircuitId(strAry[2]);
 		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		
 		BranchRecordXmlType branchRec = parser.getBranchRecord(fid, tid, cirId);
 	    if (branchRec == null){
-			String branchId = StringUtil.formBranchId(fid, tid, cirId);
+			String branchId = ModelStringUtil.formBranchId(fid, tid, cirId);
 	    	logger.severe("Branch "+ branchId + " not found in the network");
 	    	return;
 	    }	
@@ -181,7 +181,7 @@ public class PSSEV26BranchRecord {
 		if (branchData.getXfrInfo() == null)
 			branchData.addNewXfrInfo();
 	    
-	    int icon = StringUtil.getInt(strAry[3], 0);
+	    int icon = ModelStringUtil.getInt(strAry[3], 0);
 	    boolean isNegative = false;
 	    if (icon < 0) {
 	    	isNegative = true;
@@ -190,11 +190,11 @@ public class PSSEV26BranchRecord {
 		final String iconId = icon > 0? ODMModelParser.BusIdPreFix+icon : null;
 
 		if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER) {
-	    	double tmax = StringUtil.getDouble(strAry[4], 0.0);
-	    	double tmin = StringUtil.getDouble(strAry[5], 0.0);
-	    	double tstep = StringUtil.getDouble(strAry[8], 0.0);
-	    	double vup = StringUtil.getDouble(strAry[6], 0.0);
-	    	double vlow = StringUtil.getDouble(strAry[7], 0.0);
+	    	double tmax = ModelStringUtil.getDouble(strAry[4], 0.0);
+	    	double tmin = ModelStringUtil.getDouble(strAry[5], 0.0);
+	    	double tstep = ModelStringUtil.getDouble(strAry[8], 0.0);
+	    	double vup = ModelStringUtil.getDouble(strAry[6], 0.0);
+	    	double vlow = ModelStringUtil.getDouble(strAry[7], 0.0);
 	    	
 	    	TapAdjustmentXmlType tapAdj = branchData.getXfrInfo().addNewTapAdjustment();
 	    	tapAdj.setAdjustmentType(TapAdjustmentXmlType.AdjustmentType.VOLTAGE);
@@ -225,10 +225,10 @@ public class PSSEV26BranchRecord {
 		    	tapAdj.setOffLine(true);
 	    }
 	    else if (branchData.getCode() == LFBranchCodeEnumType.PHASE_SHIFT_XFORMER) {
-	    	double angmax = StringUtil.getDouble(strAry[4], 0.0);
-	    	double angmin = StringUtil.getDouble(strAry[5], 0.0);
-	    	double mwup = StringUtil.getDouble(strAry[6], 0.0);
-	    	double mwlow = StringUtil.getDouble(strAry[7], 0.0);
+	    	double angmax = ModelStringUtil.getDouble(strAry[4], 0.0);
+	    	double angmin = ModelStringUtil.getDouble(strAry[5], 0.0);
+	    	double mwup = ModelStringUtil.getDouble(strAry[6], 0.0);
+	    	double mwlow = ModelStringUtil.getDouble(strAry[7], 0.0);
 
 	    	AngleAdjustmentXmlType angAdj = branchData.getXfrInfo().addNewAngleAdjustment();
 	    	DataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), angmax, angmin, AngleUnitType.DEG);

@@ -33,7 +33,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ShuntCompensatorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.odm.model.DataSetter;
 import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.StringUtil;
+import org.ieee.odm.model.ModelStringUtil;
 
 public class PSSEBusRecord {
 	public static  void processSwitchedShuntData(final String str, PsseVersion version, final ODMModelParser parser, Logger logger) {
@@ -86,19 +86,19 @@ public class PSSEBusRecord {
 	    ShuntCompensatorXmlType shunt = lfData.getShuntCompensatorData().getShuntCompensatorList().addNewShunCompensator();
 		
 		// genId is used to distinguish multiple generations at one bus		
-		int mode = StringUtil.getInt(strAry[1], 0);
+		int mode = ModelStringUtil.getInt(strAry[1], 0);
 		shunt.setMode(mode ==0? ShuntCompensatorXmlType.Mode.FIXED :
 						mode ==1? ShuntCompensatorXmlType.Mode.DISCRETE : 
 							ShuntCompensatorXmlType.Mode.CONTINUOUS);
 		
 		//VSWHI - Desired voltage upper limit, per unit
 		//VSWLO - Desired voltage lower limit, per unit
-		final double vmax = StringUtil.getDouble(strAry[2], 1.0);
-		final double vmin = StringUtil.getDouble(strAry[3], 1.0);
+		final double vmax = ModelStringUtil.getDouble(strAry[2], 1.0);
+		final double vmin = ModelStringUtil.getDouble(strAry[3], 1.0);
 		DataSetter.setVoltageLimitData(shunt.addNewDesiredVoltageRange(), vmax, vmin, VoltageUnitType.PU);
 		
 		//SWREM - Number of remote bus to control. 0 to control own bus.
-		int busNo = StringUtil.getInt(strAry[4], 0);
+		int busNo = ModelStringUtil.getInt(strAry[4], 0);
 		if (busNo != 0) {
 			shunt.addNewRemoteControlledBus().setIdRef(ODMModelParser.BusIdPreFix+strAry[4]);
 		}
@@ -119,13 +119,13 @@ public class PSSEBusRecord {
 		int bintPos = 5;
 		if (version == PsseVersion.PSSE_30) {
 			bintPos = 7;
-			shunt.setVarPercent(StringUtil.getDouble(strAry[5], 100.0));
+			shunt.setVarPercent(ModelStringUtil.getDouble(strAry[5], 100.0));
 			shunt.setVscDcLine(strAry[6]);
 		}
 		
 		//BINIT - Initial switched shunt admittance, MVAR at 1.0 per unit volts
 		
-		final double binit = StringUtil.getDouble(strAry[bintPos], 0.0);
+		final double binit = ModelStringUtil.getDouble(strAry[bintPos], 0.0);
 		shunt.setBInit(binit);
 		
 		double equiQ = 0.0;
@@ -140,8 +140,8 @@ public class PSSEBusRecord {
 	  		String nStr = strAry[pos+i*2];
 	  		String bStr = strAry[pos+1+i*2];
 	  		if (nStr != null) {
-	  			int n = StringUtil.getInt(nStr, 0);
-	  			double b = StringUtil.getDouble(bStr, 0.0);
+	  			int n = ModelStringUtil.getInt(nStr, 0);
+	  			double b = ModelStringUtil.getDouble(bStr, 0.0);
 	  			ShuntCompensatorXmlType.Block block = shunt.addNewBlock();
 	  			block.setSteps(n);
 	  			DataSetter.setReactivePower(block.addNewIncrementB(), b, ReactivePowerUnitType.MVAR);
