@@ -31,15 +31,15 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.SubTransientMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZeroSequenceDataListXmlType;
-import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.TranStabSimuHelper;
+import org.ieee.odm.model.xbean.XBeanTranStabSimuHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 
 public class BPADynamicSequenceRecord {
 
 	public static void processSequenceData(String str, TransientSimulationXmlType tranSimu
-			,ODMModelParser parser, BPAAdapter adapter){				
+			,XBeanODMModelParser parser, BPAAdapter adapter){				
 		
 		final String strAry[]=getSequenceDataFields(str,adapter);
 		// positive sequence data		
@@ -47,7 +47,7 @@ public class BPADynamicSequenceRecord {
 		// zero sequence data		
 		if(strAry[0].equals("XO")){
 			ZeroSequenceDataListXmlType.XfrZeroList.XfrZero xfrZero=
-				TranStabSimuHelper.addNewXfrZero(tranSimu);		
+				XBeanTranStabSimuHelper.addNewXfrZero(tranSimu);		
 			
 			//bus1
 			String bus1=strAry[1];
@@ -82,7 +82,7 @@ public class BPADynamicSequenceRecord {
 			xfrZero.setR1(r0);
 		}else if(strAry[0].equals("XR")){
 			ZeroSequenceDataListXmlType.ShuntLoadZeroList.ShuntLoadZero SHZero=
-				TranStabSimuHelper.addNewShuntLoadZero(tranSimu);		
+				XBeanTranStabSimuHelper.addNewShuntLoadZero(tranSimu);		
 			//bus1
 			String bus1=strAry[1];
 			SHZero.addNewBusId().setName(bus1);	    	
@@ -96,7 +96,7 @@ public class BPADynamicSequenceRecord {
 			    		
 		}else if(strAry[0].equals("LO")){
 			ZeroSequenceDataListXmlType.LineZeroList.LineZero lineZero=
-				TranStabSimuHelper.addNewLineZero(tranSimu);
+				XBeanTranStabSimuHelper.addNewLineZero(tranSimu);
 			//bus1
 			String bus1=strAry[1];
 			lineZero.addNewFBusId().setName(bus1);			
@@ -135,7 +135,7 @@ public class BPADynamicSequenceRecord {
 			lineZero.setBtZer(b2);
 		}else if(strAry[0].equals("LM")){
 			ZeroSequenceDataListXmlType.MutualImpedanceZeroList.MutualImpedanceZero mutZero=
-				TranStabSimuHelper.addNewMutualZero(tranSimu);
+				XBeanTranStabSimuHelper.addNewMutualZero(tranSimu);
 			//bus1
 			String bus1=strAry[1];
 			mutZero.addNewBranch1BusI().setName(bus1);			
@@ -170,7 +170,7 @@ public class BPADynamicSequenceRecord {
 		}
 	}
 	
-	public static void processNegativeData(ODMModelParser parser,
+	public static void processNegativeData(XBeanODMModelParser parser,
 			TransientSimulationXmlType tranSimu){
 		
 		// negative sequence generator data
@@ -207,7 +207,7 @@ public class BPADynamicSequenceRecord {
 				x2=0.65*xd1;
 			}
 			NegativeSequenceDataListXmlType.GeneratorNegativeList.GeneratorNegative xfrNeg=
-				TranStabSimuHelper.addNewGenNeg(tranSimu);
+				XBeanTranStabSimuHelper.addNewGenNeg(tranSimu);
 			
 			String busId=gen.getLocatedBus().getName();
 			String genId="";
@@ -224,7 +224,7 @@ public class BPADynamicSequenceRecord {
 		for( LoadCharacteristicXmlType load: tranSimu.getDynamicDataList().
 				getBusDynDataList().getLoadCharacteristicDataList().getLoadArray() ){
 			NegativeSequenceDataListXmlType.ShuntLoadNegativeList.ShuntLoadNegative loadNeg=
-				TranStabSimuHelper.addNewShuntLoadNeg(tranSimu);
+				XBeanTranStabSimuHelper.addNewShuntLoadNeg(tranSimu);
 			
 			if(load.getLocation().equals(LoadCharacteristicXmlType.Location.AT_AREA)){
 				loadNeg.setLoadLocation(NegativeSequenceDataListXmlType.ShuntLoadNegativeList.

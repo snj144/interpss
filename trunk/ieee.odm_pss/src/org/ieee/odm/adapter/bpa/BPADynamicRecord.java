@@ -27,9 +27,9 @@ package org.ieee.odm.adapter.bpa;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.odm.adapter.IFileReader;
-import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.TranStabSimuHelper;
+import org.ieee.odm.model.xbean.XBeanTranStabSimuHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class BPADynamicRecord {	
 	
@@ -93,7 +93,7 @@ public class BPADynamicRecord {
 	
 	public static void processDynamicData(String str, TransientSimulationXmlType tranSimu, 
 			final IFileReader din,
-			ODMModelParser parser ,BPAAdapter adapter) throws Exception{
+			XBeanODMModelParser parser ,BPAAdapter adapter) throws Exception{
 		PSSNetworkXmlType baseCaseNet=parser.getBaseCase();
 		
 		do{
@@ -116,7 +116,7 @@ public class BPADynamicRecord {
 						BPADynamicPSSRecord.processPSSData(str, tranSimu, parser,adapter);
 					}else if(dataType==loadData){
 						BPADynamicLoadCharacteristicRecord.processLoadCharacteristicData(str, 
-								tranSimu, TranStabSimuHelper.addNewLoad(tranSimu),adapter);
+								tranSimu, XBeanTranStabSimuHelper.addNewLoad(tranSimu),adapter);
 					}else if(dataType==sequenceData){
 						BPADynamicSequenceRecord.processSequenceData(str, tranSimu, parser,adapter);
 					}else if(dataType==0){

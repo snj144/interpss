@@ -31,9 +31,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class PSSEV30LoadDataRec {
 	private static int i, status, area = 1, zone = 1, owner = 1;
@@ -43,19 +43,19 @@ public class PSSEV30LoadDataRec {
 	/*
 	 * LoadData I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 	 */	
-	public static void procLineString(String lineStr, PsseVersion version, final ODMModelParser parser, Logger logger) {
+	public static void procLineString(String lineStr, PsseVersion version, final XBeanODMModelParser parser, Logger logger) {
 		procLineString(lineStr, version, logger);
 /*
 		I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 */		
-	    final String busId = ODMModelParser.BusIdPreFix+i;
+	    final String busId = XBeanODMModelParser.BusIdPreFix+i;
 		BusRecordXmlType busRec = parser.getBusRecord(busId);
 	    if (busRec == null){
 	    	logger.severe("Bus "+ busId+ " not found in the network");
 	    	return;
 	    }
 		
-	    LoadflowLoadDataXmlType contribLoad = ParserHelper.createContriLoad(busRec); 
+	    LoadflowLoadDataXmlType contribLoad = XBeanParserHelper.createContriLoad(busRec); 
 
 	    contribLoad.setId(id);
 	    contribLoad.setName("Load:" + id + "(" + i + ")");
@@ -67,11 +67,11 @@ public class PSSEV30LoadDataRec {
 	    contribLoad.addNewOwnerList().addNewOwner().setId(new Integer(owner).toString());
 		
 		if (pl != 0.0 || ql != 0.0)
-			DataSetter.setPowerData(contribLoad.addNewConstPLoad(), pl, ql, ApparentPowerUnitType.MVA);
+			XBeanDataSetter.setPowerData(contribLoad.addNewConstPLoad(), pl, ql, ApparentPowerUnitType.MVA);
 		if (ip != 0.0 || iq != 0.0)
-			DataSetter.setPowerData(contribLoad.addNewConstILoad(), ip, iq, ApparentPowerUnitType.MVA);
+			XBeanDataSetter.setPowerData(contribLoad.addNewConstILoad(), ip, iq, ApparentPowerUnitType.MVA);
 		if (yp != 0.0 || yq != 0.0)
-			DataSetter.setPowerData(contribLoad.addNewConstZLoad(), yp, yq, ApparentPowerUnitType.MVA);
+			XBeanDataSetter.setPowerData(contribLoad.addNewConstZLoad(), yp, yq, ApparentPowerUnitType.MVA);
 	}
 
 	private static void procLineString(String lineStr, PsseVersion version, Logger logger) {

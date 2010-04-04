@@ -35,8 +35,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class PSSEV30BusDataRec {
 	private static int i, ide, area = 1, zone = 1, owner = 1;
@@ -48,13 +48,13 @@ public class PSSEV30BusDataRec {
 	 *       101743,'TAU 9A,8    ',  13.8000,2,     0.000,     0.000, 101, 101,1.02610, -98.5705,   1
 
 	 */
-	public static void procLineString(String lineStr, PsseVersion version, ODMModelParser parser, Logger logger) {
+	public static void procLineString(String lineStr, PsseVersion version, XBeanODMModelParser parser, Logger logger) {
 		procFields(lineStr, version);
 
 /*
 		Format: I,    ’NAME’,    BASKV, IDE,  GL,      BL,  AREA, ZONE, VM, VA, OWNER
 */
-		String iStr = ODMModelParser.BusIdPreFix+i;
+		String iStr = XBeanODMModelParser.BusIdPreFix+i;
 		BusRecordXmlType busRec;
 		try {
 			busRec = parser.addNewBaseCaseBus(iStr, i);
@@ -70,24 +70,24 @@ public class PSSEV30BusDataRec {
 			busRec.addNewOwnerList().addNewOwner().setId(new Integer(owner).toString());
 		
 		busRec.setName(name);
-		DataSetter.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
+		XBeanDataSetter.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
 		
 		LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
-		DataSetter.setVoltageData(busData.addNewVoltage(), vm, VoltageUnitType.PU);
-		DataSetter.setAngleData(busData.addNewAngle(), va, AngleUnitType.DEG);
+		XBeanDataSetter.setVoltageData(busData.addNewVoltage(), vm, VoltageUnitType.PU);
+		XBeanDataSetter.setAngleData(busData.addNewAngle(), va, AngleUnitType.DEG);
 
     	if (gl != 0.0 || bl != 0.0) {
     		double factor = parser.getBaseCase().getBasePower().getValue();  
     		// for transfer G+jB to PU on system base, gl, bl are entered in MW at one per unit voltage
     		// bl is reactive power consumed, - for capactor
-        	DataSetter.setYData(busData.addNewShuntY(), gl/factor, bl/factor, YUnitType.PU);
+        	XBeanDataSetter.setYData(busData.addNewShuntY(), gl/factor, bl/factor, YUnitType.PU);
     	}
       	
     	// set input data to the bus object
 		LFGenCodeEnumType.Enum genType = ide == 3? LFGenCodeEnumType.SWING : 
 								( ide == 1? LFGenCodeEnumType.PQ : 
 									( ide == 2 ? LFGenCodeEnumType.PV : LFGenCodeEnumType.NONE_GEN ));
-		DataSetter.setGenData(busData, genType, vm, VoltageUnitType.PU, va, AngleUnitType.DEG, 
+		XBeanDataSetter.setGenData(busData, genType, vm, VoltageUnitType.PU, va, AngleUnitType.DEG, 
 						0.0, 0.0,	ApparentPowerUnitType.MVA);
 
 		if (ide == 1 || ide == 2 || ide == 3) 

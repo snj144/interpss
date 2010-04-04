@@ -32,23 +32,23 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.TranStabSimuHelper;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.xbean.XBeanTranStabSimuHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 
 public class BPADynamicTurbineGovernorRecord {
 	
 	public static void processTurbineGovernorData(String str,TransientSimulationXmlType tranSimu,
-    		ODMModelParser parser,BPAAdapter adapter){
+    		XBeanODMModelParser parser,BPAAdapter adapter){
     	
     	
     	final String strAry[]=getTGDataFields(str,adapter);
     	
     	if(strAry[0].equals("GG")){ 
-    		TurbineGovernorXmlType tg=TranStabSimuHelper.addNewTurbineGovernor(tranSimu);
+    		TurbineGovernorXmlType tg=XBeanTranStabSimuHelper.addNewTurbineGovernor(tranSimu);
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_STREAM_GENERAL_MODEL);
     		GovHydroSteamGeneralModelXmlType gg=
     			tg.addNewTurbineGovernorModel().addNewHydroStreamGeneralModel();
@@ -57,7 +57,7 @@ public class BPADynamicTurbineGovernorRecord {
     		tg.addNewLocatedBus().setName(busId);			
 			//bus Voltage
     		double v= new Double(strAry[2]).doubleValue();    		
-    		DataSetter.setVoltageData(tg.addNewBusRatedVoltage(), v,
+    		XBeanDataSetter.setVoltageData(tg.addNewBusRatedVoltage(), v,
     				VoltageUnitType.KV);			
 			//excId
     		String tgId;
@@ -74,23 +74,23 @@ public class BPADynamicTurbineGovernorRecord {
 			
 			//T1
     		double T1=ModelStringUtil.getDouble(strAry[6], 0.0);
-    		DataSetter.setTimePeriodData(gg.addNewT1(), 
+    		XBeanDataSetter.setTimePeriodData(gg.addNewT1(), 
     					T1, TimePeriodUnitType.SEC);
 			//T2
     	    double T2=ModelStringUtil.getDouble(strAry[7], 0.0);
-		    DataSetter.setTimePeriodData(gg.addNewT2(), 
+		    XBeanDataSetter.setTimePeriodData(gg.addNewT2(), 
 					       T2, TimePeriodUnitType.SEC);		   
 			//T3
 		    double T3=ModelStringUtil.getDouble(strAry[8], 0.0);
-		    DataSetter.setTimePeriodData(gg.addNewT3(), 
+		    XBeanDataSetter.setTimePeriodData(gg.addNewT3(), 
 					       T3, TimePeriodUnitType.SEC);			
 			// T4
 		    double T4=ModelStringUtil.getDouble(strAry[9], 0.0);
-		    DataSetter.setTimePeriodData(gg.addNewT4(), 
+		    XBeanDataSetter.setTimePeriodData(gg.addNewT4(), 
 					       T4, TimePeriodUnitType.SEC);			
 			//T5
 		    double T5=ModelStringUtil.getDouble(strAry[10], 0.0);
-		    DataSetter.setTimePeriodData(gg.addNewT5(), 
+		    XBeanDataSetter.setTimePeriodData(gg.addNewT5(), 
 					       T5, TimePeriodUnitType.SEC);
 			
 			//F
@@ -98,7 +98,7 @@ public class BPADynamicTurbineGovernorRecord {
     		gg.setF(f);
 			
     	}else if(strAry[0].equals("GH")){
-    		TurbineGovernorXmlType tg=TranStabSimuHelper.addNewTurbineGovernor(tranSimu);
+    		TurbineGovernorXmlType tg=XBeanTranStabSimuHelper.addNewTurbineGovernor(tranSimu);
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER_AND_TURBINE);
     		GovHydroTurbineXmlType gh=
     			tg.addNewTurbineGovernorModel().addNewHydroGovernerAndTurbine();
@@ -107,7 +107,7 @@ public class BPADynamicTurbineGovernorRecord {
     		tg.addNewLocatedBus().setName(busId);			
 			//bus Voltage
     		double v= ModelStringUtil.getDouble(strAry[2], 0.0);
-    		DataSetter.setVoltageData(tg.addNewBusRatedVoltage(), v,
+    		XBeanDataSetter.setVoltageData(tg.addNewBusRatedVoltage(), v,
     				VoltageUnitType.KV);			
 			//excId
     		String tgId;
@@ -124,19 +124,19 @@ public class BPADynamicTurbineGovernorRecord {
 			//TG
     		double Tg=ModelStringUtil.getDouble(strAry[6], 0.0);    		
     		
-		    DataSetter.setTimePeriodData(gh.addNewTG(), 
+		    XBeanDataSetter.setTimePeriodData(gh.addNewTG(), 
 					       Tg, TimePeriodUnitType.SEC);			
 			//TP
 		    double Tp=ModelStringUtil.getDouble(strAry[7], 0.0);
-		    DataSetter.setTimePeriodData(gh.addNewTP(), 
+		    XBeanDataSetter.setTimePeriodData(gh.addNewTP(), 
 					       Tp, TimePeriodUnitType.SEC);		
 			//TD
 		    double Td= ModelStringUtil.getDouble(strAry[8], 0.0);
-		    DataSetter.setTimePeriodData(gh.addNewTD(), 
+		    XBeanDataSetter.setTimePeriodData(gh.addNewTD(), 
 				       Td, TimePeriodUnitType.SEC);			
 			// TW/2
 		    double Tw= ModelStringUtil.getDouble(strAry[9], 0.0);
-		    DataSetter.setTimePeriodData(gh.addNewTWhalf(), 
+		    XBeanDataSetter.setTimePeriodData(gh.addNewTWhalf(), 
 				       Tw, TimePeriodUnitType.SEC);			
 			//VELCLOSE
 		    double Uc=ModelStringUtil.getDouble(strAry[10], 0.0);
@@ -150,7 +150,7 @@ public class BPADynamicTurbineGovernorRecord {
     		double Dd=ModelStringUtil.getDouble(strAry[12], 0.0);
     		gh.setD4(Dd);		
     	}else if(strAry[0].equals("GS")){
-    		TurbineGovernorXmlType tg=TranStabSimuHelper.addNewTurbineGovernor(tranSimu);
+    		TurbineGovernorXmlType tg=XBeanTranStabSimuHelper.addNewTurbineGovernor(tranSimu);
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER);
     		GovHydroXmlType gs=
     			tg.addNewTurbineGovernorModel().addNewHydroGoverner();
@@ -159,7 +159,7 @@ public class BPADynamicTurbineGovernorRecord {
     		tg.addNewLocatedBus().setName(busId);
     		//bus Voltage
     		double v= ModelStringUtil.getDouble(strAry[2], 0.0);    		
-    		DataSetter.setVoltageData(tg.addNewBusRatedVoltage(), v,
+    		XBeanDataSetter.setVoltageData(tg.addNewBusRatedVoltage(), v,
     				VoltageUnitType.KV);			
 			//excId
     		String tgId;
@@ -179,18 +179,18 @@ public class BPADynamicTurbineGovernorRecord {
     		gs.setR(r);
 			//T1
     		double T1=ModelStringUtil.getDouble(strAry[7], 0.0);
-    		DataSetter.setTimePeriodData(gs.addNewT1(), 
+    		XBeanDataSetter.setTimePeriodData(gs.addNewT1(), 
     				       T1, TimePeriodUnitType.SEC);
     		
     					
 			//T2
     		double T2=ModelStringUtil.getDouble(strAry[8], 0.0);
-    		DataSetter.setTimePeriodData(gs.addNewT2(), 
+    		XBeanDataSetter.setTimePeriodData(gs.addNewT2(), 
     				       T2, TimePeriodUnitType.SEC);
     				    		
 			// T3
 		    double T3= ModelStringUtil.getDouble(strAry[9], 0.0);
-		    DataSetter.setTimePeriodData(gs.addNewT3(), 
+		    XBeanDataSetter.setTimePeriodData(gs.addNewT3(), 
 				       T3, TimePeriodUnitType.SEC);			
 			//VELOPEN
 		    double Uo=ModelStringUtil.getDouble(strAry[4], 0.0);
@@ -205,14 +205,14 @@ public class BPADynamicTurbineGovernorRecord {
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];    			
     		}
-    		TurbineGovernorXmlType tgOld=ParserHelper.getTGRecord(tranSimu, busId, tgId);
+    		TurbineGovernorXmlType tgOld=XBeanParserHelper.getTGRecord(tranSimu, busId, tgId);
     		if(tgOld.getTurbineGovernorType().equals
     				(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER)){
     			TurbineXmlType tur=tgOld.getTurbineGovernorModel().getHydroGoverner().addNewTurbine();
     			SteamTurbineXmlType steamTur=tur.addNewSteamTurbine();
     			//TCH
     			double TCH= new Double(strAry[4]).doubleValue();
-    		    DataSetter.setTimePeriodData(steamTur.addNewTCH(),
+    		    XBeanDataSetter.setTimePeriodData(steamTur.addNewTCH(),
     		    		TCH, TimePeriodUnitType.SEC);	    			
     			//k1
     		    double k1=new Double(strAry[5]).doubleValue();
@@ -226,7 +226,7 @@ public class BPADynamicTurbineGovernorRecord {
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];    			
     		}
-    		TurbineGovernorXmlType tgOld=ParserHelper.getTGRecord(tranSimu, busId, tgId);
+    		TurbineGovernorXmlType tgOld=XBeanParserHelper.getTGRecord(tranSimu, busId, tgId);
     		if(tgOld.getTurbineGovernorType().equals
     				(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER)){
     			TurbineXmlType tur=tgOld.getTurbineGovernorModel().getHydroGoverner().addNewTurbine();
@@ -235,21 +235,21 @@ public class BPADynamicTurbineGovernorRecord {
     			
     			//TCH
     			double TCH= ModelStringUtil.getDouble(strAry[4], 0.0);
-    		    DataSetter.setTimePeriodData(steamTur.addNewTCH(),
+    		    XBeanDataSetter.setTimePeriodData(steamTur.addNewTCH(),
     		    		TCH, TimePeriodUnitType.SEC);	  
     			//FHP
     		    double FHP= ModelStringUtil.getDouble(strAry[5], 0.0);
     			steamTur.setFHP(FHP);
     			//TRH
     		    double TRH= ModelStringUtil.getDouble(strAry[6], 0.0);
-    		    DataSetter.setTimePeriodData(steamTur.addNewTRH(),
+    		    XBeanDataSetter.setTimePeriodData(steamTur.addNewTRH(),
     		    		TRH, TimePeriodUnitType.SEC);	    			
     			//FIP
     		    double FIP= ModelStringUtil.getDouble(strAry[7], 0.0);
     		    steamTur.setFIP(FIP);    			
     			//TCO
     		    double TCO=ModelStringUtil.getDouble(strAry[8], 0.0);
-    		    DataSetter.setTimePeriodData(steamTur.addNewTCO(),
+    		    XBeanDataSetter.setTimePeriodData(steamTur.addNewTCO(),
         		    		TCO, TimePeriodUnitType.SEC);
     		       		    	    			
     			// FLP

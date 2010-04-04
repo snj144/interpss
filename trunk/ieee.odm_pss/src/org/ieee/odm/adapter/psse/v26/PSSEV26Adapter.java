@@ -35,8 +35,8 @@ import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26BranchRecord;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26BusRecord;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26NetRecord;
-import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class PSSEV26Adapter extends AbstractODMAdapter{
 	private final int 
@@ -60,10 +60,10 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 		super(logger);
 	}
 	
-	protected ODMModelParser parseInputFile(
+	protected XBeanODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
-		ODMModelParser parser = new ODMModelParser();
-		ParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.PSS_E);
+		XBeanODMModelParser parser = new XBeanODMModelParser();
+		XBeanParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.PSS_E);
 		parser.getStudyCase().getContentInfo().setOriginalFormatVersion("PSSEV26");
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();

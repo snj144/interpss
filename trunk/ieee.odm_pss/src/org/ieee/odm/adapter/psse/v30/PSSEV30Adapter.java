@@ -39,8 +39,8 @@ import org.ieee.odm.adapter.psse.v30.impl.PSSEV30GenDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LineDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LoadDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30XfrDataRec;
-import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class PSSEV30Adapter extends AbstractODMAdapter{
 	public final static String Token_CaseDesc = "Case Description";     
@@ -67,10 +67,10 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 		return "PSS/E File elements coount\n" + this.elemCntStr;
 	}
 	
-	protected ODMModelParser parseInputFile(
+	protected XBeanODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
-		ODMModelParser parser = new ODMModelParser();
-		ParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.PSS_E);
+		XBeanODMModelParser parser = new XBeanODMModelParser();
+		XBeanParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.PSS_E);
 		parser.getStudyCase().getContentInfo().setOriginalFormatVersion("PSSEV30");
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
@@ -332,7 +332,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
   		}
              
 		if (!this.elemCntOnly)
-			ParserHelper.createBusEquivData(baseCaseNet, this.getLogger());
+			XBeanParserHelper.createBusEquivData(baseCaseNet, this.getLogger());
   		
    	   	return parser;
 	}

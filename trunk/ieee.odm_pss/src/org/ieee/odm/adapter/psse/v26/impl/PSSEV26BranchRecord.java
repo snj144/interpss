@@ -37,13 +37,13 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class PSSEV26BranchRecord {
-	public static  void processBranchData(final String str, final ODMModelParser parser, Logger logger) {
+	public static  void processBranchData(final String str, final XBeanODMModelParser parser, Logger logger) {
 		/*
 		I,    J,    CKT, R,      X,        B,     RATEA,RATEB,RATEC,RATIO,ANGLE,GI,BI,GJ,BJ,ST  LEN,O1,F1,...,O4,F4
 		31962,32156,' 1',0,      0.444445, 0,     30,   30,   0,    1,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0, [Transformer_798]
@@ -60,8 +60,8 @@ public class PSSEV26BranchRecord {
 		 */
 		// parse the input data line	
 		final String[] strAry = getBranchDataFields(str);		
-		final String fid = ODMModelParser.BusIdPreFix+strAry[0];
-		final String tid = ODMModelParser.BusIdPreFix+strAry[1];
+		final String fid = XBeanODMModelParser.BusIdPreFix+strAry[0];
+		final String tid = XBeanODMModelParser.BusIdPreFix+strAry[1];
 		final String cirId = ModelStringUtil.formatCircuitId(strAry[2]);
 		String branchId = ModelStringUtil.formBranchId(fid, tid, cirId);
 		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
@@ -96,14 +96,14 @@ public class PSSEV26BranchRecord {
 		final double fromAng = angle, toAng = 0.0;
 		
 		if (ratio == 0.0) {
-			DataSetter.setLineData(branchData, rpu, xpu, ZUnitType.PU, 0.0, bpu, YUnitType.PU);
+			XBeanDataSetter.setLineData(branchData, rpu, xpu, ZUnitType.PU, 0.0, bpu, YUnitType.PU);
 		}
 		else if (angle == 0.0) {
-			DataSetter.createXformerData(branchData,
+			XBeanDataSetter.createXformerData(branchData,
 				       rpu, xpu, ZUnitType.PU, fromTap, toTap);		
 		}
 		else {
-			DataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, 
+			XBeanDataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, 
 					ZUnitType.PU, fromTap, toTap, fromAng, toAng, AngleUnitType.DEG);			
 		}
 		
@@ -111,7 +111,7 @@ public class PSSEV26BranchRecord {
 		final double rating2Mvar = ModelStringUtil.getDouble(strAry[7], 0.0);
 		final double rating3Mvar = ModelStringUtil.getDouble(strAry[8], 0.0);
 		
-		DataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
+		XBeanDataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
 				rating1Mvar, rating2Mvar, rating3Mvar,
 				ApparentPowerUnitType.MVA, 0.0,
 				null);
@@ -127,7 +127,7 @@ public class PSSEV26BranchRecord {
         		y = branchData.addNewFromShuntY();
         	else
         		y = branchData.addNewFromShuntY();
-        	DataSetter.setYData(y, GI, BI, YUnitType.PU);
+        	XBeanDataSetter.setYData(y, GI, BI, YUnitType.PU);
         }
 
 	    //To side shuntY
@@ -141,11 +141,11 @@ public class PSSEV26BranchRecord {
         		y = branchData.addNewToShuntY();
         	else
         		y = branchData.addNewToShuntY();
-        	DataSetter.setYData(y, GJ, BJ, YUnitType.PU);
+        	XBeanDataSetter.setYData(y, GJ, BJ, YUnitType.PU);
 	    }
 	}
    
-	public static void processXformerAdjData(final String str, final ODMModelParser parser, Logger logger) {
+	public static void processXformerAdjData(final String str, final XBeanODMModelParser parser, Logger logger) {
 		/*
 		I,    J,     CKT,ICONT,     RMA,       RMI,       VMA,       VMI,   STEP,   TABLE
     	31212,31435,' 1',     0,    1.5000,    0.5100,    1.5000,    0.5100,0.00625,0,0, 0.000, 0.000,   
@@ -164,8 +164,8 @@ public class PSSEV26BranchRecord {
 		TABLE - Zero, or number of a transformer impedance correction table 1-5
 	 */
 		final String[] strAry = getXfrAdjDataFields(str);		
-		final String fid = ODMModelParser.BusIdPreFix+strAry[0];
-		final String tid = ODMModelParser.BusIdPreFix+strAry[1];
+		final String fid = XBeanODMModelParser.BusIdPreFix+strAry[0];
+		final String tid = XBeanODMModelParser.BusIdPreFix+strAry[1];
 		final String cirId = ModelStringUtil.formatCircuitId(strAry[2]);
 		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		
@@ -177,7 +177,7 @@ public class PSSEV26BranchRecord {
 	    }	
 
 	    // only one branch section
-		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(branchRec);
+		LoadflowBranchDataXmlType branchData = XBeanParserHelper.getDefaultBranchData(branchRec);
 		if (branchData.getXfrInfo() == null)
 			branchData.addNewXfrInfo();
 	    
@@ -187,7 +187,7 @@ public class PSSEV26BranchRecord {
 	    	isNegative = true;
 	    	icon = - icon;
 	    }
-		final String iconId = icon > 0? ODMModelParser.BusIdPreFix+icon : null;
+		final String iconId = icon > 0? XBeanODMModelParser.BusIdPreFix+icon : null;
 
 		if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER) {
 	    	double tmax = ModelStringUtil.getDouble(strAry[4], 0.0);
@@ -198,7 +198,7 @@ public class PSSEV26BranchRecord {
 	    	
 	    	TapAdjustmentXmlType tapAdj = branchData.getXfrInfo().addNewTapAdjustment();
 	    	tapAdj.setAdjustmentType(TapAdjustmentXmlType.AdjustmentType.VOLTAGE);
-	    	DataSetter.setTapLimitData(tapAdj.addNewTapLimit(), tmax, tmin);
+	    	XBeanDataSetter.setTapLimitData(tapAdj.addNewTapLimit(), tmax, tmin);
 	    	tapAdj.setTapAdjStepSize(tstep);
 	    	tapAdj.setTapAdjOnFromSide(true);
 
@@ -231,7 +231,7 @@ public class PSSEV26BranchRecord {
 	    	double mwlow = ModelStringUtil.getDouble(strAry[7], 0.0);
 
 	    	AngleAdjustmentXmlType angAdj = branchData.getXfrInfo().addNewAngleAdjustment();
-	    	DataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), angmax, angmin, AngleUnitType.DEG);
+	    	XBeanDataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), angmax, angmin, AngleUnitType.DEG);
 	    	angAdj.setMax(mwup);
 	    	angAdj.setMin(mwlow);
 	    	angAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
