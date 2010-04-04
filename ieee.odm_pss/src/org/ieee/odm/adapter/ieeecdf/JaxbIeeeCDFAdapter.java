@@ -35,25 +35,27 @@ import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.jaxb.JaxbParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
-import org.ieee.odm.schema.AdjustmentDataXmlType;
+import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBranchDataXmlType;
 import org.ieee.odm.schema.LoadflowBusDataXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.ObjectFactory;
+import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.schema.PowerInterchangeXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
-import org.ieee.odm.schema.StudyCaseXmlType;
+import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
-import org.ieee.odm.schema.VoltageLimitXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
@@ -81,7 +83,7 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 	protected JaxbODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		JaxbODMModelParser parser = new JaxbODMModelParser();
-		JaxbParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.IEEE_CDF);
+		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.IEEE_CDF, this.factory);
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		baseCaseNet.setId("Base_Case_from_IEEECDF_format");
@@ -101,13 +103,16 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 					} else if (dataType == BusData) {
 						processBusData(str, parser.createBusRecord());
 					} else if (dataType == BranchData) {
-						processBranchData(str, parser.addNewBaseCaseBranch(), baseCaseNet);
+						processBranchData(str, parser.createBranchRecord(), parser);
 					} else if (dataType == LossZone) {
-						processLossZoneData(str, baseCaseNet.getLossZoneList().addNewLossZone());
+						processLossZoneData(str, parser.createNetworkLossZone());
 					} else if (dataType == InterchangeData) {
-						processInterchangeData(str, baseCaseNet.getInterchangeList().addNewInterchange().addNewPowerEx());
+						PSSNetworkXmlType.InterchangeList.Interchange interchange = parser.createInterchange();
+						PowerInterchangeXmlType p = this.factory.createPowerInterchangeXmlType();
+						processInterchangeData(str, p, parser);
+						interchange.setPowerEx(p);
 					} else if (dataType == TielineData) {
-						processTielineData(str, baseCaseNet.getTieLineList().addNewTieline());
+						processTielineData(str, parser.createTieline(), parser);
 					} else if ((str.length() > 3)
 							&& str.substring(0, 3).equals("BUS")) {
 						dataType = BusData;
@@ -120,17 +125,17 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 					} else if ((str.length() > 4)
 							&& str.substring(0, 4).equals("LOSS")) {
 						dataType = LossZone;
-						baseCaseNet.addNewLossZoneList();
+						//baseCaseNet.addNewLossZoneList();
 						getLogger().fine("load loss zone data");
 					} else if ((str.length() > 11)
 							&& str.substring(0, 11).equals("INTERCHANGE")) {
 						dataType = InterchangeData;
-						baseCaseNet.addNewInterchangeList();
+						//baseCaseNet.addNewInterchangeList();
 						getLogger().fine("load interchange data");
 					} else if ((str.length() > 3)
 							&& str.substring(0, 3).equals("TIE")) {
 						dataType = TielineData;
-						baseCaseNet.addNewTieLineList();
+						//baseCaseNet.addNewTieLineList();
 						getLogger().fine("load tieline data");
 					}
 				} catch (final Exception e) {
@@ -152,7 +157,8 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 		// parse the input data line
 		final String[] strAry = getNetDataFields(str);
 
-		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
+		NameValuePairListXmlType nvList = this.factory.createNameValuePairListXmlType();
+		baseCaseNet.setNvPairList(nvList);
 
 		//[0] Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
 		final String date = strAry[0];
@@ -185,7 +191,10 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 		//[2] Columns 32-37   MVA Base [F] *
 		final double baseMva = new Double(strAry[2]).doubleValue(); // in MVA
 		getLogger().fine("BaseKva: " + baseMva);
-		JaxbDataSetter.setPowerMva(baseCaseNet.addNewBasePower(), baseMva);   
+		
+		ApparentPowerXmlType base = this.factory.createApparentPowerXmlType();
+		JaxbDataSetter.setPowerMva(base, baseMva);
+		baseCaseNet.setBasePower(base);
 	}
 
 	/*
@@ -219,9 +228,11 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 		if (baseKv == 0.0) {
 			baseKv = 1.0;
 		}
-		JaxbDataSetter.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
+		busRec.setBaseVoltage(this.factory.createVoltageXmlType());
+		JaxbDataSetter.setVoltageData(busRec.getBaseVoltage(), baseKv, VoltageUnitType.KV);
 
-		LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
+		busRec.setLoadflowData(this.factory.createLoadflowBusDataXmlType());
+		LoadflowBusDataXmlType busData = busRec.getLoadflowData();
 		//Columns 25-26   Type [I] *
 		//		0 - Unregulated (load, PQ)
 		//		1 - Hold MVAR generation within voltage limits, (gen, PQ)
@@ -233,11 +244,11 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 		//Columns 34-40   Final angle, degrees [F] *
 		final double vpu = new Double(strAry[5]).doubleValue();
 		final double angDeg = new Double(strAry[6]).doubleValue();
-		JaxbDataSetter.setVoltageData(busData.addNewVoltage(), vpu,
-				VoltageUnitType.PU);
+		busData.setVoltage(this.factory.createVoltageXmlType());
+		JaxbDataSetter.setVoltageData(busData.getVoltage(), vpu, VoltageUnitType.PU);
 
-		JaxbDataSetter.setAngleData(busData.addNewAngle(), angDeg,
-				AngleUnitType.DEG);
+		busData.setAngle(this.factory.createAngleXmlType());
+		JaxbDataSetter.setAngleData(busData.getAngle(), angDeg, AngleUnitType.DEG);
 
 		//Columns 41-49   Load MW [F] *
 		//Columns 50-59   Load MVAR [F] *
@@ -246,7 +257,8 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 		if (loadMw != 0.0 || loadMvar != 0.0) {
 			JaxbDataSetter.setLoadData(busData,
 					LFLoadCodeEnumType.CONST_P, loadMw,
-					loadMvar, ApparentPowerUnitType.MVA);
+					loadMvar, ApparentPowerUnitType.MVA,
+					this.factory);
 		}
 
 		//Columns 60-67   Generation MW [F] *
@@ -254,18 +266,20 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 		final double genMw = new Double(strAry[9]).doubleValue();
 		final double genMvar = new Double(strAry[10]).doubleValue();
 
-		LFGenCodeEnumType.Enum genType = type == 3? LFGenCodeEnumType.SWING :
+		LFGenCodeEnumType genType = type == 3? LFGenCodeEnumType.SWING :
 				( type == 2? LFGenCodeEnumType.PV : LFGenCodeEnumType.PQ );
-		JaxbDataSetter.setGenData(busData, genType, vpu, VoltageUnitType.PU, angDeg, AngleUnitType.DEG, 
-				genMw, genMvar,	ApparentPowerUnitType.MVA);
+		JaxbDataSetter.setGenData(
+				busData, genType, vpu, VoltageUnitType.PU, angDeg, AngleUnitType.DEG, 
+				genMw, genMvar,	ApparentPowerUnitType.MVA,
+				this.factory);
 
 		//Columns 107-114 Shunt conductance G (per unit) [F] *
 		//Columns 115-122 Shunt susceptance B (per unit) [F] *
 		final double gPU = new Double(strAry[15]).doubleValue();
 		final double bPU = new Double(strAry[16]).doubleValue();
 		if (gPU != 0.0 || bPU != 0.0) {
-			JaxbDataSetter.setYData(busData.addNewShuntY(), gPU, bPU,
-					YUnitType.PU);
+			busData.setShuntY(this.factory.createYXmlType());
+			JaxbDataSetter.setYData(busData.getShuntY(), gPU, bPU, YUnitType.PU);
 		}
 
 		//Columns 85-90   Desired volts (pu) [F] (This is desired remote voltage if this bus is controlling another bus.)
@@ -280,18 +294,19 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 		final String reBusId = strAry[17];
 
 		if (max != 0.0 || min != 0.0) {
+			LoadflowGenDataXmlType equivGen = busData.getGenData().getEquivGen();
 			if (type == 1) {
-				VoltageLimitXmlType vlimt = busData.getGenData().getEquivGen().addNewVoltageLimit();
-				JaxbDataSetter.setVoltageLimitData(vlimt, max, min, VoltageUnitType.PU);
+				equivGen.setVoltageLimit(this.factory.createVoltageLimitXmlType());
+				JaxbDataSetter.setVoltageLimitData(equivGen.getVoltageLimit(), max, min, VoltageUnitType.PU);
 			} else if (type == 2) {
-				JaxbDataSetter.setReactivePowerLimitData(busData.getGenData().getEquivGen().addNewQLimit(),  
-						max, min, ReactivePowerUnitType.MVAR);
+				busData.getGenData().getEquivGen().setQLimit(this.factory.createReactivePowerLimitXmlType());
+				JaxbDataSetter.setReactivePowerLimitData(equivGen.getQLimit(),	max, min, ReactivePowerUnitType.MVAR);
 				if (reBusId != null && !reBusId.equals("0")
 						&& !reBusId.equals(busId)) {
-					JaxbDataSetter.setVoltageData(busData.getGenData().getEquivGen().addNewDesiredVoltage(),
-							vSpecPu, VoltageUnitType.PU);
-					busData.getGenData().getEquivGen().addNewRemoteVoltageControlBus();
-					busData.getGenData().getEquivGen().getRemoteVoltageControlBus().setIdRef(reBusId);
+					equivGen.setDesiredVoltage(this.factory.createVoltageXmlType());
+					JaxbDataSetter.setVoltageData(equivGen.getDesiredVoltage(),	vSpecPu, VoltageUnitType.PU);
+					equivGen.setRemoteVoltageControlBus(this.factory.createIDRefRecordXmlType());
+					equivGen.getRemoteVoltageControlBus().setIdRef(reBusId);
 				}
 			}
 		}
@@ -303,7 +318,9 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 	 */
 
 	private void processBranchData(final String str,
-			final BranchRecordXmlType branchRec, PSSNetworkXmlType baseCaseNet) {
+			final BranchRecordXmlType branchRec, JaxbODMModelParser parser) {
+		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
+		
 		// parse the input data line
 		final String[] strAry = getBranchDataFields(str);
 
@@ -314,8 +331,12 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 		final String fid = JaxbODMModelParser.BusIdPreFix + strAry[0];
 		final String tid = JaxbODMModelParser.BusIdPreFix + strAry[1];
 		getLogger().fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
-		branchRec.addNewFromBus().setIdRef(fid);
-		branchRec.addNewToBus().setIdRef(tid);
+		try {
+			branchRec.setFromBus(parser.createBusRecRef(fid));
+			branchRec.setToBus(parser.createBusRecRef(tid));
+		} catch (Exception e) {
+			this.logErr("branch is not connected properly, " + e.toString());
+		}
 
 		//    	Columns 11-12   Load flow area [I]
 		//    	Columns 13-15   Loss zone [I]
@@ -328,8 +349,9 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 		branchRec.setCircuitId(cirId);
 
 		branchRec.setId(ModelStringUtil.formBranchId(fid, tid, cirId));
-		LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
-		branchData.addNewXfrInfo();
+		LoadflowBranchDataXmlType branchData = this.factory.createLoadflowBranchDataXmlType(); 
+		branchRec.getLoadflowData().add(branchData);
+		branchData.setXfrInfo(this.factory.createLoadflowBranchDataXmlTypeXfrInfo());
 
 		//    	Column  19      Type [I] *
 		//      0 - Transmission line
@@ -347,7 +369,8 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 		final double bpu = new Double(strAry[8]).doubleValue();
 		if (type == 0) {
 			JaxbDataSetter.setLineData(branchData, rpu, xpu,
-					ZUnitType.PU, 0.0, bpu, YUnitType.PU);
+					ZUnitType.PU, 0.0, bpu, YUnitType.PU,
+					this.factory);
 		}
 
 		// assume ratio and angle are defined at to side
@@ -359,14 +382,16 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 			if (angle == 0.0) {
 				JaxbDataSetter.createXformerData(branchData,
 						rpu, xpu, ZUnitType.PU, ratio, 1.0, 
-						0.0, bpu, 0.0, 0.0, YUnitType.PU);
+						0.0, bpu, 0.0, 0.0, YUnitType.PU,
+						this.factory);
 				BusRecordXmlType fromBusRec = JaxbParserHelper.findBusRecord(fid, baseCaseNet);
 				BusRecordXmlType toBusRec = JaxbParserHelper.findBusRecord(tid, baseCaseNet);
 				if (fromBusRec != null && toBusRec != null) {
 					JaxbDataSetter.setXfrRatingData(branchData,
 							fromBusRec.getBaseVoltage().getValue(), 
 							toBusRec.getBaseVoltage().getValue(), 
-							fromBusRec.getBaseVoltage().getUnit());				
+							fromBusRec.getBaseVoltage().getUnit(),
+							this.factory);				
 				}
 				else {
 					logErr("Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: " + fid + ", " + tid);
@@ -374,14 +399,16 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 			} else {
 				JaxbDataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, ZUnitType.PU,
 						ratio, 1.0, angle, 0.0, AngleUnitType.DEG,
-						0.0, bpu, 0.0, 0.0, YUnitType.PU);
+						0.0, bpu, 0.0, 0.0, YUnitType.PU,
+						this.factory);
 				BusRecordXmlType fromBusRec = JaxbParserHelper.findBusRecord(fid, baseCaseNet);
 				BusRecordXmlType toBusRec = JaxbParserHelper.findBusRecord(tid, baseCaseNet);
 				if (fromBusRec != null && toBusRec != null) {
 					JaxbDataSetter.setXfrRatingData(branchData,
 							fromBusRec.getBaseVoltage().getValue(), 
 							toBusRec.getBaseVoltage().getValue(), 
-							fromBusRec.getBaseVoltage().getUnit());				
+							fromBusRec.getBaseVoltage().getUnit(),
+							this.factory);				
 				}
 				else {
 					logErr("Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: " + fid + ", " + tid);
@@ -395,8 +422,10 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 		final double rating1Mvar = new Integer(strAry[9]).intValue();
 		final double rating2Mvar = new Integer(strAry[10]).intValue();
 		final double rating3Mvar = new Integer(strAry[11]).intValue();
-		JaxbDataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
-				rating1Mvar, rating2Mvar, rating3Mvar, ApparentPowerUnitType.MVA);
+		branchData.setBranchRatingLimit(this.factory.createBranchRatingLimitXmlType());
+		JaxbDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(),
+				rating1Mvar, rating2Mvar, rating3Mvar, ApparentPowerUnitType.MVA,
+				this.factory);
 
 		String controlBusId = "";
 		int controlSide = 0;
@@ -426,33 +455,40 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 		}
 
 		if (type == 2 || type == 3) {
-			TapAdjustmentXmlType tapAdj = branchData.getXfrInfo().addNewTapAdjustment();
-			JaxbDataSetter.setTapLimitData(tapAdj.addNewTapLimit(), maxTapAng, minTapAng);
+			TapAdjustmentXmlType tapAdj = this.factory.createTapAdjustmentXmlType();
+			branchData.getXfrInfo().setTapAdjustment(tapAdj);
+			tapAdj.setTapLimit(this.factory.createTapLimitXmlType());
+			JaxbDataSetter.setTapLimitData(tapAdj.getTapLimit(), maxTapAng, minTapAng);
 			tapAdj.setTapAdjStepSize(stepSize);
 			tapAdj.setTapAdjOnFromSide(true);
 			if (type == 2) {
-				TapAdjustmentXmlType.VoltageAdjData voltTapAdj = tapAdj
-						.addNewVoltageAdjData();
-				voltTapAdj.addNewAdjVoltageBus().setIdRef(controlBusId);
-				voltTapAdj
-						.setAdjBusLocation(controlSide == 0 ? TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.TERMINAL_BUS
-								: (controlSide == 1 ? TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.NEAR_FROM_BUS
-										: TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.NEAR_TO_BUS));
-				voltTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+				TapAdjustmentXmlType.VoltageAdjData voltTapAdj = this.factory.createTapAdjustmentXmlTypeVoltageAdjData();
+				tapAdj.setVoltageAdjData(voltTapAdj);
+				try {
+					voltTapAdj.setAdjVoltageBus(parser.createBusRecRef(controlBusId));
+				} catch (Exception e) {
+					this.logErr("Xfr control bus not defined properly, " + e.toString());
+				}
+					
+				voltTapAdj.setAdjBusLocation(controlSide == 0 ? TapAdjustBusLocationEnumType.TERMINAL_BUS
+								: (controlSide == 1 ? TapAdjustBusLocationEnumType.NEAR_FROM_BUS
+										: TapAdjustBusLocationEnumType.NEAR_TO_BUS));
+				voltTapAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
 				JaxbDataSetter.setLimitData(voltTapAdj, maxVoltPQ, minVoltPQ);
 			} else if (type == 3) {
-				TapAdjustmentXmlType.MvarFlowAdjData mvarTapAdj = tapAdj
-						.addNewMvarFlowAdjData();
+				TapAdjustmentXmlType.MvarFlowAdjData mvarTapAdj = this.factory.createTapAdjustmentXmlTypeMvarFlowAdjData();
+				tapAdj.setMvarFlowAdjData(mvarTapAdj);
 				JaxbDataSetter.setLimitData(mvarTapAdj, maxVoltPQ, minVoltPQ);
-				mvarTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+				mvarTapAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
 				mvarTapAdj.setMvarMeasuredOnFormSide(true);
 			}
 		} else if (type == 4) {
-			AngleAdjustmentXmlType angAdj = branchData.getXfrInfo().addNewAngleAdjustment();
-			JaxbDataSetter.setLimitData(angAdj.addNewAngleLimit(), maxTapAng,
-					minTapAng);
+			AngleAdjustmentXmlType angAdj = this.factory.createAngleAdjustmentXmlType();
+			branchData.getXfrInfo().setAngleAdjustment(angAdj);
+			angAdj.setAngleLimit(this.factory.createAngleLimitXmlType());
+			JaxbDataSetter.setLimitData(angAdj.getAngleLimit(), maxTapAng, minTapAng);
 			JaxbDataSetter.setLimitData(angAdj, maxVoltPQ, minVoltPQ);
-			angAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+			angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
 			angAdj.setDesiredMeasuredOnFromSide(true);
 		}
 	}
