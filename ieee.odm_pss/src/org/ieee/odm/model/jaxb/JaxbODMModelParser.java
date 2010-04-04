@@ -1,7 +1,7 @@
 /*
- * @(#)ODMModelParser.java   
+ * @(#)JaxbODMModelParser.java   
  *
- * Copyright (C) 2006-2008 www.interpss.org
+ * Copyright (C) 2006-2010 www.interpss.org
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -15,7 +15,7 @@
  *
  * @Author Mike Zhou
  * @Version 1.0
- * @Date 02/01/2008
+ * @Date 02/01/2010
  * 
  *   Revision History
  *   ================
@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.util.Hashtable;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
@@ -183,7 +184,7 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 */
 	public BusRecordXmlType createBusRecord() {
 		BusRecordXmlType busRec = this.factory.createBusRecordXmlType();
-		getStudyCase().getBaseCase().getBusList().getBus().add(busRec);
+		getBaseCase().getBusList().getBus().add(busRec);
 		return busRec;
 	}	
 	
@@ -269,7 +270,7 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 */
 	public BranchRecordXmlType createBranchRecord() {
 		BranchRecordXmlType branchRec = new BranchRecordXmlType();
-		getStudyCase().getBaseCase().getBranchList().getBranch().add(branchRec);
+		getBaseCase().getBranchList().getBranch().add(branchRec);
 		return branchRec;
 	}
 	
@@ -429,5 +430,18 @@ public class JaxbODMModelParser extends ODMModelParser {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		return marshaller;
+	}
+	
+	/**
+	 * print the Xml doc to the std out
+	 * 
+	 */
+	public void stdout() {
+		try {
+			JAXBElement<StudyCaseXmlType> element = (new ObjectFactory()).createPSSStudyCase(getStudyCase());
+			createMarshaller().marshal( element, System.out );
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

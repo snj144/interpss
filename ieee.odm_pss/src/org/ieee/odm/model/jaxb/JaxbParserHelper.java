@@ -331,54 +331,6 @@ public class JaxbParserHelper {
 		bus.getLoadflowData().getShuntCompensatorData().getShuntCompensatorList().getShunCompensator().add(compensator);
 		return compensator; 
 	}
-
-	/**
-	 * Get bus record with the id
-	 * 
-	 * @param id
-	 * @param baseCaseNet
-	 * @return
-	 */
-	public static BusRecordXmlType findBusRecord(String id, PSSNetworkXmlType baseCaseNet) {
-		for (BusRecordXmlType busRec : baseCaseNet.getBusList().getBus()) {
-			if (id.equals(busRec.getId()))
-				return busRec;
-		}
-		return null;
-	}
-	
-	/**
-	 * Get bus record with the id
-	 * 
-	 * @param id
-	 * @param baseCaseNet
-	 * @return
-	 */
-	public static BranchRecordXmlType findBranchRecord(String fromId, String toId, String cirId, PSSNetworkXmlType baseCaseNet) {
-		for (BranchRecordXmlType braRec : baseCaseNet.getBranchList().getBranch()) {
-			if (fromId.equals(braRec.getFromBus().getIdRef()) &&
-					toId.equals(braRec.getToBus().getIdRef()) &&
-							cirId.equals(braRec.getCircuitId()))
-				return braRec;
-		}
-		return null;
-	}
-	
-	/**
-	 * Get branch record using the fromId and toId
-	 * 
-	 * @param id
-	 * @param baseCaseNet
-	 * @return
-	 */
-	public static BranchRecordXmlType findBranchRecord(String fromId, String toId,PSSNetworkXmlType baseCaseNet) {
-		for (BranchRecordXmlType braRec : baseCaseNet.getBranchList().getBranch()) {
-			if (fromId.equals(braRec.getFromBus().getIdRef()) &&
-					toId.equals(braRec.getToBus().getIdRef()))
-				return braRec;
-		}
-		return null;
-	}	
 	
 	/**
 	 * there might be multiple branch sections in the branchRec, this function gets the first for those

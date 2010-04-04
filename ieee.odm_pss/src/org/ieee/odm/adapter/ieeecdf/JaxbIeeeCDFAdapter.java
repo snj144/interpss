@@ -101,9 +101,9 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 							|| str.startsWith("-9")) {
 						dataType = 0;
 					} else if (dataType == BusData) {
-						processBusData(str, parser.createBusRecord());
+						processBusData(str, parser);
 					} else if (dataType == BranchData) {
-						processBranchData(str, parser.createBranchRecord(), parser);
+						processBranchData(str, parser);
 					} else if (dataType == LossZone) {
 						processLossZoneData(str, parser.createNetworkLossZone());
 					} else if (dataType == InterchangeData) {
@@ -152,7 +152,7 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 	 *   ============ 
 	 */
 
-	private void processNetData(final String str,
+	private void processNetData(final String str, 
 			final PSSNetworkXmlType baseCaseNet) {
 		// parse the input data line
 		final String[] strAry = getNetDataFields(str);
@@ -202,15 +202,20 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 	 *   ======== 
 	 */
 
-	private  void processBusData(final String str,
-			final BusRecordXmlType busRec) {
+	private  void processBusData(final String str, JaxbODMModelParser parser) {
 		// parse the input data line
 		final String[] strAry = getBusDataFields(str);
 
 		//Columns  1- 4   Bus number [I] *
 		final String busId = JaxbODMModelParser.BusIdPreFix + strAry[0];
 		getLogger().fine("Bus data loaded, id: " + busId);
-		busRec.setId(busId);
+		BusRecordXmlType busRec = null;
+		try {
+			busRec = parser.createBusRecord(busId);
+		} catch (Exception e) {
+			this.logErr(e.toString());
+			return;
+		}
 
 		//Columns  6-17   Name [A] (left justify) *
 		final String busName = strAry[1];
@@ -317,10 +322,7 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 	 *   =========== 
 	 */
 
-	private void processBranchData(final String str,
-			final BranchRecordXmlType branchRec, JaxbODMModelParser parser) {
-		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
-		
+	private void processBranchData(final String str, JaxbODMModelParser parser) {
 		// parse the input data line
 		final String[] strAry = getBranchDataFields(str);
 
@@ -328,8 +330,21 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 		//      	For transformers or phase shifters, the side of the model the non-unity tap is on.
 		//		Columns  6- 9   Z bus number [I] *
 		//      	For transformers and phase shifters, the side of the model the device impedance is on.
+		//    	Columns 11-12   Load flow area [I]
+		//    	Columns 13-15   Loss zone [I]
+		//    	Column  17      Circuit [I] * (Use 1 for single lines)
 		final String fid = JaxbODMModelParser.BusIdPreFix + strAry[0];
 		final String tid = JaxbODMModelParser.BusIdPreFix + strAry[1];
+		final String areaNo = strAry[2];
+		final String zoneNo = strAry[3];
+		final String cirId = strAry[4];
+		BranchRecordXmlType branchRec = null;
+		try {
+			branchRec = parser.createBranchRecord(ModelStringUtil.formBranchId(fid, tid, cirId));
+		} catch (Exception e) {
+			this.logErr("branch data error, " + e.toString());
+		}
+		
 		getLogger().fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		try {
 			branchRec.setFromBus(parser.createBusRecRef(fid));
@@ -338,12 +353,6 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 			this.logErr("branch is not connected properly, " + e.toString());
 		}
 
-		//    	Columns 11-12   Load flow area [I]
-		//    	Columns 13-15   Loss zone [I]
-		//    	Column  17      Circuit [I] * (Use 1 for single lines)
-		final String areaNo = strAry[2];
-		final String zoneNo = strAry[3];
-		final String cirId = strAry[4];
 		branchRec.setAreaNumber(new Integer(areaNo).intValue());
 		branchRec.setZoneNumber(new Integer(zoneNo).intValue());
 		branchRec.setCircuitId(cirId);
@@ -384,8 +393,8 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 						rpu, xpu, ZUnitType.PU, ratio, 1.0, 
 						0.0, bpu, 0.0, 0.0, YUnitType.PU,
 						this.factory);
-				BusRecordXmlType fromBusRec = JaxbParserHelper.findBusRecord(fid, baseCaseNet);
-				BusRecordXmlType toBusRec = JaxbParserHelper.findBusRecord(tid, baseCaseNet);
+				BusRecordXmlType fromBusRec = parser.getBusRecord(fid);
+				BusRecordXmlType toBusRec = parser.getBusRecord(tid);
 				if (fromBusRec != null && toBusRec != null) {
 					JaxbDataSetter.setXfrRatingData(branchData,
 							fromBusRec.getBaseVoltage().getValue(), 
@@ -401,8 +410,8 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 						ratio, 1.0, angle, 0.0, AngleUnitType.DEG,
 						0.0, bpu, 0.0, 0.0, YUnitType.PU,
 						this.factory);
-				BusRecordXmlType fromBusRec = JaxbParserHelper.findBusRecord(fid, baseCaseNet);
-				BusRecordXmlType toBusRec = JaxbParserHelper.findBusRecord(tid, baseCaseNet);
+				BusRecordXmlType fromBusRec = parser.getBusRecord(fid);
+				BusRecordXmlType toBusRec = parser.getBusRecord(tid);
 				if (fromBusRec != null && toBusRec != null) {
 					JaxbDataSetter.setXfrRatingData(branchData,
 							fromBusRec.getBaseVoltage().getValue(), 
