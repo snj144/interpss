@@ -40,7 +40,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
-import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.junit.Test;
 
 public class PSSEV30_NEISO_ODMTest { 
@@ -55,7 +55,7 @@ public class PSSEV30_NEISO_ODMTest {
 		assertTrue(adapter.parseInputFile("testData/psse/Model_testV30.raw"));
 		//System.out.println(adapter.getModel());
 		
-		ODMModelParser parser = adapter.getModel();
+		XBeanODMModelParser parser = (XBeanODMModelParser)adapter.getModel();
 		PSSNetworkXmlType net = parser.getBaseCase();
 		assertTrue(net.getBasePower().getValue() == 100.0);
 		/*

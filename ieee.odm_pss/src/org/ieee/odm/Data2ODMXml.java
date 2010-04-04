@@ -38,6 +38,7 @@ import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.bpa.BPAAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class Data2ODMXml {
 	private final static String InOptStr 	= "-in";
@@ -106,7 +107,7 @@ public class Data2ODMXml {
 			}
 			logger.info("File parsing time(ms): " + (new Date().getTime() - date.getTime()));
 			// convert the model to a XML document string
-			xmlStr = adapter.getModel().toXmlDoc(true);			
+			xmlStr = ((XBeanODMModelParser)adapter.getModel()).toXmlDoc(true);			
 			
 			// output the XML document to the output file 
 			OutputStream out = new BufferedOutputStream(new FileOutputStream(outFile));

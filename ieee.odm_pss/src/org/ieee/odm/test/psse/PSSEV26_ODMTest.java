@@ -39,8 +39,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.psse.v26.PSSEV26Adapter;
-import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.junit.Test;
 
 public class PSSEV26_ODMTest { 
@@ -55,7 +55,7 @@ public class PSSEV26_ODMTest {
 		assertTrue(adapter.parseInputFile("testData/psse/LFModel_testV26.raw"));
 		//System.out.println(adapter.getModel());
 		
-		ODMModelParser parser = adapter.getModel();
+		XBeanODMModelParser parser = (XBeanODMModelParser)adapter.getModel();
 		PSSNetworkXmlType net = parser.getBaseCase();
 		assertTrue(net.getBasePower().getValue() == 100.0);
 		/*
@@ -179,8 +179,8 @@ public class PSSEV26_ODMTest {
         </loadflowData>
       </branch>
 		 */
-		BranchRecordXmlType branch = ParserHelper.findBranchRecord("Bus31212", "Bus31210", "_1", net);
-		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(branch);
+		BranchRecordXmlType branch = XBeanParserHelper.findBranchRecord("Bus31212", "Bus31210", "_1", net);
+		LoadflowBranchDataXmlType branchData = XBeanParserHelper.getDefaultBranchData(branch);
 		
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.LINE);
 		assertTrue(branchData.getZ().getRe() == 0.00392);
@@ -205,8 +205,8 @@ public class PSSEV26_ODMTest {
         </loadflowData>
       </branch>
 		 */
-		branch = ParserHelper.findBranchRecord("Bus31212", "Bus31435", "_1", net);
-		branchData = ParserHelper.getDefaultBranchData(branch);
+		branch = XBeanParserHelper.findBranchRecord("Bus31212", "Bus31435", "_1", net);
+		branchData = XBeanParserHelper.getDefaultBranchData(branch);
 
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER);
 		assertTrue(branchData.getZ().getRe() == 0.0);

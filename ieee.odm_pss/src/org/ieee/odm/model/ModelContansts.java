@@ -1,6 +1,7 @@
 package org.ieee.odm.model;
 
 public class ModelContansts {
+	public static final String ODM_Schema_NS = "org.ieee.odm.schema";
 	public static final String ODM_Schema_Version = "0.6";
 
 	public static final double Deg2Rad = Math.PI / 180.0;

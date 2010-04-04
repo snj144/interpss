@@ -22,7 +22,7 @@
  *
  */
 
-package org.ieee.odm.model;
+package org.ieee.odm.model.xbean;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterDataListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
@@ -39,7 +39,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorDataListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZeroSequenceDataListXmlType;
 
-public class TranStabSimuHelper {
+public class XBeanTranStabSimuHelper {
 	public static TransientSimulationXmlType getTransientSimlation(ScenarioXmlType scenario){
 		if(scenario.getTransientSimlation()==null){
 			TransientSimulationXmlType tranSimu=scenario.addNewTransientSimlation();

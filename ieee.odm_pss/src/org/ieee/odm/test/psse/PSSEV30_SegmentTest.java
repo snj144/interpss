@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.junit.Test;
 
 public class PSSEV30_SegmentTest { 
@@ -47,7 +48,7 @@ public class PSSEV30_SegmentTest {
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE30_SegTest.raw"));
 		//System.out.println(adapter.getModel());
 		
-		BranchRecordXmlType branch = adapter.getModel().getBranchRecord("Bus36309", "Bus36703", "Bus36106", "1");
+		BranchRecordXmlType branch = ((XBeanODMModelParser)adapter.getModel()).getBranchRecord("Bus36309", "Bus36703", "Bus36106", "1");
 		assertTrue(branch.getLoadflowDataArray()[0].getZ().getRe() == 8.318333333333334E-4);
 		assertTrue(branch.getLoadflowDataArray()[0].getZ().getIm() == 0.06339454277227304);
 		assertTrue(branch.getLoadflowDataArray()[0].getFromTurnRatio().getValue() == 0.9804347826086957);

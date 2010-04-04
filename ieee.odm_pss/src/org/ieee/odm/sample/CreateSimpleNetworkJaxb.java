@@ -24,49 +24,25 @@
 
 package org.ieee.odm.sample;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
 
 import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.schema.BranchRecordXmlType;
-import org.ieee.odm.schema.BusRecordXmlType;
-import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.ObjectFactory;
-import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.schema.StudyCaseXmlType;
 
 public class CreateSimpleNetworkJaxb {
 	public static void main(String[] args) throws Exception {
-		ObjectFactory factory = new ObjectFactory();
-
 		JaxbODMModelParser parser = new JaxbODMModelParser();
-		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 
-		PSSNetworkXmlType.BusList busList = baseCaseNet.getBusList();
-		BusRecordXmlType bus1 = factory.createBusRecordXmlType();
-		busList.getBus().add(bus1);
-		bus1.setId("Bus-1");
-
-		BusRecordXmlType bus2 = factory.createBusRecordXmlType();
-		busList.getBus().add(bus2);
-		bus2.setId("Bus-2");
+		parser.createBusRecord("Bus-1");
+		parser.createBusRecord("Bus-2");
 		
-		PSSNetworkXmlType.BranchList branchList = baseCaseNet.getBranchList();
-		BranchRecordXmlType branch = factory.createBranchRecordXmlType();
-		branchList.getBranch().add(branch);
-		branch.setId("Bus-1_Bus-2");
-		BusRefRecordXmlType fromBus = factory.createBusRefRecordXmlType();
-		BusRefRecordXmlType toBus = factory.createBusRefRecordXmlType();
-		fromBus.setIdRef(bus1);
-		toBus.setIdRef(bus2);;
-		branch.setFromBus(fromBus);
-		branch.setToBus(toBus);
+		BranchRecordXmlType branch = parser.createBranchRecord("Bus-1_Bus-2");
+		branch.setFromBus(parser.createBusRecRef("Bus-1"));
+		branch.setToBus(parser.createBusRecRef("Bus-2"));
 		
 		JAXBElement<StudyCaseXmlType> element = (new ObjectFactory()).createPSSStudyCase(parser.getStudyCase());
-		JAXBContext jaxbContext	= JAXBContext.newInstance("org.ieee.odm.schema");
-		Marshaller marshaller = jaxbContext.createMarshaller();
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-		marshaller.marshal( element, System.out );
+		parser.createMarshaller().marshal( element, System.out );
 	}
 }

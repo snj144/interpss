@@ -34,7 +34,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
-import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.junit.Test;
 
 public class PSSEV30_GuideSampleTest { 
@@ -49,7 +49,7 @@ public class PSSEV30_GuideSampleTest {
 		assertTrue(adapter.parseInputFile("testdata/psse/PSSEV30_GuideSample.raw"));
 		
 		//System.out.println(adapter.getModel().toString());
-		ODMModelParser parser = adapter.getModel();
+		XBeanODMModelParser parser = (XBeanODMModelParser)adapter.getModel();
 		PSSNetworkXmlType net = parser.getBaseCase();		
 		/*
       <bus id="Bus151" number="151" areaNumber="1" name="NUCPANT     " offLine="false">

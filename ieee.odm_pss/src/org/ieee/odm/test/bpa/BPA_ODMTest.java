@@ -46,7 +46,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.bpa.BPAAdapter;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.junit.Test;
 
 public class BPA_ODMTest { 
@@ -73,7 +74,7 @@ public class BPA_ODMTest {
 		IODMPSSAdapter adapter = new BPAAdapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/bpa/IEEE9.dat"));
 		
-		PSSNetworkXmlType baseCaseNet = adapter.getModel().getBaseCase();
+		PSSNetworkXmlType baseCaseNet = ((XBeanODMModelParser)adapter.getModel()).getBaseCase();
 		assertTrue(baseCaseNet.getBusList().getBusArray().length == 9);
 		assertTrue(baseCaseNet.getBranchList().getBranchArray().length == 9);
 
@@ -86,7 +87,7 @@ public class BPA_ODMTest {
 		// there is only one zone in the area:01.
 		
 		String area_1="NF";
-		NetAreaXmlType area= ParserHelper.getAreaRecordByAreaName(area_1, baseCaseNet);
+		NetAreaXmlType area= XBeanParserHelper.getAreaRecordByAreaName(area_1, baseCaseNet);
 		//System.out.println(area.getName());
 		assertTrue(area.getName().equals("NF"));
 		assertTrue(area.getNumber()==1);
@@ -94,7 +95,7 @@ public class BPA_ODMTest {
 		//System.out.println(area.getRatedVoltage().getValue());
 		assertTrue(area.getRatedVoltage().getValue() == 16.0);
 		assertTrue(area.getRatedVoltage().getUnit() == VoltageUnitType.KV);
-		NetZoneXmlType zone= ParserHelper.getZoneRecord("01", area);
+		NetZoneXmlType zone= XBeanParserHelper.getZoneRecord("01", area);
 		assertTrue(zone.getName().equals("01"));
 		assertTrue(zone.getNumber() == 10);
 		
@@ -104,7 +105,7 @@ public class BPA_ODMTest {
 		
 		// Bus 1 is a swing bus
 		// BS    Gen1    16.501                      999. 999.      1.01    		  
-		BusRecordXmlType busRec = ParserHelper.findBusRecord("Gen1", baseCaseNet);
+		BusRecordXmlType busRec = XBeanParserHelper.findBusRecord("Gen1", baseCaseNet);
 		//System.out.println(busRec);
 		assertTrue(busRec.getBaseVoltage().getValue() == 16.5);
 		assertTrue(busRec.getLoadflowData().getVoltage().getValue() == 1.01);
@@ -115,7 +116,7 @@ public class BPA_ODMTest {
 
 		// Gen2 is a PV bus with load
 		// BE    Gen2    18.001                      163. 999       1.01     
-		busRec = ParserHelper.findBusRecord("Gen2", baseCaseNet);
+		busRec = XBeanParserHelper.findBusRecord("Gen2", baseCaseNet);
 		//System.out.println(busRec);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getPower().getRe() == 163.0);
@@ -131,7 +132,7 @@ public class BPA_ODMTest {
 
 		// BusA is a load bus, with a shunt of 20 mvar, which converted to pu system would be equal to 0.0004;
 		//B     BusA    230.01 125. 70.0     20.      
-		busRec = ParserHelper.findBusRecord("BusA", baseCaseNet);
+		busRec = XBeanParserHelper.findBusRecord("BusA", baseCaseNet);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getRe() == 125.0);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getIm() == 70);
@@ -143,7 +144,7 @@ public class BPA_ODMTest {
 		
 		// Bus3 is non-gen and non-load bus
 		// B     Bus3    230.01
-		busRec = ParserHelper.findBusRecord("Bus3", baseCaseNet);
+		busRec = XBeanParserHelper.findBusRecord("Bus3", baseCaseNet);
 		//assertTrue(busRec.getLoadflowData().getGenData() == null);
 		assertTrue(busRec.getLoadflowData() == null);
 		//assertTrue(busRec.getLoadflowData().getShuntY() == null);
@@ -153,8 +154,8 @@ public class BPA_ODMTest {
 		
 		// Branch Bus1->BusA is a LIne
 		//    L     Bus1    230. BusA    230.       .0100 .0850        .0440
-		BranchRecordXmlType braRec = ParserHelper.findBranchRecord("Bus1", "BusA", "1", baseCaseNet);
-		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(braRec);
+		BranchRecordXmlType braRec = XBeanParserHelper.findBranchRecord("Bus1", "BusA", "1", baseCaseNet);
+		LoadflowBranchDataXmlType branchData = XBeanParserHelper.getDefaultBranchData(braRec);
 		
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.LINE); 
 		assertTrue(branchData.getZ().getRe() == 0.01); 
@@ -166,8 +167,8 @@ public class BPA_ODMTest {
 		
 		// Branch Gen1->Bus1 is a Xfr
 		// T     Gen1    16.5 Bus1    230.             .0567             16.5 242.
-		braRec = ParserHelper.findBranchRecord("Gen1", "Bus1", "1", baseCaseNet);
-		branchData = ParserHelper.getDefaultBranchData(braRec);
+		braRec = XBeanParserHelper.findBranchRecord("Gen1", "Bus1", "1", baseCaseNet);
+		branchData = XBeanParserHelper.getDefaultBranchData(braRec);
 		
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER); 
 		assertTrue(branchData.getZ().getRe() == 0.0); 

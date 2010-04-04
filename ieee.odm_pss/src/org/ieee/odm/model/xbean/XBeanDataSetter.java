@@ -22,7 +22,7 @@
   *
   */
 
-package org.ieee.odm.model;
+package org.ieee.odm.model.xbean;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerLimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
@@ -65,7 +65,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseRecordXmlType.OwnerList.Owner;
 
-public class DataSetter {
+public class XBeanDataSetter {
 	/**
 	 * Set apparent power, unit = kva
 	 * 
