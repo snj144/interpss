@@ -18,7 +18,6 @@
 					<element name="loadflowData" type="pss:LoadflowBusDataXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="sequenceData" type="pss:SequenceBusDataXmlType" minOccurs="0"></element>
 					<element name="dynamicData" type="pss:DynamicBusDataXmlType" minOccurs="0"></element>
-
 					<element name="svcData" minOccurs="0">
 						<complexType>
 							<sequence>
@@ -71,8 +70,7 @@
 						<element name="contributeGenList" minOccurs="0">
 							<complexType>
 								<sequence>
-									<element name="contributeGen" minOccurs="0" maxOccurs="unbounded" type="pss:LoadflowGenDataXmlType">
-									</element>
+									<element name="contributeGen" minOccurs="0" maxOccurs="unbounded" type="pss:LoadflowGenDataXmlType"></element>
 								</sequence>
 							</complexType>
 						</element>
@@ -82,13 +80,11 @@
 			<element name="loadData" minOccurs="0" maxOccurs="1">
 				<complexType>
 					<sequence>
-						<element name="equivLoad" minOccurs="0" maxOccurs="1" type="pss:LoadflowLoadDataXmlType">
-						</element>
+						<element name="equivLoad" minOccurs="0" maxOccurs="1" type="pss:LoadflowLoadDataXmlType"></element>
 						<element name="contributeLoadList" minOccurs="0">
 							<complexType>
 								<sequence>
-									<element name="contributeLoad" minOccurs="0" maxOccurs="unbounded" type="pss:LoadflowLoadDataXmlType">
-									</element>
+									<element name="contributeLoad" minOccurs="0" maxOccurs="unbounded" type="pss:LoadflowLoadDataXmlType"></element>
 								</sequence>
 							</complexType>
 						</element>
@@ -100,7 +96,6 @@
 					<sequence>
 						<element name="equivQ" type="pss:ReactivePowerXmlType" minOccurs="0"></element>
 						<element name="shuntCompensatorList" minOccurs="0" maxOccurs="1">
-
                             <complexType>
                             	<sequence>
                             		<element name="shunCompensator" type="pss:ShuntCompensatorXmlType" maxOccurs="unbounded" minOccurs="0"></element>
@@ -154,18 +149,12 @@
 									<element name="ratedPower23" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
 									<element name="ratedPower31" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
 									<element name="branchRatingLimit23" minOccurs="0" maxOccurs="1" type="pss:BranchRatingLimitXmlType">
-
 									</element>
 									<element name="branchRatingLimit13" minOccurs="0" maxOccurs="1" type="pss:BranchRatingLimitXmlType">
-
 									</element>
 									<element name="lossFactor1" type="double" minOccurs="0"></element>
 									<element name="lossFactor2" type="double" minOccurs="0"></element>
 									<element name="lossFactor3" type="double" minOccurs="0"></element>
-
-
-
-
 								</sequence>
 							</complexType>
 						</element>
@@ -224,8 +213,6 @@
 		<sequence>
 			<element name="swingBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="alternateSwingBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
-
-
             <element name="desiredExchangePower" type="pss:ActivePowerXmlType" minOccurs="0"></element>
             <element name="exchangeErrTolerance" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></element>
             <element name="totalExchangePower" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></element>
@@ -246,7 +233,6 @@
 					</sequence>
 				</complexType>
 			</element>
-
 		</sequence>
 		<attribute name="id" type="string" use="optional"></attribute>
 		<attribute name="name" type="string" use="optional"></attribute>
@@ -260,7 +246,6 @@
 		<attribute name="id" type="string" use="optional"></attribute>
 		<attribute name="name" type="string" use="optional"></attribute>
 		<attribute name="number" type="int" use="optional"></attribute>
-
 	</complexType>
 
 	<simpleType name="AnalysisCategoryEnumType">
@@ -280,15 +265,10 @@
 
 	<complexType name="ConverterXmlType">
 		<sequence>
-
 			<element name="busId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-
 			<element name="numberofBridges" type="int" maxOccurs="1" minOccurs="1"></element>
 			<element name="minFiringAngle" type="pss:AngleXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="maxFiringAngle" type="pss:AngleXmlType" maxOccurs="1" minOccurs="1"></element>
-
-
-
             <element name="firingAngleMeasuringBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
             <element name="acSideRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="1"></element>
             <element name="commutatingZ" type="pss:ZXmlType" maxOccurs="1" minOccurs="1"></element>
@@ -297,13 +277,7 @@
             <element name="xformerTapSetting" type="pss:TapXmlType" maxOccurs="1" minOccurs="0"></element>
             <element name="xformerTapLimit" type="pss:TapLimitXmlType" maxOccurs="1" minOccurs="0"></element>
             <element name="xformerTapStepSize" type="double" maxOccurs="1" minOccurs="0"></element>
-
-
-
-
-
             <element name="dcSdieRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
-
 			<element name="refXfrFromBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="refXfrToBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="refXfrCirId" type="string" maxOccurs="1" minOccurs="0"></element>
@@ -382,8 +356,6 @@
                     <element name="lineG" type="pss:GXmlType" maxOccurs="1" minOccurs="0"></element>
 					<element name="currentDemand" maxOccurs="1" minOccurs="0" type="pss:CurrentXmlType"></element>
 					<element name="powerDemand" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></element>
-
-
                     <element name="controlOnRectifierSide" type="boolean" maxOccurs="1" minOccurs="0"></element>
                     <element name="scheduledDCVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
                     <element name="meterdEnd" maxOccurs="1" minOccurs="0">
@@ -397,9 +369,7 @@
                     <element name="modeSwitchDCVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
 					<element name="compoundingR" type="pss:RXmlType" maxOccurs="1" minOccurs="0"></element>
 					<element name="powerOrCurrentMarginPU" maxOccurs="1" minOccurs="0" type="double">
-
 					</element>
-
 					<element name="minDCVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
 					<element name="maxDCCurrent" type="pss:CurrentXmlType" maxOccurs="1" minOccurs="0"></element>
 					<element name="length" maxOccurs="1" minOccurs="0" type="pss:LengthXmlType"></element>
@@ -425,10 +395,8 @@
 					<element name="toShuntY" type="pss:YXmlType" minOccurs="0"></element>
 					<element name="fromTurnRatio" type="pss:TurnRatioXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="toTurnRatio" type="pss:TurnRatioXmlType" minOccurs="0" maxOccurs="1"></element>
-
 					<element name="fromAngle" type="pss:AngleXmlType" minOccurs="0"></element>
 					<element name="toAngle" type="pss:AngleXmlType" minOccurs="0"></element>
-
 					<element name="meterLocation" minOccurs="0">
 						<simpleType>
 							<restriction base="string">
@@ -441,7 +409,6 @@
 			</extension>
 		</complexContent>
 	</complexType>
-
 
 	<complexType name="DynamicBusDataXmlType">
 		<sequence>
@@ -564,7 +531,6 @@
 			</element>
 			<element name="generatorModel" type="pss:MachineModelSelectionXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="pContributionPercent" type="double" maxOccurs="1" minOccurs="0"></element>
-
 			<element name="qContributionPercent" type="double" minOccurs="0"></element>
 		</sequence>
 	</complexType>
@@ -681,12 +647,14 @@
 		</sequence>
 	</complexType>
 
-	<simpleType name="NewSimpleType">
-		<restriction base="string"></restriction>
-	</simpleType>
-
-	<simpleType name="NewSimpleType1">
-		<restriction base="string"></restriction>
+	<simpleType name="TapAdjustBusLocationEnumType">
+												<restriction base="string">
+													<enumeration value="TerminalBus"></enumeration>
+													<enumeration value="NearFromBus"></enumeration>
+													<enumeration value="NearToBus"></enumeration>
+													<enumeration value="FromBus"></enumeration>
+													<enumeration value="ToBus"></enumeration>
+												</restriction>
 	</simpleType>
 
 	<complexType name="PowerInterchangeXmlType">
@@ -715,7 +683,6 @@
 						<element name="incrementB" type="pss:ReactivePowerXmlType" minOccurs="1"></element>
 					</sequence>
 					<attribute name="steps" type="int" use="required"></attribute>
-
 				</complexType>
 			</element>
 			<element name="vscDcLine" type="string" minOccurs="0"></element>
@@ -766,15 +733,17 @@
 			</extension>
 		</complexContent>
 	</complexType>
-	<complexType name="TapAdjustmentXmlType">
-		<sequence>
-			<element name="adjustmentType" minOccurs="1">
-				<simpleType>
+				
+				<simpleType name = "TapAdjustmentEnumType">
 					<restriction base="string">
 						<enumeration value="Voltage"></enumeration>
 						<enumeration value="MVarFlow"></enumeration>
 					</restriction>
 				</simpleType>
+					
+	<complexType name="TapAdjustmentXmlType">
+		<sequence>
+			<element name="adjustmentType" minOccurs="1" type="pss:TapAdjustmentEnumType">
 			</element>
 			<element name="tapLimit" type="pss:TapLimitXmlType" minOccurs="1"></element>
 			<element name="tapAdjStepSize" type="double" minOccurs="0"></element>
@@ -787,27 +756,9 @@
 							<complexContent>
 								<extension base="pss:AdjustmentDataXmlType">
 									<sequence>
-										<element name="desiredVoltageUnit" minOccurs="1">
-											<simpleType>
-												<restriction base="string">
-													<enumeration value="PU"></enumeration>
-													<enumeration value="VOLT"></enumeration>
-													<enumeration value="KV"></enumeration>
-												</restriction>
-											</simpleType>
-										</element>
+										<element name="desiredVoltageUnit" minOccurs="1" type="pss:VoltageUnitType"></element>
 										<element name="adjVoltageBus" type="pss:IDRefRecordXmlType" minOccurs="1"></element>
-										<element name="adjBusLocation" minOccurs="1">
-											<simpleType>
-												<restriction base="string">
-													<enumeration value="TerminalBus"></enumeration>
-													<enumeration value="NearFromBus"></enumeration>
-													<enumeration value="NearToBus"></enumeration>
-													<enumeration value="FromBus"></enumeration>
-													<enumeration value="ToBus"></enumeration>
-												</restriction>
-											</simpleType>
-										</element>
+										<element name="adjBusLocation" minOccurs="1" type="pss:TapAdjustBusLocationEnumType"></element>
 									</sequence>
 								</extension>
 							</complexContent>
@@ -818,14 +769,7 @@
 							<complexContent>
 								<extension base="pss:AdjustmentDataXmlType">
 									<sequence>
-										<element name="desiredMvarFlowUnit" minOccurs="1">
-											<simpleType>
-												<restriction base="string">
-													<enumeration value="PU"></enumeration>
-													<enumeration value="KVAR"></enumeration>
-													<enumeration value="MVAR"></enumeration>
-												</restriction>
-											</simpleType>
+										<element name="desiredMvarFlowUnit" minOccurs="1" type="pss:ReactivePowerUnitType">
 										</element>
 										<element name="mvarMeasuredOnFormSide" type="boolean" minOccurs="1"></element>
 									</sequence>
@@ -844,14 +788,7 @@
 				<sequence>
 					<element name="angleLimit" type="pss:AngleLimitXmlType" minOccurs="1"></element>
 					<element name="angleAdjOnFromSide" type="boolean" minOccurs="1"></element>
-					<element name="desiredPowerUnit" minOccurs="1">
-						<simpleType>
-							<restriction base="string">
-								<enumeration value="PU"></enumeration>
-								<enumeration value="KW"></enumeration>
-								<enumeration value="MW"></enumeration>
-							</restriction>
-						</simpleType>
+					<element name="desiredPowerUnit" minOccurs="1" type="pss:ActivePowerUnitType">
 					</element>
 					<element name="desiredMeasuredOnFromSide" type="boolean" minOccurs="1"></element>
 				</sequence>
