@@ -41,7 +41,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.junit.Test;
 
 public class GE_ODMTest { 
@@ -57,7 +58,7 @@ public class GE_ODMTest {
 		
 		//System.out.println(adapter.getModel().toString());
 		
-		PSSNetworkXmlType baseCaseNet = adapter.getModel().getBaseCase();
+		PSSNetworkXmlType baseCaseNet = ((XBeanODMModelParser)adapter.getModel()).getBaseCase();
 		assertTrue(baseCaseNet.getBusList().getBusArray().length == 18);
 		assertTrue(baseCaseNet.getBranchList().getBranchArray().length == 24);
 
@@ -70,7 +71,7 @@ public class GE_ODMTest {
 		load data  [   7]           id   long_id_     st      mw      mvar    mw_i    mvar_i  mw_z      mvar_z ar zone  date_in date_out pid N own
 		       2 "NORTH-02" 230.00 "1 " "        "  :  1    0.000    0.000    0.000    0.000  334.932    0.000  1    1   400101   391231   0 0   0
 		*/
-		BusRecordXmlType busRec = ParserHelper.findBusRecord("Bus2", baseCaseNet);
+		BusRecordXmlType busRec = XBeanParserHelper.findBusRecord("Bus2", baseCaseNet);
 		//System.out.println(busRec);
 		assertTrue(busRec.getBaseVoltage().getValue() == 230.0);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.NONE_GEN);
@@ -88,7 +89,7 @@ public class GE_ODMTest {
     		101 "NORTH-G1"  16.00 "h1" "        " :  1     101 "NORTH-G1"  16.00  1.00 0.50  1    1  523.44  550.0   0.0  110.8  999.0 -999.0  750.00 0.000 0.872 0.000 0.200  -1      "       " 0.0   -1      "       " 0.0    400101   391231   0 0 /
  		0.0000 0.0000 0.0000   0 0.000   0 0.000   0 0.000   0 0.000   0 0.000   0 0.000   0 0.000   0 0.000
 		*/
-		busRec = ParserHelper.findBusRecord("Bus101", baseCaseNet);
+		busRec = XBeanParserHelper.findBusRecord("Bus101", baseCaseNet);
 		//System.out.println(busRec);
 		assertTrue(busRec.getBaseVoltage().getValue() == 16.0);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.SWING);
@@ -97,7 +98,7 @@ public class GE_ODMTest {
 		assertTrue(busRec.getLoadflowData().getLoadData() == null);
 		assertTrue(busRec.getLoadflowData().getShuntY() == null);
 
-		busRec = ParserHelper.findBusRecord("Bus231", baseCaseNet);
+		busRec = XBeanParserHelper.findBusRecord("Bus231", baseCaseNet);
 		//System.out.println(busRec);
 		assertTrue(busRec.getBaseVoltage().getValue() == 16.0);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
@@ -119,8 +120,8 @@ public class GE_ODMTest {
       		  1 "NORTH-01" 230.00       2 "NORTH-02" 230.00 "1 "  1 "        " :  1 0.01000 0.05000  0.00000  600.0    0.0    0.0    0.0 0.000    1.0 /
  	 	 1    1 0.0000 0.000 0.000   400101   391231   0 0  0    0.0    0.0    0.0    0.0   0 0.000   0 0.000   0 0.000   0 0.000   0 0.000   0 0.000   0 0.000   0 0.000
 		 */
-		BranchRecordXmlType braRec = ParserHelper.findBranchRecord("Bus1", "Bus2", "1_", baseCaseNet);
-		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(braRec);
+		BranchRecordXmlType braRec = XBeanParserHelper.findBranchRecord("Bus1", "Bus2", "1_", baseCaseNet);
+		LoadflowBranchDataXmlType branchData = XBeanParserHelper.getDefaultBranchData(braRec);
 		
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.LINE); 
 		assertTrue(!branchData.getOffLine()); 
@@ -129,8 +130,8 @@ public class GE_ODMTest {
 		assertTrue(branchData.getZ().getUnit() == ZUnitType.PU); 
 		assertTrue(branchData.getBranchRatingLimit().getMva().getRating1() == 600.0); 
 
-		braRec = ParserHelper.findBranchRecord("Bus1", "Bus101", "1_", baseCaseNet);
-		branchData = ParserHelper.getDefaultBranchData(braRec);
+		braRec = XBeanParserHelper.findBranchRecord("Bus1", "Bus101", "1_", baseCaseNet);
+		branchData = XBeanParserHelper.getDefaultBranchData(braRec);
 		
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER); 
 		assertTrue(!branchData.getOffLine()); 

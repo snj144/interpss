@@ -43,7 +43,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.junit.Test;
 
 public class IEEECDF_ODMTest { 
@@ -57,7 +58,7 @@ public class IEEECDF_ODMTest {
 		IODMPSSAdapter adapter = new IeeeCDFAdapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/ieee_format/Ieee14Bus.ieee"));
 		
-		PSSNetworkXmlType baseCaseNet = adapter.getModel().getBaseCase();
+		PSSNetworkXmlType baseCaseNet = ((XBeanODMModelParser)adapter.getModel()).getBaseCase();
 		assertTrue(baseCaseNet.getBusList().getBusArray().length == 14);
 		assertTrue(baseCaseNet.getBranchList().getBranchArray().length == 20);
 
@@ -69,7 +70,7 @@ public class IEEECDF_ODMTest {
 		
 		// Bus 1 is a swing bus
 		//    1 Bus 1     HV  1  1  3 1.060    0.0      0.0      0.0    232.4   -16.9   132.0  1.060     0.0     0.0   0.0    0.0        0
-		BusRecordXmlType busRec = ParserHelper.findBusRecord("Bus1", baseCaseNet);
+		BusRecordXmlType busRec = XBeanParserHelper.findBusRecord("Bus1", baseCaseNet);
 		//System.out.println(busRec);
 		assertTrue(busRec.getBaseVoltage().getValue() == 132.0);
 		assertTrue(busRec.getLoadflowData().getVoltage().getValue() == 1.060);
@@ -80,7 +81,7 @@ public class IEEECDF_ODMTest {
 
 		// Bus 2 is a PV bus with load
 		//   2 Bus 2     HV  1  1  2 1.045  -4.98     21.7     12.7     40.0    42.4   132.0  1.045    50.0   -40.0   0.0    0.0        0
-		busRec = ParserHelper.findBusRecord("Bus2", baseCaseNet);
+		busRec = XBeanParserHelper.findBusRecord("Bus2", baseCaseNet);
 		//System.out.println(busRec);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getPower().getRe() == 40.0);
@@ -96,7 +97,7 @@ public class IEEECDF_ODMTest {
 
 		// Bus 9 is a load bus, also there is a capacitor of 0.19 pu
 		//    9 Bus 9     LV  1  1  0 1.056 -14.94     29.5     16.6      0.0     0.0    35.0  0.0       0.0     0.0   0.0    0.19       0
-		busRec = ParserHelper.findBusRecord("Bus9", baseCaseNet);
+		busRec = XBeanParserHelper.findBusRecord("Bus9", baseCaseNet);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getRe() == 29.5);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getIm() == 16.6);
@@ -108,7 +109,7 @@ public class IEEECDF_ODMTest {
 		
 		// Bus 7 is non-gen and non-load bus
 		//    7 Bus 7     ZV  1  1  0 1.062 -13.37      0.0      0.0      0.0     0.0    35.0  0.0       0.0     0.0   0.0    0.0        0
-		busRec = ParserHelper.findBusRecord("Bus7", baseCaseNet);
+		busRec = XBeanParserHelper.findBusRecord("Bus7", baseCaseNet);
 		//assertTrue(busRec.getLoadflowData().getGenData() == null);
 		assertTrue(busRec.getLoadflowData().getLoadData() == null);
 		assertTrue(busRec.getLoadflowData().getShuntY() == null);
@@ -118,8 +119,8 @@ public class IEEECDF_ODMTest {
 		
 		// Branch 1->2 is a LIne
 		//    1    2  1  1 1 0  0.01938   0.05917     0.0528     0     0     0    0 0  0.0       0.0 0.0    0.0     0.0    0.0   0.0
-		BranchRecordXmlType braRec = ParserHelper.findBranchRecord("Bus1", "Bus2", "1", baseCaseNet);
-		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(braRec);
+		BranchRecordXmlType braRec = XBeanParserHelper.findBranchRecord("Bus1", "Bus2", "1", baseCaseNet);
+		LoadflowBranchDataXmlType branchData = XBeanParserHelper.getDefaultBranchData(braRec);
 		
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.LINE); 
 		assertTrue(branchData.getZ().getRe() == 0.01938); 
@@ -131,8 +132,8 @@ public class IEEECDF_ODMTest {
 		
 		// Branch 4->7 is a Xfr
 		//   4    7  1  1 1 1  0.0       0.20912     0.0        0     0     0    0 0  0.978     0.0 0.0    0.0     0.0    0.0   0.0
-		braRec = ParserHelper.findBranchRecord("Bus4", "Bus7", "1", baseCaseNet);
-		branchData = ParserHelper.getDefaultBranchData(braRec);
+		braRec = XBeanParserHelper.findBranchRecord("Bus4", "Bus7", "1", baseCaseNet);
+		branchData = XBeanParserHelper.getDefaultBranchData(braRec);
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER); 
 		assertTrue(branchData.getZ().getRe() == 0.0); 
 		assertTrue(branchData.getZ().getIm() == 0.20912); 

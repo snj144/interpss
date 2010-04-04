@@ -22,7 +22,7 @@
   *
   */
 
-package org.ieee.odm.model;
+package org.ieee.odm.model.xbean;
 
 import java.util.logging.Logger;
 
@@ -61,14 +61,14 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 
-public class ParserHelper {
+public class XBeanParserHelper {
 	/**
 	 * Set BaseCase to Loadflow and Transmission 
 	 * 
 	 * @param parser
 	 * @param originalFormat
 	 */
-	public static void setLFTransInfo(ODMModelParser parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.Enum originalFormat) {
+	public static void setLFTransInfo(XBeanODMModelParser parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.Enum originalFormat) {
 		StudyCaseXmlType.ContentInfo info = parser.getStudyCase().addNewContentInfo();
 		info.setOriginalDataFormat(originalFormat);
 		info.setAdapterProviderName("www.interpss.org");
@@ -140,15 +140,15 @@ public class ParserHelper {
 					else {	
 						if (equivGen.getPower() == null)
 							equivGen.addNewPower();
-						DataSetter.setPowerData(equivGen.getPower(), pgen, qgen, ApparentPowerUnitType.MVA);
+						XBeanDataSetter.setPowerData(equivGen.getPower(), pgen, qgen, ApparentPowerUnitType.MVA);
 						if (pmax != 0.0 || pmin != 0.0)
-							DataSetter.setActivePowerLimitData(equivGen.addNewPLimit(), pmax, pmin, ActivePowerUnitType.MW);
+							XBeanDataSetter.setActivePowerLimitData(equivGen.addNewPLimit(), pmax, pmin, ActivePowerUnitType.MW);
 						if (qmax != 0.0 || qmin != 0.0)
-							DataSetter.setReactivePowerLimitData(equivGen.addNewQLimit(), qmax, qmin, ReactivePowerUnitType.MVAR);
+							XBeanDataSetter.setReactivePowerLimitData(equivGen.addNewQLimit(), qmax, qmin, ReactivePowerUnitType.MVAR);
 						if (vSpec != 0.0) {
 							if (equivGen.getDesiredVoltage() == null)
 								equivGen.addNewDesiredVoltage();
-							DataSetter.setVoltageData(equivGen.getDesiredVoltage(), vSpec, vSpecUnit);
+							XBeanDataSetter.setVoltageData(equivGen.getDesiredVoltage(), vSpec, vSpecUnit);
 						}
 					}
 					
@@ -193,21 +193,21 @@ public class ParserHelper {
 					
 					if ((cp_p != 0.0 || cp_q != 0.0) && (ci_p==0.0 && ci_q ==0.0 && cz_p==0.0 && cz_q ==0.0) ) {
 						equivLoad.setCode(LFLoadCodeEnumType.CONST_P);
-			  			DataSetter.setPowerData(equivLoad.addNewConstPLoad(), cp_p, cp_q, ApparentPowerUnitType.MVA);
+			  			XBeanDataSetter.setPowerData(equivLoad.addNewConstPLoad(), cp_p, cp_q, ApparentPowerUnitType.MVA);
 			  		}
 					else if ((ci_p != 0.0 || ci_q != 0.0) && (cp_p==0.0 && cp_q ==0.0 && cz_p==0.0 && cz_q ==0.0) ) {
 						equivLoad.setCode(LFLoadCodeEnumType.CONST_I);
-			  			DataSetter.setPowerData(equivLoad.addNewConstILoad(), ci_p, ci_q, ApparentPowerUnitType.MVA);
+			  			XBeanDataSetter.setPowerData(equivLoad.addNewConstILoad(), ci_p, ci_q, ApparentPowerUnitType.MVA);
 			  		}
 					else if ((cz_p != 0.0 || cz_q != 0.0) && (ci_p==0.0 && ci_q ==0.0 && cp_p==0.0 && cp_q ==0.0) ) {
 						equivLoad.setCode(LFLoadCodeEnumType.CONST_Z);
-			  			DataSetter.setPowerData(equivLoad.addNewConstZLoad(), cz_p, cz_q, ApparentPowerUnitType.MVA);
+			  			XBeanDataSetter.setPowerData(equivLoad.addNewConstZLoad(), cz_p, cz_q, ApparentPowerUnitType.MVA);
 			  		}
 					else if ((cp_p != 0.0 || cp_q != 0.0 || ci_p!= 0.0 || ci_q != 0.0 || cz_p != 0.0 || cz_q !=0.0)) {
 						equivLoad.setCode(LFLoadCodeEnumType.FUNCTION_LOAD);
-			  			DataSetter.setPowerData(equivLoad.addNewConstPLoad(), cp_p, cp_q, ApparentPowerUnitType.MVA);
-			  			DataSetter.setPowerData(equivLoad.addNewConstILoad(), ci_p, ci_q, ApparentPowerUnitType.MVA);
-			  			DataSetter.setPowerData(equivLoad.addNewConstZLoad(), cz_p, cz_q, ApparentPowerUnitType.MVA);
+			  			XBeanDataSetter.setPowerData(equivLoad.addNewConstPLoad(), cp_p, cp_q, ApparentPowerUnitType.MVA);
+			  			XBeanDataSetter.setPowerData(equivLoad.addNewConstILoad(), ci_p, ci_q, ApparentPowerUnitType.MVA);
+			  			XBeanDataSetter.setPowerData(equivLoad.addNewConstZLoad(), cz_p, cz_q, ApparentPowerUnitType.MVA);
 					}
 					else {
 						loadData.getEquivLoad().setCode(LFLoadCodeEnumType.NONE_LOAD);
@@ -580,7 +580,7 @@ public class ParserHelper {
 	public static XmlOptions getXmlOpts() {
 		 XmlOptions opts = new XmlOptions();
 		 java.util.Map<String, String> prefixMap = new java.util.HashMap<String, String>();
-		 prefixMap.put(ODMModelParser.Token_nsPrefix, ODMModelParser.Token_nsUrl);
+		 prefixMap.put(XBeanODMModelParser.Token_nsPrefix, XBeanODMModelParser.Token_nsUrl);
 		 opts.setSaveImplicitNamespaces(prefixMap);
 		 return opts;
 	}

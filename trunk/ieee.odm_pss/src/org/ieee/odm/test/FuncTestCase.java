@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSStudyCaseDocument;
-import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.junit.Test;
 
 public class FuncTestCase {
@@ -82,7 +82,7 @@ public class FuncTestCase {
 	@Test
 	public void parseODM2_TestCase() throws Exception {
 		InputStream in = new BufferedInputStream(new FileInputStream("testdata/ieee_odm/Ieee14Bus_odm.xml"));
-		ODMModelParser parser = new ODMModelParser(in);
+		XBeanODMModelParser parser = new XBeanODMModelParser(in);
 		
 		assertTrue(parser.getBaseCase().getBasePower().getValue() == 100.0);
 	}

@@ -32,31 +32,35 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.Hashtable;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
+import org.apache.xmlbeans.XmlException;
 import org.ieee.odm.model.ModelContansts;
 import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
 import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
+import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.schema.TransientSimulationXmlType;
 
-public class JaxbODMModelParser {
-	// add "No" to the bus number to create Bus Id
-	public static final String BusIdPreFix = "Bus";
-	
-	public static final String Token_nsPrefix = "pss";
-	public static final String Token_nsUrl = "http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1";
-
+public class JaxbODMModelParser extends ODMModelParser {
 	// bus and branch object cache for fast lookup. 
 	private Hashtable<String,IDRecordXmlType> objectCache = null;
 
 	private StudyCaseXmlType pssStudyCase = null;
+	
+	private ObjectFactory factory = null;
 	
 	/**
 	 * Constructor using an Xml file
@@ -98,6 +102,7 @@ public class JaxbODMModelParser {
 	 * 
 	 */
 	public JaxbODMModelParser() {
+		this.factory = new ObjectFactory();		
 		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 		//this.doc = PSSStudyCaseDocument.Factory.newInstance();
 		this.getStudyCase().setId("ODM_StudyCase");
@@ -120,6 +125,7 @@ public class JaxbODMModelParser {
 		this.pssStudyCase = new StudyCaseXmlType();
 		this.pssStudyCase.setBaseCase(createBaseCase());
 	}
+	
 	/**
 	 * Get the baseCase element
 	 * 
@@ -155,6 +161,11 @@ public class JaxbODMModelParser {
 	}
 	
 	/**
+	 *  Bus/branch util functions
+	 *  =========================
+	 */
+	
+	/**
 	 * Get the cashed bus object by id
 	 * 
 	 * @param id
@@ -162,6 +173,55 @@ public class JaxbODMModelParser {
 	 */
 	public BusRecordXmlType getBusRecord(String id) {
 		return (BusRecordXmlType)this.getCachedObject(id);
+	}
+	
+	/**
+	 * add a new Bus record to the base case
+	 * 
+	 * @return
+	 */
+	public BusRecordXmlType createBusRecord() {
+		BusRecordXmlType busRec = this.factory.createBusRecordXmlType();
+		getStudyCase().getBaseCase().getBusList().getBus().add(busRec);
+		return busRec;
+	}	
+	
+	public BusRecordXmlType createBusRecord(String id) throws Exception {
+		BusRecordXmlType busRec = createBusRecord();
+		busRec.setId(id);
+		if (this.objectCache.get(id) != null) {
+			throw new Exception("Bus record duplication, bus id: " + id);
+		}
+		this.objectCache.put(id, busRec);
+		return busRec;
+	}	
+
+	/**
+	 * add a new bus record to the base case and to the cache table
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public BusRecordXmlType createBusRecord(String id, long number) throws Exception {
+		BusRecordXmlType busRec = createBusRecord(id);
+		busRec.setNumber(number);
+		return busRec;
+	}	
+
+	/**
+	 * create a bus reference record, referencing to the bus identified by refBusId
+	 * 
+	 * @param refBusId
+	 * @return
+	 * @throws Exception
+	 */
+	public BusRefRecordXmlType createBusRecRef(String refBusId) throws Exception {
+		BusRefRecordXmlType nonMeteredBusRef = this.factory.createBusRefRecordXmlType();
+		if (getBusRecord(refBusId) == null) {
+			throw new Exception("Bus record not found in the network, id " + refBusId);
+		}
+		nonMeteredBusRef.setIdRef(getBusRecord(refBusId));		
+		return nonMeteredBusRef;
 	}
 	
 	/**
@@ -174,16 +234,109 @@ public class JaxbODMModelParser {
 		return (BranchRecordXmlType)this.getCachedObject(branchId); 
 	}
 
+	/**
+	 * get the cashed branch record using fromId, toId and cirId
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param cirId
+	 * @return
+	 */
 	public BranchRecordXmlType getBranchRecord(String fromId, String toId, String cirId) {
 		String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
 		return (BranchRecordXmlType)this.getCachedObject(id);
 	}
 	
+	/**
+	 * get the cashed branch record for 3W transformer branch
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param tertId
+	 * @param cirId
+	 * @return
+	 */
 	public BranchRecordXmlType getBranchRecord(String fromId, String toId, String tertId, String cirId) {
 		String id = ModelStringUtil.formBranchId(fromId, toId, tertId, cirId);
 		return (BranchRecordXmlType)this.getCachedObject(id);
 	}
 
+	/**
+	 * add a new Branch record to the base case
+	 * 
+	 * @return
+	 */
+	public BranchRecordXmlType createBranchRecord() {
+		BranchRecordXmlType branchRec = new BranchRecordXmlType();
+		getStudyCase().getBaseCase().getBranchList().getBranch().add(branchRec);
+		return branchRec;
+	}
+	
+	/**
+	 * add a new branch record to the base case and to the cache table
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public BranchRecordXmlType createBranchRecord(String id) throws Exception {
+		BranchRecordXmlType branch = createBranchRecord();
+		if (this.objectCache.get(id) != null) {
+			throw new Exception("Branch record duplication, bus id: " + id);
+		}
+		this.objectCache.put(id, branch);
+		return branch;
+	}
+	
+	/**
+	 * Area, zone, tieline functions
+	 */
+	
+	/**
+	 * add a new area record to the base case
+	 * 
+	 * @return
+	 */
+	public PSSNetworkXmlType.AreaList getAreaList(){
+		if(getStudyCase().getBaseCase().getAreaList()==null){
+			getStudyCase().getBaseCase().setAreaList(this.factory.createPSSNetworkXmlTypeAreaList());
+		}
+		return getStudyCase().getBaseCase().getAreaList();
+	}
+	
+	/**
+	 * create an area object and added to the net.areaList
+	 * 
+	 * @return
+	 */
+	
+	public NetAreaXmlType createNetworkArea() {
+		NetAreaXmlType area = this.factory.createNetAreaXmlType();
+		getAreaList().getArea().add(area);
+		return area;
+	}
+	
+	/**
+	 * get the net.tieLineList 
+	 * 
+	 * @return
+	 */
+	public PSSNetworkXmlType.TieLineList getTielineList(){
+		if (getStudyCase().getBaseCase().getTieLineList() == null)
+			getStudyCase().getBaseCase().setTieLineList(this.factory.createPSSNetworkXmlTypeTieLineList());
+		return getStudyCase().getBaseCase().getTieLineList();
+	}
+	
+	/**
+	 * create a tieLine object
+	 * 
+	 * @return
+	 */
+	public PSSNetworkXmlType.TieLineList.Tieline createTieline() {
+		PSSNetworkXmlType.TieLineList.Tieline tieLine = this.factory.createPSSNetworkXmlTypeTieLineListTieline();
+		getTielineList().getTieline().add(tieLine);
+		return tieLine;
+	}
+	
 	/**
 	 * Get the cashed dcLine2T object by id
 	 * 
@@ -221,62 +374,6 @@ public class JaxbODMModelParser {
 	public TransientSimulationXmlType getDefaultTransSimu(){
 		return JaxbTranStabSimuHelper.getTransientSimlation(getDefaultScenario());
 	}
-	/**
-	 * add a new Bus record to the base case
-	 * 
-	 * @return
-	 */
-	public BusRecordXmlType addNewBaseCaseBus() {
-		BusRecordXmlType busRec = new BusRecordXmlType();
-		getStudyCase().getBaseCase().getBusList().getBus().add(busRec);
-		return busRec;
-	}	
-	
-	/**
-	 * add a new bus record to the base case and to the cache table
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public BusRecordXmlType addNewBaseCaseBus(String id, long number) throws Exception {
-		BusRecordXmlType bus = new BusRecordXmlType();
-		getStudyCase().getBaseCase().getBusList().getBus().add(bus);
-		bus.setId(id);
-		bus.setNumber(number);
-		if (this.objectCache.get(id) != null) {
-			throw new Exception("Bus record duplication, bus id: " + id);
-		}
-		this.objectCache.put(id, bus);
-		return bus;
-	}	
-
-	/**
-	 * add a new Branch record to the base case
-	 * 
-	 * @return
-	 */
-	public BranchRecordXmlType addNewBaseCaseBranch() {
-		BranchRecordXmlType branchRec = new BranchRecordXmlType();
-		getStudyCase().getBaseCase().getBranchList().getBranch().add(branchRec);
-		return branchRec;
-	}
-	
-	/**
-	 * add a new branch record to the base case and to the cache table
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public BranchRecordXmlType addNewBaseCaseBranch(String id) throws Exception {
-		BranchRecordXmlType branch = new BranchRecordXmlType();
-		getStudyCase().getBaseCase().getBranchList().getBranch().add(branch);
-		branch.setId(id);
-		if (this.objectCache.get(id) != null) {
-			throw new Exception("Branch record duplication, bus id: " + id);
-		}
-		this.objectCache.put(id, branch);
-		return branch;
-	}
 	
 	/**
 	 * add a new 2T DcLine record to the base case and to the cache table
@@ -312,53 +409,15 @@ public class JaxbODMModelParser {
 	}
 
 	/**
-	 * add a new area record to the base case
+	 * create a Jaxb marshaller
 	 * 
 	 * @return
+	 * @throws JAXBException
 	 */
-	public PSSNetworkXmlType.AreaList getAreaList(){
-		//if(getStudyCase().getBaseCase().getAreaList()==null){
-		//	getStudyCase().getBaseCase().addNewAreaList();
-		//}
-		return getStudyCase().getBaseCase().getAreaList();
-	}
-	
-	/**
-	 * create an area object and added to the net.areaList
-	 * 
-	 * @return
-	 */
-	
-	public NetAreaXmlType addNewBaseCaseArea() {
-		NetAreaXmlType area = new NetAreaXmlType();
-		getAreaList().getArea().add(area);
-		return area;
-	}
-	
-	/**
-	 * get the net.tieLineList 
-	 * 
-	 * @return
-	 */
-	public PSSNetworkXmlType.TieLineList getTielineList(){
-		return getStudyCase().getBaseCase().getTieLineList();
-	}
-	
-	/**
-	 * create a tieLine object
-	 * 
-	 * @return
-	 */
-	public PSSNetworkXmlType.TieLineList.Tieline addNewBaseCaseTieline() {
-		PSSNetworkXmlType.TieLineList.Tieline tieLine = new PSSNetworkXmlType.TieLineList.Tieline();
-		getTielineList().getTieline().add(tieLine);
-		return tieLine;
-	}
-	
-	/**
-	 * convert the document object to an XML string
-	 */
-	public String toString() {
-		 return this.pssStudyCase.toString(); 
+	public Marshaller createMarshaller() throws JAXBException {
+		JAXBContext jaxbContext	= JAXBContext.newInstance(ModelContansts.ODM_Schema_NS);
+		Marshaller marshaller = jaxbContext.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		return marshaller;
 	}
 }
