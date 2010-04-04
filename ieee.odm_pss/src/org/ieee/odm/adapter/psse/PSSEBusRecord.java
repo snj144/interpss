@@ -31,12 +31,12 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ShuntCompensatorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class PSSEBusRecord {
-	public static  void processSwitchedShuntData(final String str, PsseVersion version, final ODMModelParser parser, Logger logger) {
+	public static  void processSwitchedShuntData(final String str, PsseVersion version, final XBeanODMModelParser parser, Logger logger) {
 		/*
 		Format V26
 		I,    MODSW,VSWHI, VSWLO,  SWREM,   BINIT,    N1,      B1,   N2,        B2...N8,B8
@@ -69,7 +69,7 @@ public class PSSEBusRecord {
 		 */		
 		// parse the input data line
 	    final String[] strAry = getSwitchedShuntDataFields(str, version);
-		final String busId = ODMModelParser.BusIdPreFix+strAry[0];
+		final String busId = XBeanODMModelParser.BusIdPreFix+strAry[0];
 		// get the responding-bus data with busId
 		BusRecordXmlType busRec = parser.getBusRecord(busId);
 		if (busRec==null){
@@ -95,12 +95,12 @@ public class PSSEBusRecord {
 		//VSWLO - Desired voltage lower limit, per unit
 		final double vmax = ModelStringUtil.getDouble(strAry[2], 1.0);
 		final double vmin = ModelStringUtil.getDouble(strAry[3], 1.0);
-		DataSetter.setVoltageLimitData(shunt.addNewDesiredVoltageRange(), vmax, vmin, VoltageUnitType.PU);
+		XBeanDataSetter.setVoltageLimitData(shunt.addNewDesiredVoltageRange(), vmax, vmin, VoltageUnitType.PU);
 		
 		//SWREM - Number of remote bus to control. 0 to control own bus.
 		int busNo = ModelStringUtil.getInt(strAry[4], 0);
 		if (busNo != 0) {
-			shunt.addNewRemoteControlledBus().setIdRef(ODMModelParser.BusIdPreFix+strAry[4]);
+			shunt.addNewRemoteControlledBus().setIdRef(XBeanODMModelParser.BusIdPreFix+strAry[4]);
 		}
 
 		/* V30
@@ -131,7 +131,7 @@ public class PSSEBusRecord {
 		double equiQ = 0.0;
 		if (lfData.getShuntCompensatorData().getEquivQ() != null)
 			equiQ = lfData.getShuntCompensatorData().getEquivQ().getValue();
-		DataSetter.setReactivePower(lfData.getShuntCompensatorData().addNewEquivQ(), equiQ+binit, ReactivePowerUnitType.MVAR);
+		XBeanDataSetter.setReactivePower(lfData.getShuntCompensatorData().addNewEquivQ(), equiQ+binit, ReactivePowerUnitType.MVAR);
 		
 		//N1 - Number of steps for block 1, first 0 is end of blocks
 		//B1 - Admittance increment of block 1 in MVAR at 1.0 per unit volts. N2, B2, etc, as N1, B1
@@ -144,7 +144,7 @@ public class PSSEBusRecord {
 	  			double b = ModelStringUtil.getDouble(bStr, 0.0);
 	  			ShuntCompensatorXmlType.Block block = shunt.addNewBlock();
 	  			block.setSteps(n);
-	  			DataSetter.setReactivePower(block.addNewIncrementB(), b, ReactivePowerUnitType.MVAR);
+	  			XBeanDataSetter.setReactivePower(block.addNewIncrementB(), b, ReactivePowerUnitType.MVAR);
 	  		}
 		}
 	}

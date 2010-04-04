@@ -35,9 +35,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class PSSEV30GenDataRec {
 	private static int i, ireg, stat ;
@@ -55,7 +55,7 @@ public class PSSEV30GenDataRec {
 	 * some designated bus, not necessarily bus k.
 	 */
 
-	public static void procLineString(String lineStr, PsseVersion version, final ODMModelParser parser, Logger logger) {
+	public static void procLineString(String lineStr, PsseVersion version, final XBeanODMModelParser parser, Logger logger) {
 		procFields(lineStr, version, logger);
 
 /*
@@ -66,52 +66,52 @@ public class PSSEV30GenDataRec {
 		
 		STAT - Initial machine status of one for in-service and zero for out-of-service; STAT = 1 by default.
 */		
-	    final String busId = ODMModelParser.BusIdPreFix+i;
+	    final String busId = XBeanODMModelParser.BusIdPreFix+i;
 		BusRecordXmlType busRec = parser.getBusRecord(busId);
 	    if (busRec == null){
 	    	logger.severe("Bus "+ busId+ " not found in the network");
 	    	return;
 	    }
 	    
-	    LoadflowGenDataXmlType contriGen = ParserHelper.createContriGen(busRec);
+	    LoadflowGenDataXmlType contriGen = XBeanParserHelper.createContriGen(busRec);
 	    
 	    contriGen.setId(id);
 	    contriGen.setName("Gen:" + id + "(" + i + ")");
 	    contriGen.setDesc("PSSE Generator " + id + " at Bus " + i);
 	    contriGen.setOffLine(stat!=1);
 
-	    DataSetter.setPowerData(contriGen.addNewPower(), pg, qg, ApparentPowerUnitType.MVA);
+	    XBeanDataSetter.setPowerData(contriGen.addNewPower(), pg, qg, ApparentPowerUnitType.MVA);
 
-	    DataSetter.setVoltageData(contriGen.addNewDesiredVoltage(), vs, VoltageUnitType.PU);
+	    XBeanDataSetter.setVoltageData(contriGen.addNewDesiredVoltage(), vs, VoltageUnitType.PU);
 		
 		if (pt == 0.0 & pb == 0.0 || pt < pb ) {
 			pt = 9999.0; pb = -9999.0;
 		}
-		DataSetter.setActivePowerLimitData(contriGen.addNewPLimit(), pt, pb, ActivePowerUnitType.MW);
+		XBeanDataSetter.setActivePowerLimitData(contriGen.addNewPLimit(), pt, pb, ActivePowerUnitType.MW);
 		
 		if (qt == 0.0 & qb == 0.0 || qt < qb) {
 			qt = 9999.0; qb = -9999.0;
 		}
-		DataSetter.setReactivePowerLimitData(contriGen.addNewQLimit(), qt, qb, ReactivePowerUnitType.MVAR);
+		XBeanDataSetter.setReactivePowerLimitData(contriGen.addNewQLimit(), qt, qb, ReactivePowerUnitType.MVAR);
 		
 	    if (ireg > 0) {
-	    	final String reBusId = ODMModelParser.BusIdPreFix+ireg;
+	    	final String reBusId = XBeanODMModelParser.BusIdPreFix+ireg;
 	    	contriGen.addNewRemoteVoltageControlBus().setIdRef(reBusId);
 	    }
 	    
-		DataSetter.setPowerMva(contriGen.addNewRatedPower(), mbase);
+		XBeanDataSetter.setPowerMva(contriGen.addNewRatedPower(), mbase);
 
 		if ( zr != 0.0 || zx != 0.0 )
-			DataSetter.setZValue(contriGen.addNewSourceZ(), zr, zx, ZUnitType.PU);
+			XBeanDataSetter.setZValue(contriGen.addNewSourceZ(), zr, zx, ZUnitType.PU);
 
 		if ( rt != 0.0 || xt != 0.0 ) {
-			DataSetter.setZValue(contriGen.addNewXfrZ(), rt, xt, ZUnitType.PU);
+			XBeanDataSetter.setZValue(contriGen.addNewXfrZ(), rt, xt, ZUnitType.PU);
 			contriGen.setXfrTap(gtap);
 		}
 		
 		contriGen.setMvarVControlParticipateFactor(rmpct*0.01);
 
-		ParserHelper.addOwner(contriGen, 
+		XBeanParserHelper.addOwner(contriGen, 
 				new Integer(o1).toString(), f1, 
 				new Integer(o2).toString(), o2==0?0.0:f2, 
 				new Integer(o3).toString(), o3==0?0.0:f3, 

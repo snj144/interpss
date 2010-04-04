@@ -33,14 +33,14 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
 
 public class NetDataRec {
 	static public class TitleRec {
 		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 			NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
-			ParserHelper.addNVPair(nvList, "Title", lineStr);
+			XBeanParserHelper.addNVPair(nvList, "Title", lineStr);
 		}
 	}
 	
@@ -49,7 +49,7 @@ public class NetDataRec {
 
 		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 			NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
-			ParserHelper.addNVPair(nvList, "Comments", lineStr);
+			XBeanParserHelper.addNVPair(nvList, "Comments", lineStr);
 		}
 	}
 
@@ -103,7 +103,7 @@ public class NetDataRec {
 				toler = new Double(str).doubleValue();
 			else if (lineStr.startsWith("sbase")) {
 				double sbase = new Double(str).doubleValue();
-				DataSetter.setPowerMva(baseCaseNet.addNewBasePower(), sbase);
+				XBeanDataSetter.setPowerMva(baseCaseNet.addNewBasePower(), sbase);
 			}
 		}
 	}
@@ -148,9 +148,9 @@ public class NetDataRec {
 			area.setNumber(this.arnum);
 			area.setName(this.arnam);	
 			area.addNewSwingBusId().setIdRef(new Integer(this.swing).toString());
-			DataSetter.setPowerData(area.addNewTotalExchangePower(), this.pnet, this.qnet, ApparentPowerUnitType.MVA);
-			DataSetter.setActivePower(area.addNewDesiredExchangePower(), this.pnetdes, ActivePowerUnitType.MW);
-			DataSetter.setActivePower(area.addNewExchangeErrTolerance(), this.pnettol, ActivePowerUnitType.MW);
+			XBeanDataSetter.setPowerData(area.addNewTotalExchangePower(), this.pnet, this.qnet, ApparentPowerUnitType.MVA);
+			XBeanDataSetter.setActivePower(area.addNewDesiredExchangePower(), this.pnetdes, ActivePowerUnitType.MW);
+			XBeanDataSetter.setActivePower(area.addNewExchangeErrTolerance(), this.pnettol, ActivePowerUnitType.MW);
 		}
 	}
 
@@ -185,7 +185,7 @@ public class NetDataRec {
 			zone.setId(new Integer(this.zonum).toString());
 			zone.setNumber(this.zonum);
 			zone.setName(this.zonam);	
-			DataSetter.setPowerData(zone.addNewExchangePower(), this.pznet, this.qznet, ApparentPowerUnitType.MVA); 
+			XBeanDataSetter.setPowerData(zone.addNewExchangePower(), this.pznet, this.qznet, ApparentPowerUnitType.MVA); 
 		}
 	}
 

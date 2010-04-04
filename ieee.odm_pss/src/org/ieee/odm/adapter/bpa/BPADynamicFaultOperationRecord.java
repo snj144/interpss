@@ -38,9 +38,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
 
 public class BPADynamicFaultOperationRecord {
 	
@@ -97,12 +97,12 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
     		// bus fault
     		if(mode==1||mode==-1||mode==2||mode==-2){ 
     			FaultXmlType fault=
-					ParserHelper.getFaultRecord(tranSimu, FaultTypeEnumType.BUS_FAULT,
+					XBeanParserHelper.getFaultRecord(tranSimu, FaultTypeEnumType.BUS_FAULT,
 							bus1, bus2);
     			//FaultListXmlType.Fault.BusFault busFault=fault.addNewBusFault();
     			
     			BusFaultXmlType busFault=
-	    		 ParserHelper.getBusFaultRecord(tranSimu, bus1, bus2);
+	    		 XBeanParserHelper.getBusFaultRecord(tranSimu, bus1, bus2);
     			
     			fault.setFaultType(FaultTypeEnumType.BUS_FAULT);
 				busFault.setFaultCategory(FaultCategoryEnumType.FAULT_3_PHASE);
@@ -111,25 +111,25 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	    			
 	    			if(breaker1Opened==false&&breaker2Opened==false){	    				
 	    				
-	    				DataSetter.setTimePeriodData(busFault.addNewFaultStartTime(), 
+	    				XBeanDataSetter.setTimePeriodData(busFault.addNewFaultStartTime(), 
 	    						operationTime, TimePeriodUnitType.CYCLE);  
 	    				
 	        			busFault.addNewFaultedBus().setName(bus1);
-	        			DataSetter.setVoltageData(busFault.addNewFaultedBusRatedV(),
+	        			XBeanDataSetter.setVoltageData(busFault.addNewFaultedBusRatedV(),
 	        					bus1RatedV, VoltageUnitType.KV);
 	        			busFault.addNewRemoteEndBus().setName(bus2);
-	        			DataSetter.setVoltageData(busFault.addNewRemoteEndBusRatedV(),
+	        			XBeanDataSetter.setVoltageData(busFault.addNewRemoteEndBusRatedV(),
 	        					bus2RatedV, VoltageUnitType.KV);        			
 	        			
 	    			}else if(breaker1Opened==true&&breaker2Opened==false){	    				
 	    				if(busFault!=null){
-	    					DataSetter.setTimePeriodData(busFault.addNewFirstOperationTime(),
+	    					XBeanDataSetter.setTimePeriodData(busFault.addNewFirstOperationTime(),
 	        						operationTime, TimePeriodUnitType.CYCLE);
 	    					busFault.setPermanentFault(true);
 	            			if(mode==-1){
 	            				double duration= busFault.getFirstOperationTime().getValue()-
 	            				        busFault.getFaultStartTime().getValue();
-	            				DataSetter.setTimePeriodData(busFault.addNewFaultDurationTime(), 
+	            				XBeanDataSetter.setTimePeriodData(busFault.addNewFaultDurationTime(), 
 	            						duration, TimePeriodUnitType.CYCLE);
 	            				busFault.setPermanentFault(false);
 	            			} 
@@ -138,12 +138,12 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	    			}else if(breaker1Opened==true&&breaker2Opened==true){
 	    				if(busFault!=null){
 	    					busFault.setPermanentFault(true);
-	    					DataSetter.setTimePeriodData(busFault.addNewSecondOperationTime(),
+	    					XBeanDataSetter.setTimePeriodData(busFault.addNewSecondOperationTime(),
 	        						operationTime, TimePeriodUnitType.CYCLE);
 	        				if(mode==-1){	        					
 	            				double duration= busFault.getSecondOperationTime().getValue()-
 	            				        busFault.getFaultStartTime().getValue();
-	            				DataSetter.setTimePeriodData(busFault.addNewFaultDurationTime(), 
+	            				XBeanDataSetter.setTimePeriodData(busFault.addNewFaultDurationTime(), 
 	            						duration, TimePeriodUnitType.CYCLE);
 	            				busFault.setPermanentFault(false);
 	            			}	            			
@@ -152,63 +152,63 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	    			// permanent bus fault
 	    		}else if(mode==2||mode==-2){
 	    			if(mode==2){	                    
-	    				DataSetter.setTimePeriodData(busFault.addNewFaultStartTime(), 
+	    				XBeanDataSetter.setTimePeriodData(busFault.addNewFaultStartTime(), 
 	    						operationTime, TimePeriodUnitType.CYCLE);  
 	    				busFault.setFaultCategory(FaultCategoryEnumType.FAULT_3_PHASE);
 	        			busFault.addNewFaultedBus().setName(bus1);
-	        			DataSetter.setVoltageData(busFault.addNewFaultedBusRatedV(),
+	        			XBeanDataSetter.setVoltageData(busFault.addNewFaultedBusRatedV(),
 	        					bus1RatedV, VoltageUnitType.KV);
 	        			busFault.addNewRemoteEndBus().setName(bus2);
-	        			DataSetter.setVoltageData(busFault.addNewRemoteEndBusRatedV(),
+	        			XBeanDataSetter.setVoltageData(busFault.addNewRemoteEndBusRatedV(),
 	        					bus2RatedV, VoltageUnitType.KV);    
 	        			busFault.setPermanentFault(true);
 	        			
 	    			}else{	
 	    				if(busFault!=null){
-	    					DataSetter.setTimePeriodData(busFault.addNewFirstOperationTime(),
+	    					XBeanDataSetter.setTimePeriodData(busFault.addNewFirstOperationTime(),
 	        						operationTime, TimePeriodUnitType.CYCLE);
 	    					double duration= busFault.getFirstOperationTime().getValue()-
 					        busFault.getFaultStartTime().getValue();
-					        DataSetter.setTimePeriodData(busFault.addNewFaultDurationTime(), 
+					        XBeanDataSetter.setTimePeriodData(busFault.addNewFaultDurationTime(), 
 							duration, TimePeriodUnitType.CYCLE);
 					        busFault.setPermanentFault(false);
 	            			}
 	    				}
 	    			}
 				if(r!=0.0||x!=0.0){
-	    				DataSetter.setZValue(busFault.addNewFaultZ(), r, x, ZUnitType.PU);
+	    				XBeanDataSetter.setZValue(busFault.addNewFaultZ(), r, x, ZUnitType.PU);
 	    		}
 				// branch fault
     		}else if(mode==3||mode==-3){
     			FaultXmlType fault=
-					ParserHelper.getFaultRecord(tranSimu, FaultTypeEnumType.BRANCH_FAULT,
+					XBeanParserHelper.getFaultRecord(tranSimu, FaultTypeEnumType.BRANCH_FAULT,
 							bus1, bus2);
     			BranchFaultXmlType braFault=
-	    			ParserHelper.getBranchFaultRecord(tranSimu, bus1, bus2);				
+	    			XBeanParserHelper.getBranchFaultRecord(tranSimu, bus1, bus2);				
 				fault.setFaultType(FaultTypeEnumType.BRANCH_FAULT);
 				braFault.setFaultCategory(FaultCategoryEnumType.FAULT_3_PHASE);
 				
 				if(breaker1Opened==false&&breaker2Opened==false){    				
         			braFault.addNewFromBus().setName(bus1);
-        			DataSetter.setVoltageData(braFault.addNewFromBusRatedV(), 
+        			XBeanDataSetter.setVoltageData(braFault.addNewFromBusRatedV(), 
         					bus1RatedV, VoltageUnitType.KV);
         			braFault.addNewFromBus().setName(bus2);
-        			DataSetter.setVoltageData(braFault.addNewToBusRatedV(), 
+        			XBeanDataSetter.setVoltageData(braFault.addNewToBusRatedV(), 
         					bus2RatedV, VoltageUnitType.KV);
-        			DataSetter.setTimePeriodData(braFault.addNewFaultStartTime(), 
+        			XBeanDataSetter.setTimePeriodData(braFault.addNewFaultStartTime(), 
     						operationTime, TimePeriodUnitType.CYCLE);
         			braFault.setFaultLocationFromFromSide(faultLocation);
         			braFault.setPermanentFault(true);
     			}else if((breaker1Opened==true&&breaker2Opened==false)||
     					 (breaker1Opened==false&&breaker2Opened==true)){    				
     				if(braFault!=null){
-    					DataSetter.setTimePeriodData(braFault.addNewFirstOperationTime(),
+    					XBeanDataSetter.setTimePeriodData(braFault.addNewFirstOperationTime(),
         						operationTime, TimePeriodUnitType.CYCLE);
     					braFault.setPermanentFault(true);
             			if(mode==-3){
             				double duration= braFault.getFirstOperationTime().getValue()-
             				        braFault.getFaultStartTime().getValue();
-            				DataSetter.setTimePeriodData(braFault.addNewFaultDurationTime(), 
+            				XBeanDataSetter.setTimePeriodData(braFault.addNewFaultDurationTime(), 
             						duration, TimePeriodUnitType.CYCLE);
             				braFault.setPermanentFault(false);
             			}
@@ -216,19 +216,19 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
     			}else if(breaker1Opened==true&&breaker2Opened==true){    				
     				if(braFault!=null){
     					braFault.setPermanentFault(true);
-    					DataSetter.setTimePeriodData(braFault.addNewSecondOperationTime(),
+    					XBeanDataSetter.setTimePeriodData(braFault.addNewSecondOperationTime(),
         						operationTime, TimePeriodUnitType.CYCLE);
         				if(mode==-3){
         					braFault.setPermanentFault(false);
             				double duration= braFault.getSecondOperationTime().getValue()-
             				        braFault.getFaultStartTime().getValue();
-            				DataSetter.setTimePeriodData(braFault.addNewFaultDurationTime(), 
+            				XBeanDataSetter.setTimePeriodData(braFault.addNewFaultDurationTime(), 
             						duration, TimePeriodUnitType.CYCLE);
             			}            			
             		}
     			}
 				if(r!=0.0||x!=0.0){
-    				DataSetter.setZValue(braFault.addNewFaultZ(), r, x, ZUnitType.PU);
+    				XBeanDataSetter.setZValue(braFault.addNewFaultZ(), r, x, ZUnitType.PU);
     			} 
     		}
 
@@ -244,13 +244,13 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
      		   double busRatedVoltage=0.0;
      		   if(!strAry[2].equals("")){
      			   busRatedVoltage=new Double(strAry[2]).doubleValue();
-     			   DataSetter.setVoltageData(loadChange.addNewBusRatedVoltage(),
+     			   XBeanDataSetter.setVoltageData(loadChange.addNewBusRatedVoltage(),
  		                   busRatedVoltage, VoltageUnitType.KV);
      		   }
      		   double operationTime=0.0;
      		  if(!strAry[5].equals("")){
         			operationTime=new Double(strAry[5]).doubleValue();
-        			DataSetter.setTimePeriodData(loadChange.addNewOperationTime(),
+        			XBeanDataSetter.setTimePeriodData(loadChange.addNewOperationTime(),
         					operationTime, TimePeriodUnitType.CYCLE);
         		}
      		  double pp=0.0, qp=0.0, pc=0.0,qc=0.0,pz=0.0,qz=0.0;
@@ -261,7 +261,7 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
        			 qp=new Double(strAry[7]).doubleValue();
        		  }
        		  if(pp!=0.0||qp!=0.0){
-       			 DataSetter.setPowerData(loadChange.addNewConstantPChange(),
+       			 XBeanDataSetter.setPowerData(loadChange.addNewConstantPChange(),
        					pp, qp, ApparentPowerUnitType.MVA);
        		  }
        		  if(!strAry[8].equals("")){
@@ -271,7 +271,7 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
        			qc=new Double(strAry[9]).doubleValue();
        		  }
        		  if(pc!=0.0||qc!=0.0){
-       			 DataSetter.setPowerData(loadChange.addNewConstantIChange(),
+       			 XBeanDataSetter.setPowerData(loadChange.addNewConstantIChange(),
        					pc, qc, ApparentPowerUnitType.MVA);
        		  }
        		  if(!strAry[10].equals("")){
@@ -281,7 +281,7 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
        			 qz=new Double(strAry[11]).doubleValue();
        		  }
        		  if(pz!=0.0||qz!=0.0){
-       			 DataSetter.setPowerData(loadChange.addNewConstantZChange(),
+       			 XBeanDataSetter.setPowerData(loadChange.addNewConstantZChange(),
        					pz, qz, ApparentPowerUnitType.MVA);
        		  }
     		}else {
@@ -294,7 +294,7 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
      		double busRatedVoltage=0.0;
      		if(!strAry[2].equals("")){
      			busRatedVoltage=new Double(strAry[2]).doubleValue();
-     			DataSetter.setVoltageData(genChange.addNewBusRatedVoltage(),
+     			XBeanDataSetter.setVoltageData(genChange.addNewBusRatedVoltage(),
  		                  busRatedVoltage, VoltageUnitType.KV);
      		}
      		String genId="";
@@ -305,13 +305,13 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
      		double operationTime=0.0;
      		if(!strAry[5].equals("")){
      			operationTime=new Double(strAry[5]).doubleValue();
-     			DataSetter.setTimePeriodData(genChange.addNewOperationTime(),
+     			XBeanDataSetter.setTimePeriodData(genChange.addNewOperationTime(),
      					operationTime, TimePeriodUnitType.CYCLE);
      		} 
      		double pg=0.0;
      		if(new Double(strAry[12]).doubleValue()<90000){
  				pg=new Double(strAry[12]).doubleValue();
- 				DataSetter.setPowerData(genChange.addNewGenChange(),
+ 				XBeanDataSetter.setPowerData(genChange.addNewGenChange(),
      					pg, 0.0, ApparentPowerUnitType.MVA);
  			}else{
  				genChange.setGenOutage(true);
@@ -329,7 +329,7 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	          double bus1Vol=0.0;
 	          if(!strAry[2].equals("")){
 	    		  bus1Vol= new Double(strAry[2]).doubleValue();
-	    		  DataSetter.setVoltageData(dcFault.addNewFromACRatedVol(),
+	    		  XBeanDataSetter.setVoltageData(dcFault.addNewFromACRatedVol(),
 	       			  bus1Vol, VoltageUnitType.KV);    	 
 	    	  }
 	          String bus2=strAry[3];
@@ -337,7 +337,7 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	    	  double bus2Vol=0.0;
 	    	  if(!strAry[4].equals("")){
 	    		  bus2Vol= new Double(strAry[4]).doubleValue();
-	    		  DataSetter.setVoltageData(dcFault.addNewToACRatedVol(),
+	    		  XBeanDataSetter.setVoltageData(dcFault.addNewToACRatedVol(),
 	       			  bus2Vol, VoltageUnitType.KV);    	 
 	    	  }
 	    	  int faultType= new Integer(strAry[5]).intValue();
@@ -367,37 +367,37 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	    	  }
 	    	  if(faultType==7){
 	    		  dcFault.setFaultType(DcLineFaultXmlType.FaultType.POWER_CHANGE_BY_SPECIFICATION);
-	    		  DataSetter.setPowerData(dcFault.addNewChangedPower(), 
+	    		  XBeanDataSetter.setPowerData(dcFault.addNewChangedPower(), 
 	    				  changedScale, 0.0, ApparentPowerUnitType.MVA);    		  
 	    	  }
 	    	  if(faultType==8){
 	    		  dcFault.setFaultType(DcLineFaultXmlType.FaultType.CURRENT_CHANGE_BY_SPECIFICATION);
-	    		  DataSetter.setCurrentData(dcFault.addNewChangedCurrent(), 
+	    		  XBeanDataSetter.setCurrentData(dcFault.addNewChangedCurrent(), 
 	    				  changedScale, CurrentUnitType.KA);    		  
 	    	  }
 	    	  double startTime=0.0;
 	    	  if(!strAry[7].equals("")){
 	    		  startTime= new Double(strAry[7]).doubleValue();
-	    		  DataSetter.setTimePeriodData(dcFault.addNewStartTime(), 
+	    		  XBeanDataSetter.setTimePeriodData(dcFault.addNewStartTime(), 
 	    				  startTime, TimePeriodUnitType.CYCLE);
 	    		  
 	    	  }
 	    	  double faultR=0.0;
 	    	  if(!strAry[8].equals("")){
 	    		  faultR= new Double(strAry[8]).doubleValue();
-	    		  DataSetter.setZValue(dcFault.addNewFaultZ(), faultR, 0.0, ZUnitType.PU);
+	    		  XBeanDataSetter.setZValue(dcFault.addNewFaultZ(), faultR, 0.0, ZUnitType.PU);
 	    		  
 	    	  }   		  
     	  }else{
     		  String bus1=strAry[1];
     		  String bus2=strAry[3];
     		  DcLineFaultXmlType dcFault=
-    			  ParserHelper.getDCFaultRecord(tranSimu, bus1, bus2);
+    			  XBeanParserHelper.getDCFaultRecord(tranSimu, bus1, bus2);
     		 dcFault.setPermanentFault(false);
     		 
     		 double clearedTime= new Double(strAry[7]).doubleValue();
     		 double durationTime=clearedTime-dcFault.getStartTime().getValue();
-    		 DataSetter.setTimePeriodData(dcFault.addNewDurationTime(),
+    		 XBeanDataSetter.setTimePeriodData(dcFault.addNewDurationTime(),
     				 durationTime, TimePeriodUnitType.CYCLE); 
     	  }
       }

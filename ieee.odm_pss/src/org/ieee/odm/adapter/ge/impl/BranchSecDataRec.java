@@ -35,7 +35,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.odm.model.DataSetter;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
 
 public class BranchSecDataRec extends BaseBranchDataRec {
 	public double r, x, b;
@@ -147,13 +147,13 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 		branchData.setNormalOffLineStatus(this.nst == 0);
 		
 		if (this.ohms == 0) 
-			DataSetter.setLineData(branchData, r, x,
+			XBeanDataSetter.setLineData(branchData, r, x,
 					ZUnitType.PU, 0.0, b, YUnitType.PU);			
 		else
-			DataSetter.setLineData(branchData, r, x,
+			XBeanDataSetter.setLineData(branchData, r, x,
 					ZUnitType.OHM, 0.0, b, YUnitType.MHO);
 		
-		DataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(), r_mvaAry, ApparentPowerUnitType.MVA);
+		XBeanDataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(), r_mvaAry, ApparentPowerUnitType.MVA);
 		
 		/*
 		<al> - Loss factor (0.0 - 1.0) used to assign losses.
@@ -169,7 +169,7 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 		lineInfo.addNewLength().setValue(l_info);
 		lineInfo.getLength().setUnit(LengthUnitType.MILE);
 		
-		DataSetter.setBranchOwnership(branchData, oAry, pAry);
+		XBeanDataSetter.setBranchOwnership(branchData, oAry, pAry);
 	}
 	
 	public String toString() {

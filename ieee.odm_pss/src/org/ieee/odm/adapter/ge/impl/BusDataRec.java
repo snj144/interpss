@@ -34,8 +34,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class BusDataRec extends BusHeaderRec {
 			public int ty, owner;
@@ -43,7 +43,7 @@ public class BusDataRec extends BusHeaderRec {
 			public int level, stisol, islnum;
 			public double latitude, longitude;
 
-	public BusDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final ODMModelParser parser, Logger logger) {
+	public BusDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final XBeanODMModelParser parser, Logger logger) {
 /*
 		<number> <"name"> <kV> : <ty> <vs> <vt> <an> <ar> <z> <vma> <vmi> <d_in> <d_out> <projid> <level> <owner> <stisol> <latitude> <longitude> <islnum>
  
@@ -97,7 +97,7 @@ public class BusDataRec extends BusHeaderRec {
 		public double bkv;
 		public String d_in, d_out, projId;
  */
-		final String busId = ODMModelParser.BusIdPreFix+this.number;
+		final String busId = XBeanODMModelParser.BusIdPreFix+this.number;
 		// XML requires id start with a char
 		BusRecordXmlType busRec;
 		try {
@@ -113,7 +113,7 @@ public class BusDataRec extends BusHeaderRec {
 		busRec.setName(name);
 		if (this.longId != null && !this.longId.equals(""))
 			busRec.setDesc(this.longId);
-		DataSetter.setVoltageData(busRec.addNewBaseVoltage(), bkv, VoltageUnitType.KV);
+		XBeanDataSetter.setVoltageData(busRec.addNewBaseVoltage(), bkv, VoltageUnitType.KV);
 		
 		/*
 		<ty> Bus type {0,1,2,-2}
@@ -134,8 +134,8 @@ public class BusDataRec extends BusHeaderRec {
 		LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
 		LFGenCodeEnumType.Enum genType = ty == 0? LFGenCodeEnumType.SWING : 
 				( ty == 1? LFGenCodeEnumType.PQ : LFGenCodeEnumType.PV);
-		DataSetter.setGenData(busData, genType, vs_pu, VoltageUnitType.PU, an_deg, AngleUnitType.DEG, 
+		XBeanDataSetter.setGenData(busData, genType, vs_pu, VoltageUnitType.PU, an_deg, AngleUnitType.DEG, 
 							0.0, 0.0,	ApparentPowerUnitType.MVA);
-		DataSetter.setVoltageLimitData(busData.getGenData().getEquivGen().addNewVoltageLimit(), vma, vmi, VoltageUnitType.PU);
+		XBeanDataSetter.setVoltageLimitData(busData.getGenData().getEquivGen().addNewVoltageLimit(), vma, vmi, VoltageUnitType.PU);
 	}
 }

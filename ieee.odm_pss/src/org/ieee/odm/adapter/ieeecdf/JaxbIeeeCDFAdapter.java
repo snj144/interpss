@@ -27,36 +27,38 @@ package org.ieee.odm.adapter.ieeecdf;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleAdjustmentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageLimitXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.jaxb.JaxbDataSetter;
+import org.ieee.odm.model.jaxb.JaxbODMModelParser;
+import org.ieee.odm.model.jaxb.JaxbParserHelper;
+import org.ieee.odm.schema.ActivePowerUnitType;
+import org.ieee.odm.schema.ActivePowerXmlType;
+import org.ieee.odm.schema.AdjustmentDataXmlType;
+import org.ieee.odm.schema.AngleAdjustmentXmlType;
+import org.ieee.odm.schema.AngleUnitType;
+import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BranchRecordXmlType;
+import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.LFGenCodeEnumType;
+import org.ieee.odm.schema.LFLoadCodeEnumType;
+import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.LoadflowBusDataXmlType;
+import org.ieee.odm.schema.NameValuePairListXmlType;
+import org.ieee.odm.schema.NetZoneXmlType;
+import org.ieee.odm.schema.ObjectFactory;
+import org.ieee.odm.schema.PSSNetworkXmlType;
+import org.ieee.odm.schema.PowerInterchangeXmlType;
+import org.ieee.odm.schema.ReactivePowerUnitType;
+import org.ieee.odm.schema.StudyCaseXmlType;
+import org.ieee.odm.schema.TapAdjustmentXmlType;
+import org.ieee.odm.schema.VoltageLimitXmlType;
+import org.ieee.odm.schema.VoltageUnitType;
+import org.ieee.odm.schema.YUnitType;
+import org.ieee.odm.schema.ZUnitType;
 
-public class IeeeCDFAdapter  extends AbstractODMAdapter {
+public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 	public final static String Token_Date = "Date";
 	public final static String Token_OrgName = "Originator Name";
 	public final static String Token_Year = "Year";
@@ -69,14 +71,17 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	private static final int InterchangeData = 4;
 	private static final int TielineData = 5;
 
-	public IeeeCDFAdapter(Logger logger) {
+	private ObjectFactory factory = null;
+
+	public JaxbIeeeCDFAdapter(Logger logger) {
 		super(logger);
+		this.factory = new ObjectFactory();		
 	}
 	 
-	protected XBeanODMModelParser parseInputFile(
+	protected JaxbODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
-		XBeanODMModelParser parser = new XBeanODMModelParser();
-		XBeanParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.IEEE_CDF);
+		JaxbODMModelParser parser = new JaxbODMModelParser();
+		JaxbParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.IEEE_CDF);
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		baseCaseNet.setId("Base_Case_from_IEEECDF_format");
@@ -94,7 +99,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 							|| str.startsWith("-9")) {
 						dataType = 0;
 					} else if (dataType == BusData) {
-						processBusData(str, parser.addNewBaseCaseBus());
+						processBusData(str, parser.createBusRecord());
 					} else if (dataType == BranchData) {
 						processBranchData(str, parser.addNewBaseCaseBranch(), baseCaseNet);
 					} else if (dataType == LossZone) {
@@ -152,27 +157,27 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//[0] Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
 		final String date = strAry[0];
 		if (date != null) 
-			XBeanParserHelper.addNVPair(nvList, Token_Date, date);
+			JaxbParserHelper.addNVPair(nvList, Token_Date, date);
 
 		//[1] Columns 11-30   Originator's name [A]
 		final String orgName = strAry[1];
 		if (orgName != null)
-			XBeanParserHelper.addNVPair(nvList, Token_OrgName, orgName);
+			JaxbParserHelper.addNVPair(nvList, Token_OrgName, orgName);
 
 		//[3] Columns 39-42   Year [I]
 		final String year = strAry[3];
 		if (year != null)
-			XBeanParserHelper.addNVPair(nvList, Token_Year, year);
+			JaxbParserHelper.addNVPair(nvList, Token_Year, year);
 
 		//[4] Column  44      Season (S - Summer, W - Winter)
 		final String season = strAry[4];
 		if (season != null)
-			XBeanParserHelper.addNVPair(nvList, Token_Season, season);
+			JaxbParserHelper.addNVPair(nvList, Token_Season, season);
 
 		//[5] Column  46-73   Case identification [A]
 		final String caseId = strAry[5];
 		if (caseId != null)
-			XBeanParserHelper.addNVPair(nvList, Token_CaseId, caseId);
+			JaxbParserHelper.addNVPair(nvList, Token_CaseId, caseId);
 
 		getLogger().fine("date, orgName, year, season, caseId: " + date + ", "
 				+ orgName + ", " + year + ", " + season + ", " + caseId);
@@ -180,7 +185,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//[2] Columns 32-37   MVA Base [F] *
 		final double baseMva = new Double(strAry[2]).doubleValue(); // in MVA
 		getLogger().fine("BaseKva: " + baseMva);
-		XBeanDataSetter.setPowerMva(baseCaseNet.addNewBasePower(), baseMva);   
+		JaxbDataSetter.setPowerMva(baseCaseNet.addNewBasePower(), baseMva);   
 	}
 
 	/*
@@ -194,7 +199,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final String[] strAry = getBusDataFields(str);
 
 		//Columns  1- 4   Bus number [I] *
-		final String busId = XBeanODMModelParser.BusIdPreFix + strAry[0];
+		final String busId = JaxbODMModelParser.BusIdPreFix + strAry[0];
 		getLogger().fine("Bus data loaded, id: " + busId);
 		busRec.setId(busId);
 
@@ -214,7 +219,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		if (baseKv == 0.0) {
 			baseKv = 1.0;
 		}
-		XBeanDataSetter.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
+		JaxbDataSetter.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
 
 		LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
 		//Columns 25-26   Type [I] *
@@ -228,10 +233,10 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//Columns 34-40   Final angle, degrees [F] *
 		final double vpu = new Double(strAry[5]).doubleValue();
 		final double angDeg = new Double(strAry[6]).doubleValue();
-		XBeanDataSetter.setVoltageData(busData.addNewVoltage(), vpu,
+		JaxbDataSetter.setVoltageData(busData.addNewVoltage(), vpu,
 				VoltageUnitType.PU);
 
-		XBeanDataSetter.setAngleData(busData.addNewAngle(), angDeg,
+		JaxbDataSetter.setAngleData(busData.addNewAngle(), angDeg,
 				AngleUnitType.DEG);
 
 		//Columns 41-49   Load MW [F] *
@@ -239,7 +244,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double loadMw = new Double(strAry[7]).doubleValue();
 		final double loadMvar = new Double(strAry[8]).doubleValue();
 		if (loadMw != 0.0 || loadMvar != 0.0) {
-			XBeanDataSetter.setLoadData(busData,
+			JaxbDataSetter.setLoadData(busData,
 					LFLoadCodeEnumType.CONST_P, loadMw,
 					loadMvar, ApparentPowerUnitType.MVA);
 		}
@@ -251,7 +256,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		LFGenCodeEnumType.Enum genType = type == 3? LFGenCodeEnumType.SWING :
 				( type == 2? LFGenCodeEnumType.PV : LFGenCodeEnumType.PQ );
-		XBeanDataSetter.setGenData(busData, genType, vpu, VoltageUnitType.PU, angDeg, AngleUnitType.DEG, 
+		JaxbDataSetter.setGenData(busData, genType, vpu, VoltageUnitType.PU, angDeg, AngleUnitType.DEG, 
 				genMw, genMvar,	ApparentPowerUnitType.MVA);
 
 		//Columns 107-114 Shunt conductance G (per unit) [F] *
@@ -259,7 +264,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double gPU = new Double(strAry[15]).doubleValue();
 		final double bPU = new Double(strAry[16]).doubleValue();
 		if (gPU != 0.0 || bPU != 0.0) {
-			XBeanDataSetter.setYData(busData.addNewShuntY(), gPU, bPU,
+			JaxbDataSetter.setYData(busData.addNewShuntY(), gPU, bPU,
 					YUnitType.PU);
 		}
 
@@ -277,13 +282,13 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		if (max != 0.0 || min != 0.0) {
 			if (type == 1) {
 				VoltageLimitXmlType vlimt = busData.getGenData().getEquivGen().addNewVoltageLimit();
-				XBeanDataSetter.setVoltageLimitData(vlimt, max, min, VoltageUnitType.PU);
+				JaxbDataSetter.setVoltageLimitData(vlimt, max, min, VoltageUnitType.PU);
 			} else if (type == 2) {
-				XBeanDataSetter.setReactivePowerLimitData(busData.getGenData().getEquivGen().addNewQLimit(),  
+				JaxbDataSetter.setReactivePowerLimitData(busData.getGenData().getEquivGen().addNewQLimit(),  
 						max, min, ReactivePowerUnitType.MVAR);
 				if (reBusId != null && !reBusId.equals("0")
 						&& !reBusId.equals(busId)) {
-					XBeanDataSetter.setVoltageData(busData.getGenData().getEquivGen().addNewDesiredVoltage(),
+					JaxbDataSetter.setVoltageData(busData.getGenData().getEquivGen().addNewDesiredVoltage(),
 							vSpecPu, VoltageUnitType.PU);
 					busData.getGenData().getEquivGen().addNewRemoteVoltageControlBus();
 					busData.getGenData().getEquivGen().getRemoteVoltageControlBus().setIdRef(reBusId);
@@ -306,8 +311,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//      	For transformers or phase shifters, the side of the model the non-unity tap is on.
 		//		Columns  6- 9   Z bus number [I] *
 		//      	For transformers and phase shifters, the side of the model the device impedance is on.
-		final String fid = XBeanODMModelParser.BusIdPreFix + strAry[0];
-		final String tid = XBeanODMModelParser.BusIdPreFix + strAry[1];
+		final String fid = JaxbODMModelParser.BusIdPreFix + strAry[0];
+		final String tid = JaxbODMModelParser.BusIdPreFix + strAry[1];
 		getLogger().fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		branchRec.addNewFromBus().setIdRef(fid);
 		branchRec.addNewToBus().setIdRef(tid);
@@ -341,7 +346,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double xpu = new Double(strAry[7]).doubleValue();
 		final double bpu = new Double(strAry[8]).doubleValue();
 		if (type == 0) {
-			XBeanDataSetter.setLineData(branchData, rpu, xpu,
+			JaxbDataSetter.setLineData(branchData, rpu, xpu,
 					ZUnitType.PU, 0.0, bpu, YUnitType.PU);
 		}
 
@@ -352,13 +357,13 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double angle = new Double(strAry[15]).doubleValue();
 		if (type > 0) {
 			if (angle == 0.0) {
-				XBeanDataSetter.createXformerData(branchData,
+				JaxbDataSetter.createXformerData(branchData,
 						rpu, xpu, ZUnitType.PU, ratio, 1.0, 
 						0.0, bpu, 0.0, 0.0, YUnitType.PU);
-				BusRecordXmlType fromBusRec = XBeanParserHelper.findBusRecord(fid, baseCaseNet);
-				BusRecordXmlType toBusRec = XBeanParserHelper.findBusRecord(tid, baseCaseNet);
+				BusRecordXmlType fromBusRec = JaxbParserHelper.findBusRecord(fid, baseCaseNet);
+				BusRecordXmlType toBusRec = JaxbParserHelper.findBusRecord(tid, baseCaseNet);
 				if (fromBusRec != null && toBusRec != null) {
-					XBeanDataSetter.setXfrRatingData(branchData,
+					JaxbDataSetter.setXfrRatingData(branchData,
 							fromBusRec.getBaseVoltage().getValue(), 
 							toBusRec.getBaseVoltage().getValue(), 
 							fromBusRec.getBaseVoltage().getUnit());				
@@ -367,13 +372,13 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 					logErr("Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: " + fid + ", " + tid);
 				}
 			} else {
-				XBeanDataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, ZUnitType.PU,
+				JaxbDataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, ZUnitType.PU,
 						ratio, 1.0, angle, 0.0, AngleUnitType.DEG,
 						0.0, bpu, 0.0, 0.0, YUnitType.PU);
-				BusRecordXmlType fromBusRec = XBeanParserHelper.findBusRecord(fid, baseCaseNet);
-				BusRecordXmlType toBusRec = XBeanParserHelper.findBusRecord(tid, baseCaseNet);
+				BusRecordXmlType fromBusRec = JaxbParserHelper.findBusRecord(fid, baseCaseNet);
+				BusRecordXmlType toBusRec = JaxbParserHelper.findBusRecord(tid, baseCaseNet);
 				if (fromBusRec != null && toBusRec != null) {
-					XBeanDataSetter.setXfrRatingData(branchData,
+					JaxbDataSetter.setXfrRatingData(branchData,
 							fromBusRec.getBaseVoltage().getValue(), 
 							toBusRec.getBaseVoltage().getValue(), 
 							fromBusRec.getBaseVoltage().getUnit());				
@@ -390,7 +395,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double rating1Mvar = new Integer(strAry[9]).intValue();
 		final double rating2Mvar = new Integer(strAry[10]).intValue();
 		final double rating3Mvar = new Integer(strAry[11]).intValue();
-		XBeanDataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
+		JaxbDataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
 				rating1Mvar, rating2Mvar, rating3Mvar, ApparentPowerUnitType.MVA);
 
 		String controlBusId = "";
@@ -398,7 +403,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		double stepSize = 0.0, maxTapAng = 0.0, minTapAng = 0.0, maxVoltPQ = 0.0, minVoltPQ = 0.0;
 		if (type > 1) {
 			//    		Columns 69-72   Control bus number
-			controlBusId = XBeanODMModelParser.BusIdPreFix + strAry[12];
+			controlBusId = JaxbODMModelParser.BusIdPreFix + strAry[12];
 
 			//        	Column  74      Side [I]
 			//          	0 - Controlled bus is one of the terminals
@@ -422,7 +427,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		if (type == 2 || type == 3) {
 			TapAdjustmentXmlType tapAdj = branchData.getXfrInfo().addNewTapAdjustment();
-			XBeanDataSetter.setTapLimitData(tapAdj.addNewTapLimit(), maxTapAng, minTapAng);
+			JaxbDataSetter.setTapLimitData(tapAdj.addNewTapLimit(), maxTapAng, minTapAng);
 			tapAdj.setTapAdjStepSize(stepSize);
 			tapAdj.setTapAdjOnFromSide(true);
 			if (type == 2) {
@@ -434,19 +439,19 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 								: (controlSide == 1 ? TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.NEAR_FROM_BUS
 										: TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.NEAR_TO_BUS));
 				voltTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
-				XBeanDataSetter.setLimitData(voltTapAdj, maxVoltPQ, minVoltPQ);
+				JaxbDataSetter.setLimitData(voltTapAdj, maxVoltPQ, minVoltPQ);
 			} else if (type == 3) {
 				TapAdjustmentXmlType.MvarFlowAdjData mvarTapAdj = tapAdj
 						.addNewMvarFlowAdjData();
-				XBeanDataSetter.setLimitData(mvarTapAdj, maxVoltPQ, minVoltPQ);
+				JaxbDataSetter.setLimitData(mvarTapAdj, maxVoltPQ, minVoltPQ);
 				mvarTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
 				mvarTapAdj.setMvarMeasuredOnFormSide(true);
 			}
 		} else if (type == 4) {
 			AngleAdjustmentXmlType angAdj = branchData.getXfrInfo().addNewAngleAdjustment();
-			XBeanDataSetter.setLimitData(angAdj.addNewAngleLimit(), maxTapAng,
+			JaxbDataSetter.setLimitData(angAdj.addNewAngleLimit(), maxTapAng,
 					minTapAng);
-			XBeanDataSetter.setLimitData(angAdj, maxVoltPQ, minVoltPQ);
+			JaxbDataSetter.setLimitData(angAdj, maxVoltPQ, minVoltPQ);
 			angAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
 			angAdj.setDesiredMeasuredOnFromSide(true);
 		}
@@ -457,8 +462,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	 *   ============== 
 	 */
 
-	private void processLossZoneData(final String str,
-			final NetZoneXmlType lossZone) {
+	private void processLossZoneData(final String str,	final NetZoneXmlType lossZone) {
 		final String[] strAry = getLossZoneDataFields(str);
 
 		//    	Columns  1- 3   Loss zone number [I] *
@@ -475,7 +479,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	 */
 
 	private void processInterchangeData(final String str,
-			final PowerInterchangeXmlType interchange) {
+			final PowerInterchangeXmlType interchange, JaxbODMModelParser parser) {
 		final String[] strAry = getInterchangeDataFields(str);
 
 		//    	Columns  1- 2   Area number [I], no zeros! *
@@ -483,7 +487,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		//    	Columns  4- 7   Interchange slack bus number [I] *
 		//      Columns  9-20   Alternate swing bus name [A]
-		final String slackBusId = XBeanODMModelParser.BusIdPreFix + strAry[1];
+		final String slackBusId = JaxbODMModelParser.BusIdPreFix + strAry[1];
 		final String alSwingBusName = strAry[2];
 
 		//      Columns 21-28   Area interchange export, MW [F] (+ = out) *
@@ -497,10 +501,20 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final String name = strAry[6];
 
 		interchange.setAreaNumber(no);
-		interchange.addNewSwingBus().setIdRef(slackBusId);
-		interchange.setAlternateSwingBusName(alSwingBusName);
-		XBeanDataSetter.setActivePower(interchange.addNewDesiredExPower(), mw, ActivePowerUnitType.MW);
-		XBeanDataSetter.setActivePower(interchange.addNewExErrTolerance(), err, ActivePowerUnitType.MW);
+		
+		try {
+			interchange.setSwingBus(parser.createBusRecRef(slackBusId));
+			interchange.setAlternateSwingBusName(alSwingBusName);
+		} catch (Exception e) {
+			this.logErr("Interchange data error, " + e.toString());
+		}
+		
+		ActivePowerXmlType power = this.factory.createActivePowerXmlType();
+		ActivePowerXmlType error = this.factory.createActivePowerXmlType();
+		JaxbDataSetter.setActivePower(power, mw, ActivePowerUnitType.MW);
+		JaxbDataSetter.setActivePower(error, err, ActivePowerUnitType.MW);
+		interchange.setDesiredExPower(power);
+		interchange.setExErrTolerance(error);
 
 		interchange.setAreaCode(code);
 		interchange.setAreaName(name);
@@ -512,17 +526,17 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	 */
 
 	private void processTielineData(final String str,
-			final PSSNetworkXmlType.TieLineList.Tieline tieLine) {
+			final PSSNetworkXmlType.TieLineList.Tieline tieLine, JaxbODMModelParser parser) {
 		final String[] strAry = getTielineDataFields(str);
 
 		//    	Columns  1- 4   Metered bus number [I] *
 		//    	Columns  7-8    Metered area number [I] *
-		final String meteredBusId = XBeanODMModelParser.BusIdPreFix + strAry[0];
+		final String meteredBusId = JaxbODMModelParser.BusIdPreFix + strAry[0];
 		final String meteredAreaNo = strAry[1];
 
 		//      Columns  11-14  Non-metered bus number [I] *
 		//      Columns  17-18  Non-metered area number [I] *
-		final String nonMeteredBusId = XBeanODMModelParser.BusIdPreFix + strAry[2];
+		final String nonMeteredBusId = JaxbODMModelParser.BusIdPreFix + strAry[2];
 		final String nonMeteredAreaNo = strAry[3];
 
 		//      Column   21     Circuit number
@@ -530,9 +544,14 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		if (!strAry[4].trim().equals(""))
 			cirNo = new Integer(strAry[4]).intValue();
 
-		tieLine.addNewMeteredBus().setIdRef(meteredBusId);
+		try {
+			tieLine.setMeteredBus(parser.createBusRecRef(meteredBusId));
+			tieLine.setNonMeteredBus(parser.createBusRecRef(nonMeteredBusId));
+		} catch (Exception e) {
+			this.logErr("Tieline monitor/nonmonitored bus data error, " + e.toString());
+		}
+
 		tieLine.setMeteredArea(meteredAreaNo);
-		tieLine.addNewNonMeteredBus().setIdRef(nonMeteredBusId);
 		tieLine.setNonMeteredArea(nonMeteredAreaNo);
 		tieLine.setCirId(new Integer(cirNo).toString());
 	}

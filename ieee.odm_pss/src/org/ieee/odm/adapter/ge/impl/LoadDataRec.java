@@ -31,15 +31,15 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class LoadDataRec extends BusHeaderRec {
 	public int st, nst, owner;
 	public double p, q, ip, iq, g, b;
 			
-	public LoadDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final ODMModelParser parser, Logger logger) {
+	public LoadDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final XBeanODMModelParser parser, Logger logger) {
 		//System.out.println("load data->" + lineStr);
 /*
 	<bus> <"name"> <bkv> <"id"> <"long id"> : <st> <p> <q> <ip> <iq> <g> <b> /
@@ -52,7 +52,7 @@ public class LoadDataRec extends BusHeaderRec {
 
 		setHeaderData(str1);
 
-	    final String busId = ODMModelParser.BusIdPreFix+this.number;
+	    final String busId = XBeanODMModelParser.BusIdPreFix+this.number;
 		BusRecordXmlType busRec = parser.getBusRecord(busId);
 	    if (busRec == null){
 	    	logger.severe("Bus "+ busId+ " not found in the network");
@@ -91,7 +91,7 @@ public class LoadDataRec extends BusHeaderRec {
 
 	    // ODM allows one equiv load has many contribute loads, but here, we assume there is only one contribute load.
 
-	    LoadflowLoadDataXmlType contribLoad = ParserHelper.createContriLoad(busRec); 
+	    LoadflowLoadDataXmlType contribLoad = XBeanParserHelper.createContriLoad(busRec); 
 
 		contribLoad.setAreaNumber(this.ar);
 		contribLoad.setZoneNumber(this.z);
@@ -110,11 +110,11 @@ public class LoadDataRec extends BusHeaderRec {
 		<b> Constant admittance reactive power (MVAR)
  */		
 		if (this.p != 0.0 || this.q != 0.0)
-			DataSetter.setPowerData(contribLoad.addNewConstPLoad(), this.p, this.q, ApparentPowerUnitType.MVA);
+			XBeanDataSetter.setPowerData(contribLoad.addNewConstPLoad(), this.p, this.q, ApparentPowerUnitType.MVA);
 		if (this.ip != 0.0 || this.iq != 0.0)
-			DataSetter.setPowerData(contribLoad.addNewConstILoad(), this.ip, this.iq, ApparentPowerUnitType.MVA);
+			XBeanDataSetter.setPowerData(contribLoad.addNewConstILoad(), this.ip, this.iq, ApparentPowerUnitType.MVA);
 		if (this.g != 0.0 || this.b != 0.0)
-			DataSetter.setPowerData(contribLoad.addNewConstZLoad(), this.g, this.b, ApparentPowerUnitType.MVA);
+			XBeanDataSetter.setPowerData(contribLoad.addNewConstZLoad(), this.g, this.b, ApparentPowerUnitType.MVA);
 	}
 		
 	public String toString() {

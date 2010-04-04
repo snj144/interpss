@@ -39,9 +39,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZeroSequenceDataListXmlType;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
 
 public class BPADynamicGeneratorRecord {
 	
@@ -67,7 +67,7 @@ public class BPADynamicGeneratorRecord {
     		double ratedVoltage=0.0;
     		if(!strAry[2].equals("")){
     			ratedVoltage= new Double(strAry[2]).doubleValue();
-    			DataSetter.setVoltageData(gen.addNewBusRatedVoltage(), 
+    			XBeanDataSetter.setVoltageData(gen.addNewBusRatedVoltage(), 
     					ratedVoltage, VoltageUnitType.KV);    		
     		}
     		gen.setGeneratorType(GeneratorXmlType.GeneratorType.SUBTRANS_MODEL);
@@ -93,10 +93,10 @@ public class BPADynamicGeneratorRecord {
     		double xq11=ModelStringUtil.getDouble(strAry[9], 0.0);
     		subTranGen.setXq11(xq11);
     		double td011=ModelStringUtil.getDouble(strAry[10], 0.0);
-    		DataSetter.setTimePeriodData(subTranGen.addNewTd011(), 
+    		XBeanDataSetter.setTimePeriodData(subTranGen.addNewTd011(), 
 					td011, TimePeriodUnitType.SEC);
     		double tq011=ModelStringUtil.getDouble(strAry[11], 0.0);
-    		DataSetter.setTimePeriodData(subTranGen.addNewTq011(), 
+    		XBeanDataSetter.setTimePeriodData(subTranGen.addNewTq011(), 
 					tq011, TimePeriodUnitType.SEC);    		
     		
 		}else if(str.substring(0, 2).trim().equals("MF")){
@@ -110,7 +110,7 @@ public class BPADynamicGeneratorRecord {
     		if(!strAry[3].equals("")){
     			genId=strAry[3];    			
     		}
-			GeneratorXmlType gen=ParserHelper.getGeneratorRecord(tranSimu, busId, genId);
+			GeneratorXmlType gen=XBeanParserHelper.getGeneratorRecord(tranSimu, busId, genId);
 			// transient model
 			if(gen!=null){
 				SubTransientMachineXmlType subTranGen=gen
@@ -133,7 +133,7 @@ public class BPADynamicGeneratorRecord {
 				
 				double MvaBase=ModelStringUtil.getDouble(strAry[7], baseCaseNet.getBasePower().getValue());
 				
-				DataSetter.setActivePower(subTranGen.addNewBasePower(), MvaBase, ActivePowerUnitType.MW);   
+				XBeanDataSetter.setActivePower(subTranGen.addNewBasePower(), MvaBase, ActivePowerUnitType.MW);   
 				double h=0.0;
 				if(Emws!=0.0){
 					h=Emws/MvaBase;
@@ -163,11 +163,11 @@ public class BPADynamicGeneratorRecord {
 				subTranGen.setXq(xq);	    			
 	    		
 				double td01=ModelStringUtil.getDouble(strAry[13], 0.0);
-	    		DataSetter.setTimePeriodData(subTranGen.addNewTdo1(), 
+	    		XBeanDataSetter.setTimePeriodData(subTranGen.addNewTdo1(), 
 	    					td01, TimePeriodUnitType.SEC);
 	    		
 	    		double tq01=ModelStringUtil.getDouble(strAry[14], 0.0);
-	    		DataSetter.setTimePeriodData(subTranGen.addNewTq01(), 
+	    		XBeanDataSetter.setTimePeriodData(subTranGen.addNewTq01(), 
 	    					tq01, TimePeriodUnitType.SEC);
 	    		
 	    		double xl=ModelStringUtil.getDouble(strAry[15], 0.0);
@@ -198,7 +198,7 @@ public class BPADynamicGeneratorRecord {
 				double ratedVoltage=0.0;
 	    		if(!strAry[2].equals("")){
 	    			ratedVoltage= new Double(strAry[2]).doubleValue();
-	    			DataSetter.setVoltageData(newGen.addNewBusRatedVoltage(), 
+	    			XBeanDataSetter.setVoltageData(newGen.addNewBusRatedVoltage(), 
 	    					ratedVoltage, VoltageUnitType.KV);    		
 	    		}
 	    		if(!genId.equals("")){
@@ -236,7 +236,7 @@ public class BPADynamicGeneratorRecord {
 				}else {
 					MvaBase=baseCaseNet.getBasePower().getValue();
 				}
-				DataSetter.setActivePower(tranGen.addNewBasePower(), MvaBase, ActivePowerUnitType.MW);   
+				XBeanDataSetter.setActivePower(tranGen.addNewBasePower(), MvaBase, ActivePowerUnitType.MW);   
 				double h=0.0;
 				if(Emws!=0.0){
 					h=Emws/MvaBase;
@@ -266,11 +266,11 @@ public class BPADynamicGeneratorRecord {
 				tranGen.setXq(xq);	    			
 	    		
 				double td01=ModelStringUtil.getDouble(strAry[13], 0.0);
-	    		DataSetter.setTimePeriodData(tranGen.addNewTdo1(), 
+	    		XBeanDataSetter.setTimePeriodData(tranGen.addNewTdo1(), 
 	    					td01, TimePeriodUnitType.SEC);
 	    		
 	    		double tq01=ModelStringUtil.getDouble(strAry[14], 0.0);
-	    		DataSetter.setTimePeriodData(tranGen.addNewTq01(), 
+	    		XBeanDataSetter.setTimePeriodData(tranGen.addNewTq01(), 
 	    					tq01, TimePeriodUnitType.SEC);
 	    			    		
 				double E1=1.0, SE1=0.0;
@@ -304,7 +304,7 @@ public class BPADynamicGeneratorRecord {
 	   		double ratedVoltage=0.0;
 	   		if(!strAry[2].equals("")){
 	   			ratedVoltage= new Double(strAry[2]).doubleValue();
-	   			DataSetter.setVoltageData(gen.addNewBusRatedVoltage(), 
+	   			XBeanDataSetter.setVoltageData(gen.addNewBusRatedVoltage(), 
 	   					ratedVoltage, VoltageUnitType.KV);    		
 	   		}
 	   		gen.setGeneratorType(GeneratorXmlType.GeneratorType.CLASSICAL_MODEL);
@@ -360,7 +360,7 @@ public class BPADynamicGeneratorRecord {
 					gen.setQContribution(qContri);
 				}
 				
-				DataSetter.setActivePower(claGen.addNewBasePower(), MvaBase, ActivePowerUnitType.MW);   
+				XBeanDataSetter.setActivePower(claGen.addNewBasePower(), MvaBase, ActivePowerUnitType.MW);   
 				if(!strAry[9].equals("")){
 					xd1=new Double(strAry[9]).doubleValue();
 	    			claGen.setXd1(xd1);
@@ -388,11 +388,11 @@ public class BPADynamicGeneratorRecord {
 				GeneratorXmlType gen=tranSimu.getDynamicDataList().getBusDynDataList()
 				.getGeneratorDataList().addNewGenerator();
 				gen.addNewLocatedBus().setName(bus1);
-				DataSetter.setVoltageData(gen.addNewBusRatedVoltage(),
+				XBeanDataSetter.setVoltageData(gen.addNewBusRatedVoltage(),
 						Vol1, VoltageUnitType.KV);
 				gen.setGeneratorType(GeneratorXmlType.GeneratorType.EQUI_GEN_UNIT);
 				EquiMachineXmlType equiGen=gen.addNewGeneratorModel().addNewEquiGenUnit();
-				BusRecordXmlType busRec=ParserHelper.findBusRecord(bus1, baseCaseNet);
+				BusRecordXmlType busRec=XBeanParserHelper.findBusRecord(bus1, baseCaseNet);
 				if(busRec!=null){
 					double pGen=busRec.getLoadflowData().getGenData().
 					              getEquivGen().getPower().getRe();

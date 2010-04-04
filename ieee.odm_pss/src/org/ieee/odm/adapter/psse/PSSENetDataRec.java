@@ -9,9 +9,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.XformerZTableXmlType;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 
 public class PSSENetDataRec {
@@ -24,10 +24,10 @@ public class PSSENetDataRec {
 				st = new StringTokenizer(st.nextToken(), "/");
 				double baseMva = new Double(st.nextToken().trim()).doubleValue();
 				
-				DataSetter.setPowerMva(baseCaseNet.addNewBasePower(), baseMva);
+				XBeanDataSetter.setPowerMva(baseCaseNet.addNewBasePower(), baseMva);
 				
 				NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
-				ParserHelper.addNVPair(nvList, "CaseIndicator", new Integer(indicator).toString());
+				XBeanParserHelper.addNVPair(nvList, "CaseIndicator", new Integer(indicator).toString());
 			}
 			else if (lineNo == 2) {
 				// The 2nd line is treated as description
@@ -64,9 +64,9 @@ public class PSSENetDataRec {
 		area.setName(arnam);
 
 		if (isw > 0) {
-			area.addNewSwingBusId().setIdRef(ODMModelParser.BusIdPreFix+isw);
-			DataSetter.setActivePower(area.addNewDesiredExchangePower(), pdes, ActivePowerUnitType.MW);
-			DataSetter.setActivePower(area.addNewExchangeErrTolerance(), ptol, ActivePowerUnitType.MW);			
+			area.addNewSwingBusId().setIdRef(XBeanODMModelParser.BusIdPreFix+isw);
+			XBeanDataSetter.setActivePower(area.addNewDesiredExchangePower(), pdes, ActivePowerUnitType.MW);
+			XBeanDataSetter.setActivePower(area.addNewExchangeErrTolerance(), ptol, ActivePowerUnitType.MW);			
 		}
 	}
 

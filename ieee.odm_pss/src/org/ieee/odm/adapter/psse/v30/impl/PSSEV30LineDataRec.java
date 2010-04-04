@@ -12,10 +12,10 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class PSSEV30LineDataRec {
 	private static int i, j, status;
@@ -28,7 +28,7 @@ public class PSSEV30LineDataRec {
 	 * BranchData
 	 * I,J,CKT,R,X,B,RATEA,RATEB,RATEC,GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4
 	 */
-	public static void procLineString(String lineStr, PsseVersion version, ODMModelParser parser, Logger logger) {
+	public static void procLineString(String lineStr, PsseVersion version, XBeanODMModelParser parser, Logger logger) {
 		procLineFields(lineStr, version, logger);
 
 /*
@@ -42,8 +42,8 @@ public class PSSEV30LineDataRec {
 			j = -j;
 		}
       	
-		final String fid = ODMModelParser.BusIdPreFix+i;
-		final String tid = ODMModelParser.BusIdPreFix+j;
+		final String fid = XBeanODMModelParser.BusIdPreFix+i;
+		final String tid = XBeanODMModelParser.BusIdPreFix+j;
 		String branchId = ModelStringUtil.formBranchId(fid, tid, ckt);
 
 		BranchRecordXmlType branchRec;
@@ -65,17 +65,17 @@ public class PSSEV30LineDataRec {
 		branchData.setMeterLocation( fromMetered ? BaseBranchDataXmlType.MeterLocation.FROM_SIDE :
 										BaseBranchDataXmlType.MeterLocation.TO_SIDE);
       	
-		DataSetter.setLineData(branchData, r, x, ZUnitType.PU, 0.0, b, YUnitType.PU);
+		XBeanDataSetter.setLineData(branchData, r, x, ZUnitType.PU, 0.0, b, YUnitType.PU);
 
-		DataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
+		XBeanDataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
     				ratea, rateb, ratec, ApparentPowerUnitType.MVA);
         
        if ( gi != 0.0 || bi != 0.0)
-    	   DataSetter.setYData(branchData.addNewFromShuntY(), gi, bi, YUnitType.PU);
+    	   XBeanDataSetter.setYData(branchData.addNewFromShuntY(), gi, bi, YUnitType.PU);
        if ( gj != 0.0 || bj != 0.0)
-    	   DataSetter.setYData(branchData.addNewFromShuntY(), gj, bj, YUnitType.PU);
+    	   XBeanDataSetter.setYData(branchData.addNewFromShuntY(), gj, bj, YUnitType.PU);
       
-    	ParserHelper.addOwner(branchRec, 
+    	XBeanParserHelper.addOwner(branchRec, 
     			new Integer(o1).toString(), f1, 
     			new Integer(o2).toString(), o2==0?0.0:f2, 
     			new Integer(o3).toString(), o3==0?0.0:f3, 

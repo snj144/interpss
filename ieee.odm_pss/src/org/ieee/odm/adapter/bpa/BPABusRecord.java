@@ -33,8 +33,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
-import org.ieee.odm.model.DataSetter;
 import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
 
 public class BPABusRecord {
 	
@@ -77,7 +77,7 @@ public class BPABusRecord {
 		if(!strAry[4].equals("")){
 			baseKv= new Double(strAry[4]).doubleValue();
 		}
-		DataSetter.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
+		XBeanDataSetter.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
 		
 		
 		//zone name
@@ -162,12 +162,12 @@ public class BPABusRecord {
 			LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
 			// set G B
 			if (g != 0.0 || b != 0.0) {
-				DataSetter.setYData(busData.addNewShuntY(), g, b,
+				XBeanDataSetter.setYData(busData.addNewShuntY(), g, b,
 						YUnitType.PU);
 			}	
 			// set load
 			if (loadMw != 0.0 || loadMvar != 0.0) {
-				DataSetter.setLoadData(busData,
+				XBeanDataSetter.setLoadData(busData,
 						LFLoadCodeEnumType.CONST_P, loadMw,
 						loadMvar, ApparentPowerUnitType.MVA);
 			}
@@ -178,15 +178,15 @@ public class BPABusRecord {
 					if(vpu>10){
 						vpu=vpu/1000;
 					}
-					DataSetter.setVoltageData(busData.addNewVoltage(), vpu,
+					XBeanDataSetter.setVoltageData(busData.addNewVoltage(), vpu,
 							VoltageUnitType.PU);
 				}
 				// set bus angle
-				DataSetter.setAngleData(busData.addNewAngle(), vMinOrAngDeg,
+				XBeanDataSetter.setAngleData(busData.addNewAngle(), vMinOrAngDeg,
 						AngleUnitType.DEG);
 				//set gen data
 				if(pGen!=0.0||qGenOrQGenMax!=0.0){				
-					DataSetter.setGenData(busData,
+					XBeanDataSetter.setGenData(busData,
 							LFGenCodeEnumType.SWING,
 							vpu, VoltageUnitType.PU,
 							vMinOrAngDeg, AngleUnitType.DEG,
@@ -194,17 +194,17 @@ public class BPABusRecord {
 				}
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
-					DataSetter.setReactivePowerLimitData(busData.getGenData().getEquivGen().addNewQLimit(), 
+					XBeanDataSetter.setReactivePowerLimitData(busData.getGenData().getEquivGen().addNewQLimit(), 
 							qGenOrQGenMax, qGenMin, ReactivePowerUnitType.MVAR);				
 				}
 				// set P limit
 				if(pGenMax!=0.0){
-					DataSetter.setActivePowerLimitData(busData.getGenData().getEquivGen().addNewPLimit(),
+					XBeanDataSetter.setActivePowerLimitData(busData.getGenData().getEquivGen().addNewPLimit(),
 							pGenMax, 0, ActivePowerUnitType.MW);
 				}	
 			}else if(busType==pqBus){			
 				if(pGen!=0.0||qGenOrQGenMax!=0.0){
-					DataSetter.setGenData(busData,
+					XBeanDataSetter.setGenData(busData,
 							LFGenCodeEnumType.PQ, 
 							1.0, VoltageUnitType.PU, 0.0, AngleUnitType.DEG,
 							pGen, qGenOrQGenMax, ApparentPowerUnitType.MVA);
@@ -215,7 +215,7 @@ public class BPABusRecord {
 					if(busData.getGenData()==null){
 						busData.addNewGenData().addNewEquivGen();
 					}
-				    DataSetter.setVoltageLimitData(busData.getGenData().getEquivGen().addNewVoltageLimit(),
+				    XBeanDataSetter.setVoltageLimitData(busData.getGenData().getEquivGen().addNewVoltageLimit(),
 						 vpu, vMinOrAngDeg, VoltageUnitType.PU);
 				    }			
 			}else if(busType==pvBus){
@@ -224,24 +224,24 @@ public class BPABusRecord {
 					if(vpu>10){
 						vpu=vpu/1000;
 					}
-					DataSetter.setVoltageData(busData.addNewVoltage(), vpu,
+					XBeanDataSetter.setVoltageData(busData.addNewVoltage(), vpu,
 							VoltageUnitType.PU);
 				}
 				// set gen data
 				if(pGen!=0.0||qGenOrQGenMax!=0.0){
-					DataSetter.setGenData(busData,
+					XBeanDataSetter.setGenData(busData,
 							LFGenCodeEnumType.PV, 
 							vpu, VoltageUnitType.PU, 0.0, AngleUnitType.DEG,
 							pGen, 0.0, ApparentPowerUnitType.MVA);
 				}
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
-					DataSetter.setReactivePowerLimitData(busData.getGenData().getEquivGen().addNewQLimit(), 
+					XBeanDataSetter.setReactivePowerLimitData(busData.getGenData().getEquivGen().addNewQLimit(), 
 							qGenOrQGenMax, qGenMin, ReactivePowerUnitType.MVAR);				
 				}
 				// set P limit
 				if(pGenMax!=0.0){
-					DataSetter.setActivePowerLimitData(busData.getGenData().getEquivGen().addNewPLimit(),
+					XBeanDataSetter.setActivePowerLimitData(busData.getGenData().getEquivGen().addNewPLimit(),
 							pGenMax, 0, ActivePowerUnitType.MW);
 				}	
 				
@@ -257,7 +257,7 @@ public class BPABusRecord {
 			if(strAry[0].equals("BG")||strAry[0].equals("BX")){
 				if(!controlledBus.equals("")) {			
 					busData.getGenData().getEquivGen().addNewRemoteVoltageControlBus().setIdRef(controlledBus);
-					DataSetter.setVoltageData(busData.getGenData().getEquivGen().addNewDesiredVoltage(),
+					XBeanDataSetter.setVoltageData(busData.getGenData().getEquivGen().addNewDesiredVoltage(),
 							vpu, VoltageUnitType.PU);
 				}
 			}

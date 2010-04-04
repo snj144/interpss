@@ -36,8 +36,8 @@ import org.ieee.odm.adapter.ge.impl.GenDataRec;
 import org.ieee.odm.adapter.ge.impl.LoadDataRec;
 import org.ieee.odm.adapter.ge.impl.NetDataRec;
 import org.ieee.odm.adapter.ge.impl.XformerDataRec;
-import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 	public static enum VersionNo {PSLF15};
@@ -85,12 +85,12 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 		super(logger);
 	}
 	 
-	protected ODMModelParser parseInputFile(
+	protected XBeanODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		VersionNo version = VersionNo.PSLF15;
 		
-		ODMModelParser parser = new ODMModelParser();
-		ParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.GE_PSLF);
+		XBeanODMModelParser parser = new XBeanODMModelParser();
+		XBeanParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.GE_PSLF);
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		baseCaseNet.setId("Base_Case_from_GE_PSLF_format");
@@ -295,7 +295,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
     		throw new Exception("GE data input error, line no " + lineNo + ", " + e.toString() + "\n" + lineStr);
   		}
 
-  		ParserHelper.createBusEquivData(baseCaseNet, this.getLogger());
+  		XBeanParserHelper.createBusEquivData(baseCaseNet, this.getLogger());
   		
 		return parser;
 	}

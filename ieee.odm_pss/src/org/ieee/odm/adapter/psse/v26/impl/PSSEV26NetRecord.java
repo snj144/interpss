@@ -30,9 +30,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
 
 public class PSSEV26NetRecord {
 	public final static String Token_CaseDesc = "Case Description";     
@@ -47,16 +47,16 @@ public class PSSEV26NetRecord {
 		
 		final double baseMva = ModelStringUtil.getDouble(strAry[1], 100.0);
 	    logger.fine("BaseKva: "  + baseMva);
-	    DataSetter.setPowerMva(baseCaseNet.addNewBasePower(), baseMva);   
+	    XBeanDataSetter.setPowerMva(baseCaseNet.addNewBasePower(), baseMva);   
 
 		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
 		
 		final String desc = strAry[2];// The 2nd line is treated as description
-		ParserHelper.addNVPair(nvList, Token_CaseDesc, desc);     
+		XBeanParserHelper.addNVPair(nvList, Token_CaseDesc, desc);     
 	   
 	    // the 3rd line is treated as the network id and network name		
 		final String caseId= strAry[3];
-		ParserHelper.addNVPair(nvList, Token_CaseId, caseId);				
+		XBeanParserHelper.addNVPair(nvList, Token_CaseId, caseId);				
 		logger.fine("Case Description, caseId: " + desc + ", "+ caseId);		
 		
         return true;
@@ -82,8 +82,8 @@ public class PSSEV26NetRecord {
 		interchange.setAreaNumber(no);
 
 		interchange.addNewSwingBus().setIdRef(swingBusName);
-		DataSetter.setActivePower(interchange.addNewDesiredExPower(), mw, ActivePowerUnitType.MW);
-		DataSetter.setActivePower(interchange.addNewExErrTolerance(), err, ActivePowerUnitType.MW);
+		XBeanDataSetter.setActivePower(interchange.addNewDesiredExPower(), mw, ActivePowerUnitType.MW);
+		XBeanDataSetter.setActivePower(interchange.addNewExErrTolerance(), err, ActivePowerUnitType.MW);
 	}
 	
 	public static  void processInterAreaTransferData(final String str,

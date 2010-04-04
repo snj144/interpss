@@ -35,8 +35,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
 
 public class XformerDataRec extends BaseBranchDataRec {
 	public int type, kregBus, zt, iintBus, tertBus;
@@ -209,25 +209,25 @@ public class XformerDataRec extends BaseBranchDataRec {
 		LoadflowBranchDataXmlType.XfrInfo xfrInfo = branchData.addNewXfrInfo();
 		if (branchData.getNvPairList() == null)
 			branchData.addNewNvPairList();
-		ParserHelper.addNVPair(branchData.getNvPairList(), GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
-		DataSetter.setPowerMva(xfrInfo.addNewRatedPower12(), this.tbase);
-		DataSetter.setVoltageData(xfrInfo.addNewRatedVoltage1(), this.vnomp, VoltageUnitType.KV);
-		DataSetter.setVoltageData(xfrInfo.addNewRatedVoltage2(), this.vnoms, VoltageUnitType.KV);
+		XBeanParserHelper.addNVPair(branchData.getNvPairList(), GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
+		XBeanDataSetter.setPowerMva(xfrInfo.addNewRatedPower12(), this.tbase);
+		XBeanDataSetter.setVoltageData(xfrInfo.addNewRatedVoltage1(), this.vnomp, VoltageUnitType.KV);
+		XBeanDataSetter.setVoltageData(xfrInfo.addNewRatedVoltage2(), this.vnoms, VoltageUnitType.KV);
 		
-		DataSetter.setZValue(branchData.addNewZ(), this.zpsr, this.zpsx, ZUnitType.PU);
+		XBeanDataSetter.setZValue(branchData.addNewZ(), this.zpsr, this.zpsx, ZUnitType.PU);
 		branchData.getXfrInfo().setDataOnSystemBase(false);
 		
-		DataSetter.setTapPU(branchData.addNewFromTurnRatio(), this.tapfp);
-		DataSetter.setTapPU(branchData.addNewToTurnRatio(), this.tapfs);
+		XBeanDataSetter.setTapPU(branchData.addNewFromTurnRatio(), this.tapfp);
+		XBeanDataSetter.setTapPU(branchData.addNewToTurnRatio(), this.tapfs);
 		
 		if (this.anglp != 0.0 || this.angls != 0.0) {
 			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
-			DataSetter.setAngleData(branchData.addNewFromAngle(), this.anglp, AngleUnitType.DEG);
-			DataSetter.setAngleData(branchData.addNewToAngle(), this.angls, AngleUnitType.DEG);
+			XBeanDataSetter.setAngleData(branchData.addNewFromAngle(), this.anglp, AngleUnitType.DEG);
+			XBeanDataSetter.setAngleData(branchData.addNewToAngle(), this.angls, AngleUnitType.DEG);
 		}
 
 		if (this.gmag != 0.0 || this.bmag != 0.0)
-			DataSetter.setYData(branchData.addNewFromShuntY(), this.gmag, this.bmag, YUnitType.PU);
+			XBeanDataSetter.setYData(branchData.addNewFromShuntY(), this.gmag, this.bmag, YUnitType.PU);
 		
 		if (this.aloss != 0.0)
 			xfrInfo.setLossFactor1(this.aloss);

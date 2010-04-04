@@ -11,8 +11,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineData2TXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class PSSEV30DcLine2TDataRec {
 	private static int I, MDC, CCCITMX;
@@ -23,11 +23,11 @@ public class PSSEV30DcLine2TDataRec {
 	private static int IPI, NBI, ICI, IFI, ITI;
 	private static double GAMMX,GAMMN,RCI,XCI,EBASI,TRI,TAPI,TMXI,TMNI,STPI,XCAPI;	
 
-	public static void procLineString(String lineStr1, String lineStr2, String lineStr3, PsseVersion version, ODMModelParser parser, Logger logger) {
+	public static void procLineString(String lineStr1, String lineStr2, String lineStr3, PsseVersion version, XBeanODMModelParser parser, Logger logger) {
 		procLineFields(lineStr1, lineStr2, lineStr3, version, logger);
 		
-		final String fid = ODMModelParser.BusIdPreFix+IPR;
-		final String tid = ODMModelParser.BusIdPreFix+IPI;
+		final String fid = XBeanODMModelParser.BusIdPreFix+IPR;
+		final String tid = XBeanODMModelParser.BusIdPreFix+IPI;
 		DCLineData2TXmlType dcLine2T;
 		try {
 			dcLine2T = parser.addNewBaseCaseDCLine2T(fid, tid, I);
@@ -50,22 +50,22 @@ public class PSSEV30DcLine2TDataRec {
 		if (MDC == 1) {
 			dcLine2T.setControlMode(DCLineData2TXmlType.ControlMode.POWER);
 			dcLine2T.setControlOnRectifierSide(SETVL > 0.0);
-			DataSetter.setActivePower(dcLine2T.addNewPowerDemand(), SETVL, ActivePowerUnitType.MW);
+			XBeanDataSetter.setActivePower(dcLine2T.addNewPowerDemand(), SETVL, ActivePowerUnitType.MW);
 		}
 		else if (MDC == 2) {
 			dcLine2T.setControlMode(DCLineData2TXmlType.ControlMode.CURRENT);
-			DataSetter.setCurrentData(dcLine2T.addNewCurrentDemand(), SETVL, CurrentUnitType.AMP);
+			XBeanDataSetter.setCurrentData(dcLine2T.addNewCurrentDemand(), SETVL, CurrentUnitType.AMP);
 		}
 		else
 			dcLine2T.setControlMode(DCLineData2TXmlType.ControlMode.BLOCKED);
 			
-		DataSetter.setRValue(dcLine2T.addNewLineR(), RDC, ZUnitType.OHM);
+		XBeanDataSetter.setRValue(dcLine2T.addNewLineR(), RDC, ZUnitType.OHM);
 		
 		/*
 			VSCHD Scheduled compounded dc voltage; entered in kV. No default allowed.
 			METER Metered end code of either ’R’ (for rectifier) or ’I’ (for inverter). METER = ’I’ by default.
 		*/
-		DataSetter.setVoltageData(dcLine2T.addNewScheduledDCVoltage(), VSCHD, VoltageUnitType.KV);
+		XBeanDataSetter.setVoltageData(dcLine2T.addNewScheduledDCVoltage(), VSCHD, VoltageUnitType.KV);
 		dcLine2T.setMeterdEnd(METER.equals("R")? DCLineData2TXmlType.MeterdEnd.RECTIFIER :
 							DCLineData2TXmlType.MeterdEnd.INVERTER);
 		/*
@@ -79,8 +79,8 @@ public class PSSEV30DcLine2TDataRec {
 				end dc voltage VDCR, set RCOMP to the dc line resistance, RDC; otherwise, set
 				RCOMP to the appropriate fraction of RDC. RCOMP = 0.0 by default.
 		*/
-		DataSetter.setVoltageData(dcLine2T.addNewModeSwitchDCVoltage(), VCMOD, VoltageUnitType.KV);
-		DataSetter.setRValue(dcLine2T.addNewCompoundingR(), RCOMP, ZUnitType.OHM);
+		XBeanDataSetter.setVoltageData(dcLine2T.addNewModeSwitchDCVoltage(), VCMOD, VoltageUnitType.KV);
+		XBeanDataSetter.setRValue(dcLine2T.addNewCompoundingR(), RCOMP, ZUnitType.OHM);
 
 		/*
 			DELTI Margin entered in per unit of desired dc power or current. This is the fraction by
@@ -92,7 +92,7 @@ public class PSSEV30DcLine2TDataRec {
 				a two-winding transformer). DCVMIN = 0.0 by default.
 		 */
 		dcLine2T.setPowerOrCurrentMarginPU(DELTI);
-		DataSetter.setVoltageData(dcLine2T.addNewMinDCVoltage(), DCVMIN, VoltageUnitType.KV);
+		XBeanDataSetter.setVoltageData(dcLine2T.addNewMinDCVoltage(), DCVMIN, VoltageUnitType.KV);
 		
 		/*
 		Line-2: IPR,NBR,ALFMX,ALFMN,RCR,XCR,EBASR,TRR,TAPR,TMXR,TMNR,STPR,ICR,IFR,ITR,IDR,XCAPR
@@ -114,28 +114,28 @@ public class PSSEV30DcLine2TDataRec {
 		ConverterXmlType inverter = dcLine2T.getInverter();
 		
 		rectifier.setNumberofBridges(NBR);
-		DataSetter.setAngleData(rectifier.addNewMaxFiringAngle(), ALFMX, AngleUnitType.DEG);
-		DataSetter.setAngleData(rectifier.addNewMinFiringAngle(), ALFMN, AngleUnitType.DEG);
-		DataSetter.setVoltageData(rectifier.addNewAcSideRatedVoltage(), EBASR, VoltageUnitType.KV);
+		XBeanDataSetter.setAngleData(rectifier.addNewMaxFiringAngle(), ALFMX, AngleUnitType.DEG);
+		XBeanDataSetter.setAngleData(rectifier.addNewMinFiringAngle(), ALFMN, AngleUnitType.DEG);
+		XBeanDataSetter.setVoltageData(rectifier.addNewAcSideRatedVoltage(), EBASR, VoltageUnitType.KV);
 		if (ICR != 0)
-			rectifier.addNewFiringAngleMeasuringBusId().setIdRef(ODMModelParser.BusIdPreFix+ICR);
+			rectifier.addNewFiringAngleMeasuringBusId().setIdRef(XBeanODMModelParser.BusIdPreFix+ICR);
 		
 		inverter.setNumberofBridges(NBI);
-		DataSetter.setAngleData(inverter.addNewMaxFiringAngle(), GAMMX, AngleUnitType.DEG);
-		DataSetter.setAngleData(inverter.addNewMinFiringAngle(), GAMMN, AngleUnitType.DEG);
-		DataSetter.setVoltageData(inverter.addNewAcSideRatedVoltage(), EBASI, VoltageUnitType.KV);
+		XBeanDataSetter.setAngleData(inverter.addNewMaxFiringAngle(), GAMMX, AngleUnitType.DEG);
+		XBeanDataSetter.setAngleData(inverter.addNewMinFiringAngle(), GAMMN, AngleUnitType.DEG);
+		XBeanDataSetter.setVoltageData(inverter.addNewAcSideRatedVoltage(), EBASI, VoltageUnitType.KV);
 		if (ICI != 0)
-			inverter.addNewFiringAngleMeasuringBusId().setIdRef(ODMModelParser.BusIdPreFix+ICI);
+			inverter.addNewFiringAngleMeasuringBusId().setIdRef(XBeanODMModelParser.BusIdPreFix+ICI);
 		
 		/*
 			RCR Rectifier commutating transformer resistance per bridge; entered in ohms. No default allowed.
 			XCR Rectifier commutating transformer reactance per bridge; entered in ohms. No default allowed.
 			XCAPR Commutating capacitor reactance magnitude per bridge; entered in ohms. XCAPR = 0.0 by default.			
 		*/
-		DataSetter.setZValue(rectifier.addNewCommutatingZ(), RCR, XCR, ZUnitType.OHM);
+		XBeanDataSetter.setZValue(rectifier.addNewCommutatingZ(), RCR, XCR, ZUnitType.OHM);
 		rectifier.setCommutatingCapacitor(XCAPR);
 		
-		DataSetter.setZValue(inverter.addNewCommutatingZ(), RCI, XCI, ZUnitType.OHM);
+		XBeanDataSetter.setZValue(inverter.addNewCommutatingZ(), RCI, XCI, ZUnitType.OHM);
 		inverter.setCommutatingCapacitor(XCAPI);	
 		
 		/*
@@ -146,13 +146,13 @@ public class PSSEV30DcLine2TDataRec {
 			STPR Rectifier tap step; must be positive. STPR = 0.00625 by default.
 			*/
 		rectifier.setXformerTurnRatio(TRR);
-       	DataSetter.setTapPU(rectifier.addNewXformerTapSetting(), TAPR);
-       	DataSetter.setTapLimitData(rectifier.addNewXformerTapLimit(), TMXR, TMNR);
+       	XBeanDataSetter.setTapPU(rectifier.addNewXformerTapSetting(), TAPR);
+       	XBeanDataSetter.setTapLimitData(rectifier.addNewXformerTapLimit(), TMXR, TMNR);
        	rectifier.setXformerTapStepSize(STPR);
 
        	inverter.setXformerTurnRatio(TRI);
-       	DataSetter.setTapPU(inverter.addNewXformerTapSetting(), TAPI);
-       	DataSetter.setTapLimitData(inverter.addNewXformerTapLimit(), TMXI, TMNI);
+       	XBeanDataSetter.setTapPU(inverter.addNewXformerTapSetting(), TAPI);
+       	XBeanDataSetter.setTapLimitData(inverter.addNewXformerTapLimit(), TMXI, TMNI);
        	inverter.setXformerTapStepSize(STPI);
 		/*
 			IFR Winding one side "from bus" number, or extended bus name enclosed in single
@@ -164,14 +164,14 @@ public class PSSEV30DcLine2TDataRec {
 				one dc converter. IDR = '1' by default.
 		*/
 		if (IFR != 0 && ITR != 0) {
-			rectifier.addNewRefXfrFromBusId().setIdRef(ODMModelParser.BusIdPreFix+IFR);
-			rectifier.addNewRefXfrToBusId().setIdRef(ODMModelParser.BusIdPreFix+ITR);
+			rectifier.addNewRefXfrFromBusId().setIdRef(XBeanODMModelParser.BusIdPreFix+IFR);
+			rectifier.addNewRefXfrToBusId().setIdRef(XBeanODMModelParser.BusIdPreFix+ITR);
 			rectifier.setRefXfrCirId(IDR);
 		}
 
 		if (IFI != 0 && ITI != 0) {
-			inverter.addNewRefXfrFromBusId().setIdRef(ODMModelParser.BusIdPreFix+IFI);
-			inverter.addNewRefXfrToBusId().setIdRef(ODMModelParser.BusIdPreFix+ITI);
+			inverter.addNewRefXfrFromBusId().setIdRef(XBeanODMModelParser.BusIdPreFix+IFI);
+			inverter.addNewRefXfrToBusId().setIdRef(XBeanODMModelParser.BusIdPreFix+ITI);
 			inverter.setRefXfrCirId(IDI);
 		}
 	}

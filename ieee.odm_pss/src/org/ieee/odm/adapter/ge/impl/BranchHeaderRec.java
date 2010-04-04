@@ -28,9 +28,9 @@ import java.util.StringTokenizer;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class BranchHeaderRec {
 	public int f_bus, t_bus, sec;
@@ -65,9 +65,9 @@ public class BranchHeaderRec {
 	}
 	
 	public BranchRecordXmlType createBranch(final PSSNetworkXmlType baseCaseNet) {
-		final String fid = ODMModelParser.BusIdPreFix + f_bus;
-		final String tid = ODMModelParser.BusIdPreFix + t_bus;
-		BranchRecordXmlType branchRec = ParserHelper.findBranchRecord(fid, tid, ck, baseCaseNet);
+		final String fid = XBeanODMModelParser.BusIdPreFix + f_bus;
+		final String tid = XBeanODMModelParser.BusIdPreFix + t_bus;
+		BranchRecordXmlType branchRec = XBeanParserHelper.findBranchRecord(fid, tid, ck, baseCaseNet);
 		if (branchRec == null) {
 			branchRec = baseCaseNet.getBranchList().addNewBranch();	
 
