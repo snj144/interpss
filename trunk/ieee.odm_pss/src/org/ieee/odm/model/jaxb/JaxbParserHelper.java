@@ -53,6 +53,7 @@ import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.ObjectFactory;
+import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.schema.PowerXmlType;
 import org.ieee.odm.schema.ReactivePowerLimitXmlType;
@@ -74,7 +75,7 @@ public class JaxbParserHelper {
 	 * @param parser
 	 * @param originalFormat
 	 */
-	public static void setLFTransInfo(JaxbODMModelParser parser, String originalDataFormat, ObjectFactory factory) {
+	public static void setLFTransInfo(JaxbODMModelParser parser, OriginalDataFormatEnumType originalDataFormat, ObjectFactory factory) {
 		StudyCaseXmlType.ContentInfo info = factory.createStudyCaseXmlTypeContentInfo();
 		parser.getStudyCase().setContentInfo(info);
 		info.setOriginalDataFormat(originalDataFormat);
