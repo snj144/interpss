@@ -48,6 +48,7 @@ import org.ieee.odm.schema.DCLineData2TXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
 import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
+import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.schema.ScenarioXmlType;
@@ -146,7 +147,7 @@ public class JaxbODMModelParser extends ODMModelParser {
 		
 		baseCase.setBusList(new PSSNetworkXmlType.BusList());
 		baseCase.setBranchList(new PSSNetworkXmlType.BranchList());
-		
+				
 		return baseCase;
 	}
 	
@@ -288,19 +289,22 @@ public class JaxbODMModelParser extends ODMModelParser {
 	}
 	
 	/**
-	 * Area, zone, tieline functions
+	 * Area, zone, tieline, interchange functions
+	 * ==========================================
 	 */
 	
 	/**
-	 * add a new area record to the base case
+	 * create an area object and added to the net.areaList
 	 * 
 	 * @return
 	 */
-	public PSSNetworkXmlType.AreaList getAreaList(){
-		if(getStudyCase().getBaseCase().getAreaList()==null){
-			getStudyCase().getBaseCase().setAreaList(this.factory.createPSSNetworkXmlTypeAreaList());
+	public NetAreaXmlType createNetworkArea() {
+		if(getBaseCase().getAreaList()==null){
+			getBaseCase().setAreaList(this.factory.createPSSNetworkXmlTypeAreaList());
 		}
-		return getStudyCase().getBaseCase().getAreaList();
+		NetAreaXmlType area = this.factory.createNetAreaXmlType();
+		getBaseCase().getAreaList().getArea().add(area);
+		return area;
 	}
 	
 	/**
@@ -308,22 +312,26 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 * 
 	 * @return
 	 */
-	
-	public NetAreaXmlType createNetworkArea() {
-		NetAreaXmlType area = this.factory.createNetAreaXmlType();
-		getAreaList().getArea().add(area);
-		return area;
+	public NetZoneXmlType createNetworkLossZone() {
+		if(getBaseCase().getLossZoneList() == null){
+			getBaseCase().setLossZoneList(this.factory.createPSSNetworkXmlTypeLossZoneList());
+		}
+		NetZoneXmlType zone = this.factory.createNetZoneXmlType();
+		getBaseCase().getLossZoneList().getLossZone().add(zone);
+		return zone;
 	}
-	
+
 	/**
-	 * get the net.tieLineList 
+	 * create a tieLine object
 	 * 
 	 * @return
 	 */
-	public PSSNetworkXmlType.TieLineList getTielineList(){
-		if (getStudyCase().getBaseCase().getTieLineList() == null)
-			getStudyCase().getBaseCase().setTieLineList(this.factory.createPSSNetworkXmlTypeTieLineList());
-		return getStudyCase().getBaseCase().getTieLineList();
+	public PSSNetworkXmlType.TieLineList.Tieline createTieline() {
+		if (getBaseCase().getTieLineList() == null)
+			getBaseCase().setTieLineList(this.factory.createPSSNetworkXmlTypeTieLineList());
+		PSSNetworkXmlType.TieLineList.Tieline tieLine = this.factory.createPSSNetworkXmlTypeTieLineListTieline();
+		getBaseCase().getTieLineList().getTieline().add(tieLine);
+		return tieLine;
 	}
 	
 	/**
@@ -331,12 +339,14 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 * 
 	 * @return
 	 */
-	public PSSNetworkXmlType.TieLineList.Tieline createTieline() {
-		PSSNetworkXmlType.TieLineList.Tieline tieLine = this.factory.createPSSNetworkXmlTypeTieLineListTieline();
-		getTielineList().getTieline().add(tieLine);
-		return tieLine;
+	public PSSNetworkXmlType.InterchangeList.Interchange createInterchange() {
+		if (getBaseCase().getInterchangeList() == null)
+			getBaseCase().setInterchangeList(this.factory.createPSSNetworkXmlTypeInterchangeList());
+		PSSNetworkXmlType.InterchangeList.Interchange interchange = this.factory.createPSSNetworkXmlTypeInterchangeListInterchange();
+		getBaseCase().getInterchangeList().getInterchange().add(interchange);
+		return interchange;
 	}
-	
+
 	/**
 	 * Get the cashed dcLine2T object by id
 	 * 
