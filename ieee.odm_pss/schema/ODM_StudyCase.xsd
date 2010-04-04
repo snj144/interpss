@@ -20,35 +20,15 @@
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
-					<element name="schemaVersion" minOccurs="1" maxOccurs="1">
-						<simpleType>
-							<restriction base="string">
-								<enumeration value="V0.4"></enumeration>
-								<enumeration value="V0.5"></enumeration>
-							</restriction>
-						</simpleType>
+					<element name="schemaVersion" minOccurs="1" maxOccurs="1" type="pss:ODMSchemaVersionEnumType">
 					</element>
                     <element name="contentInfo" minOccurs="0">
                     	<complexType>
                     		<sequence>
-                    			<element name="originalDataFormat" minOccurs="1" maxOccurs="1">
+                    			<element name="originalDataFormat" minOccurs="1" maxOccurs="1" type="pss:OriginalDataFormatEnumType">
                     				<annotation>
                     					<documentation>for describing the original data format, from which this xml file is produced</documentation>
-                    				</annotation>
-                    				<simpleType>
-                    					<restriction base="string">
-                    						<enumeration value="IEEE-CDF"></enumeration>
-                    						<enumeration value="PSS-E"></enumeration>
-                    						<enumeration value="UCTE-DEF"></enumeration>
-                    						<enumeration value="InterPSS"></enumeration>
-                    						<enumeration value="PSAT"></enumeration>
-                    						<enumeration value="IEEE-ODM-PSS"></enumeration>
-                    						<enumeration value="BPA"></enumeration>
-                    						<enumeration value="GE-PSLF"></enumeration>
-                    						<enumeration value="Cim"></enumeration>
-                    						<enumeration value="Custom"></enumeration>
-                    					</restriction>
-                    				</simpleType>
+                    				</annotation>
                     			</element>
                                 <element name="originalFormatVersion" type="string" minOccurs="0"></element>
                                 <element name="adapterProviderName" type="string" minOccurs="0" maxOccurs="1">
@@ -93,7 +73,31 @@
 			</extension>
 		</complexContent>
 	</complexType>
+	
+						<simpleType name="ODMSchemaVersionEnumType">
+							<restriction base="string">
+								<enumeration value="V0.4"></enumeration>
+								<enumeration value="V0.5"></enumeration>
+								<enumeration value="V0.6"></enumeration>
+								<enumeration value="V0.7"></enumeration>
+							</restriction>
+						</simpleType>	
 
+                    				<simpleType name = "OriginalDataFormatEnumType">
+                    					<restriction base="string">
+                    						<enumeration value="IEEE-CDF"></enumeration>
+                    						<enumeration value="PSS-E"></enumeration>
+                    						<enumeration value="UCTE-DEF"></enumeration>
+                    						<enumeration value="InterPSS"></enumeration>
+                    						<enumeration value="PSAT"></enumeration>
+                    						<enumeration value="IEEE-ODM-PSS"></enumeration>
+                    						<enumeration value="BPA"></enumeration>
+                    						<enumeration value="GE-PSLF"></enumeration>
+                    						<enumeration value="Cim"></enumeration>
+                    						<enumeration value="Custom"></enumeration>
+                    					</restriction>
+                    				</simpleType>
+                    				
 	<complexType name="ScenarioXmlType">
 		<annotation>
 			<documentation>for define a study scenario. In addtion to the modification defined at the StudyCase level, modification can be also defined at each scenario level</documentation>

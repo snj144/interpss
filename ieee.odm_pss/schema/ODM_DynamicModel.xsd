@@ -4,6 +4,7 @@
     xmlns:pss="http://www.ieee.org/odm/Schema"
 	elementFormDefault="qualified">
 	<include schemaLocation="ODM_DataType.xsd"></include>
+	
 <!-- 
 		Machine Model
 		=============
@@ -187,6 +188,8 @@
 		Exciter Model
 		=============
  -->
+ 
+ 
 				<complexType name="ExcIEEE1992TypeAC1AXmlType">
 					<sequence>
 						<element name="exciterName" type="string" maxOccurs="1" minOccurs="0"></element>

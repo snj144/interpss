@@ -209,19 +209,19 @@ max and min are used.</documentation>
         </annotation>
         <complexContent>
 			<extension base="pss:LimitXmlType">
-				<attribute name="mode" use="required">
-					<simpleType>
-						<restriction base="string">
-							<enumeration value="ValueAdjustment"></enumeration>
-							<enumeration value="RangeAdjustment"></enumeration>
-						</restriction>
-					</simpleType>
-				</attribute>
+				<attribute name="mode" use="required" type="pss:AdjustmentModeEnumType"></attribute>
 				<attribute name="desiredValue" type="double" use="required"></attribute>
 			</extension>
 		</complexContent>
 	</complexType>
 
+					<simpleType name="AdjustmentModeEnumType">
+						<restriction base="string">
+							<enumeration value="ValueAdjustment"></enumeration>
+							<enumeration value="RangeAdjustment"></enumeration>
+						</restriction>
+					</simpleType>
+					
 	<complexType name="LengthXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
@@ -383,15 +383,7 @@ max and min are used.</documentation>
 
 	<complexType name="LoadChangeDynamicEventXmlType">
 		<sequence>
-			<element name="loadChangeCategory" maxOccurs="1" minOccurs="0">
-				<simpleType>
-					<restriction base="string">
-						<enumeration value="LowFrequence"></enumeration>
-						<enumeration value="LowVoltage"></enumeration>
-						<enumeration value="FixedTime"></enumeration>
-					</restriction>
-				</simpleType>
-			</element>
+			<element name="loadChangeCategory" maxOccurs="1" minOccurs="0" type="pss:LoadChangeCategoryEnumType"></element>
 			<element name="bus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="busRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="operationTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
@@ -404,6 +396,14 @@ max and min are used.</documentation>
 		</sequence>
 	</complexType>
 
+				<simpleType name = "LoadChangeCategoryEnumType">
+					<restriction base="string">
+						<enumeration value="LowFrequence"></enumeration>
+						<enumeration value="LowVoltage"></enumeration>
+						<enumeration value="FixedTime"></enumeration>
+					</restriction>
+				</simpleType>
+				
 	<complexType name="GenChangeDynamicEventXmlType">
 		<sequence>
 			<element name="bus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
@@ -423,19 +423,7 @@ max and min are used.</documentation>
 			<element name="fromACRatedVol" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
 
 			<element name="toACRatedVol" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="faultType" maxOccurs="1" minOccurs="1">
-				<simpleType>
-					<restriction base="string">
-						<enumeration value="fromBus_Bipole_Short_Circuit"></enumeration>
-						<enumeration value="toBus_Bipole_Short_Circuit"></enumeration>
-						<enumeration value="fault_on_Line"></enumeration>
-						<enumeration value="power_blocked"></enumeration>
-						<enumeration value="power_reversed"></enumeration>
-						<enumeration value="power_change_by_specification"></enumeration>
-						<enumeration value="current_change_by_specification"></enumeration>
-					</restriction>
-				</simpleType>
-			</element>
+			<element name="faultType" maxOccurs="1" minOccurs="1" type="pss:DcLineFaultEnumType"></element>
 			<element name="startTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="durationTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="permanentFault" type="boolean" maxOccurs="1" minOccurs="0"></element>
@@ -446,6 +434,18 @@ max and min are used.</documentation>
 		</sequence>
 	</complexType>
 
+				<simpleType name = "DcLineFaultEnumType">
+					<restriction base="string">
+						<enumeration value="fromBus_Bipole_Short_Circuit"></enumeration>
+						<enumeration value="toBus_Bipole_Short_Circuit"></enumeration>
+						<enumeration value="fault_on_Line"></enumeration>
+						<enumeration value="power_blocked"></enumeration>
+						<enumeration value="power_reversed"></enumeration>
+						<enumeration value="power_change_by_specification"></enumeration>
+						<enumeration value="current_change_by_specification"></enumeration>
+					</restriction>
+				</simpleType>
+				
 	<complexType name="MvaRatingXmlType">
 		<sequence>
 			<element name="ratingAry" type="double" maxOccurs="unbounded" minOccurs="0"></element>
@@ -549,11 +549,7 @@ max and min are used.</documentation>
 
 	<complexType name="CimSwitchXmlType">
 		<complexContent>
-			<extension base="pss:CimRdfXmlType">
-
-
-				<attribute name="offStatus" type="boolean" use="required"></attribute>
-
+			<extension base="pss:CimRdfXmlType">				<attribute name="offStatus" type="boolean" use="required"></attribute>
 			</extension>
 		</complexContent>
 	</complexType>
