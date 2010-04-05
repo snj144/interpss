@@ -3,6 +3,28 @@
 
 	<include schemaLocation="../ODM_DataType.xsd"></include>
 
+	<complexType name="TurbineGovernorXmlType">
+		<sequence>
+			<element name="locatedBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="busRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="turbineGovernorType" maxOccurs="1" minOccurs="1" type="pss:TurbineGovernorEnumType">
+			</element>
+			<element name="turbineGovernorModel" type="pss:TurbineGovernorModelListXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="tgId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+
+	<simpleType name="TurbineGovernorEnumType">
+		<restriction base="string">
+			<enumeration value="IEEE1981Type1"></enumeration>
+			<enumeration value="IEEE1981Type2"></enumeration>
+			<enumeration value="IEEE1981Type3"></enumeration>
+			<enumeration value="hydroStreamGeneralModel"></enumeration>
+			<enumeration value="hydroGovernerAndTurbine"></enumeration>
+			<enumeration value="hydroGoverner"></enumeration>
+		</restriction>
+	</simpleType>
+
 	<complexType name="TurbineGovernorModelListXmlType">
 		<sequence>
 			<element name="IEEE1981Type1" maxOccurs="1" minOccurs="0" type="pss:GovIEEE1981Type1XmlTypeXmlType">
@@ -152,32 +174,10 @@
 		</sequence>
 	</complexType>
 
-	<!-- 
+<!-- 
 	Turbine Model
 	=============
  -->
-	<complexType name="TurbineGovernorXmlType">
-		<sequence>
-			<element name="locatedBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="busRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="turbineGovernorType" maxOccurs="1" minOccurs="1" type="pss:TurbineGovernorEnumType">
-			</element>
-			<element name="turbineGovernorModel" type="pss:TurbineGovernorModelListXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="tgId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
-		</sequence>
-	</complexType>
-
-	<simpleType name="TurbineGovernorEnumType">
-		<restriction base="string">
-			<enumeration value="IEEE1981Type1"></enumeration>
-			<enumeration value="IEEE1981Type2"></enumeration>
-			<enumeration value="IEEE1981Type3"></enumeration>
-			<enumeration value="hydroStreamGeneralModel"></enumeration>
-			<enumeration value="hydroGovernerAndTurbine"></enumeration>
-			<enumeration value="hydroGoverner"></enumeration>
-		</restriction>
-	</simpleType>
-
 	<complexType name="TurbineXmlType">
 		<sequence>
 			<element name="steamTurbine " maxOccurs="1" minOccurs="0" type="pss:SteamTurbineXmlType">
