@@ -18,16 +18,16 @@
 
 	<simpleType name="GeneratorEnumType">
 		<restriction base="string">
-			<enumeration value="EquiGenUnit"></enumeration>
+			<enumeration value="EquivGenUnit"></enumeration>
 			<enumeration value="Classical"></enumeration>
 			<enumeration value="Transient"></enumeration>
-			<enumeration value="Subtrans"></enumeration>
+			<enumeration value="SubTransient"></enumeration>
 		</restriction>
 	</simpleType>
 
 	<complexType name="GeneratorModelListXmlType">
 		<sequence>
-			<element name="equiGenUnit" maxOccurs="1" minOccurs="0" type="pss:EquiMachineXmlType">
+			<element name="equivGenUnit" maxOccurs="1" minOccurs="0" type="pss:EquiMachineXmlType">
 			</element>
 			<element name="classicalModel" maxOccurs="1" minOccurs="0" type="pss:ClassicMachineXmlType">
 			</element>
