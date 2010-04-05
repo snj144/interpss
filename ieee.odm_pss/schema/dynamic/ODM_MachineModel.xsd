@@ -9,19 +9,19 @@
 			<element name="genId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="ownerName" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="busRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="generatorType" maxOccurs="1" minOccurs="1" type="pss:GeneratorEmumType"></element>
+			<element name="generatorType" maxOccurs="1" minOccurs="1" type="pss:GeneratorEnumType"></element>
 			<element name="generatorModel" type="pss:GeneratorModelListXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="pContribution" type="double" maxOccurs="1" minOccurs="0"></element>
 			<element name="qContribution" type="double" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
 
-	<simpleType name="GeneratorEmumType">
+	<simpleType name="GeneratorEnumType">
 		<restriction base="string">
-			<enumeration value="equi_gen_unit"></enumeration>
-			<enumeration value="classicalModel"></enumeration>
-			<enumeration value="transientModel"></enumeration>
-			<enumeration value="subtransModel"></enumeration>
+			<enumeration value="EquiGenUnit"></enumeration>
+			<enumeration value="Classical"></enumeration>
+			<enumeration value="Transient"></enumeration>
+			<enumeration value="Subtrans"></enumeration>
 		</restriction>
 	</simpleType>
 
