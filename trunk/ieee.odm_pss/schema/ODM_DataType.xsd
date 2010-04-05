@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" 
-    targetNamespace="http://www.ieee.org/odm/Schema" 
-    xmlns:pss="http://www.ieee.org/odm/Schema"
-	elementFormDefault="qualified">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ieee.org/odm/Schema" xmlns:pss="http://www.ieee.org/odm/Schema" elementFormDefault="qualified">
 
 	<include schemaLocation="ODM_UnitType.xsd"></include>
+
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
 	</annotation>
@@ -42,9 +40,6 @@
 	<complexType name="IDRecordXmlType">
 		<complexContent>
 			<extension base="pss:BaseRecordXmlType">
-				<sequence>
-
-				</sequence>
 				<attribute name="id" type="ID" use="required"></attribute>
 			</extension>
 		</complexContent>
@@ -68,7 +63,8 @@
 				<attribute name="windingType" type="pss:BusWindingEnumType" use="optional">
 					<annotation>
 						<documentation>optional, for indicating bus xfr winding type (Primary, Secondary or tertiary)</documentation>
-					</annotation></attribute>
+					</annotation>
+				</attribute>
 			</extension>
 		</complexContent>
 	</complexType>
@@ -108,10 +104,12 @@
 			</extension>
 		</complexContent>
 	</complexType>
+
 	<complexType name="RXmlType">
 		<attribute name="r" type="double" use="required"></attribute>
 		<attribute name="unit" use="required" type="pss:ZUnitType"></attribute>
 	</complexType>
+
 	<complexType name="YXmlType">
 		<complexContent>
 			<extension base="pss:ComplexXmlType">
@@ -120,6 +118,7 @@
 			</extension>
 		</complexContent>
 	</complexType>
+
 	<complexType name="GXmlType">
 		<attribute name="g" type="double" use="required"></attribute>
 		<attribute name="unit" use="required" type="pss:YUnitType"></attribute>
@@ -136,14 +135,14 @@
 									<element name="turnRatioShiftAngle" type="double" minOccurs="1"></element>
 									<element name="scaleFactor" type="double" minOccurs="1"></element>
 								</sequence>
-
-							</complexType></element>
+							</complexType>
+						</element>
 					</sequence>
 				</complexType>
 			</element>
-
 		</sequence>
-	</complexType>	
+	</complexType>
+
 	<complexType name="PowerXmlType">
 		<complexContent>
 			<extension base="pss:ComplexXmlType">
@@ -152,6 +151,7 @@
 			</extension>
 		</complexContent>
 	</complexType>
+
 	<complexType name="ActivePowerXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
@@ -160,6 +160,7 @@
 			</extension>
 		</complexContent>
 	</complexType>
+
 	<complexType name="ReactivePowerXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
@@ -168,6 +169,7 @@
 			</extension>
 		</complexContent>
 	</complexType>
+
 	<complexType name="TurnRatioXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
@@ -176,6 +178,7 @@
 			</extension>
 		</complexContent>
 	</complexType>
+
 	<complexType name="VoltageXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
@@ -203,11 +206,11 @@
 		</complexContent>
 	</complexType>
 	<complexType name="AdjustmentDataXmlType">
-        <annotation>
-        	<documentation>There are two adj modes: ValueAdjustment and RangeAdjustment. For ValueAdjustment, the desiredValue is used. For RangeAdjustment, 
-max and min are used.</documentation>
-        </annotation>
-        <complexContent>
+		<annotation>
+			<documentation>There are two adj modes: ValueAdjustment and RangeAdjustment. For ValueAdjustment, the desiredValue is used. For RangeAdjustment,
+				max and min are used.</documentation>
+		</annotation>
+		<complexContent>
 			<extension base="pss:LimitXmlType">
 				<attribute name="mode" use="required" type="pss:AdjustmentModeEnumType"></attribute>
 				<attribute name="desiredValue" type="double" use="required"></attribute>
@@ -215,13 +218,13 @@ max and min are used.</documentation>
 		</complexContent>
 	</complexType>
 
-					<simpleType name="AdjustmentModeEnumType">
-						<restriction base="string">
-							<enumeration value="ValueAdjustment"></enumeration>
-							<enumeration value="RangeAdjustment"></enumeration>
-						</restriction>
-					</simpleType>
-					
+	<simpleType name="AdjustmentModeEnumType">
+		<restriction base="string">
+			<enumeration value="ValueAdjustment"></enumeration>
+			<enumeration value="RangeAdjustment"></enumeration>
+		</restriction>
+	</simpleType>
+
 	<complexType name="LengthXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
@@ -275,14 +278,7 @@ max and min are used.</documentation>
 
 	<complexType name="TransformerZeroSeqXmlType">
 		<sequence>
-			<element name="conectionLocation" maxOccurs="1" minOccurs="1">
-				<simpleType>
-					<restriction base="string">
-						<enumeration value="AtBus1"></enumeration>
-						<enumeration value="AtBus2"></enumeration>
-						<enumeration value="BetweenBus1nBus2"></enumeration>
-					</restriction>
-				</simpleType>
+			<element name="conectionLocation" maxOccurs="1" minOccurs="1" type="pss:XfrZeroSeqConnectLocationNemuType">
 			</element>
 			<element name="zG" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="z1" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
@@ -290,6 +286,15 @@ max and min are used.</documentation>
 			<element name="z3" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
+
+	<simpleType name="XfrZeroSeqConnectLocationNemuType">
+		<restriction base="string">
+			<enumeration value="AtBus1"></enumeration>
+			<enumeration value="AtBus2"></enumeration>
+			<enumeration value="BetweenBus1nBus2"></enumeration>
+		</restriction>
+	</simpleType>
+
 	<complexType name="MutualZeroZXmlType">
 		<sequence>
 			<element name="branchFromBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
@@ -396,14 +401,14 @@ max and min are used.</documentation>
 		</sequence>
 	</complexType>
 
-				<simpleType name = "LoadChangeCategoryEnumType">
-					<restriction base="string">
-						<enumeration value="LowFrequence"></enumeration>
-						<enumeration value="LowVoltage"></enumeration>
-						<enumeration value="FixedTime"></enumeration>
-					</restriction>
-				</simpleType>
-				
+	<simpleType name="LoadChangeCategoryEnumType">
+		<restriction base="string">
+			<enumeration value="LowFrequence"></enumeration>
+			<enumeration value="LowVoltage"></enumeration>
+			<enumeration value="FixedTime"></enumeration>
+		</restriction>
+	</simpleType>
+
 	<complexType name="GenChangeDynamicEventXmlType">
 		<sequence>
 			<element name="bus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
@@ -421,7 +426,6 @@ max and min are used.</documentation>
 			<element name="fromACBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="toACBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="fromACRatedVol" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
-
 			<element name="toACRatedVol" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="faultType" maxOccurs="1" minOccurs="1" type="pss:DcLineFaultEnumType"></element>
 			<element name="startTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
@@ -434,18 +438,18 @@ max and min are used.</documentation>
 		</sequence>
 	</complexType>
 
-				<simpleType name = "DcLineFaultEnumType">
-					<restriction base="string">
-						<enumeration value="fromBus_Bipole_Short_Circuit"></enumeration>
-						<enumeration value="toBus_Bipole_Short_Circuit"></enumeration>
-						<enumeration value="fault_on_Line"></enumeration>
-						<enumeration value="power_blocked"></enumeration>
-						<enumeration value="power_reversed"></enumeration>
-						<enumeration value="power_change_by_specification"></enumeration>
-						<enumeration value="current_change_by_specification"></enumeration>
-					</restriction>
-				</simpleType>
-				
+	<simpleType name="DcLineFaultEnumType">
+		<restriction base="string">
+			<enumeration value="fromBus_Bipole_Short_Circuit"></enumeration>
+			<enumeration value="toBus_Bipole_Short_Circuit"></enumeration>
+			<enumeration value="fault_on_Line"></enumeration>
+			<enumeration value="power_blocked"></enumeration>
+			<enumeration value="power_reversed"></enumeration>
+			<enumeration value="power_change_by_specification"></enumeration>
+			<enumeration value="current_change_by_specification"></enumeration>
+		</restriction>
+	</simpleType>
+
 	<complexType name="MvaRatingXmlType">
 		<sequence>
 			<element name="ratingAry" type="double" maxOccurs="unbounded" minOccurs="0"></element>
@@ -460,8 +464,6 @@ max and min are used.</documentation>
 	<complexType name="VoltageLimitXmlType">
 		<complexContent>
 			<extension base="pss:LimitXmlType">
-				<sequence>
-				</sequence>
 				<attribute name="unit" type="pss:VoltageUnitType" use="required"></attribute>
 			</extension>
 		</complexContent>
@@ -556,45 +558,40 @@ max and min are used.</documentation>
 
 	<complexType name="CimRdfXmlType">
 		<attribute name="rdfId" type="string" use="required"></attribute>
-		<attribute name="name" type="string" use="optional"></attribute>
+		<attribute name="name" type="string" use="optional"></attribute>
 	</complexType>
-<!-- 
-	<complexType name="CimConnectionXmlType">
-    			<sequence>
-    				<element name="switches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType">
-    					</element>
-    			</sequence>
-    </complexType>
- -->
-    <complexType name="CimConnectionRecordType">
-    	<complexContent>
-    		<extension base="pss:CimRdfRecordType">
-    			<sequence>
-    				<element name="cimSwitches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType"></element>
-    			</sequence>
-    		</extension>
-    	</complexContent>
-    </complexType>	
+	<!--
+		<complexType name="CimConnectionXmlType"> <sequence> <element name="switches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType"> </element> </sequence> </complexType>
+	-->
+	<complexType name="CimConnectionRecordType">
+		<complexContent>
+			<extension base="pss:CimRdfRecordType">
+				<sequence>
+					<element name="cimSwitches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
 
-    <complexType name="CimRdfRecordType">
-    	<complexContent>
-    		<extension base="pss:IDRecordXmlType">
-    			<sequence>
-    				<element name="cimRdfRecords" maxOccurs="1" minOccurs="0" type="pss:CimRdfListXmlType"></element>
-    			</sequence>
-    		</extension>
-    	</complexContent>
-    </complexType>	
+	<complexType name="CimRdfRecordType">
+		<complexContent>
+			<extension base="pss:IDRecordXmlType">
+				<sequence>
+					<element name="cimRdfRecords" maxOccurs="1" minOccurs="0" type="pss:CimRdfListXmlType"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
 
-    <complexType name="CimRdfListXmlType">
+	<complexType name="CimRdfListXmlType">
 		<sequence>
 			<element name="rdfRec" type="pss:CimRdfXmlType" maxOccurs="unbounded"></element>
 		</sequence>
-    </complexType>
+	</complexType>
 
-    <complexType name="CimSwitchListXmlType">
+	<complexType name="CimSwitchListXmlType">
 		<sequence>
 			<element name="switch" type="pss:CimSwitchXmlType" maxOccurs="unbounded" minOccurs="0"></element>
 		</sequence>
-    </complexType>
+	</complexType>
 </schema>
