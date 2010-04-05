@@ -63,17 +63,18 @@
 
 	<complexType name="LineRelayXmlType">
 		<sequence>
-			<element name="lineRelayType" maxOccurs="1" minOccurs="1">
-				<simpleType>
-					<restriction base="string">
-						<enumeration value="TIOCR1"></enumeration>
-						<enumeration value="distanceRelay"></enumeration>
-					</restriction>
-				</simpleType>
+			<element name="lineRelayType" maxOccurs="1" minOccurs="1" type="pss:LineRelayEnumType">
 			</element>
 			<element name="lineRelayModel" type="pss:LineRelayModelListXmlType" maxOccurs="1" minOccurs="1"></element>
 		</sequence>
 	</complexType>
+
+	<simpleType name="LineRelayEnumType">
+		<restriction base="string">
+			<enumeration value="TIOCR1"></enumeration>
+			<enumeration value="DistanceRelay"></enumeration>
+		</restriction>
+	</simpleType>
 
 	<complexType name="LineRelayModelListXmlType">
 		<sequence>
@@ -146,14 +147,7 @@
 						<element name="shuntLoadNegative" maxOccurs="unbounded" minOccurs="0">
 							<complexType>
 								<sequence>
-									<element name="loadLocation" maxOccurs="1" minOccurs="0">
-										<simpleType>
-											<restriction base="string">
-												<enumeration value="at_bus"></enumeration>
-												<enumeration value="at_area"></enumeration>
-												<enumeration value="at_zone"></enumeration>
-											</restriction>
-										</simpleType>
+									<element name="loadLocation" maxOccurs="1" minOccurs="0" type="pss:ShuntLoadNegLocationEnumType">
 									</element>
 									<element name="locationId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 									<element name="rNeg" type="double" maxOccurs="1" minOccurs="0"></element>
@@ -166,6 +160,15 @@
 			</element>
 		</sequence>
 	</complexType>
+
+	<simpleType name="ShuntLoadNegLocationEnumType">
+		<restriction base="string">
+			<enumeration value="at_bus"></enumeration>
+			<enumeration value="at_area"></enumeration>
+			<enumeration value="at_zone"></enumeration>
+		</restriction>
+	</simpleType>
+
 
 	<complexType name="ZeroSequenceDataListXmlType">
 		<sequence>
@@ -233,14 +236,7 @@
 									<element name="busJ" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 									<element name="busK" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 									<element name="cirId" type="string" maxOccurs="1" minOccurs="0"></element>
-									<element name="conectionLocation" maxOccurs="1" minOccurs="1">
-										<simpleType>
-											<restriction base="string">
-												<enumeration value="at_bus1"></enumeration>
-												<enumeration value="at_bus2"></enumeration>
-												<enumeration value="between_bus1_and_bus_2"></enumeration>
-											</restriction>
-										</simpleType>
+									<element name="connectionLocation" maxOccurs="1" minOccurs="1" type="pss:XfrZeroConnectionLocationEnumType">
 									</element>
 									<element name="RG" type="double" maxOccurs="1" minOccurs="0"></element>
 									<element name="XG" type="double" maxOccurs="1" minOccurs="0"></element>
@@ -291,6 +287,15 @@
 			</element>
 		</sequence>
 	</complexType>
+
+	<simpleType name="XfrZeroConnectionLocationEnumType">
+		<restriction base="string">
+			<enumeration value="at_bus1"></enumeration>
+			<enumeration value="at_bus2"></enumeration>
+			<enumeration value="between_bus1_and_bus_2"></enumeration>
+		</restriction>
+	</simpleType>
+
 	<complexType name="DynamicDataListXmlType">
 		<sequence>
 			<element name="busDynDataList" type="pss:BusDynDataListXmlType" maxOccurs="1" minOccurs="0"></element>

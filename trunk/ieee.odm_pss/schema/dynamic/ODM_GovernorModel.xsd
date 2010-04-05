@@ -19,9 +19,9 @@
 			<enumeration value="IEEE1981Type1"></enumeration>
 			<enumeration value="IEEE1981Type2"></enumeration>
 			<enumeration value="IEEE1981Type3"></enumeration>
-			<enumeration value="hydroStreamGeneralModel"></enumeration>
-			<enumeration value="hydroGovernerAndTurbine"></enumeration>
-			<enumeration value="hydroGoverner"></enumeration>
+			<enumeration value="HydroStreamGeneralModel"></enumeration>
+			<enumeration value="HydroGovernerAndTurbine"></enumeration>
+			<enumeration value="HydroGoverner"></enumeration>
 		</restriction>
 	</simpleType>
 
