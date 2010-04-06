@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.bpa.BPAAdapter;
-import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
+import org.ieee.odm.adapter.ieeecdf.XBeanIeeeCDFAdapter;
 import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
@@ -84,7 +84,7 @@ public class Data2ODMXml {
 			IODMPSSAdapter adapter = null;
 			if (Token_IEEECDF.equals(appParameters.getParamLowerCase(FmtOptStr))) {
 				logger.info("Input file is of format IEEE Common Data Format");
-				adapter = new IeeeCDFAdapter(logger);
+				adapter = new XBeanIeeeCDFAdapter(logger);
 			}
 			else if (Token_UCTE.equals(appParameters.getParamLowerCase(FmtOptStr))) {
 				logger.info("Input file is of format UCTE Data Format");

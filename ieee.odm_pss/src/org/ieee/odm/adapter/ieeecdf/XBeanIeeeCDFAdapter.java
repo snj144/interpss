@@ -56,7 +56,7 @@ import org.ieee.odm.model.xbean.XBeanDataSetter;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
-public class IeeeCDFAdapter  extends AbstractODMAdapter {
+public class XBeanIeeeCDFAdapter  extends AbstractODMAdapter {
 	public final static String Token_Date = "Date";
 	public final static String Token_OrgName = "Originator Name";
 	public final static String Token_Year = "Year";
@@ -69,7 +69,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	private static final int InterchangeData = 4;
 	private static final int TielineData = 5;
 
-	public IeeeCDFAdapter(Logger logger) {
+	public XBeanIeeeCDFAdapter(Logger logger) {
 		super(logger);
 	}
 	 
