@@ -111,6 +111,10 @@ public class JaxbODMModelParser extends ODMModelParser {
 		this.getStudyCase().setSchemaVersion(ModelContansts.ODM_Schema_Version);
 	}
 	
+	public ObjectFactory getFactory() {
+		return this.factory;
+	}
+	
 	/**
 	 * Get the root schema element StudyCase
 	 * 
