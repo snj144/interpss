@@ -184,6 +184,7 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 */
 	public BusRecordXmlType createBusRecord() {
 		BusRecordXmlType busRec = this.factory.createBusRecordXmlType();
+		busRec.setOffLine(false);
 		getBaseCase().getBusList().getBus().add(busRec);
 		return busRec;
 	}	
@@ -271,6 +272,7 @@ public class JaxbODMModelParser extends ODMModelParser {
 	public BranchRecordXmlType createBranchRecord() {
 		BranchRecordXmlType branchRec = new BranchRecordXmlType();
 		getBaseCase().getBranchList().getBranch().add(branchRec);
+		branchRec.setOffLine(false);
 		return branchRec;
 	}
 	

@@ -216,6 +216,7 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 			this.logErr(e.toString());
 			return;
 		}
+		busRec.setNumber(new Long(strAry[0]));
 
 		//Columns  6-17   Name [A] (left justify) *
 		final String busName = strAry[1];
@@ -358,9 +359,9 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 		branchRec.setCircuitId(cirId);
 
 		branchRec.setId(ModelStringUtil.formBranchId(fid, tid, cirId));
+
 		LoadflowBranchDataXmlType branchData = this.factory.createLoadflowBranchDataXmlType(); 
 		branchRec.getLoadflowData().add(branchData);
-		branchData.setXfrInfo(this.factory.createLoadflowBranchDataXmlTypeXfrInfo());
 
 		//    	Column  19      Type [I] *
 		//      0 - Transmission line
@@ -388,6 +389,9 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 		final double ratio = new Double(strAry[14]).doubleValue();
 		final double angle = new Double(strAry[15]).doubleValue();
 		if (type > 0) {
+			branchData.setXfrInfo(this.factory.createLoadflowBranchDataXmlTypeXfrInfo());
+			branchData.getXfrInfo().setDataOnSystemBase(true);
+
 			if (angle == 0.0) {
 				JaxbDataSetter.createXformerData(branchData,
 						rpu, xpu, ZUnitType.PU, ratio, 1.0, 
