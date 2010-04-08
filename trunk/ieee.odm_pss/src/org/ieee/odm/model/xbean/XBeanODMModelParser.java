@@ -47,7 +47,13 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.ODMModelParser;
 
-public class XBeanODMModelParser extends  ODMModelParser {
+public class XBeanODMModelParser extends ODMModelParser {
+	// add "No" to the bus number to create Bus Id
+	public static final String BusIdPreFix = "Bus";
+		
+	public static final String Token_nsPrefix = "pss";
+	public static final String Token_nsUrl = "http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1";
+	
 	private static final StudyCaseXmlType.SchemaVersion.Enum 
 			CurrentSchemaVerion = StudyCaseXmlType.SchemaVersion.V_0_5;
 	

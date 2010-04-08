@@ -22,7 +22,7 @@
  *
  */
 
-package org.ieee.odm.model.jaxb;
+package org.ieee.odm.model;
 
 import org.ieee.odm.schema.ExciterDataListXmlType;
 import org.ieee.odm.schema.ExciterXmlType;

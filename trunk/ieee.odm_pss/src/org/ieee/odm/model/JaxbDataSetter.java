@@ -22,7 +22,7 @@
   *
   */
 
-package org.ieee.odm.model.jaxb;
+package org.ieee.odm.model;
 
 import org.ieee.odm.schema.ActivePowerLimitXmlType;
 import org.ieee.odm.schema.ActivePowerUnitType;

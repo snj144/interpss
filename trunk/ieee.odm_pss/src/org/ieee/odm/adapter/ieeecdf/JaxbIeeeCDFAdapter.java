@@ -29,10 +29,10 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.model.JaxbDataSetter;
+import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.jaxb.JaxbDataSetter;
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
-import org.ieee.odm.model.jaxb.JaxbParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
 import org.ieee.odm.schema.AdjustmentModeEnumType;

@@ -22,7 +22,7 @@
   *
   */
 
-package org.ieee.odm.model.jaxb;
+package org.ieee.odm.model;
 
 import java.util.logging.Logger;
 
@@ -263,7 +263,7 @@ public class JaxbParserHelper {
 	 * create a Contribution Load object
 	 * 
 	 */
-	public static LoadflowLoadDataXmlType createContriLoad(BusRecordXmlType busRec) {
+	public static LoadflowLoadDataXmlType createContriLoad(BusRecordXmlType busRec, ObjectFactory factory) {
 		LoadflowBusDataXmlType.LoadData loadData = busRec.getLoadflowData().getLoadData();
 		if (loadData == null) { 
 			loadData = new LoadflowBusDataXmlType.LoadData();
@@ -271,8 +271,8 @@ public class JaxbParserHelper {
 			LoadflowLoadDataXmlType equivLoad = new LoadflowLoadDataXmlType();
 			loadData.setEquivLoad(equivLoad);
 		}
-		//if (loadData.getContributeLoadList() == null) 
-		//	loadData.addNewContributeLoadList();
+		if (loadData.getContributeLoadList() == null) 
+			loadData.setContributeLoadList(factory.createLoadflowBusDataXmlTypeLoadDataContributeLoadList());
 		LoadflowLoadDataXmlType contribLoad = new LoadflowLoadDataXmlType();
 	    loadData.getContributeLoadList().getContributeLoad().add(contribLoad); 
 	    return contribLoad;
@@ -282,7 +282,7 @@ public class JaxbParserHelper {
 	 * create a Contribution Load object
 	 * 
 	 */
-	public static LoadflowGenDataXmlType createContriGen(BusRecordXmlType busRec) {
+	public static LoadflowGenDataXmlType createContriGen(BusRecordXmlType busRec, ObjectFactory factory) {
 		LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData();
 		if (genData == null) {
 			genData = new LoadflowBusDataXmlType.GenData();
@@ -291,8 +291,8 @@ public class JaxbParserHelper {
 			genData.setEquivGen(equivGen);
 		}
 		// some model does not need ContributeGenList
-		//if (genData.getContributeGenList() == null) 
-		//	genData.addNewContributeGenList();
+		if (genData.getContributeGenList() == null) 
+			genData.setContributeGenList(factory.createLoadflowBusDataXmlTypeGenDataContributeGenList());
 		LoadflowGenDataXmlType contribGen = new LoadflowGenDataXmlType();
 		genData.getContributeGenList().getContributeGen().add(contribGen);
 		return contribGen;

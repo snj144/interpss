@@ -26,7 +26,7 @@ package org.ieee.odm.sample;
 
 import javax.xml.bind.JAXBElement;
 
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
+import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.StudyCaseXmlType;
