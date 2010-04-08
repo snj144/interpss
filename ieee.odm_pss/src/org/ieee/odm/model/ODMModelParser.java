@@ -28,17 +28,5 @@ package org.ieee.odm.model;
  * A Xml parser for the IEEE DOM schema. 
  */
 
-import java.util.Hashtable;
-
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.IDRecordXmlType;
-
 public class ODMModelParser {
-	// add "No" to the bus number to create Bus Id
-	public static final String BusIdPreFix = "Bus";
-	
-	public static final String Token_nsPrefix = "pss";
-	public static final String Token_nsUrl = "http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1";
-	
-	// bus and branch object cache for fast lookup. 
-	protected Hashtable<String,IDRecordXmlType> objectCache = null;
 }

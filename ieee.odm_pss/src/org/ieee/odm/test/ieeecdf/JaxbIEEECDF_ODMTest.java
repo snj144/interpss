@@ -32,8 +32,8 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.ieeecdf.JaxbIeeeCDFAdapter;
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
-import org.ieee.odm.model.jaxb.JaxbParserHelper;
+import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;

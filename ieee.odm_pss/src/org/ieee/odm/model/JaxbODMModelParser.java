@@ -22,7 +22,7 @@
  *
  */
 
-package org.ieee.odm.model.jaxb;
+package org.ieee.odm.model;
 
 /**
  * A Xml parser for the IEEE DOM schema. 
@@ -38,9 +38,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import org.apache.xmlbeans.XmlException;
-import org.ieee.odm.model.ModelContansts;
-import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
@@ -57,6 +54,9 @@ import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.schema.TransientSimulationXmlType;
 
 public class JaxbODMModelParser extends ODMModelParser {
+	// add "No" to the bus number to create Bus Id
+	public static final String BusIdPreFix = "Bus";
+	
 	// bus and branch object cache for fast lookup. 
 	private Hashtable<String,IDRecordXmlType> objectCache = null;
 
