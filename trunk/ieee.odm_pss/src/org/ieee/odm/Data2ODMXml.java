@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.bpa.BPAAdapter;
 import org.ieee.odm.adapter.ieeecdf.XBeanIeeeCDFAdapter;
-import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
+import org.ieee.odm.adapter.ucte.XBeanUCTE_DEFAdapter;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class Data2ODMXml {
@@ -88,7 +88,7 @@ public class Data2ODMXml {
 			}
 			else if (Token_UCTE.equals(appParameters.getParamLowerCase(FmtOptStr))) {
 				logger.info("Input file is of format UCTE Data Format");
-				adapter = new UCTE_DEFAdapter(logger);
+				adapter = new XBeanUCTE_DEFAdapter(logger);
 			}
 			else if (Token_BPA.equals(appParameters.getParamLowerCase(FmtOptStr))) {
 				logger.info("Input file is of format BPA Format");

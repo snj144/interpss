@@ -28,41 +28,45 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleAdjustmentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.model.JaxbDataSetter;
+import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.ModelContansts;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.schema.ActivePowerUnitType;
+import org.ieee.odm.schema.AdjustmentModeEnumType;
+import org.ieee.odm.schema.AngleAdjustmentXmlType;
+import org.ieee.odm.schema.AngleUnitType;
+import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BranchRecordXmlType;
+import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.CurrentUnitType;
+import org.ieee.odm.schema.LFBranchCodeEnumType;
+import org.ieee.odm.schema.LFGenCodeEnumType;
+import org.ieee.odm.schema.LFLoadCodeEnumType;
+import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.LoadflowBusDataXmlType;
+import org.ieee.odm.schema.NameValuePairListXmlType;
+import org.ieee.odm.schema.ObjectFactory;
+import org.ieee.odm.schema.OriginalDataFormatEnumType;
+import org.ieee.odm.schema.PSSNetworkXmlType;
+import org.ieee.odm.schema.ReactivePowerUnitType;
+import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
+import org.ieee.odm.schema.TapAdjustmentEnumType;
+import org.ieee.odm.schema.TapAdjustmentXmlType;
+import org.ieee.odm.schema.TurnRatioUnitType;
+import org.ieee.odm.schema.VoltageUnitType;
+import org.ieee.odm.schema.YUnitType;
+import org.ieee.odm.schema.ZUnitType;
 
 /*
 	UCTE data exchange format for load flow and three phase short circuit studies (UCTE-DEF)
 	Version 02 (coming into force: 2007.05.01)
 */
 
-public class UCTE_DEFAdapter extends AbstractODMAdapter {
+public class JaxbUCTE_DEFAdapter extends AbstractODMAdapter {
 	public final static String Token_Status = "Status";
 	public final static String Token_MinGenMW = "Min Gen MW";
 	public final static String Token_MaxGenMW = "Max Gen MW";
@@ -90,14 +94,14 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 	 * 
 	 * @param logger Logger object
 	 */
-	public UCTE_DEFAdapter(Logger logger) {
+	public JaxbUCTE_DEFAdapter(Logger logger) {
 		super(logger);
 	}
 
-	protected XBeanODMModelParser parseInputFile(
+	protected JaxbODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
-		XBeanODMModelParser parser = new XBeanODMModelParser();
-		XBeanParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.UCTE_DEF);
+		JaxbODMModelParser parser = new JaxbODMModelParser();
+		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.UCTE_DEF, parser.getFactory());
 
 		// BaseCase object, plus busRecList and BranchRecList are created 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
@@ -105,12 +109,14 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
     	// no base kva definition in UCTE format, so use 100 MVA
     	// UCTE data are in actual units, mw, mva ...
-		XBeanDataSetter.setPowerMva(baseCaseNet.addNewBasePower(), 100.0);   
+		baseCaseNet.setBasePower(parser.getFactory().createApparentPowerXmlType());
+		JaxbDataSetter.setPowerMva(baseCaseNet.getBasePower(), 100.0);   
 
     	// scan all lines and process the data
     	customBaseVoltage = false;
       	String str;   
       	RecType recType = RecType.NotDefined;
+      	int busCnt = 0;
     	do {
           	str = din.readLine();   
         	if (str != null && !str.trim().equals("")) {
@@ -138,7 +144,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     					recType = RecType.Xfr2WLookup;
     				else if (str.startsWith("##E")) {
     					recType = RecType.ExPower;
-    					baseCaseNet.addNewInterchangeList();
+    					baseCaseNet.setInterchangeList(parser.getFactory().createPSSNetworkXmlTypeInterchangeList());
     				}
     				else {
     					// process data lines
@@ -149,25 +155,26 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     			    	    processBaseVoltageRecord(str);
     			    	}
     			    	else if (recType == RecType.Node) {
-    			    	    processNodeRecord(str, isoId, baseCaseNet);
+    			    	    processNodeRecord(str, isoId, ++busCnt, parser);
     			    	}
     			    	else if (recType == RecType.Line) {
-    			    	    processLineRecord(str, baseCaseNet);
+    			    	    processLineRecord(str, parser);
     			    	}
     			    	else if (recType == RecType.Xfr2W) {
-    			    	    processXfr2WindingRecord(str, baseCaseNet);
+    			    	    processXfr2WindingRecord(str, parser);
     			    	}
     			    	else if (recType == RecType.Xfr2WReg) {
-    			    	    processXfr2WRegulationRecord(str, baseCaseNet);
+    			    	    processXfr2WRegulationRecord(str, parser);
     			    	}
     			    	else if (recType == RecType.Xfr2WLookup) {
     			    	    processXfr2LookupRecord(str, baseCaseNet);
     			    	}
     			    	else if (recType == RecType.ExPower) {
-    			    	    processExchangePowerRecord(str, baseCaseNet);
+    			    	    processExchangePowerRecord(str, baseCaseNet, parser.getFactory());
     			    	}
     				}
     			} catch (final Exception e) {
+    				e.printStackTrace();
     				logErr(e.toString());
     			}
         	}
@@ -188,7 +195,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     /*
      * ##N and ##Z sections
      */
-    private void processNodeRecord(String str, String isoId, PSSNetworkXmlType xmlBaseNet) {
+    private void processNodeRecord(String str, String isoId, int busCnt, JaxbODMModelParser parser) throws Exception {
     	getLogger().fine("Node Record: " + str);
 
 		// parse the input line for node information
@@ -244,57 +251,63 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		}
 
 		// create a bus record
-		BusRecordXmlType busRec = xmlBaseNet.getBusList().addNewBus(); 
+		BusRecordXmlType busRec = parser.createBusRecord(id); 
       	busRec.setId(id);
+      	busRec.setNumber((long)busCnt);
       	if (name != null && !name.trim().equals(""))
       		busRec.setName(name);
       	if (isoId != null && !isoId.trim().equals(""))
       		busRec.setIsoCode(isoId);
-      	XBeanDataSetter.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
+      	busRec.setBaseVoltage(parser.getFactory().createVoltageXmlType());
+      	JaxbDataSetter.setVoltageData(busRec.getBaseVoltage(), baseKv, VoltageUnitType.KV);
 		
-		LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
-		XBeanDataSetter.setVoltageData(busData.addNewVoltage(), voltage,
+		LoadflowBusDataXmlType busData = parser.getFactory().createLoadflowBusDataXmlType();
+		busRec.setLoadflowData(busData);
+		busData.setVoltage(parser.getFactory().createVoltageXmlType());
+		JaxbDataSetter.setVoltageData(busData.getVoltage(), voltage,
 				VoltageUnitType.KV);
 
-		XBeanDataSetter.setAngleData(busData.addNewAngle(), 0.0,
+		busData.setAngle(parser.getFactory().createAngleXmlType());
+		JaxbDataSetter.setAngleData(busData.getAngle(), 0.0,
 				AngleUnitType.DEG);    	
     	
 		if (pLoadMW != 0.0 || qLoadMvar != 0.0) {
-			XBeanDataSetter.setLoadData(busData,
+			JaxbDataSetter.setLoadData(busData,
 					LFLoadCodeEnumType.CONST_P, pLoadMW,
-					qLoadMvar, ApparentPowerUnitType.MVA);
+					qLoadMvar, ApparentPowerUnitType.MVA, parser.getFactory());
 		}
 
 		switch (nodeType) {
 		case 0: // PQ bus
 			if (pGenMW != 0.0 || qGenMvar != 0.0) {
-				XBeanDataSetter.setGenData(busData,
+				JaxbDataSetter.setGenData(busData,
 						LFGenCodeEnumType.PQ,
 						1.0, VoltageUnitType.PU, 0.0, AngleUnitType.DEG,
-						pGenMW, qGenMvar, ApparentPowerUnitType.MVA);				
+						pGenMW, qGenMvar, ApparentPowerUnitType.MVA, parser.getFactory());				
 			}
 			break;
 		case 1: // Q angle bus
 			logErr("Node type = 1, not support currently. Please contact support@interpss.org");
 			return;
 		case 2: // PV bus
-			XBeanDataSetter.setGenData(busData,
+			JaxbDataSetter.setGenData(busData,
 					LFGenCodeEnumType.PV, 
 					voltage, VoltageUnitType.KV, 0.0, AngleUnitType.DEG,
-					pGenMW, qGenMvar, ApparentPowerUnitType.MVA);
+					pGenMW, qGenMvar, ApparentPowerUnitType.MVA, parser.getFactory());
 			if (((maxGenMVar != 0.0) || (minGenMVar != 0.0))
 					&& maxGenMVar > minGenMVar) {
 				// PV Bus limit control
 				getLogger().fine("Bus is a PVLimitBus, id: " + id);
-				XBeanDataSetter.setReactivePowerLimitData(busData.getGenData().getEquivGen().addNewQLimit(),  
+				busData.getGenData().getEquivGen().setQLimit(parser.getFactory().createReactivePowerLimitXmlType());
+				JaxbDataSetter.setReactivePowerLimitData(busData.getGenData().getEquivGen().getQLimit(),  
 						maxGenMVar, minGenMVar, ReactivePowerUnitType.MVAR);
 			}
 			break;
 		case 3: // swing bus
-			XBeanDataSetter.setGenData(busData,
+			JaxbDataSetter.setGenData(busData,
 					LFGenCodeEnumType.SWING,
 					voltage, VoltageUnitType.KV, 0.0, AngleUnitType.DEG,
-					pGenMW, qGenMvar, ApparentPowerUnitType.MVA);
+					pGenMW, qGenMvar, ApparentPowerUnitType.MVA, parser.getFactory());
 			break;
 		default:
 			// error bus nodeType code
@@ -302,30 +315,32 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			return;
 		}
 
-		NameValuePairListXmlType nvList = busRec.addNewNvPairList();
+		NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType();
+		busRec.setNvPairList(nvList);
 		if (status != 0)
-			XBeanParserHelper.addNVPair(nvList, Token_Status, new Integer(status).toString());
+			JaxbParserHelper.addNVPair(nvList, Token_Status, new Integer(status).toString());
 		if (minGenMW != 0.0)
-			XBeanParserHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString());
+			JaxbParserHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString());
 		if (maxGenMW != 0.0)
-			XBeanParserHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString());
+			JaxbParserHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString());
 		if (staticPrimaryControl != 0.0)
-			XBeanParserHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString());
+			JaxbParserHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString());
 		if (normalPowerPrimaryControl != 0.0)
-			XBeanParserHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
+			JaxbParserHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
 		if (scMVA3P != 0.0)
-			XBeanParserHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString());
+			JaxbParserHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString());
 		if (x_rRatio != 0.0)
-			XBeanParserHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString());
+			JaxbParserHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString());
 		if (powerPlanType != null)
-			XBeanParserHelper.addNVPair(nvList, Token_PPlanType, powerPlanType);
+			JaxbParserHelper.addNVPair(nvList, Token_PPlanType, powerPlanType);
     }
     
     /*
      * ##L section
      */
-    private void processLineRecord(String str, PSSNetworkXmlType xmlBaseNet) {
-    	getLogger().fine("Line Record: " + str);
+    private void processLineRecord(String str, JaxbODMModelParser parser) throws Exception {
+    	 PSSNetworkXmlType xmlBaseNet = parser.getBaseCase();
+    	 getLogger().fine("Line Record: " + str);
 
 		// parse the input line for line information
 		String fromNodeId, toNodeId, orderCode, elemName;
@@ -349,31 +364,34 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		}
 
     	// create a branch record
-		BranchRecordXmlType branchRec = xmlBaseNet.getBranchList().addNewBranch();
+		BranchRecordXmlType branchRec = parser.createBranchRecord(ModelStringUtil.formBranchId(fromNodeId, toNodeId, orderCode));
       	if (elemName != null)
       		branchRec.setName(elemName);
       	branchRec.setCircuitId(orderCode);
-      	branchRec.addNewFromBus().setIdRef(fromNodeId);
-      	branchRec.addNewToBus().setIdRef(toNodeId);    
+      	branchRec.setFromBus(parser.createBusRecRef(fromNodeId));
+      	branchRec.setToBus(parser.createBusRecRef(toNodeId));    
 		
-		LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
+		LoadflowBranchDataXmlType branchData = parser.getFactory().createLoadflowBranchDataXmlType();
+		branchRec.getLoadflowData().add(branchData);
 		
 		// LineData object created in the following call
-		XBeanDataSetter.setLineData(branchData, rOhm, xOhm,
-				ZUnitType.OHM, 0.0, bMuS, YUnitType.MICROMHO);
+		JaxbDataSetter.setLineData(branchData, rOhm, xOhm,
+				ZUnitType.OHM, 0.0, bMuS, YUnitType.MICROMHO, parser.getFactory());
       	
     	// by default the branch is active
     	if (status == 8 || status == 9) 
     		branchRec.setOffLine(true);
 
-    	XBeanDataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
-				currentLimit, CurrentUnitType.AMP);
+    	branchData.setBranchRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
+    	JaxbDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(),
+				currentLimit, CurrentUnitType.AMP, parser.getFactory());
     }
     
     /*
      * ##T section
      */
-    private void processXfr2WindingRecord(String str, PSSNetworkXmlType xmlBaseNet) {
+    private void processXfr2WindingRecord(String str, JaxbODMModelParser parser)
+                     throws Exception {
     	getLogger().fine("Xfr 2W Record: " + str);
 
 		// parse the input line for xformer information
@@ -410,14 +428,15 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     	}
 
     	// create a branch record
-		BranchRecordXmlType branchRec = xmlBaseNet.getBranchList().addNewBranch();
+		BranchRecordXmlType branchRec = parser.createBranchRecord(ModelStringUtil.formBranchId(fromNodeId, toNodeId, orderCode));
       	if (elemName != null)
       		branchRec.setName(elemName);
       	branchRec.setCircuitId(orderCode);
-      	branchRec.addNewFromBus().setIdRef(fromNodeId);
-      	branchRec.addNewToBus().setIdRef(toNodeId);    
+      	branchRec.setFromBus(parser.createBusRecRef(fromNodeId));
+      	branchRec.setToBus(parser.createBusRecRef(toNodeId));    
 
-		LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
+		LoadflowBranchDataXmlType branchData = parser.getFactory().createLoadflowBranchDataXmlType();
+		branchRec.getLoadflowData().add(branchData);
 
 		// r, x, g, b are measured at from side in Ohms
 		// they are converted to PU using from bus base voltage
@@ -426,26 +445,28 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			getLogger().severe("Need more implementation");
 		}
 		// XformerData object created in the following call
-		XBeanDataSetter.createXformerData(branchData,
+		JaxbDataSetter.createXformerData(branchData,
 				rOhm, xOhm, ZUnitType.OHM, 1.0, 1.0, 0.0, 0.0, gMuS, bMuS,
-				YUnitType.MICROMHO);
+				YUnitType.MICROMHO, parser.getFactory());
 
-		XBeanDataSetter.setXfrRatingData(branchData,
+		JaxbDataSetter.setXfrRatingData(branchData,
 				fromRatedKV, toRatedKV, VoltageUnitType.KV,
-				normialMva, ApparentPowerUnitType.MVA);
+				normialMva, ApparentPowerUnitType.MVA, parser.getFactory());
 
     	// by default the branch is active
     	if (status == 8 || status == 9) 
     		branchRec.setOffLine(true);
     	
-    	XBeanDataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
-				currentLimit, CurrentUnitType.AMP);
+    	branchData.setBranchRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
+    	JaxbDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(),
+				currentLimit, CurrentUnitType.AMP, parser.getFactory());
     }
     
     /*
      * ##R section
      */
-    private void processXfr2WRegulationRecord(String str, PSSNetworkXmlType xmlBaseNet) {
+    private void processXfr2WRegulationRecord(String str, JaxbODMModelParser parser) 
+    				throws Exception {
     	getLogger().fine("Xfr 2W Reg Record: " + str);
 
 		String fromNodeId, toNodeId, orderCode, type;
@@ -483,70 +504,76 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			return;
 		}
 
-		BranchRecordXmlType branchRec = XBeanParserHelper.findBranchRecord(fromNodeId, toNodeId, orderCode, xmlBaseNet); 
+		BranchRecordXmlType branchRec = parser.getBranchRecord(fromNodeId, toNodeId, orderCode); 
       	if (branchRec == null) {
       		logErr("Error: branch cannot be found, line: " + str);
       		return;
       	}
       	// there might be multiple branch sections, but UTCE only has one
-		LoadflowBranchDataXmlType branchData = XBeanParserHelper.getDefaultBranchData(branchRec);
-		if (branchData.getXfrInfo() == null)
-			branchData.addNewXfrInfo();
+		LoadflowBranchDataXmlType branchData = JaxbParserHelper.getDefaultBranchData(branchRec);
+		if (branchData.getXfrInfo() == null) 
+			branchData.setXfrInfo(parser.getFactory().createLoadflowBranchDataXmlTypeXfrInfo());
       	
-		NameValuePairListXmlType nvList = branchRec.addNewNvPairList();
+		NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType();
+		branchRec.setNvPairList(nvList);
 
       	if (dUPhase > 0.0) {
       		getLogger().fine("Phase regulation data persented");
 			if (dUPhase != 0.0)
-				XBeanParserHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString());
 			if (dUPhase != 0.0)
-				XBeanParserHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString());
 			if (dUPhase != 0.0)
-				XBeanParserHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString());
 			if (dUPhase != 0.0)
-				XBeanParserHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
 
 			double ratioFactor = branchData.getToTurnRatio().getValue();
 
 			double x = 1.0 / (1.0 + n1Phase*dUPhase*0.01);
 			// UCTE model at to side x : 1.0, InterPSS model 1.0:turnRatio
-			XBeanDataSetter.setTapPU(branchData.addNewToTurnRatio(), ratioFactor/x);
+			branchData.setToTurnRatio(parser.getFactory().createTurnRatioXmlType());
+			JaxbDataSetter.setTurnRatioPU(branchData.getToTurnRatio(), ratioFactor/x);
 			
 			if (uKvPhase > 0.0) {
-				TapAdjustmentXmlType tapAdj = branchData.getXfrInfo().addNewTapAdjustment();
-				tapAdj.setAdjustmentType(TapAdjustmentXmlType.AdjustmentType.VOLTAGE);
+				TapAdjustmentXmlType tapAdj = parser.getFactory().createTapAdjustmentXmlType();
+				branchData.getXfrInfo().setTapAdjustment(tapAdj);
+				tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
 				
 				// tap control of voltage at to node side
 				//     2 - Variable tap for voltage control (TCUL, LTC)
           		double maxTap = ratioFactor*(nPhase*dUPhase), 
           		       minTap = ratioFactor*(-nPhase*dUPhase);
 
-          		XBeanDataSetter.setTapLimitData(tapAdj.addNewTapLimit(), maxTap, minTap);
-				tapAdj.getTapLimit().setUnit(TapUnitType.PERCENT);
+          		tapAdj.setTapLimit(parser.getFactory().createTapLimitXmlType());
+          		JaxbDataSetter.setTapLimitData(tapAdj.getTapLimit(), maxTap, minTap);
+				tapAdj.getTapLimit().setUnit(TurnRatioUnitType.PERCENT);
           		tapAdj.setTapAdjStepSize(dUPhase);
           		tapAdj.setTapAdjOnFromSide(false);
           		
-          		TapAdjustmentXmlType.VoltageAdjData vAdjData = tapAdj.addNewVoltageAdjData();
+          		TapAdjustmentXmlType.VoltageAdjData vAdjData = parser.getFactory().createTapAdjustmentXmlTypeVoltageAdjData();
+          		tapAdj.setVoltageAdjData(vAdjData);
           		
-          		vAdjData.setMode(AdjustmentDataXmlType.Mode.VALUE_ADJUSTMENT);
+          		vAdjData.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
           		vAdjData.setDesiredValue(uKvPhase);				
-          		vAdjData.setDesiredVoltageUnit(TapAdjustmentXmlType.VoltageAdjData.DesiredVoltageUnit.KV);
-          		vAdjData.addNewAdjVoltageBus().setIdRef(toNodeId);
-          		vAdjData.setAdjBusLocation(TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.TO_BUS);
+          		vAdjData.setDesiredVoltageUnit(VoltageUnitType.KV);
+
+          		vAdjData.setAdjVoltageBus(parser.createBusRecRef(toNodeId));
+       			vAdjData.setAdjBusLocation(TapAdjustBusLocationEnumType.TO_BUS);
 			}
 		}
 		else if (dUAngle > 0.0) {
 			getLogger().fine("angle regulation data persented");
 			if (dUPhase != 0.0)
-				XBeanParserHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString());
 			if (dUPhase != 0.0)
-				XBeanParserHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
 			if (dUPhase != 0.0)
-				XBeanParserHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString());
 			if (dUPhase != 0.0)
-				XBeanParserHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString());
 			if (dUPhase != 0.0)
-				XBeanParserHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
 
 			double ratioFactor = branchData.getToTurnRatio().getValue();
 
@@ -583,15 +610,19 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			
 			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
 			
-			XBeanDataSetter.setAngleData(branchData.addNewToAngle(), -ang*ModelContansts.Rad2Deg, AngleUnitType.DEG);
-			XBeanDataSetter.setTapPU(branchData.addNewToTurnRatio(), ratioFactor/x);
+			branchData.setToAngle(parser.getFactory().createAngleXmlType());
+			branchData.setToTurnRatio(parser.getFactory().createTurnRatioXmlType());
+			JaxbDataSetter.setAngleData(branchData.getToAngle(), -ang*ModelContansts.Rad2Deg, AngleUnitType.DEG);
+			JaxbDataSetter.setTurnRatioPU(branchData.getToTurnRatio(), ratioFactor/x);
 			
 			if (pMwAngle != 0.0) {
-				AngleAdjustmentXmlType angAdj = branchData.getXfrInfo().addNewAngleAdjustment();
-          		angAdj.setMode(AdjustmentDataXmlType.Mode.VALUE_ADJUSTMENT);
+				AngleAdjustmentXmlType angAdj = parser.getFactory().createAngleAdjustmentXmlType();
+				branchData.getXfrInfo().setAngleAdjustment(angAdj);
+          		angAdj.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
           		angAdj.setDesiredValue(pMwAngle);				
-				angAdj.setDesiredPowerUnit(AngleAdjustmentXmlType.DesiredPowerUnit.MW);
-				XBeanDataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), angMax, angMin,
+				angAdj.setDesiredPowerUnit(ActivePowerUnitType.MW);
+				angAdj.setAngleLimit(parser.getFactory().createAngleLimitXmlType());
+				JaxbDataSetter.setAngleLimitData(angAdj.getAngleLimit(), angMax, angMin,
 						AngleUnitType.DEG);
 				angAdj.setAngleAdjOnFromSide(false);
 				// this part if not specified in the UCTE spec. We assume it is measured on to side
@@ -612,7 +643,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     /*
      * ##E section
      */
-    private void processExchangePowerRecord(String str, PSSNetworkXmlType xmlBaseNet) {
+    private void processExchangePowerRecord(String str, PSSNetworkXmlType xmlBaseNet, ObjectFactory factory) {
     	getLogger().info("Exchange Power Record: " + str);
 
 		String fromIsoId, toIsoId, comment;
@@ -628,10 +659,15 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			return;
 		}
 
-		PSSNetworkXmlType.InterchangeList.Interchange.UcteExchange ucteExRec = xmlBaseNet.getInterchangeList().addNewInterchange().addNewUcteExchange();
+		PSSNetworkXmlType.InterchangeList.Interchange interChange = factory.createPSSNetworkXmlTypeInterchangeListInterchange();
+		xmlBaseNet.getInterchangeList().getInterchange().add(interChange);
+		
+		PSSNetworkXmlType.InterchangeList.Interchange.UcteExchange ucteExRec = factory.createPSSNetworkXmlTypeInterchangeListInterchangeUcteExchange(); 
+		interChange.setUcteExchange(ucteExRec);
 		ucteExRec.setFromIsoId(fromIsoId);
 		ucteExRec.setToIsoId(toIsoId);
-		XBeanDataSetter.setPowerData(ucteExRec.addNewExchangePower(), exPower, 0.0, ApparentPowerUnitType.MVA); 
+		ucteExRec.setExchangePower(factory.createPowerXmlType());
+		JaxbDataSetter.setPowerData(ucteExRec.getExchangePower(), exPower, 0.0, ApparentPowerUnitType.MVA); 
 		if (comment != null)
 			ucteExRec.setComment(comment);
     }
