@@ -423,6 +423,8 @@ public class JaxbDataSetter {
 			             double fromTap, double toTap,
 			             double gFrom, double bFrom, double gTo, double bTo, YUnitType yUnit, ObjectFactory factory) {
 		branchData.setCode(LFBranchCodeEnumType.TRANSFORMER);
+		branchData.setXfrInfo(factory.createLoadflowBranchDataXmlTypeXfrInfo());
+		branchData.getXfrInfo().setDataOnSystemBase(true);
 		setXformerData(branchData,
 				r, x, zUnit, fromTap, toTap,
 				gFrom, bFrom, gTo, bTo, yUnit, factory);
