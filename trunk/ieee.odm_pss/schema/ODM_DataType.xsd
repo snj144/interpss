@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ieee.org/odm/Schema" xmlns:pss="http://www.ieee.org/odm/Schema" elementFormDefault="qualified">
 
-	<include schemaLocation="ODM_UnitType.xsd"></include>
+    <include schemaLocation="ODM_RecordType.xsd"></include>
+    <include schemaLocation="ODM_UnitType.xsd"></include>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
@@ -270,7 +271,7 @@
 	<complexType name="LineZeroSeqXmlType">
 		<sequence>
 			<element name="zLine" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="yLiner" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="yLine" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="yFromSide" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="yToSide" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
@@ -278,7 +279,7 @@
 
 	<complexType name="TransformerZeroSeqXmlType">
 		<sequence>
-			<element name="conectionLocation" maxOccurs="1" minOccurs="1" type="pss:XfrZeroSeqConnectLocationNemuType">
+			<element name="conectionLocation" maxOccurs="1" minOccurs="1" type="pss:XfrZeroSeqConnectLocationEnumType">
 			</element>
 			<element name="zG" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="z1" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
@@ -287,7 +288,7 @@
 		</sequence>
 	</complexType>
 
-	<simpleType name="XfrZeroSeqConnectLocationNemuType">
+	<simpleType name="XfrZeroSeqConnectLocationEnumType">
 		<restriction base="string">
 			<enumeration value="AtBus1"></enumeration>
 			<enumeration value="AtBus2"></enumeration>
@@ -321,6 +322,27 @@
 			</choice>
 		</sequence>
 	</complexType>
+
+	<complexType name="XformerConnectionXmlType">
+		<sequence>
+			<element name="grounding" type="pss:GroundConnectionXmlType" minOccurs="0"></element>
+		</sequence>
+		<attribute name="connection" type="pss:XformrtConnectionEnumType" use="required"></attribute>
+	</complexType>
+
+	<simpleType name="ShortCircuitBusEnumType">
+		<restriction base="string">
+			<enumeration value="Contributing"></enumeration>
+			<enumeration value="Non-contributing"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="XformrtConnectionEnumType">
+		<restriction base="string">
+			<enumeration value="Wye"></enumeration>
+			<enumeration value="Delta"></enumeration>
+		</restriction>
+	</simpleType>
 
 	<simpleType name="FaultCategoryEnumType">
 		<restriction base="string">
@@ -406,6 +428,14 @@
 			<enumeration value="LowFrequence"></enumeration>
 			<enumeration value="LowVoltage"></enumeration>
 			<enumeration value="FixedTime"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="GroundConnectionEnumType">
+		<restriction base="string">
+			<enumeration value="Ungrounded"></enumeration>
+			<enumeration value="SolidGrounded"></enumeration>
+			<enumeration value="ZGrounded"></enumeration>
 		</restriction>
 	</simpleType>
 
