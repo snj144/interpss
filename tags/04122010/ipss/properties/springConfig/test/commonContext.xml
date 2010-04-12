@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+         xmlns:p="http://www.springframework.org/schema/p"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+<!--  
+	This config file defines object config for the 
+	ipss.common and ipss.editor packages
+	It also includes all other configuration files
+-->
+	<!--  Define the IPSSMsgHub object
+	      ============================
+             TYPE_MSG    = 1,
+             TYPE_DEBUG  = 2,
+             TYPE_INFO   = 3,
+             TYPE_STATUS = 4,
+             TYPE_WARN   = 5,
+             TYPE_ERROR  = 6;
+	-->
+	<bean id="stdoutMsgListener" 
+	      class="com.interpss.common.msg.StdoutMsgListener">	
+	  	<constructor-arg>
+	  		<value>4</value></constructor-arg>
+	</bean>
+
+	<bean id="ipssMsgHub" 
+	      class="com.interpss.common.msg.IPSSMsgHubImpl"
+	      scope="singleton">	
+		<property name="msgListeners">
+			<list>
+				<ref bean="stdoutMsgListener"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="editorDialogUtil" 
+	      class="com.interpss.common.ui.DialogUtilImpl"
+	      scope="singleton">	
+	</bean>	
+</beans>
