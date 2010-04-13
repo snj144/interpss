@@ -56,6 +56,10 @@ public class BaseTestSetup {
 	@BeforeClass
 	public static void setSpringAppCtx() {
 		if (SpringAppContext.SpringAppCtx == null) {
+			/*
+			TestUtilFunc.Simu_SpringConfigXmlFile = <springConfig File Location> + "springConfig/test/simuContext.xml";
+			TestUtilFunc.Plugin_SpringConfigXmlFile = <springConfig File Location> + "/springConfig/test/pluginContext.xml";
+			*/
 			String xmlFile = TestUtilFunc.Plugin_SpringConfigXmlFile;
 			// Set the SpringAppContext to all ApplicationContextAware objects.
 			SpringAppContext.SpringAppCtx = new FileSystemXmlApplicationContext(xmlFile);
