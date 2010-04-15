@@ -43,7 +43,6 @@ import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.msg.SimuMessage;
 
-
 public class NBStatusPanel extends JPanel implements IAppStatus, IpssMsgListener {
 	private static final long serialVersionUID = 1;
 
