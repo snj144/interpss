@@ -151,10 +151,10 @@
     	      <fileset dir="${dev_base}/ipss/runtime/sqlMapConfig">
     	         <exclude name="**/SqlMapConfig.xml" />
     	      </fileset>
-    	</copy-->
-    	<copy todir="${dist_base}/properties/springConfig" >
+    	</copy--> 
+    	<!--copy todir="${dist_base}/properties/springConfig" >  use classpath based approach
     		  <fileset dir="${dev_base}/ipss/properties/springConfig" />
-    	</copy>
+    	</copy-->
     	<!--copy todir="${fit_base}/properties">
     			<fileset dir="${dev_base}/ipss/properties" />
     	</copy-->
