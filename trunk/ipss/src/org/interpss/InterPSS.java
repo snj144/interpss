@@ -62,10 +62,12 @@ public class InterPSS {
 		// load String framework configuration
 		IpssLogger.getLogger()
 			.info("Config Spring context ...");
+		/*
 		SpringAppContext.springAppContextSetup(IpssPropertiesLoader
 				.getIpssString(OptEditorStr.equals(appParameters.getParamLowerCase(OptStr))?
 						"springframework.config.editor" : "springframework.config.cmdline"));
-		
+		*/
+		SpringAppContext.springAppContextSetup();
 		// load app constants stored in the properties files
 		loadAppConstants();
 
