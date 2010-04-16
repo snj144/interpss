@@ -82,8 +82,7 @@ public class GenDataReader extends DataReader {
 		this.parser=parser;
 	}
 	public GenDataReader(ODMModelParser parser){
-		this.parser=parser;
-		this.baseCaseNetwork=this.parser.getBaseCase();
+		super(parser);
 	}
 	
 	
