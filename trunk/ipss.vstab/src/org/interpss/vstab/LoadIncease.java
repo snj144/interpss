@@ -32,7 +32,7 @@ public class LoadIncease {
     protected static HashMap<Integer,Double> loadPMap = new HashMap<Integer,Double> ();
     protected static HashMap<Integer,Double> loadQMap = new HashMap<Integer,Double> ();
     
-    public static LoadIncPatten incPatten;
+    public static LoadIncCode incPatten;
     
     public LoadIncease(AclfNetwork net, List<Integer> incLoadBusList,Double newLoadIncIndex){
     	this.net=net;

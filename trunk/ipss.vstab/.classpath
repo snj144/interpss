@@ -23,5 +23,7 @@
 	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/eclipse/org.eclipse.emf.ecore_2.5.0.v200906151043.jar"/>
 	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar"/>
 	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/ipss/ipss_plugin.jar"/>
+	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/db/derby.jar"/>
+	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/db/derbytools.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>

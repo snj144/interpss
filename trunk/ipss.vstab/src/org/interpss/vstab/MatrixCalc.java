@@ -11,6 +11,7 @@ import java.util.List;
 
 //import Jama.Matrix;
 import org.apache.commons.math.linear.*;
+import org.apache.commons.math.util.MathUtils;
 
 import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
@@ -179,7 +180,7 @@ public class MatrixCalc {
 		 EigenDecomposition eigDcp=null;
 		 
 		 try{
-	     eigDcp  =(EigenDecomposition)jacobi;
+	     eigDcp  =new EigenDecompositionImpl(jacobi,MathUtils.SAFE_MIN);
 	     realEigenValues=eigDcp.getRealEigenvalues();
 	     
 		 // search the zero eigen value and its index 
@@ -196,6 +197,7 @@ public class MatrixCalc {
 		 }
 		return realEigenValues[col];
 	}
+
 	    
 	 public static void printMatrix(RealMatrix m){
 		   
