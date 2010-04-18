@@ -32,7 +32,7 @@ import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
-import com.interpss.BaseTestSetup;
+import org.interpss.BaseTestSetup;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.TestUtilFunc;
