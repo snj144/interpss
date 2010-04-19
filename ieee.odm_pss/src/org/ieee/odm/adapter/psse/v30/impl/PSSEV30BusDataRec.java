@@ -101,6 +101,7 @@ public class PSSEV30BusDataRec {
 		StringTokenizer st;
 
 	//	 101743,'TAU 9A,8    ',  13.8000,2,     0.000,     0.000, 101, 101,1.02610, -98.5705,   1
+	//    10001,'ALB_T4*     ',   1.0000,1,     0.000,     0.000,   1,   1,1.03259, -13.5044,   1
 	// -- str1-- ----str2---- -----------str3---------------	
 		String str1 = lineStr.substring(0, lineStr.indexOf('\'')),
 	           strbuf = lineStr.substring(lineStr.indexOf('\'')+1),
