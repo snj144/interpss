@@ -144,7 +144,8 @@ public class JaxbParserHelper {
 						}
 					}
 					
-					if (offLine)
+					if (offLine && genData.getEquivGen().getCode() != LFGenCodeEnumType.SWING)
+						// generator on a swing bus might turned off
 						genData.getEquivGen().setCode(LFGenCodeEnumType.OFF);
 					else {	
 						if (equivGen.getPower() == null) {

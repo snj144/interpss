@@ -344,7 +344,8 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 	 * @param str a input data line string
 	 */
 	public static boolean isEndRecLine(String str) {
-		return str.startsWith("0") || str.startsWith("/") || str.startsWith("Q");
+		String s = str.trim();
+		return s.startsWith("0") || s.startsWith("/") || s.startsWith("Q");
 	}	
 	
 	public static String trimQuote(String str) {
