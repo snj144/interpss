@@ -1,9 +1,10 @@
-package org.interpss.vstab;
+package org.interpss.vstab.Impl;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.LUDecomposition;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
+import org.interpss.vstab.Jacobi4VSA;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Matrix_xy;
@@ -23,8 +24,13 @@ public class Jacobi4VSAImpl implements Jacobi4VSA {
     protected RealMatrix subJqtheta;
     protected RealMatrix subJqv;
     private IPSSMsgHub msg;
+    
     public Jacobi4VSAImpl(AclfNetwork net){
-		    SparseEqnMatrix2x2 S=net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE, msg);
+      initialize(net);
+    }
+    
+    private void initialize(AclfNetwork net){
+    	SparseEqnMatrix2x2 S=net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE, msg);
 				 // get sortIndex
 			   int[] sortNumberToMatrixIndex = new int[net.getNoBus()+1];
 			   int[] sortPQNumberToMatrixIndex = new int[net.getNoBus()+1];
@@ -108,8 +114,7 @@ public class Jacobi4VSAImpl implements Jacobi4VSA {
 		  }catch(Exception e){ 
 			 e.printStackTrace();
 		  }
-	      
-			   
+	      			   
 	 }//end this method
 
 
@@ -121,7 +126,7 @@ public class Jacobi4VSAImpl implements Jacobi4VSA {
 		return this.fullJacobi;
 	}
 
-	public RealMatrix getReducedJacobi(RealMatrix fullJacobi) {
+	public RealMatrix getReducedJacobi() {
         LUDecomposition ludcp=new LUDecompositionImpl(subJptheta);
         
         if (ludcp.getSolver().isNonSingular()){

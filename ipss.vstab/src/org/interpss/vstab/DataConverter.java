@@ -10,9 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
-import org.ieee.pes.odm.pss.adapter.bpa.BPAAdapter;
-import org.ieee.pes.odm.pss.adapter.ieeecdf.IeeeCDFAdapter;
+import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.bpa.BPAAdapter;
+import org.ieee.odm.adapter.ieeecdf.JaxbIeeeCDFAdapter;
 import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.interpss.mapper.IEEEODMMapper;
@@ -28,7 +28,7 @@ public class DataConverter {
 	   private final static String Token_IEEECDF 	= "ieeecdf";
 	   private final static String Token_PSSE 	= "psse";
 	   private final static String Token_BPA 	= "bpa";
-	   public ODMModelParser parser;
+	   public org.ieee.odm.model.ODMModelParser parser;
 	  
 	   
 	   
