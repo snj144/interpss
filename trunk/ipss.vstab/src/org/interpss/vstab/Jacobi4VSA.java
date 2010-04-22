@@ -8,7 +8,7 @@ import com.interpss.core.sparse.SparseEqnMatrix2x2;
 
 public interface Jacobi4VSA {
     public RealMatrix getFullJacobi();
-   	public RealMatrix getReducedJacobi(RealMatrix fullJacobi) ;
+   	public RealMatrix getReducedJacobi() ;
    	public RealMatrix getSubJptheta();
    	public RealMatrix getSubJpv();
    	public RealMatrix getSubJqtheta();

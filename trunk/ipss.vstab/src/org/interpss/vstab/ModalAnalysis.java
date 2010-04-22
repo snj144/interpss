@@ -12,9 +12,14 @@ public interface ModalAnalysis {
 	
 	public Complex getDominatantEigenValue();
 	
-	public double getDominatantRealEigenValue(int NumofSmallestEig);
+	public double getDomRealEigenValue(int NumofSmallestEig);
 	
 	public RealVector getDominatantVector();
 	
+	public double getBusPartFactor(int busIdx);
+	
+	public double getBranchPartFactor(int branchIdx);
+	
+	public double getGenPartFactor(int busIdx);
 	
 }
