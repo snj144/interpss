@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.common"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.core_EMF"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dist_EMF"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dstab_EMF"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.simu"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/tsinghua"/>
@@ -18,7 +13,6 @@
 	<classpathentry kind="var" path="IPSS_LIB/report/jasperreports.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/report/jdt-compiler.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/spring/spring-2.5.6.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-logging.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-logging-api.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/plugins/IpssCustomController.jar"/>
@@ -38,7 +32,8 @@
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-httpclient-3.0.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-javaflow.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.ext_EMF"/>
 	<classpathentry kind="lib" path="C:/eclipse/GEditor/plugin/custom.plugin/dist/custom.plugin.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
