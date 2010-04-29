@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.adapter.psse.xbean.v30.XBeanPSSEV30Adapter;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;
@@ -72,7 +72,7 @@ public class GuideSampleTestCases extends BaseTestSetup {
 
 	@Test
 	public void testCase1() throws Exception {
-		IODMPSSAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
+		IODMPSSAdapter adapter = new XBeanPSSEV30Adapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_GuideSample.raw"));		
 		
 		AclfNetwork net = null;
