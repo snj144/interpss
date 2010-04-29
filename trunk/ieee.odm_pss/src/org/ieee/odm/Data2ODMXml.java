@@ -36,8 +36,8 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.bpa.BPAAdapter;
-import org.ieee.odm.adapter.ieeecdf.XBeanIeeeCDFAdapter;
-import org.ieee.odm.adapter.ucte.XBeanUCTE_DEFAdapter;
+import org.ieee.odm.adapter.xbean.XBeanIeeeCDFAdapter;
+import org.ieee.odm.adapter.xbean.XBeanUCTE_DEFAdapter;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class Data2ODMXml {

@@ -31,7 +31,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.ieeecdf.JaxbIeeeCDFAdapter;
+import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.schema.ApparentPowerUnitType;
@@ -55,7 +55,7 @@ public class JaxbIEEECDF_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new JaxbIeeeCDFAdapter(logger);
+		IODMPSSAdapter adapter = new IeeeCDFAdapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/ieee_format/Ieee14Bus.ieee"));
 		
 		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();

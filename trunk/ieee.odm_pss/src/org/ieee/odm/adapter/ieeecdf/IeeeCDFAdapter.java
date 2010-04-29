@@ -60,7 +60,7 @@ import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
-public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
+public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	public final static String Token_Date = "Date";
 	public final static String Token_OrgName = "Originator Name";
 	public final static String Token_Year = "Year";
@@ -75,7 +75,7 @@ public class JaxbIeeeCDFAdapter  extends AbstractODMAdapter {
 
 	private ObjectFactory factory = null;
 
-	public JaxbIeeeCDFAdapter(Logger logger) {
+	public IeeeCDFAdapter(Logger logger) {
 		super(logger);
 		this.factory = new ObjectFactory();		
 	}
