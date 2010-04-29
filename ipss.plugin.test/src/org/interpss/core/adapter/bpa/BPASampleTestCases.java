@@ -27,7 +27,7 @@ package org.interpss.core.adapter.bpa;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.bpa.BPAAdapter;
+import org.ieee.odm.adapter.bpa.xbean.BPAAdapter;
 import org.interpss.BaseTestSetup;
 import org.interpss.mapper.IEEEODMMapper;
 import org.junit.Test;

@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.adapter.psse.xbean.v30.XBeanPSSEV30Adapter;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;
@@ -72,7 +72,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 
 	@Test
 	public void odm_testCase() throws Exception {
-		IODMPSSAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
+		IODMPSSAdapter adapter = new XBeanPSSEV30Adapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_5Bus_Test.raw"));		
 		
 		AclfNetwork net = null;
@@ -123,7 +123,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 	
 	@Test
 	public void testCase2ODM() throws Exception {
-		IODMPSSAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
+		IODMPSSAdapter adapter = new XBeanPSSEV30Adapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testData/psse/MXV-1120MW_FNC475_FEC196_FAC212_InterPSS_3d.raw"));		
 		
 		IEEEODMMapper mapper = new IEEEODMMapper();
