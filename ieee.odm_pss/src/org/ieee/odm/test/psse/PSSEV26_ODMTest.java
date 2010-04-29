@@ -38,7 +38,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.psse.v26.PSSEV26Adapter;
+import org.ieee.odm.adapter.psse.xbean.v26.XBeanPSSEV26Adapter;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.junit.Test;
@@ -51,7 +51,7 @@ public class PSSEV26_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new PSSEV26Adapter(logger);
+		IODMPSSAdapter adapter = new XBeanPSSEV26Adapter(logger);
 		assertTrue(adapter.parseInputFile("testData/psse/LFModel_testV26.raw"));
 		//System.out.println(adapter.getModel());
 		

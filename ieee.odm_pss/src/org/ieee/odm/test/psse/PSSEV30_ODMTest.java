@@ -39,7 +39,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.adapter.psse.xbean.v30.XBeanPSSEV30Adapter;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.junit.Test;
@@ -52,7 +52,7 @@ public class PSSEV30_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new PSSEV30Adapter(logger);
+		IODMPSSAdapter adapter = new XBeanPSSEV30Adapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/psse/PSSE_5Bus_Test.raw"));
 		
 //		System.out.println(adapter.getModel().toString());

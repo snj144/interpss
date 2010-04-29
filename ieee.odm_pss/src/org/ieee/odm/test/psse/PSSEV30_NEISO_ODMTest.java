@@ -39,7 +39,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.adapter.psse.xbean.v30.XBeanPSSEV30Adapter;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.junit.Test;
 
@@ -51,7 +51,7 @@ public class PSSEV30_NEISO_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new PSSEV30Adapter(logger);
+		IODMPSSAdapter adapter = new XBeanPSSEV30Adapter(logger);
 		assertTrue(adapter.parseInputFile("testData/psse/Model_testV30.raw"));
 		//System.out.println(adapter.getModel());
 		

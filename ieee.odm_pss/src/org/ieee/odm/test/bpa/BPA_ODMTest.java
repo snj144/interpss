@@ -45,7 +45,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.bpa.BPAAdapter;
+import org.ieee.odm.adapter.bpa.xbean.BPAAdapter;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.junit.Test;
