@@ -47,12 +47,12 @@ public class IEEEODMMapper extends AbstractMapper {
 			if (fromObj instanceof XBeanODMModelParser) {
 				XBeanODMModelParser parser = (XBeanODMModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;
-				return org.interpss.mapper.ieee_odm.xbean.ODM2SimuCtxMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
+				return org.interpss.mapper.ieee_odm.xbean.XmlBeansODM2SimuCtxMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
 			}
 			else if (fromObj instanceof JaxbODMModelParser) {
 				JaxbODMModelParser parser = (JaxbODMModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;
-				return org.interpss.mapper.ieee_odm.jaxb.ODM2SimuCtxMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
+				return org.interpss.mapper.ieee_odm.ODM2SimuCtxMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
 			}
 		} 
 		return true;

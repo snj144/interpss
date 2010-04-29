@@ -22,27 +22,27 @@
  *
  */
 
-package org.interpss.mapper.ieee_odm.jaxb;
+package org.interpss.mapper.ieee_odm.xbean;
 
 import org.apache.commons.math.complex.Complex;
-import org.ieee.odm.schema.AngleXmlType;
-import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BranchRecordXmlType;
-import org.ieee.odm.schema.BusRecordXmlType;
-import org.ieee.odm.schema.CimRdfXmlType;
-import org.ieee.odm.schema.LFBranchCodeEnumType;
-import org.ieee.odm.schema.LFGenCodeEnumType;
-import org.ieee.odm.schema.LFLoadCodeEnumType;
-import org.ieee.odm.schema.LoadflowBranchDataXmlType;
-import org.ieee.odm.schema.LoadflowBusDataXmlType;
-import org.ieee.odm.schema.LoadflowGenDataXmlType;
-import org.ieee.odm.schema.LoadflowLoadDataXmlType;
-import org.ieee.odm.schema.PSSNetworkXmlType;
-import org.ieee.odm.schema.PowerXmlType;
-import org.ieee.odm.schema.VoltageUnitType;
-import org.ieee.odm.schema.VoltageXmlType;
-import org.ieee.odm.schema.YXmlType;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CimRdfXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
@@ -70,7 +70,7 @@ import com.interpss.core.net.Area;
 import com.interpss.core.net.CimRecord;
 import com.interpss.core.net.Zone;
 
-public class ODMLoadflowDataMapperImpl {
+public class XmlBeansODMLoadflowDataMapperImpl {
 	/**
 	 * Map the network info only
 	 * 
@@ -103,13 +103,13 @@ public class ODMLoadflowDataMapperImpl {
 		aclfBus.setNumber(busRec.getNumber());
 		aclfBus.setName(busRec.getName() == null? "Aclf Bus" : busRec.getName());
 		aclfBus.setDesc(busRec.getDesc() == null? "Aclf Bus" : busRec.getDesc());
-		aclfBus.setStatus(!busRec.isOffLine());
+		aclfBus.setStatus(!busRec.getOffLine());
 		if (!aclfBus.isActive()) {
 			IpssLogger.getLogger().info("Aclf Bus is not active, " + aclfBus.getId());
 		}
 		
-		if (busRec.getCimRdfRecords() != null && busRec.getCimRdfRecords().getRdfRec().size() > 0) {
-			for (CimRdfXmlType cimRec : busRec.getCimRdfRecords().getRdfRec()) {
+		if (busRec.getCimRdfRecords() != null && busRec.getCimRdfRecords().getRdfRecArray().length > 0) {
+			for (CimRdfXmlType cimRec : busRec.getCimRdfRecords().getRdfRecArray()) {
 				CimRecord rec = CoreObjectFactory.createCimRecod(cimRec.getRdfId(), cimRec.getName());
 				aclfBus.getCimRec().add(rec);
 			}
@@ -123,7 +123,7 @@ public class ODMLoadflowDataMapperImpl {
 		aclfBus.setBaseVoltage(busRec.getBaseVoltage().getUnit()==VoltageUnitType.KV ?    // Base V unit [KV, Volt] 
 									busRec.getBaseVoltage().getValue()*1000.0	: busRec.getBaseVoltage().getValue());
 		if (busRec.getLoadflowData() != null) {
-			ODMLoadflowDataMapperImpl.setBusLoadflowData(busRec.getLoadflowData(), aclfBus, adjNet);
+			XmlBeansODMLoadflowDataMapperImpl.setBusLoadflowData(busRec.getLoadflowData(), aclfBus, adjNet);
 		}
 		return aclfBus;
 	}
@@ -141,17 +141,14 @@ public class ODMLoadflowDataMapperImpl {
 		AclfBranch aclfBranch = CoreObjectFactory.createAclfBranch();
 		aclfBranch.setCircuitNumber(branchRec.getCircuitId());
 		try {
-			BusRecordXmlType fromBus = (BusRecordXmlType)branchRec.getFromBus().getIdRef();
-			BusRecordXmlType toBus = (BusRecordXmlType)branchRec.getToBus().getIdRef();
-			adjNet.addBranch(aclfBranch, fromBus.getId(), toBus.getId());
+			adjNet.addBranch(aclfBranch, branchRec.getFromBus().getIdRef(), branchRec.getToBus().getIdRef());
 		} catch (Exception e) {
-			e.printStackTrace();
 			msg.sendErrorMsg(e.toString() + ", the branch is ignored");
 			return null;
 		}
 		aclfBranch.setName(branchRec.getName() == null ? "" : branchRec.getName());
 		aclfBranch.setDesc(branchRec.getDesc() == null ? "" : branchRec.getDesc());
-		aclfBranch.setStatus(!branchRec.isOffLine());
+		aclfBranch.setStatus(!branchRec.getOffLine());
 		if (!aclfBranch.isActive()) {
 			IpssLogger.getLogger().info("Aclf Branch is not active, " + aclfBranch.getId());
 		}
@@ -160,10 +157,10 @@ public class ODMLoadflowDataMapperImpl {
 		Zone zone = CoreObjectFactory.createZone(branchRec.getZoneNumber(), adjNet);
 		aclfBranch.setZone(zone);
 		
-		if (branchRec.getLoadflowData().size() > 0) {
-			if (branchRec.getLoadflowData().size() == 1)
-				ODMLoadflowDataMapperImpl.setBranchLoadflowData( 
-						JaxbParserHelper.getDefaultBranchData(branchRec), aclfBranch, adjNet, msg);
+		if (branchRec.getLoadflowDataArray().length > 0) {
+			if (branchRec.getLoadflowDataArray().length == 1)
+				XmlBeansODMLoadflowDataMapperImpl.setBranchLoadflowData( 
+						XBeanParserHelper.getDefaultBranchData(branchRec), aclfBranch, adjNet, msg);
 		}
 		return aclfBranch;
 	}
@@ -171,10 +168,10 @@ public class ODMLoadflowDataMapperImpl {
 	private static void setBusLoadflowData(LoadflowBusDataXmlType busXmlData, AclfBus aclfBus, AclfAdjNetwork adjNet) throws Exception {
 		VoltageXmlType vXml = busXmlData.getVoltage();
 		double vpu = vXml == null ? 1.0 : UnitType.vConversion(vXml.getValue(),
-				aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
+				aclfBus.getBaseVoltage(), XmlBeansODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
 		double angRad = busXmlData.getAngle() ==  null? 0.0 :
 			UnitType.angleConversion(busXmlData.getAngle().getValue(),
-					ODMXmlHelper.toUnit(busXmlData.getAngle().getUnit()), UnitType.Rad);
+					XmlBeansODMXmlHelper.toUnit(busXmlData.getAngle().getUnit()), UnitType.Rad);
 		aclfBus.setVoltage(vpu, angRad);
 
 		if (busXmlData.getGenData() != null) {
@@ -184,12 +181,12 @@ public class ODMLoadflowDataMapperImpl {
 				PQBusAdapter pqBus = (PQBusAdapter) aclfBus.getAdapter(PQBusAdapter.class);
 				pqBus.setGen(new Complex(xmlEquivGenData.getPower().getRe(), 
 						                 xmlEquivGenData.getPower().getIm()),
-						           ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
+						           XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
 				if (xmlEquivGenData.getVoltageLimit() != null) {
   			  		final PQBusLimit pqLimit = CoreObjectFactory.createPQBusLimit(adjNet, aclfBus.getId());
   			  		pqLimit.setVLimit(new LimitType(xmlEquivGenData.getVoltageLimit().getMax(), 
   			  										xmlEquivGenData.getVoltageLimit().getMin()), 
-  			  				ODMXmlHelper.toUnit(xmlEquivGenData.getVoltageLimit().getUnit()));						
+  			  				XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getVoltageLimit().getUnit()));						
 				}
 			} else if (xmlEquivGenData.getCode() == LFGenCodeEnumType.PV &&
 					xmlEquivGenData != null) {
@@ -199,16 +196,16 @@ public class ODMLoadflowDataMapperImpl {
 					//if (xmlEquivGenData == null)
 					//	System.out.print(busXmlData);
 					pvBus.setGenP(xmlEquivGenData.getPower().getRe(),
-								ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
+								XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
 					vXml = xmlEquivGenData.getDesiredVoltage();
 					vpu = UnitType.vConversion(vXml.getValue(),
-							aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
+							aclfBus.getBaseVoltage(), XmlBeansODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
 					pvBus.setVoltMag(vpu, UnitType.PU);
 					if (xmlEquivGenData.getQLimit() != null) {
 	  			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(adjNet, aclfBus.getId());
 	  			  		pvLimit.setQLimit(new LimitType(xmlEquivGenData.getQLimit().getMax(), 
 	  			  										xmlEquivGenData.getQLimit().getMin()), 
-	  			  				ODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()), adjNet.getBaseKva());						
+	  			  				XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()), adjNet.getBaseKva());						
 					}
 				}
 				else {
@@ -217,7 +214,7 @@ public class ODMLoadflowDataMapperImpl {
   					aclfBus.setGenCode(AclfGenCode.GEN_PQ);
   					// The remote bus to be adjusted is normally defined as a PV bus. It needs to
   					// be changed to PQ bus
-  					String remoteId = (String)xmlEquivGenData.getRemoteVoltageControlBus().getIdRef();
+  					String remoteId = xmlEquivGenData.getRemoteVoltageControlBus().getIdRef();
   					AclfBus remoteBus = adjNet.getAclfBus(remoteId);
   					if (remoteBus != null) {
   	  					if (remoteBus.isGenPV())
@@ -227,12 +224,12 @@ public class ODMLoadflowDataMapperImpl {
   			  			final PQBusAdapter gen = (PQBusAdapter)aclfBus.getAdapter(PQBusAdapter.class);
   			  			gen.setGen(new Complex(xmlEquivGenData.getPower().getRe(),
   			  					               xmlEquivGenData.getPower().getIm()), 
-  			  					               ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
+  			  					               XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
   	  			  		reQBus.setQLimit(new LimitType(xmlEquivGenData.getQLimit().getMax(), 
   														xmlEquivGenData.getQLimit().getMin()), 
-  										ODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()), adjNet.getBaseKva());						
+  										XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()), adjNet.getBaseKva());						
   	  			  		reQBus.setVSpecified(UnitType.vConversion(xmlEquivGenData.getDesiredVoltage().getValue(),
-  								aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU));					
+  								aclfBus.getBaseVoltage(), XmlBeansODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU));					
   					}
 				}
 			} else if (xmlEquivGenData.getCode() == LFGenCodeEnumType.SWING) {
@@ -240,10 +237,10 @@ public class ODMLoadflowDataMapperImpl {
 				SwingBusAdapter swing = (SwingBusAdapter) aclfBus.getAdapter(SwingBusAdapter.class);
 				vXml = busXmlData.getGenData().getEquivGen().getDesiredVoltage();
 				vpu = UnitType.vConversion(vXml.getValue(),
-						aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
+						aclfBus.getBaseVoltage(), XmlBeansODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
 				AngleXmlType angXml = busXmlData.getGenData().getEquivGen().getDesiredAngle(); 
 				angRad = UnitType.angleConversion(angXml.getValue(),
-							ODMXmlHelper.toUnit(angXml.getUnit()), UnitType.Rad);				
+							XmlBeansODMXmlHelper.toUnit(angXml.getUnit()), UnitType.Rad);				
 				swing.setVoltMag(vpu, UnitType.PU);
 				swing.setVoltAng(angRad, UnitType.Rad);				
 			} else {
@@ -269,7 +266,7 @@ public class ODMLoadflowDataMapperImpl {
 					p = xmlEquivLoad.getConstZLoad();
 				if (p != null)
 					loadBus.setLoad(new Complex(p.getRe(), p.getIm()),
-							ODMXmlHelper.toUnit(p.getUnit()), adjNet.getBaseKva());
+							XmlBeansODMXmlHelper.toUnit(p.getUnit()), adjNet.getBaseKva());
 			}
 		} else {
 			aclfBus.setLoadCode(AclfLoadCode.NON_LOAD);
@@ -277,7 +274,7 @@ public class ODMLoadflowDataMapperImpl {
 
 		if (busXmlData.getShuntY() != null) {
 			Complex ypu = UnitType.yConversion(new Complex(busXmlData.getShuntY().getRe(), busXmlData.getShuntY().getIm()),
-					aclfBus.getBaseVoltage(), adjNet.getBaseKva(), ODMXmlHelper.toUnit(busXmlData.getShuntY().getUnit()),
+					aclfBus.getBaseVoltage(), adjNet.getBaseKva(), XmlBeansODMXmlHelper.toUnit(busXmlData.getShuntY().getUnit()),
 					UnitType.PU);
 			aclfBus.setShuntY(ypu);			
 		}
@@ -293,12 +290,12 @@ public class ODMLoadflowDataMapperImpl {
 				//System.out.println(braXmlData.getLineData().getZ().getIm());
 				LineAdapter line = (LineAdapter) aclfBra.getAdapter(LineAdapter.class);
 				line.setZ(new Complex(braXmlData.getZ().getRe(), braXmlData.getZ().getIm()), 
-							ODMXmlHelper.toUnit(braXmlData.getZ().getUnit()), 
+							XmlBeansODMXmlHelper.toUnit(braXmlData.getZ().getUnit()), 
 							aclfBra.getFromAclfBus().getBaseVoltage(),	baseKva, msg);
 				if (braXmlData.getTotalShuntY() != null)
 					line.setHShuntY(new Complex(0.5 * braXmlData.getTotalShuntY().getRe(),
 									0.5 * braXmlData.getTotalShuntY().getIm()),
-							ODMXmlHelper.toUnit(braXmlData.getTotalShuntY().getUnit()), 
+							XmlBeansODMXmlHelper.toUnit(braXmlData.getTotalShuntY().getUnit()), 
 							aclfBra.getFromAclfBus().getBaseVoltage(), baseKva);
 				
 				fromShuntY = braXmlData.getFromShuntY();
@@ -314,10 +311,10 @@ public class ODMLoadflowDataMapperImpl {
 			PSXfrAdapter psXfr = (PSXfrAdapter) aclfBra.getAdapter(PSXfrAdapter.class);
 			if(braXmlData.getFromAngle() != null)
 				psXfr.setFromAngle(braXmlData.getFromAngle().getValue(), 
-						ODMXmlHelper.toUnit(braXmlData.getFromAngle().getUnit()));
+						XmlBeansODMXmlHelper.toUnit(braXmlData.getFromAngle().getUnit()));
 			if(braXmlData.getToAngle() != null)
 				psXfr.setToAngle(braXmlData.getToAngle().getValue(), 
-						ODMXmlHelper.toUnit(braXmlData.getToAngle().getUnit()));
+						XmlBeansODMXmlHelper.toUnit(braXmlData.getToAngle().getUnit()));
 			fromShuntY = braXmlData.getFromShuntY();
 			toShuntY = braXmlData.getToShuntY();
 		} else {
@@ -327,13 +324,13 @@ public class ODMLoadflowDataMapperImpl {
 		if (fromShuntY != null) {
 			Complex ypu = UnitType.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
 					aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
-					ODMXmlHelper.toUnit(fromShuntY.getUnit()), UnitType.PU);
+					XmlBeansODMXmlHelper.toUnit(fromShuntY.getUnit()), UnitType.PU);
 			aclfBra.setFromShuntY(ypu);
 		}
 		if (toShuntY != null) {
 			Complex ypu = UnitType.yConversion(new Complex(toShuntY.getRe(),	toShuntY.getIm()),
 					aclfBra.getToAclfBus().getBaseVoltage(), baseKva,
-					ODMXmlHelper.toUnit(toShuntY.getUnit()), UnitType.PU);
+					XmlBeansODMXmlHelper.toUnit(toShuntY.getUnit()), UnitType.PU);
 			aclfBra.setToShuntY(ypu);
 		}
 
@@ -368,21 +365,21 @@ public class ODMLoadflowDataMapperImpl {
 			if (xfrData.getXfrInfo().getRatedVoltage2() != null)
 				toRatedV = xfrData.getXfrInfo().getRatedVoltage2().getValue();
 
-			if (!xfrData.getXfrInfo().isDataOnSystemBase() &&
+			if (!xfrData.getXfrInfo().isSetDataOnSystemBase() &&
 				xfrData.getXfrInfo().getRatedPower12() != null && 
 				xfrData.getXfrInfo().getRatedPower12().getValue() > 0.0) 
 				zratio = xfrData.getXfrInfo().getRatedPower12().getUnit() == ApparentPowerUnitType.KVA?
 					adjNet.getBaseKva() / xfrData.getXfrInfo().getRatedPower12().getValue() :
 						0.001 * adjNet.getBaseKva() / xfrData.getXfrInfo().getRatedPower12().getValue();
 
-			if (!xfrData.getXfrInfo().isDataOnSystemBase())
+			if (!xfrData.getXfrInfo().isSetDataOnSystemBase())
 				tapratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
 		}
 		
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		XfrAdapter xfr = (XfrAdapter) aclfBra.getAdapter(XfrAdapter.class);
 		xfr.setZ(new Complex(xfrData.getZ().getRe()*zratio, xfrData.getZ().getIm()*zratio),
-				ODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV, adjNet.getBaseKva(),
+				XmlBeansODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV, adjNet.getBaseKva(),
 				msg);
 		xfr.setFromTurnRatio(xfrData.getFromTurnRatio().getValue() == 0.0 ? 1.0 : xfrData
 				.getFromTurnRatio().getValue()*tapratio, UnitType.PU);

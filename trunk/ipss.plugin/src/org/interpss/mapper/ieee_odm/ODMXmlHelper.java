@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.mapper.ieee_odm.jaxb;
+package org.interpss.mapper.ieee_odm;
 
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.AngleUnitType;
