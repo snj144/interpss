@@ -94,7 +94,14 @@
    	  		basedir="${dev_base}/ipss.plugin/runtime" 
    	  		excludes="CVS/**,model/**" />
    	  		
-   	  <jar destfile="${svn_lib}/ipss_xml.jar" 
+      <jar destfile="${svn_lib}/ipss_plugin.grid.jar" 
+      		basedir="${dev_base}/ipss.plugin.grid/runtime" 
+      		excludes="CVS/**,model/**" />	
+      <jar destfile="${ipss_base}/ipss_plugin.grid.jar" 
+      		basedir="${dev_base}/ipss.plugin.grid/runtime" 
+      		excludes="CVS/**,model/**" />
+
+    <jar destfile="${svn_lib}/ipss_xml.jar" 
    	  		basedir="${dev_base}/ipss.xml/runtime" 
    	  		excludes="CVS/**,model/**" />	
    	  <jar destfile="${ipss_base}/ipss_xml.jar" 
@@ -178,6 +185,7 @@
 		<copy file="${lib_base}/ipss/ipss_core.jar" todir="${pssl_lib}"/>
 		<copy file="${lib_base}/ipss/ipss_ext.jar" todir="${pssl_lib}"/>
 		<copy file="${lib_base}/ipss/ipss_plugin.jar" todir="${pssl_lib}"/>
+		<copy file="${lib_base}/ipss/ipss_plugin.grid.jar" todir="${pssl_lib}"/>
 		<copy file="${lib_base}/ipss/ipss_schemas.jar" todir="${pssl_lib}"/>
 		<copy file="${lib_base}/ieee/ieee.odm_pss.jar" todir="${pssl_lib}"/>
 		<copy file="${lib_base}/ieee/ieee.odm_pss.schemas.jar" todir="${pssl_lib}"/>
@@ -195,6 +203,7 @@
 		<copy file="${lib_base}/ipss/ipss_core.jar" todir="${gl.odm_lib}"/>
 		<copy file="${lib_base}/ipss/ipss_ext.jar" todir="${gl.odm_lib}"/>
 		<copy file="${lib_base}/ipss/ipss_plugin.jar" todir="${gl.odm_lib}"/>
+		<copy file="${lib_base}/ipss/ipss_plugin.grid.jar" todir="${gl.odm_lib}"/>
 
 		<copy file="${lib_base}/ieee/ieee.odm_pss.jar" todir="${opencim}/odm"/>
 		<copy file="${lib_base}/ieee/ieee.odm_pss.schemas.jar" todir="${opencim}/odm"/>
