@@ -31,7 +31,7 @@ package org.interpss.custom.exchange;
 
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.ieeecdf.JaxbIeeeCDFAdapter;
+import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -57,7 +57,7 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
 	@Override
 	public void load(final SimuContext simuCtx, final String filepath) throws Exception{
 		//IODMPSSAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
-		IODMPSSAdapter adapter = new JaxbIeeeCDFAdapter(IpssLogger.getLogger());
+		IODMPSSAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
 		loadByODMTransformation(adapter, simuCtx, filepath, msgHub);
 
 		//loadByAdpter(simuCtx, filepath, msg);

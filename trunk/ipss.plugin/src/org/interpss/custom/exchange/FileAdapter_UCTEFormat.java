@@ -25,7 +25,7 @@
 package org.interpss.custom.exchange;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.ucte.JaxbUCTE_DEFAdapter;
+import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -50,7 +50,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	@Override
 	public void load(final SimuContext simuCtx, final String filepath) throws Exception{
 		//IODMPSSAdapter adapter = new UCTE_DEFAdapter(IpssLogger.getLogger());
-		IODMPSSAdapter adapter = new JaxbUCTE_DEFAdapter(IpssLogger.getLogger());
+		IODMPSSAdapter adapter = new UCTE_DEFAdapter(IpssLogger.getLogger());
 		loadByODMTransformation(adapter, simuCtx, filepath, this.msgHub);
 
 		//loadByAdpter(simuCtx, filepath, msg);
