@@ -22,7 +22,7 @@
   *
   */
 
-package org.ieee.odm.adapter.ge.impl;
+package org.ieee.odm.adapter.ge.xbean.impl;
 
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
-import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.adapter.ge.xbean.GE_PSLF_Adapter;
 import org.ieee.odm.model.xbean.XBeanDataSetter;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;

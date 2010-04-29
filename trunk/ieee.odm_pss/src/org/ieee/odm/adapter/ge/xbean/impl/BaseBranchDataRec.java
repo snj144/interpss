@@ -22,7 +22,7 @@
   *
   */
 
-package org.ieee.odm.adapter.ge.impl;
+package org.ieee.odm.adapter.ge.xbean.impl;
 
 import java.util.StringTokenizer;
 

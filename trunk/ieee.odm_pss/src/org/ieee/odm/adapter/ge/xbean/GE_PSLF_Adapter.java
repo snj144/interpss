@@ -22,7 +22,7 @@
  *
  */
 
-package org.ieee.odm.adapter.ge;
+package org.ieee.odm.adapter.ge.xbean;
 
 import java.util.logging.Logger;
 
@@ -30,12 +30,12 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
-import org.ieee.odm.adapter.ge.impl.BranchSecDataRec;
-import org.ieee.odm.adapter.ge.impl.BusDataRec;
-import org.ieee.odm.adapter.ge.impl.GenDataRec;
-import org.ieee.odm.adapter.ge.impl.LoadDataRec;
-import org.ieee.odm.adapter.ge.impl.NetDataRec;
-import org.ieee.odm.adapter.ge.impl.XformerDataRec;
+import org.ieee.odm.adapter.ge.xbean.impl.BranchSecDataRec;
+import org.ieee.odm.adapter.ge.xbean.impl.BusDataRec;
+import org.ieee.odm.adapter.ge.xbean.impl.GenDataRec;
+import org.ieee.odm.adapter.ge.xbean.impl.LoadDataRec;
+import org.ieee.odm.adapter.ge.xbean.impl.NetDataRec;
+import org.ieee.odm.adapter.ge.xbean.impl.XformerDataRec;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
