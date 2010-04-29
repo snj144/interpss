@@ -22,7 +22,7 @@
  *
  */
 
-package org.ieee.odm.adapter.ieeecdf;
+package org.ieee.odm.adapter.xbean;
 
 import java.util.StringTokenizer;
 import java.util.logging.Logger;

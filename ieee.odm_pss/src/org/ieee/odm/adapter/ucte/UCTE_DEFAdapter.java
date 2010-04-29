@@ -66,7 +66,7 @@ import org.ieee.odm.schema.ZUnitType;
 	Version 02 (coming into force: 2007.05.01)
 */
 
-public class JaxbUCTE_DEFAdapter extends AbstractODMAdapter {
+public class UCTE_DEFAdapter extends AbstractODMAdapter {
 	public final static String Token_Status = "Status";
 	public final static String Token_MinGenMW = "Min Gen MW";
 	public final static String Token_MaxGenMW = "Max Gen MW";
@@ -94,7 +94,7 @@ public class JaxbUCTE_DEFAdapter extends AbstractODMAdapter {
 	 * 
 	 * @param logger Logger object
 	 */
-	public JaxbUCTE_DEFAdapter(Logger logger) {
+	public UCTE_DEFAdapter(Logger logger) {
 		super(logger);
 	}
 

@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSStudyCaseDocument;
+import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.junit.Test;
 
@@ -74,15 +75,7 @@ public class FuncTestCase {
 	@Test
 	public void parseODM1_TestCase() throws Exception {
 		InputStream in = new BufferedInputStream(new FileInputStream("testdata/ieee_odm/Ieee14Bus_odm.xml"));
-		PSSStudyCaseDocument doc = PSSStudyCaseDocument.Factory.parse(in);
-		
-		assertTrue(doc.getPSSStudyCase().getBaseCase().getBasePower().getValue() == 100.0);
-	}
-
-	@Test
-	public void parseODM2_TestCase() throws Exception {
-		InputStream in = new BufferedInputStream(new FileInputStream("testdata/ieee_odm/Ieee14Bus_odm.xml"));
-		XBeanODMModelParser parser = new XBeanODMModelParser(in);
+		JaxbODMModelParser parser = new JaxbODMModelParser(in);
 		
 		assertTrue(parser.getBaseCase().getBasePower().getValue() == 100.0);
 	}

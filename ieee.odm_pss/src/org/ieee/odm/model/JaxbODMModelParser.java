@@ -28,6 +28,7 @@ package org.ieee.odm.model;
  * A Xml parser for the IEEE DOM schema. 
  */
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Hashtable;
@@ -36,6 +37,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.xmlbeans.XmlException;
 import org.ieee.odm.schema.BranchRecordXmlType;
@@ -70,11 +72,11 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 * @param xmlFile
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public JaxbODMModelParser(File xmlFile) throws Exception {
-		//this.doc = PSSStudyCaseDocument.Factory.parse(xmlFile);
-		//this.objectCache = new Hashtable<String, IDRecordXmlType>();
-		//if (!doc.validate()) 
-		//	throw new Exception("Error: input XML document is invalid, file: " + xmlFile.getName());
+		JAXBElement<StudyCaseXmlType> elem = (JAXBElement<StudyCaseXmlType>)createUnmarshaller().unmarshal(xmlFile);
+		this.pssStudyCase = elem.getValue();
+		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 	}
 
 	/**
@@ -83,9 +85,12 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 * @param xmlString
 	 * @throws XmlException
 	 */
+	@SuppressWarnings("unchecked")
 	public JaxbODMModelParser(String xmlString) throws Exception {
-		//this.doc = PSSStudyCaseDocument.Factory.parse(xmlString);
-		//this.objectCache = new Hashtable<String, IDRecordXmlType>();
+		ByteArrayInputStream bStr = new ByteArrayInputStream(xmlString.getBytes());
+		JAXBElement<StudyCaseXmlType> elem = (JAXBElement<StudyCaseXmlType>)createUnmarshaller().unmarshal(bStr);
+		this.pssStudyCase = elem.getValue();
+		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 	}
 	
 	/**
@@ -94,9 +99,11 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 * @param in
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public JaxbODMModelParser(InputStream in) throws Exception {
-		//this.doc = PSSStudyCaseDocument.Factory.parse(in);
-		//this.objectCache = new Hashtable<String, IDRecordXmlType>();
+		JAXBElement<StudyCaseXmlType> elem = (JAXBElement<StudyCaseXmlType>)createUnmarshaller().unmarshal(in);
+		this.pssStudyCase = elem.getValue();
+		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 	}
 
 	/**
@@ -429,8 +436,13 @@ public class JaxbODMModelParser extends ODMModelParser {
 		return dcLine;
 	}
 
+	public Unmarshaller createUnmarshaller() throws Exception {
+		JAXBContext jaxbContext = JAXBContext.newInstance(ModelContansts.ODM_Schema_NS);
+		return	jaxbContext.createUnmarshaller();	
+	}	
+	
 	/**
-	 * create a Jaxb marshaller
+	 * create a Jaxb marshaller to marshall the odm object to an Xml document
 	 * 
 	 * @return
 	 * @throws JAXBException
