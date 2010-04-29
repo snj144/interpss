@@ -35,7 +35,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import com.interpss.common.datatype.UnitType;
 
 
-public class ODMXmlHelper {
+public class XmlBeansODMXmlHelper {
 	static String PSSStudyCaseHead = "<PSSStudyCase xmlns=\"http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1\">";
 	static String PSSStudyCaseEnd = "</PSSStudyCase>";
 	

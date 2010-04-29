@@ -22,27 +22,27 @@
  *
  */
 
-package org.interpss.mapper.ieee_odm.xbean;
+package org.interpss.mapper.ieee_odm;
 
 import org.apache.commons.math.complex.Complex;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CimRdfXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.schema.AngleXmlType;
+import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BranchRecordXmlType;
+import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.CimRdfXmlType;
+import org.ieee.odm.schema.LFBranchCodeEnumType;
+import org.ieee.odm.schema.LFGenCodeEnumType;
+import org.ieee.odm.schema.LFLoadCodeEnumType;
+import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.LoadflowBusDataXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
+import org.ieee.odm.schema.LoadflowLoadDataXmlType;
+import org.ieee.odm.schema.PSSNetworkXmlType;
+import org.ieee.odm.schema.PowerXmlType;
+import org.ieee.odm.schema.VoltageUnitType;
+import org.ieee.odm.schema.VoltageXmlType;
+import org.ieee.odm.schema.YXmlType;
+import org.ieee.odm.model.JaxbParserHelper;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
@@ -103,13 +103,13 @@ public class ODMLoadflowDataMapperImpl {
 		aclfBus.setNumber(busRec.getNumber());
 		aclfBus.setName(busRec.getName() == null? "Aclf Bus" : busRec.getName());
 		aclfBus.setDesc(busRec.getDesc() == null? "Aclf Bus" : busRec.getDesc());
-		aclfBus.setStatus(!busRec.getOffLine());
+		aclfBus.setStatus(!busRec.isOffLine());
 		if (!aclfBus.isActive()) {
 			IpssLogger.getLogger().info("Aclf Bus is not active, " + aclfBus.getId());
 		}
 		
-		if (busRec.getCimRdfRecords() != null && busRec.getCimRdfRecords().getRdfRecArray().length > 0) {
-			for (CimRdfXmlType cimRec : busRec.getCimRdfRecords().getRdfRecArray()) {
+		if (busRec.getCimRdfRecords() != null && busRec.getCimRdfRecords().getRdfRec().size() > 0) {
+			for (CimRdfXmlType cimRec : busRec.getCimRdfRecords().getRdfRec()) {
 				CimRecord rec = CoreObjectFactory.createCimRecod(cimRec.getRdfId(), cimRec.getName());
 				aclfBus.getCimRec().add(rec);
 			}
@@ -141,14 +141,17 @@ public class ODMLoadflowDataMapperImpl {
 		AclfBranch aclfBranch = CoreObjectFactory.createAclfBranch();
 		aclfBranch.setCircuitNumber(branchRec.getCircuitId());
 		try {
-			adjNet.addBranch(aclfBranch, branchRec.getFromBus().getIdRef(), branchRec.getToBus().getIdRef());
+			BusRecordXmlType fromBus = (BusRecordXmlType)branchRec.getFromBus().getIdRef();
+			BusRecordXmlType toBus = (BusRecordXmlType)branchRec.getToBus().getIdRef();
+			adjNet.addBranch(aclfBranch, fromBus.getId(), toBus.getId());
 		} catch (Exception e) {
+			e.printStackTrace();
 			msg.sendErrorMsg(e.toString() + ", the branch is ignored");
 			return null;
 		}
 		aclfBranch.setName(branchRec.getName() == null ? "" : branchRec.getName());
 		aclfBranch.setDesc(branchRec.getDesc() == null ? "" : branchRec.getDesc());
-		aclfBranch.setStatus(!branchRec.getOffLine());
+		aclfBranch.setStatus(!branchRec.isOffLine());
 		if (!aclfBranch.isActive()) {
 			IpssLogger.getLogger().info("Aclf Branch is not active, " + aclfBranch.getId());
 		}
@@ -157,10 +160,10 @@ public class ODMLoadflowDataMapperImpl {
 		Zone zone = CoreObjectFactory.createZone(branchRec.getZoneNumber(), adjNet);
 		aclfBranch.setZone(zone);
 		
-		if (branchRec.getLoadflowDataArray().length > 0) {
-			if (branchRec.getLoadflowDataArray().length == 1)
+		if (branchRec.getLoadflowData().size() > 0) {
+			if (branchRec.getLoadflowData().size() == 1)
 				ODMLoadflowDataMapperImpl.setBranchLoadflowData( 
-						XBeanParserHelper.getDefaultBranchData(branchRec), aclfBranch, adjNet, msg);
+						JaxbParserHelper.getDefaultBranchData(branchRec), aclfBranch, adjNet, msg);
 		}
 		return aclfBranch;
 	}
@@ -214,7 +217,7 @@ public class ODMLoadflowDataMapperImpl {
   					aclfBus.setGenCode(AclfGenCode.GEN_PQ);
   					// The remote bus to be adjusted is normally defined as a PV bus. It needs to
   					// be changed to PQ bus
-  					String remoteId = xmlEquivGenData.getRemoteVoltageControlBus().getIdRef();
+  					String remoteId = (String)xmlEquivGenData.getRemoteVoltageControlBus().getIdRef();
   					AclfBus remoteBus = adjNet.getAclfBus(remoteId);
   					if (remoteBus != null) {
   	  					if (remoteBus.isGenPV())
@@ -365,14 +368,14 @@ public class ODMLoadflowDataMapperImpl {
 			if (xfrData.getXfrInfo().getRatedVoltage2() != null)
 				toRatedV = xfrData.getXfrInfo().getRatedVoltage2().getValue();
 
-			if (!xfrData.getXfrInfo().isSetDataOnSystemBase() &&
+			if (!xfrData.getXfrInfo().isDataOnSystemBase() &&
 				xfrData.getXfrInfo().getRatedPower12() != null && 
 				xfrData.getXfrInfo().getRatedPower12().getValue() > 0.0) 
 				zratio = xfrData.getXfrInfo().getRatedPower12().getUnit() == ApparentPowerUnitType.KVA?
 					adjNet.getBaseKva() / xfrData.getXfrInfo().getRatedPower12().getValue() :
 						0.001 * adjNet.getBaseKva() / xfrData.getXfrInfo().getRatedPower12().getValue();
 
-			if (!xfrData.getXfrInfo().isSetDataOnSystemBase())
+			if (!xfrData.getXfrInfo().isDataOnSystemBase())
 				tapratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
 		}
 		

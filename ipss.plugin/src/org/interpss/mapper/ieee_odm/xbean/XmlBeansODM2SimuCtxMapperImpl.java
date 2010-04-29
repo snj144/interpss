@@ -22,22 +22,22 @@
  *
  */
 
-package org.interpss.mapper.ieee_odm.jaxb;
+package org.interpss.mapper.ieee_odm.xbean;
 
-import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.schema.AnalysisCategoryEnumType;
-import org.ieee.odm.schema.BranchRecordXmlType;
-import org.ieee.odm.schema.BusRecordXmlType;
-import org.ieee.odm.schema.NetworkCategoryEnumType;
-import org.ieee.odm.schema.OriginalDataFormatEnumType;
-import org.ieee.odm.schema.PSSNetworkXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.net.OriginalDataFormat;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class ODM2SimuCtxMapperImpl {
+public class XmlBeansODM2SimuCtxMapperImpl {
 	/**
 	 * transfer info stored in the parser object into simuCtx object
 	 * 
@@ -45,10 +45,8 @@ public class ODM2SimuCtxMapperImpl {
 	 * @param simuCtx
 	 * @return
 	 */
-	public static boolean odm2SimuCtxMapping(JaxbODMModelParser parser, SimuContext simuCtx) {
+	public static boolean odm2SimuCtxMapping(XBeanODMModelParser parser, SimuContext simuCtx) {
 		boolean noError = true;
-		
-		//parser.stdout();
 		
 		// Map transmission and Loadflow
 		if (parser.getStudyCase().getBaseCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
@@ -57,13 +55,13 @@ public class ODM2SimuCtxMapperImpl {
 			PSSNetworkXmlType xmlNet = parser.getBaseCase();
 			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
 			try {
-				simuCtx.setAclfAdjNet(ODMLoadflowDataMapperImpl.mapNetworkData(xmlNet));
+				simuCtx.setAclfAdjNet(XmlBeansODMLoadflowDataMapperImpl.mapNetworkData(xmlNet));
 
-				for (BusRecordXmlType busRec : xmlNet.getBusList().getBus()) 
-					ODMLoadflowDataMapperImpl.mapBusData(busRec, simuCtx.getAclfAdjNet());
+				for (BusRecordXmlType busRec : xmlNet.getBusList().getBusArray()) 
+					XmlBeansODMLoadflowDataMapperImpl.mapBusData(busRec, simuCtx.getAclfAdjNet());
 
-				for (BranchRecordXmlType branchRec : xmlNet.getBranchList().getBranch()) 
-					ODMLoadflowDataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
+				for (BranchRecordXmlType branchRec : xmlNet.getBranchList().getBranchArray()) 
+					XmlBeansODMLoadflowDataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
 			} catch (Exception e) {
 				e.printStackTrace();
 				IpssLogger.getLogger().severe(e.toString());
@@ -75,14 +73,14 @@ public class ODM2SimuCtxMapperImpl {
 			return false;
 		}
 		
-		OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
+		StudyCaseXmlType.ContentInfo.OriginalDataFormat.Enum ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
 		simuCtx.getNetwork().setOriginalDataFormat(
-				ofmt == OriginalDataFormatEnumType.IEEE_CDF? OriginalDataFormat.IEEECDF :
-					(ofmt == OriginalDataFormatEnumType.CIM? OriginalDataFormat.CIM :
-						(ofmt == OriginalDataFormatEnumType.PSS_E? OriginalDataFormat.PSSE :
-							(ofmt == OriginalDataFormatEnumType.UCTE_DEF? OriginalDataFormat.UCTE :
-								(ofmt == OriginalDataFormatEnumType.GE_PSLF? OriginalDataFormat.GE_PSLF :
-									(ofmt == OriginalDataFormatEnumType.BPA? OriginalDataFormat.BPA :
+				ofmt == StudyCaseXmlType.ContentInfo.OriginalDataFormat.IEEE_CDF? OriginalDataFormat.IEEECDF :
+					(ofmt == StudyCaseXmlType.ContentInfo.OriginalDataFormat.CIM? OriginalDataFormat.CIM :
+						(ofmt == StudyCaseXmlType.ContentInfo.OriginalDataFormat.PSS_E? OriginalDataFormat.PSSE :
+							(ofmt == StudyCaseXmlType.ContentInfo.OriginalDataFormat.UCTE_DEF? OriginalDataFormat.UCTE :
+								(ofmt == StudyCaseXmlType.ContentInfo.OriginalDataFormat.GE_PSLF? OriginalDataFormat.GE_PSLF :
+									(ofmt == StudyCaseXmlType.ContentInfo.OriginalDataFormat.BPA? OriginalDataFormat.BPA :
 										OriginalDataFormat.IPSS_EDITOR))))));		
 		return noError;
 	}
