@@ -18,5 +18,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.pad"/>
 	<classpathentry kind="var" path="IPSS_LIB/report/jasperreports.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.grid"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
