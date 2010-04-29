@@ -3,8 +3,8 @@ package org.interpss.editor.actions;
 import java.awt.event.ActionEvent;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.ieeecdf.XBeanIeeeCDFAdapter;
-import org.ieee.odm.adapter.ucte.XBeanUCTE_DEFAdapter;
+import org.ieee.odm.adapter.xbean.XBeanIeeeCDFAdapter;
+import org.ieee.odm.adapter.xbean.XBeanUCTE_DEFAdapter;
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
 import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.coreframework.IpssEditorDocument;
