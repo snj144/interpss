@@ -35,5 +35,6 @@
 	<classpathentry kind="lib" path="C:/eclipse/GEditor/plugin/custom.plugin/dist/custom.plugin.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.grid.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
