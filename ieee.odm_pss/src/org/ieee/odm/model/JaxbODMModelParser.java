@@ -47,12 +47,14 @@ import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
 import org.ieee.odm.schema.IDRefRecordXmlType;
+import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.StudyCaseXmlType;
+import org.ieee.odm.schema.TielineXmlType;
 import org.ieee.odm.schema.TransientSimulationXmlType;
 
 public class JaxbODMModelParser extends ODMModelParser {
@@ -344,10 +346,10 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 * 
 	 * @return
 	 */
-	public PSSNetworkXmlType.TieLineList.Tieline createTieline() {
+	public TielineXmlType createTieline() {
 		if (getBaseCase().getTieLineList() == null)
 			getBaseCase().setTieLineList(this.factory.createPSSNetworkXmlTypeTieLineList());
-		PSSNetworkXmlType.TieLineList.Tieline tieLine = this.factory.createPSSNetworkXmlTypeTieLineListTieline();
+		TielineXmlType tieLine = this.factory.createTielineXmlType();
 		getBaseCase().getTieLineList().getTieline().add(tieLine);
 		return tieLine;
 	}
@@ -357,10 +359,10 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 * 
 	 * @return
 	 */
-	public PSSNetworkXmlType.InterchangeList.Interchange createInterchange() {
+	public InterchangeXmlType createInterchange() {
 		if (getBaseCase().getInterchangeList() == null)
 			getBaseCase().setInterchangeList(this.factory.createPSSNetworkXmlTypeInterchangeList());
-		PSSNetworkXmlType.InterchangeList.Interchange interchange = this.factory.createPSSNetworkXmlTypeInterchangeListInterchange();
+		InterchangeXmlType interchange = this.factory.createInterchangeXmlType();
 		getBaseCase().getInterchangeList().getInterchange().add(interchange);
 		return interchange;
 	}
