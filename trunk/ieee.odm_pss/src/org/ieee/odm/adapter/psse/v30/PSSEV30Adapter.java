@@ -26,8 +26,8 @@ package org.ieee.odm.adapter.psse.v30;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
+import org.ieee.odm.schema.PSSNetworkXmlType;
+import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.psse.PSSEBusRecord;
@@ -40,8 +40,8 @@ import org.ieee.odm.adapter.psse.v30.impl.PSSEV30GenDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LineDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LoadDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30XfrDataRec;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.JaxbODMModelParser;
 
 public class PSSEV30Adapter extends AbstractODMAdapter{
 	public final static String Token_CaseDesc = "Case Description";     
