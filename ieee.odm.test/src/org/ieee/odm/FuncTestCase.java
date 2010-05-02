@@ -8,7 +8,6 @@ import java.io.InputStream;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSStudyCaseDocument;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.junit.Test;
 
 public class FuncTestCase {
