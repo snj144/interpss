@@ -54,30 +54,7 @@
 					<element name="interchangeList" minOccurs="0">
 						<complexType>
 							<sequence>
-								<element name="interchange" minOccurs="0" maxOccurs="unbounded">
-									<complexType>
-										<sequence>
-											<element name="powerEx" minOccurs="0" type="pss:PowerInterchangeXmlType"></element>
-											<element name="ucteExchange" minOccurs="0">
-												<complexType>
-													<sequence>
-														<element name="fromIsoId" type="string" minOccurs="1"></element>
-														<element name="toIsoId" type="string" minOccurs="1"></element>
-														<element name="exchangePower" type="pss:PowerXmlType" minOccurs="1"></element>
-														<element name="comment" type="string" minOccurs="0"></element>
-													</sequence>
-												</complexType>
-											</element>
-											<element name="areaTransfer" minOccurs="0">
-												<complexType>
-													<attribute name="id" type="ID" use="required"></attribute>
-													<attribute name="fromArea" type="int" use="required"></attribute>
-													<attribute name="toArea" type="int" use="required"></attribute>
-													<attribute name="amountMW" type="double" use="required"></attribute>
-												</complexType>
-											</element>
-										</sequence>
-									</complexType>
+								<element name="interchange" minOccurs="0" maxOccurs="unbounded" type="pss:InterchangeXmlType">
 								</element>
 							</sequence>
 						</complexType>
@@ -85,16 +62,7 @@
 					<element name="tieLineList" minOccurs="0">
 						<complexType>
 							<sequence>
-								<element name="tieline" minOccurs="0" maxOccurs="unbounded">
-									<complexType>
-										<sequence>
-											<element name="meteredBus" type="pss:IDRefRecordXmlType" minOccurs="1"></element>
-											<element name="meteredArea" type="string" minOccurs="1"></element>
-											<element name="nonMeteredBus" type="pss:IDRefRecordXmlType" minOccurs="1"></element>
-											<element name="nonMeteredArea" type="string" minOccurs="1"></element>
-											<element name="cirId" type="string" maxOccurs="1" minOccurs="1"></element>
-										</sequence>
-									</complexType>
+								<element name="tieline" minOccurs="0" maxOccurs="unbounded" type="pss:TielineXmlType">
 								</element>
 							</sequence>
 						</complexType>
@@ -104,4 +72,39 @@
 			</extension>
 		</complexContent>
 	</complexType>
+
+	<complexType name="TielineXmlType">
+		<sequence>
+			<element name="meteredBus" type="pss:IDRefRecordXmlType" minOccurs="1"></element>
+			<element name="meteredArea" type="string" minOccurs="1"></element>
+			<element name="nonMeteredBus" type="pss:IDRefRecordXmlType" minOccurs="1"></element>
+			<element name="nonMeteredArea" type="string" minOccurs="1"></element>
+			<element name="cirId" type="string" maxOccurs="1" minOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="InterchangeXmlType">
+		<sequence>
+			<element name="powerEx" minOccurs="0" type="pss:PowerInterchangeXmlType"></element>
+			<element name="ucteExchange" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="fromIsoId" type="string" minOccurs="1"></element>
+						<element name="toIsoId" type="string" minOccurs="1"></element>
+						<element name="exchangePower" type="pss:PowerXmlType" minOccurs="1"></element>
+						<element name="comment" type="string" minOccurs="0"></element>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="areaTransfer" minOccurs="0">
+				<complexType>
+					<attribute name="id" type="ID" use="required"></attribute>
+					<attribute name="fromArea" type="int" use="required"></attribute>
+					<attribute name="toArea" type="int" use="required"></attribute>
+					<attribute name="amountMW" type="double" use="required"></attribute>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
 </schema>

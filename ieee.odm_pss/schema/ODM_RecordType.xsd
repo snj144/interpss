@@ -98,8 +98,14 @@
 					</sequence>
 				</complexType>
 			</element>
-			<element name="shuntCompensatorData" minOccurs="0">
-				<complexType>
+			<element name="shuntCompensatorData" minOccurs="0" type="pss:ShuntCompensatorDataXmlType">
+			</element>
+			<element name="shuntY" minOccurs="0" maxOccurs="1" type="pss:YXmlType"></element>
+			<element name="powerInjection" type="pss:PowerXmlType" minOccurs="0" maxOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+				<complexType name="ShuntCompensatorDataXmlType">
 					<sequence>
 						<element name="equivQ" type="pss:ReactivePowerXmlType" minOccurs="0"></element>
 						<element name="shuntCompensatorList" minOccurs="0" maxOccurs="1">
@@ -111,11 +117,6 @@
 						</element>
 					</sequence>
 				</complexType>
-			</element>
-			<element name="shuntY" minOccurs="0" maxOccurs="1" type="pss:YXmlType"></element>
-			<element name="powerInjection" type="pss:PowerXmlType" minOccurs="0" maxOccurs="1"></element>
-		</sequence>
-	</complexType>
 	
 	<complexType name="GroundConnectionXmlType">
 		<sequence>
