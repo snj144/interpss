@@ -112,6 +112,14 @@ public class ModelStringUtil {
 		}
 	}
 
+	public static long getLong(String str, int defaultValue) {
+		try {
+			return new Long(str.trim()).longValue();
+		} catch (Exception e) {
+			return defaultValue;
+		}
+	}
+
 	/**
 	 * convert charters [beginCol, endCol] of the input string to an int. Return 0 if empty. 
 	 * 

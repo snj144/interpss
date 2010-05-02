@@ -11,8 +11,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineData2TXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.JaxbDataSetter;
+import org.ieee.odm.model.JaxbODMModelParser;
 
 public class PSSEV30DcLine2TDataRec {
 	private static int I, MDC, CCCITMX;
@@ -23,7 +23,7 @@ public class PSSEV30DcLine2TDataRec {
 	private static int IPI, NBI, ICI, IFI, ITI;
 	private static double GAMMX,GAMMN,RCI,XCI,EBASI,TRI,TAPI,TMXI,TMNI,STPI,XCAPI;	
 
-	public static void procLineString(String lineStr1, String lineStr2, String lineStr3, PsseVersion version, XBeanODMModelParser parser, Logger logger) {
+	public static void procLineString(String lineStr1, String lineStr2, String lineStr3, PsseVersion version, JaxbODMModelParser parser, Logger logger) {
 		procLineFields(lineStr1, lineStr2, lineStr3, version, logger);
 		
 		final String fid = XBeanODMModelParser.BusIdPreFix+IPR;

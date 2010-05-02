@@ -25,18 +25,19 @@ package org.ieee.odm.adapter.psse.v26;
 
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.adapter.psse.PSSEBusRecord;
+import org.ieee.odm.adapter.psse.PSSENetDataRec;
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.adapter.psse.xbean.XBeanPSSEBusRecord;
-import org.ieee.odm.adapter.psse.xbean.XBeanPSSENetDataRec;
-import org.ieee.odm.adapter.psse.xbean.v26.impl.XBeanPSSEV26BranchRecord;
-import org.ieee.odm.adapter.psse.xbean.v26.impl.XBeanPSSEV26BusRecord;
-import org.ieee.odm.adapter.psse.xbean.v26.impl.XBeanPSSEV26NetRecord;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.adapter.psse.v26.impl.PSSEV26BranchRecord;
+import org.ieee.odm.adapter.psse.v26.impl.PSSEV26BusRecord;
+import org.ieee.odm.adapter.psse.v26.impl.PSSEV26NetRecord;
+import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.schema.ObjectFactory;
+import org.ieee.odm.schema.OriginalDataFormatEnumType;
+import org.ieee.odm.schema.PSSNetworkXmlType;
 
 public class PSSEV26Adapter extends AbstractODMAdapter{
 	private final int 
@@ -55,15 +56,18 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 		InterAreaTransferData = 13,
 		OwnerData = 14;
 		//FactsData = 15;
+	
+	private ObjectFactory factory = null;	
 		
 	public PSSEV26Adapter(Logger logger) {
 		super(logger);
+		this.factory = new ObjectFactory();
 	}
 	
-	protected XBeanODMModelParser parseInputFile(
+	protected JaxbODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
-		XBeanODMModelParser parser = new XBeanODMModelParser();
-		XBeanParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.PSS_E);
+		JaxbODMModelParser parser = new JaxbODMModelParser();
+		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.PSS_E, this.factory);
 		parser.getStudyCase().getContentInfo().setOriginalFormatVersion("PSSEV26");
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
@@ -76,7 +80,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 			String str = din.readLine();
 			sAry[i]= str;				
 		} 
-		XBeanPSSEV26NetRecord.processHeaderData(sAry[0],sAry[1],sAry[2],baseCaseNet, this.getLogger());	
+		PSSEV26NetRecord.processHeaderData(sAry[0],sAry[1],sAry[2],baseCaseNet, this.getLogger(), this.factory);	
 
         String str ;         
         int type=BusData;
@@ -101,44 +105,44 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         			else {
         				if (type==BusData){
         					//System.out.println("BusData: " + str);
-        					XBeanPSSEV26BusRecord.processBusData(str, parser, this.getLogger());
+        					PSSEV26BusRecord.processBusData(str, parser, this.getLogger());
         				}
         				else if(type==LoadData){
         					//System.out.println("LoadData: " + str);
-        					XBeanPSSEV26BusRecord.processLoadData(str, parser, this.getLogger());
+        					PSSEV26BusRecord.processLoadData(str, parser, this.getLogger());
         				}
         				else if(type==GenData){
         					//System.out.println("GenData: " + str);
-        					XBeanPSSEV26BusRecord.processGenData(str, parser, this.getLogger());        			 
+        					PSSEV26BusRecord.processGenData(str, parser, this.getLogger());        			 
         				}
         				else if(type==BranchData){
         					//System.out.println("LineData: " + str);
-        					XBeanPSSEV26BranchRecord.processBranchData(str, parser, this.getLogger()); 
+        					PSSEV26BranchRecord.processBranchData(str, parser, this.getLogger()); 
         				}
         				else if(type==XfrAdjData){        			   
         					//System.out.println("XfrData: " + str);
-        					XBeanPSSEV26BranchRecord.processXformerAdjData(str, parser, this.getLogger());
+        					PSSEV26BranchRecord.processXformerAdjData(str, parser, this.getLogger());
         			    	//	 parser.addNewBaseCaseBranch(),baseCaseNet, this);
         				} 
         				else if(type==SwitchedShuntData){        			   
         					//System.out.println("ShuntData: " + str);
-        					XBeanPSSEBusRecord.processSwitchedShuntData(str, PsseVersion.PSSE_26, parser, this.getLogger());
+        					PSSEBusRecord.processSwitchedShuntData(str, PsseVersion.PSSE_26, parser, this.getLogger());
         			    	//	 parser.addNewBaseCaseBranch(),baseCaseNet, this);
         				} 
         				else if(type==InterchangeData){
         					//System.out.println("InterData: " + str);
-        					XBeanPSSEV26NetRecord.processAreaInterchangeData(str,baseCaseNet); 
+        					PSSEV26NetRecord.processAreaInterchangeData(str,baseCaseNet, this.factory); 
         				}
         				else if(type==ZoneData){
         					//System.out.println("ZoneData: " + str);
-        					XBeanPSSENetDataRec.processZoneRec(str, PsseVersion.PSSE_26, baseCaseNet); 
+        					PSSENetDataRec.processZoneRec(str, PsseVersion.PSSE_26, baseCaseNet, this.factory); 
         				}
         				else if(type==InterAreaTransferData){
         					//processInterAreaTransferData(str,baseCaseNet); 
         				}
         				else if(type==OwnerData){
         					//System.out.println("OwnerData: " + str);
-        					XBeanPSSENetDataRec.processOwnerRec(str, PsseVersion.PSSE_26, baseCaseNet); 
+        					PSSENetDataRec.processOwnerRec(str, PsseVersion.PSSE_26, baseCaseNet, this.factory); 
         				}
         			}
         		}catch (final Exception e){

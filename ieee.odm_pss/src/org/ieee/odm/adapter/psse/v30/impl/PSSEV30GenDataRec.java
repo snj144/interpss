@@ -27,17 +27,17 @@ package org.ieee.odm.adapter.psse.v30.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
+import org.ieee.odm.schema.ActivePowerUnitType;
+import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
+import org.ieee.odm.schema.ReactivePowerUnitType;
+import org.ieee.odm.schema.VoltageUnitType;
+import org.ieee.odm.schema.ZUnitType;
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.JaxbDataSetter;
+import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.JaxbODMModelParser;
 
 public class PSSEV30GenDataRec {
 	private static int i, ireg, stat ;
@@ -55,7 +55,7 @@ public class PSSEV30GenDataRec {
 	 * some designated bus, not necessarily bus k.
 	 */
 
-	public static void procLineString(String lineStr, PsseVersion version, final XBeanODMModelParser parser, Logger logger) {
+	public static void procLineString(String lineStr, PsseVersion version, final JaxbODMModelParser parser, Logger logger) {
 		procFields(lineStr, version, logger);
 
 /*
