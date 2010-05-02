@@ -43,6 +43,7 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
+import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LFBranchCodeEnumType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
@@ -659,10 +660,10 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			return;
 		}
 
-		PSSNetworkXmlType.InterchangeList.Interchange interChange = factory.createPSSNetworkXmlTypeInterchangeListInterchange();
+		InterchangeXmlType interChange = factory.createInterchangeXmlType();
 		xmlBaseNet.getInterchangeList().getInterchange().add(interChange);
 		
-		PSSNetworkXmlType.InterchangeList.Interchange.UcteExchange ucteExRec = factory.createPSSNetworkXmlTypeInterchangeListInterchangeUcteExchange(); 
+		InterchangeXmlType.UcteExchange ucteExRec = factory.createInterchangeXmlTypeUcteExchange(); 
 		interChange.setUcteExchange(ucteExRec);
 		ucteExRec.setFromIsoId(fromIsoId);
 		ucteExRec.setToIsoId(toIsoId);
