@@ -26,24 +26,24 @@ package org.ieee.odm.adapter.psse.v26.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleAdjustmentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
+import org.ieee.odm.schema.AdjustmentDataXmlType;
+import org.ieee.odm.schema.AngleAdjustmentXmlType;
+import org.ieee.odm.schema.AngleUnitType;
+import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BranchRecordXmlType;
+import org.ieee.odm.schema.LFBranchCodeEnumType;
+import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.TapAdjustmentXmlType;
+import org.ieee.odm.schema.YUnitType;
+import org.ieee.odm.schema.YXmlType;
+import org.ieee.odm.schema.ZUnitType;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.JaxbDataSetter;
+import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.JaxbODMModelParser;
 
 public class PSSEV26BranchRecord {
-	public static  void processBranchData(final String str, final XBeanODMModelParser parser, Logger logger) {
+	public static  void processBranchData(final String str, final JaxbODMModelParser parser, Logger logger) {
 		/*
 		I,    J,    CKT, R,      X,        B,     RATEA,RATEB,RATEC,RATIO,ANGLE,GI,BI,GJ,BJ,ST  LEN,O1,F1,...,O4,F4
 		31962,32156,' 1',0,      0.444445, 0,     30,   30,   0,    1,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0, [Transformer_798]
@@ -145,7 +145,7 @@ public class PSSEV26BranchRecord {
 	    }
 	}
    
-	public static void processXformerAdjData(final String str, final XBeanODMModelParser parser, Logger logger) {
+	public static void processXformerAdjData(final String str, final JaxbODMModelParser parser, Logger logger) {
 		/*
 		I,    J,     CKT,ICONT,     RMA,       RMI,       VMA,       VMI,   STEP,   TABLE
     	31212,31435,' 1',     0,    1.5000,    0.5100,    1.5000,    0.5100,0.00625,0,0, 0.000, 0.000,   

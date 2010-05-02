@@ -42,9 +42,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType.AdjustmentType;
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.JaxbDataSetter;
+import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.JaxbODMModelParser;
 
 public class PSSEV30XfrDataRec {
 	private static int i, j, k, cw, cz, cm, stat, nmetr;
@@ -59,7 +59,7 @@ public class PSSEV30XfrDataRec {
 	private static double ang1, rata1, ratb1, ratc1, ang2, rata2, ratb2, ratc2, ang3, rata3, ratb3, ratc3;
 	
 	public static void procLineString(String lineStr1, String lineStr2, String lineStr3, String lineStr4, String lineStr5, 
-							PsseVersion version, XBeanODMModelParser parser, Logger logger) {
+							PsseVersion version, JaxbODMModelParser parser, Logger logger) {
 		procLineString(lineStr1, lineStr2, lineStr3, lineStr4, lineStr5, version, logger);
 
 		boolean is3W = k != 0; 

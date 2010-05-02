@@ -33,18 +33,15 @@ import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.LoadflowBusDataXmlType;
-import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.ReactivePowerUnitType;
-import org.ieee.odm.schema.ReactivePowerXmlType;
 import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
 import org.ieee.odm.schema.ShuntCompensatorModeEnumType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
-import org.ieee.odm.schema.VoltageLimitXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 
 public class PSSEBusRecord {
 	public static  void processSwitchedShuntData(final String str, PsseVersion version, 
-			final JaxbODMModelParser parser, Logger logger, ObjectFactory factory) {
+			final JaxbODMModelParser parser, Logger logger) {
 		/*
 		Format V26
 		I,    MODSW,VSWHI, VSWLO,  SWREM,   BINIT,    N1,      B1,   N2,        B2...N8,B8
@@ -87,15 +84,15 @@ public class PSSEBusRecord {
 				
 	    LoadflowBusDataXmlType lfData = busRec.getLoadflowData();
 	    if (lfData == null) {
-	    	lfData = factory.createLoadflowBusDataXmlType();
+	    	lfData = parser.getFactory().createLoadflowBusDataXmlType();
 	    	busRec.setLoadflowData(lfData);
 	    }
 	    if (lfData.getShuntCompensatorData() == null) {  // there may be multiple contribute switched shunt records on a bus
-	    	ShuntCompensatorDataXmlType d = factory.createShuntCompensatorDataXmlType();
+	    	ShuntCompensatorDataXmlType d = parser.getFactory().createShuntCompensatorDataXmlType();
 	    	lfData.setShuntCompensatorData(d);
-	    	d.setShuntCompensatorList(factory.createShuntCompensatorDataXmlTypeShuntCompensatorList());
+	    	d.setShuntCompensatorList(parser.getFactory().createShuntCompensatorDataXmlTypeShuntCompensatorList());
 	    }
-	    ShuntCompensatorXmlType shunt = factory.createShuntCompensatorXmlType();
+	    ShuntCompensatorXmlType shunt = parser.getFactory().createShuntCompensatorXmlType();
 	    lfData.getShuntCompensatorData().getShuntCompensatorList().getShunCompensator().add(shunt);
 		
 		// genId is used to distinguish multiple generations at one bus		
@@ -108,14 +105,12 @@ public class PSSEBusRecord {
 		//VSWLO - Desired voltage lower limit, per unit
 		final double vmax = ModelStringUtil.getDouble(strAry[2], 1.0);
 		final double vmin = ModelStringUtil.getDouble(strAry[3], 1.0);
-		VoltageLimitXmlType vl = factory.createVoltageLimitXmlType();
-		JaxbDataSetter.setVoltageLimitData(vl, vmax, vmin, VoltageUnitType.PU);
-		shunt.setDesiredVoltageRange(vl);
+		shunt.setDesiredVoltageRange(JaxbDataSetter.createVoltageLimitData(vmax, vmin, VoltageUnitType.PU));
 		
 		//SWREM - Number of remote bus to control. 0 to control own bus.
 		int busNo = ModelStringUtil.getInt(strAry[4], 0);
 		if (busNo != 0) {
-			IDRefRecordXmlType refBus = factory.createIDRefRecordXmlType();
+			IDRefRecordXmlType refBus = parser.getFactory().createIDRefRecordXmlType();
 			refBus.setIdRef(XBeanODMModelParser.BusIdPreFix+strAry[4]);
 			shunt.setRemoteControlledBus(refBus);
 		}
@@ -148,9 +143,7 @@ public class PSSEBusRecord {
 		double equiQ = 0.0;
 		if (lfData.getShuntCompensatorData().getEquivQ() != null)
 			equiQ = lfData.getShuntCompensatorData().getEquivQ().getValue();
-		ReactivePowerXmlType q = factory.createReactivePowerXmlType();
-		JaxbDataSetter.setReactivePower(q, equiQ+binit, ReactivePowerUnitType.MVAR);
-		lfData.getShuntCompensatorData().setEquivQ(q);
+		lfData.getShuntCompensatorData().setEquivQ(JaxbDataSetter.createReactivePower(equiQ+binit, ReactivePowerUnitType.MVAR));
 		
 		//N1 - Number of steps for block 1, first 0 is end of blocks
 		//B1 - Admittance increment of block 1 in MVAR at 1.0 per unit volts. N2, B2, etc, as N1, B1
@@ -161,12 +154,10 @@ public class PSSEBusRecord {
 	  		if (nStr != null) {
 	  			int n = ModelStringUtil.getInt(nStr, 0);
 	  			double b = ModelStringUtil.getDouble(bStr, 0.0);
-	  			ShuntCompensatorXmlType.Block block = factory.createShuntCompensatorXmlTypeBlock(); 
+	  			ShuntCompensatorXmlType.Block block = parser.getFactory().createShuntCompensatorXmlTypeBlock(); 
 	  			shunt.getBlock().add(block);
 	  			block.setSteps(n);
-	  			ReactivePowerXmlType qb = factory.createReactivePowerXmlType();
-	  			JaxbDataSetter.setReactivePower(qb, b, ReactivePowerUnitType.MVAR);
-	  			block.setIncrementB(qb);
+	  			block.setIncrementB(JaxbDataSetter.createReactivePower(b, ReactivePowerUnitType.MVAR));
 	  		}
 		}
 	}

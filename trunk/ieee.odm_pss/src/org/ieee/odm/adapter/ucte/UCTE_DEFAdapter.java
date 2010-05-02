@@ -110,8 +110,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
     	// no base kva definition in UCTE format, so use 100 MVA
     	// UCTE data are in actual units, mw, mva ...
-		baseCaseNet.setBasePower(parser.getFactory().createApparentPowerXmlType());
-		JaxbDataSetter.setPowerMva(baseCaseNet.getBasePower(), 100.0);   
+		baseCaseNet.setBasePower(JaxbDataSetter.createPowerMva(100.0));   
 
     	// scan all lines and process the data
     	customBaseVoltage = false;
@@ -259,18 +258,13 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
       		busRec.setName(name);
       	if (isoId != null && !isoId.trim().equals(""))
       		busRec.setIsoCode(isoId);
-      	busRec.setBaseVoltage(parser.getFactory().createVoltageXmlType());
-      	JaxbDataSetter.setVoltageData(busRec.getBaseVoltage(), baseKv, VoltageUnitType.KV);
+      	busRec.setBaseVoltage(JaxbDataSetter.createVoltageData(baseKv, VoltageUnitType.KV));
 		
 		LoadflowBusDataXmlType busData = parser.getFactory().createLoadflowBusDataXmlType();
 		busRec.setLoadflowData(busData);
-		busData.setVoltage(parser.getFactory().createVoltageXmlType());
-		JaxbDataSetter.setVoltageData(busData.getVoltage(), voltage,
-				VoltageUnitType.KV);
+		busData.setVoltage(JaxbDataSetter.createVoltageData(voltage, VoltageUnitType.KV));
 
-		busData.setAngle(parser.getFactory().createAngleXmlType());
-		JaxbDataSetter.setAngleData(busData.getAngle(), 0.0,
-				AngleUnitType.DEG);    	
+		busData.setAngle(JaxbDataSetter.createAngleData(0.0, AngleUnitType.DEG));    	
     	
 		if (pLoadMW != 0.0 || qLoadMvar != 0.0) {
 			JaxbDataSetter.setLoadData(busData,
@@ -299,9 +293,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 					&& maxGenMVar > minGenMVar) {
 				// PV Bus limit control
 				getLogger().fine("Bus is a PVLimitBus, id: " + id);
-				busData.getGenData().getEquivGen().setQLimit(parser.getFactory().createReactivePowerLimitXmlType());
-				JaxbDataSetter.setReactivePowerLimitData(busData.getGenData().getEquivGen().getQLimit(),  
-						maxGenMVar, minGenMVar, ReactivePowerUnitType.MVAR);
+				busData.getGenData().getEquivGen().setQLimit(JaxbDataSetter.createReactivePowerLimitData(  
+						maxGenMVar, minGenMVar, ReactivePowerUnitType.MVAR));
 			}
 			break;
 		case 3: // swing bus
@@ -533,8 +526,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
 			double x = 1.0 / (1.0 + n1Phase*dUPhase*0.01);
 			// UCTE model at to side x : 1.0, InterPSS model 1.0:turnRatio
-			branchData.setToTurnRatio(parser.getFactory().createTurnRatioXmlType());
-			JaxbDataSetter.setTurnRatioPU(branchData.getToTurnRatio(), ratioFactor/x);
+			branchData.setToTurnRatio(JaxbDataSetter.createTurnRatioPU(ratioFactor/x));
 			
 			if (uKvPhase > 0.0) {
 				TapAdjustmentXmlType tapAdj = parser.getFactory().createTapAdjustmentXmlType();
@@ -546,8 +538,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
           		double maxTap = ratioFactor*(nPhase*dUPhase), 
           		       minTap = ratioFactor*(-nPhase*dUPhase);
 
-          		tapAdj.setTapLimit(parser.getFactory().createTapLimitXmlType());
-          		JaxbDataSetter.setTapLimitData(tapAdj.getTapLimit(), maxTap, minTap);
+          		tapAdj.setTapLimit(JaxbDataSetter.createTapLimitData(maxTap, minTap));
 				tapAdj.getTapLimit().setUnit(TurnRatioUnitType.PERCENT);
           		tapAdj.setTapAdjStepSize(dUPhase);
           		tapAdj.setTapAdjOnFromSide(false);
@@ -611,10 +602,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			
 			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
 			
-			branchData.setToAngle(parser.getFactory().createAngleXmlType());
-			branchData.setToTurnRatio(parser.getFactory().createTurnRatioXmlType());
-			JaxbDataSetter.setAngleData(branchData.getToAngle(), -ang*ModelContansts.Rad2Deg, AngleUnitType.DEG);
-			JaxbDataSetter.setTurnRatioPU(branchData.getToTurnRatio(), ratioFactor/x);
+			branchData.setToAngle(JaxbDataSetter.createAngleData(-ang*ModelContansts.Rad2Deg, AngleUnitType.DEG));
+			branchData.setToTurnRatio(JaxbDataSetter.createTurnRatioPU(ratioFactor/x));
 			
 			if (pMwAngle != 0.0) {
 				AngleAdjustmentXmlType angAdj = parser.getFactory().createAngleAdjustmentXmlType();
@@ -622,9 +611,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
           		angAdj.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
           		angAdj.setDesiredValue(pMwAngle);				
 				angAdj.setDesiredPowerUnit(ActivePowerUnitType.MW);
-				angAdj.setAngleLimit(parser.getFactory().createAngleLimitXmlType());
-				JaxbDataSetter.setAngleLimitData(angAdj.getAngleLimit(), angMax, angMin,
-						AngleUnitType.DEG);
+				angAdj.setAngleLimit(JaxbDataSetter.createAngleLimitData(angMax, angMin, AngleUnitType.DEG));
 				angAdj.setAngleAdjOnFromSide(false);
 				// this part if not specified in the UCTE spec. We assume it is measured on to side
 				angAdj.setDesiredMeasuredOnFromSide(false);
@@ -667,8 +654,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		interChange.setUcteExchange(ucteExRec);
 		ucteExRec.setFromIsoId(fromIsoId);
 		ucteExRec.setToIsoId(toIsoId);
-		ucteExRec.setExchangePower(factory.createPowerXmlType());
-		JaxbDataSetter.setPowerData(ucteExRec.getExchangePower(), exPower, 0.0, ApparentPowerUnitType.MVA); 
+		ucteExRec.setExchangePower(JaxbDataSetter.createPowerData(exPower, 0.0, ApparentPowerUnitType.MVA)); 
 		if (comment != null)
 			ucteExRec.setComment(comment);
     }

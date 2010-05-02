@@ -26,22 +26,22 @@ package org.ieee.odm.adapter.psse.v30;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.odm.schema.PSSNetworkXmlType;
-import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.psse.PSSEBusRecord;
 import org.ieee.odm.adapter.psse.PSSENetDataRec;
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.adapter.psse.PSSENetDataRec.HeaderRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30BusDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30DcLine2TDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30GenDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LineDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LoadDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30XfrDataRec;
-import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.schema.ObjectFactory;
+import org.ieee.odm.schema.OriginalDataFormatEnumType;
+import org.ieee.odm.schema.PSSNetworkXmlType;
 
 public class PSSEV30Adapter extends AbstractODMAdapter{
 	public final static String Token_CaseDesc = "Case Description";     
@@ -50,8 +50,11 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 	private boolean elemCntOnly = false;
 	private String  elemCntStr = "";
 
+	private ObjectFactory factory = null;
+
 	public PSSEV30Adapter(Logger logger) {
 		super(logger);
+		this.factory = new ObjectFactory();
 	}
 
 	public PSSEV30Adapter(boolean elemCntOnly, Logger logger) {
@@ -68,10 +71,10 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 		return "PSS/E File elements coount\n" + this.elemCntStr;
 	}
 	
-	protected XBeanODMModelParser parseInputFile(
+	protected JaxbODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
-		XBeanODMModelParser parser = new XBeanODMModelParser();
-		XBeanParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.PSS_E);
+		JaxbODMModelParser parser = new JaxbODMModelParser();
+		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.PSS_E, this.factory);
 		parser.getStudyCase().getContentInfo().setOriginalFormatVersion("PSSEV30");
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
@@ -113,7 +116,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (lineNo == 3) 
       						headerProcessed = true;
 						if (!this.elemCntOnly)
-							PSSENetDataRec.HeaderRec.procLineString(lineStr, lineNo, version, baseCaseNet);
+							PSSENetDataRec.HeaderRec.procLineString(lineStr, lineNo, version, baseCaseNet, this.factory);
       				}
       				else if (!busProcessed) {
 						if (isEndRecLine(lineStr)) {
@@ -196,7 +199,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSENetDataRec.processAreaRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
+								PSSENetDataRec.processAreaRec(lineStr, PsseVersion.PSSE_30, baseCaseNet, this.factory);
 							areaInterCnt++;
 						}	 
       				}
@@ -247,7 +250,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSENetDataRec.processXfrZTableRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
+								PSSENetDataRec.processXfrZTableRec(lineStr, PsseVersion.PSSE_30, baseCaseNet, this.factory);
 							xfrZTableCnt++;
 						}	 
       				}
@@ -283,7 +286,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSENetDataRec.processZoneRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
+								PSSENetDataRec.processZoneRec(lineStr, PsseVersion.PSSE_30, baseCaseNet, this.factory);
 							//rec.processZone(adjNet, msg);
 							zoneCnt++;
 						}	 
@@ -296,7 +299,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSENetDataRec.processInterareaTransferRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
+								PSSENetDataRec.processInterareaTransferRec(lineStr, PsseVersion.PSSE_30, baseCaseNet, this.factory);
 							interTransCnt++;
 						}	 
       				}
@@ -308,7 +311,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSENetDataRec.processOwnerRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
+								PSSENetDataRec.processOwnerRec(lineStr, PsseVersion.PSSE_30, baseCaseNet, this.factory);
 							ownerCnt++;
 						}	 
       				}
@@ -333,7 +336,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
   		}
              
 		if (!this.elemCntOnly)
-			XBeanParserHelper.createBusEquivData(baseCaseNet, this.getLogger());
+			JaxbParserHelper.createBusEquivData(baseCaseNet, this.getLogger(), this.factory);
   		
    	   	return parser;
 	}

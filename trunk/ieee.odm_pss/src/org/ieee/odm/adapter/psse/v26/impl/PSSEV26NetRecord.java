@@ -26,20 +26,25 @@ package org.ieee.odm.adapter.psse.v26.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
+import org.ieee.odm.model.JaxbDataSetter;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.schema.ActivePowerUnitType;
+import org.ieee.odm.schema.ActivePowerXmlType;
+import org.ieee.odm.schema.ApparentPowerXmlType;
+import org.ieee.odm.schema.IDRefRecordXmlType;
+import org.ieee.odm.schema.InterchangeXmlType;
+import org.ieee.odm.schema.NameValuePairListXmlType;
+import org.ieee.odm.schema.ObjectFactory;
+import org.ieee.odm.schema.PSSNetworkXmlType;
+import org.ieee.odm.schema.PowerInterchangeXmlType;
 
 public class PSSEV26NetRecord {
 	public final static String Token_CaseDesc = "Case Description";     
 	public final static String Token_CaseId = "Case ID";	
 	
 	public static boolean processHeaderData(final String str1,final String str2,final String str3,
-			final PSSNetworkXmlType baseCaseNet, Logger logger) throws Exception {
+			final PSSNetworkXmlType baseCaseNet, Logger logger, ObjectFactory factory) throws Exception {
 		//line 1 at here we have "0, 100.00 " or some times "0 100.00 "		
 		final String[] strAry = getHeaderDataFields(str1,str2,str3, logger);
 		if (strAry == null)
@@ -47,23 +52,26 @@ public class PSSEV26NetRecord {
 		
 		final double baseMva = ModelStringUtil.getDouble(strAry[1], 100.0);
 	    logger.fine("BaseKva: "  + baseMva);
-	    XBeanDataSetter.setPowerMva(baseCaseNet.addNewBasePower(), baseMva);   
-
-		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
+		ApparentPowerXmlType base = factory.createApparentPowerXmlType();
+		JaxbDataSetter.setPowerMva(base, baseMva);
+		baseCaseNet.setBasePower(base);	    
+	    
+		NameValuePairListXmlType nvList = factory.createNameValuePairListXmlType();
+		baseCaseNet.setNvPairList(nvList);
 		
 		final String desc = strAry[2];// The 2nd line is treated as description
-		XBeanParserHelper.addNVPair(nvList, Token_CaseDesc, desc);     
+		JaxbParserHelper.addNVPair(nvList, Token_CaseDesc, desc, factory);     
 	   
 	    // the 3rd line is treated as the network id and network name		
 		final String caseId= strAry[3];
-		XBeanParserHelper.addNVPair(nvList, Token_CaseId, caseId);				
+		JaxbParserHelper.addNVPair(nvList, Token_CaseId, caseId, factory);				
 		logger.fine("Case Description, caseId: " + desc + ", "+ caseId);		
 		
         return true;
 	}
         
 	public static  void processAreaInterchangeData(final String str,
-			final PSSNetworkXmlType baseCaseNet) {
+			final PSSNetworkXmlType baseCaseNet, ObjectFactory factory) {
 		final String[] strAry = getAreaInterchangeDataFields(str);
 		
 		//     Area number , no zeros! *
@@ -77,13 +85,25 @@ public class PSSEV26NetRecord {
 		final double mw = ModelStringUtil.getDouble(strAry[2], 0.0);
 		final double err = ModelStringUtil.getDouble(strAry[3], 0.0);
     
-		PowerInterchangeXmlType interchange = baseCaseNet.addNewInterchangeList().addNewInterchange().addNewPowerEx();
+		PowerInterchangeXmlType interchange = factory.createPowerInterchangeXmlType();
+		baseCaseNet.setInterchangeList(factory.createPSSNetworkXmlTypeInterchangeList());
+		InterchangeXmlType ex = factory.createInterchangeXmlType();
+		baseCaseNet.getInterchangeList().getInterchange().add(ex);
+		ex.setPowerEx(interchange);
 	
 		interchange.setAreaNumber(no);
 
-		interchange.addNewSwingBus().setIdRef(swingBusName);
-		XBeanDataSetter.setActivePower(interchange.addNewDesiredExPower(), mw, ActivePowerUnitType.MW);
-		XBeanDataSetter.setActivePower(interchange.addNewExErrTolerance(), err, ActivePowerUnitType.MW);
+		IDRefRecordXmlType refBus = factory.createIDRefRecordXmlType();
+		refBus.setIdRef(swingBusName);
+		interchange.setSwingBus(refBus);
+		
+		ActivePowerXmlType p1 = factory.createActivePowerXmlType();
+		JaxbDataSetter.setActivePower(p1, mw, ActivePowerUnitType.MW);
+		interchange.setDesiredExPower(p1);
+		
+		ActivePowerXmlType p2 = factory.createActivePowerXmlType();
+		JaxbDataSetter.setActivePower(p2, err, ActivePowerUnitType.MW);
+		interchange.setExErrTolerance(p2);			
 	}
 	
 	public static  void processInterAreaTransferData(final String str,

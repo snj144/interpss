@@ -28,10 +28,7 @@ public class PSSENetDataRec {
 				// at here we have "100.00 / PSS/E-29.0 THU, JUN 20 2002 14:19"
 				st = new StringTokenizer(st.nextToken(), "/");
 				double baseMva = new Double(st.nextToken().trim()).doubleValue();
-				
-				ApparentPowerXmlType base = factory.createApparentPowerXmlType();
-				JaxbDataSetter.setPowerMva(base, baseMva);
-				baseCaseNet.setBasePower(base);
+				baseCaseNet.setBasePower(JaxbDataSetter.createPowerMva(baseMva));
 				
 				NameValuePairListXmlType nvList = factory.createNameValuePairListXmlType();
 				baseCaseNet.setNvPairList(nvList);
@@ -79,13 +76,9 @@ public class PSSENetDataRec {
 			IDRefRecordXmlType refBus = factory.createIDRefRecordXmlType();
 			area.setSwingBusId(refBus);
 			refBus.setIdRef(JaxbODMModelParser.BusIdPreFix+isw);
-			ActivePowerXmlType p1 = factory.createActivePowerXmlType();
-			JaxbDataSetter.setActivePower(p1, pdes, ActivePowerUnitType.MW);
-			area.setDesiredExchangePower(p1);
 			
-			ActivePowerXmlType p2 = factory.createActivePowerXmlType();
-			JaxbDataSetter.setActivePower(p2, ptol, ActivePowerUnitType.MW);
-			area.setExchangeErrTolerance(p2);			
+			area.setDesiredExchangePower(JaxbDataSetter.createActivePower(pdes, ActivePowerUnitType.MW));
+			area.setExchangeErrTolerance(JaxbDataSetter.createActivePower(ptol, ActivePowerUnitType.MW));			
 		}
 	}
 

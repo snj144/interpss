@@ -34,12 +34,10 @@ import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.schema.ActivePowerUnitType;
-import org.ieee.odm.schema.ActivePowerXmlType;
 import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
@@ -193,10 +191,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//[2] Columns 32-37   MVA Base [F] *
 		final double baseMva = new Double(strAry[2]).doubleValue(); // in MVA
 		getLogger().fine("BaseKva: " + baseMva);
-		
-		ApparentPowerXmlType base = this.factory.createApparentPowerXmlType();
-		JaxbDataSetter.setPowerMva(base, baseMva);
-		baseCaseNet.setBasePower(base);
+		baseCaseNet.setBasePower(JaxbDataSetter.createPowerMva(baseMva));
 	}
 
 	/*
@@ -236,8 +231,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		if (baseKv == 0.0) {
 			baseKv = 1.0;
 		}
-		busRec.setBaseVoltage(this.factory.createVoltageXmlType());
-		JaxbDataSetter.setVoltageData(busRec.getBaseVoltage(), baseKv, VoltageUnitType.KV);
+		busRec.setBaseVoltage(JaxbDataSetter.createVoltageData(baseKv, VoltageUnitType.KV));
 
 		busRec.setLoadflowData(this.factory.createLoadflowBusDataXmlType());
 		LoadflowBusDataXmlType busData = busRec.getLoadflowData();
@@ -252,11 +246,9 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//Columns 34-40   Final angle, degrees [F] *
 		final double vpu = new Double(strAry[5]).doubleValue();
 		final double angDeg = new Double(strAry[6]).doubleValue();
-		busData.setVoltage(this.factory.createVoltageXmlType());
-		JaxbDataSetter.setVoltageData(busData.getVoltage(), vpu, VoltageUnitType.PU);
+		busData.setVoltage(JaxbDataSetter.createVoltageData(vpu, VoltageUnitType.PU));
 
-		busData.setAngle(this.factory.createAngleXmlType());
-		JaxbDataSetter.setAngleData(busData.getAngle(), angDeg, AngleUnitType.DEG);
+		busData.setAngle(JaxbDataSetter.createAngleData(angDeg, AngleUnitType.DEG));
 
 		//Columns 41-49   Load MW [F] *
 		//Columns 50-59   Load MVAR [F] *
@@ -286,8 +278,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double gPU = new Double(strAry[15]).doubleValue();
 		final double bPU = new Double(strAry[16]).doubleValue();
 		if (gPU != 0.0 || bPU != 0.0) {
-			busData.setShuntY(this.factory.createYXmlType());
-			JaxbDataSetter.setYData(busData.getShuntY(), gPU, bPU, YUnitType.PU);
+			busData.setShuntY(JaxbDataSetter.createYData(gPU, bPU, YUnitType.PU));
 		}
 
 		//Columns 85-90   Desired volts (pu) [F] (This is desired remote voltage if this bus is controlling another bus.)
@@ -304,15 +295,12 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		if (max != 0.0 || min != 0.0) {
 			LoadflowGenDataXmlType equivGen = busData.getGenData().getEquivGen();
 			if (type == 1) {
-				equivGen.setVoltageLimit(this.factory.createVoltageLimitXmlType());
-				JaxbDataSetter.setVoltageLimitData(equivGen.getVoltageLimit(), max, min, VoltageUnitType.PU);
+				equivGen.setVoltageLimit(JaxbDataSetter.createVoltageLimitData(max, min, VoltageUnitType.PU));
 			} else if (type == 2) {
-				busData.getGenData().getEquivGen().setQLimit(this.factory.createReactivePowerLimitXmlType());
-				JaxbDataSetter.setReactivePowerLimitData(equivGen.getQLimit(),	max, min, ReactivePowerUnitType.MVAR);
+				busData.getGenData().getEquivGen().setQLimit(JaxbDataSetter.createReactivePowerLimitData(max, min, ReactivePowerUnitType.MVAR));
 				if (reBusId != null && !reBusId.equals("0")
 						&& !reBusId.equals(busId)) {
-					equivGen.setDesiredVoltage(this.factory.createVoltageXmlType());
-					JaxbDataSetter.setVoltageData(equivGen.getDesiredVoltage(),	vSpecPu, VoltageUnitType.PU);
+					equivGen.setDesiredVoltage(JaxbDataSetter.createVoltageData(vSpecPu, VoltageUnitType.PU));
 					equivGen.setRemoteVoltageControlBus(this.factory.createIDRefRecordXmlType());
 					equivGen.getRemoteVoltageControlBus().setIdRef(reBusId);
 				}
@@ -472,8 +460,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		if (type == 2 || type == 3) {
 			TapAdjustmentXmlType tapAdj = this.factory.createTapAdjustmentXmlType();
 			branchData.getXfrInfo().setTapAdjustment(tapAdj);
-			tapAdj.setTapLimit(this.factory.createTapLimitXmlType());
-			JaxbDataSetter.setTapLimitData(tapAdj.getTapLimit(), maxTapAng, minTapAng);
+			tapAdj.setTapLimit(JaxbDataSetter.createTapLimitData(maxTapAng, minTapAng));
 			tapAdj.setTapAdjStepSize(stepSize);
 			tapAdj.setTapAdjOnFromSide(true);
 			if (type == 2) {
@@ -560,12 +547,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			this.logErr("Interchange data error, " + e.toString());
 		}
 		
-		ActivePowerXmlType power = this.factory.createActivePowerXmlType();
-		ActivePowerXmlType error = this.factory.createActivePowerXmlType();
-		JaxbDataSetter.setActivePower(power, mw, ActivePowerUnitType.MW);
-		JaxbDataSetter.setActivePower(error, err, ActivePowerUnitType.MW);
-		interchange.setDesiredExPower(power);
-		interchange.setExErrTolerance(error);
+		interchange.setDesiredExPower(JaxbDataSetter.createActivePower(mw, ActivePowerUnitType.MW));
+		interchange.setExErrTolerance(JaxbDataSetter.createActivePower(err, ActivePowerUnitType.MW));
 
 		interchange.setAreaCode(code);
 		interchange.setAreaName(name);

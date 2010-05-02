@@ -3,19 +3,19 @@ package org.ieee.odm.adapter.psse.v30.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
+import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BaseBranchDataXmlType;
+import org.ieee.odm.schema.BranchRecordXmlType;
+import org.ieee.odm.schema.LFBranchCodeEnumType;
+import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.YUnitType;
+import org.ieee.odm.schema.ZUnitType;
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.psse.xbean.v30.XBeanPSSEV30Adapter;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.JaxbDataSetter;
+import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.JaxbODMModelParser;
 
 public class PSSEV30LineDataRec {
 	private static int i, j, status;
@@ -28,7 +28,7 @@ public class PSSEV30LineDataRec {
 	 * BranchData
 	 * I,J,CKT,R,X,B,RATEA,RATEB,RATEC,GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4
 	 */
-	public static void procLineString(String lineStr, PsseVersion version, XBeanODMModelParser parser, Logger logger) {
+	public static void procLineString(String lineStr, PsseVersion version, JaxbODMModelParser parser, Logger logger) {
 		procLineFields(lineStr, version, logger);
 
 /*
