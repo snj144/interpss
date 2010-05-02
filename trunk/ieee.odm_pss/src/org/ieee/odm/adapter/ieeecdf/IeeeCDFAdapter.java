@@ -42,6 +42,7 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBranchDataXmlType;
@@ -56,6 +57,7 @@ import org.ieee.odm.schema.PowerInterchangeXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
+import org.ieee.odm.schema.TielineXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
@@ -107,7 +109,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 					} else if (dataType == LossZone) {
 						processLossZoneData(str, parser.createNetworkLossZone());
 					} else if (dataType == InterchangeData) {
-						PSSNetworkXmlType.InterchangeList.Interchange interchange = parser.createInterchange();
+						InterchangeXmlType interchange = parser.createInterchange();
 						PowerInterchangeXmlType p = this.factory.createPowerInterchangeXmlType();
 						processInterchangeData(str, p, parser);
 						interchange.setPowerEx(p);
@@ -575,7 +577,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	 */
 
 	private void processTielineData(final String str,
-			final PSSNetworkXmlType.TieLineList.Tieline tieLine, JaxbODMModelParser parser) {
+			final TielineXmlType tieLine, JaxbODMModelParser parser) {
 		final String[] strAry = getTielineDataFields(str);
 
 		//    	Columns  1- 4   Metered bus number [I] *
