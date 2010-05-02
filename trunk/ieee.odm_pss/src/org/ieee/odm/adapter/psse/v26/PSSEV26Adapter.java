@@ -38,7 +38,7 @@ import org.ieee.odm.adapter.psse.xbean.v26.impl.XBeanPSSEV26NetRecord;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
-public class XBeanPSSEV26Adapter extends AbstractODMAdapter{
+public class PSSEV26Adapter extends AbstractODMAdapter{
 	private final int 
 		BusData = 1,       // constants in indicating data block positions
 		LoadData = 2,
@@ -56,7 +56,7 @@ public class XBeanPSSEV26Adapter extends AbstractODMAdapter{
 		OwnerData = 14;
 		//FactsData = 15;
 		
-	public XBeanPSSEV26Adapter(Logger logger) {
+	public PSSEV26Adapter(Logger logger) {
 		super(logger);
 	}
 	
