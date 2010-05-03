@@ -83,7 +83,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	protected JaxbODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		JaxbODMModelParser parser = new JaxbODMModelParser();
-		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.IEEE_CDF, this.factory);
+		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.IEEE_CDF);
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		baseCaseNet.setId("Base_Case_from_IEEECDF_format");
@@ -163,27 +163,27 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//[0] Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
 		final String date = strAry[0];
 		if (date != null) 
-			JaxbParserHelper.addNVPair(nvList, Token_Date, date, this.factory);
+			JaxbParserHelper.addNVPair(nvList, Token_Date, date);
 
 		//[1] Columns 11-30   Originator's name [A]
 		final String orgName = strAry[1];
 		if (orgName != null)
-			JaxbParserHelper.addNVPair(nvList, Token_OrgName, orgName, this.factory);
+			JaxbParserHelper.addNVPair(nvList, Token_OrgName, orgName);
 
 		//[3] Columns 39-42   Year [I]
 		final String year = strAry[3];
 		if (year != null)
-			JaxbParserHelper.addNVPair(nvList, Token_Year, year, this.factory);
+			JaxbParserHelper.addNVPair(nvList, Token_Year, year);
 
 		//[4] Column  44      Season (S - Summer, W - Winter)
 		final String season = strAry[4];
 		if (season != null)
-			JaxbParserHelper.addNVPair(nvList, Token_Season, season, this.factory);
+			JaxbParserHelper.addNVPair(nvList, Token_Season, season);
 
 		//[5] Column  46-73   Case identification [A]
 		final String caseId = strAry[5];
 		if (caseId != null)
-			JaxbParserHelper.addNVPair(nvList, Token_CaseId, caseId, this.factory);
+			JaxbParserHelper.addNVPair(nvList, Token_CaseId, caseId);
 
 		getLogger().fine("date, orgName, year, season, caseId: " + date + ", "
 				+ orgName + ", " + year + ", " + season + ", " + caseId);
@@ -301,8 +301,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				if (reBusId != null && !reBusId.equals("0")
 						&& !reBusId.equals(busId)) {
 					equivGen.setDesiredVoltage(JaxbDataSetter.createVoltageData(vSpecPu, VoltageUnitType.PU));
-					equivGen.setRemoteVoltageControlBus(this.factory.createIDRefRecordXmlType());
-					equivGen.getRemoteVoltageControlBus().setIdRef(reBusId);
+					equivGen.setRemoteVoltageControlBus(JaxbDataSetter.createIdRef(reBusId));
 				}
 			}
 		}
@@ -369,8 +368,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double bpu = new Double(strAry[8]).doubleValue();
 		if (type == 0) {
 			JaxbDataSetter.setLineData(branchData, rpu, xpu,
-					ZUnitType.PU, 0.0, bpu, YUnitType.PU,
-					this.factory);
+					ZUnitType.PU, 0.0, bpu, YUnitType.PU);
 		}
 
 		// assume ratio and angle are defined at to side
@@ -385,16 +383,14 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			if (angle == 0.0) {
 				JaxbDataSetter.createXformerData(branchData,
 						rpu, xpu, ZUnitType.PU, ratio, 1.0, 
-						0.0, bpu, 0.0, 0.0, YUnitType.PU,
-						this.factory);
+						0.0, bpu, 0.0, 0.0, YUnitType.PU);
 				BusRecordXmlType fromBusRec = parser.getBusRecord(fid);
 				BusRecordXmlType toBusRec = parser.getBusRecord(tid);
 				if (fromBusRec != null && toBusRec != null) {
 					JaxbDataSetter.setXfrRatingData(branchData,
 							fromBusRec.getBaseVoltage().getValue(), 
 							toBusRec.getBaseVoltage().getValue(), 
-							fromBusRec.getBaseVoltage().getUnit(),
-							this.factory);				
+							fromBusRec.getBaseVoltage().getUnit());				
 				}
 				else {
 					logErr("Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: " + fid + ", " + tid);
@@ -402,16 +398,14 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			} else {
 				JaxbDataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, ZUnitType.PU,
 						ratio, 1.0, angle, 0.0, AngleUnitType.DEG,
-						0.0, bpu, 0.0, 0.0, YUnitType.PU,
-						this.factory);
+						0.0, bpu, 0.0, 0.0, YUnitType.PU);
 				BusRecordXmlType fromBusRec = parser.getBusRecord(fid);
 				BusRecordXmlType toBusRec = parser.getBusRecord(tid);
 				if (fromBusRec != null && toBusRec != null) {
 					JaxbDataSetter.setXfrRatingData(branchData,
 							fromBusRec.getBaseVoltage().getValue(), 
 							toBusRec.getBaseVoltage().getValue(), 
-							fromBusRec.getBaseVoltage().getUnit(),
-							this.factory);				
+							fromBusRec.getBaseVoltage().getUnit());				
 				}
 				else {
 					logErr("Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: " + fid + ", " + tid);
@@ -427,8 +421,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double rating3Mvar = new Integer(strAry[11]).intValue();
 		branchData.setBranchRatingLimit(this.factory.createBranchRatingLimitXmlType());
 		JaxbDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(),
-				rating1Mvar, rating2Mvar, rating3Mvar, ApparentPowerUnitType.MVA,
-				this.factory);
+				rating1Mvar, rating2Mvar, rating3Mvar, ApparentPowerUnitType.MVA);
 
 		String controlBusId = "";
 		int controlSide = 0;

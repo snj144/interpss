@@ -30,9 +30,6 @@ import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.schema.ActivePowerUnitType;
-import org.ieee.odm.schema.ActivePowerXmlType;
-import org.ieee.odm.schema.ApparentPowerXmlType;
-import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.ObjectFactory;
@@ -52,19 +49,17 @@ public class PSSEV26NetRecord {
 		
 		final double baseMva = ModelStringUtil.getDouble(strAry[1], 100.0);
 	    logger.fine("BaseKva: "  + baseMva);
-		ApparentPowerXmlType base = factory.createApparentPowerXmlType();
-		JaxbDataSetter.setPowerMva(base, baseMva);
-		baseCaseNet.setBasePower(base);	    
+		baseCaseNet.setBasePower(JaxbDataSetter.createPowerMva(baseMva));	    
 	    
 		NameValuePairListXmlType nvList = factory.createNameValuePairListXmlType();
 		baseCaseNet.setNvPairList(nvList);
 		
 		final String desc = strAry[2];// The 2nd line is treated as description
-		JaxbParserHelper.addNVPair(nvList, Token_CaseDesc, desc, factory);     
+		JaxbParserHelper.addNVPair(nvList, Token_CaseDesc, desc);     
 	   
 	    // the 3rd line is treated as the network id and network name		
 		final String caseId= strAry[3];
-		JaxbParserHelper.addNVPair(nvList, Token_CaseId, caseId, factory);				
+		JaxbParserHelper.addNVPair(nvList, Token_CaseId, caseId);				
 		logger.fine("Case Description, caseId: " + desc + ", "+ caseId);		
 		
         return true;
@@ -93,17 +88,10 @@ public class PSSEV26NetRecord {
 	
 		interchange.setAreaNumber(no);
 
-		IDRefRecordXmlType refBus = factory.createIDRefRecordXmlType();
-		refBus.setIdRef(swingBusName);
-		interchange.setSwingBus(refBus);
+		interchange.setSwingBus(JaxbDataSetter.createIdRef(swingBusName));
 		
-		ActivePowerXmlType p1 = factory.createActivePowerXmlType();
-		JaxbDataSetter.setActivePower(p1, mw, ActivePowerUnitType.MW);
-		interchange.setDesiredExPower(p1);
-		
-		ActivePowerXmlType p2 = factory.createActivePowerXmlType();
-		JaxbDataSetter.setActivePower(p2, err, ActivePowerUnitType.MW);
-		interchange.setExErrTolerance(p2);			
+		interchange.setDesiredExPower(JaxbDataSetter.createActivePower(mw, ActivePowerUnitType.MW));
+		interchange.setExErrTolerance(JaxbDataSetter.createActivePower(err, ActivePowerUnitType.MW));			
 	}
 	
 	public static  void processInterAreaTransferData(final String str,

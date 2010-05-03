@@ -26,21 +26,24 @@ package org.ieee.odm.adapter.psse.v26.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.odm.model.JaxbDataSetter;
+import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.ieee.odm.schema.AdjustmentDataXmlType;
+import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchRecordXmlType;
+import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.LFBranchCodeEnumType;
 import org.ieee.odm.schema.LoadflowBranchDataXmlType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZUnitType;
-import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.JaxbParserHelper;
-import org.ieee.odm.model.JaxbODMModelParser;
 
 public class PSSEV26BranchRecord {
 	public static  void processBranchData(final String str, final JaxbODMModelParser parser, Logger logger) {
@@ -60,27 +63,32 @@ public class PSSEV26BranchRecord {
 		 */
 		// parse the input data line	
 		final String[] strAry = getBranchDataFields(str);		
-		final String fid = XBeanODMModelParser.BusIdPreFix+strAry[0];
-		final String tid = XBeanODMModelParser.BusIdPreFix+strAry[1];
+		final String fid = JaxbODMModelParser.BusIdPreFix+strAry[0];
+		final String tid = JaxbODMModelParser.BusIdPreFix+strAry[1];
 		final String cirId = ModelStringUtil.formatCircuitId(strAry[2]);
 		String branchId = ModelStringUtil.formBranchId(fid, tid, cirId);
 		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		
 		BranchRecordXmlType branchRec;
 		try {
-			branchRec = parser.addNewBaseCaseBranch(branchId);
+			branchRec = parser.createBranchRecord(branchId);
 		} catch (Exception e) {
 			logger.severe(e.toString());
 			return;
 		}		
-		branchRec.addNewFromBus().setIdRef(fid);
-		branchRec.addNewToBus().setIdRef(tid);	
+		BusRefRecordXmlType fbus = parser.getFactory().createBusRefRecordXmlType();
+		BusRefRecordXmlType tbus = parser.getFactory().createBusRefRecordXmlType();
+		branchRec.setFromBus(fbus);
+		fbus.setIdRef(fid);
+		branchRec.setToBus(tbus);
+		tbus.setIdRef(tid);	
 		branchRec.setCircuitId(cirId);
 		
 		int status = ModelStringUtil.getInt(strAry[15], 0);
 		branchRec.setOffLine(status == 0);
 		
-		LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();	
+		LoadflowBranchDataXmlType branchData = parser.getFactory().createLoadflowBranchDataXmlType(); 
+		branchRec.getLoadflowData().add(branchData);	
 		
         //      Branch resistance R, per unit  *
 		//      Branch reactance X, per unit  * No zero impedance lines
@@ -96,14 +104,14 @@ public class PSSEV26BranchRecord {
 		final double fromAng = angle, toAng = 0.0;
 		
 		if (ratio == 0.0) {
-			XBeanDataSetter.setLineData(branchData, rpu, xpu, ZUnitType.PU, 0.0, bpu, YUnitType.PU);
+			JaxbDataSetter.setLineData(branchData, rpu, xpu, ZUnitType.PU, 0.0, bpu, YUnitType.PU);
 		}
 		else if (angle == 0.0) {
-			XBeanDataSetter.createXformerData(branchData,
+			JaxbDataSetter.createXformerData(branchData,
 				       rpu, xpu, ZUnitType.PU, fromTap, toTap);		
 		}
 		else {
-			XBeanDataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, 
+			JaxbDataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, 
 					ZUnitType.PU, fromTap, toTap, fromAng, toAng, AngleUnitType.DEG);			
 		}
 		
@@ -111,7 +119,8 @@ public class PSSEV26BranchRecord {
 		final double rating2Mvar = ModelStringUtil.getDouble(strAry[7], 0.0);
 		final double rating3Mvar = ModelStringUtil.getDouble(strAry[8], 0.0);
 		
-		XBeanDataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
+		branchData.addNewBranchRatingLimit();
+		JaxbDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(),
 				rating1Mvar, rating2Mvar, rating3Mvar,
 				ApparentPowerUnitType.MVA, 0.0,
 				null);
@@ -120,28 +129,27 @@ public class PSSEV26BranchRecord {
 		final double GI= ModelStringUtil.getDouble(strAry[11], 0.0);
 		final double BI= ModelStringUtil.getDouble(strAry[12], 0.0);
         if(GI!=0.0 || BI!=0.0 )  {
-        	YXmlType y;
+        	YXmlType y = JaxbDataSetter.createYData(GI, BI, YUnitType.PU);
         	if (branchData.getCode() == LFBranchCodeEnumType.LINE)
-        		y = branchData.addNewFromShuntY();
+        		branchData.setFromShuntY(y);
         	else if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER)
-        		y = branchData.addNewFromShuntY();
+        		branchData.setFromShuntY(y);
         	else
-        		y = branchData.addNewFromShuntY();
-        	XBeanDataSetter.setYData(y, GI, BI, YUnitType.PU);
+        		branchData.setFromShuntY(y);
+        	
         }
 
 	    //To side shuntY
 		final double GJ= ModelStringUtil.getDouble(strAry[13], 0.0);
 		final double BJ= ModelStringUtil.getDouble(strAry[14], 0.0);
 	    if(GJ!=0.0 || BJ!=0.0)  {
-        	YXmlType y;
+        	YXmlType y = JaxbDataSetter.createYData(GJ, BJ, YUnitType.PU);
         	if (branchData.getCode() == LFBranchCodeEnumType.LINE)
-        		y = branchData.addNewToShuntY();
+        		branchData.setToShuntY(y);
         	else if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER)
-        		y = branchData.addNewToShuntY();
+        		branchData.setToShuntY(y);
         	else
-        		y = branchData.addNewToShuntY();
-        	XBeanDataSetter.setYData(y, GJ, BJ, YUnitType.PU);
+        		branchData.setToShuntY(y);
 	    }
 	}
    
@@ -198,7 +206,7 @@ public class PSSEV26BranchRecord {
 	    	
 	    	TapAdjustmentXmlType tapAdj = branchData.getXfrInfo().addNewTapAdjustment();
 	    	tapAdj.setAdjustmentType(TapAdjustmentXmlType.AdjustmentType.VOLTAGE);
-	    	XBeanDataSetter.setTapLimitData(tapAdj.addNewTapLimit(), tmax, tmin);
+	    	JaxbDataSetter.setTapLimitData(tapAdj.addNewTapLimit(), tmax, tmin);
 	    	tapAdj.setTapAdjStepSize(tstep);
 	    	tapAdj.setTapAdjOnFromSide(true);
 
@@ -230,11 +238,12 @@ public class PSSEV26BranchRecord {
 	    	double mwup = ModelStringUtil.getDouble(strAry[6], 0.0);
 	    	double mwlow = ModelStringUtil.getDouble(strAry[7], 0.0);
 
-	    	AngleAdjustmentXmlType angAdj = branchData.getXfrInfo().addNewAngleAdjustment();
-	    	XBeanDataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), angmax, angmin, AngleUnitType.DEG);
+	    	AngleAdjustmentXmlType angAdj = parser.getFactory().createAngleAdjustmentXmlType(); 
+	    	branchData.getXfrInfo().setAngleAdjustment(angAdj);
+	    	angAdj.setAngleLimit(JaxbDataSetter.createAngleLimitData(angmax, angmin, AngleUnitType.DEG));
 	    	angAdj.setMax(mwup);
 	    	angAdj.setMin(mwlow);
-	    	angAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+	    	angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
 	    	angAdj.setDesiredMeasuredOnFromSide(true);
 	    }
 

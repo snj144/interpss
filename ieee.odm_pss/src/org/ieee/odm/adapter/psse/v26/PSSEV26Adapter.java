@@ -67,7 +67,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 	protected JaxbODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		JaxbODMModelParser parser = new JaxbODMModelParser();
-		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.PSS_E, this.factory);
+		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.PSS_E);
 		parser.getStudyCase().getContentInfo().setOriginalFormatVersion("PSSEV26");
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
