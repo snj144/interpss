@@ -37,6 +37,7 @@ import org.ieee.odm.schema.BranchRatingLimitXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.CurrentXmlType;
 import org.ieee.odm.schema.GXmlType;
+import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.LFBranchCodeEnumType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
@@ -69,6 +70,18 @@ import org.ieee.odm.schema.ZXmlType;
 import org.ieee.odm.schema.BaseRecordXmlType.OwnerList.Owner;
 
 public class JaxbDataSetter {
+	/**
+	 * create a ref record with id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static IDRefRecordXmlType createIdRef(String id) {
+		IDRefRecordXmlType refBus = getFactory().createIDRefRecordXmlType();
+		refBus.setIdRef(id);
+		return refBus;
+	}
+	
 	/**
 	 * Set apparent power, unit = kva
 	 * 
@@ -559,8 +572,7 @@ public class JaxbDataSetter {
 	 */
 	public static void setLineData(LoadflowBranchDataXmlType branchData, 
 			             double r, double x, ZUnitType zUnit, 
-			             double g, double b, YUnitType yUnit,
-			             ObjectFactory factory) {
+			             double g, double b, YUnitType yUnit) {
 		branchData.setCode(LFBranchCodeEnumType.LINE);
 		ZXmlType z = createZValue(r, x, zUnit);
 		branchData.setZ(z);
@@ -585,13 +597,13 @@ public class JaxbDataSetter {
 	public static void createXformerData(LoadflowBranchDataXmlType branchData, 
 			             double r, double x, ZUnitType zUnit,
 			             double fromTap, double toTap,
-			             double gFrom, double bFrom, double gTo, double bTo, YUnitType yUnit, ObjectFactory factory) {
+			             double gFrom, double bFrom, double gTo, double bTo, YUnitType yUnit) {
 		branchData.setCode(LFBranchCodeEnumType.TRANSFORMER);
-		branchData.setXfrInfo(factory.createLoadflowBranchDataXmlTypeXfrInfo());
+		branchData.setXfrInfo(getFactory().createLoadflowBranchDataXmlTypeXfrInfo());
 		branchData.getXfrInfo().setDataOnSystemBase(true);
 		setXformerData(branchData,
 				r, x, zUnit, fromTap, toTap,
-				gFrom, bFrom, gTo, bTo, yUnit, factory);
+				gFrom, bFrom, gTo, bTo, yUnit);
 	}
 
 	/**
@@ -605,17 +617,16 @@ public class JaxbDataSetter {
 	 * @param toTap
 	 */
 	public static void createXformerData(LoadflowBranchDataXmlType branchData, 
-            double r, double x, ZUnitType zUnit, double fromTap, double toTap, ObjectFactory factory) {
+            double r, double x, ZUnitType zUnit, double fromTap, double toTap) {
 		createXformerData(branchData, r, x, zUnit, fromTap, toTap, 
-				0.0, 0.0, 0.0, 0.0, YUnitType.PU, factory);
+				0.0, 0.0, 0.0, 0.0, YUnitType.PU);
 	}
 	
 
 	private static void setXformerData(LoadflowBranchDataXmlType xfrData,
 			double r, double x, ZUnitType zUnit, 
 			double fromTap, double toTap,
-			double gFrom, double bFrom, double gTo, double bTo, YUnitType yUnit,
-			ObjectFactory factory) {
+			double gFrom, double bFrom, double gTo, double bTo, YUnitType yUnit) {
 		ZXmlType z = createZValue(r, x, zUnit);
 		xfrData.setZ(z);
 		xfrData.setFromTurnRatio(createTurnRatioPU(fromTap));
@@ -645,10 +656,10 @@ public class JaxbDataSetter {
 	public static void createPhaseShiftXfrData(LoadflowBranchDataXmlType branchData,
 			double r, double x, ZUnitType zUnit,
 			double fromTap, double toTap, double fromAng, double toAng, AngleUnitType angUnit,
-			double gFrom, double bFrom, double gTo, double bTo, YUnitType yUnit, ObjectFactory factory) {
+			double gFrom, double bFrom, double gTo, double bTo, YUnitType yUnit) {
 		branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
 		setXformerData(branchData,
-				r, x, zUnit, fromTap, toTap, gFrom, bFrom, gTo, bTo, yUnit, factory);
+				r, x, zUnit, fromTap, toTap, gFrom, bFrom, gTo, bTo, yUnit);
 		if (fromAng != 0.0) {
 			branchData.setFromAngle(createAngleData(fromAng, angUnit));
 		}
@@ -660,11 +671,10 @@ public class JaxbDataSetter {
 	public static void createPhaseShiftXfrData(LoadflowBranchDataXmlType branchData,
 			double r, double x, ZUnitType zUnit,
 			double fromTap, double toTap,
-			double fromAng, double toAng, AngleUnitType angUnit,
-			ObjectFactory factory) {
+			double fromAng, double toAng, AngleUnitType angUnit) {
 		createPhaseShiftXfrData(branchData, r, x, zUnit,
 				fromTap, toTap, fromAng, toAng, angUnit,
-				0.0, 0.0, 0.0, 0.0, YUnitType.PU, factory);
+				0.0, 0.0, 0.0, 0.0, YUnitType.PU);
 	}
 
 	
@@ -682,10 +692,10 @@ public class JaxbDataSetter {
 	 */
 	public static void setBranchRatingLimitData(BranchRatingLimitXmlType branchLimit, 
 				double mvar1, double mvar2, double mvar3, ApparentPowerUnitType mvarUnit,
-				double current, CurrentUnitType curUnit, ObjectFactory factory) {
+				double current, CurrentUnitType curUnit) {
     	if (mvar1 != 0.0 || mvar2 != 0.0 || mvar3 != 0.0 || current != 0.0) {
         	if (mvar1 != 0.0 || mvar2 != 0.0 || mvar3 != 0.0) {
-        		MvaRatingXmlType mvaRating = factory.createMvaRatingXmlType();
+        		MvaRatingXmlType mvaRating = getFactory().createMvaRatingXmlType();
         		branchLimit.setMva(mvaRating);
         		mvaRating.setRating1(mvar1);
         		mvaRating.setRating2(mvar2);
@@ -694,7 +704,7 @@ public class JaxbDataSetter {
         	}
 
         	if (current != 0.0) {
-        		CurrentXmlType limit = factory.createCurrentXmlType();
+        		CurrentXmlType limit = getFactory().createCurrentXmlType();
         		branchLimit.setCurrent(limit);
         		limit.setValue(current);
         		limit.setUnit(curUnit);
@@ -714,15 +724,13 @@ public class JaxbDataSetter {
 	 * @param mvarUnit
 	 */
 	public static void setBranchRatingLimitData(BranchRatingLimitXmlType branchLimit, 
-				double mvar1, double mvar2, double mvar3, ApparentPowerUnitType mvarUnit,
-				ObjectFactory factory) {
-		setBranchRatingLimitData(branchLimit, mvar1, mvar2, mvar3, mvarUnit, 0.0, null, factory);
+				double mvar1, double mvar2, double mvar3, ApparentPowerUnitType mvarUnit) {
+		setBranchRatingLimitData(branchLimit, mvar1, mvar2, mvar3, mvarUnit, 0.0, null);
 	}
 
 	public static void setBranchRatingLimitData(BranchRatingLimitXmlType branchLimit, 
-			double[] mvarAry, ApparentPowerUnitType mvarUnit,
-			ObjectFactory factory) {
-		setBranchRatingLimitData(branchLimit, mvarAry[0], mvarAry[1], mvarAry[2], mvarUnit, factory);
+			double[] mvarAry, ApparentPowerUnitType mvarUnit) {
+		setBranchRatingLimitData(branchLimit, mvarAry[0], mvarAry[1], mvarAry[2], mvarUnit);
 		MvaRatingXmlType mvaRating = branchLimit.getMva();
 		for (double x : mvarAry)
 			if (x > 0.0) {
@@ -738,8 +746,8 @@ public class JaxbDataSetter {
 	 * @param curUnit
 	 */
 	public static void setBranchRatingLimitData(BranchRatingLimitXmlType branchLimit, 
-				double current, CurrentUnitType curUnit, ObjectFactory factory) {
-		setBranchRatingLimitData(branchLimit, 0.0, 0.0, 0.0, null, current, curUnit, factory);
+				double current, CurrentUnitType curUnit) {
+		setBranchRatingLimitData(branchLimit, 0.0, 0.0, 0.0, null, current, curUnit);
 	}
 	
 	/**
@@ -749,13 +757,12 @@ public class JaxbDataSetter {
 	 * @param oAry
 	 * @param pAry
 	 */
-	public static void setBranchOwnership(LoadflowBranchDataXmlType branchData,	int[] oAry, double[] pAry,
-							ObjectFactory factory) {
-		BaseRecordXmlType.OwnerList ownerList = factory.createBaseRecordXmlTypeOwnerList(); 
+	public static void setBranchOwnership(LoadflowBranchDataXmlType branchData,	int[] oAry, double[] pAry) {
+		BaseRecordXmlType.OwnerList ownerList = getFactory().createBaseRecordXmlTypeOwnerList(); 
 		branchData.setOwnerList(ownerList);
 		for ( int i = 0; i < oAry.length; i++) {
 			if (oAry[i] > 0) {
-				Owner owner = factory.createBaseRecordXmlTypeOwnerListOwner();
+				Owner owner = getFactory().createBaseRecordXmlTypeOwnerListOwner();
 				branchData.getOwnerList().getOwner().add(owner);
 				owner.setId(new Integer(oAry[i]).toString());
 				owner.setOwnership(pAry[i]);
@@ -775,23 +782,22 @@ public class JaxbDataSetter {
 	 */
 	public static void setXfrRatingData(LoadflowBranchDataXmlType branchData, 
 			double fromRatedV, double toRatedV, VoltageUnitType vUnit,
-			double normialMva, ApparentPowerUnitType pUnit,
-			ObjectFactory factory) {
+			double normialMva, ApparentPowerUnitType pUnit) {
 		if (branchData.getXfrInfo() == null) {
-			LoadflowBranchDataXmlType.XfrInfo xfrInfo = factory.createLoadflowBranchDataXmlTypeXfrInfo();
+			LoadflowBranchDataXmlType.XfrInfo xfrInfo = getFactory().createLoadflowBranchDataXmlTypeXfrInfo();
 			branchData.setXfrInfo(xfrInfo);
 		}
 		LoadflowBranchDataXmlType.XfrInfo xfrInfo = branchData.getXfrInfo();
-		VoltageXmlType fromRatedVolt = factory.createVoltageXmlType();
+		VoltageXmlType fromRatedVolt = getFactory().createVoltageXmlType();
 		xfrInfo.setRatedVoltage1(fromRatedVolt);
 		fromRatedVolt.setValue(fromRatedV);
 		fromRatedVolt.setUnit(vUnit);
-		VoltageXmlType toRatedVolt = factory.createVoltageXmlType();
+		VoltageXmlType toRatedVolt = getFactory().createVoltageXmlType();
 		xfrInfo.setRatedVoltage2(toRatedVolt);
 		toRatedVolt.setValue(toRatedV);
 		toRatedVolt.setUnit(vUnit);
    		if (normialMva != 0.0) {
-   			ApparentPowerXmlType ratedMva = factory.createApparentPowerXmlType();
+   			ApparentPowerXmlType ratedMva = getFactory().createApparentPowerXmlType();
    			xfrInfo.setRatedPower12(ratedMva);
    			ratedMva.setValue(normialMva);
    			ratedMva.setUnit(pUnit);		
@@ -807,15 +813,14 @@ public class JaxbDataSetter {
 	 * @param vUnit
 	 */
 	public static void setXfrRatingData(LoadflowBranchDataXmlType xfrData, 
-			double fromRatedV, double toRatedV, VoltageUnitType vUnit,
-			ObjectFactory factory) {
-		setXfrRatingData(xfrData, fromRatedV, toRatedV, vUnit, 0.0, null, factory);
+			double fromRatedV, double toRatedV, VoltageUnitType vUnit) {
+		setXfrRatingData(xfrData, fromRatedV, toRatedV, vUnit, 0.0, null);
 	}
 	
-	private static ObjectFactory factory = null;	
+	private static ObjectFactory _factory = null;	
 	private static ObjectFactory getFactory() {
-		if (factory == null)
-			factory = new ObjectFactory();
-		return factory;
+		if (_factory == null)
+			_factory = new ObjectFactory();
+		return _factory;
 	}
 }

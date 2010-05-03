@@ -46,7 +46,6 @@ import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
-import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
@@ -66,7 +65,7 @@ public class JaxbODMModelParser extends ODMModelParser {
 
 	private StudyCaseXmlType pssStudyCase = null;
 	
-	private ObjectFactory factory = null;
+	private ObjectFactory _factory = null;
 	
 	/**
 	 * Constructor using an Xml file
@@ -113,7 +112,7 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 * 
 	 */
 	public JaxbODMModelParser() {
-		this.factory = new ObjectFactory();		
+		this._factory = new ObjectFactory();		
 		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 		//this.doc = PSSStudyCaseDocument.Factory.newInstance();
 		this.getStudyCase().setId("ODM_StudyCase");
@@ -121,7 +120,7 @@ public class JaxbODMModelParser extends ODMModelParser {
 	}
 	
 	public ObjectFactory getFactory() {
-		return this.factory;
+		return this._factory;
 	}
 	
 	/**
@@ -196,7 +195,7 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 * @return
 	 */
 	public BusRecordXmlType createBusRecord() {
-		BusRecordXmlType busRec = this.factory.createBusRecordXmlType();
+		BusRecordXmlType busRec = this.getFactory().createBusRecordXmlType();
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);
 		busRec.setZoneNumber(1);
@@ -234,7 +233,7 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 * @throws Exception
 	 */
 	public BusRefRecordXmlType createBusRecRef(String refBusId) throws Exception {
-		BusRefRecordXmlType nonMeteredBusRef = this.factory.createBusRefRecordXmlType();
+		BusRefRecordXmlType nonMeteredBusRef = this.getFactory().createBusRefRecordXmlType();
 		if (getBusRecord(refBusId) == null) {
 			throw new Exception("Bus record not found in the network, id " + refBusId);
 		}
@@ -320,9 +319,9 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 */
 	public NetAreaXmlType createNetworkArea() {
 		if(getBaseCase().getAreaList()==null){
-			getBaseCase().setAreaList(this.factory.createPSSNetworkXmlTypeAreaList());
+			getBaseCase().setAreaList(this.getFactory().createPSSNetworkXmlTypeAreaList());
 		}
-		NetAreaXmlType area = this.factory.createNetAreaXmlType();
+		NetAreaXmlType area = this.getFactory().createNetAreaXmlType();
 		getBaseCase().getAreaList().getArea().add(area);
 		return area;
 	}
@@ -334,9 +333,9 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 */
 	public NetZoneXmlType createNetworkLossZone() {
 		if(getBaseCase().getLossZoneList() == null){
-			getBaseCase().setLossZoneList(this.factory.createPSSNetworkXmlTypeLossZoneList());
+			getBaseCase().setLossZoneList(this.getFactory().createPSSNetworkXmlTypeLossZoneList());
 		}
-		NetZoneXmlType zone = this.factory.createNetZoneXmlType();
+		NetZoneXmlType zone = this.getFactory().createNetZoneXmlType();
 		getBaseCase().getLossZoneList().getLossZone().add(zone);
 		return zone;
 	}
@@ -348,8 +347,8 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 */
 	public TielineXmlType createTieline() {
 		if (getBaseCase().getTieLineList() == null)
-			getBaseCase().setTieLineList(this.factory.createPSSNetworkXmlTypeTieLineList());
-		TielineXmlType tieLine = this.factory.createTielineXmlType();
+			getBaseCase().setTieLineList(this.getFactory().createPSSNetworkXmlTypeTieLineList());
+		TielineXmlType tieLine = this.getFactory().createTielineXmlType();
 		getBaseCase().getTieLineList().getTieline().add(tieLine);
 		return tieLine;
 	}
@@ -361,8 +360,8 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 */
 	public InterchangeXmlType createInterchange() {
 		if (getBaseCase().getInterchangeList() == null)
-			getBaseCase().setInterchangeList(this.factory.createPSSNetworkXmlTypeInterchangeList());
-		InterchangeXmlType interchange = this.factory.createInterchangeXmlType();
+			getBaseCase().setInterchangeList(this.getFactory().createPSSNetworkXmlTypeInterchangeList());
+		InterchangeXmlType interchange = this.getFactory().createInterchangeXmlType();
 		getBaseCase().getInterchangeList().getInterchange().add(interchange);
 		return interchange;
 	}
@@ -414,7 +413,7 @@ public class JaxbODMModelParser extends ODMModelParser {
 	public DCLineData2TXmlType addNewBaseCaseDCLine2T(String recId, String invId, long number) throws Exception {
 		//if (getStudyCase().getBaseCase().getDcLineList() == null)
 		//	getStudyCase().getBaseCase().addNewDcLineList();
-		DCLineData2TXmlType dcLine = new DCLineData2TXmlType();
+		DCLineData2TXmlType dcLine = getFactory().createDCLineData2TXmlType();
 		getStudyCase().getBaseCase().getDcLineList().getDcLint2T().add(dcLine);
 		String branchId = ModelStringUtil.formBranchId(recId, invId, new Long(number).toString());
 		dcLine.setId(branchId);
@@ -424,17 +423,13 @@ public class JaxbODMModelParser extends ODMModelParser {
 		}
 		this.objectCache.put(branchId, dcLine);
 
-		ConverterXmlType rectifier = new ConverterXmlType();
+		ConverterXmlType rectifier = getFactory().createConverterXmlType();
 		dcLine.setRectifier(rectifier);
-		IDRefRecordXmlType idRef = new IDRefRecordXmlType(); 
-		idRef.setIdRef(recId);
-		dcLine.getRectifier().setBusId(idRef);
+		dcLine.getRectifier().setBusId(JaxbDataSetter.createIdRef(recId));
 
-		ConverterXmlType inverter = new ConverterXmlType();
+		ConverterXmlType inverter = getFactory().createConverterXmlType();
 		dcLine.setInverter(inverter);
-		IDRefRecordXmlType idRefIn = new IDRefRecordXmlType();
-		idRefIn.setIdRef(invId);
-		dcLine.getInverter().setBusId(idRefIn);
+		dcLine.getInverter().setBusId(JaxbDataSetter.createIdRef(invId));
 		return dcLine;
 	}
 
@@ -462,7 +457,7 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 */
 	public void stdout() {
 		try {
-			JAXBElement<StudyCaseXmlType> element = (new ObjectFactory()).createPSSStudyCase(getStudyCase());
+			JAXBElement<StudyCaseXmlType> element = getFactory().createPSSStudyCase(getStudyCase());
 			createMarshaller().marshal( element, System.out );
 		} catch (Exception e) {
 			e.printStackTrace();
