@@ -110,9 +110,7 @@ public class PSSEBusRecord {
 		//SWREM - Number of remote bus to control. 0 to control own bus.
 		int busNo = ModelStringUtil.getInt(strAry[4], 0);
 		if (busNo != 0) {
-			IDRefRecordXmlType refBus = parser.getFactory().createIDRefRecordXmlType();
-			refBus.setIdRef(XBeanODMModelParser.BusIdPreFix+strAry[4]);
-			shunt.setRemoteControlledBus(refBus);
+			shunt.setRemoteControlledBus(JaxbDataSetter.createIdRef(XBeanODMModelParser.BusIdPreFix+strAry[4]));
 		}
 
 		/* V30

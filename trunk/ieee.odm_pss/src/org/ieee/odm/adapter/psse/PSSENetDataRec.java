@@ -6,8 +6,6 @@ import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
-import org.ieee.odm.schema.ActivePowerXmlType;
-import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.BaseRecordXmlType;
 import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
@@ -34,7 +32,7 @@ public class PSSENetDataRec {
 				baseCaseNet.setNvPairList(nvList);
 				
 				JaxbParserHelper.addNVPair(nvList, "CaseIndicator", 
-						new Integer(indicator).toString(), factory);
+						new Integer(indicator).toString());
 			}
 			else if (lineNo == 2) {
 				// The 2nd line is treated as description
@@ -73,9 +71,7 @@ public class PSSENetDataRec {
 		area.setName(arnam);
 
 		if (isw > 0) {
-			IDRefRecordXmlType refBus = factory.createIDRefRecordXmlType();
-			area.setSwingBusId(refBus);
-			refBus.setIdRef(JaxbODMModelParser.BusIdPreFix+isw);
+			area.setSwingBusId(JaxbDataSetter.createIdRef(JaxbODMModelParser.BusIdPreFix+isw));
 			
 			area.setDesiredExchangePower(JaxbDataSetter.createActivePower(pdes, ActivePowerUnitType.MW));
 			area.setExchangeErrTolerance(JaxbDataSetter.createActivePower(ptol, ActivePowerUnitType.MW));			

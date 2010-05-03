@@ -102,7 +102,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 	protected JaxbODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		JaxbODMModelParser parser = new JaxbODMModelParser();
-		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.UCTE_DEF, parser.getFactory());
+		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.UCTE_DEF);
 
 		// BaseCase object, plus busRecList and BranchRecList are created 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
@@ -312,21 +312,21 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType();
 		busRec.setNvPairList(nvList);
 		if (status != 0)
-			JaxbParserHelper.addNVPair(nvList, Token_Status, new Integer(status).toString(), parser.getFactory());
+			JaxbParserHelper.addNVPair(nvList, Token_Status, new Integer(status).toString());
 		if (minGenMW != 0.0)
-			JaxbParserHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString(), parser.getFactory());
+			JaxbParserHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString());
 		if (maxGenMW != 0.0)
-			JaxbParserHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString(), parser.getFactory());
+			JaxbParserHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString());
 		if (staticPrimaryControl != 0.0)
-			JaxbParserHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString(), parser.getFactory());
+			JaxbParserHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString());
 		if (normalPowerPrimaryControl != 0.0)
-			JaxbParserHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString(), parser.getFactory());
+			JaxbParserHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
 		if (scMVA3P != 0.0)
-			JaxbParserHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString(), parser.getFactory());
+			JaxbParserHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString());
 		if (x_rRatio != 0.0)
-			JaxbParserHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString(), parser.getFactory());
+			JaxbParserHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString());
 		if (powerPlanType != null)
-			JaxbParserHelper.addNVPair(nvList, Token_PPlanType, powerPlanType, parser.getFactory());
+			JaxbParserHelper.addNVPair(nvList, Token_PPlanType, powerPlanType);
     }
     
     /*
@@ -370,7 +370,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		
 		// LineData object created in the following call
 		JaxbDataSetter.setLineData(branchData, rOhm, xOhm,
-				ZUnitType.OHM, 0.0, bMuS, YUnitType.MICROMHO, parser.getFactory());
+				ZUnitType.OHM, 0.0, bMuS, YUnitType.MICROMHO);
       	
     	// by default the branch is active
     	if (status == 8 || status == 9) 
@@ -378,7 +378,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
     	branchData.setBranchRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
     	JaxbDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(),
-				currentLimit, CurrentUnitType.AMP, parser.getFactory());
+				currentLimit, CurrentUnitType.AMP);
     }
     
     /*
@@ -441,11 +441,11 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		// XformerData object created in the following call
 		JaxbDataSetter.createXformerData(branchData,
 				rOhm, xOhm, ZUnitType.OHM, 1.0, 1.0, 0.0, 0.0, gMuS, bMuS,
-				YUnitType.MICROMHO, parser.getFactory());
+				YUnitType.MICROMHO);
 
 		JaxbDataSetter.setXfrRatingData(branchData,
 				fromRatedKV, toRatedKV, VoltageUnitType.KV,
-				normialMva, ApparentPowerUnitType.MVA, parser.getFactory());
+				normialMva, ApparentPowerUnitType.MVA);
 
     	// by default the branch is active
     	if (status == 8 || status == 9) 
@@ -453,7 +453,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     	
     	branchData.setBranchRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
     	JaxbDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(),
-				currentLimit, CurrentUnitType.AMP, parser.getFactory());
+				currentLimit, CurrentUnitType.AMP);
     }
     
     /*
@@ -514,13 +514,13 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
       	if (dUPhase > 0.0) {
       		getLogger().fine("Phase regulation data persented");
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString(), parser.getFactory());
+				JaxbParserHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString());
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString(), parser.getFactory());
+				JaxbParserHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString());
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString(), parser.getFactory());
+				JaxbParserHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString());
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString(), parser.getFactory());
+				JaxbParserHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
 
 			double ratioFactor = branchData.getToTurnRatio().getValue();
 
@@ -557,15 +557,15 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		else if (dUAngle > 0.0) {
 			getLogger().fine("angle regulation data persented");
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString(), parser.getFactory());
+				JaxbParserHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString());
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString(), parser.getFactory());
+				JaxbParserHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString(), parser.getFactory());
+				JaxbParserHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString());
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString(), parser.getFactory());
+				JaxbParserHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString());
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString(), parser.getFactory());
+				JaxbParserHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
 
 			double ratioFactor = branchData.getToTurnRatio().getValue();
 
