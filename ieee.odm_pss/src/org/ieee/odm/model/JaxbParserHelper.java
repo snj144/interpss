@@ -39,7 +39,6 @@ import org.ieee.odm.schema.ExciterXmlType;
 import org.ieee.odm.schema.FaultTypeEnumType;
 import org.ieee.odm.schema.FaultXmlType;
 import org.ieee.odm.schema.GeneratorXmlType;
-import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBranchDataXmlType;
@@ -72,8 +71,8 @@ public class JaxbParserHelper {
 	 * @param parser
 	 * @param originalFormat
 	 */
-	public static void setLFTransInfo(JaxbODMModelParser parser, OriginalDataFormatEnumType originalDataFormat, ObjectFactory factory) {
-		StudyCaseXmlType.ContentInfo info = factory.createStudyCaseXmlTypeContentInfo();
+	public static void setLFTransInfo(JaxbODMModelParser parser, OriginalDataFormatEnumType originalDataFormat) {
+		StudyCaseXmlType.ContentInfo info = getFactory().createStudyCaseXmlTypeContentInfo();
 		parser.getStudyCase().setContentInfo(info);
 		info.setOriginalDataFormat(originalDataFormat);
 		info.setAdapterProviderName("www.interpss.org");
@@ -89,7 +88,7 @@ public class JaxbParserHelper {
 	 * consolidate branch genContributionList and loadContributionList to the equiv gen and load 
 	 * 
 	 */
-	public static boolean createBusEquivData(PSSNetworkXmlType baseCaseNet, Logger logger, ObjectFactory factory) {
+	public static boolean createBusEquivData(PSSNetworkXmlType baseCaseNet, Logger logger) {
 		boolean ok = true;
 
 		for (BusRecordXmlType busRec : baseCaseNet.getBusList().getBus()) {
@@ -160,9 +159,7 @@ public class JaxbParserHelper {
 					if (remoteBusId != null && !remoteBusId.equals(busRec.getId()) && 
 							genData.getEquivGen().getCode() == LFGenCodeEnumType.PV){
 						// Remote Q  Bus control, we need to change this bus to a GPQ bus so that its Q could be adjusted
-						IDRefRecordXmlType idRef = factory.createIDRefRecordXmlType(); 
-						idRef.setIdRef(remoteBusId);
-						genData.getEquivGen().setRemoteVoltageControlBus(idRef);
+						genData.getEquivGen().setRemoteVoltageControlBus(JaxbDataSetter.createIdRef(remoteBusId));
 					}
 						
 				}
@@ -237,17 +234,17 @@ public class JaxbParserHelper {
 	 * create a Contribution Load object
 	 * 
 	 */
-	public static LoadflowLoadDataXmlType createContriLoad(BusRecordXmlType busRec, ObjectFactory factory) {
+	public static LoadflowLoadDataXmlType createContriLoad(BusRecordXmlType busRec) {
 		LoadflowBusDataXmlType.LoadData loadData = busRec.getLoadflowData().getLoadData();
 		if (loadData == null) { 
-			loadData = factory.createLoadflowBusDataXmlTypeLoadData();
+			loadData = getFactory().createLoadflowBusDataXmlTypeLoadData();
 			busRec.getLoadflowData().setLoadData(loadData);
-			LoadflowLoadDataXmlType equivLoad = factory.createLoadflowLoadDataXmlType();
+			LoadflowLoadDataXmlType equivLoad = getFactory().createLoadflowLoadDataXmlType();
 			loadData.setEquivLoad(equivLoad);
 		}
 		if (loadData.getContributeLoadList() == null) 
-			loadData.setContributeLoadList(factory.createLoadflowBusDataXmlTypeLoadDataContributeLoadList());
-		LoadflowLoadDataXmlType contribLoad = factory.createLoadflowLoadDataXmlType();
+			loadData.setContributeLoadList(getFactory().createLoadflowBusDataXmlTypeLoadDataContributeLoadList());
+		LoadflowLoadDataXmlType contribLoad = getFactory().createLoadflowLoadDataXmlType();
 	    loadData.getContributeLoadList().getContributeLoad().add(contribLoad); 
 	    return contribLoad;
 	}
@@ -256,18 +253,18 @@ public class JaxbParserHelper {
 	 * create a Contribution Load object
 	 * 
 	 */
-	public static LoadflowGenDataXmlType createContriGen(BusRecordXmlType busRec, ObjectFactory factory) {
+	public static LoadflowGenDataXmlType createContriGen(BusRecordXmlType busRec) {
 		LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData();
 		if (genData == null) {
-			genData = factory.createLoadflowBusDataXmlTypeGenData();
+			genData = getFactory().createLoadflowBusDataXmlTypeGenData();
 			busRec.getLoadflowData().setGenData(genData);
 			LoadflowGenDataXmlType equivGen = new LoadflowGenDataXmlType();
 			genData.setEquivGen(equivGen);
 		}
 		// some model does not need ContributeGenList
 		if (genData.getContributeGenList() == null) 
-			genData.setContributeGenList(factory.createLoadflowBusDataXmlTypeGenDataContributeGenList());
-		LoadflowGenDataXmlType contribGen = factory.createLoadflowGenDataXmlType();
+			genData.setContributeGenList(getFactory().createLoadflowBusDataXmlTypeGenDataContributeGenList());
+		LoadflowGenDataXmlType contribGen = getFactory().createLoadflowGenDataXmlType();
 		genData.getContributeGenList().getContributeGen().add(contribGen);
 		return contribGen;
 	}
@@ -276,15 +273,15 @@ public class JaxbParserHelper {
 	 * create a SVC object
 	 * 
 	 */
-	public static StaticVarCompensatorXmlType createSVC(BusRecordXmlType bus, ObjectFactory factory) {
+	public static StaticVarCompensatorXmlType createSVC(BusRecordXmlType bus) {
 		if (bus.getSvcData() == null) {
 			//LoadflowBusDataXmlType.
-			BusRecordXmlType.SvcData data = factory.createBusRecordXmlTypeSvcData();
+			BusRecordXmlType.SvcData data = getFactory().createBusRecordXmlTypeSvcData();
 			bus.setSvcData(data);
 		}
 		//if (bus.getSvcData().getSvcList() == null) 
 		//	bus.getSvcData().addNewSvcList();
-		StaticVarCompensatorXmlType svc = factory.createStaticVarCompensatorXmlType();
+		StaticVarCompensatorXmlType svc = getFactory().createStaticVarCompensatorXmlType();
 		bus.getSvcData().getSvcList().getSvc().add(svc);
 		return svc;
 	}
@@ -293,15 +290,15 @@ public class JaxbParserHelper {
 	 * create a ShuntCompensatorXmlType object
 	 * 
 	 */
-	public static ShuntCompensatorXmlType createShuntCompensator(BusRecordXmlType bus, ObjectFactory factory) {
+	public static ShuntCompensatorXmlType createShuntCompensator(BusRecordXmlType bus) {
 		if (bus.getLoadflowData().getShuntCompensatorData() == null) {
-			ShuntCompensatorDataXmlType data = factory.createShuntCompensatorDataXmlType(); 
+			ShuntCompensatorDataXmlType data = getFactory().createShuntCompensatorDataXmlType(); 
 			bus.getLoadflowData().setShuntCompensatorData(data);
 		}
 		//if (bus.getLoadflowData().getShuntCompensatorData().getShuntCompensatorList() == null) {
 		//	bus.getLoadflowData().getShuntCompensatorData().addNewShuntCompensatorList();
 		//}
-		ShuntCompensatorXmlType compensator = factory.createShuntCompensatorXmlType();
+		ShuntCompensatorXmlType compensator = getFactory().createShuntCompensatorXmlType();
 		bus.getLoadflowData().getShuntCompensatorData().getShuntCompensatorList().getShunCompensator().add(compensator);
 		return compensator; 
 	}
@@ -326,8 +323,8 @@ public class JaxbParserHelper {
 	 * @param value value string
 	 */
 	public static void addNVPair(NameValuePairListXmlType nvList, String name, 
-					String value, ObjectFactory factory) {
-    	NameValuePairXmlType nvPair = factory.createNameValuePairXmlType();
+					String value) {
+    	NameValuePairXmlType nvPair = getFactory().createNameValuePairXmlType();
     	nvList.getNvPair().add(nvPair);
     	nvPair.setName(name);
     	nvPair.setValue(value);
@@ -341,8 +338,8 @@ public class JaxbParserHelper {
 	 * @param ownership
 	 */
 	public static void addOwner(BaseRecordXmlType rec, String id, 
-			double ownership, ObjectFactory factory) {
-		BaseRecordXmlType.OwnerList.Owner owner = factory.createBaseRecordXmlTypeOwnerListOwner();
+			double ownership) {
+		BaseRecordXmlType.OwnerList.Owner owner = getFactory().createBaseRecordXmlTypeOwnerListOwner();
 		rec.getOwnerList().getOwner().add(owner);
 		owner.setId(id);
 		owner.setOwnership(ownership);
@@ -359,15 +356,15 @@ public class JaxbParserHelper {
 			String id1, double ownership1,
 			String id2, double ownership2,
 			String id3, double ownership3,
-			String id4, double ownership4, ObjectFactory factory) {
+			String id4, double ownership4) {
 		if (id1 != null && ownership1 > 0.0)
-			addOwner(rec, id1, ownership1, factory);
+			addOwner(rec, id1, ownership1);
 		if (id2 != null && ownership2 > 0.0)
-			addOwner(rec, id2, ownership2, factory);
+			addOwner(rec, id2, ownership2);
 		if (id1 != null && ownership3 > 0.0)
-			addOwner(rec, id3, ownership3, factory);
+			addOwner(rec, id3, ownership3);
 		if (id1 != null && ownership4 > 0.0)
-			addOwner(rec, id4, ownership4, factory);
+			addOwner(rec, id4, ownership4);
 	}
 
 	/**
@@ -553,4 +550,11 @@ public class JaxbParserHelper {
 		}	
 		return null;		
 	}
+	
+	private static ObjectFactory _factory = null;	
+	private static ObjectFactory getFactory() {
+		if (_factory == null)
+			_factory = new ObjectFactory();
+		return _factory;
+	}	
 }
