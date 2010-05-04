@@ -27,24 +27,24 @@ package org.ieee.odm.adapter.psse.v30.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleAdjustmentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType.AdjustmentType;
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.schema.AdjustmentModeEnumType;
+import org.ieee.odm.schema.AngleAdjustmentXmlType;
+import org.ieee.odm.schema.AngleUnitType;
+import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BranchMeterLocationEnumType;
+import org.ieee.odm.schema.BranchRecordXmlType;
+import org.ieee.odm.schema.LFBranchCodeEnumType;
+import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.TapAdjustmentEnumType;
+import org.ieee.odm.schema.TapAdjustmentXmlType;
+import org.ieee.odm.schema.VoltageUnitType;
+import org.ieee.odm.schema.YUnitType;
+import org.ieee.odm.schema.ZUnitType;
 
 public class PSSEV30XfrDataRec {
 	private static int i, j, k, cw, cz, cm, stat, nmetr;
@@ -72,31 +72,33 @@ public class PSSEV30XfrDataRec {
             27824, 27871, 27957,'W ',2, 2, 1,  0.00089,  -0.00448,1,    'D575121     ',1,   1,1.0000
 
 */
-		final String fid = XBeanODMModelParser.BusIdPreFix+i;
-		final String tid = XBeanODMModelParser.BusIdPreFix+j;
-		final String tertId = XBeanODMModelParser.BusIdPreFix+k;
+		final String fid = JaxbODMModelParser.BusIdPreFix+i;
+		final String tid = JaxbODMModelParser.BusIdPreFix+j;
+		final String tertId = JaxbODMModelParser.BusIdPreFix+k;
 		String branchId = is3W? ModelStringUtil.formBranchId(fid, tid, tertId, ckt) : ModelStringUtil.formBranchId(fid, tid, ckt);
 
 		BranchRecordXmlType branchRec;
 		try {
-			branchRec = parser.addNewBaseCaseBranch(branchId);
+			branchRec = parser.createBranchRecord(branchId);
 		} catch (Exception e) {
 			logger.severe(e.toString());
 			return;
 		}		
-		branchRec.addNewFromBus().setIdRef(fid);
-		branchRec.addNewToBus().setIdRef(tid);	
+		branchRec.setFromBus(JaxbDataSetter.createBusRef(fid));
+		branchRec.setToBus(JaxbDataSetter.createBusRef(tid));	
 		if (is3W)
-			branchRec.addNewTertiaryBus().setIdRef(tertId);
+			branchRec.setTertiaryBus(JaxbDataSetter.createBusRef(tertId));
 		branchRec.setCircuitId(ckt);
 		
 		branchRec.setName(name);
 		branchRec.setOffLine(stat != 1);
 		
-      	LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();	
+      	LoadflowBranchDataXmlType branchData = parser.getFactory().createLoadflowBranchDataXmlType(); 
+      	branchRec.getLoadflowData().add(branchData);	
 		branchData.setCode(LFBranchCodeEnumType.TRANSFORMER);
 		branchData.setXfr3W(is3W);
-       	LoadflowBranchDataXmlType.XfrInfo xfrInfo = branchData.addNewXfrInfo();
+       	LoadflowBranchDataXmlType.XfrInfo xfrInfo = parser.getFactory().createLoadflowBranchDataXmlTypeXfrInfo(); 
+       	branchData.setXfrInfo(xfrInfo);
        	
        	// rated voltage could be entered 0.0, Bus BaseVoltage should be used in this case
        	if (nomv1 == 0.0)
@@ -106,8 +108,8 @@ public class PSSEV30XfrDataRec {
        	if (is3W && nomv3 == 0.0)
        		nomv3 = parser.getBusRecord(tertId).getBaseVoltage().getValue();
        	
-		branchData.setMeterLocation( nmetr==1 ? BaseBranchDataXmlType.MeterLocation.FROM_SIDE :
-									BaseBranchDataXmlType.MeterLocation.TO_SIDE);
+		branchData.setMeterLocation( nmetr==1 ? BranchMeterLocationEnumType.FROM_SIDE :
+							BranchMeterLocationEnumType.TO_SIDE);
 
 		/*
 		CM - The magnetizing admittance I/O code that defines the units in which MAG1 and MAG2 are specified: 
@@ -129,15 +131,15 @@ public class PSSEV30XfrDataRec {
     	if (cm == 2) {
     		//TODO
     		if (mag1 != 0.0 || mag2 != 0.0)
-    			XBeanDataSetter.setYData(branchData.addNewFromShuntY(), mag1, mag2, YUnitType.PU);
+    			branchData.setFromShuntY(JaxbDataSetter.createYData(mag1, mag2, YUnitType.PU));
     	}
     	else {
     		if (mag1 != 0.0 || mag2 != 0.0)
-    			XBeanDataSetter.setYData(branchData.addNewFromShuntY(), mag1, mag2, YUnitType.PU);
+    			branchData.setFromShuntY(JaxbDataSetter.createYData(mag1, mag2, YUnitType.PU));
     	}
       	
     	// owner id = 0.0, no contribution
-    	XBeanParserHelper.addOwner(branchRec, 
+    	JaxbParserHelper.addOwner(branchRec, 
     			new Integer(o1).toString(), f1, 
     			new Integer(o2).toString(), o2==0?0.0:f2, 
     			new Integer(o3).toString(), o3==0?0.0:f3, 
@@ -152,24 +154,24 @@ public class PSSEV30XfrDataRec {
 			ANSTAR The bus voltage phase angle at the hidden "star point" bus; entered in degrees. ANSTAR = 0.0 by default.       		
 
     	*/
-       	XBeanDataSetter.setPowerMva(xfrInfo.addNewRatedPower12(), sbase1_2);
+    	xfrInfo.setRatedPower12(JaxbDataSetter.createPowerMva(sbase1_2));
        	if (is3W) {
-           	XBeanDataSetter.setPowerMva(xfrInfo.addNewRatedPower23(), sbase2_3);
-           	XBeanDataSetter.setPowerMva(xfrInfo.addNewRatedPower31(), sbase3_1);
-           	XBeanDataSetter.setVoltageData(xfrInfo.addNewStarVMag(), vmstar, VoltageUnitType.PU);
-           	XBeanDataSetter.setAngleData(xfrInfo.addNewStarVAng(), anstar, AngleUnitType.DEG);
+       		xfrInfo.setRatedPower23(JaxbDataSetter.createPowerMva(sbase2_3));
+       		xfrInfo.setRatedPower31(JaxbDataSetter.createPowerMva(sbase3_1));
+       		xfrInfo.setStarVMag(JaxbDataSetter.createVoltageData(vmstar, VoltageUnitType.PU));
+       		xfrInfo.setStarVAng(JaxbDataSetter.createAngleData(anstar, AngleUnitType.DEG));
        	}
        	
        	if (cz == 1) {
        		// When CZ is 1, they are the resistance and reactance, respectively, in pu on 
        		// system base quantities; 
-        	XBeanDataSetter.setZValue(branchData.addNewZ(), r1_2, x1_2, ZUnitType.PU);
+       		branchData.setZ(JaxbDataSetter.createZValue(r1_2, x1_2, ZUnitType.PU));
         	xfrInfo.setDataOnSystemBase(true);
        	}
        	else if (cz == 2) {
        		// when CZ is 2, they are the resistance and reactance, respectively, in pu on 
        		// winding one to two base MVA (SBASE1-2) and winding one bus base voltage; 
-        	XBeanDataSetter.setZValue(branchData.addNewZ(), r1_2, x1_2, ZUnitType.PU);
+       		branchData.setZ(JaxbDataSetter.createZValue(r1_2, x1_2, ZUnitType.PU));
         	xfrInfo.setDataOnSystemBase(false);
        	}
        	else if (cz == 3) {
@@ -177,26 +179,26 @@ public class PSSEV30XfrDataRec {
        		// in pu on winding one to two base MVA (SBASE1-2) and winding one bus base voltage.
        		double zpu = x1_2;
        		double rpu = r1_2 * 0.001 * 0.001 / sbase1_2;  
-        	XBeanDataSetter.setZValue(branchData.addNewZ(), rpu, Math.sqrt(zpu*zpu - rpu*rpu), ZUnitType.PU);
+       		branchData.setZ(JaxbDataSetter.createZValue(rpu, Math.sqrt(zpu*zpu - rpu*rpu), ZUnitType.PU));
         	xfrInfo.setDataOnSystemBase(true);
        	}
        	
        	if (is3W) {
            	if (cz == 1) {
-            	XBeanDataSetter.setZValue(branchData.getXfrInfo().addNewZ23(), r2_3, x2_3, ZUnitType.PU);
-            	XBeanDataSetter.setZValue(branchData.getXfrInfo().addNewZ31(), r3_1, x3_1, ZUnitType.PU);
+           		branchData.getXfrInfo().setZ23(JaxbDataSetter.createZValue(r2_3, x2_3, ZUnitType.PU));
+           		branchData.getXfrInfo().setZ31(JaxbDataSetter.createZValue(r3_1, x3_1, ZUnitType.PU));
            	}
            	else if (cz == 2) {
-            	XBeanDataSetter.setZValue(branchData.getXfrInfo().addNewZ23(), r2_3, x2_3, ZUnitType.PU);
-            	XBeanDataSetter.setZValue(branchData.getXfrInfo().addNewZ31(), r3_1, x3_1, ZUnitType.PU);
+           		branchData.getXfrInfo().setZ23(JaxbDataSetter.createZValue(r2_3, x2_3, ZUnitType.PU));
+           		branchData.getXfrInfo().setZ31(JaxbDataSetter.createZValue(r3_1, x3_1, ZUnitType.PU));
            	}
            	else if (cz == 3) {
            		double zpu = x2_3;
            		double rpu = r2_3  * 0.001 * 0.001 / sbase2_3;  
-            	XBeanDataSetter.setZValue(branchData.getXfrInfo().addNewZ23(), rpu, Math.sqrt(zpu*zpu - rpu*rpu), ZUnitType.PU);
+           		branchData.getXfrInfo().setZ23(JaxbDataSetter.createZValue(rpu, Math.sqrt(zpu*zpu - rpu*rpu), ZUnitType.PU));
            		zpu = x3_1;
            		rpu = r3_1  * 0.001 * 0.001 / sbase3_1;  
-            	XBeanDataSetter.setZValue(branchData.getXfrInfo().addNewZ31(), rpu, Math.sqrt(zpu*zpu - rpu*rpu), ZUnitType.PU);
+           		branchData.getXfrInfo().setZ31(JaxbDataSetter.createZValue(rpu, Math.sqrt(zpu*zpu - rpu*rpu), ZUnitType.PU));
            	}
        	}
 		      	
@@ -218,11 +220,11 @@ public class PSSEV30XfrDataRec {
         	xfrInfo.setDataOnSystemBase(false);
        	}
   		
-  		if (!xfrInfo.getDataOnSystemBase()) {
+  		if (!xfrInfo.isDataOnSystemBase()) {
   			windv1 /= nomv1;
-  			XBeanDataSetter.setVoltageData(xfrInfo.addNewRatedVoltage1(), nomv1, VoltageUnitType.KV);
+  			xfrInfo.setRatedVoltage1(JaxbDataSetter.createVoltageData(nomv1, VoltageUnitType.KV));
   		}
-       	XBeanDataSetter.setTapPU(branchData.addNewFromTurnRatio(), windv1);
+  		branchData.setFromTurnRatio(JaxbDataSetter.createTapPU(windv1));
 	
     	if ( (is3W && (ang1 != 0.0 || ang2 != 0.0 || ang3 != 0.0)) ||
     		 (!is3W && ang1 != 0.0) || 
@@ -230,10 +232,10 @@ public class PSSEV30XfrDataRec {
     		// PhaseShifting transformer branch
     		isPsXfr = true;
 			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
-    		XBeanDataSetter.setAngleData(branchData.addNewFromAngle(), ang1, AngleUnitType.DEG);
+			branchData.setFromAngle(JaxbDataSetter.createAngleData(ang1, AngleUnitType.DEG));
     	}
-      	
-		XBeanDataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(), rata1, ratb1, ratc1, ApparentPowerUnitType.MVA);
+    	branchData.setBranchRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
+    	JaxbDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(), rata1, ratb1, ratc1, ApparentPowerUnitType.MVA);
 		
 		/*
 		 * The transformer control mode for automatic adjustments of the winding one
@@ -264,7 +266,7 @@ public class PSSEV30XfrDataRec {
       		onFromSide = true;
       	}
       	
-      	String reBusId = XBeanODMModelParser.BusIdPreFix+cont;
+      	String reBusId = JaxbODMModelParser.BusIdPreFix+cont;
       	
 		// COD1,CONT1,RMA,RMI,VMA,VMI,NTP,TAB, 
 		//Sample data : 1,    31, 1.10000, 0.90000, 1.09255, 1.04255, 33, 0, 0.00000, 0.00000
@@ -289,32 +291,36 @@ public class PSSEV30XfrDataRec {
       	 */
       	if (cod > 0) {
           	if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER) {
-           		TapAdjustmentXmlType tapAdj = branchData.getXfrInfo().addNewTapAdjustment();
+           		TapAdjustmentXmlType tapAdj = parser.getFactory().createTapAdjustmentXmlType();
+           		branchData.getXfrInfo().setTapAdjustment(tapAdj);
            		tapAdj.setOffLine(cod < 0);
            		tapAdj.setTapAdjOnFromSide(onFromSide);
-    	    	XBeanDataSetter.setTapLimitData(tapAdj.addNewTapLimit(), rma, rmi);
+           		tapAdj.setTapLimit(JaxbDataSetter.createTapLimitData(rma, rmi));
            		tapAdj.setTapAdjStep(ntp);
            		if (Math.abs(cod) == 1) {
-               		tapAdj.setAdjustmentType(AdjustmentType.VOLTAGE);
-        	    	TapAdjustmentXmlType.VoltageAdjData vAdjData = tapAdj.addNewVoltageAdjData();
-        	    	vAdjData.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+               		tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
+        	    	TapAdjustmentXmlType.VoltageAdjData vAdjData = parser.getFactory().createTapAdjustmentXmlTypeVoltageAdjData();
+        	    	tapAdj.setVoltageAdjData(vAdjData);
+        	    	vAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
         	    	vAdjData.setMax(vma);
         	    	vAdjData.setMin(vmi);       
         	    }
            		else {
-                 	tapAdj.setAdjustmentType(AdjustmentType.M_VAR_FLOW);
-        	    	TapAdjustmentXmlType.MvarFlowAdjData mvaAdjData = tapAdj.addNewMvarFlowAdjData();
-        	    	mvaAdjData.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+                 	tapAdj.setAdjustmentType(TapAdjustmentEnumType.M_VAR_FLOW);
+        	    	TapAdjustmentXmlType.MvarFlowAdjData mvaAdjData = parser.getFactory().createTapAdjustmentXmlTypeMvarFlowAdjData(); 
+        	    	tapAdj.setMvarFlowAdjData(mvaAdjData);
+        	    	mvaAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
         	    	mvaAdjData.setMax(vma);
         	    	mvaAdjData.setMin(vmi);               		
            		}
           	}
     	    else if (branchData.getCode() == LFBranchCodeEnumType.PHASE_SHIFT_XFORMER) {
-    	    	AngleAdjustmentXmlType angAdj = branchData.getXfrInfo().addNewAngleAdjustment();
-    	    	XBeanDataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), rma, rmi, AngleUnitType.DEG);
+    	    	AngleAdjustmentXmlType angAdj = parser.getFactory().createAngleAdjustmentXmlType();
+    	    	branchData.getXfrInfo().setAngleAdjustment(angAdj);
+    	    	angAdj.setAngleLimit(JaxbDataSetter.createAngleLimitData(rma, rmi, AngleUnitType.DEG));
     	    	angAdj.setMax(vma);
     	    	angAdj.setMin(vmi);
-    	    	angAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+    	    	angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
     	    	angAdj.setDesiredMeasuredOnFromSide(onFromSide);
     	    }              	
       	}
@@ -326,8 +332,8 @@ public class PSSEV30XfrDataRec {
       	 */
       	if (cr != 0.0 || cx != 0.0) {
       		if (branchData.getNvPairList() == null)
-      			branchData.addNewNvPairList();
-      		XBeanParserHelper.addNVPair(branchData.getNvPairList(), "Xfr LoadDropCZ", new Double(cr).toString() + "," + new Double(cx).toString());
+      			branchData.setNvPairList(parser.getFactory().createNameValuePairListXmlType());
+      		JaxbParserHelper.addNVPair(branchData.getNvPairList(), "Xfr LoadDropCZ", new Double(cr).toString() + "," + new Double(cx).toString());
       	}
 
       	/*
@@ -357,17 +363,18 @@ public class PSSEV30XfrDataRec {
 					is present for information purposes only; it is not used in any of the calculations
 					for modeling the transformer. NOMV2 = 0.0 by default.								
   		 */
-  		if (!xfrInfo.getDataOnSystemBase()) {
+  		if (!xfrInfo.isDataOnSystemBase()) {
   			windv2 /= nomv2;
-  			XBeanDataSetter.setVoltageData(xfrInfo.addNewRatedVoltage2(), nomv2, VoltageUnitType.KV);
+  			xfrInfo.setRatedVoltage2(JaxbDataSetter.createVoltageData(nomv2, VoltageUnitType.KV));
   		}
-       	XBeanDataSetter.setTapPU(branchData.addNewToTurnRatio(), windv2);
+  		branchData.setToTurnRatio(JaxbDataSetter.createTapPU(windv2));
        	if (isPsXfr) {
-    		XBeanDataSetter.setAngleData(branchData.addNewToAngle(), ang2, AngleUnitType.DEG);
+       		branchData.setToAngle(JaxbDataSetter.createAngleData(ang2, AngleUnitType.DEG));
        	}
 
        	if (is3W) {
-    		XBeanDataSetter.setBranchRatingLimitData(xfrInfo.addNewBranchRatingLimit23(), rata2, ratb2, ratc2, ApparentPowerUnitType.MVA);
+       		xfrInfo.setBranchRatingLimit23(parser.getFactory().createBranchRatingLimitXmlType());
+       		JaxbDataSetter.setBranchRatingLimitData(xfrInfo.getBranchRatingLimit23(), rata2, ratb2, ratc2, ApparentPowerUnitType.MVA);
        	}
 
        	/*
@@ -378,14 +385,15 @@ public class PSSEV30XfrDataRec {
             	34.5000,  34.500, -30.000,    22.29,    22.29,    22.29, 0,      0, 0.00000, 0.00000, 0.00000, 0.00000,  33, 0, 0.00000, 0.00000
 		*/
        	if (is3W) {
-      		if (!xfrInfo.getDataOnSystemBase()) {
+      		if (!xfrInfo.isDataOnSystemBase()) {
       			windv3 /= nomv3;
-      			XBeanDataSetter.setVoltageData(xfrInfo.addNewRatedVoltage3(), nomv3, VoltageUnitType.KV);
+      			xfrInfo.setRatedVoltage3(JaxbDataSetter.createVoltageData(nomv3, VoltageUnitType.KV));
       		}
-           	XBeanDataSetter.setTapPU(xfrInfo.addNewTurnRatio3(), windv3);
-    		XBeanDataSetter.setBranchRatingLimitData(xfrInfo.addNewBranchRatingLimit13(), rata3, ratb3, ratc3, ApparentPowerUnitType.MVA);
+      		xfrInfo.setTurnRatio3(JaxbDataSetter.createTapPU(windv3));
+      		xfrInfo.setBranchRatingLimit13(parser.getFactory().createBranchRatingLimitXmlType());
+           	JaxbDataSetter.setBranchRatingLimitData(xfrInfo.getBranchRatingLimit13(), rata3, ratb3, ratc3, ApparentPowerUnitType.MVA);
            	if (isPsXfr) {
-        		XBeanDataSetter.setAngleData(xfrInfo.addNewShiftAngle3(), ang3, AngleUnitType.DEG);
+           		xfrInfo.setShiftAngle3(JaxbDataSetter.createAngleData(ang3, AngleUnitType.DEG));
            	}
        	}
 	}

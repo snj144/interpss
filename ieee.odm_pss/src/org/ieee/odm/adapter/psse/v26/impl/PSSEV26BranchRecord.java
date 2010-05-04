@@ -29,9 +29,7 @@ import java.util.logging.Logger;
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.schema.AdjustmentDataXmlType;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
@@ -40,6 +38,8 @@ import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.LFBranchCodeEnumType;
 import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
+import org.ieee.odm.schema.TapAdjustmentEnumType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.YXmlType;
@@ -119,7 +119,7 @@ public class PSSEV26BranchRecord {
 		final double rating2Mvar = ModelStringUtil.getDouble(strAry[7], 0.0);
 		final double rating3Mvar = ModelStringUtil.getDouble(strAry[8], 0.0);
 		
-		branchData.addNewBranchRatingLimit();
+		branchData.setBranchRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
 		JaxbDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(),
 				rating1Mvar, rating2Mvar, rating3Mvar,
 				ApparentPowerUnitType.MVA, 0.0,
@@ -172,8 +172,8 @@ public class PSSEV26BranchRecord {
 		TABLE - Zero, or number of a transformer impedance correction table 1-5
 	 */
 		final String[] strAry = getXfrAdjDataFields(str);		
-		final String fid = XBeanODMModelParser.BusIdPreFix+strAry[0];
-		final String tid = XBeanODMModelParser.BusIdPreFix+strAry[1];
+		final String fid = JaxbODMModelParser.BusIdPreFix+strAry[0];
+		final String tid = JaxbODMModelParser.BusIdPreFix+strAry[1];
 		final String cirId = ModelStringUtil.formatCircuitId(strAry[2]);
 		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		
@@ -185,9 +185,9 @@ public class PSSEV26BranchRecord {
 	    }	
 
 	    // only one branch section
-		LoadflowBranchDataXmlType branchData = XBeanParserHelper.getDefaultBranchData(branchRec);
+		LoadflowBranchDataXmlType branchData = JaxbParserHelper.getDefaultBranchData(branchRec);
 		if (branchData.getXfrInfo() == null)
-			branchData.addNewXfrInfo();
+			branchData.setXfrInfo(parser.getFactory().createLoadflowBranchDataXmlTypeXfrInfo());
 	    
 	    int icon = ModelStringUtil.getInt(strAry[3], 0);
 	    boolean isNegative = false;
@@ -195,7 +195,7 @@ public class PSSEV26BranchRecord {
 	    	isNegative = true;
 	    	icon = - icon;
 	    }
-		final String iconId = icon > 0? XBeanODMModelParser.BusIdPreFix+icon : null;
+		final String iconId = icon > 0? JaxbODMModelParser.BusIdPreFix+icon : null;
 
 		if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER) {
 	    	double tmax = ModelStringUtil.getDouble(strAry[4], 0.0);
@@ -204,29 +204,31 @@ public class PSSEV26BranchRecord {
 	    	double vup = ModelStringUtil.getDouble(strAry[6], 0.0);
 	    	double vlow = ModelStringUtil.getDouble(strAry[7], 0.0);
 	    	
-	    	TapAdjustmentXmlType tapAdj = branchData.getXfrInfo().addNewTapAdjustment();
-	    	tapAdj.setAdjustmentType(TapAdjustmentXmlType.AdjustmentType.VOLTAGE);
-	    	JaxbDataSetter.setTapLimitData(tapAdj.addNewTapLimit(), tmax, tmin);
+	    	TapAdjustmentXmlType tapAdj = parser.getFactory().createTapAdjustmentXmlType(); 
+	    	branchData.getXfrInfo().setTapAdjustment(tapAdj);
+	    	tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
+	    	tapAdj.setTapLimit(JaxbDataSetter.createTapLimitData(tmax, tmin));
 	    	tapAdj.setTapAdjStepSize(tstep);
 	    	tapAdj.setTapAdjOnFromSide(true);
 
-	    	TapAdjustmentXmlType.VoltageAdjData vAdjData = tapAdj.addNewVoltageAdjData();
-	    	vAdjData.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+	    	TapAdjustmentXmlType.VoltageAdjData vAdjData = parser.getFactory().createTapAdjustmentXmlTypeVoltageAdjData(); 
+	    	tapAdj.setVoltageAdjData(vAdjData);
+	    	vAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
 	    	vAdjData.setMax(vup);
 	    	vAdjData.setMin(vlow);
 	    	
 	    	if (iconId != null) {
 		    	tapAdj.setOffLine(false);
 	    		if (iconId.equals(fid))
-	    			vAdjData.setAdjBusLocation(TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.FROM_BUS);
+	    			vAdjData.setAdjBusLocation(TapAdjustBusLocationEnumType.FROM_BUS);
 	    		else if (iconId.equals(tid))
-	    			vAdjData.setAdjBusLocation(TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.TO_BUS);
+	    			vAdjData.setAdjBusLocation(TapAdjustBusLocationEnumType.TO_BUS);
 	    		else {
-		    		vAdjData.addNewAdjVoltageBus().setIdRef(iconId);
+		    		vAdjData.setAdjVoltageBus(JaxbDataSetter.createIdRef(iconId));
 		    		if (isNegative)
-		    			vAdjData.setAdjBusLocation(TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.NEAR_TO_BUS);
+		    			vAdjData.setAdjBusLocation(TapAdjustBusLocationEnumType.NEAR_TO_BUS);
 		    		else
-		    			vAdjData.setAdjBusLocation(TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.NEAR_FROM_BUS);
+		    			vAdjData.setAdjBusLocation(TapAdjustBusLocationEnumType.NEAR_FROM_BUS);
 	    		}
 	    	}
 	    	else

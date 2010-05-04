@@ -335,10 +335,15 @@ public class JaxbParserHelper {
 	 * 
 	 * @param rec
 	 * @param id
-	 * @param ownership
+	 * @param ownership in pu
 	 */
+	public static void addOwner(BaseRecordXmlType rec, String id) {
+		addOwner(rec, id, 1.0);
+	}
 	public static void addOwner(BaseRecordXmlType rec, String id, 
 			double ownership) {
+		if(rec.getOwnerList() == null)
+			rec.setOwnerList(getFactory().createBaseRecordXmlTypeOwnerList());
 		BaseRecordXmlType.OwnerList.Owner owner = getFactory().createBaseRecordXmlTypeOwnerListOwner();
 		rec.getOwnerList().getOwner().add(owner);
 		owner.setId(id);

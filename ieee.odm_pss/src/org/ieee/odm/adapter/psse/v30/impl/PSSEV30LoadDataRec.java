@@ -48,14 +48,14 @@ public class PSSEV30LoadDataRec {
 /*
 		I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 */		
-	    final String busId = XBeanODMModelParser.BusIdPreFix+i;
+	    final String busId = JaxbODMModelParser.BusIdPreFix+i;
 		BusRecordXmlType busRec = parser.getBusRecord(busId);
 	    if (busRec == null){
 	    	logger.severe("Bus "+ busId+ " not found in the network");
 	    	return;
 	    }
 		
-	    LoadflowLoadDataXmlType contribLoad = XBeanParserHelper.createContriLoad(busRec); 
+	    LoadflowLoadDataXmlType contribLoad = JaxbParserHelper.createContriLoad(busRec); 
 
 	    contribLoad.setId(id);
 	    contribLoad.setName("Load:" + id + "(" + i + ")");
@@ -64,14 +64,14 @@ public class PSSEV30LoadDataRec {
 
 	    contribLoad.setAreaNumber(area);
 	    contribLoad.setZoneNumber(zone);
-	    contribLoad.addNewOwnerList().addNewOwner().setId(new Integer(owner).toString());
+	    JaxbParserHelper.addOwner(contribLoad, new Integer(owner).toString());
 		
 		if (pl != 0.0 || ql != 0.0)
-			XBeanDataSetter.setPowerData(contribLoad.addNewConstPLoad(), pl, ql, ApparentPowerUnitType.MVA);
+			contribLoad.setConstPLoad(JaxbDataSetter.createPowerData(pl, ql, ApparentPowerUnitType.MVA));
 		if (ip != 0.0 || iq != 0.0)
-			XBeanDataSetter.setPowerData(contribLoad.addNewConstILoad(), ip, iq, ApparentPowerUnitType.MVA);
+			contribLoad.setConstILoad(JaxbDataSetter.createPowerData(ip, iq, ApparentPowerUnitType.MVA));
 		if (yp != 0.0 || yq != 0.0)
-			XBeanDataSetter.setPowerData(contribLoad.addNewConstZLoad(), yp, yq, ApparentPowerUnitType.MVA);
+			contribLoad.setConstZLoad(JaxbDataSetter.createPowerData(yp, yq, ApparentPowerUnitType.MVA));
 	}
 
 	private static void procLineString(String lineStr, PsseVersion version, Logger logger) {

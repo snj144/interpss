@@ -270,8 +270,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				( type == 2? LFGenCodeEnumType.PV : LFGenCodeEnumType.PQ );
 		JaxbDataSetter.setGenData(
 				busData, genType, vpu, VoltageUnitType.PU, angDeg, AngleUnitType.DEG, 
-				genMw, genMvar,	ApparentPowerUnitType.MVA,
-				this.factory);
+				genMw, genMvar,	ApparentPowerUnitType.MVA);
 
 		//Columns 107-114 Shunt conductance G (per unit) [F] *
 		//Columns 115-122 Shunt susceptance B (per unit) [F] *

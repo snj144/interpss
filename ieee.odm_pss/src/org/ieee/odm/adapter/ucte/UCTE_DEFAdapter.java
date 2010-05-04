@@ -278,7 +278,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 				JaxbDataSetter.setGenData(busData,
 						LFGenCodeEnumType.PQ,
 						1.0, VoltageUnitType.PU, 0.0, AngleUnitType.DEG,
-						pGenMW, qGenMvar, ApparentPowerUnitType.MVA, parser.getFactory());				
+						pGenMW, qGenMvar, ApparentPowerUnitType.MVA);				
 			}
 			break;
 		case 1: // Q angle bus
@@ -288,7 +288,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			JaxbDataSetter.setGenData(busData,
 					LFGenCodeEnumType.PV, 
 					voltage, VoltageUnitType.KV, 0.0, AngleUnitType.DEG,
-					pGenMW, qGenMvar, ApparentPowerUnitType.MVA, parser.getFactory());
+					pGenMW, qGenMvar, ApparentPowerUnitType.MVA);
 			if (((maxGenMVar != 0.0) || (minGenMVar != 0.0))
 					&& maxGenMVar > minGenMVar) {
 				// PV Bus limit control
@@ -301,7 +301,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			JaxbDataSetter.setGenData(busData,
 					LFGenCodeEnumType.SWING,
 					voltage, VoltageUnitType.KV, 0.0, AngleUnitType.DEG,
-					pGenMW, qGenMvar, ApparentPowerUnitType.MVA, parser.getFactory());
+					pGenMW, qGenMvar, ApparentPowerUnitType.MVA);
 			break;
 		default:
 			// error bus nodeType code

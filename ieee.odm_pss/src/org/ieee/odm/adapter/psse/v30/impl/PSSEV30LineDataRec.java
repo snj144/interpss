@@ -3,19 +3,19 @@ package org.ieee.odm.adapter.psse.v30.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.xbean.v30.XBeanPSSEV30Adapter;
+import org.ieee.odm.model.JaxbDataSetter;
+import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BaseBranchDataXmlType;
+import org.ieee.odm.schema.BranchMeterLocationEnumType;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.LFBranchCodeEnumType;
 import org.ieee.odm.schema.LoadflowBranchDataXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
-import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.adapter.psse.xbean.v30.XBeanPSSEV30Adapter;
-import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.JaxbParserHelper;
-import org.ieee.odm.model.JaxbODMModelParser;
 
 public class PSSEV30LineDataRec {
 	private static int i, j, status;
@@ -42,40 +42,42 @@ public class PSSEV30LineDataRec {
 			j = -j;
 		}
       	
-		final String fid = XBeanODMModelParser.BusIdPreFix+i;
-		final String tid = XBeanODMModelParser.BusIdPreFix+j;
+		final String fid = JaxbODMModelParser.BusIdPreFix+i;
+		final String tid = JaxbODMModelParser.BusIdPreFix+j;
 		String branchId = ModelStringUtil.formBranchId(fid, tid, ckt);
 
 		BranchRecordXmlType branchRec;
 		try {
-			branchRec = parser.addNewBaseCaseBranch(branchId);
+			branchRec = parser.createBranchRecord(branchId);
 		} catch (Exception e) {
 			logger.severe(e.toString());
 			return;
 		}		
-		branchRec.addNewFromBus().setIdRef(fid);
-		branchRec.addNewToBus().setIdRef(tid);	
+		branchRec.setFromBus(JaxbDataSetter.createBusRef(fid));
+		branchRec.setToBus(JaxbDataSetter.createBusRef(tid));	
 		branchRec.setCircuitId(ckt);
 		
 		branchRec.setOffLine(status != 1);
 		
-		LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();	
+		LoadflowBranchDataXmlType branchData = parser.getFactory().createLoadflowBranchDataXmlType(); 
+		branchRec.getLoadflowData().add(branchData);	
 		branchData.setCode(LFBranchCodeEnumType.LINE);
 		
-		branchData.setMeterLocation( fromMetered ? BaseBranchDataXmlType.MeterLocation.FROM_SIDE :
-										BaseBranchDataXmlType.MeterLocation.TO_SIDE);
+		branchData.setMeterLocation( fromMetered ? BranchMeterLocationEnumType.FROM_SIDE :
+										BranchMeterLocationEnumType.TO_SIDE);
       	
-		XBeanDataSetter.setLineData(branchData, r, x, ZUnitType.PU, 0.0, b, YUnitType.PU);
+		JaxbDataSetter.setLineData(branchData, r, x, ZUnitType.PU, 0.0, b, YUnitType.PU);
 
-		XBeanDataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
+		branchData.setBranchRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
+		JaxbDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(),
     				ratea, rateb, ratec, ApparentPowerUnitType.MVA);
         
        if ( gi != 0.0 || bi != 0.0)
-    	   XBeanDataSetter.setYData(branchData.addNewFromShuntY(), gi, bi, YUnitType.PU);
+    	   branchData.setFromShuntY(JaxbDataSetter.createYData(gi, bi, YUnitType.PU));
        if ( gj != 0.0 || bj != 0.0)
-    	   XBeanDataSetter.setYData(branchData.addNewFromShuntY(), gj, bj, YUnitType.PU);
+    	   branchData.setFromShuntY(JaxbDataSetter.createYData(gj, bj, YUnitType.PU));
       
-    	XBeanParserHelper.addOwner(branchRec, 
+    	JaxbParserHelper.addOwner(branchRec, 
     			new Integer(o1).toString(), f1, 
     			new Integer(o2).toString(), o2==0?0.0:f2, 
     			new Integer(o3).toString(), o3==0?0.0:f3, 

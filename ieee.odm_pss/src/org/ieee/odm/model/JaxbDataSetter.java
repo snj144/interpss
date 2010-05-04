@@ -34,6 +34,7 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.BaseRecordXmlType;
 import org.ieee.odm.schema.BranchRatingLimitXmlType;
+import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.CurrentXmlType;
 import org.ieee.odm.schema.GXmlType;
@@ -81,6 +82,12 @@ public class JaxbDataSetter {
 		refBus.setIdRef(id);
 		return refBus;
 	}
+	
+	public static BusRefRecordXmlType createBusRef(String id) {
+		BusRefRecordXmlType refBus = getFactory().createBusRefRecordXmlType();
+		refBus.setIdRef(id);
+		return refBus;
+	}	
 	
 	/**
 	 * Set apparent power, unit = kva
@@ -542,10 +549,9 @@ public class JaxbDataSetter {
 	public static void setGenData(LoadflowBusDataXmlType busData, LFGenCodeEnumType code, 
 			double v, VoltageUnitType vUnit,
 			double ang, AngleUnitType angUnit,
-			double p, double q, ApparentPowerUnitType pUnit,
-			ObjectFactory factory) {
-   		busData.setGenData(factory.createLoadflowBusDataXmlTypeGenData());
-   		LoadflowGenDataXmlType equivGen = factory.createLoadflowGenDataXmlType();
+			double p, double q, ApparentPowerUnitType pUnit) {
+   		busData.setGenData(getFactory().createLoadflowBusDataXmlTypeGenData());
+   		LoadflowGenDataXmlType equivGen = getFactory().createLoadflowGenDataXmlType();
    		busData.getGenData().setEquivGen(equivGen);
    		equivGen.setCode(code);
    		equivGen.setPower(createPowerData(p, q, pUnit));
