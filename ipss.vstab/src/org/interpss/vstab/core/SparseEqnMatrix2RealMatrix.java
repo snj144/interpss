@@ -1,4 +1,4 @@
-package org.interpss.vstab;
+package org.interpss.vstab.core;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;

@@ -1,4 +1,4 @@
-package org.interpss.vstab;
+package org.interpss.vstab.genDispatch;
 
 import java.util.HashMap;
 import org.apache.commons.math.linear.*;

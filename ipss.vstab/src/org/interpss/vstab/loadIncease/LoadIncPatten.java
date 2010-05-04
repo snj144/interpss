@@ -1,8 +1,6 @@
-package org.interpss.vstab;
+package org.interpss.vstab.loadIncease;
 
 import java.util.List;
-
-import com.interpss.core.aclf.AclfNetwork;
 
 public interface LoadIncPatten {
 

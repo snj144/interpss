@@ -1,4 +1,4 @@
-package org.interpss.vstab;
+package org.interpss.vstab.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +8,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType.Enum;
 import org.ieee.odm.model.ODMModelParser;
+import org.interpss.vstab.data.DataReader;
 
 public class GenDataReader extends DataReader {
 //	private ODMModelParser parser;
@@ -78,6 +79,7 @@ public class GenDataReader extends DataReader {
 		getGenData();
 		return this.genP0;
 	}
+	@Override
 	public void setODMParser(ODMModelParser parser){
 		this.parser=parser;
 	}

@@ -1,13 +1,10 @@
-package org.interpss.vstab;
+package org.interpss.vstab.algorithm;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.ArrayRealVector;
-import org.apache.commons.math.linear.RealMatrix;
-
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
@@ -50,7 +47,7 @@ public class EquivLoadAlgorithm {
 		 for (int idx:loadBusList) {
               // print(" bus id "+idx+1);
 			 AclfBus aclfBus=(AclfBus) net.getBusList().get(idx); 
-			        Complex c = (Complex) shuntYList.get(idx);
+			        Complex c = shuntYList.get(idx);
 //			        print(" shunt b0 = "+c.getImaginary());
 			        Vmag=aclfBus.getVoltageMag();
 			        //vPQ.set(id, 0, Vmag);
@@ -77,7 +74,7 @@ public class EquivLoadAlgorithm {
               // print(" bus id "+idx+1);
 			 AclfBus acbus=(AclfBus) net.getBusList().get(idx1);
 			      // we switch constant P load to custom load implementation  
-			         Complex c = (Complex) shuntYList.get(idx1);
+			         Complex c = shuntYList.get(idx1);
 			        // calculate equiv B
 			        Vmag=acbus.getVoltageMag();
 			        vPQ.setEntry(id,  Vmag);

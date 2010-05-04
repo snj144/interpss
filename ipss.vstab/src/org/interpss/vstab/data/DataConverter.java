@@ -1,4 +1,4 @@
-package org.interpss.vstab;
+package org.interpss.vstab.data;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -13,8 +13,8 @@ import java.util.logging.Logger;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.bpa.BPAAdapter;
 import org.ieee.odm.adapter.ieeecdf.JaxbIeeeCDFAdapter;
-import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter;
-import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.model.ODMModelParser;
 import org.interpss.mapper.IEEEODMMapper;
 
 import com.interpss.common.mapper.IpssMapper;

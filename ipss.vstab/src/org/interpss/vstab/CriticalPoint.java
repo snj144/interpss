@@ -8,7 +8,9 @@ import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
 
-import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.interpss.vstab.algorithm.EquivLoadAlgorithm;
+import org.interpss.vstab.data.GenDataReader;
+import org.interpss.vstab.genDispatch.GenDispatch;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Matrix_xy;

@@ -1,19 +1,17 @@
-package org.interpss.vstab.Impl;
+package org.interpss.vstab.core.impl;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.LUDecomposition;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-import org.interpss.vstab.Jacobi4VSA;
+import org.interpss.vstab.core.Jacobi4VSA;
 
-import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.JacobianMatrixType;
 import com.interpss.core.net.Bus;
-import com.interpss.core.sparse.SparseEqnDouble;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
 
 public class Jacobi4VSAImpl implements Jacobi4VSA {
