@@ -1,4 +1,4 @@
-package org.interpss.vstab.Impl;
+package org.interpss.vstab.Analysis.Impl;
 
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -8,8 +8,8 @@ import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
-import org.interpss.vstab.SensitiveAnalysis;
-
+import org.interpss.vstab.Analysis.SensitiveAnalysis;
+import org.interpss.vstab.core.impl.Jacobi4VSAImpl;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
@@ -20,6 +20,7 @@ public class SensitiveAnalysisImpl implements SensitiveAnalysis {
     protected double busVQSens;
     protected double loadGenSens;
     protected double loadLineSens;
+    protected double loadMargin2CtrlParam;
     protected RealVector vectorOfSensDeg;
     private RealMatrix JLFreduced;
     private RealMatrix invJlfr;
@@ -92,5 +93,12 @@ public class SensitiveAnalysisImpl implements SensitiveAnalysis {
     	
     	
     }
-
+	public double getBusVQsensetive(AclfBus busi) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	private void calcLdMrg2CtrlSens(){
+		//paper :S. Greene, I. Dobson and F.L. Alvarado
+		//Sensitivity of the loading margin to voltage collapse with respect to arbitrary parameters
+	}
 }

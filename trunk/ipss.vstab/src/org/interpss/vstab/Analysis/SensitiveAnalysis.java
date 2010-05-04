@@ -1,4 +1,4 @@
-package org.interpss.vstab;
+package org.interpss.vstab.Analysis;
 
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;

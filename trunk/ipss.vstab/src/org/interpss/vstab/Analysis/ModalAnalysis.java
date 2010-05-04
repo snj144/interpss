@@ -1,7 +1,6 @@
-package org.interpss.vstab;
+package org.interpss.vstab.Analysis;
 
 import org.apache.commons.math.complex.Complex;
-import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
 
 public interface ModalAnalysis {

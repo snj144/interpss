@@ -1,6 +1,6 @@
-package org.interpss.vstab.Impl;
+package org.interpss.vstab.core.impl;
 
-import org.interpss.vstab.GenBus4VSA;
+import org.interpss.vstab.core.GenBus4VSA;
 
 import com.interpss.core.aclf.impl.AclfBusImpl;
 

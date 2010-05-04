@@ -1,9 +1,8 @@
-package org.interpss.vstab;
+package org.interpss.vstab.data;
 
 
 import java.util.HashMap;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.*;
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.schema.PSSNetworkXmlType;

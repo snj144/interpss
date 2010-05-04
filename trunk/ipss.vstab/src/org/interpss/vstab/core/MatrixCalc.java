@@ -1,4 +1,4 @@
-package org.interpss.vstab;
+package org.interpss.vstab.core;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

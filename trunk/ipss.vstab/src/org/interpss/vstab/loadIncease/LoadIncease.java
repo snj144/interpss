@@ -1,16 +1,11 @@
-package org.interpss.vstab;
+package org.interpss.vstab.loadIncease;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import org.apache.commons.math.linear.RealVector;
-import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.net.Bus;
 // ¿¼ÂÇ DataReader ,GenDispatch ,LoadIncrease have a super class
 // named Data ;
 // loadP0 loadQ0;genPmax, genP0; net;
@@ -35,9 +30,9 @@ public class LoadIncease {
     public static LoadIncCode incPatten;
     
     public LoadIncease(AclfNetwork net, List<Integer> incLoadBusList,Double newLoadIncIndex){
-    	this.net=net;
-    	this.incLoadBusList=incLoadBusList;
-    	this.loadIncIndex=newLoadIncIndex;
+    	LoadIncease.net=net;
+    	LoadIncease.incLoadBusList=incLoadBusList;
+    	LoadIncease.loadIncIndex=newLoadIncIndex;
     }
 	public static void incLoad(){
 		
@@ -77,30 +72,30 @@ public class LoadIncease {
         Iterator<Integer> iter =L.iterator();
         int i =0;
         while(iter.hasNext()){
-     	temp[i]=(int)iter.next();
+     	temp[i]=iter.next();
      	i++;
         }
         return temp;
      }
 	public void setDirPQ(RealVector newDir_P,RealVector newDir_Q){
 		// set dirp ,dirq
-		this.dirP=newDir_P;
-		this.dirQ=newDir_P;
+		LoadIncease.dirP=newDir_P;
+		LoadIncease.dirQ=newDir_P;
 	}
 	public void setDirP (RealVector newDir_P){
-		this.dirP=newDir_P;
+		LoadIncease.dirP=newDir_P;
 	}
 	public RealVector getLoadP0(){
-		return this.LoadP0;
+		return LoadIncease.LoadP0;
 	}
 	public void setLoadP0(RealVector LoadP0){
-		this.LoadP0=LoadP0;
+		LoadIncease.LoadP0=LoadP0;
 	}
 	public RealVector getLoadQ0(){
-		return this.LoadQ0;
+		return LoadIncease.LoadQ0;
 	}
 	public void setLoadQ0(RealVector LoadQ0){
-		this.LoadP0=LoadQ0;
+		LoadIncease.LoadP0=LoadQ0;
 	}
 	public RealVector getIncLoadP(){
 		return incLoadP;

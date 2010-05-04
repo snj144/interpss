@@ -1,10 +1,6 @@
-package org.interpss.vstab;
+package org.interpss.vstab.core;
 
 import org.apache.commons.math.linear.RealMatrix;
-
-import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.sparse.SparseEqnDouble;
-import com.interpss.core.sparse.SparseEqnMatrix2x2;
 
 public interface Jacobi4VSA {
     public RealMatrix getFullJacobi();
