@@ -30,11 +30,11 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
+import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.psse.xbean.v30.XBeanPSSEV30Adapter;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.model.JaxbODMModelParser;
 import org.junit.Test;
 
 public class PSSEV30_GuideSampleTest { 
@@ -45,11 +45,11 @@ public class PSSEV30_GuideSampleTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new XBeanPSSEV30Adapter(logger);
+		IODMPSSAdapter adapter = new PSSEV30Adapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/psse/PSSEV30_GuideSample.raw"));
 		
 		//System.out.println(adapter.getModel().toString());
-		XBeanODMModelParser parser = (XBeanODMModelParser)adapter.getModel();
+		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
 		PSSNetworkXmlType net = parser.getBaseCase();		
 		/*
       <bus id="Bus151" number="151" areaNumber="1" name="NUCPANT     " offLine="false">
@@ -81,7 +81,7 @@ public class PSSEV30_GuideSampleTest {
       <owner id="100" number="100" name="'NO BUSES    '"/>
     </ownerList>
     */
-	assertTrue(net.getOwnerList().getOwnerArray().length == 7);
+	assertTrue(net.getOwnerList().getOwner().size() == 7);
 		
 	/*
     <lossZoneList>
@@ -91,7 +91,7 @@ public class PSSEV30_GuideSampleTest {
       <lossZone id="77" number="77" name="'PLANT       '"/>
     </lossZoneList>
     */
-	assertTrue(net.getLossZoneList().getLossZoneArray().length == 4);
+	assertTrue(net.getLossZoneList().getLossZone().size() == 4);
 
 	/*
 	 <interchangeList>
@@ -109,7 +109,7 @@ public class PSSEV30_GuideSampleTest {
       </interchange>
     </interchangeList>
 	 */
-	assertTrue(net.getInterchangeList().getInterchangeArray().length == 4);
+	assertTrue(net.getInterchangeList().getInterchange().size() == 4);
 	
 	}	
 }

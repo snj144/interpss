@@ -30,17 +30,18 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineData2TXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.psse.xbean.v30.XBeanPSSEV30Adapter;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.schema.BranchRecordXmlType;
+import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.DCLineData2TXmlType;
+import org.ieee.odm.schema.DcLineControlModeEnumType;
+import org.ieee.odm.schema.LFBranchCodeEnumType;
+import org.ieee.odm.schema.LFGenCodeEnumType;
+import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.PSSNetworkXmlType;
+import org.ieee.odm.schema.VoltageUnitType;
 import org.junit.Test;
 
 public class PSSEV30_NEISO_ODMTest { 
@@ -51,11 +52,11 @@ public class PSSEV30_NEISO_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new XBeanPSSEV30Adapter(logger);
+		IODMPSSAdapter adapter = new PSSEV30Adapter(logger);
 		assertTrue(adapter.parseInputFile("testData/psse/Model_testV30.raw"));
 		//System.out.println(adapter.getModel());
 		
-		XBeanODMModelParser parser = (XBeanODMModelParser)adapter.getModel();
+		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
 		PSSNetworkXmlType net = parser.getBaseCase();
 		assertTrue(net.getBasePower().getValue() == 100.0);
 		/*
@@ -114,7 +115,7 @@ public class PSSEV30_NEISO_ODMTest {
 		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getDesiredVoltage().getValue() == 1.03842);
 		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getRemoteVoltageControlBus().getIdRef().equals("Bus1"));
 		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getQLimit().getMax() == 441.0);
-		assertTrue(bus.getLoadflowData().getGenData().getContributeGenList().getContributeGenArray().length == 1);
+		assertTrue(bus.getLoadflowData().getGenData().getContributeGenList().getContributeGen().size() == 1);
 		
 		/*
       <branch id="Bus19_to_Bus18_cirId_2" circuitId="2" offLine="true">
@@ -133,8 +134,8 @@ public class PSSEV30_NEISO_ODMTest {
       </branch>
       */
 		BranchRecordXmlType branch = parser.getBranchRecord("Bus19", "Bus18", "2");
-		assertTrue(branch.getOffLine());
-		LoadflowBranchDataXmlType lineData = branch.getLoadflowDataArray(0);
+		assertTrue(branch.isOffLine());
+		LoadflowBranchDataXmlType lineData = branch.getLoadflowData().get(0);
 		assertTrue(lineData.getCode() == LFBranchCodeEnumType.LINE);
 		assertTrue(lineData.getZ().getIm() == 1.0E-5);
 		
@@ -161,10 +162,10 @@ public class PSSEV30_NEISO_ODMTest {
       </branch>
 		 */
 		branch = parser.getBranchRecord("Bus26", "Bus54", "1");
-		assertTrue(!branch.getOffLine());
-		lineData = branch.getLoadflowDataArray(0);
+		assertTrue(!branch.isOffLine());
+		lineData = branch.getLoadflowData().get(0);
 		assertTrue(lineData.getCode() == LFBranchCodeEnumType.TRANSFORMER);
-		assertTrue(lineData.getXfr3W() == false);
+		assertTrue(lineData.isXfr3W() == false);
 		assertTrue(lineData.getZ().getIm() == 0.0091);
 		assertTrue(lineData.getFromTurnRatio().getValue() == 0.975);
 		assertTrue(lineData.getToTurnRatio().getValue() == 1.0);
@@ -214,10 +215,10 @@ public class PSSEV30_NEISO_ODMTest {
 	      </branch>
 	      */
 		branch = parser.getBranchRecord("Bus27824", "Bus27871", "Bus27957", "W");
-		assertTrue(!branch.getOffLine());
-		lineData = branch.getLoadflowDataArray(0);
+		assertTrue(!branch.isOffLine());
+		lineData = branch.getLoadflowData().get(0);
 		assertTrue(lineData.getCode() == LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
-		assertTrue(lineData.getXfr3W() == true);
+		assertTrue(lineData.isXfr3W() == true);
 		assertTrue(lineData.getZ().getRe() == 0.00133);
 		assertTrue(lineData.getFromAngle().getValue() == 0.0);
 		assertTrue(lineData.getXfrInfo().getShiftAngle3().getValue() == -30.0);
@@ -268,7 +269,7 @@ public class PSSEV30_NEISO_ODMTest {
       </dcLint2T>
       		 */
 		DCLineData2TXmlType dcLine = parser.getDcLine2TRecord("Bus615600", "Bus615353", 1);
-		assertTrue(dcLine.getControlMode() == DCLineData2TXmlType.ControlMode.POWER);
+		assertTrue(dcLine.getControlMode() == DcLineControlModeEnumType.POWER);
 		assertTrue(dcLine.getPowerDemand().getValue() == 552.0);
 		assertTrue(dcLine.getPowerOrCurrentMarginPU() == 0.1);
 		assertTrue(dcLine.getRectifier().getNumberofBridges() == 2);
