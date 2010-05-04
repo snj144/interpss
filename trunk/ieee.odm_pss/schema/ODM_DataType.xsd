@@ -20,7 +20,10 @@
 								<attribute name="id" type="string" use="required"></attribute>
 								<attribute name="name" type="string" use="optional"></attribute>
 								<attribute name="number" type="int" use="optional"></attribute>
-								<attribute name="ownership" type="double" use="optional"></attribute>
+								<attribute name="ownership" type="double" use="optional">
+									<annotation>
+										<documentation>ownership in pu</documentation>
+									</annotation></attribute>
 							</complexType>
 						</element>
 					</sequence>
