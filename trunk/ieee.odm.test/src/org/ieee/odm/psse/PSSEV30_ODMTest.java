@@ -30,18 +30,18 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.psse.xbean.v30.XBeanPSSEV30Adapter;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.schema.BranchMeterLocationEnumType;
+import org.ieee.odm.schema.BranchRecordXmlType;
+import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.LFBranchCodeEnumType;
+import org.ieee.odm.schema.LFGenCodeEnumType;
+import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
+import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.junit.Test;
 
 public class PSSEV30_ODMTest { 
@@ -52,12 +52,12 @@ public class PSSEV30_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new XBeanPSSEV30Adapter(logger);
+		IODMPSSAdapter adapter = new PSSEV30Adapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/psse/PSSE_5Bus_Test.raw"));
 		
 //		System.out.println(adapter.getModel().toString());
 		
-		XBeanODMModelParser parser = (XBeanODMModelParser)adapter.getModel();
+		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
 		PSSNetworkXmlType net = parser.getBaseCase();
 		assertTrue(net.getBasePower().getValue() == 100.0);
 
@@ -160,15 +160,15 @@ public class PSSEV30_ODMTest {
         </loadflowData>
       </branch>
 */
-		BranchRecordXmlType branch = XBeanParserHelper.findBranchRecord("Bus2", "Bus3", "1", net);
-		LoadflowBranchDataXmlType branchData = XBeanParserHelper.getDefaultBranchData(branch);
+		BranchRecordXmlType branch = parser.getBranchRecord("Bus2", "Bus3", "1");
+		LoadflowBranchDataXmlType branchData = JaxbParserHelper.getDefaultBranchData(branch);
 		
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.LINE);
 		assertTrue(branchData.getZ().getRe() == 0.0015);
 		assertTrue(branchData.getZ().getIm() == 0.0085);
 		assertTrue(branchData.getTotalShuntY().getRe() == 0.0);
 		assertTrue(branchData.getTotalShuntY().getIm() == 0.0164);
-		assertTrue(branchData.getMeterLocation() == BaseBranchDataXmlType.MeterLocation.FROM_SIDE);
+		assertTrue(branchData.getMeterLocation() == BranchMeterLocationEnumType.FROM_SIDE);
 		assertTrue(branchData.getBranchRatingLimit().getMva().getRating1() == 300.0);
 		assertTrue(branchData.getBranchRatingLimit().getMva().getRating2() == 330.0);
 		assertTrue(branchData.getBranchRatingLimit().getMva().getRating3() == 0.0);
@@ -195,18 +195,18 @@ public class PSSEV30_ODMTest {
         </loadflowData>
       </branch>
  */
-		branch = XBeanParserHelper.findBranchRecord("Bus2", "Bus1", "1", net);
-		branchData = XBeanParserHelper.getDefaultBranchData(branch);
+		branch = parser.getBranchRecord("Bus2", "Bus1", "1");
+		branchData = JaxbParserHelper.getDefaultBranchData(branch);
 		
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER);
 		assertTrue(branchData.getZ().getRe() == 0.0);
 		assertTrue(branchData.getZ().getIm() == 0.17191);
 		assertTrue(branchData.getFromTurnRatio().getValue() == 1.0);
 		assertTrue(branchData.getToTurnRatio().getValue() == 1.0);
-		assertTrue(branchData.getMeterLocation() == BaseBranchDataXmlType.MeterLocation.TO_SIDE);
-		assertTrue(branchData.getMeterLocation() == BaseBranchDataXmlType.MeterLocation.TO_SIDE);
+		assertTrue(branchData.getMeterLocation() == BranchMeterLocationEnumType.TO_SIDE);
+		assertTrue(branchData.getMeterLocation() == BranchMeterLocationEnumType.TO_SIDE);
 		assertTrue(branchData.getXfrInfo().getRatedPower12().getValue() == 100.0 );
-		assertTrue(branchData.getXfrInfo().getDataOnSystemBase());
+		assertTrue(branchData.getXfrInfo().isDataOnSystemBase());
 		assertTrue(branchData.getBranchRatingLimit().getMva().getRating2() == 118.5);
 		assertTrue(branchData.getBranchRatingLimit().getMva().getRating3() == 0.0);
 	}

@@ -30,10 +30,10 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
+import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.psse.xbean.v30.XBeanPSSEV30Adapter;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.model.JaxbODMModelParser;
 import org.junit.Test;
 
 public class PSSEV30_SegmentTest { 
@@ -44,20 +44,20 @@ public class PSSEV30_SegmentTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new XBeanPSSEV30Adapter(logger);
+		IODMPSSAdapter adapter = new PSSEV30Adapter(logger);
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE30_SegTest.raw"));
 		//System.out.println(adapter.getModel());
 		
-		BranchRecordXmlType branch = ((XBeanODMModelParser)adapter.getModel()).getBranchRecord("Bus36309", "Bus36703", "Bus36106", "1");
-		assertTrue(branch.getLoadflowDataArray()[0].getZ().getRe() == 8.318333333333334E-4);
-		assertTrue(branch.getLoadflowDataArray()[0].getZ().getIm() == 0.06339454277227304);
-		assertTrue(branch.getLoadflowDataArray()[0].getFromTurnRatio().getValue() == 0.9804347826086957);
-		assertTrue(branch.getLoadflowDataArray()[0].getToTurnRatio().getValue() == 1.0);
+		BranchRecordXmlType branch = ((JaxbODMModelParser)adapter.getModel()).getBranchRecord("Bus36309", "Bus36703", "Bus36106", "1");
+		assertTrue(branch.getLoadflowData().get(0).getZ().getRe() == 8.318333333333334E-4);
+		assertTrue(branch.getLoadflowData().get(0).getZ().getIm() == 0.06339454277227304);
+		assertTrue(branch.getLoadflowData().get(0).getFromTurnRatio().getValue() == 0.9804347826086957);
+		assertTrue(branch.getLoadflowData().get(0).getToTurnRatio().getValue() == 1.0);
 		
-		assertTrue(branch.getLoadflowDataArray()[0].getXfrInfo().getZ23().getRe() == 0.0012787962962962963);
-		assertTrue(branch.getLoadflowDataArray()[0].getXfrInfo().getZ31().getRe() == 0.0012266203703703705);
+		assertTrue(branch.getLoadflowData().get(0).getXfrInfo().getZ23().getRe() == 0.0012787962962962963);
+		assertTrue(branch.getLoadflowData().get(0).getXfrInfo().getZ31().getRe() == 0.0012266203703703705);
 		
-		assertTrue(branch.getLoadflowDataArray()[0].getXfrInfo().getRatedVoltage1().getValue() == 345.0);
+		assertTrue(branch.getLoadflowData().get(0).getXfrInfo().getRatedVoltage1().getValue() == 345.0);
 		
 		/*
       <dcLint2T id="Bus615600_to_Bus615353_cirId_1" number="1">
