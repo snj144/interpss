@@ -34,7 +34,6 @@ import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BusRecordXmlType;
-import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusDataXmlType;
@@ -75,7 +74,7 @@ public class PSSEV26BusRecord {
 		}
 		
 		final String owner=strAry[10];
-		JaxbParserHelper.addOwner(busRec, owner, 1.0);
+		JaxbParserHelper.addOwner(busRec, owner);
 		
 		busRec.setBaseVoltage(JaxbDataSetter.createVoltageData(baseKv, VoltageUnitType.KV));
 		
@@ -175,7 +174,7 @@ public class PSSEV26BusRecord {
 		
 		//set owner and it's factor
 		final String owner =strAry[11];
-		JaxbParserHelper.addOwner(contribLoad, owner, 1.0);
+		JaxbParserHelper.addOwner(contribLoad, owner);
 		    
 	    //Constant-P load
 		final double CPloadMw = ModelStringUtil.getDouble(strAry[5], 0.0);

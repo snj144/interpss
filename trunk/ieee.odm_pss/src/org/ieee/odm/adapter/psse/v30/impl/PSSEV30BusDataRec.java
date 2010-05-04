@@ -27,6 +27,10 @@ package org.ieee.odm.adapter.psse.v30.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.model.JaxbDataSetter;
+import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BusRecordXmlType;
@@ -34,9 +38,6 @@ import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusDataXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
-import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.JaxbODMModelParser;
 
 public class PSSEV30BusDataRec {
 	private static int i, ide, area = 1, zone = 1, owner = 1;
@@ -57,34 +58,36 @@ public class PSSEV30BusDataRec {
 		String iStr = JaxbODMModelParser.BusIdPreFix+i;
 		BusRecordXmlType busRec;
 		try {
-			busRec = parser.addNewBaseCaseBus(iStr, i);
+			busRec = parser.createBusRecord(iStr, i);
 		} catch (Exception e) {
 			logger.severe(e.toString());
 			return;
 		}
-		busRec.setNumber(i);
+		busRec.setNumber((long)i);
 		
 		busRec.setAreaNumber(area);
 		busRec.setZoneNumber(zone);
-		if (owner > 0)
-			busRec.addNewOwnerList().addNewOwner().setId(new Integer(owner).toString());
+		if (owner > 0) {
+			JaxbParserHelper.addOwner(busRec, new Integer(owner).toString());
+		}
 		
 		busRec.setName(name);
-		JaxbDataSetter.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
+		busRec.setBaseVoltage(JaxbDataSetter.createVoltageData(baseKv, VoltageUnitType.KV));
 		
-		LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
-		JaxbDataSetter.setVoltageData(busData.addNewVoltage(), vm, VoltageUnitType.PU);
-		JaxbDataSetter.setAngleData(busData.addNewAngle(), va, AngleUnitType.DEG);
+		LoadflowBusDataXmlType busData = parser.getFactory().createLoadflowBusDataXmlType(); 
+		busRec.setLoadflowData(busData);
+		busData.setVoltage(JaxbDataSetter.createVoltageData(vm, VoltageUnitType.PU));
+		busData.setAngle(JaxbDataSetter.createAngleData(va, AngleUnitType.DEG));
 
     	if (gl != 0.0 || bl != 0.0) {
     		double factor = parser.getBaseCase().getBasePower().getValue();  
     		// for transfer G+jB to PU on system base, gl, bl are entered in MW at one per unit voltage
     		// bl is reactive power consumed, - for capactor
-    		JaxbDataSetter.setYData(busData.addNewShuntY(), gl/factor, bl/factor, YUnitType.PU);
+    		busData.setShuntY(JaxbDataSetter.createYData(gl/factor, bl/factor, YUnitType.PU));
     	}
       	
     	// set input data to the bus object
-		LFGenCodeEnumType.Enum genType = ide == 3? LFGenCodeEnumType.SWING : 
+		LFGenCodeEnumType genType = ide == 3? LFGenCodeEnumType.SWING : 
 								( ide == 1? LFGenCodeEnumType.PQ : 
 									( ide == 2 ? LFGenCodeEnumType.PV : LFGenCodeEnumType.NONE_GEN ));
 		JaxbDataSetter.setGenData(busData, genType, vm, VoltageUnitType.PU, va, AngleUnitType.DEG, 
