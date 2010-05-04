@@ -96,7 +96,7 @@
 	</complexType>
 
 	<complexType name="ComplexXmlType">
-		<attribute name="re" type="double" use="optional"></attribute>
+		<attribute name="re" type="double" use="optional" default="0.0"></attribute>
 		<attribute name="im" type="double" use="required"></attribute>
 	</complexType>
 
