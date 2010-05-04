@@ -230,7 +230,8 @@ public class PSSEV26BusRecord {
 
 		LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData();
 		if (genData == null) {
-			busRec.getLoadflowData().setGenData(parser.getFactory().createLoadflowBusDataXmlTypeGenData());
+			genData = parser.getFactory().createLoadflowBusDataXmlTypeGenData();
+			busRec.getLoadflowData().setGenData(genData);
 			busRec.getLoadflowData().getGenData().setEquivGen(parser.getFactory().createLoadflowGenDataXmlType());
 		}
 		LoadflowGenDataXmlType equivGen = genData.getEquivGen();
