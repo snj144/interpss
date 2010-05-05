@@ -38,7 +38,7 @@ import org.ieee.odm.adapter.ge.xbean.XBeanGE_PSLF_Adapter;
 import org.ieee.odm.model.xbean.XBeanDataSetter;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 
-public class XformerDataRec extends BaseBranchDataRec {
+public class XBeanXformerDataRec extends XBeanBaseBranchDataRec {
 	public int type, kregBus, zt, iintBus, tertBus;
 	public double kregBkv, iintBkv, tertBkv, tbase, zpsr;
 	public String kregName, iintName, tertName;
@@ -47,7 +47,7 @@ public class XformerDataRec extends BaseBranchDataRec {
 	public double tbasept, tbasets, angls, anglt;
 	public double rs1, rs2, rs3, rt1, rt2, rt3, alosss, alosst;
 
-	public XformerDataRec(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
+	public XBeanXformerDataRec(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 		/*
 		<f bus> <"f name"> <f bkv> <t bus> <"t name"> <t bkv> <"ck"> <"long id">:
 		<st> <type> <kreg bus> <"kreg name"> <kreg bkv> <zt> <iint bus> <"iint name"> /

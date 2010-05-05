@@ -30,12 +30,12 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
-import org.ieee.odm.adapter.ge.xbean.impl.BranchSecDataRec;
-import org.ieee.odm.adapter.ge.xbean.impl.BusDataRec;
-import org.ieee.odm.adapter.ge.xbean.impl.GenDataRec;
-import org.ieee.odm.adapter.ge.xbean.impl.LoadDataRec;
-import org.ieee.odm.adapter.ge.xbean.impl.NetDataRec;
-import org.ieee.odm.adapter.ge.xbean.impl.XformerDataRec;
+import org.ieee.odm.adapter.ge.xbean.impl.XBeanBranchSecDataRec;
+import org.ieee.odm.adapter.ge.xbean.impl.XBeanBusDataRec;
+import org.ieee.odm.adapter.ge.xbean.impl.XBeanGenDataRec;
+import org.ieee.odm.adapter.ge.xbean.impl.XBeanLoadDataRec;
+import org.ieee.odm.adapter.ge.xbean.impl.XBeanNetDataRec;
+import org.ieee.odm.adapter.ge.xbean.impl.XBeanXformerDataRec;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
@@ -95,9 +95,9 @@ public class XBeanGE_PSLF_Adapter  extends AbstractODMAdapter {
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		baseCaseNet.setId("Base_Case_from_GE_PSLF_format");
 
-		NetDataRec.TitleRec titleRec = new NetDataRec.TitleRec();
-		NetDataRec.CommentsRec commentRec = new NetDataRec.CommentsRec();
-		NetDataRec.SolutionParamRec solParamRec = new NetDataRec.SolutionParamRec();
+		XBeanNetDataRec.TitleRec titleRec = new XBeanNetDataRec.TitleRec();
+		XBeanNetDataRec.CommentsRec commentRec = new XBeanNetDataRec.CommentsRec();
+		XBeanNetDataRec.SolutionParamRec solParamRec = new XBeanNetDataRec.SolutionParamRec();
 		
 		RecType recType = RecType.NotDefined; 
   		String lineStr = null;
@@ -200,23 +200,23 @@ public class XBeanGE_PSLF_Adapter  extends AbstractODMAdapter {
       					}
       					else if (recType == RecType.BusData) {
       						// process BusData
-      						new BusDataRec(lineStr, version, parser, this.getLogger());
+      						new XBeanBusDataRec(lineStr, version, parser, this.getLogger());
       					}
       					else if (recType == RecType.BranchSecData) {
       						// process Branch section Data
-      						new BranchSecDataRec(lineStr, version, baseCaseNet);
+      						new XBeanBranchSecDataRec(lineStr, version, baseCaseNet);
       					}
       					else if (recType == RecType.XfrData) {
       						// process Xfr Data
-      						new XformerDataRec(lineStr, version, baseCaseNet);
+      						new XBeanXformerDataRec(lineStr, version, baseCaseNet);
       					}
       					else if (recType == RecType.GenData) {
       						// process Gen Data
-      						new GenDataRec(lineStr, version, parser, this.getLogger());
+      						new XBeanGenDataRec(lineStr, version, parser, this.getLogger());
       					}
       					else if (recType == RecType.LoadData) {
       						// process Line Data
-      						new LoadDataRec(lineStr, version, parser, this.getLogger());
+      						new XBeanLoadDataRec(lineStr, version, parser, this.getLogger());
       					}
       					else if (recType == RecType.ShuntData) {
       						// process Shunt Data
@@ -228,11 +228,11 @@ public class XBeanGE_PSLF_Adapter  extends AbstractODMAdapter {
       					}
       					else if (recType == RecType.AreaData) {
       						// process Area Data
-      						new NetDataRec.AreaRec(lineStr, version, baseCaseNet);
+      						new XBeanNetDataRec.AreaRec(lineStr, version, baseCaseNet);
       					}
       					else if (recType == RecType.ZoneData) {
       						// process Zone Data
-      						new NetDataRec.ZoneRec(lineStr, version, baseCaseNet);
+      						new XBeanNetDataRec.ZoneRec(lineStr, version, baseCaseNet);
       					}
       					else if (recType == RecType.InterfaceData) {
       						// process Interface Data

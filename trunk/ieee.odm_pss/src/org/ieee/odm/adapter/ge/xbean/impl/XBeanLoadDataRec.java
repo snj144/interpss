@@ -35,11 +35,11 @@ import org.ieee.odm.model.xbean.XBeanDataSetter;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
-public class LoadDataRec extends BusHeaderRec {
+public class XBeanLoadDataRec extends XBeanBusHeaderRec {
 	public int st, nst, owner;
 	public double p, q, ip, iq, g, b;
 			
-	public LoadDataRec(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version, final XBeanODMModelParser parser, Logger logger) {
+	public XBeanLoadDataRec(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version, final XBeanODMModelParser parser, Logger logger) {
 		//System.out.println("load data->" + lineStr);
 /*
 	<bus> <"name"> <bkv> <"id"> <"long id"> : <st> <p> <q> <ip> <iq> <g> <b> /
