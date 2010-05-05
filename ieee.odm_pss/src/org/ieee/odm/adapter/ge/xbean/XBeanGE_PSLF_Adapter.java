@@ -39,7 +39,7 @@ import org.ieee.odm.adapter.ge.xbean.impl.XformerDataRec;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
-public class GE_PSLF_Adapter  extends AbstractODMAdapter {
+public class XBeanGE_PSLF_Adapter  extends AbstractODMAdapter {
 	public static enum VersionNo {PSLF15};
 
 	public static final String Token_XfrType = "GE_XfrType";
@@ -81,7 +81,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 				OwnerData, InductMotorData, LineData, GenQCurves,
 				End, NotDefined};
 	
-	public GE_PSLF_Adapter(Logger logger) {
+	public XBeanGE_PSLF_Adapter(Logger logger) {
 		super(logger);
 	}
 	 

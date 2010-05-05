@@ -32,13 +32,13 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.odm.adapter.ge.xbean.GE_PSLF_Adapter;
+import org.ieee.odm.adapter.ge.xbean.XBeanGE_PSLF_Adapter;
 import org.ieee.odm.model.xbean.XBeanDataSetter;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 
 public class NetDataRec {
 	static public class TitleRec {
-		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
+		public void processLineStr(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 			NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
 			XBeanParserHelper.addNVPair(nvList, "Title", lineStr);
 		}
@@ -47,7 +47,7 @@ public class NetDataRec {
 	static public class CommentsRec {
 		public String comments = "";
 
-		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
+		public void processLineStr(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 			NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
 			XBeanParserHelper.addNVPair(nvList, "Comments", lineStr);
 		}
@@ -77,7 +77,7 @@ public class NetDataRec {
 	 */	
 	static public class SolutionParamRec {
 
-		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
+		public void processLineStr(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 			int tap, phas, area, svd, dctap, gcd;
 			double jump, toler;
 
@@ -113,7 +113,7 @@ public class NetDataRec {
 		public String arnam;
 		public double pnetdes, pnettol, pnet, qnet;
 
-		public AreaRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
+		public AreaRec(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 			//System.out.println("area->" + lineStr);
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
 			
@@ -159,7 +159,7 @@ public class NetDataRec {
 		public String zonam;
 		public double pznet, qznet;
 
-		public ZoneRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
+		public ZoneRec(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 			//System.out.println("zone->" + lineStr);
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
 			
@@ -206,7 +206,7 @@ public class NetDataRec {
 		public String oname, sname;
 		public double net_mw, net_mvar, sch_mw, sch_mvar;
 
-		public OwnerRec(String lineStr, GE_PSLF_Adapter.VersionNo version) {
+		public OwnerRec(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version) {
 			String str1 = lineStr.substring(0, lineStr.indexOf(':')),
 		           str2 = lineStr.substring(lineStr.indexOf(':')+1);
 
@@ -250,7 +250,7 @@ public class NetDataRec {
 		public double pnet, qnet; 
 		double[] rAry = new double[8];
 		
-		public InterfaceRec(String lineStr, GE_PSLF_Adapter.VersionNo version) {
+		public InterfaceRec(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version) {
 			// System.out.println("interface->" + lineStr);
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
 			
@@ -297,7 +297,7 @@ public class NetDataRec {
 		public int ifn;
 		public double pf;
 
-		public InterfaceBranchRec(String lineStr, GE_PSLF_Adapter.VersionNo version) {
+		public InterfaceBranchRec(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version) {
 			//System.out.println("inter branch->" + lineStr);
 			String str1 = lineStr.substring(0, lineStr.indexOf(':')),
 	               str2 = lineStr.substring(lineStr.indexOf(':')+1);

@@ -34,7 +34,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.odm.adapter.ge.xbean.GE_PSLF_Adapter;
+import org.ieee.odm.adapter.ge.xbean.XBeanGE_PSLF_Adapter;
 import org.ieee.odm.model.xbean.XBeanDataSetter;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 
@@ -47,7 +47,7 @@ public class XformerDataRec extends BaseBranchDataRec {
 	public double tbasept, tbasets, angls, anglt;
 	public double rs1, rs2, rs3, rt1, rt2, rt3, alosss, alosst;
 
-	public XformerDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
+	public XformerDataRec(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 		/*
 		<f bus> <"f name"> <f bkv> <t bus> <"t name"> <t bkv> <"ck"> <"long id">:
 		<st> <type> <kreg bus> <"kreg name"> <kreg bkv> <zt> <iint bus> <"iint name"> /
@@ -209,7 +209,7 @@ public class XformerDataRec extends BaseBranchDataRec {
 		LoadflowBranchDataXmlType.XfrInfo xfrInfo = branchData.addNewXfrInfo();
 		if (branchData.getNvPairList() == null)
 			branchData.addNewNvPairList();
-		XBeanParserHelper.addNVPair(branchData.getNvPairList(), GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
+		XBeanParserHelper.addNVPair(branchData.getNvPairList(), XBeanGE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
 		XBeanDataSetter.setPowerMva(xfrInfo.addNewRatedPower12(), this.tbase);
 		XBeanDataSetter.setVoltageData(xfrInfo.addNewRatedVoltage1(), this.vnomp, VoltageUnitType.KV);
 		XBeanDataSetter.setVoltageData(xfrInfo.addNewRatedVoltage2(), this.vnoms, VoltageUnitType.KV);

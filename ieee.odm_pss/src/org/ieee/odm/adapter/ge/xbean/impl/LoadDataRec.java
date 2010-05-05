@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
-import org.ieee.odm.adapter.ge.xbean.GE_PSLF_Adapter;
+import org.ieee.odm.adapter.ge.xbean.XBeanGE_PSLF_Adapter;
 import org.ieee.odm.model.xbean.XBeanDataSetter;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
@@ -39,7 +39,7 @@ public class LoadDataRec extends BusHeaderRec {
 	public int st, nst, owner;
 	public double p, q, ip, iq, g, b;
 			
-	public LoadDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final XBeanODMModelParser parser, Logger logger) {
+	public LoadDataRec(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version, final XBeanODMModelParser parser, Logger logger) {
 		//System.out.println("load data->" + lineStr);
 /*
 	<bus> <"name"> <bkv> <"id"> <"long id"> : <st> <p> <q> <ip> <iq> <g> <b> /

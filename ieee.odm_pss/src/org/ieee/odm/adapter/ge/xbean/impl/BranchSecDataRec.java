@@ -34,7 +34,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.odm.adapter.ge.xbean.GE_PSLF_Adapter;
+import org.ieee.odm.adapter.ge.xbean.XBeanGE_PSLF_Adapter;
 import org.ieee.odm.model.xbean.XBeanDataSetter;
 
 public class BranchSecDataRec extends BaseBranchDataRec {
@@ -53,7 +53,7 @@ public class BranchSecDataRec extends BaseBranchDataRec {
   		1 201 0.0000 0.000 1.000   400101   391231   0 1  0    0.0    0.0    0.0    
   		0.0   1 1.000   0 1.000   0 1.000   0 1.000   0 0.000   0 0.000   0 0.000   0 0.000  0
 	 */
-	public BranchSecDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
+	public BranchSecDataRec(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 		//System.out.println("branch sec->" + lineStr);
 
 		String str1 = lineStr.substring(0, lineStr.indexOf(':')),
