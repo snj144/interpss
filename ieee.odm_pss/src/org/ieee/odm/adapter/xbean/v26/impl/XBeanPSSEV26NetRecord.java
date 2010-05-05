@@ -21,7 +21,7 @@
  *   ================
  *
  */
-package org.ieee.odm.adapter.psse.xbean.v26.impl;
+package org.ieee.odm.adapter.xbean.v26.impl;
 
 import java.util.StringTokenizer;
 import java.util.logging.Logger;

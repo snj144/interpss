@@ -21,7 +21,7 @@
  *   ================
  *
  */
-package org.ieee.odm.adapter.psse.xbean.v30;
+package org.ieee.odm.adapter.xbean.v30;
 
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
@@ -31,14 +31,14 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.adapter.psse.xbean.XBeanPSSEBusRecord;
-import org.ieee.odm.adapter.psse.xbean.XBeanPSSENetDataRec;
-import org.ieee.odm.adapter.psse.xbean.v30.impl.XBeanPSSEV30BusDataRec;
-import org.ieee.odm.adapter.psse.xbean.v30.impl.XBeanPSSEV30DcLine2TDataRec;
-import org.ieee.odm.adapter.psse.xbean.v30.impl.XBeanPSSEV30GenDataRec;
-import org.ieee.odm.adapter.psse.xbean.v30.impl.XBeanPSSEV30LineDataRec;
-import org.ieee.odm.adapter.psse.xbean.v30.impl.XBeanPSSEV30LoadDataRec;
-import org.ieee.odm.adapter.psse.xbean.v30.impl.XBeanPSSEV30XfrDataRec;
+import org.ieee.odm.adapter.xbean.XBeanPSSEBusRecord;
+import org.ieee.odm.adapter.xbean.XBeanPSSENetDataRec;
+import org.ieee.odm.adapter.xbean.v30.impl.XBeanPSSEV30BusDataRec;
+import org.ieee.odm.adapter.xbean.v30.impl.XBeanPSSEV30DcLine2TDataRec;
+import org.ieee.odm.adapter.xbean.v30.impl.XBeanPSSEV30GenDataRec;
+import org.ieee.odm.adapter.xbean.v30.impl.XBeanPSSEV30LineDataRec;
+import org.ieee.odm.adapter.xbean.v30.impl.XBeanPSSEV30LoadDataRec;
+import org.ieee.odm.adapter.xbean.v30.impl.XBeanPSSEV30XfrDataRec;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 

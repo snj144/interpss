@@ -21,7 +21,7 @@
  *   ================
  *
  */
-package org.ieee.odm.adapter.psse.xbean.v26;
+package org.ieee.odm.adapter.xbean.v26;
 
 import java.util.logging.Logger;
 
@@ -30,11 +30,11 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.adapter.psse.xbean.XBeanPSSEBusRecord;
-import org.ieee.odm.adapter.psse.xbean.XBeanPSSENetDataRec;
-import org.ieee.odm.adapter.psse.xbean.v26.impl.XBeanPSSEV26BranchRecord;
-import org.ieee.odm.adapter.psse.xbean.v26.impl.XBeanPSSEV26BusRecord;
-import org.ieee.odm.adapter.psse.xbean.v26.impl.XBeanPSSEV26NetRecord;
+import org.ieee.odm.adapter.xbean.XBeanPSSEBusRecord;
+import org.ieee.odm.adapter.xbean.XBeanPSSENetDataRec;
+import org.ieee.odm.adapter.xbean.v26.impl.XBeanPSSEV26BranchRecord;
+import org.ieee.odm.adapter.xbean.v26.impl.XBeanPSSEV26BusRecord;
+import org.ieee.odm.adapter.xbean.v26.impl.XBeanPSSEV26NetRecord;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 

@@ -84,10 +84,10 @@ public class PSSEV30XfrDataRec {
 			logger.severe(e.toString());
 			return;
 		}		
-		branchRec.setFromBus(JaxbDataSetter.createBusRef(fid));
-		branchRec.setToBus(JaxbDataSetter.createBusRef(tid));	
+		branchRec.setFromBus(parser.createBusRef(fid));
+		branchRec.setToBus(parser.createBusRef(tid));	
 		if (is3W)
-			branchRec.setTertiaryBus(JaxbDataSetter.createBusRef(tertId));
+			branchRec.setTertiaryBus(parser.createBusRef(tertId));
 		branchRec.setCircuitId(ckt);
 		
 		branchRec.setName(name);

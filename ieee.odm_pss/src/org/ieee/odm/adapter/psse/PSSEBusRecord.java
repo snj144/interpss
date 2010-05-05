@@ -31,7 +31,6 @@ import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.ieee.odm.schema.BusRecordXmlType;
-import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.LoadflowBusDataXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
@@ -110,7 +109,7 @@ public class PSSEBusRecord {
 		//SWREM - Number of remote bus to control. 0 to control own bus.
 		int busNo = ModelStringUtil.getInt(strAry[4], 0);
 		if (busNo != 0) {
-			shunt.setRemoteControlledBus(JaxbDataSetter.createIdRef(XBeanODMModelParser.BusIdPreFix+strAry[4]));
+			shunt.setRemoteControlledBus(parser.createBusRef(XBeanODMModelParser.BusIdPreFix+strAry[4]));
 		}
 
 		/* V30

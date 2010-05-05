@@ -88,7 +88,7 @@ public class JaxbParserHelper {
 	 * consolidate branch genContributionList and loadContributionList to the equiv gen and load 
 	 * 
 	 */
-	public static boolean createBusEquivData(PSSNetworkXmlType baseCaseNet, Logger logger) {
+	public static boolean createBusEquivData(PSSNetworkXmlType baseCaseNet, JaxbODMModelParser parser, Logger logger) {
 		boolean ok = true;
 
 		for (BusRecordXmlType busRec : baseCaseNet.getBusList().getBus()) {
@@ -106,7 +106,7 @@ public class JaxbParserHelper {
 							offLine = false;
 							if (remoteBusId == null) {
 								if (gen.getRemoteVoltageControlBus() != null) {
-									remoteBusId = (String)gen.getRemoteVoltageControlBus().getIdRef();
+									remoteBusId = ((BusRecordXmlType)gen.getRemoteVoltageControlBus().getIdRef()).getId();
 								}
 							}
 							else if (!remoteBusId.equals(gen.getRemoteVoltageControlBus().getIdRef())) {
@@ -159,9 +159,8 @@ public class JaxbParserHelper {
 					if (remoteBusId != null && !remoteBusId.equals(busRec.getId()) && 
 							genData.getEquivGen().getCode() == LFGenCodeEnumType.PV){
 						// Remote Q  Bus control, we need to change this bus to a GPQ bus so that its Q could be adjusted
-						genData.getEquivGen().setRemoteVoltageControlBus(JaxbDataSetter.createIdRef(remoteBusId));
+						genData.getEquivGen().setRemoteVoltageControlBus(parser.createBusRef(remoteBusId));
 					}
-						
 				}
 				else {
 					genData.getEquivGen().setCode(LFGenCodeEnumType.NONE_GEN);

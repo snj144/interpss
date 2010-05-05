@@ -292,7 +292,7 @@ public class PSSEV26BusRecord {
 		      	final int iReg = ModelStringUtil.getInt(strAry[7], 0);
 				if (iReg > 0) {
 					final String reBusId = XBeanODMModelParser.BusIdPreFix+strAry[7];
-					equivGen.setRemoteVoltageControlBus(JaxbDataSetter.createIdRef(reBusId));
+					equivGen.setRemoteVoltageControlBus(parser.createBusRef(reBusId));
 				}
 			}
 		}

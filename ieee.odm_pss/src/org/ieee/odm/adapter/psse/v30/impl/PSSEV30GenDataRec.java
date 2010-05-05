@@ -96,7 +96,7 @@ public class PSSEV30GenDataRec {
 		
 	    if (ireg > 0) {
 	    	final String reBusId = JaxbODMModelParser.BusIdPreFix+ireg;
-	    	contriGen.setRemoteVoltageControlBus(JaxbDataSetter.createIdRef(reBusId));
+	    	contriGen.setRemoteVoltageControlBus(parser.createBusRef(reBusId));
 	    }
 	    
 	    contriGen.setRatedPower(JaxbDataSetter.createPowerMva(mbase));

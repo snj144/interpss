@@ -7,7 +7,6 @@ import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.BaseRecordXmlType;
-import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
@@ -49,7 +48,7 @@ public class PSSENetDataRec {
 	 * Area Data I,ISW,PDES,PTOL,'ARNAM'
 	 */
 	public static void processAreaRec(String lineStr, PsseVersion version, 
-				final PSSNetworkXmlType baseCaseNet, ObjectFactory factory) {
+				final PSSNetworkXmlType baseCaseNet, JaxbODMModelParser parser) {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int i = new Integer(st.nextToken().trim()).intValue();
 		int isw = new Integer(st.nextToken().trim()).intValue();
@@ -63,15 +62,15 @@ public class PSSENetDataRec {
 
 */
 		if (baseCaseNet.getAreaList() == null)
-			baseCaseNet.setAreaList(factory.createPSSNetworkXmlTypeAreaList());
-		NetAreaXmlType area = factory.createNetAreaXmlType();
+			baseCaseNet.setAreaList(parser.getFactory().createPSSNetworkXmlTypeAreaList());
+		NetAreaXmlType area = parser.getFactory().createNetAreaXmlType();
 		baseCaseNet.getAreaList().getArea().add(area);
 		area.setId(new Integer(i).toString());
 		area.setNumber(i);
 		area.setName(arnam);
 
 		if (isw > 0) {
-			area.setSwingBusId(JaxbDataSetter.createIdRef(JaxbODMModelParser.BusIdPreFix+isw));
+			area.setSwingBusId(parser.createBusRef(JaxbODMModelParser.BusIdPreFix+isw));
 			
 			area.setDesiredExchangePower(JaxbDataSetter.createActivePower(pdes, ActivePowerUnitType.MW));
 			area.setExchangeErrTolerance(JaxbDataSetter.createActivePower(ptol, ActivePowerUnitType.MW));			

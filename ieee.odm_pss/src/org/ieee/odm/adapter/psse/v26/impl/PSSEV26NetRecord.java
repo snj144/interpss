@@ -27,6 +27,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.model.JaxbDataSetter;
+import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.schema.ActivePowerUnitType;
@@ -66,7 +67,7 @@ public class PSSEV26NetRecord {
 	}
         
 	public static  void processAreaInterchangeData(final String str,
-			final PSSNetworkXmlType baseCaseNet, ObjectFactory factory) {
+			final PSSNetworkXmlType baseCaseNet, JaxbODMModelParser parser) {
 		final String[] strAry = getAreaInterchangeDataFields(str);
 		
 		//     Area number , no zeros! *
@@ -80,15 +81,15 @@ public class PSSEV26NetRecord {
 		final double mw = ModelStringUtil.getDouble(strAry[2], 0.0);
 		final double err = ModelStringUtil.getDouble(strAry[3], 0.0);
     
-		PowerInterchangeXmlType interchange = factory.createPowerInterchangeXmlType();
-		baseCaseNet.setInterchangeList(factory.createPSSNetworkXmlTypeInterchangeList());
-		InterchangeXmlType ex = factory.createInterchangeXmlType();
+		PowerInterchangeXmlType interchange = parser.getFactory().createPowerInterchangeXmlType();
+		baseCaseNet.setInterchangeList(parser.getFactory().createPSSNetworkXmlTypeInterchangeList());
+		InterchangeXmlType ex = parser.getFactory().createInterchangeXmlType();
 		baseCaseNet.getInterchangeList().getInterchange().add(ex);
 		ex.setPowerEx(interchange);
 	
 		interchange.setAreaNumber(no);
 
-		interchange.setSwingBus(JaxbDataSetter.createIdRef(swingBusName));
+		interchange.setSwingBus(parser.createBusRef(swingBusName));
 		
 		interchange.setDesiredExPower(JaxbDataSetter.createActivePower(mw, ActivePowerUnitType.MW));
 		interchange.setExErrTolerance(JaxbDataSetter.createActivePower(err, ActivePowerUnitType.MW));			

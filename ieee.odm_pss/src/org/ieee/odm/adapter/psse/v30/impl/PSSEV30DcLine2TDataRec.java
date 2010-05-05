@@ -32,8 +32,9 @@ public class PSSEV30DcLine2TDataRec {
 		final String tid = JaxbODMModelParser.BusIdPreFix+IPI;
 		DCLineData2TXmlType dcLine2T;
 		try {
-			dcLine2T = parser.addNewBaseCaseDCLine2T(fid, tid, I);
+			dcLine2T = parser.createDCLine2TRecord(fid, tid, I);
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.severe(e.toString());
 			return;
 		}			
@@ -120,14 +121,14 @@ public class PSSEV30DcLine2TDataRec {
 		rectifier.setMinFiringAngle(JaxbDataSetter.createAngleData(ALFMN, AngleUnitType.DEG));
 		rectifier.setAcSideRatedVoltage(JaxbDataSetter.createVoltageData(EBASR, VoltageUnitType.KV));
 		if (ICR != 0)
-			rectifier.setFiringAngleMeasuringBusId(JaxbDataSetter.createIdRef(JaxbODMModelParser.BusIdPreFix+ICR));
+			rectifier.setFiringAngleMeasuringBusId(parser.createBusRef(JaxbODMModelParser.BusIdPreFix+ICR));
 		
 		inverter.setNumberofBridges(NBI);
 		inverter.setMaxFiringAngle(JaxbDataSetter.createAngleData(GAMMX, AngleUnitType.DEG));
 		inverter.setMinFiringAngle(JaxbDataSetter.createAngleData(GAMMN, AngleUnitType.DEG));
 		inverter.setAcSideRatedVoltage(JaxbDataSetter.createVoltageData(EBASI, VoltageUnitType.KV));
 		if (ICI != 0)
-			inverter.setFiringAngleMeasuringBusId(JaxbDataSetter.createIdRef(JaxbODMModelParser.BusIdPreFix+ICI));
+			inverter.setFiringAngleMeasuringBusId(parser.createBusRef(JaxbODMModelParser.BusIdPreFix+ICI));
 		
 		/*
 			RCR Rectifier commutating transformer resistance per bridge; entered in ohms. No default allowed.
@@ -166,14 +167,14 @@ public class PSSEV30DcLine2TDataRec {
 				one dc converter. IDR = '1' by default.
 		*/
 		if (IFR != 0 && ITR != 0) {
-			rectifier.setRefXfrFromBusId(JaxbDataSetter.createIdRef(JaxbODMModelParser.BusIdPreFix+IFR));
-			rectifier.setRefXfrToBusId(JaxbDataSetter.createIdRef(JaxbODMModelParser.BusIdPreFix+ITR));
+			rectifier.setRefXfrFromBusId(parser.createBusRef(JaxbODMModelParser.BusIdPreFix+IFR));
+			rectifier.setRefXfrToBusId(parser.createBusRef(JaxbODMModelParser.BusIdPreFix+ITR));
 			rectifier.setRefXfrCirId(IDR);
 		}
 
 		if (IFI != 0 && ITI != 0) {
-			inverter.setRefXfrFromBusId(JaxbDataSetter.createIdRef(JaxbODMModelParser.BusIdPreFix+IFI));
-			inverter.setRefXfrToBusId(JaxbDataSetter.createIdRef(JaxbODMModelParser.BusIdPreFix+ITI));
+			inverter.setRefXfrFromBusId(parser.createBusRef(JaxbODMModelParser.BusIdPreFix+IFI));
+			inverter.setRefXfrToBusId(parser.createBusRef(JaxbODMModelParser.BusIdPreFix+ITI));
 			inverter.setRefXfrCirId(IDI);
 		}
 	}

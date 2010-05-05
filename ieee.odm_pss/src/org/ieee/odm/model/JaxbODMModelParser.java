@@ -62,6 +62,7 @@ public class JaxbODMModelParser extends ODMModelParser {
 	
 	// bus and branch object cache for fast lookup. 
 	private Hashtable<String,IDRecordXmlType> objectCache = null;
+	public Hashtable<String,IDRecordXmlType> getObjectCache() { return this.objectCache; }
 
 	private StudyCaseXmlType pssStudyCase = null;
 	
@@ -141,6 +142,19 @@ public class JaxbODMModelParser extends ODMModelParser {
 	}
 	
 	/**
+	 * create a ref record with id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public BusRefRecordXmlType createBusRef(String id) {
+		BusRecordXmlType rec = this.getBusRecord(id);
+		BusRefRecordXmlType refBus = getFactory().createBusRefRecordXmlType();
+		refBus.setIdRef(rec);
+		return refBus;
+	}	
+	
+	/**
 	 * Get the baseCase element
 	 * 
 	 * @return
@@ -179,6 +193,15 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 *  =========================
 	 */
 	
+	/**
+	 * Get the cashed object by id
+	 * 
+	 * @param id
+	 */
+	private void removeCachedObject(String id) {
+		this.objectCache.remove(id);
+	}
+
 	/**
 	 * Get the cashed bus object by id
 	 * 
@@ -372,18 +395,40 @@ public class JaxbODMModelParser extends ODMModelParser {
 	 * @param id
 	 * @return
 	 */
-	public DCLineData2TXmlType getDcLine2TRecord(String recId, String invId, int number) {
-		String id = ModelStringUtil.formBranchId(recId, invId, new Integer(number).toString());
+	public DCLineData2TXmlType getDcLine2TRecord(String recId, String invId, long number) {
+		String id = ModelStringUtil.formBranchId(recId, invId, new Long(number).toString());
 		return (DCLineData2TXmlType)this.getCachedObject(id);
 	}
 	
 	/**
-	 * Get the cashed object by id
+	 * add a new 2T DcLine record to the base case and to the cache table
 	 * 
 	 * @param id
+	 * @return
 	 */
-	public void removeCachedObject(String id) {
-		this.objectCache.remove(id);
+	public DCLineData2TXmlType createDCLine2TRecord(String recId, String invId, long number) throws Exception {
+		//if (getStudyCase().getBaseCase().getDcLineList() == null)
+		//	getStudyCase().getBaseCase().addNewDcLineList();
+		DCLineData2TXmlType dcLine = getFactory().createDCLineData2TXmlType();
+		if (getBaseCase().getDcLineList() == null)
+			getBaseCase().setDcLineList(this.getFactory().createPSSNetworkXmlTypeDcLineList());
+		getBaseCase().getDcLineList().getDcLint2T().add(dcLine);
+		String branchId = ModelStringUtil.formBranchId(recId, invId, new Long(number).toString());
+		dcLine.setId(branchId);
+		dcLine.setNumber(number);
+		if (this.objectCache.get(branchId) != null) {
+			throw new Exception("DCLine record duplication, bus id: " + branchId);
+		}
+		this.objectCache.put(branchId, dcLine);
+	
+		ConverterXmlType rectifier = getFactory().createConverterXmlType();
+		dcLine.setRectifier(rectifier);
+		dcLine.getRectifier().setBusId(createBusRef(recId));
+	
+		ConverterXmlType inverter = getFactory().createConverterXmlType();
+		dcLine.setInverter(inverter);
+		dcLine.getInverter().setBusId(createBusRef(invId));
+		return dcLine;
 	}
 
 	/**
@@ -404,35 +449,6 @@ public class JaxbODMModelParser extends ODMModelParser {
 		return JaxbTranStabSimuHelper.getTransientSimlation(getDefaultScenario());
 	}
 	
-	/**
-	 * add a new 2T DcLine record to the base case and to the cache table
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public DCLineData2TXmlType addNewBaseCaseDCLine2T(String recId, String invId, long number) throws Exception {
-		//if (getStudyCase().getBaseCase().getDcLineList() == null)
-		//	getStudyCase().getBaseCase().addNewDcLineList();
-		DCLineData2TXmlType dcLine = getFactory().createDCLineData2TXmlType();
-		getStudyCase().getBaseCase().getDcLineList().getDcLint2T().add(dcLine);
-		String branchId = ModelStringUtil.formBranchId(recId, invId, new Long(number).toString());
-		dcLine.setId(branchId);
-		dcLine.setNumber(number);
-		if (this.objectCache.get(branchId) != null) {
-			throw new Exception("DCLine record duplication, bus id: " + branchId);
-		}
-		this.objectCache.put(branchId, dcLine);
-
-		ConverterXmlType rectifier = getFactory().createConverterXmlType();
-		dcLine.setRectifier(rectifier);
-		dcLine.getRectifier().setBusId(JaxbDataSetter.createIdRef(recId));
-
-		ConverterXmlType inverter = getFactory().createConverterXmlType();
-		dcLine.setInverter(inverter);
-		dcLine.getInverter().setBusId(JaxbDataSetter.createIdRef(invId));
-		return dcLine;
-	}
-
 	public Unmarshaller createUnmarshaller() throws Exception {
 		JAXBContext jaxbContext = JAXBContext.newInstance(ModelContansts.ODM_Schema_NS);
 		return	jaxbContext.createUnmarshaller();	
