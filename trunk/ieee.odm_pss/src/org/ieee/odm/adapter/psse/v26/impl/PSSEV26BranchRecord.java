@@ -224,7 +224,7 @@ public class PSSEV26BranchRecord {
 	    		else if (iconId.equals(tid))
 	    			vAdjData.setAdjBusLocation(TapAdjustBusLocationEnumType.TO_BUS);
 	    		else {
-		    		vAdjData.setAdjVoltageBus(JaxbDataSetter.createIdRef(iconId));
+		    		vAdjData.setAdjVoltageBus(parser.createBusRef(iconId));
 		    		if (isNegative)
 		    			vAdjData.setAdjBusLocation(TapAdjustBusLocationEnumType.NEAR_TO_BUS);
 		    		else

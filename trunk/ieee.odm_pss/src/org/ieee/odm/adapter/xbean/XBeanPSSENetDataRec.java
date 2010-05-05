@@ -1,4 +1,4 @@
-package org.ieee.odm.adapter.psse.xbean;
+package org.ieee.odm.adapter.xbean;
 
 import java.util.StringTokenizer;
 
@@ -11,8 +11,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.XformerZTableXmlType;
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.xbean.XBeanParserHelper;
 
 
 public class XBeanPSSENetDataRec {

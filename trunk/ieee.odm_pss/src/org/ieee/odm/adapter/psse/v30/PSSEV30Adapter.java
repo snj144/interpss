@@ -199,7 +199,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSENetDataRec.processAreaRec(lineStr, PsseVersion.PSSE_30, baseCaseNet, this.factory);
+								PSSENetDataRec.processAreaRec(lineStr, PsseVersion.PSSE_30, baseCaseNet, parser);
 							areaInterCnt++;
 						}	 
       				}
@@ -336,7 +336,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
   		}
              
 		if (!this.elemCntOnly)
-			JaxbParserHelper.createBusEquivData(baseCaseNet, this.getLogger());
+			JaxbParserHelper.createBusEquivData(baseCaseNet, parser, this.getLogger());
   		
    	   	return parser;
 	}

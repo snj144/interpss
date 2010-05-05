@@ -4,7 +4,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.adapter.psse.xbean.v30.XBeanPSSEV30Adapter;
+import org.ieee.odm.adapter.xbean.v30.XBeanPSSEV30Adapter;
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.JaxbParserHelper;
@@ -53,8 +53,8 @@ public class PSSEV30LineDataRec {
 			logger.severe(e.toString());
 			return;
 		}		
-		branchRec.setFromBus(JaxbDataSetter.createBusRef(fid));
-		branchRec.setToBus(JaxbDataSetter.createBusRef(tid));	
+		branchRec.setFromBus(parser.createBusRef(fid));
+		branchRec.setToBus(parser.createBusRef(tid));	
 		branchRec.setCircuitId(ckt);
 		
 		branchRec.setOffLine(status != 1);

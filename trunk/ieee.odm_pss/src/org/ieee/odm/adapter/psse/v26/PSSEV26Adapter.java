@@ -131,7 +131,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         				} 
         				else if(type==InterchangeData){
         					//System.out.println("InterData: " + str);
-        					PSSEV26NetRecord.processAreaInterchangeData(str,baseCaseNet, this.factory); 
+        					PSSEV26NetRecord.processAreaInterchangeData(str,baseCaseNet, parser); 
         				}
         				else if(type==ZoneData){
         					//System.out.println("ZoneData: " + str);

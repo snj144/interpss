@@ -300,7 +300,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				if (reBusId != null && !reBusId.equals("0")
 						&& !reBusId.equals(busId)) {
 					equivGen.setDesiredVoltage(JaxbDataSetter.createVoltageData(vSpecPu, VoltageUnitType.PU));
-					equivGen.setRemoteVoltageControlBus(JaxbDataSetter.createIdRef(reBusId));
+					equivGen.setRemoteVoltageControlBus(parser.createBusRef(reBusId));
 				}
 			}
 		}

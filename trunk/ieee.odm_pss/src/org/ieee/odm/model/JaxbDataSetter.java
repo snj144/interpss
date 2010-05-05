@@ -34,11 +34,9 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.BaseRecordXmlType;
 import org.ieee.odm.schema.BranchRatingLimitXmlType;
-import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.CurrentXmlType;
 import org.ieee.odm.schema.GXmlType;
-import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.LFBranchCodeEnumType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
@@ -71,24 +69,6 @@ import org.ieee.odm.schema.ZXmlType;
 import org.ieee.odm.schema.BaseRecordXmlType.OwnerList.Owner;
 
 public class JaxbDataSetter {
-	/**
-	 * create a ref record with id
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public static IDRefRecordXmlType createIdRef(String id) {
-		IDRefRecordXmlType refBus = getFactory().createIDRefRecordXmlType();
-		refBus.setIdRef(id);
-		return refBus;
-	}
-	
-	public static BusRefRecordXmlType createBusRef(String id) {
-		BusRefRecordXmlType refBus = getFactory().createBusRefRecordXmlType();
-		refBus.setIdRef(id);
-		return refBus;
-	}	
-	
 	/**
 	 * Set apparent power, unit = kva
 	 * 
