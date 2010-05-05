@@ -33,7 +33,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.odm.adapter.ge.xbean.GE_PSLF_Adapter;
+import org.ieee.odm.adapter.ge.xbean.XBeanGE_PSLF_Adapter;
 import org.ieee.odm.model.xbean.XBeanDataSetter;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
@@ -49,7 +49,7 @@ public class GenDataRec extends BusHeaderRec {
 	public int govFlag, agcFlag, dispatchFlag, baseloadFlag, turbineType, qtab;
 	public double airTemp, pmax2;
 
-	public GenDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final XBeanODMModelParser parser, Logger logger) {
+	public GenDataRec(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version, final XBeanODMModelParser parser, Logger logger) {
 		//System.out.println("gen data->" + lineStr);
 /*
 generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  qrf  ar zone   pgen   pmax   pmin   qgen   qmax   qmin   mbase cmp_r cmp_x gen_r gen_x           hbus                    tbus           date_in date_out pid N
