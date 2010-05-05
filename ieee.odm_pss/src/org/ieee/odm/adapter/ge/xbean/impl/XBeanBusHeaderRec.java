@@ -26,7 +26,7 @@ package org.ieee.odm.adapter.ge.xbean.impl;
 
 import java.util.StringTokenizer;
 
-public class BusHeaderRec {
+public class XBeanBusHeaderRec {
 	public int number, ar, z;
 	public String name, id = "", longId = ""; 
 	public double bkv;
