@@ -31,8 +31,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.psse.xbean.v26.XBeanPSSEV26Adapter;
-import org.ieee.odm.adapter.psse.xbean.v30.XBeanPSSEV30Adapter;
+import org.ieee.odm.adapter.psse.v26.PSSEV26Adapter;
+import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.interpss.custom.exchange.impl.PSSEFormat_in;
 import org.interpss.custom.exchange.psse.PSSEDataRec;
 import org.interpss.mapper.IEEEODMMapper;
@@ -73,8 +73,8 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 				this.version == PSSEDataRec.VersionNo.PSS_E_30) {
 			PerformanceTimer timer = new PerformanceTimer();
 			IODMPSSAdapter adapter = this.version == PSSEDataRec.VersionNo.PSS_E_26?
-					new XBeanPSSEV26Adapter(IpssLogger.getLogger()) :
-					new XBeanPSSEV30Adapter(IpssLogger.getLogger());
+					new PSSEV26Adapter(IpssLogger.getLogger()) :
+					new PSSEV30Adapter(IpssLogger.getLogger());
 			boolean ok = adapter.parseInputFile(filepath);
 			String str = timer.log("Load PSSE data time: ");
 			msgHub.sendStatusMsg(str);
