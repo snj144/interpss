@@ -54,9 +54,10 @@ public class PSSEV30_NEISO_ODMTest {
 		
 		IODMPSSAdapter adapter = new PSSEV30Adapter(logger);
 		assertTrue(adapter.parseInputFile("testData/psse/Model_testV30.raw"));
-		//System.out.println(adapter.getModel());
 		
 		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
+		//parser.stdout();
+		
 		PSSNetworkXmlType net = parser.getBaseCase();
 		assertTrue(net.getBasePower().getValue() == 100.0);
 		/*
@@ -113,7 +114,7 @@ public class PSSEV30_NEISO_ODMTest {
 		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getPower().getRe() == 0.0);
 		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getPower().getIm() == -65.628);
 		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getDesiredVoltage().getValue() == 1.03842);
-		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getRemoteVoltageControlBus().getIdRef().equals("Bus1"));
+		assertTrue(((BusRecordXmlType)bus.getLoadflowData().getGenData().getEquivGen().getRemoteVoltageControlBus().getIdRef()).getId().equals("Bus1"));
 		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getQLimit().getMax() == 441.0);
 		assertTrue(bus.getLoadflowData().getGenData().getContributeGenList().getContributeGen().size() == 1);
 		
@@ -268,6 +269,7 @@ public class PSSEV30_NEISO_ODMTest {
         </inverter>
       </dcLint2T>
       		 */
+		//System.out.println(parser.getObjectCache());
 		DCLineData2TXmlType dcLine = parser.getDcLine2TRecord("Bus615600", "Bus615353", 1);
 		assertTrue(dcLine.getControlMode() == DcLineControlModeEnumType.POWER);
 		assertTrue(dcLine.getPowerDemand().getValue() == 552.0);

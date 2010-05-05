@@ -58,6 +58,8 @@ public class PSSEV30_ODMTest {
 //		System.out.println(adapter.getModel().toString());
 		
 		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
+		//parser.stdout();		
+		
 		PSSNetworkXmlType net = parser.getBaseCase();
 		assertTrue(net.getBasePower().getValue() == 100.0);
 
