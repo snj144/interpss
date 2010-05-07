@@ -6,14 +6,18 @@ import org.apache.commons.math.linear.RealVector;
 public interface ModalAnalysis {
 
 	
+	// dominant mode corresponding to the minimum eigenvalue
+	public void getDominantMode();
 	
-	public void getDominatantModel();
+	//public Mode getMode(int modeIndex);
 	
-	public Complex getDominatantEigenValue();
+	public Complex getDominantEigenValue();
 	
 	public double getDomRealEigenValue(int NumofSmallestEig);
 	
-	public RealVector getDominatantVector();
+	public RealVector getDominantRightVector();
+	
+	public RealVector getDominantLeftVector();
 	
 	public double getBusPartFactor(int busIdx);
 	
