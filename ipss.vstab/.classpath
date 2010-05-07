@@ -2,28 +2,18 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/trunk/ieee.odm_pss/lib/xbean.jar"/>
-	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/spring/spring-2.5.6.jar"/>
-	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/ipss/ipss_core.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/E:/科研/interpss/InterPSS_Doc(2)/InterPSS_Doc(2)/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/ipss/ipss_schemas.jar"/>
-	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/ipss/ipss_xml.jar"/>
-	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/ieee/ieee.odm_pss.jar"/>
-	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/ieee/ieee.odm_pss.schemas.jar"/>
-	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/apache/commons-math.jar" sourcepath="D:/学习软件/interpss/commons-math-2.0.zip">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/E:/科研/interpss/Google App Engine/commons-math-2.0/commons-math-2.0/commons-math-2.0-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/eclipse/org.eclipse.emf_2.5.0.v200906151043.jar"/>
-	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/eclipse/org.eclipse.emf.common_2.5.0.v200906151043.jar"/>
-	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/eclipse/org.eclipse.emf.ecore_2.5.0.v200906151043.jar"/>
-	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar"/>
-	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/ipss/ipss_plugin.jar"/>
-	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/db/derby.jar"/>
-	<classpathentry kind="lib" path="/trunk/ipss.lib/lib/db/derbytools.jar"/>
+	<classpathentry kind="lib" path="/InterPSS trunk/ipss.lib/lib/ieee/ieee.odm_pss.jar"/>
+	<classpathentry kind="lib" path="/InterPSS trunk/ipss.lib/lib/ieee/ieee.odm_pss.schemas.jar"/>
+	<classpathentry kind="lib" path="/InterPSS trunk/ipss.lib/lib/apache/commons-math.jar"/>
+	<classpathentry kind="lib" path="/InterPSS trunk/ipss.lib/lib/ipss/ipss_core.jar"/>
+	<classpathentry kind="lib" path="/InterPSS trunk/ipss.lib/lib/ipss/ipss_editor_simu.jar"/>
+	<classpathentry kind="lib" path="/InterPSS trunk/ipss.lib/lib/ipss/ipss_plugin.jar"/>
+	<classpathentry kind="lib" path="/InterPSS trunk/ipss.lib/lib/ipss/ipss_xml.jar"/>
+	<classpathentry kind="lib" path="/InterPSS trunk/ipss.lib/lib/eclipse/org.eclipse.emf_2.5.0.v200906151043.jar"/>
+	<classpathentry kind="lib" path="/InterPSS trunk/ipss.lib/lib/eclipse/org.eclipse.emf.common_2.5.0.v200906151043.jar"/>
+	<classpathentry kind="lib" path="/InterPSS trunk/ipss.lib/lib/eclipse/org.eclipse.emf.ecore_2.5.0.v200906151043.jar"/>
+	<classpathentry kind="lib" path="/InterPSS trunk/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar"/>
+	<classpathentry kind="lib" path="/InterPSS trunk/ipss.lib/lib/xml/xbean.jar"/>
+	<classpathentry kind="lib" path="/InterPSS trunk/ipss.lib/lib/spring/spring-2.5.6.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
