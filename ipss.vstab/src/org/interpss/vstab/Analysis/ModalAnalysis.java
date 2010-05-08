@@ -7,9 +7,9 @@ public interface ModalAnalysis {
 
 	
 	// dominant mode corresponding to the minimum eigenvalue
-	public void getDominantMode();
+	public Mode getDominantMode();
 	
-	//public Mode getMode(int modeIndex);
+	public Mode getMode(int modeIndex);
 	
 	public Complex getDominantEigenValue();
 	
@@ -19,10 +19,12 @@ public interface ModalAnalysis {
 	
 	public RealVector getDominantLeftVector();
 	
-	public double getBusPartFactor(int busIdx);
+	public double getBusPartFactor(int busIdx ,int modeIdx);
 	
-	public double getBranchPartFactor(int branchIdx);
+	public double getBranchPartFactor(int branchIdx,int modeIdx);
 	
-	public double getGenPartFactor(int busIdx);
+	public double getGenPartFactor(int busIdx,int modeIdx);
+	
+	public void formModeList();
 	
 }
