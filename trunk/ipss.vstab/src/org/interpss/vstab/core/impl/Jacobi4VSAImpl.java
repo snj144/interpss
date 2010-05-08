@@ -1,9 +1,12 @@
 package org.interpss.vstab.core.impl;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.linear.EigenDecomposition;
+import org.apache.commons.math.linear.EigenDecompositionImpl;
 import org.apache.commons.math.linear.LUDecomposition;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.util.MathUtils;
 import org.interpss.vstab.core.Jacobi4VSA;
 
 import com.interpss.common.datatype.Matrix_xy;
@@ -21,8 +24,11 @@ public class Jacobi4VSAImpl implements Jacobi4VSA {
     protected RealMatrix subJpv;
     protected RealMatrix subJqtheta;
     protected RealMatrix subJqv;
+    protected RealMatrix RightEigenVectorMatrix;
+    protected RealMatrix LeftEigenVectorMatrix;
+    protected RealMatrix eigenValueDiagMatrix;
     private IPSSMsgHub msg;
-    
+   
     public Jacobi4VSAImpl(AclfNetwork net){
       initialize(net);
     }
@@ -174,6 +180,27 @@ public class Jacobi4VSAImpl implements Jacobi4VSA {
 			}
 			return this.subJqv;
 		
+	}
+
+	@Override
+	public RealMatrix getLeftEigenVectors(RealMatrix Jacobi) {
+		EigenDecomposition eigDcp  =new EigenDecompositionImpl(Jacobi.transpose(),MathUtils.SAFE_MIN);
+		this.LeftEigenVectorMatrix=eigDcp.getV().transpose();
+		return null;
+	}
+
+	@Override
+	public RealMatrix getRightEigenVectors(RealMatrix Jacobi) {
+		EigenDecomposition eigDcp  =new EigenDecompositionImpl(Jacobi,MathUtils.SAFE_MIN);
+		this.RightEigenVectorMatrix=eigDcp.getV();
+		return null;
+	}
+
+	@Override
+	public RealMatrix getEigValues(RealMatrix Jacobi) {
+		EigenDecomposition eigDcp  =new EigenDecompositionImpl(Jacobi,MathUtils.SAFE_MIN);
+		this.eigenValueDiagMatrix=eigDcp.getD();
+		return this.eigenValueDiagMatrix;
 	}
 	
 }

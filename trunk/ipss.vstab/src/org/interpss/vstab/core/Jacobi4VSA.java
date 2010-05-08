@@ -9,4 +9,8 @@ public interface Jacobi4VSA {
    	public RealMatrix getSubJpv();
    	public RealMatrix getSubJqtheta();
    	public RealMatrix getSubJqv();
+   	public RealMatrix getRightEigenVectors(RealMatrix Jacobi);
+   	public RealMatrix getLeftEigenVectors(RealMatrix Jacobi);
+	public RealMatrix getEigValues(RealMatrix Jacobi);
+   	
 }

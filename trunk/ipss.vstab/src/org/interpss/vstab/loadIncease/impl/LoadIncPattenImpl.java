@@ -18,6 +18,7 @@ public class LoadIncPattenImpl implements LoadIncPatten {
     protected LoadDataReader ldr;
     private List<Integer> incLoadList;
     private AclfNetwork objnet;
+    
     public LoadIncPattenImpl(AclfNetwork net){
     	this.objnet=net;
     	this.ldr=new LoadDataReader(objnet);
