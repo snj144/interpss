@@ -27,7 +27,8 @@ package org.ieee.odm.adapter.ge.impl;
 import java.util.StringTokenizer;
 
 public class BusHeaderRec {
-	public int number, ar, z;
+	public long number; 
+	public int ar, z;
 	public String name, id = "", longId = ""; 
 	public double bkv;
 	public String d_in, d_out, projId;

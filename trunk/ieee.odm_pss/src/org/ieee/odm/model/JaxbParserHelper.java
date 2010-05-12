@@ -88,7 +88,8 @@ public class JaxbParserHelper {
 	 * consolidate branch genContributionList and loadContributionList to the equiv gen and load 
 	 * 
 	 */
-	public static boolean createBusEquivData(PSSNetworkXmlType baseCaseNet, JaxbODMModelParser parser, Logger logger) {
+	public static boolean createBusEquivData(JaxbODMModelParser parser, Logger logger) {
+		PSSNetworkXmlType baseCaseNet = parser.getBaseCase(); 
 		boolean ok = true;
 
 		for (BusRecordXmlType busRec : baseCaseNet.getBusList().getBus()) {

@@ -27,16 +27,16 @@ package org.ieee.odm.adapter.ge.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.odm.adapter.ge.xbean.XBeanGE_PSLF_Adapter;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.schema.ActivePowerUnitType;
+import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
+import org.ieee.odm.schema.ReactivePowerUnitType;
+import org.ieee.odm.schema.ZUnitType;
+import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.model.JaxbDataSetter;
+import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.JaxbODMModelParser;
 
 public class GenDataRec extends BusHeaderRec {
 	public int st, igregBus, nst; 
@@ -49,7 +49,8 @@ public class GenDataRec extends BusHeaderRec {
 	public int govFlag, agcFlag, dispatchFlag, baseloadFlag, turbineType, qtab;
 	public double airTemp, pmax2;
 
-	public GenDataRec(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version, final XBeanODMModelParser parser, Logger logger) {
+	public GenDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, 
+			final JaxbODMModelParser parser, Logger logger) throws Exception {
 		//System.out.println("gen data->" + lineStr);
 /*
 generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  qrf  ar zone   pgen   pmax   pmin   qgen   qmax   qmin   mbase cmp_r cmp_x gen_r gen_x           hbus                    tbus           date_in date_out pid N
@@ -63,7 +64,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		//  <bus> <"name"> <bkv> <"id"> <"long id"> : 
 		setHeaderData(str1);
 
-	    final String busId = XBeanODMModelParser.BusIdPreFix+this.number;
+	    final String busId = JaxbODMModelParser.BusIdPreFix+this.number;
 		// get the responding-bus data with busId
 		BusRecordXmlType busRec = parser.getBusRecord(busId);
 		if (busRec==null){
@@ -178,7 +179,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		
 	    // ODM allows one equiv gen has many contribute generators, but here, we assume there is only one contribute gen.
 
-	    LoadflowGenDataXmlType contriGen = XBeanParserHelper.createContriGen(busRec);
+	    LoadflowGenDataXmlType contriGen = JaxbParserHelper.createContriGen(busRec);
 		
 	    contriGen.setId(this.id);
 		if (this.longId != null && !this.longId.equals(""))
@@ -195,7 +196,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		<igreg bkv> Regulating bus base voltage
 		*/
 		
-	    contriGen.addNewRemoteVoltageControlBus().setIdRef(XBeanODMModelParser.BusIdPreFix+this.igregBus);
+	    contriGen.setRemoteVoltageControlBus(parser.createBusRecRef(JaxbODMModelParser.BusIdPreFix+this.igregBus));
 		
 		/*
 		<prf> Real power regulating assignment factor (0.0 - 1.0)
@@ -215,10 +216,10 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		<mbase> Generator base (MVA)
 		 */
 		
-	    XBeanDataSetter.setPowerMva(contriGen.addNewRatedPower(), this.mbase);
-	    XBeanDataSetter.setPowerData(contriGen.addNewPower(), this.pgen, this.qgen, ApparentPowerUnitType.MVA);
-		XBeanDataSetter.setActivePowerLimitData(contriGen.addNewPLimit(), this.pmax, this.pmin, ActivePowerUnitType.MW);
-		XBeanDataSetter.setReactivePowerLimitData(contriGen.addNewQLimit(), this.qmax, this.qmin, ReactivePowerUnitType.MVAR);
+	    contriGen.setRatedPower(JaxbDataSetter.createPowerMva(this.mbase));
+	    contriGen.setPower(JaxbDataSetter.createPowerData(this.pgen, this.qgen, ApparentPowerUnitType.MVA));
+	    contriGen.setPLimit(JaxbDataSetter.createActivePowerLimitData(this.pmax, this.pmin, ActivePowerUnitType.MW));
+	    contriGen.setQLimit(JaxbDataSetter.createReactivePowerLimitData(this.qmax, this.qmin, ReactivePowerUnitType.MVAR));
 		
 		/*
 		<rcomp> Compensating resistance (pu)
@@ -232,9 +233,9 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		gen.setXCharactPU(this.zgenx);
 */		
 		if (this.rcomp != 0.0 || this.xcomp != 0.0)
-			XBeanDataSetter.setZValue(contriGen.addNewSourceZ(), this.rcomp, this.xcomp, ZUnitType.PU);
+			contriGen.setSourceZ(JaxbDataSetter.createZValue(this.rcomp, this.xcomp, ZUnitType.PU));
 		if (this.zgenr != 0.0 || this.zgenx != 0.0)
-			XBeanDataSetter.setZValue(contriGen.addNewXfrZ(), this.zgenr, this.zgenx, ZUnitType.PU);
+			contriGen.setXfrZ(JaxbDataSetter.createZValue(this.zgenr, this.zgenx, ZUnitType.PU));
 	}	
 
 	public String toString() {
