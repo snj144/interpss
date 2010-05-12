@@ -26,16 +26,16 @@ package org.ieee.odm.adapter.ge.impl;
 
 import java.util.StringTokenizer;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LengthUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.odm.adapter.ge.xbean.XBeanGE_PSLF_Adapter;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.model.JaxbDataSetter;
+import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BranchRecordXmlType;
+import org.ieee.odm.schema.LFBranchCodeEnumType;
+import org.ieee.odm.schema.LengthUnitType;
+import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.YUnitType;
+import org.ieee.odm.schema.ZUnitType;
 
 public class BranchSecDataRec extends BaseBranchDataRec {
 	public double r, x, b;
@@ -53,7 +53,8 @@ public class BranchSecDataRec extends BaseBranchDataRec {
   		1 201 0.0000 0.000 1.000   400101   391231   0 1  0    0.0    0.0    0.0    
   		0.0   1 1.000   0 1.000   0 1.000   0 1.000   0 0.000   0 0.000   0 0.000   0 0.000  0
 	 */
-	public BranchSecDataRec(String lineStr, XBeanGE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
+	public BranchSecDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) {
+		//PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		//System.out.println("branch sec->" + lineStr);
 
 		String str1 = lineStr.substring(0, lineStr.indexOf(':')),
@@ -65,9 +66,10 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 		public String f_name, t_name, ck, long_id;
 		public double f_bkv, t_bkv;
 */		
-		BranchRecordXmlType branchRec = this.createBranch(baseCaseNet);
+		BranchRecordXmlType branchRec = parser.createBranchRecord();
 		
-		LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
+		LoadflowBranchDataXmlType branchData = parser.getFactory().createLoadflowBranchDataXmlType(); 
+		branchRec.getLoadflowData().add(branchData);
 		branchData.setCode(LFBranchCodeEnumType.LINE);
 
 /*
@@ -147,13 +149,14 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 		branchData.setNormalOffLineStatus(this.nst == 0);
 		
 		if (this.ohms == 0) 
-			XBeanDataSetter.setLineData(branchData, r, x,
+			JaxbDataSetter.setLineData(branchData, r, x,
 					ZUnitType.PU, 0.0, b, YUnitType.PU);			
 		else
-			XBeanDataSetter.setLineData(branchData, r, x,
+			JaxbDataSetter.setLineData(branchData, r, x,
 					ZUnitType.OHM, 0.0, b, YUnitType.MHO);
 		
-		XBeanDataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(), r_mvaAry, ApparentPowerUnitType.MVA);
+		branchData.setBranchRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
+		JaxbDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(), r_mvaAry, ApparentPowerUnitType.MVA);
 		
 		/*
 		<al> - Loss factor (0.0 - 1.0) used to assign losses.
@@ -165,11 +168,13 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 		 */
 		branchData.setAreaNumber(ar);
 		branchData.setZoneNumber(z);
-		LoadflowBranchDataXmlType.LineInfo lineInfo = branchData.addNewLineInfo();
-		lineInfo.addNewLength().setValue(l_info);
+		LoadflowBranchDataXmlType.LineInfo lineInfo = parser.getFactory().createLoadflowBranchDataXmlTypeLineInfo(); 
+		branchData.setLineInfo(lineInfo);
+		lineInfo.setLength(parser.getFactory().createLengthXmlType());
+		lineInfo.getLength().setValue(l_info);
 		lineInfo.getLength().setUnit(LengthUnitType.MILE);
 		
-		XBeanDataSetter.setBranchOwnership(branchData, oAry, pAry);
+		JaxbDataSetter.setBranchOwnership(branchData, oAry, pAry);
 	}
 	
 	public String toString() {

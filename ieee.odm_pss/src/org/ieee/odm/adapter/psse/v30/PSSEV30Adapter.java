@@ -336,7 +336,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
   		}
              
 		if (!this.elemCntOnly)
-			JaxbParserHelper.createBusEquivData(baseCaseNet, parser, this.getLogger());
+			JaxbParserHelper.createBusEquivData(parser, this.getLogger());
   		
    	   	return parser;
 	}

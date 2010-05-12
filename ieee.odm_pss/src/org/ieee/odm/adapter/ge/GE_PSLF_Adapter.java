@@ -26,8 +26,6 @@ package org.ieee.odm.adapter.ge;
 
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.ge.impl.BranchSecDataRec;
@@ -36,8 +34,10 @@ import org.ieee.odm.adapter.ge.impl.GenDataRec;
 import org.ieee.odm.adapter.ge.impl.LoadDataRec;
 import org.ieee.odm.adapter.ge.impl.NetDataRec;
 import org.ieee.odm.adapter.ge.impl.XformerDataRec;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.schema.OriginalDataFormatEnumType;
+import org.ieee.odm.schema.PSSNetworkXmlType;
 
 public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 	public static enum VersionNo {PSLF15};
@@ -85,12 +85,12 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 		super(logger);
 	}
 	 
-	protected XBeanODMModelParser parseInputFile(
+	protected JaxbODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		VersionNo version = VersionNo.PSLF15;
 		
-		XBeanODMModelParser parser = new XBeanODMModelParser();
-		XBeanParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.GE_PSLF);
+		JaxbODMModelParser parser = new JaxbODMModelParser();
+		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.GE_PSLF);
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		baseCaseNet.setId("Base_Case_from_GE_PSLF_format");
@@ -190,13 +190,13 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
       				}
       				else {
       					if (recType == RecType.Title) {
-      						titleRec.processLineStr(lineStr, version, baseCaseNet);
+      						titleRec.processLineStr(lineStr, version, parser);
       					}
       					else if (recType == RecType.Comments) {
-      						commentRec.processLineStr(lineStr, version, baseCaseNet);
+      						commentRec.processLineStr(lineStr, version, parser);
       					}
       					else if (recType == RecType.SolutionParameters) {
-      						solParamRec.processLineStr(lineStr, version, baseCaseNet);
+      						solParamRec.processLineStr(lineStr, version, parser);
       					}
       					else if (recType == RecType.BusData) {
       						// process BusData
@@ -204,11 +204,11 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
       					}
       					else if (recType == RecType.BranchSecData) {
       						// process Branch section Data
-      						new BranchSecDataRec(lineStr, version, baseCaseNet);
+      						new BranchSecDataRec(lineStr, version, parser);
       					}
       					else if (recType == RecType.XfrData) {
       						// process Xfr Data
-      						new XformerDataRec(lineStr, version, baseCaseNet);
+      						new XformerDataRec(lineStr, version, parser);
       					}
       					else if (recType == RecType.GenData) {
       						// process Gen Data
@@ -228,11 +228,11 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
       					}
       					else if (recType == RecType.AreaData) {
       						// process Area Data
-      						new NetDataRec.AreaRec(lineStr, version, baseCaseNet);
+      						new NetDataRec.AreaRec(lineStr, version, parser);
       					}
       					else if (recType == RecType.ZoneData) {
       						// process Zone Data
-      						new NetDataRec.ZoneRec(lineStr, version, baseCaseNet);
+      						new NetDataRec.ZoneRec(lineStr, version, parser);
       					}
       					else if (recType == RecType.InterfaceData) {
       						// process Interface Data
@@ -295,7 +295,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
     		throw new Exception("GE data input error, line no " + lineNo + ", " + e.toString() + "\n" + lineStr);
   		}
 
-  		XBeanParserHelper.createBusEquivData(baseCaseNet, this.getLogger());
+  		JaxbParserHelper.createBusEquivData(parser, this.getLogger());
   		
 		return parser;
 	}

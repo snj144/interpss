@@ -26,11 +26,9 @@ package org.ieee.odm.adapter.ge.impl;
 
 import java.util.StringTokenizer;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
+import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.schema.BranchRecordXmlType;
 
 public class BranchHeaderRec {
 	public int f_bus, t_bus, sec;
@@ -64,18 +62,17 @@ public class BranchHeaderRec {
 		}
 	}
 	
-	public BranchRecordXmlType createBranch(final PSSNetworkXmlType baseCaseNet) {
-		final String fid = XBeanODMModelParser.BusIdPreFix + f_bus;
-		final String tid = XBeanODMModelParser.BusIdPreFix + t_bus;
-		BranchRecordXmlType branchRec = XBeanParserHelper.findBranchRecord(fid, tid, ck, baseCaseNet);
+	public BranchRecordXmlType createBranch(JaxbODMModelParser parser) throws Exception {
+		final String fid = JaxbODMModelParser.BusIdPreFix + f_bus;
+		final String tid = JaxbODMModelParser.BusIdPreFix + t_bus;
+		final String cId = ck.replace(' ', '_');
+		BranchRecordXmlType branchRec = parser.getBranchRecord(fid, tid, cId);
 		if (branchRec == null) {
-			branchRec = baseCaseNet.getBranchList().addNewBranch();	
-
-			branchRec.addNewFromBus().setIdRef(fid);
-			branchRec.addNewToBus().setIdRef(tid);
-			branchRec.setCircuitId(ck.replace(' ', '_'));
-			branchRec.setId(ModelStringUtil.formBranchId(fid, tid, ck));
-			branchRec.setName(f_name + "-" + t_name + "_" + ck);
+			String id = ModelStringUtil.formBranchId(fid, tid, cId);
+			branchRec = parser.createBranchRecord(id);	
+			branchRec.setFromBus(parser.createBusRecRef(fid));
+			branchRec.setToBus(parser.createBusRecRef(tid));
+			branchRec.setName(f_name + "-" + t_name + "_" + cId);
 		}
 		return branchRec;
 	}
