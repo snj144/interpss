@@ -279,9 +279,12 @@ public class JaxbParserHelper {
 			BusRecordXmlType.SvcData data = getFactory().createBusRecordXmlTypeSvcData();
 			bus.setSvcData(data);
 		}
-		//if (bus.getSvcData().getSvcList() == null) 
-		//	bus.getSvcData().addNewSvcList();
+		if (bus.getSvcData().getSvcList() == null) {
+			bus.getSvcData().setSvcList(getFactory().createBusRecordXmlTypeSvcDataSvcList());
+			BusRecordXmlType.SvcData.SvcList svcList=getFactory().createBusRecordXmlTypeSvcDataSvcList();
+		}		
 		StaticVarCompensatorXmlType svc = getFactory().createStaticVarCompensatorXmlType();
+		
 		bus.getSvcData().getSvcList().getSvc().add(svc);
 		return svc;
 	}
