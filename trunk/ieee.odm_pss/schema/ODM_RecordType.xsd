@@ -660,6 +660,42 @@
 				minOccurs="0">
 			</element>
 			<element name="reactivePowerPerSec" type="pss:ReactivePowerUnitType" maxOccurs="1" minOccurs="0"></element>
+			<element name="bZeroSeqPerSection" type="pss:YUnitType"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="bPosSeqPerSection" type="pss:YUnitType"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="gZeroSeqPerSection" type="pss:YUnitType"
+				maxOccurs="1" minOccurs="0">
+			</element>
+
+			<element name="gPosSeqPerSection" type="pss:YUnitType"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="maxSections" type="int" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="maxVoltage" type="pss:VoltageUnitType"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="minVoltage" type="pss:VoltageUnitType"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="norminalQOutput"
+				type="pss:ReactivePowerUnitType" maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="norminalVoltage" type="pss:VoltageUnitType"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="norminalSwitchedInSections" type="int"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="slop" type="float" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="reactivePowerPerSec" type="pss:ReactivePowerUnitType" maxOccurs="1" minOccurs="0"></element>
+			
 		</sequence>
 		<attribute name="mode" use="required" type="pss:ShuntCompensatorModeEnumType">
 		</attribute>
