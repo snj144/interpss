@@ -281,7 +281,7 @@ public class JaxbParserHelper {
 		}
 		if (bus.getSvcData().getSvcList() == null) {
 			bus.getSvcData().setSvcList(getFactory().createBusRecordXmlTypeSvcDataSvcList());
-			BusRecordXmlType.SvcData.SvcList svcList=getFactory().createBusRecordXmlTypeSvcDataSvcList();
+			
 		}		
 		StaticVarCompensatorXmlType svc = getFactory().createStaticVarCompensatorXmlType();
 		
@@ -298,9 +298,9 @@ public class JaxbParserHelper {
 			ShuntCompensatorDataXmlType data = getFactory().createShuntCompensatorDataXmlType(); 
 			bus.getLoadflowData().setShuntCompensatorData(data);
 		}
-		//if (bus.getLoadflowData().getShuntCompensatorData().getShuntCompensatorList() == null) {
-		//	bus.getLoadflowData().getShuntCompensatorData().addNewShuntCompensatorList();
-		//}
+		if (bus.getLoadflowData().getShuntCompensatorData().getShuntCompensatorList() == null) {
+			bus.getLoadflowData().getShuntCompensatorData().setShuntCompensatorList(getFactory().createShuntCompensatorDataXmlTypeShuntCompensatorList());
+		}
 		ShuntCompensatorXmlType compensator = getFactory().createShuntCompensatorXmlType();
 		bus.getLoadflowData().getShuntCompensatorData().getShuntCompensatorList().getShunCompensator().add(compensator);
 		return compensator; 
