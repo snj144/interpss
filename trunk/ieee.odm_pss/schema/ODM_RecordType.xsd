@@ -625,6 +625,14 @@
 			<element name="VarPercent" type="double" maxOccurs="1"
 				minOccurs="0">
 			</element>
+			<element name="block" maxOccurs="unbounded" minOccurs="1">
+				<complexType>
+					<sequence>
+						<element name="incrementB" type="pss:ReactivePowerXmlType" minOccurs="1"></element>
+					</sequence>
+					<attribute name="steps" type="int" use="required"></attribute>
+				</complexType>
+			</element>
 			<element name="remoteControlledBus"
 				type="pss:IDRefRecordXmlType" minOccurs="0">
 			</element>
