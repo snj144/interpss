@@ -29,8 +29,10 @@ package org.ieee.odm.model;
  */
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Hashtable;
 
 import javax.xml.bind.JAXBContext;
@@ -56,7 +58,7 @@ import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.schema.TielineXmlType;
 import org.ieee.odm.schema.TransientSimulationXmlType;
 
-public class JaxbODMModelParser extends ODMModelParser {
+public class JaxbODMModelParser implements ODMModelParser {
 	// add "No" to the bus number to create Bus Id
 	public static final String BusIdPreFix = "Bus";
 	
@@ -479,4 +481,15 @@ public class JaxbODMModelParser extends ODMModelParser {
 			e.printStackTrace();
 		}
 	}
+	
+	public String toXmlDoc(boolean addXsi) {
+		OutputStream ostream = new ByteArrayOutputStream();
+		try {
+			JAXBElement<StudyCaseXmlType> element = getFactory().createPSSStudyCase(getStudyCase());
+			createMarshaller().marshal( element, ostream );
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ostream.toString();
+	}	
 }
