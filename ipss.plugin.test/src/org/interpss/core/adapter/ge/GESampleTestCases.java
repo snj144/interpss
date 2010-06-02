@@ -27,7 +27,7 @@ package org.interpss.core.adapter.ge;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.ge.xbean.GE_PSLF_Adapter;
+import org.ieee.odm.adapter.ge.xbean.XBeanGE_PSLF_Adapter;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;
@@ -70,7 +70,7 @@ public class GESampleTestCases extends BaseTestSetup {
 
 	@Test
 	public void odmAdapterTestCase() throws Exception {
-		IODMPSSAdapter adapter = new GE_PSLF_Adapter(IpssLogger.getLogger());
+		IODMPSSAdapter adapter = new XBeanGE_PSLF_Adapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testdata/ge/Sample18Bus.epc"));		
 		
 		AclfNetwork net = null;

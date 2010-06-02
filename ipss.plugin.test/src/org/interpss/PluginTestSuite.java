@@ -1,11 +1,11 @@
 package org.interpss;
 
-import org.ieee.odm.test.bpa.BPA_ODMTest;
-import org.ieee.odm.test.ge.GE_ODMTest;
-import org.ieee.odm.test.ieeecdf.IEEECDF_ODMTest;
-import org.ieee.odm.test.psse.PSSEV26_ODMTest;
-import org.ieee.odm.test.psse.PSSEV30_ODMTest;
-import org.ieee.odm.test.ucte.UCTE_ODMTest;
+import org.ieee.odm.bpa.BPA_ODMTest;
+import org.ieee.odm.ge.GE_ODMTest;
+import org.ieee.odm.ieeecdf.IEEECDF_ODMTest;
+import org.ieee.odm.psse.PSSEV26_ODMTest;
+import org.ieee.odm.psse.PSSEV30_ODMTest;
+import org.ieee.odm.ucte.UCTE_ODMTest;
 import org.interpss.cmd.AclfCmdRunTest;
 import org.interpss.cmd.RunExecTest;
 import org.interpss.contigency.ContingencyControlFileCaseTest;
