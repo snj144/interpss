@@ -33,7 +33,11 @@ public class Jacobi4VSAImpl implements Jacobi4VSA {
       initialize(net);
     }
     
-    private void initialize(AclfNetwork net){
+    public Jacobi4VSAImpl() {
+		// TODO Auto-generated constructor stub
+	}
+
+	private void initialize(AclfNetwork net){
     	SparseEqnMatrix2x2 S=net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE, msg);
 				 // get sortIndex
 			   int[] sortNumberToMatrixIndex = new int[net.getNoBus()+1];
@@ -121,7 +125,7 @@ public class Jacobi4VSAImpl implements Jacobi4VSA {
 	      			   
 	 }//end this method
 
-
+	@Override
 	public RealMatrix getFullJacobi() {
 		if(this.fullJacobi==null){
 		msg.sendErrorMsg("the full jacobi is null ,not properly load here");
@@ -129,7 +133,7 @@ public class Jacobi4VSAImpl implements Jacobi4VSA {
 		}
 		return this.fullJacobi;
 	}
-
+	@Override
 	public RealMatrix getReducedJacobi() {
         LUDecomposition ludcp=new LUDecompositionImpl(subJptheta);
         
@@ -150,7 +154,7 @@ public class Jacobi4VSAImpl implements Jacobi4VSA {
 		
 	}
 
-
+	@Override
 	public RealMatrix getSubJpv() {
 		if(this.subJpv==null){
 			msg.sendErrorMsg("the sub P-V jacobi is null ,not properly load here");
@@ -172,7 +176,7 @@ public class Jacobi4VSAImpl implements Jacobi4VSA {
 	}
 	
 
-
+	@Override
 	public RealMatrix getSubJqv() {
 		if(this.subJqv==null){
 			msg.sendErrorMsg("the sub Q-V jacobi is null ,not properly load here");
@@ -183,24 +187,77 @@ public class Jacobi4VSAImpl implements Jacobi4VSA {
 	}
 
 	@Override
-	public RealMatrix getLeftEigenVectors(RealMatrix Jacobi) {
-		EigenDecomposition eigDcp  =new EigenDecompositionImpl(Jacobi.transpose(),MathUtils.SAFE_MIN);
-		this.LeftEigenVectorMatrix=eigDcp.getV().transpose();
-		return null;
+	public void setEigValues(RealMatrix eigValueMatrix) {
+		this.eigenValueDiagMatrix=eigValueMatrix;
+		
 	}
-
 	@Override
-	public RealMatrix getRightEigenVectors(RealMatrix Jacobi) {
-		EigenDecomposition eigDcp  =new EigenDecompositionImpl(Jacobi,MathUtils.SAFE_MIN);
-		this.RightEigenVectorMatrix=eigDcp.getV();
-		return null;
-	}
-
-	@Override
-	public RealMatrix getEigValues(RealMatrix Jacobi) {
-		EigenDecomposition eigDcp  =new EigenDecompositionImpl(Jacobi,MathUtils.SAFE_MIN);
-		this.eigenValueDiagMatrix=eigDcp.getD();
+	public RealMatrix getEigValues() {
 		return this.eigenValueDiagMatrix;
 	}
+
+	@Override
+	public void setFullJacobi(RealMatrix fullJacobi) {
+		this.fullJacobi=fullJacobi;
+		//set the right eigen vector matrix
+		EigenDecomposition eigDcp  =new EigenDecompositionImpl(fullJacobi.transpose(),MathUtils.SAFE_MIN);
+		setLeftEigVctrMatrix(eigDcp.getV().transpose());
+		// set the right eigen vector matrix 
+		eigDcp  =new EigenDecompositionImpl(fullJacobi,MathUtils.SAFE_MIN);
+		setRightEigVctrMatrix(eigDcp.getV());
+		// save the eigen value diagonal matrix 
+		setEigValues(eigDcp.getD());
+	}
+
+	@Override
+	public void setReducedJacobi(RealMatrix reducedJacobi) {
+		this.reducedJacobi=reducedJacobi;
+		EigenDecomposition eigDcp  =new EigenDecompositionImpl(reducedJacobi.transpose(),MathUtils.SAFE_MIN);
+		setLeftEigVctrMatrix(eigDcp.getV().transpose());
+		
+		eigDcp  =new EigenDecompositionImpl(reducedJacobi,MathUtils.SAFE_MIN);
+		setRightEigVctrMatrix(eigDcp.getV());
+		
+		setEigValues(eigDcp.getD());
+		
+	}
+
+	@Override
+	public void setSubJpv(RealMatrix Jpv) {
+		this.subJpv=Jpv;
+		
+	}
+
+	@Override
+	public void setSubJqv(RealMatrix Jqv) {
+		this.subJqv=Jqv;
+		
+	}
+
+	@Override
+	public RealMatrix getLeftEigVctrMatrix() {
+		return this.LeftEigenVectorMatrix;
+	}
+
+	@Override
+	public RealMatrix getRightEigVctrMatrix() {
+		return this.RightEigenVectorMatrix;
+	}
+
+	@Override
+	public void setLeftEigVctrMatrix(RealMatrix newLeftEigVctrMatrix) {
+		this.LeftEigenVectorMatrix=newLeftEigVctrMatrix;
+		
+	}
+
+	@Override
+	public void setRightEigVctrMatrix(RealMatrix newRightEigVctrMatrix) {
+		this.RightEigenVectorMatrix=newRightEigVctrMatrix;
+		
+	}
+
+
+	
+	
 	
 }

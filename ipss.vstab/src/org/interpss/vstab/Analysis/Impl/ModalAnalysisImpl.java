@@ -1,6 +1,8 @@
 package org.interpss.vstab.Analysis.Impl;
 
+import java.util.Collections;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
@@ -8,9 +10,13 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.interpss.vstab.Analysis.ModalAnalysis;
 import org.interpss.vstab.Analysis.Mode;
+import org.interpss.vstab.Analysis.ModeComparator;
 import org.interpss.vstab.core.Jacobi4VSA;
+import org.interpss.vstab.core.impl.Jacobi4VSAImpl;
 
-public class ModalAnalysisImpl implements ModalAnalysis {
+public class ModalAnalysisImpl extends Jacobi4VSAImpl implements ModalAnalysis 
+    {
+	
     private double braPartFactor;
     private double busPartFactor;
     private double genPartFactor;
@@ -23,9 +29,10 @@ public class ModalAnalysisImpl implements ModalAnalysis {
     private Jacobi4VSA Jvsa=null;
      
     private List<Mode> modeList=null;
+ 
     public ModalAnalysisImpl(Jacobi4VSA J4vsa){
     	this.Jvsa=J4vsa;
-    	this.reducedJacobi=J4vsa.getReducedJacobi();
+    	setReducedJacobi(J4vsa.getReducedJacobi());
     }
     
 	@Override
@@ -49,51 +56,40 @@ public class ModalAnalysisImpl implements ModalAnalysis {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	@Override
-	public double getDomRealEigenValue(int NumofSmallestEig) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Complex getDominantEigenValue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public Mode getDominantMode() {
-		return null;
+		formModeList();
+		Mode domiMode =this.modeList.get(0);
+		for(Iterator it = this.modeList.listIterator(1);it.hasNext();){
+			Mode aMode =(Mode) it.next();
+			if(Math.abs(domiMode.getEigenValue())>Math.abs(aMode.getEigenValue()))
+				domiMode=aMode;
+		}
+		return domiMode;
 		
 
 	}
-
+	
 	@Override
-	public RealVector getDominantRightVector() {
-		// TODO Auto-generated method stub
-		this.domiRightVector=this.getDominantMode().getRightVector();
-		return this.domiRightVector;
+	public List<Mode> getDominantMode(int NumofDomMode) {
+		formModeList();
+		ModeComparator modecp =new ModeComparator();
+		Collections.sort(getModeList(), modecp);
+		List<Mode> domiMode =getModeList().subList(0, NumofDomMode-1);
+		return domiMode;
 	}
 
-	@Override
-	public RealVector getDominantLeftVector() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void formModeList() {
-		reducedJacobi =this.Jvsa.getReducedJacobi();
-		
-		this.rightEigenVectorMatrix=this.Jvsa.getRightEigenVectors(reducedJacobi);
-		this.leftEigenVectorMatrix=this.Jvsa.getLeftEigenVectors(reducedJacobi);
-		RealMatrix diag =this.Jvsa.getEigValues(reducedJacobi);
+	protected void formModeList() {
+		setReducedJacobi(this.Jvsa.getReducedJacobi());
+		RealMatrix diag =getEigValues();
 		Mode aMode=new Mode();
 		this.modeList.clear(); // make sure it is empty before adding any;
 		for(int i =0;i<diag.getColumnDimension();i++){
 			aMode.setEigenValue(diag.getEntry(i, i));
-			aMode.setRightVector(this.rightEigenVectorMatrix.getColumnVector(i));
-			aMode.setLeftVector(this.leftEigenVectorMatrix.getRowVector(i));
+			aMode.setRightVector(getRightEigVctrMatrix().getColumnVector(i));
+			aMode.setLeftVector(getLeftEigVctrMatrix().getRowVector(i));
 			this.modeList.add(aMode);
 		}
 		
@@ -109,6 +105,25 @@ public class ModalAnalysisImpl implements ModalAnalysis {
 		}
 		return null;
 	}
+
+	protected List<Mode> getModeList(){
+		return this.modeList;
+	}
+
+	@Override
+	public RealMatrix getReducedJacobi() {
+		return this.reducedJacobi;
+	}
+
+	@Override
+	public void setReducedJacobi(RealMatrix reducedJacobi) {
+		this.reducedJacobi=reducedJacobi;
+		
+	}
+
+
+
+
 
 
 }
