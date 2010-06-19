@@ -7,13 +7,12 @@
 		<documentation>Copyright www.interpss.org 2008</documentation>
 	</annotation>
 
-	<complexType name="PSSNetworkXmlType">
+	<complexType name="NetworkXmlType" abstract="true">
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
 					<element name="networkCategory" minOccurs="1" maxOccurs="1" type="pss:NetworkCategoryEnumType"></element>
 					<element name="analysisCategory" type="pss:AnalysisCategoryEnumType" maxOccurs="1"></element>
-					<element name="hasLoadflowData" type="boolean" minOccurs="0"></element>
 					<element name="basePower" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"></element>
 					<element name="busList" minOccurs="1" maxOccurs="1">
 						<complexType>
@@ -24,15 +23,7 @@
 					<element name="branchList" minOccurs="1" maxOccurs="1">
 						<complexType>
 							<sequence>
-								<element name="branch" type="pss:BranchRecordXmlType" maxOccurs="unbounded" minOccurs="0"></element>
-							</sequence>
-						</complexType>
-					</element>
-					<element name="dcLineList" minOccurs="0">
-						<complexType>
-							<sequence>
-								<element name="dcLint2T" type="pss:DCLineData2TXmlType" maxOccurs="unbounded" minOccurs="0"></element>
-								<element name="dcLintMT" type="pss:DCLineDataMTXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+								<element name="branch" type="pss:BranchXmlType" maxOccurs="unbounded" minOccurs="0"></element>
 							</sequence>
 						</complexType>
 					</element>
@@ -50,10 +41,29 @@
 							</sequence>
 						</complexType>
 					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="LoadflowNetXmlType">
+		<complexContent>
+			<extension base="pss:NetworkXmlType">
+				<sequence>
+					<element name="hasLoadflowData" type="boolean" minOccurs="0"></element>
+					<element name="dcLineList" minOccurs="0">
+						<complexType>
+							<sequence>
+								<element name="dcLint2T" type="pss:DCLineData2TXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+								<element name="dcLintMT" type="pss:DCLineDataMTXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+							</sequence>
+						</complexType>
+					</element>
 					<element name="interchangeList" minOccurs="0">
 						<complexType>
 							<sequence>
-								<element name="interchange" minOccurs="0" maxOccurs="unbounded" type="pss:InterchangeXmlType">
+								<element name="interchange" minOccurs="0" maxOccurs="unbounded" type="pss:InterchangeXmlType">
+
 								</element>
 							</sequence>
 						</complexType>
@@ -61,7 +71,8 @@
 					<element name="tieLineList" minOccurs="0">
 						<complexType>
 							<sequence>
-								<element name="tieline" minOccurs="0" maxOccurs="unbounded" type="pss:TielineXmlType">
+								<element name="tieline" minOccurs="0" maxOccurs="unbounded" type="pss:TielineXmlType">
+
 								</element>
 							</sequence>
 						</complexType>

@@ -8,17 +8,17 @@ import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.BaseRecordXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.ObjectFactory;
-import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.schema.XformerZTableXmlType;
 
 public class PSSENetDataRec {
 	static public class HeaderRec {
 		public static void procLineString(String lineStr, int lineNo, PsseVersion version, 
-				final PSSNetworkXmlType baseCaseNet, ObjectFactory factory) {
+				final LoadflowNetXmlType baseCaseNet, ObjectFactory factory) {
 			if (lineNo == 1) {
 				StringTokenizer st = new StringTokenizer(lineStr, ",");
 				int indicator = new Integer(st.nextToken().trim()).intValue();
@@ -48,7 +48,7 @@ public class PSSENetDataRec {
 	 * Area Data I,ISW,PDES,PTOL,'ARNAM'
 	 */
 	public static void processAreaRec(String lineStr, PsseVersion version, 
-				final PSSNetworkXmlType baseCaseNet, JaxbODMModelParser parser) {
+				final LoadflowNetXmlType baseCaseNet, JaxbODMModelParser parser) {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int i = new Integer(st.nextToken().trim()).intValue();
 		int isw = new Integer(st.nextToken().trim()).intValue();
@@ -62,7 +62,7 @@ public class PSSENetDataRec {
 
 */
 		if (baseCaseNet.getAreaList() == null)
-			baseCaseNet.setAreaList(parser.getFactory().createPSSNetworkXmlTypeAreaList());
+			baseCaseNet.setAreaList(parser.getFactory().createNetworkXmlTypeAreaList());
 		NetAreaXmlType area = parser.getFactory().createNetAreaXmlType();
 		baseCaseNet.getAreaList().getArea().add(area);
 		area.setId(new Integer(i).toString());
@@ -81,7 +81,7 @@ public class PSSENetDataRec {
 	 * ZoneData Format: I, ’ZONAME’
 	 */
 	public static void processZoneRec(String lineStr, PsseVersion version, 
-				final PSSNetworkXmlType baseCaseNet, ObjectFactory factory) {
+				final LoadflowNetXmlType baseCaseNet, ObjectFactory factory) {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int	i = new Integer(st.nextToken().trim()).intValue();
 		String name = st.nextToken().trim();
@@ -90,7 +90,7 @@ public class PSSENetDataRec {
 		 * Format: I, ’ZONAME’
 		 */
 		if (baseCaseNet.getLossZoneList() == null)
-			baseCaseNet.setLossZoneList(factory.createPSSNetworkXmlTypeLossZoneList());
+			baseCaseNet.setLossZoneList(factory.createNetworkXmlTypeLossZoneList());
 		NetZoneXmlType zone = factory.createNetZoneXmlType(); 
 		baseCaseNet.getLossZoneList().getLossZone().add(zone);
 		zone.setId(new Integer(i).toString());
@@ -102,7 +102,7 @@ public class PSSENetDataRec {
 	 * InterareaTransfer format: ARFROM, ARTO, TRID, PTRAN
 	 */
 	public static void processInterareaTransferRec(String lineStr, PsseVersion version, 
-				final PSSNetworkXmlType baseCaseNet, ObjectFactory factory) {
+				final LoadflowNetXmlType baseCaseNet, ObjectFactory factory) {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int	arfrom = new Integer(st.nextToken().trim()).intValue();
 		int	arto = new Integer(st.nextToken().trim()).intValue();
@@ -125,7 +125,7 @@ public class PSSENetDataRec {
 				- FromAreaNo_ToAreaNo_TRID is unique					 
 		*/
 		if (baseCaseNet.getInterchangeList() == null)
-			baseCaseNet.setInterchangeList(factory.createPSSNetworkXmlTypeInterchangeList());
+			baseCaseNet.setInterchangeList(factory.createLoadflowNetXmlTypeInterchangeList());
 		InterchangeXmlType interchange = factory.createInterchangeXmlType();
 		baseCaseNet.getInterchangeList().getInterchange().add(interchange);
 		InterchangeXmlType.AreaTransfer transfer = factory.createInterchangeXmlTypeAreaTransfer(); 
@@ -141,7 +141,7 @@ public class PSSENetDataRec {
 	 * Owner format : I, ’OWNAME’
 	 */
 	public static void processOwnerRec(String lineStr, PsseVersion version, 
-				final PSSNetworkXmlType baseCaseNet, ObjectFactory factory) {
+				final LoadflowNetXmlType baseCaseNet, ObjectFactory factory) {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int	i = new Integer(st.nextToken().trim()).intValue();
 		String name = st.nextToken().trim();
@@ -159,7 +159,7 @@ public class PSSENetDataRec {
 	}
 
 	public static void processXfrZTableRec(String lineStr, PsseVersion version,
-				final PSSNetworkXmlType baseCaseNet, ObjectFactory factory) {
+				final LoadflowNetXmlType baseCaseNet, ObjectFactory factory) {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int	i = new Integer(st.nextToken().trim()).intValue();
 		double[] t = new double[11], f = new double[11];

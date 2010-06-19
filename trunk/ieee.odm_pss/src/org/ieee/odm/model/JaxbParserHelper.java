@@ -46,14 +46,15 @@ import org.ieee.odm.schema.LoadflowBranchDataXmlType;
 import org.ieee.odm.schema.LoadflowBusDataXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NameValuePairXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
+import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
-import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
@@ -90,7 +91,7 @@ public class JaxbParserHelper {
 	 * 
 	 */
 	public static boolean createBusEquivData(JaxbODMModelParser parser, Logger logger) {
-		PSSNetworkXmlType baseCaseNet = parser.getBaseCase(); 
+		LoadflowNetXmlType baseCaseNet = parser.getBaseCase(); 
 		boolean ok = true;
 
 		for (BusXmlType bus : baseCaseNet.getBusList().getBus()) {
@@ -384,7 +385,7 @@ public class JaxbParserHelper {
 	 * @param baseCaseNet
 	 * @return
 	 */
-	public static NetAreaXmlType getAreaRecordByAreaName(String areaName, PSSNetworkXmlType baseCaseNet) {
+	public static NetAreaXmlType getAreaRecordByAreaName(String areaName, NetworkXmlType baseCaseNet) {
 		for (NetAreaXmlType area:baseCaseNet.getAreaList().getArea()) {
 			if (areaName.equals(area.getName()))
 				return area;
@@ -399,7 +400,7 @@ public class JaxbParserHelper {
 	 * @param baseCaseNet
 	 * @return
 	 */
-	public static NetAreaXmlType getAreaRecordByZone(int zoneNo, PSSNetworkXmlType baseCaseNet) {
+	public static NetAreaXmlType getAreaRecordByZone(int zoneNo, NetworkXmlType baseCaseNet) {
 		for (NetAreaXmlType area:baseCaseNet.getAreaList().getArea()) {
 			for(NetZoneXmlType zone : area.getZoneList().getZone()){
 				if (zoneNo == zone.getNumber())

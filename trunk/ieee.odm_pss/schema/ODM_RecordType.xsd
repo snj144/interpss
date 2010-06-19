@@ -106,11 +106,8 @@
 	</complexType>
 	<complexType name="BranchRecordXmlType">
 		<complexContent>
-			<extension base="pss:CimConnectionRecordType">
+			<extension base="pss:BranchXmlType">
 				<sequence>
-					<element name="fromBus" type="pss:BusRefRecordXmlType" minOccurs="1" maxOccurs="1"></element>
-					<element name="toBus" type="pss:BusRefRecordXmlType" minOccurs="1" maxOccurs="1"></element>
-					<element name="tertiaryBus" type="pss:BusRefRecordXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="loadflowData" type="pss:LoadflowBranchDataXmlType" minOccurs="0" maxOccurs="unbounded">
 						<annotation>
 							<documentation>Loadflow data may defined in multiple sections, section number (1-9) in ascending order beginning at "from" end</documentation>
@@ -118,9 +115,7 @@
 					</element>
 					<element name="sequenceData" type="pss:SequenceBranchDataXmlType" minOccurs="0"></element>
 					<element name="dynamicData" type="pss:DynamicBranchDataXmlType" minOccurs="0"></element>
-
 				</sequence>
-				<attribute name="circuitId" type="string" use="optional"></attribute>
 			</extension>
 		</complexContent>
 	</complexType>

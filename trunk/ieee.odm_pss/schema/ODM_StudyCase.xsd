@@ -40,7 +40,7 @@
 							</sequence>
 						</complexType>
 					</element>
-					<element name="baseCase" type="pss:PSSNetworkXmlType" minOccurs="1" maxOccurs="1">
+					<element name="baseCase" type="pss:NetworkXmlType" minOccurs="1" maxOccurs="1">
 						<annotation>
 							<documentation>Base case power network data for power system simulation purpose</documentation>
 						</annotation>
@@ -73,6 +73,7 @@
 
 	<simpleType name="ODMSchemaVersionEnumType">
 		<restriction base="string">
+			<enumeration value="V0.8"></enumeration>
 			<enumeration value="V0.7"></enumeration>
 			<enumeration value="V0.6"></enumeration>
 			<enumeration value="V0.5"></enumeration>

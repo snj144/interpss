@@ -49,10 +49,10 @@ import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.ObjectFactory;
-import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.schema.TielineXmlType;
@@ -161,21 +161,21 @@ public class JaxbODMModelParser implements ODMModelParser {
 	 * 
 	 * @return
 	 */
-	public PSSNetworkXmlType getBaseCase() {
+	public LoadflowNetXmlType getBaseCase() {
 		if (getStudyCase() == null) 
 			createStudyCase();
 		if (getStudyCase().getBaseCase() == null) {
-			PSSNetworkXmlType baseCase = createBaseCase();
+			LoadflowNetXmlType baseCase = createBaseCase();
 			getStudyCase().setBaseCase(baseCase);
 		}
-		return getStudyCase().getBaseCase();
+		return (LoadflowNetXmlType)getStudyCase().getBaseCase();
 	}
 	
-	private PSSNetworkXmlType createBaseCase() {
-		PSSNetworkXmlType baseCase = new PSSNetworkXmlType();
+	private LoadflowNetXmlType createBaseCase() {
+		LoadflowNetXmlType baseCase = this.getFactory().createLoadflowNetXmlType();
 		
-		baseCase.setBusList(new PSSNetworkXmlType.BusList());
-		baseCase.setBranchList(new PSSNetworkXmlType.BranchList());
+		baseCase.setBusList(this.getFactory().createNetworkXmlTypeBusList());
+		baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
 				
 		return baseCase;
 	}
@@ -344,7 +344,7 @@ public class JaxbODMModelParser implements ODMModelParser {
 	 */
 	public NetAreaXmlType createNetworkArea() {
 		if(getBaseCase().getAreaList()==null){
-			getBaseCase().setAreaList(this.getFactory().createPSSNetworkXmlTypeAreaList());
+			getBaseCase().setAreaList(this.getFactory().createNetworkXmlTypeAreaList());
 		}
 		NetAreaXmlType area = this.getFactory().createNetAreaXmlType();
 		getBaseCase().getAreaList().getArea().add(area);
@@ -358,7 +358,7 @@ public class JaxbODMModelParser implements ODMModelParser {
 	 */
 	public NetZoneXmlType createNetworkLossZone() {
 		if(getBaseCase().getLossZoneList() == null){
-			getBaseCase().setLossZoneList(this.getFactory().createPSSNetworkXmlTypeLossZoneList());
+			getBaseCase().setLossZoneList(this.getFactory().createNetworkXmlTypeLossZoneList());
 		}
 		NetZoneXmlType zone = this.getFactory().createNetZoneXmlType();
 		getBaseCase().getLossZoneList().getLossZone().add(zone);
@@ -372,7 +372,7 @@ public class JaxbODMModelParser implements ODMModelParser {
 	 */
 	public TielineXmlType createTieline() {
 		if (getBaseCase().getTieLineList() == null)
-			getBaseCase().setTieLineList(this.getFactory().createPSSNetworkXmlTypeTieLineList());
+			getBaseCase().setTieLineList(this.getFactory().createLoadflowNetXmlTypeTieLineList());
 		TielineXmlType tieLine = this.getFactory().createTielineXmlType();
 		getBaseCase().getTieLineList().getTieline().add(tieLine);
 		return tieLine;
@@ -385,7 +385,7 @@ public class JaxbODMModelParser implements ODMModelParser {
 	 */
 	public InterchangeXmlType createInterchange() {
 		if (getBaseCase().getInterchangeList() == null)
-			getBaseCase().setInterchangeList(this.getFactory().createPSSNetworkXmlTypeInterchangeList());
+			getBaseCase().setInterchangeList(this.getFactory().createLoadflowNetXmlTypeInterchangeList());
 		InterchangeXmlType interchange = this.getFactory().createInterchangeXmlType();
 		getBaseCase().getInterchangeList().getInterchange().add(interchange);
 		return interchange;
@@ -413,7 +413,7 @@ public class JaxbODMModelParser implements ODMModelParser {
 		//	getStudyCase().getBaseCase().addNewDcLineList();
 		DCLineData2TXmlType dcLine = getFactory().createDCLineData2TXmlType();
 		if (getBaseCase().getDcLineList() == null)
-			getBaseCase().setDcLineList(this.getFactory().createPSSNetworkXmlTypeDcLineList());
+			getBaseCase().setDcLineList(this.getFactory().createLoadflowNetXmlTypeDcLineList());
 		getBaseCase().getDcLineList().getDcLint2T().add(dcLine);
 		String branchId = ModelStringUtil.formBranchId(recId, invId, new Long(number).toString());
 		dcLine.setId(branchId);
