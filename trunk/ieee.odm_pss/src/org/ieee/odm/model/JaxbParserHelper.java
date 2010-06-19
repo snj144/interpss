@@ -34,6 +34,7 @@ import org.ieee.odm.schema.BranchFaultXmlType;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusFaultXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DcLineFaultXmlType;
 import org.ieee.odm.schema.ExciterXmlType;
 import org.ieee.odm.schema.FaultTypeEnumType;
@@ -92,7 +93,8 @@ public class JaxbParserHelper {
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase(); 
 		boolean ok = true;
 
-		for (BusRecordXmlType busRec : baseCaseNet.getBusList().getBus()) {
+		for (BusXmlType bus : baseCaseNet.getBusList().getBus()) {
+			BusRecordXmlType busRec = (BusRecordXmlType)bus;
 			LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData();
 			if (genData != null) {
 				if ( genData.getContributeGenList() != null && 
