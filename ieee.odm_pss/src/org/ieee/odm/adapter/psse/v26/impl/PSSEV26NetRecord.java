@@ -32,9 +32,9 @@ import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.InterchangeXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.ObjectFactory;
-import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.schema.PowerInterchangeXmlType;
 
 public class PSSEV26NetRecord {
@@ -42,7 +42,7 @@ public class PSSEV26NetRecord {
 	public final static String Token_CaseId = "Case ID";	
 	
 	public static boolean processHeaderData(final String str1,final String str2,final String str3,
-			final PSSNetworkXmlType baseCaseNet, Logger logger, ObjectFactory factory) throws Exception {
+			final LoadflowNetXmlType baseCaseNet, Logger logger, ObjectFactory factory) throws Exception {
 		//line 1 at here we have "0, 100.00 " or some times "0 100.00 "		
 		final String[] strAry = getHeaderDataFields(str1,str2,str3, logger);
 		if (strAry == null)
@@ -67,7 +67,7 @@ public class PSSEV26NetRecord {
 	}
         
 	public static  void processAreaInterchangeData(final String str,
-			final PSSNetworkXmlType baseCaseNet, JaxbODMModelParser parser) {
+			final LoadflowNetXmlType baseCaseNet, JaxbODMModelParser parser) {
 		final String[] strAry = getAreaInterchangeDataFields(str);
 		
 		//     Area number , no zeros! *
@@ -82,7 +82,7 @@ public class PSSEV26NetRecord {
 		final double err = ModelStringUtil.getDouble(strAry[3], 0.0);
     
 		PowerInterchangeXmlType interchange = parser.getFactory().createPowerInterchangeXmlType();
-		baseCaseNet.setInterchangeList(parser.getFactory().createPSSNetworkXmlTypeInterchangeList());
+		baseCaseNet.setInterchangeList(parser.getFactory().createLoadflowNetXmlTypeInterchangeList());
 		InterchangeXmlType ex = parser.getFactory().createInterchangeXmlType();
 		baseCaseNet.getInterchangeList().getInterchange().add(ex);
 		ex.setPowerEx(interchange);
@@ -96,7 +96,7 @@ public class PSSEV26NetRecord {
 	}
 	
 	public static  void processInterAreaTransferData(final String str,
-			final PSSNetworkXmlType baseCaseNet) {
+			final LoadflowNetXmlType baseCaseNet) {
 		final String[] strAry = getInterAreaTransferDataFields(str);
 		
 	}

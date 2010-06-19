@@ -35,9 +35,9 @@ import org.ieee.odm.adapter.psse.v26.impl.PSSEV26BusRecord;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26NetRecord;
 import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
-import org.ieee.odm.schema.PSSNetworkXmlType;
 
 public class PSSEV26Adapter extends AbstractODMAdapter{
 	private final int 
@@ -70,7 +70,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.PSS_E);
 		parser.getStudyCase().getContentInfo().setOriginalFormatVersion("PSSEV26");
 
-		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
+		LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
 		// no space is allowed for ID field
 		baseCaseNet.setId("Base_Case_from_PSS_E_format_Ver26");
 

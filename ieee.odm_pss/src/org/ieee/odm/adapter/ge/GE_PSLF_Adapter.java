@@ -36,8 +36,8 @@ import org.ieee.odm.adapter.ge.impl.NetDataRec;
 import org.ieee.odm.adapter.ge.impl.XformerDataRec;
 import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
-import org.ieee.odm.schema.PSSNetworkXmlType;
 
 public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 	public static enum VersionNo {PSLF15};
@@ -92,7 +92,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 		JaxbODMModelParser parser = new JaxbODMModelParser();
 		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.GE_PSLF);
 
-		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
+		LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
 		baseCaseNet.setId("Base_Case_from_GE_PSLF_format");
 
 		NetDataRec.TitleRec titleRec = new NetDataRec.TitleRec();

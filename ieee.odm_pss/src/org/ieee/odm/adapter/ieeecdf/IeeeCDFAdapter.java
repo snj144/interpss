@@ -46,11 +46,11 @@ import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBranchDataXmlType;
 import org.ieee.odm.schema.LoadflowBusDataXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
-import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.schema.PowerInterchangeXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
@@ -85,7 +85,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		JaxbODMModelParser parser = new JaxbODMModelParser();
 		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.IEEE_CDF);
 
-		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
+		LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
 		baseCaseNet.setId("Base_Case_from_IEEECDF_format");
 
 		String str = din.readLine();
@@ -153,7 +153,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	 */
 
 	private void processNetData(final String str, 
-			final PSSNetworkXmlType baseCaseNet) {
+			final LoadflowNetXmlType baseCaseNet) {
 		// parse the input data line
 		final String[] strAry = getNetDataFields(str);
 

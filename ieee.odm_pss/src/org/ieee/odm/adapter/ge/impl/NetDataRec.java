@@ -26,21 +26,21 @@ package org.ieee.odm.adapter.ge.impl;
 
 import java.util.StringTokenizer;
 
-import org.ieee.odm.schema.ActivePowerUnitType;
-import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.NameValuePairListXmlType;
-import org.ieee.odm.schema.NetAreaXmlType;
-import org.ieee.odm.schema.NetZoneXmlType;
-import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.schema.ActivePowerUnitType;
+import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.NameValuePairListXmlType;
+import org.ieee.odm.schema.NetAreaXmlType;
+import org.ieee.odm.schema.NetZoneXmlType;
 
 public class NetDataRec {
 	static public class TitleRec {
 		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) {
-			PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
+			LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
 			NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType(); 
 			baseCaseNet.setNvPairList(nvList);
 			JaxbParserHelper.addNVPair(nvList, "Title", lineStr);
@@ -51,7 +51,7 @@ public class NetDataRec {
 		public String comments = "";
 
 		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) {
-			PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
+			LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
 			NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType(); 
 			baseCaseNet.setNvPairList(nvList);
 			JaxbParserHelper.addNVPair(nvList, "Comments", lineStr);
@@ -83,7 +83,7 @@ public class NetDataRec {
 	static public class SolutionParamRec {
 
 		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) {
-			PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
+			LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
 			int tap, phas, area, svd, dctap, gcd;
 			double jump, toler;
 
@@ -120,7 +120,7 @@ public class NetDataRec {
 		public double pnetdes, pnettol, pnet, qnet;
 
 		public AreaRec(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) throws Exception {
-			PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
+			LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
 			//System.out.println("area->" + lineStr);
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
 			
@@ -149,7 +149,7 @@ public class NetDataRec {
 			this.qnet = new Double(st.nextToken()).doubleValue();	
 			
 			if (baseCaseNet.getAreaList() == null)
-				baseCaseNet.setAreaList(parser.getFactory().createPSSNetworkXmlTypeAreaList());
+				baseCaseNet.setAreaList(parser.getFactory().createNetworkXmlTypeAreaList());
 			NetAreaXmlType area = parser.getFactory().createNetAreaXmlType();
 			baseCaseNet.getAreaList().getArea().add(area);
 			area.setId(new Integer(this.arnum).toString());
@@ -168,7 +168,7 @@ public class NetDataRec {
 		public double pznet, qznet;
 
 		public ZoneRec(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) throws Exception {
-			PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
+			LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
 			//System.out.println("zone->" + lineStr);
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
 			
@@ -189,7 +189,7 @@ public class NetDataRec {
 			this.qznet = new Double(st.nextToken()).doubleValue();
 			
 			if (baseCaseNet.getLossZoneList() == null)
-				baseCaseNet.setLossZoneList(parser.getFactory().createPSSNetworkXmlTypeLossZoneList());
+				baseCaseNet.setLossZoneList(parser.getFactory().createNetworkXmlTypeLossZoneList());
 			NetZoneXmlType zone = parser.getFactory().createNetZoneXmlType(); 
 			baseCaseNet.getLossZoneList().getLossZone().add(zone);
 			zone.setId(new Integer(this.zonum).toString());

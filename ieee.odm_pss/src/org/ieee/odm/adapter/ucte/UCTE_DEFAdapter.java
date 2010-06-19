@@ -49,10 +49,10 @@ import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBranchDataXmlType;
 import org.ieee.odm.schema.LoadflowBusDataXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
-import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
 import org.ieee.odm.schema.TapAdjustmentEnumType;
@@ -105,7 +105,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.UCTE_DEF);
 
 		// BaseCase object, plus busRecList and BranchRecList are created 
-		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
+		LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
 		baseCaseNet.setId("Base_Case_from_UCTE_format");
 
     	// no base kva definition in UCTE format, so use 100 MVA
@@ -144,7 +144,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     					recType = RecType.Xfr2WLookup;
     				else if (str.startsWith("##E")) {
     					recType = RecType.ExPower;
-    					baseCaseNet.setInterchangeList(parser.getFactory().createPSSNetworkXmlTypeInterchangeList());
+    					baseCaseNet.setInterchangeList(parser.getFactory().createLoadflowNetXmlTypeInterchangeList());
     				}
     				else {
     					// process data lines
@@ -186,7 +186,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     /*
      * ##C section
      */
-    private boolean processCommentRecord(String str, PSSNetworkXmlType xmlBaseNet) {
+    private boolean processCommentRecord(String str, LoadflowNetXmlType xmlBaseNet) {
     	getLogger().fine("Comment: " + str);
 		// there is no need to do anything to the comment lines
     	return true;
@@ -333,7 +333,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
      * ##L section
      */
     private void processLineRecord(String str, JaxbODMModelParser parser) throws Exception {
-    	 PSSNetworkXmlType xmlBaseNet = parser.getBaseCase();
+    	LoadflowNetXmlType xmlBaseNet = parser.getBaseCase();
     	 getLogger().fine("Line Record: " + str);
 
 		// parse the input line for line information
@@ -622,7 +622,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     /*
      * ##TT section
      */
-    private void processXfr2LookupRecord(String str, PSSNetworkXmlType xmlBaseNet) {
+    private void processXfr2LookupRecord(String str, LoadflowNetXmlType xmlBaseNet) {
     	getLogger().fine("Xfr 2W Desc Record: " + str);
     	getLogger().severe("##TT not implemented yet. Contact support@interpss.org for more info");
 		return;
@@ -631,7 +631,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     /*
      * ##E section
      */
-    private void processExchangePowerRecord(String str, PSSNetworkXmlType xmlBaseNet, ObjectFactory factory) {
+    private void processExchangePowerRecord(String str, LoadflowNetXmlType xmlBaseNet, ObjectFactory factory) {
     	getLogger().info("Exchange Power Record: " + str);
 
 		String fromIsoId, toIsoId, comment;
