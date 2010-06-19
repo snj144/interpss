@@ -41,7 +41,7 @@ import org.ieee.odm.schema.LFBranchCodeEnumType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBranchDataXmlType;
-import org.ieee.odm.schema.PSSNetworkXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
@@ -59,7 +59,7 @@ public class JaxbIEEECDF_ODMTest {
 		assertTrue(adapter.parseInputFile("testdata/ieee_format/Ieee14Bus.ieee"));
 		
 		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
-		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
+		LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
 		assertTrue(baseCaseNet.getBusList().getBus().size() == 14);
 		assertTrue(baseCaseNet.getBranchList().getBranch().size() == 20);
 

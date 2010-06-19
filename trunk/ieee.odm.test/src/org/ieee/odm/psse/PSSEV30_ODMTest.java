@@ -41,7 +41,7 @@ import org.ieee.odm.schema.LFBranchCodeEnumType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LoadflowBranchDataXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
-import org.ieee.odm.schema.PSSNetworkXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.junit.Test;
 
 public class PSSEV30_ODMTest { 
@@ -60,7 +60,7 @@ public class PSSEV30_ODMTest {
 		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
 		//parser.stdout();		
 		
-		PSSNetworkXmlType net = parser.getBaseCase();
+		LoadflowNetXmlType net = parser.getBaseCase();
 		assertTrue(net.getBasePower().getValue() == 100.0);
 
 /*

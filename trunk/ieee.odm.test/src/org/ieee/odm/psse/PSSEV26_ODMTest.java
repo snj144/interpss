@@ -30,17 +30,17 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.psse.v26.PSSEV26Adapter;
+import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.LFBranchCodeEnumType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBranchDataXmlType;
-import org.ieee.odm.schema.PSSNetworkXmlType;
-import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.psse.v26.PSSEV26Adapter;
-import org.ieee.odm.model.JaxbParserHelper;
-import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.junit.Test;
 
 public class PSSEV26_ODMTest { 
@@ -56,7 +56,7 @@ public class PSSEV26_ODMTest {
 		//System.out.println(adapter.getModel());
 		
 		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
-		PSSNetworkXmlType net = parser.getBaseCase();
+		LoadflowNetXmlType net = parser.getBaseCase();
 		assertTrue(net.getBasePower().getValue() == 100.0);
 		/*
         <bus id="No15021" number="15021" name="'PVERDE 1'" areaNumber="2" zoneNumber="4">
