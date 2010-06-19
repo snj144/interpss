@@ -32,7 +32,7 @@
     <analysisCategory>Loadflow</analysisCategory>
     <basePower value="100.0" unit="MVA"/>
     <busList>
-      <bus id="Bus1" name="Bus 1     HV" areaNumber="1" zoneNumber="1">
+      <bus xsi:type="BusRecordXmlType" id="Bus1" name="Bus 1     HV" areaNumber="1" zoneNumber="1">
         <baseVoltage value="132.0" unit="KV"/>
         <loadflowData>
           <voltage value="1.06" unit="PU"/>
@@ -46,7 +46,7 @@
           </genData>
         </loadflowData>
       </bus>
-      <bus id="Bus2" name="Bus 2     HV" areaNumber="1" zoneNumber="1">
+      <bus xsi:type="BusRecordXmlType" id="Bus2" name="Bus 2     HV" areaNumber="1" zoneNumber="1">
         <baseVoltage value="132.0" unit="KV"/>
         <loadflowData>
           <voltage value="1.045" unit="PU"/>
@@ -65,7 +65,7 @@
           </loadData>
         </loadflowData>
       </bus>
-      <bus id="Bus3" name="Bus 3     HV" areaNumber="1" zoneNumber="1">
+      <bus xsi:type="BusRecordXmlType" id="Bus3" name="Bus 3     HV" areaNumber="1" zoneNumber="1">
         <baseVoltage value="132.0" unit="KV"/>
         <loadflowData>
           <voltage value="1.01" unit="PU"/>
@@ -84,7 +84,7 @@
           </loadData>
         </loadflowData>
       </bus>
-      <bus id="Bus4" name="Bus 4     HV" areaNumber="1" zoneNumber="1">
+      <bus xsi:type="BusRecordXmlType" id="Bus4" name="Bus 4     HV" areaNumber="1" zoneNumber="1">
         <baseVoltage value="132.0" unit="KV"/>
         <loadflowData>
           <voltage value="1.019" unit="PU"/>
@@ -101,7 +101,7 @@
           </loadData>
         </loadflowData>
       </bus>
-      <bus id="Bus5" name="Bus 5     HV" areaNumber="1" zoneNumber="1">
+      <bus xsi:type="BusRecordXmlType" id="Bus5" name="Bus 5     HV" areaNumber="1" zoneNumber="1">
         <baseVoltage value="132.0" unit="KV"/>
         <loadflowData>
           <voltage value="1.02" unit="PU"/>
@@ -118,7 +118,7 @@
           </loadData>
         </loadflowData>
       </bus>
-      <bus id="Bus6" name="Bus 6     LV" areaNumber="1" zoneNumber="1">
+      <bus xsi:type="BusRecordXmlType" id="Bus6" name="Bus 6     LV" areaNumber="1" zoneNumber="1">
         <baseVoltage value="35.0" unit="KV"/>
         <loadflowData>
           <voltage value="1.07" unit="PU"/>
@@ -137,7 +137,7 @@
           </loadData>
         </loadflowData>
       </bus>
-      <bus id="Bus7" name="Bus 7     ZV" areaNumber="1" zoneNumber="1">
+      <bus xsi:type="BusRecordXmlType" id="Bus7" name="Bus 7     ZV" areaNumber="1" zoneNumber="1">
         <baseVoltage value="35.0" unit="KV"/>
         <loadflowData>
           <voltage value="1.062" unit="PU"/>
@@ -149,7 +149,7 @@
           </genData>
         </loadflowData>
       </bus>
-      <bus id="Bus8" name="Bus 8     TV" areaNumber="1" zoneNumber="1">
+      <bus xsi:type="BusRecordXmlType" id="Bus8" name="Bus 8     TV" areaNumber="1" zoneNumber="1">
         <baseVoltage value="10.0" unit="KV"/>
         <loadflowData>
           <voltage value="1.09" unit="PU"/>
@@ -163,7 +163,7 @@
           </genData>
         </loadflowData>
       </bus>
-      <bus id="Bus9" name="Bus 9     LV" areaNumber="1" zoneNumber="1">
+      <bus xsi:type="BusRecordXmlType" id="Bus9" name="Bus 9     LV" areaNumber="1" zoneNumber="1">
         <baseVoltage value="35.0" unit="KV"/>
         <loadflowData>
           <voltage value="1.056" unit="PU"/>
@@ -181,7 +181,7 @@
           <shuntY re="0.0" im="0.19" unit="PU"/>
         </loadflowData>
       </bus>
-      <bus id="Bus10" name="Bus 10    LV" areaNumber="1" zoneNumber="1">
+      <bus xsi:type="BusRecordXmlType" id="Bus10" name="Bus 10    LV" areaNumber="1" zoneNumber="1">
         <baseVoltage value="35.0" unit="KV"/>
         <loadflowData>
           <voltage value="1.051" unit="PU"/>
@@ -198,7 +198,7 @@
           </loadData>
         </loadflowData>
       </bus>
-      <bus id="Bus11" name="Bus 11    LV" areaNumber="1" zoneNumber="1">
+      <bus xsi:type="BusRecordXmlType" id="Bus11" name="Bus 11    LV" areaNumber="1" zoneNumber="1">
         <baseVoltage value="35.0" unit="KV"/>
         <loadflowData>
           <voltage value="1.057" unit="PU"/>
@@ -215,7 +215,7 @@
           </loadData>
         </loadflowData>
       </bus>
-      <bus id="Bus12" name="Bus 12    LV" areaNumber="1" zoneNumber="1">
+      <bus xsi:type="BusRecordXmlType" id="Bus12" name="Bus 12    LV" areaNumber="1" zoneNumber="1">
         <baseVoltage value="35.0" unit="KV"/>
         <loadflowData>
           <voltage value="1.055" unit="PU"/>
@@ -232,7 +232,7 @@
           </loadData>
         </loadflowData>
       </bus>
-      <bus id="Bus13" name="Bus 13    LV" areaNumber="1" zoneNumber="1">
+      <bus xsi:type="BusRecordXmlType" id="Bus13" name="Bus 13    LV" areaNumber="1" zoneNumber="1">
         <baseVoltage value="35.0" unit="KV"/>
         <loadflowData>
           <voltage value="1.05" unit="PU"/>
@@ -249,7 +249,7 @@
           </loadData>
         </loadflowData>
       </bus>
-      <bus id="Bus14" name="Bus 14    LV" areaNumber="1" zoneNumber="1">
+      <bus xsi:type="BusRecordXmlType" id="Bus14" name="Bus 14    LV" areaNumber="1" zoneNumber="1">
         <baseVoltage value="35.0" unit="KV"/>
         <loadflowData>
           <voltage value="1.036" unit="PU"/>
