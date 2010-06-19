@@ -91,7 +91,7 @@ public class JaxbParserHelper {
 	 * 
 	 */
 	public static boolean createBusEquivData(JaxbODMModelParser parser, Logger logger) {
-		LoadflowNetXmlType baseCaseNet = parser.getBaseCase(); 
+		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase(); 
 		boolean ok = true;
 
 		for (BusXmlType bus : baseCaseNet.getBusList().getBus()) {
