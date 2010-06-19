@@ -35,7 +35,7 @@ public class FuncTestCase {
 		assertTrue(xml.getPSSStudyCase().getBaseCase().getId() != null);
 		
 		str = BusListHead +
-		"<bus id=\"Bus1\" >" +
+		"<bus xsi:type=\"BusRecordXmlType\" id=\"Bus1\" >" +
 		  "<baseVoltage value=\"132.0\" unit=\"KV\"/>" +
 		  "<loadflowData>" +
 			"<genData code=\"Swing\">" +
