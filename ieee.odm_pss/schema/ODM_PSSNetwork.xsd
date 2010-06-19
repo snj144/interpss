@@ -18,8 +18,7 @@
 					<element name="busList" minOccurs="1" maxOccurs="1">
 						<complexType>
 							<sequence>
-								<element name="bus" type="pss:BusRecordXmlType" maxOccurs="unbounded" minOccurs="0"></element>
-							</sequence>
+								<element name="bus" type="pss:BusXmlType" maxOccurs="unbounded" minOccurs="0"></element>							</sequence>
 						</complexType>
 					</element>
 					<element name="branchList" minOccurs="1" maxOccurs="1">
