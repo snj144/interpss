@@ -80,7 +80,7 @@ public class PSSEV30BusDataRec {
 		busData.setAngle(JaxbDataSetter.createAngleData(va, AngleUnitType.DEG));
 
     	if (gl != 0.0 || bl != 0.0) {
-    		double factor = parser.getBaseCase().getBasePower().getValue();  
+    		double factor = parser.getAclfBaseCase().getBasePower().getValue();  
     		// for transfer G+jB to PU on system base, gl, bl are entered in MW at one per unit voltage
     		// bl is reactive power consumed, - for capactor
     		busData.setShuntY(JaxbDataSetter.createYData(gl/factor, bl/factor, YUnitType.PU));

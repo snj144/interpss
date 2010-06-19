@@ -545,33 +545,9 @@
 				<complexType>
 					<sequence>
 						<element name="machine" type="pss:MachineXmlType" minOccurs="1"></element>
-						<element name="exciter" minOccurs="0">
-							<complexType>
-								<sequence>
-									<element name="exciterType" maxOccurs="1" minOccurs="1" type="pss:ExciterEnumType">
-									</element>
-									<element name="exciterModel" type="pss:ExciterModelSelectionXmlType" maxOccurs="1" minOccurs="1"></element>
-								</sequence>
-							</complexType>
-						</element>
-						<element name="governor" minOccurs="0">
-							<complexType>
-								<sequence>
-									<element name="governorType" maxOccurs="1" minOccurs="1" type="pss:TurbineGovernorEnumType">
-									</element>
-									<element name="governorModel" type="pss:TurbineGovernorModelSelectionXmlType" maxOccurs="1" minOccurs="1"></element>
-								</sequence>
-							</complexType>
-						</element>
-						<element name="stabilizer" minOccurs="0">
-							<complexType>
-								<sequence>
-									<element name="stabilizerType" maxOccurs="1" minOccurs="1" type="pss:StabilizerEnumType">
-									</element>
-									<element name="stabilizerModel" type="pss:StabilizerModelSelectionXmlType" maxOccurs="1" minOccurs="1"></element>
-								</sequence>
-							</complexType>
-						</element>
+						<element name="exciter" minOccurs="0" type="pss:ExciterModelXmlType"></element>
+						<element name="governor" minOccurs="0" type="pss:GovernorModelXmlType"></element>
+						<element name="stabilizer" minOccurs="0" type="pss:StabilizerModelXmlType"></element>
 					</sequence>
 				</complexType>
 			</element>
@@ -602,9 +578,7 @@
 			<element name="genId" type="pss:IDRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="ownerName" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="generatorType" maxOccurs="1" minOccurs="1" type="pss:GeneratorEnumType">
-			</element>
-			<element name="generatorModel" type="pss:MachineModelSelectionXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="generatorModel" type="pss:MachineModelXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="pContributionPercent" type="double" maxOccurs="1" minOccurs="0"></element>
 			<element name="qContributionPercent" type="double" minOccurs="0"></element>
 		</sequence>

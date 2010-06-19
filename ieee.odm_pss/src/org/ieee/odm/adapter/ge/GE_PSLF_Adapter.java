@@ -92,7 +92,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 		JaxbODMModelParser parser = new JaxbODMModelParser();
 		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.GE_PSLF);
 
-		LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
+		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
 		baseCaseNet.setId("Base_Case_from_GE_PSLF_format");
 
 		NetDataRec.TitleRec titleRec = new NetDataRec.TitleRec();

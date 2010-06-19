@@ -105,7 +105,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.UCTE_DEF);
 
 		// BaseCase object, plus busRecList and BranchRecList are created 
-		LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
+		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
 		baseCaseNet.setId("Base_Case_from_UCTE_format");
 
     	// no base kva definition in UCTE format, so use 100 MVA
@@ -333,7 +333,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
      * ##L section
      */
     private void processLineRecord(String str, JaxbODMModelParser parser) throws Exception {
-    	LoadflowNetXmlType xmlBaseNet = parser.getBaseCase();
+    	LoadflowNetXmlType xmlBaseNet = parser.getAclfBaseCase();
     	 getLogger().fine("Line Record: " + str);
 
 		// parse the input line for line information

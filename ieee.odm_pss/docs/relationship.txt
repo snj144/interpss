@@ -5,3 +5,5 @@ BranchXmlType(A) <- LineXmlType
                  <- TransformerXmlType
                  <- PShiftTransformerXmlType
                  <- W3TransformerXmlType
+                 
+NetworkXmlType(A) <- LoadflowNetXmlType                 

@@ -45,8 +45,7 @@
 
 	<complexType name="DLoad_IEEEStaticLoadXmlType">
 		<sequence>
-			<element name="modelDesc" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadEnumType">
-			</element>
+			<element name="modelDesc" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadEnumType">			</element>
 			<element name="a1" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="a2" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="a3" type="double" maxOccurs="1" minOccurs="1"></element>
@@ -76,8 +75,7 @@
 
 	<complexType name="DLoad_ComplexLoadXmlType">
 		<sequence>
-			<element name="modelDesc" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadEnumType">
-			</element>
+			<element name="modelDesc" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadEnumType"> 		</element>
 			<element name="largeMotPercent" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="smallMotPercent" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="transExcCurPercent" type="double" maxOccurs="1" minOccurs="1"></element>
@@ -91,10 +89,8 @@
 
 	<complexType name="DLoad_InductionMotorXmlType">
 		<sequence>
-			<element name="modelDesc" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadEnumType">
-			</element>
-			<element name="motorType" maxOccurs="1" minOccurs="1" type="pss:InductionMotorEnumType">
-			</element>
+			<element name="modelDesc" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadEnumType">			</element>
+			<element name="motorType" maxOccurs="1" minOccurs="1" type="pss:InductionMotorEnumType">			</element>
 			<element name="RA" type="string" maxOccurs="1" minOccurs="1"></element>
 			<element name="XA" type="string" maxOccurs="1" minOccurs="1"></element>
 			<element name="XM" type="string" maxOccurs="1" minOccurs="1"></element>

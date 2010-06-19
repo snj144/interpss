@@ -40,7 +40,7 @@ import org.ieee.odm.schema.NetZoneXmlType;
 public class NetDataRec {
 	static public class TitleRec {
 		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) {
-			LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
+			LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
 			NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType(); 
 			baseCaseNet.setNvPairList(nvList);
 			JaxbParserHelper.addNVPair(nvList, "Title", lineStr);
@@ -51,7 +51,7 @@ public class NetDataRec {
 		public String comments = "";
 
 		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) {
-			LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
+			LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
 			NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType(); 
 			baseCaseNet.setNvPairList(nvList);
 			JaxbParserHelper.addNVPair(nvList, "Comments", lineStr);
@@ -83,7 +83,7 @@ public class NetDataRec {
 	static public class SolutionParamRec {
 
 		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) {
-			LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
+			LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
 			int tap, phas, area, svd, dctap, gcd;
 			double jump, toler;
 
@@ -120,7 +120,7 @@ public class NetDataRec {
 		public double pnetdes, pnettol, pnet, qnet;
 
 		public AreaRec(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) throws Exception {
-			LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
+			LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
 			//System.out.println("area->" + lineStr);
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
 			
@@ -168,7 +168,7 @@ public class NetDataRec {
 		public double pznet, qznet;
 
 		public ZoneRec(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) throws Exception {
-			LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
+			LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
 			//System.out.println("zone->" + lineStr);
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
 			

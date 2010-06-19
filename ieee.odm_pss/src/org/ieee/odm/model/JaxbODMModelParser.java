@@ -43,8 +43,10 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.xmlbeans.XmlException;
 import org.ieee.odm.schema.BranchRecordXmlType;
+import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
@@ -140,7 +142,7 @@ public class JaxbODMModelParser implements ODMModelParser {
 
 	private void createStudyCase() {
 		this.pssStudyCase = new StudyCaseXmlType();
-		this.pssStudyCase.setBaseCase(createBaseCase());
+		this.pssStudyCase.setBaseCase(createAclfBaseCase());
 	}
 	
 	/**
@@ -161,17 +163,17 @@ public class JaxbODMModelParser implements ODMModelParser {
 	 * 
 	 * @return
 	 */
-	public LoadflowNetXmlType getBaseCase() {
+	public LoadflowNetXmlType getAclfBaseCase() {
 		if (getStudyCase() == null) 
 			createStudyCase();
 		if (getStudyCase().getBaseCase() == null) {
-			LoadflowNetXmlType baseCase = createBaseCase();
+			LoadflowNetXmlType baseCase = createAclfBaseCase();
 			getStudyCase().setBaseCase(baseCase);
 		}
 		return (LoadflowNetXmlType)getStudyCase().getBaseCase();
 	}
 	
-	private LoadflowNetXmlType createBaseCase() {
+	private LoadflowNetXmlType createAclfBaseCase() {
 		LoadflowNetXmlType baseCase = this.getFactory().createLoadflowNetXmlType();
 		
 		baseCase.setBusList(this.getFactory().createNetworkXmlTypeBusList());
@@ -210,8 +212,18 @@ public class JaxbODMModelParser implements ODMModelParser {
 	 * @param id
 	 * @return
 	 */
+	public BusXmlType getBus(String id) {
+		return (BusXmlType)this.getCachedObject(id);
+	}
+	
+	/**
+	 * Get the cashed bus object by id
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public BusRecordXmlType getBusRecord(String id) {
-		return (BusRecordXmlType)this.getCachedObject(id);
+		return (BusRecordXmlType)this.getBus(id);
 	}
 	
 	/**
@@ -224,7 +236,7 @@ public class JaxbODMModelParser implements ODMModelParser {
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);
 		busRec.setZoneNumber(1);
-		getBaseCase().getBusList().getBus().add(busRec);
+		getAclfBaseCase().getBusList().getBus().add(busRec);
 		return busRec;
 	}	
 	
@@ -272,10 +284,20 @@ public class JaxbODMModelParser implements ODMModelParser {
 	 * @param id
 	 * @return
 	 */
-	public BranchRecordXmlType getBranchRecord(String branchId) {
-		return (BranchRecordXmlType)this.getCachedObject(branchId); 
+	public BranchXmlType getBranch(String branchId) {
+		return (BranchXmlType)this.getCachedObject(branchId); 
 	}
 
+	/**
+	 * Get the cashed branch record object by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public BranchRecordXmlType getBranchRecord(String branchId) {
+		return (BranchRecordXmlType)this.getBranch(branchId); 
+	}
+	
 	/**
 	 * get the cashed branch record using fromId, toId and cirId
 	 * 
@@ -286,7 +308,7 @@ public class JaxbODMModelParser implements ODMModelParser {
 	 */
 	public BranchRecordXmlType getBranchRecord(String fromId, String toId, String cirId) {
 		String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
-		return (BranchRecordXmlType)this.getCachedObject(id);
+		return (BranchRecordXmlType)this.getBranchRecord(id);
 	}
 	
 	/**
@@ -300,7 +322,7 @@ public class JaxbODMModelParser implements ODMModelParser {
 	 */
 	public BranchRecordXmlType getBranchRecord(String fromId, String toId, String tertId, String cirId) {
 		String id = ModelStringUtil.formBranchId(fromId, toId, tertId, cirId);
-		return (BranchRecordXmlType)this.getCachedObject(id);
+		return (BranchRecordXmlType)this.getBranchRecord(id);
 	}
 
 	/**
@@ -310,7 +332,7 @@ public class JaxbODMModelParser implements ODMModelParser {
 	 */
 	public BranchRecordXmlType createBranchRecord() {
 		BranchRecordXmlType branchRec = new BranchRecordXmlType();
-		getBaseCase().getBranchList().getBranch().add(branchRec);
+		getAclfBaseCase().getBranchList().getBranch().add(branchRec);
 		branchRec.setOffLine(false);
 		branchRec.setAreaNumber(1);
 		branchRec.setZoneNumber(1);
@@ -343,11 +365,11 @@ public class JaxbODMModelParser implements ODMModelParser {
 	 * @return
 	 */
 	public NetAreaXmlType createNetworkArea() {
-		if(getBaseCase().getAreaList()==null){
-			getBaseCase().setAreaList(this.getFactory().createNetworkXmlTypeAreaList());
+		if(getAclfBaseCase().getAreaList()==null){
+			getAclfBaseCase().setAreaList(this.getFactory().createNetworkXmlTypeAreaList());
 		}
 		NetAreaXmlType area = this.getFactory().createNetAreaXmlType();
-		getBaseCase().getAreaList().getArea().add(area);
+		getAclfBaseCase().getAreaList().getArea().add(area);
 		return area;
 	}
 	
@@ -357,11 +379,11 @@ public class JaxbODMModelParser implements ODMModelParser {
 	 * @return
 	 */
 	public NetZoneXmlType createNetworkLossZone() {
-		if(getBaseCase().getLossZoneList() == null){
-			getBaseCase().setLossZoneList(this.getFactory().createNetworkXmlTypeLossZoneList());
+		if(getAclfBaseCase().getLossZoneList() == null){
+			getAclfBaseCase().setLossZoneList(this.getFactory().createNetworkXmlTypeLossZoneList());
 		}
 		NetZoneXmlType zone = this.getFactory().createNetZoneXmlType();
-		getBaseCase().getLossZoneList().getLossZone().add(zone);
+		getAclfBaseCase().getLossZoneList().getLossZone().add(zone);
 		return zone;
 	}
 
@@ -371,10 +393,10 @@ public class JaxbODMModelParser implements ODMModelParser {
 	 * @return
 	 */
 	public TielineXmlType createTieline() {
-		if (getBaseCase().getTieLineList() == null)
-			getBaseCase().setTieLineList(this.getFactory().createLoadflowNetXmlTypeTieLineList());
+		if (getAclfBaseCase().getTieLineList() == null)
+			getAclfBaseCase().setTieLineList(this.getFactory().createLoadflowNetXmlTypeTieLineList());
 		TielineXmlType tieLine = this.getFactory().createTielineXmlType();
-		getBaseCase().getTieLineList().getTieline().add(tieLine);
+		getAclfBaseCase().getTieLineList().getTieline().add(tieLine);
 		return tieLine;
 	}
 	
@@ -384,10 +406,10 @@ public class JaxbODMModelParser implements ODMModelParser {
 	 * @return
 	 */
 	public InterchangeXmlType createInterchange() {
-		if (getBaseCase().getInterchangeList() == null)
-			getBaseCase().setInterchangeList(this.getFactory().createLoadflowNetXmlTypeInterchangeList());
+		if (getAclfBaseCase().getInterchangeList() == null)
+			getAclfBaseCase().setInterchangeList(this.getFactory().createLoadflowNetXmlTypeInterchangeList());
 		InterchangeXmlType interchange = this.getFactory().createInterchangeXmlType();
-		getBaseCase().getInterchangeList().getInterchange().add(interchange);
+		getAclfBaseCase().getInterchangeList().getInterchange().add(interchange);
 		return interchange;
 	}
 
@@ -412,9 +434,9 @@ public class JaxbODMModelParser implements ODMModelParser {
 		//if (getStudyCase().getBaseCase().getDcLineList() == null)
 		//	getStudyCase().getBaseCase().addNewDcLineList();
 		DCLineData2TXmlType dcLine = getFactory().createDCLineData2TXmlType();
-		if (getBaseCase().getDcLineList() == null)
-			getBaseCase().setDcLineList(this.getFactory().createLoadflowNetXmlTypeDcLineList());
-		getBaseCase().getDcLineList().getDcLint2T().add(dcLine);
+		if (getAclfBaseCase().getDcLineList() == null)
+			getAclfBaseCase().setDcLineList(this.getFactory().createLoadflowNetXmlTypeDcLineList());
+		getAclfBaseCase().getDcLineList().getDcLint2T().add(dcLine);
 		String branchId = ModelStringUtil.formBranchId(recId, invId, new Long(number).toString());
 		dcLine.setId(branchId);
 		dcLine.setNumber(number);
