@@ -9,7 +9,7 @@
     <adapterProviderName>www.interpss.org</adapterProviderName>
     <adapterProviderVersion>1.00</adapterProviderVersion>
   </contentInfo>
-  <baseCase id="Base_Case_from_IEEECDF_format">
+  <baseCase xsi:type="LoadflowNetXmlType" id="Base_Case_from_IEEECDF_format">
     <nvPairList>
       <nvPair>
         <name>Date</name>
@@ -268,7 +268,7 @@
       </bus>
     </busList>
     <branchList>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus1_to_Bus2_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus1_to_Bus2_cirId_1">
         <fromBus idRef="Bus1"/>
         <toBus idRef="Bus2"/>
         <loadflowData code="Line">
@@ -276,7 +276,7 @@
           <totalShuntY re="0.0" im="0.0528" unit="PU"/>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus1_to_Bus5_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus1_to_Bus5_cirId_1">
         <fromBus idRef="Bus1"/>
         <toBus idRef="Bus5"/>
         <loadflowData code="Line">
@@ -284,7 +284,7 @@
           <totalShuntY re="0.0" im="0.0492" unit="PU"/>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus2_to_Bus3_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus2_to_Bus3_cirId_1">
         <fromBus idRef="Bus2"/>
         <toBus idRef="Bus3"/>
         <loadflowData code="Line">
@@ -292,7 +292,7 @@
           <totalShuntY re="0.0" im="0.0438" unit="PU"/>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus2_to_Bus4_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus2_to_Bus4_cirId_1">
         <fromBus idRef="Bus2"/>
         <toBus idRef="Bus4"/>
         <loadflowData code="Line">
@@ -300,7 +300,7 @@
           <totalShuntY re="0.0" im="0.034" unit="PU"/>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus2_to_Bus5_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus2_to_Bus5_cirId_1">
         <fromBus idRef="Bus2"/>
         <toBus idRef="Bus5"/>
         <loadflowData code="Line">
@@ -308,7 +308,7 @@
           <totalShuntY re="0.0" im="0.0346" unit="PU"/>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus3_to_Bus4_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus3_to_Bus4_cirId_1">
         <fromBus idRef="Bus3"/>
         <toBus idRef="Bus4"/>
         <loadflowData code="Line">
@@ -316,14 +316,14 @@
           <totalShuntY re="0.0" im="0.0128" unit="PU"/>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus4_to_Bus5_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus4_to_Bus5_cirId_1">
         <fromBus idRef="Bus4"/>
         <toBus idRef="Bus5"/>
         <loadflowData code="Line">
           <z re="0.01335" im="0.04211" unit="PU"/>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus4_to_Bus7_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus4_to_Bus7_cirId_1">
         <fromBus idRef="Bus4"/>
         <toBus idRef="Bus7"/>
         <loadflowData code="Transformer">
@@ -336,7 +336,7 @@
           </xfrInfo>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus4_to_Bus9_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus4_to_Bus9_cirId_1">
         <fromBus idRef="Bus4"/>
         <toBus idRef="Bus9"/>
         <loadflowData code="Transformer">
@@ -349,7 +349,7 @@
           </xfrInfo>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus5_to_Bus6_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus5_to_Bus6_cirId_1">
         <fromBus idRef="Bus5"/>
         <toBus idRef="Bus6"/>
         <loadflowData code="Transformer">
@@ -362,28 +362,28 @@
           </xfrInfo>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus6_to_Bus11_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus6_to_Bus11_cirId_1">
         <fromBus idRef="Bus6"/>
         <toBus idRef="Bus11"/>
         <loadflowData code="Line">
           <z re="0.09498" im="0.1989" unit="PU"/>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus6_to_Bus12_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus6_to_Bus12_cirId_1">
         <fromBus idRef="Bus6"/>
         <toBus idRef="Bus12"/>
         <loadflowData code="Line">
           <z re="0.12291" im="0.25581" unit="PU"/>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus6_to_Bus13_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus6_to_Bus13_cirId_1">
         <fromBus idRef="Bus6"/>
         <toBus idRef="Bus13"/>
         <loadflowData code="Line">
           <z re="0.06615" im="0.13027" unit="PU"/>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus7_to_Bus8_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus7_to_Bus8_cirId_1">
         <fromBus idRef="Bus7"/>
         <toBus idRef="Bus8"/>
         <loadflowData code="Transformer">
@@ -396,7 +396,7 @@
           </xfrInfo>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus7_to_Bus9_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus7_to_Bus9_cirId_1">
         <fromBus idRef="Bus7"/>
         <toBus idRef="Bus9"/>
         <loadflowData code="Transformer">
@@ -409,35 +409,35 @@
           </xfrInfo>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus9_to_Bus10_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus9_to_Bus10_cirId_1">
         <fromBus idRef="Bus9"/>
         <toBus idRef="Bus10"/>
         <loadflowData code="Line">
           <z re="0.03181" im="0.0845" unit="PU"/>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus9_to_Bus14_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus9_to_Bus14_cirId_1">
         <fromBus idRef="Bus9"/>
         <toBus idRef="Bus14"/>
         <loadflowData code="Line">
           <z re="0.12711" im="0.27038" unit="PU"/>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus10_to_Bus11_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus10_to_Bus11_cirId_1">
         <fromBus idRef="Bus10"/>
         <toBus idRef="Bus11"/>
         <loadflowData code="Line">
           <z re="0.08205" im="0.19207" unit="PU"/>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus12_to_Bus13_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus12_to_Bus13_cirId_1">
         <fromBus idRef="Bus12"/>
         <toBus idRef="Bus13"/>
         <loadflowData code="Line">
           <z re="0.22092" im="0.19988" unit="PU"/>
         </loadflowData>
       </branch>
-      <branch areaNumber="1" zoneNumber="1" circuitId="1" id="Bus13_to_Bus14_cirId_1">
+      <branch xsi:type="BranchRecordXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Bus13_to_Bus14_cirId_1">
         <fromBus idRef="Bus13"/>
         <toBus idRef="Bus14"/>
         <loadflowData code="Line">

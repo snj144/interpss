@@ -30,11 +30,11 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.ieee.odm.schema.BusRecordXmlType;
-import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.junit.Test;
 
 public class PSSEV30_GuideSampleTest { 
@@ -50,7 +50,7 @@ public class PSSEV30_GuideSampleTest {
 		
 		//System.out.println(adapter.getModel().toString());
 		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
-		PSSNetworkXmlType net = parser.getBaseCase();		
+		LoadflowNetXmlType net = parser.getBaseCase();		
 		/*
       <bus id="Bus151" number="151" areaNumber="1" name="NUCPANT     " offLine="false">
         <ownerList>

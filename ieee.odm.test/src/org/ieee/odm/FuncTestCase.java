@@ -23,7 +23,7 @@ public class FuncTestCase {
 	@Test
 	public void parseTestCase() throws Exception {
 		String str = PSSStudyCaseHead +
-			"<baseCase id=\"Base_Case_from_IEEECDF_format\">" +
+			"<baseCase xsi:type=\"LoadflowNetXmlType\" id=\"Base_Case_from_IEEECDF_format\">" +
 			"   <networkCategory>Transmission</networkCategory>" +
 			"   <analysisCategory>Loadflow</analysisCategory>" +
 			"   <basePower value=\"100.0\" unit=\"MVA\" />" +
@@ -53,7 +53,7 @@ public class FuncTestCase {
 		assertTrue(xml.getPSSStudyCase().getBaseCase().getBusList().getBusArray(0).getBaseVoltage().getValue() == 132.0);
 		
 		str = BranchListHead +
-		"<branch circuitId=\"1\" id=\"Bus1_to_Bus2_cirId_1\">" +
+		"<branch xsi:type=\"BranchRecordXmlType\" circuitId=\"1\" id=\"Bus1_to_Bus2_cirId_1\">" +
 			"<fromBus idRef=\"Bus1\" />" +
 			"<toBus idRef=\"Bus2\" />" +
 			"<loadflowData code=\"Line\">" +
