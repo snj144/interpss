@@ -25,6 +25,7 @@
 package org.interpss.mapper.ieee_odm;
 
 import org.apache.commons.math.complex.Complex;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchRecordXmlType;
@@ -37,12 +38,11 @@ import org.ieee.odm.schema.LoadflowBranchDataXmlType;
 import org.ieee.odm.schema.LoadflowBusDataXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
-import org.ieee.odm.schema.PSSNetworkXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.PowerXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.YXmlType;
-import org.ieee.odm.model.JaxbParserHelper;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
@@ -78,7 +78,7 @@ public class ODMLoadflowDataMapperImpl {
 	 * @return
 	 * @throws Exception
 	 */
-	public static AclfAdjNetwork mapNetworkData(PSSNetworkXmlType xmlNet) throws Exception {
+	public static AclfAdjNetwork mapNetworkData(LoadflowNetXmlType xmlNet) throws Exception {
 		AclfAdjNetwork net = CoreObjectFactory.createAclfAdjNetwork();
 		net.setId(xmlNet.getId());
 		net.setName(xmlNet.getName() == null? "ODM Loadflow Case" : xmlNet.getName());
