@@ -27,10 +27,12 @@ package org.interpss.mapper.ieee_odm;
 import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BranchRecordXmlType;
+import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
-import org.ieee.odm.schema.PSSNetworkXmlType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.net.OriginalDataFormat;
@@ -54,16 +56,20 @@ public class ODM2SimuCtxMapperImpl {
 		if (parser.getStudyCase().getBaseCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
 				&& parser.getStudyCase().getBaseCase().getAnalysisCategory() == AnalysisCategoryEnumType.LOADFLOW) {
 
-			PSSNetworkXmlType xmlNet = parser.getBaseCase();
+			LoadflowNetXmlType xmlNet = parser.getBaseCase();
 			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
 			try {
 				simuCtx.setAclfAdjNet(ODMLoadflowDataMapperImpl.mapNetworkData(xmlNet));
 
-				for (BusRecordXmlType busRec : xmlNet.getBusList().getBus()) 
+				for (BusXmlType bus : xmlNet.getBusList().getBus()) {
+					BusRecordXmlType busRec = (BusRecordXmlType) bus;
 					ODMLoadflowDataMapperImpl.mapBusData(busRec, simuCtx.getAclfAdjNet());
+				}
 
-				for (BranchRecordXmlType branchRec : xmlNet.getBranchList().getBranch()) 
+				for (BranchXmlType branch : xmlNet.getBranchList().getBranch()) { 
+					BranchRecordXmlType branchRec = (BranchRecordXmlType) branch;
 					ODMLoadflowDataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				IpssLogger.getLogger().severe(e.toString());
