@@ -110,6 +110,11 @@ public class JaxbODMModelParser implements ODMModelParser {
 		JAXBElement<StudyCaseXmlType> elem = (JAXBElement<StudyCaseXmlType>)createUnmarshaller().unmarshal(in);
 		this.pssStudyCase = elem.getValue();
 		this.objectCache = new Hashtable<String, IDRecordXmlType>();
+		// cache the loaded bus and branch objects
+		for (BusXmlType bus : this.getAclfBaseCase().getBusList().getBus())
+			this.objectCache.put(bus.getId(), bus);
+		for (BranchXmlType branch : this.getAclfBaseCase().getBranchList().getBranch())
+			this.objectCache.put(branch.getId(), branch);
 	}
 
 	/**
