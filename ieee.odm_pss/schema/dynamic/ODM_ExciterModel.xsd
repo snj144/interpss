@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ieee.org/odm/Schema" xmlns:pss="http://www.ieee.org/odm/Schema" elementFormDefault="qualified">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+    xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
 	<include schemaLocation="../ODM_DataType.xsd"></include>
 
@@ -134,7 +136,7 @@
 		</complexContent>		
 	</complexType>
 
-	<complexType name="ExcrIEEEModified1968Type1XmlType">
+	<complexType name="ExcIEEEModified1968Type1XmlType">
 		<complexContent>
 		<extension base="pss:ExciterModelXmlType">
 		<sequence>
@@ -258,7 +260,7 @@
 			</element>
 			<element name="IEEE1968Type1" maxOccurs="1" minOccurs="0" type="pss:ExcIEEE1968Type1XmlType">
 			</element>
-			<element name="IEEEModified1968Type1" maxOccurs="1" minOccurs="0" type="pss:ExcrIEEEModified1968Type1XmlType">
+			<element name="IEEEModified1968Type1" maxOccurs="1" minOccurs="0" type="pss:ExcIEEEModified1968Type1XmlType">
 			</element>
 			<element name="IEEE1981NewExcSystem" maxOccurs="1" minOccurs="0" type="pss:ExcIEEE1981NewExcSystemXmlType">
 			</element>
@@ -266,4 +268,27 @@
 			</element>
 		</sequence>
 	</complexType>
+	
+
+	<complexType name="ExciterModelSelectionXmlType">
+		<choice>
+			<element name="IEEE1992TypeAC1A" maxOccurs="1" minOccurs="0" type="pss:ExcIEEE1992TypeAC1AXmlType">
+			</element>
+			<element name="IEEE1981TypeAC2" maxOccurs="1" minOccurs="0" type="pss:ExcIEEE1981TypeAC2XmlType">
+			</element>
+			<element name="IEEE1981ST1" maxOccurs="1" minOccurs="0" type="pss:ExcIEEE1981ST1XmlType">
+			</element>
+			<element name="BPAFJ" maxOccurs="1" minOccurs="0" type="pss:ExcBPAFJXmlType">
+			</element>
+			<element name="IEEE1968Type1" maxOccurs="1" minOccurs="0" type="pss:ExcIEEE1968Type1XmlType">
+			</element>
+			<element name="IEEEModified1968Type1" maxOccurs="1" minOccurs="0" type="pss:ExcIEEEModified1968Type1XmlType">
+			</element>
+			<element name="IEEE1981NewExcSystem" maxOccurs="1" minOccurs="0" type="pss:ExcIEEE1981NewExcSystemXmlType">
+			</element>
+			<element name="IEEETypeDC2" maxOccurs="1" minOccurs="0" type="pss:ExcIEEETypeDC2XmlType">
+			</element>
+		</choice>
+	</complexType>
+	
 </schema>

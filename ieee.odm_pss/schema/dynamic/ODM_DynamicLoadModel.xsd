@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ieee.org/odm/Schema" xmlns:pss="http://www.ieee.org/odm/Schema" elementFormDefault="qualified">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+     targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+     xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
 	<include schemaLocation="../ODM_DataType.xsd"></include>
 
@@ -119,4 +121,17 @@
 			<enumeration value="type2"></enumeration>
 		</restriction>
 	</simpleType>
+	
+
+
+	<complexType name="DynamicLoadModelSelectionXmlType">
+		<choice>
+			<element name="IEEEStaticLoad" maxOccurs="1" minOccurs="0" type="pss:DLoad_IEEEStaticLoadXmlType">
+			</element>
+			<element name="ComplexLoad" maxOccurs="1" minOccurs="0" type="pss:DLoad_ComplexLoadXmlType">
+			</element>
+			<element name="InductionMotor" maxOccurs="1" minOccurs="0" type="pss:DLoad_InductionMotorXmlType">
+			</element>
+		</choice>
+	</complexType>	
 </schema>

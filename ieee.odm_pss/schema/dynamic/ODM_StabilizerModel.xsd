@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ieee.org/odm/Schema" xmlns:pss="http://www.ieee.org/odm/Schema" elementFormDefault="qualified">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+    xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
 	<include schemaLocation="../ODM_DataType.xsd"></include>
 
@@ -160,5 +162,16 @@
 		</sequence>
 	</complexType>
 
-
+	<complexType name="StabilizerModelSelectionXmlType">
+		<choice>
+			<element name="IEEE1981Type" maxOccurs="1" minOccurs="0" type="pss:PssIEEE1981TypeXmlType">
+			</element>
+			<element name="IEEE1982Type2A" maxOccurs="1" minOccurs="0" type="pss:PssIEEE1982Type2AXmlType">
+			</element>
+			<element name="IEE2ST" maxOccurs="1" minOccurs="0" type="pss:PssIEE2STXmlType">
+			</element>
+			<element name="IEEEDualInput" maxOccurs="1" minOccurs="0" type="pss:PssIEEEDualInputXmlType">
+			</element>
+		</choice>
+	</complexType>
 </schema>
