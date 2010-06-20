@@ -550,8 +550,8 @@ public class JaxbParserHelper {
 			 String busId, String macId){
 		for(StabilizerXmlType pss: tranSimu.getDynamicDataList().getBusDynDataList().getStabilizerDataList().getStabilizer()){
 			if(busId.equals(pss.getLocatedBus().getName())){
-				if(pss.getMacId()!=null){
-					if(macId.equals(pss.getMacId().getName())){
+				if(pss.getMachId()!=null){
+					if(macId.equals(pss.getMachId().getName())){
 						return pss;
 					}
 				}else{
