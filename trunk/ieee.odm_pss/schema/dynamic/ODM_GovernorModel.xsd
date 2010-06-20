@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ieee.org/odm/Schema" xmlns:pss="http://www.ieee.org/odm/Schema" elementFormDefault="qualified">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+     targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+     xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
 	<include schemaLocation="../ODM_DataType.xsd"></include>
 
@@ -218,5 +220,21 @@
 		</sequence>
 	</complexType>
 
+	<complexType name="TurbineGovernorModelSelectionXmlType">
+		<choice>
+			<element name="IEEE1981Type1" maxOccurs="1" minOccurs="0" type="pss:GovIEEE1981Type1XmlTypeXmlType">
+			</element>
+			<element name="IEEE1981Type2" maxOccurs="1" minOccurs="0" type="pss:GovIEEE1981Type2XmlType">
+			</element>
+			<element name="IEEE1981Type3" maxOccurs="1" minOccurs="0" type="pss:GovIEEE1981Type3XmlType">
+			</element>
+			<element name="hydroStreamGeneralModel" maxOccurs="1" minOccurs="0" type="pss:GovHydroSteamGeneralModelXmlType">
+			</element>
+			<element name="hydroGovernerAndTurbine" maxOccurs="1" minOccurs="0" type="pss:GovHydroTurbineXmlType">
+			</element>
+			<element name="hydroGoverner" maxOccurs="1" minOccurs="0" type="pss:GovHydroXmlType">
+			</element>
+		</choice>
+	</complexType>
 
 </schema>

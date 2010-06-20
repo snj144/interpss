@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ieee.org/odm/Schema" xmlns:pss="http://www.ieee.org/odm/Schema" elementFormDefault="qualified">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+     targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+     xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
 	<include schemaLocation="../ODM_DataType.xsd"></include>
+	
+	<complexType name="GeneratorXmlType">
+		<sequence>
+			<element name="locatedBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="genId" type="pss:IDRecordXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="ownerName" type="string" maxOccurs="1" minOccurs="0"></element>
+			<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="generatorModel" type="pss:MachineModelXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="pContributionPercent" type="double" maxOccurs="1" minOccurs="0"></element>
+			<element name="qContributionPercent" type="double" minOccurs="0"></element>
+		</sequence>
+	</complexType>	
 
 	<complexType name="MachineModelXmlType" abstract="true">
 		<sequence>
@@ -87,18 +101,6 @@
 	</complexType>
 
 <!-- below not used -->
-	<complexType name="GeneratorXmlType">
-		<sequence>
-			<element name="locatedBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="genId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="ownerName" type="string" maxOccurs="1" minOccurs="0"></element>
-			<element name="busRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="generatorType" maxOccurs="1" minOccurs="1" type="pss:GeneratorEnumType"></element>
-			<element name="generatorModel" type="pss:GeneratorModelListXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="pContribution" type="double" maxOccurs="1" minOccurs="0"></element>
-			<element name="qContribution" type="double" maxOccurs="1" minOccurs="0"></element>
-		</sequence>
-	</complexType>
 
 	<simpleType name="GeneratorEnumType">
 		<restriction base="string">
@@ -122,5 +124,17 @@
 		</sequence>
 	</complexType>
 
+	<complexType name="MachineModelSelectionXmlType">
+		<choice>
+			<element name="equiGenUnit" maxOccurs="1" minOccurs="0" type="pss:EquiMachineXmlType">
+			</element>
+			<element name="classicalModel" maxOccurs="1" minOccurs="0" type="pss:ClassicMachineXmlType">
+			</element>
+			<element name="transModel" maxOccurs="1" minOccurs="0" type="pss:TransientMachineXmlType">
+			</element>
+			<element name="subTransientModel" maxOccurs="1" minOccurs="0" type="pss:SubTransientMachineXmlType">
+			</element>
+		</choice>
+	</complexType>
 
 </schema>

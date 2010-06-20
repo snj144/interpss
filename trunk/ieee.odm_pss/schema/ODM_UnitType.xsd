@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ieee.org/odm/Schema" xmlns:pss="http://www.ieee.org/odm/Schema" elementFormDefault="qualified">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+   targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+   xmlns:pss="http://www.ieee.org/odm/Schema/2009" elementFormDefault="qualified" xmlns:Q1="http://www.ieee.org/odm/Schema/2008">
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
@@ -101,6 +103,6 @@
 	</simpleType>
 
 	<simpleType name="TapUnitType">
-		<restriction base="pss:TurnRatioUnitType"></restriction>
+		<restriction base="Q1:TurnRatioUnitType"></restriction>
 	</simpleType>
 </schema>
