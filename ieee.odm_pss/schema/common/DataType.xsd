@@ -3,8 +3,7 @@
      targetNamespace="http://www.ieee.org/odm/Schema/2008" 
      xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-    <include schemaLocation="ODM_RecordType.xsd"></include>
-    <include schemaLocation="ODM_UnitType.xsd"></include>
+    <include schemaLocation="UnitType.xsd"></include>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
@@ -335,6 +334,13 @@
 		<attribute name="connection" type="pss:XformrtConnectionEnumType" use="required"></attribute>
 	</complexType>
 
+	<complexType name="GroundConnectionXmlType">
+		<sequence>
+			<element name="groundZ" type="pss:ZXmlType" minOccurs="0"></element>
+		</sequence>
+		<attribute name="connection" type="pss:GroundConnectionEnumType" use="required"></attribute>
+	</complexType>
+	
 	<simpleType name="ShortCircuitBusEnumType">
 		<restriction base="string">
 			<enumeration value="Contributing"></enumeration>

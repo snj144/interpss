@@ -3,7 +3,7 @@
     targetNamespace="http://www.ieee.org/odm/Schema/2008" 
     xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-	<include schemaLocation="../ODM_DataType.xsd"></include>
+	<include schemaLocation="../common/DataType.xsd"></include>
 
 	<complexType name="ExciterModelXmlType" abstract="true">
 		<sequence>
@@ -11,34 +11,60 @@
 			<element name="desc" type="string" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
-			
-	<complexType name="ExcIEEE1992TypeAC1AXmlType">
+<!-- 
+		IEEE 1968 model set
+ -->			
+
+	<complexType name="ExcIEEE1968Type1XmlType">
 		<complexContent>
 		<extension base="pss:ExciterModelXmlType">
 		<sequence>
-			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TB" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TC" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="KA" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="TA" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="VAMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="VAMIN" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VRMAX" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VRMIN" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="KE" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="TE" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="KF" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="TF" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="KC" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="KD" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="EFDMIN" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="E1" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="SE1" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="E2" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="SE2" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="VRMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="VRMIN" type="double" maxOccurs="1" minOccurs="1"></element>
 		</sequence>
 		</extension>
 		</complexContent>		
 	</complexType>
 
+	<complexType name="ExcIEEEModified1968Type1XmlType">
+		<complexContent>
+		<extension base="pss:ExciterModelXmlType">
+		<sequence>
+			<element name="KA" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="TA" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="VRMAX" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VRMIN" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="KE" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="TE" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="KF" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="TF" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="EFDMIN" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="E1" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="SE1" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="E2" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="SE2" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+
+<!-- 
+		IEEE 1981 model set
+ -->			
+ 
 	<complexType name="ExcIEEE1981TypeAC2XmlType">
 		<complexContent>
 		<extension base="pss:ExciterModelXmlType">
@@ -91,74 +117,7 @@
 		</extension>
 		</complexContent>		
 	</complexType>
-
-	<complexType name="ExcBPAFJXmlType">
-		<complexContent>
-		<extension base="pss:ExciterModelXmlType">
-		<sequence>
-			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="EFDMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="EFDMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TB" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TC" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="KA" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TA" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="KF" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TF" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="KC" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="VRMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="VRMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-		</sequence>
-		</extension>
-		</complexContent>		
-	</complexType>
-
-	<complexType name="ExcIEEE1968Type1XmlType">
-		<complexContent>
-		<extension base="pss:ExciterModelXmlType">
-		<sequence>
-			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="KA" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TA" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="VRMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="VRMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="KE" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TE" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="KF" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TF" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="EFDMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="E1" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="SE1" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="E2" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="SE2" type="double" maxOccurs="1" minOccurs="1"></element>
-		</sequence>
-		</extension>
-		</complexContent>		
-	</complexType>
-
-	<complexType name="ExcIEEEModified1968Type1XmlType">
-		<complexContent>
-		<extension base="pss:ExciterModelXmlType">
-		<sequence>
-			<element name="KA" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TA" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="VRMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="VRMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="KE" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TE" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="KF" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TF" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="EFDMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="E1" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="SE1" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="E2" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="SE2" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
-		</sequence>
-		</extension>
-		</complexContent>		
-	</complexType>
-
+ 
 	<complexType name="ExcIEEE1981NewExcSystemXmlType">
 		<complexContent>
 		<extension base="pss:ExciterModelXmlType">
@@ -195,6 +154,62 @@
 			<element name="EFDmax" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="E1" type="double" maxOccurs="1" minOccurs="0"></element>
 			<element name="E2" type="double" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+ 
+ <!-- 
+		IEEE 1992 model set
+ -->			
+ 
+	<complexType name="ExcIEEE1992TypeAC1AXmlType">
+		<complexContent>
+		<extension base="pss:ExciterModelXmlType">
+		<sequence>
+			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="TB" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="TC" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="KA" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="TA" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="VAMAX" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VAMIN" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="TE" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="KF" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="TF" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="KC" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="KD" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="E1" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="SE1" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="E2" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="SE2" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VRMAX" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VRMIN" type="double" maxOccurs="1" minOccurs="1"></element>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+
+<!-- 
+		Other models
+ -->
+
+	<complexType name="ExcBPAFJXmlType">
+		<complexContent>
+		<extension base="pss:ExciterModelXmlType">
+		<sequence>
+			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="EFDMAX" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="EFDMIN" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="TB" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="TC" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="KA" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="TA" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="KF" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="TF" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="KC" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VRMAX" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VRMIN" type="double" maxOccurs="1" minOccurs="1"></element>
 		</sequence>
 		</extension>
 		</complexContent>		
