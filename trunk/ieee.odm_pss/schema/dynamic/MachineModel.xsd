@@ -3,7 +3,7 @@
      targetNamespace="http://www.ieee.org/odm/Schema/2008" 
      xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-	<include schemaLocation="../ODM_DataType.xsd"></include>
+	<include schemaLocation="../common/DataType.xsd"></include>
 	
 	<complexType name="GeneratorXmlType">
 		<sequence>
@@ -41,9 +41,9 @@
 		<complexContent>
 		<extension base="pss:MachineModelXmlType">
 		<sequence>
-			<element name="xd1" maxOccurs="1" minOccurs="1" type="double">			</element>
 			<element name="H" maxOccurs="1" minOccurs="1" type="double">			</element>
 			<element name="D" maxOccurs="1" minOccurs="1" type="double">			</element>
+			<element name="xd1" maxOccurs="1" minOccurs="1" type="double">			</element>
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -51,20 +51,17 @@
 
 	<complexType name="TransientMachineXmlType">
 		<complexContent>
-		<extension base="pss:MachineModelXmlType">
+		<extension base="pss:ClassicMachineXmlType">
 		<sequence>
 			<element name="ra" maxOccurs="1" minOccurs="1" type="double">			</element>
 			<element name="xd" maxOccurs="1" minOccurs="1" type="double">			</element>
-			<element name="xd1" maxOccurs="1" minOccurs="1" type="double">			</element>
-			<element name="Tdo1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1">			</element>
 			<element name="xq" maxOccurs="1" minOccurs="1" type="double">			</element>
+			<element name="Tdo1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1">			</element>
 			<element name="xq1" maxOccurs="1" minOccurs="1" type="double">			</element>
 			<element name="Tq01" maxOccurs="1" minOccurs="1" type="pss:TimePeriodXmlType">			</element>
-			<element name="H" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="D" type="double" maxOccurs="1" minOccurs="1">			</element>
 			<element name="E1" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="SE1" type="double" maxOccurs="1" minOccurs="1">			</element>
 			<element name="E2" type="double" maxOccurs="1" minOccurs="1">			</element>
+			<element name="SE1" type="double" maxOccurs="1" minOccurs="1">			</element>
 			<element name="SE2" type="double" maxOccurs="1" minOccurs="1">			</element>
 			<element name="AF" type="double" maxOccurs="1" minOccurs="0">			</element>
 		</sequence>
@@ -74,27 +71,13 @@
 
 	<complexType name="SubTransientMachineXmlType">
 		<complexContent>
-		<extension base="pss:MachineModelXmlType">
+		<extension base="pss:TransientMachineXmlType">
 		<sequence>
-			<element name="xd" maxOccurs="1" minOccurs="1" type="double">			</element>
-			<element name="xr" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="ra" maxOccurs="1" minOccurs="1" type="double">			</element>
-			<element name="xd1" maxOccurs="1" minOccurs="1" type="double">			</element>
-			<element name="xd11" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="Tdo1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1">			</element>
+			<element name="xr" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="xd11" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="Td011" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1">			</element>
-			<element name="xq" maxOccurs="1" minOccurs="1" type="double">			</element>
-			<element name="xq1" maxOccurs="1" minOccurs="1" type="double">			</element>
 			<element name="xq11" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="Tq01" maxOccurs="1" minOccurs="1" type="pss:TimePeriodXmlType">			</element>
 			<element name="Tq011" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1">			</element>
-			<element name="H" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="D" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="E1" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="SE1" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="E2" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="SE2" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="AF" type="double" maxOccurs="1" minOccurs="0">			</element>
 		</sequence>
 		</extension>
 		</complexContent>		

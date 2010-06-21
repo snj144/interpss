@@ -3,7 +3,7 @@
      targetNamespace="http://www.ieee.org/odm/Schema/2008" 
      xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-	<include schemaLocation="../ODM_DataType.xsd"></include>
+	<include schemaLocation="../common/DataType.xsd"></include>
 
 	<complexType name="GovernorModelXmlType" abstract="true">
 		<sequence>
@@ -65,10 +65,8 @@
 		<sequence>
 			<element name="TG" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="TP" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="U0" maxOccurs="1" minOccurs="1" type="pss:TimePeriodUnitType">
-			</element>
-			<element name="UC" maxOccurs="1" minOccurs="1" type="pss:TimePeriodUnitType">
-			</element>
+			<element name="U0" maxOccurs="1" minOccurs="1" type="pss:TimePeriodUnitType">			</element>
+			<element name="UC" maxOccurs="1" minOccurs="1" type="pss:TimePeriodUnitType">			</element>
 			<element name="PMAX" type="string" maxOccurs="1" minOccurs="1"></element>
 			<element name="PMIN" type="string" maxOccurs="1" minOccurs="1"></element>
 			<element name="SIGMA" type="double" maxOccurs="1" minOccurs="1"></element>

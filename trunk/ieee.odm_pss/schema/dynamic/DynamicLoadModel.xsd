@@ -3,7 +3,7 @@
      targetNamespace="http://www.ieee.org/odm/Schema/2008" 
      xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-	<include schemaLocation="../ODM_DataType.xsd"></include>
+	<include schemaLocation="../common/DataType.xsd"></include>
 
 	<complexType name="LoadCharacteristicXmlType">
 		<sequence>
@@ -121,8 +121,6 @@
 			<enumeration value="type2"></enumeration>
 		</restriction>
 	</simpleType>
-	
-
 
 	<complexType name="DynamicLoadModelSelectionXmlType">
 		<choice>

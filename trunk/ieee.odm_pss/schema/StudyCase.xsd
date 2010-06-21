@@ -3,11 +3,14 @@
       targetNamespace="http://www.ieee.org/odm/Schema/2008" 
       xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-	<include schemaLocation="ODM_DataType.xsd"></include>
-	<include schemaLocation="ODM_RecordType.xsd"></include>
-	<include schemaLocation="ODM_PSSNetwork.xsd"></include>
-	<include schemaLocation="ODM_Modification.xsd"></include>
-	<include schemaLocation="ODM_StudyScenario.xsd"></include>
+	<include schemaLocation="common/DataType.xsd"></include>
+	<include schemaLocation="common/RecordType.xsd"></include>
+	
+	<include schemaLocation="loadflow/LFRecordType.xsd"></include>
+	
+	<include schemaLocation="V7StyleRecordType.xsd"></include>
+	<include schemaLocation="Modification.xsd"></include>
+	<include schemaLocation="StudyScenario.xsd"></include>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>

@@ -3,15 +3,15 @@
     targetNamespace="http://www.ieee.org/odm/Schema/2008"
     xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-	<include schemaLocation="ODM_DataType.xsd"></include>
+	<include schemaLocation="common/DataType.xsd"></include>
 
-	<include schemaLocation="dynamic/ODM_MachineModel.xsd"></include>
-	<include schemaLocation="dynamic/ODM_ExciterModel.xsd"></include>
-	<include schemaLocation="dynamic/ODM_GovernorModel.xsd"></include>
-	<include schemaLocation="dynamic/ODM_StabilizerModel.xsd"></include>
-	<include schemaLocation="dynamic/ODM_DynamicLoadModel.xsd"></include>
+	<include schemaLocation="dynamic/MachineModel.xsd"></include>
+	<include schemaLocation="dynamic/ExciterModel.xsd"></include>
+	<include schemaLocation="dynamic/GovernorModel.xsd"></include>
+	<include schemaLocation="dynamic/StabilizerModel.xsd"></include>
+	<include schemaLocation="dynamic/DynamicLoadModel.xsd"></include>
 
-	<include schemaLocation="ODM_Modification.xsd"></include>
+	<include schemaLocation="Modification.xsd"></include>
 
 	<complexType name="BusDynDataListXmlType">
 		<sequence>
