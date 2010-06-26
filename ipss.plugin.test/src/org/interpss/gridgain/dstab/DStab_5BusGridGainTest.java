@@ -29,9 +29,10 @@ import static org.junit.Assert.assertTrue;
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.gridgain.GridBaseTestSetup;
-import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
+import org.interpss.gridgain.GridRunner;
+import org.interpss.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.gridgain.util.GridMessageRouter;
-import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.util.GridUtil;
 import org.junit.Test;
 
 import com.interpss.common.exp.InterpssException;
@@ -56,7 +57,7 @@ public class DStab_5BusGridGainTest extends GridBaseTestSetup {
 		DynamicSimuAlgorithm algo = createDStabAlgo(net);
 		//algo.setTotalSimuTimeSec(0.2);
 		
-		Grid grid = IpssGridGainUtil.getDefaultGrid();
+		Grid grid = GridUtil.getDefaultGrid();
         	
        	GridMessageRouter msgRouter = new GridMessageRouter(msg);
        	grid.addMessageListener(msgRouter);
@@ -83,9 +84,9 @@ public class DStab_5BusGridGainTest extends GridBaseTestSetup {
 			handler.setOutputVarIdList(dStabCaseData.getOutVarList());
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(handler);
  */        	
-   		AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil.getAnyRemoteNodeId();
+   		DStabSingleJobTask.RemoteNodeId = GridUtil.getAnyRemoteNodeId();
     		
-   		RemoteMessageTable result = IpssGridGainUtil.performGridTask(grid, "Grid DStab 5-Bus Sample system", algo, 0);
+   		RemoteMessageTable result = new GridRunner(grid, "Grid DStab 5-Bus Sample system", algo).executeTask(0);
        	assertTrue(result.getReturnStatus());
 	}
 }
