@@ -56,7 +56,7 @@ public class ODM2SimuCtxMapperImpl {
 		if (parser.getStudyCase().getBaseCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
 				&& parser.getStudyCase().getBaseCase().getAnalysisCategory() == AnalysisCategoryEnumType.LOADFLOW) {
 
-			LoadflowNetXmlType xmlNet = parser.getBaseCase();
+			LoadflowNetXmlType xmlNet = parser.getAclfBaseCase();
 			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
 			try {
 				simuCtx.setAclfAdjNet(ODMLoadflowDataMapperImpl.mapNetworkData(xmlNet));
