@@ -27,10 +27,10 @@ package org.interpss.gridgain.aclf;
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.gridgain.GridBaseTestSetup;
-import org.interpss.gridgain.job.IpssGridGainAclfJob;
+import org.interpss.gridgain.GridRunner;
+import org.interpss.gridgain.job.ContingencyAnaysisJob;
 import org.interpss.gridgain.result.RemoteResultFactory;
-import org.interpss.gridgain.secass.ContingencyAnaysisJob;
-import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.BranchChangeRecXmlType;
 import org.interpss.schema.ModificationXmlType;
@@ -46,7 +46,6 @@ import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 
@@ -101,11 +100,10 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 		 * Step-5 perform grid computing
 		 */
 		try {
-			Grid grid = IpssGridGainUtil.getDefaultGrid();
+			Grid grid = GridUtil.getDefaultGrid();
 			long timeout = 0;
-			RemoteMessageTable[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
-								"InterPSS Grid Aclf Calculation", mCaseContainer, 
-								timeout,	true);
+			RemoteMessageTable[] objAry = new GridRunner(grid,	"InterPSS Grid Aclf Calculation", 
+							mCaseContainer).executeMultiJob(timeout);
 			for (RemoteMessageTable result : objAry) {
 				IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
 				resultHandler.transferRemoteResult(mCaseContainer, result);

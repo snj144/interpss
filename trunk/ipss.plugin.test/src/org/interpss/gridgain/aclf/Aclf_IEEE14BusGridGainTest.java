@@ -28,8 +28,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.gridgain.grid.Grid;
 import org.interpss.gridgain.GridBaseTestSetup;
-import org.interpss.gridgain.task.assignJob.AssignJob2NodeAclfTask;
-import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.GridRunner;
+import org.interpss.gridgain.task.singleJob.AclfSingleJobTask;
+import org.interpss.gridgain.util.GridUtil;
 import org.junit.Test;
 
 import com.interpss.common.datatype.ComplexFunc;
@@ -48,21 +49,21 @@ import com.interpss.simu.SimuObjectFactory;
 public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
 	@Test
 	public void CaseTest() throws Exception {
-		Grid grid = IpssGridGainUtil.getDefaultGrid();
-		String nodeId = IpssGridGainUtil.getAnyRemoteNodeId();
+		Grid grid = GridUtil.getDefaultGrid();
+		String nodeId = GridUtil.getAnyRemoteNodeId();
 		
     	// set remote and master node id
-    	AssignJob2NodeAclfTask.RemoteNodeId = nodeId;
+    	AclfSingleJobTask.RemoteNodeId = nodeId;
 
     	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 		//System.out.println(net.net2String());	
-		// network id needs to be set. It is used for identification purpse
+		// network id needs to be set. It is used for identification purpose
 		net.setId("IEEE 14_Bus");
 
-		RemoteMessageTable result = IpssGridGainUtil.performGridTask(grid, "Grid Aclf IEEE 14-Bus system", net, 0);
+		RemoteMessageTable result = new GridRunner(grid, "Grid Aclf IEEE 14-Bus system", net).executeTask(0);
     	assertTrue(result.getReturnStatus());
 		
 		String str = result.getSerializedAclfNet();
@@ -79,11 +80,11 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
 
 	@Test
 	public void AlgoCaseTest() throws Exception {
-		Grid grid = IpssGridGainUtil.getDefaultGrid();
-		String nodeId = IpssGridGainUtil.getAnyRemoteNodeId();
+		Grid grid = GridUtil.getDefaultGrid();
+		String nodeId = GridUtil.getAnyRemoteNodeId();
 		
     	// set remote and master node id
-    	AssignJob2NodeAclfTask.RemoteNodeId = nodeId;
+    	AclfSingleJobTask.RemoteNodeId = nodeId;
 
     	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
@@ -96,7 +97,7 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 	  	//algo.setLfMethod(AclfMethod.PQ);
 
-		RemoteMessageTable result = IpssGridGainUtil.performGridTask(grid, "Grid Aclf IEEE 14-Bus system", algo, 0);
+		RemoteMessageTable result = new GridRunner(grid, "Grid Aclf IEEE 14-Bus system", algo).executeTask(0);
 		System.out.println(result);
     	assertTrue(result.getReturnStatus());
 		

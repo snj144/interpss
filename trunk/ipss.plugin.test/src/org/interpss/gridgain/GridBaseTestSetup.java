@@ -33,7 +33,7 @@ import org.apache.commons.math.complex.Complex;
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridMessageListener;
 import org.interpss.BaseTestSetup;
-import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.util.GridUtil;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -51,22 +51,24 @@ import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.mach.Machine;
 
 public class GridBaseTestSetup extends BaseTestSetup {
+	public static String GridGainHome = "c:/Program Files (x86)/gridgain-2.1.1";
+	
 	protected static IPSSMsgHub msg;
 
 	@BeforeClass
 	public static void startGridEnv() {
-		IpssGridGainUtil.startDefaultGrid();
-		assertTrue(IpssGridGainUtil.isGridEnabled());
-		if (IpssGridGainUtil.getDefaultGrid().getAllNodes().size() <= 1)
+		GridUtil.startDefaultGrid(GridGainHome);
+		assertTrue(GridUtil.isGridEnabled());
+		if (GridUtil.getDefaultGrid().getAllNodes().size() <= 1)
 			System.out.println("Please start a least one Gridgain agent for the test");
-		assertTrue(IpssGridGainUtil.getDefaultGrid().getAllNodes().size() > 1);
+		assertTrue(GridUtil.getDefaultGrid().getAllNodes().size() > 1);
 		
-		Grid grid = IpssGridGainUtil.getDefaultGrid();
-		IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
-		IpssGridGainUtil.RemoteNodeDebug = false;
+		Grid grid = GridUtil.getDefaultGrid();
+		GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
+		GridRunner.RemoteNodeDebug = false;
 
 		// make sure Grid env is setup properly
-		String[] list = IpssGridGainUtil.gridNodeNameList(grid, false);
+		String[] list = GridUtil.gridNodeNameList(grid, false);
 		assertTrue(list.length > 0);
 		
 		// message from remote note are printed out
@@ -79,7 +81,7 @@ public class GridBaseTestSetup extends BaseTestSetup {
 	
 	@AfterClass
 	public static void stopGridEnv() {
-		IpssGridGainUtil.stopDefaultGrid();		
+		GridUtil.stopDefaultGrid();		
 	}
 	
 	public DynamicSimuAlgorithm createDStabAlgo(DStabilityNetwork net) {
