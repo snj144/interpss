@@ -29,9 +29,10 @@ import org.gridgain.grid.GridException;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
+import org.interpss.gridgain.GridRunner;
+import org.interpss.gridgain.job.ContingencyAnaysisJob;
 import org.interpss.gridgain.result.RemoteResultFactory;
-import org.interpss.gridgain.secass.ContingencyAnaysisJob;
-import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.ContingencyAnalysisXmlType;
 import org.interpss.schema.InterPSSXmlType;
@@ -47,8 +48,8 @@ import com.interpss.ext.gridgain.IRemoteResult;
 import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
+import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 
 public class XmlScriptContingency {
 	public static long GridgainTimeout = 0; 
@@ -62,7 +63,7 @@ public class XmlScriptContingency {
 	 * @return
 	 */
 	public static boolean runContingencyAnalysis(InterPSSXmlType ipssXmlDoc, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
-		if (!IpssGridGainUtil.isGridEnabled()) {
+		if (!GridUtil.isGridEnabled()) {
 			SpringAppContext.getEditorDialogUtil().showWarnMsgDialog(
 					"Contingency Analysis Warnning", "Contingency analysis requires Grid Computing env setup properly");
 			return false;
@@ -111,12 +112,11 @@ public class XmlScriptContingency {
 				else if (xmlCase.getRecDesc() != null)
 					studyCase.setName(xmlCase.getRecDesc());
 
-				Grid grid = IpssGridGainUtil.getDefaultGrid();
-				IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
+				Grid grid = GridUtil.getDefaultGrid();
+				GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
 					
-				RemoteMessageTable[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
-										"InterPSS Grid Aclf Calculation", mCaseContainer, 
-										GridgainTimeout, true);
+				RemoteMessageTable[] objAry = new GridRunner(grid,
+										"InterPSS Grid Aclf Calculation", mCaseContainer).executeMultiJob(GridgainTimeout);
 				for (RemoteMessageTable result : objAry) {
 					IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
 					resultHandler.transferRemoteResult(mCaseContainer, result);

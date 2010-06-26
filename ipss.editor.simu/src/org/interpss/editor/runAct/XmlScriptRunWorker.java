@@ -31,7 +31,7 @@ import org.interpss.editor.runAct.xml.XmlScriptAcscRun;
 import org.interpss.editor.runAct.xml.XmlScriptContingency;
 import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
-import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.GridRunner;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
@@ -72,7 +72,7 @@ public class XmlScriptRunWorker {
 		}
 		
 		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
-		IpssGridGainUtil.RemoteNodeDebug = xmlStudyCase.getGridRunOption() != null
+		GridRunner.RemoteNodeDebug = xmlStudyCase.getGridRunOption() != null
 				&& xmlStudyCase.getGridRunOption().getRemoteNodeDebug();
 		if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
 			return XmlScriptAclfRun.runAclf(parser.getRootDoc().getInterPSS(), simuCtx.getAclfAdjNet(), msg);

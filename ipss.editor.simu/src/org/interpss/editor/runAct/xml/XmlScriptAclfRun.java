@@ -30,10 +30,11 @@ import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
-import org.interpss.gridgain.job.IpssGridGainAclfJob;
+import org.interpss.gridgain.GridRunner;
+import org.interpss.gridgain.job.GridAclfJob;
 import org.interpss.gridgain.result.RemoteResultFactory;
-import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
-import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.task.singleJob.DStabSingleJobTask;
+import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
@@ -152,16 +153,15 @@ public class XmlScriptAclfRun {
 			// if Grid computing, send the MultiCase container to perform
 			// remote grid computing
 			if (gridRun) {
-				Grid grid = IpssGridGainUtil.getDefaultGrid();
-				IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
+				Grid grid = GridUtil.getDefaultGrid();
+				GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
 					
 				setAclfRunOpt(mCaseContainer, ipssXmlDoc.getRunStudyCase());
 				try {
-					RemoteMessageTable[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
-										"InterPSS Grid Aclf Calculation", mCaseContainer, 
-										timeout,	reJobCreation);
+					RemoteMessageTable[] objAry = new GridRunner(grid,
+										"InterPSS Grid Aclf Calculation", mCaseContainer).executeMultiJob(timeout);
 					for (RemoteMessageTable result : objAry) {
-						IRemoteResult resultHandler = RemoteResultFactory.createHandler(IpssGridGainAclfJob.class);
+						IRemoteResult resultHandler = RemoteResultFactory.createHandler(GridAclfJob.class);
 							resultHandler.transferRemoteResult(mCaseContainer, result);
 					}
 				} catch (GridException e) {
@@ -185,12 +185,12 @@ public class XmlScriptAclfRun {
 			return false;
 
 		if (gridRun) {
-			Grid grid = IpssGridGainUtil.getDefaultGrid();
-			AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil.getAnyRemoteNodeId();
-			IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
+			Grid grid = GridUtil.getDefaultGrid();
+			DStabSingleJobTask.RemoteNodeId = GridUtil.getAnyRemoteNodeId();
+			GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
 			try {
-				RemoteMessageTable result = IpssGridGainUtil.performGridTask(
-						grid, "InterPSS Grid Aclf Calculation", algo, timeout);
+				RemoteMessageTable result = new GridRunner(
+						grid, "InterPSS Grid Aclf Calculation", algo).executeTask(timeout);
 				String str = result.getSerializedAclfNet();
 				aclfNet = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(str);
 				aclfNet.rebuildLookupTable();
