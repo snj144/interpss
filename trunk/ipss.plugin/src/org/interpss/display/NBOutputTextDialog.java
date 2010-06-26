@@ -40,9 +40,9 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.IpssFileFilter;
-import org.interpss.gridgain.job.IpssGridGainAclfJob;
-import org.interpss.gridgain.result.RemoteResultFactory;
-import org.interpss.gridgain.secass.ContingencyAnaysisJob;
+//import org.interpss.gridgain.job.ContingencyAnaysisJob;
+//import org.interpss.gridgain.job.GridAclfJob;
+//import org.interpss.gridgain.result.RemoteResultFactory;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -139,16 +139,19 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         	textArea.setText("");
         	if (data instanceof ContingencyAnalysis) {
         		secMarginButton.setEnabled(true);
+/* TODO        		
         		IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
         		textArea.append(resultHandler
         				.toString(IRemoteResult.DisplayType_SecViolation, (MultiStudyCase)data)
         				.toString());
+        				*/
         	}
         	else {
-        		IRemoteResult resultHandler = RemoteResultFactory.createHandler(IpssGridGainAclfJob.class);
+/* TODO        		IRemoteResult resultHandler = RemoteResultFactory.createHandler(GridAclfJob.class);
         		textArea.append(resultHandler
         				.toString(IRemoteResult.DisplayType_NoUsed, (MultiStudyCase)data)
         				.toString());
+        				*/
         	}
             busStyleRadioButton.setEnabled(false);
             summaryRadioButton.setEnabled(false);
@@ -365,10 +368,12 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 
     private void secMarginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_secMarginButtonActionPerformed
 		textArea.setText("");
+/* TODO		
 		IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
 		textArea.append(resultHandler
 				.toString(IRemoteResult.DisplayType_SecAssessment, (MultiStudyCase)data)
 				.toString());
+				*/
     }//GEN-LAST:event_secMarginButtonActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
