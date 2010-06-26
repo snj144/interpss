@@ -83,9 +83,9 @@
 	  <jar destfile="${svn_lib}/ipss_pssl.jar">
    	  		<fileset dir="${dev_base}/ipss.pssl/runtime" excludes="CVS/**,model/**" />	
 	  </jar>	
-	  <jar destfile="${pssl_lib}/ipss_pssl.jar">
+	  <!-- jar destfile="${pssl_lib}/ipss_pssl.jar">
    	  		<fileset dir="${dev_base}/ipss.pssl/runtime" excludes="CVS/**,model/**" />	
-	  </jar>	
+	  </jar-->	
 
    	  <jar destfile="${svn_lib}/ipss_plugin.jar" 
    	  		basedir="${dev_base}/ipss.plugin/runtime" 

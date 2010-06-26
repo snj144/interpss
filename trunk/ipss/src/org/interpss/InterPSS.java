@@ -30,7 +30,7 @@ import javax.swing.JOptionPane;
 import org.interpss.cmd.CmdLineRunner;
 import org.interpss.editor.EditorConfig;
 import org.interpss.editor.GEditor;
-import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.util.GridUtil;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.resource.IpssPropertiesLoader;
@@ -75,7 +75,8 @@ public class InterPSS {
 		if (appParameters.getParam(GOptStr) != null
 				&& Parm_GridGain.equals(appParameters
 						.getParamLowerCase(GOptStr))) {
-			IpssGridGainUtil.startDefaultGrid();
+			//TODO
+			GridUtil.startDefaultGrid("");
 		}
 
 		if (OptEditorStr.equals(appParameters.getParamLowerCase(OptStr))) {
