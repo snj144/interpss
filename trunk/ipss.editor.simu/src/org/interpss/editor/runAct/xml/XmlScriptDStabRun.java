@@ -30,9 +30,10 @@ import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
-import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
+import org.interpss.gridgain.GridRunner;
+import org.interpss.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.gridgain.util.GridMessageRouter;
-import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
@@ -113,14 +114,13 @@ public class XmlScriptDStabRun {
 					return false;
 
 				if (RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase())) {
-					Grid grid = IpssGridGainUtil.getDefaultGrid();
+					Grid grid = GridUtil.getDefaultGrid();
 					// get any remote node to distribute the simulation job
-					AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil
+					DStabSingleJobTask.RemoteNodeId = GridUtil
 							.getAnyRemoteNodeId();
 					// set the master node id, so that remote msg could be sent
 					// to the master node
-					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
-							.toString();
+					GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
 
 					/*
 					 * The simuMsg sending from remote node to the master node
@@ -135,11 +135,10 @@ public class XmlScriptDStabRun {
 
 					try {
 						// run DStab simu at a remote node
-						RemoteMessageTable result = IpssGridGainUtil.performGridTask(
+						RemoteMessageTable result = new GridRunner(
 										grid,
 										"InterPSS Transient Stability Simulation",
-										dstabAlgo, ipssXmlDoc.getRunStudyCase().getGridRunOption()
-												.getTimeout());
+										dstabAlgo).executeTask(ipssXmlDoc.getRunStudyCase().getGridRunOption().getTimeout());
 						// init the Net object for plotting purpose.
 						dstabNet.initialization(msg);
 						// set the DStabNet object back to the SimuCtx
@@ -161,8 +160,8 @@ public class XmlScriptDStabRun {
 				
 				GridMessageRouter msgRouter = null;
 				if (RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase())) {
-					Grid grid = IpssGridGainUtil.getDefaultGrid();
-					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
+					Grid grid = GridUtil.getDefaultGrid();
+					GridRunner.MasterNodeId = grid.getLocalNode().getId()
 							.toString();
 					msgRouter = new GridMessageRouter(msg);
 					grid.addMessageListener(msgRouter);
@@ -230,13 +229,11 @@ public class XmlScriptDStabRun {
 				}
 
 				if (RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase())) {
-					Grid grid = IpssGridGainUtil.getDefaultGrid();
+					Grid grid = GridUtil.getDefaultGrid();
 					try {
-						RemoteMessageTable[] objAry = IpssGridGainUtil.performMultiGridTask(
+						RemoteMessageTable[] objAry = new GridRunner(
 										grid, "InterPSS Transient Stability Simulation",
-										mCaseContainer, 
-										ipssXmlDoc.getRunStudyCase().getGridRunOption().getTimeout(),
-										ipssXmlDoc.getRunStudyCase().getGridRunOption().getRemoteJobCreation());
+										mCaseContainer).executeMultiJob(ipssXmlDoc.getRunStudyCase().getGridRunOption().getTimeout());
 						for (RemoteMessageTable result : objAry) {
 							Boolean b = result.getReturnStatus();
 							if (!b.booleanValue()) {

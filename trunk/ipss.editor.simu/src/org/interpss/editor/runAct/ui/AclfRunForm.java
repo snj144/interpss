@@ -29,8 +29,9 @@ import org.gridgain.grid.GridException;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
-import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
-import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.GridRunner;
+import org.interpss.gridgain.task.singleJob.DStabSingleJobTask;
+import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
 
@@ -82,15 +83,15 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 			converge = runLoadflow(simuCtx.getDistNet(), simuCtx);
 		} else {
 			if (this.xmlGridOpt.getEnableGridRun()) {
-				Grid grid = IpssGridGainUtil.getDefaultGrid();
-				String nodeId = IpssGridGainUtil.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
-				AssignJob2NodeDStabTask.RemoteNodeId = nodeId;
-				IpssGridGainUtil.MasterNodeId = grid.getLocalNode()
+				Grid grid = GridUtil.getDefaultGrid();
+				String nodeId = GridUtil.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
+				DStabSingleJobTask.RemoteNodeId = nodeId;
+				GridRunner.MasterNodeId = grid.getLocalNode()
 						.getId().toString();
 				try {
-					RemoteMessageTable result = IpssGridGainUtil.performGridTask(
+					RemoteMessageTable result = new GridRunner(
 							grid, "InterPSS Grid Aclf Calculation", simuCtx
-									.getLoadflowAlgorithm(), this.xmlGridOpt.getTimeout());
+									.getLoadflowAlgorithm()).executeTask(this.xmlGridOpt.getTimeout());
 					String str = result.getSerializedAclfNet();
 					AclfAdjNetwork adjNet = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(str);
 					adjNet.rebuildLookupTable();

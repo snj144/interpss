@@ -28,9 +28,10 @@ import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
-import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
+import org.interpss.gridgain.GridRunner;
+import org.interpss.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.gridgain.util.GridMessageRouter;
-import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
 
@@ -167,11 +168,10 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			return false;
 
 		// get the selected remote node
-		Grid grid = IpssGridGainUtil.getDefaultGrid();
-		String nodeId = IpssGridGainUtil.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
-		AssignJob2NodeDStabTask.RemoteNodeId = nodeId;
-		IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
-				.toString();
+		Grid grid = GridUtil.getDefaultGrid();
+		String nodeId = GridUtil.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
+		DStabSingleJobTask.RemoteNodeId = nodeId;
+		GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
 
 		/*
 		 * The simuMsg sending from remote node to the master node will be routed
@@ -212,9 +212,9 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			String caseId = "DStabNetId";
 			net.setId(caseId);
 			SpringAppContext.getSimuRecManager().addDBCaseId(caseId, dstabDbHandler.getDBCaseId());
-			RemoteMessageTable result = IpssGridGainUtil.performGridTask(grid,
+			RemoteMessageTable result = new GridRunner(grid,
 					"InterPSS Transient Stability Simulation", simuCtx
-							.getDynSimuAlgorithm(), timeout);
+							.getDynSimuAlgorithm()).executeTask(timeout);
 			// init the Net object for plotting purpose. it is inited at the remote grid node
 			// before DStab simulation.
 			simuCtx.setDStabilityNet(net);
