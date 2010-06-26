@@ -34,7 +34,7 @@ import org.interpss.editor.runAct.xml.XmlScriptAclfRun;
 import org.interpss.editor.runAct.xml.XmlScriptAcscRun;
 import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
-import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.GridRunner;
 import org.interpss.output.IOutputSimuResult;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
@@ -139,7 +139,7 @@ public class CmdLineRunner {
 			}
 
 			RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
-			IpssGridGainUtil.RemoteNodeDebug = xmlStudyCase.getGridRunOption() != null
+			GridRunner.RemoteNodeDebug = xmlStudyCase.getGridRunOption() != null
 					&& xmlStudyCase.getGridRunOption().getRemoteNodeDebug();
 			if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
 				runType = SimuRunType.Aclf;
