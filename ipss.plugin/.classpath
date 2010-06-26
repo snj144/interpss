@@ -24,6 +24,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.core_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.grid"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
