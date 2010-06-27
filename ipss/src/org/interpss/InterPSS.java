@@ -75,8 +75,9 @@ public class InterPSS {
 		if (appParameters.getParam(GOptStr) != null
 				&& Parm_GridGain.equals(appParameters
 						.getParamLowerCase(GOptStr))) {
-			//TODO
-			GridUtil.startDefaultGrid("");
+			String gridgain_home = IpssPropertiesLoader.getEditorString(Pty_GridGainHome);
+			IpssLogger.getLogger().info("Gridgain home " + gridgain_home);
+			GridUtil.startDefaultGrid(gridgain_home);
 		}
 
 		if (OptEditorStr.equals(appParameters.getParamLowerCase(OptStr))) {
@@ -180,6 +181,7 @@ public class InterPSS {
 	public final static String RunDStabStr = "dstab";
 
 	private final static String Parm_GridGain = "gridgain";
+	private final static String Pty_GridGainHome = "grid.gridgain.home";
 
 	private static String getHelpInfo() {
 		return "java org.interpss.InterPSS [-o editor|help|cmd] [-g gridgain] -in inputFile [-run dclf|aclf] [-xml controlFile] [-out outputFile|Console] \n"
