@@ -127,7 +127,6 @@ public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 		//System.out.println(resultHandler.toString(IRemoteResult.DisplayType_NoUsed, mCaseContainer).toString());
 		
     	for (StudyCase scase : mCaseContainer.getStudyCaseList()) {
-    		AclfStudyCase aclfCase = (AclfStudyCase)scase;
     		if (scase.getNetModelString() != null) {
     			AclfAdjNetwork aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
     			aclfAdjNet.rebuildLookupTable();
