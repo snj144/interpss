@@ -98,7 +98,7 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
 	  	//algo.setLfMethod(AclfMethod.PQ);
 
 		RemoteMessageTable result = new GridRunner(grid, "Grid Aclf IEEE 14-Bus system", algo).executeTask(0);
-		System.out.println(result);
+		//System.out.println(result);
     	assertTrue(result.getReturnStatus());
 		
 		String str = result.getSerializedAclfNet();
