@@ -38,7 +38,8 @@ public class MyGridAclfJobImpl extends GridAclfJob {
 		net.rebuildLookupTable();
 		
 		/*
-		 * Perform Loadflow calculation
+		 * Perform Loadflow calculation. One can do anyting to the AclfNetwork object
+		 * here. Loadflow is just used as an example.
 		 */
 		LoadflowAlgorithm algo = CoreObjectFactory
 					.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
