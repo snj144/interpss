@@ -18,6 +18,13 @@ import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.util.sample.SampleCases;
 
+/**
+ * This example assumes that at least one remote Gridgain 2.1.1 agent is running in the LAN. A simple
+ * loadflow case will be distributed to a gridgain agent (randomly selected), and the loadflow 
+ * calculation is done at the remote gridgain agent. The loadflow results will be sent back to the 
+ * local Java program and print out.  
+ *
+ */
 public class ExtendIpssGridImpl {
 	public static String GridGainHome = "c:/Program Files (x86)/gridgain-2.1.1";
 
