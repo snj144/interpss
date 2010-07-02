@@ -6,7 +6,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.core_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dstab_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dist_EMF"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math.jar"/>
@@ -18,5 +17,6 @@
 	<classpathentry kind="var" path="IPSS_LIB/xml/xbean.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/java/tools.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu_EMF"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
