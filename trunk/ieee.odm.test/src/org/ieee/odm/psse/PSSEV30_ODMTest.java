@@ -60,7 +60,7 @@ public class PSSEV30_ODMTest {
 		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
 		//parser.stdout();		
 		
-		LoadflowNetXmlType net = parser.getBaseCase();
+		LoadflowNetXmlType net = parser.getAclfBaseCase();
 		assertTrue(net.getBasePower().getValue() == 100.0);
 
 /*

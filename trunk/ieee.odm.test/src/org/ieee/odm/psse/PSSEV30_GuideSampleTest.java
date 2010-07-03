@@ -50,7 +50,7 @@ public class PSSEV30_GuideSampleTest {
 		
 		//System.out.println(adapter.getModel().toString());
 		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
-		LoadflowNetXmlType net = parser.getBaseCase();		
+		LoadflowNetXmlType net = parser.getAclfBaseCase();		
 		/*
       <bus id="Bus151" number="151" areaNumber="1" name="NUCPANT     " offLine="false">
         <ownerList>
