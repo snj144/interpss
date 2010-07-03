@@ -33,13 +33,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.IODMModelParser;
 
 public abstract class AbstractODMAdapter implements IODMPSSAdapter {
 	private boolean status;
 	private Logger logger;
 	private List<String> errMsgList;
-	private ODMModelParser parser;
+	private IODMModelParser parser;
 	
 	public AbstractODMAdapter() {
 	}
@@ -101,11 +101,11 @@ public abstract class AbstractODMAdapter implements IODMPSSAdapter {
 		return status;
 	}
 	
-	public ODMModelParser getModel() {
+	public IODMModelParser getModel() {
 		return this.parser;
 	}
 	
-	protected ODMModelParser parseInputFile(
+	protected IODMModelParser parseInputFile(
 			final java.io.BufferedReader din) throws Exception {
 		return parseInputFile( new IFileReader() {
 			public String readLine() throws Exception {
@@ -114,7 +114,7 @@ public abstract class AbstractODMAdapter implements IODMPSSAdapter {
 		});
 	}	
 
-	abstract protected ODMModelParser parseInputFile(IFileReader din) throws Exception;
+	abstract protected IODMModelParser parseInputFile(IFileReader din) throws Exception;
 	
 	public void logErr(String msg) {
 		this.status = false;

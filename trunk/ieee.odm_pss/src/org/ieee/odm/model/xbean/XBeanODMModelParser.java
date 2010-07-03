@@ -45,9 +45,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ScenarioXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.IODMModelParser;
 
-public class XBeanODMModelParser implements ODMModelParser {
+public class XBeanODMModelParser implements IODMModelParser {
 	// add "No" to the bus number to create Bus Id
 	public static final String BusIdPreFix = "Bus";
 		
