@@ -5,10 +5,10 @@
 
 	<include schemaLocation="common/DataType.xsd"></include>
 	<include schemaLocation="common/RecordType.xsd"></include>
+	<include schemaLocation="common/V7StyleRecordType.xsd"></include>
 	
 	<include schemaLocation="loadflow/LFRecordType.xsd"></include>
 	
-	<include schemaLocation="V7StyleRecordType.xsd"></include>
 	<include schemaLocation="Modification.xsd"></include>
 	<include schemaLocation="StudyScenario.xsd"></include>
 

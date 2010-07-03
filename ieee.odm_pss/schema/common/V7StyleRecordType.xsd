@@ -2,15 +2,15 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" 
     targetNamespace="http://www.ieee.org/odm/Schema/2008" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-    <include schemaLocation="common/DataType.xsd"></include>
-    <include schemaLocation="common/RecordType.xsd"></include>
-    <include schemaLocation="loadflow/LFRecordType.xsd"></include>
+    <include schemaLocation="DataType.xsd"></include>
+    <include schemaLocation="RecordType.xsd"></include>
+    <include schemaLocation="../loadflow/LFRecordType.xsd"></include>
 
-	<include schemaLocation="dynamic/MachineModel.xsd"></include>
-	<include schemaLocation="dynamic/ExciterModel.xsd"></include>
-	<include schemaLocation="dynamic/GovernorModel.xsd"></include>
-	<include schemaLocation="dynamic/StabilizerModel.xsd"></include>
-	<include schemaLocation="dynamic/DynamicLoadModel.xsd"></include>
+	<include schemaLocation="../dynamic/MachineModel.xsd"></include>
+	<include schemaLocation="../dynamic/ExciterModel.xsd"></include>
+	<include schemaLocation="../dynamic/GovernorModel.xsd"></include>
+	<include schemaLocation="../dynamic/StabilizerModel.xsd"></include>
+	<include schemaLocation="../dynamic/DynamicLoadModel.xsd"></include>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
