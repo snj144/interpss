@@ -59,7 +59,7 @@ public class JaxbIEEECDF_ODMTest {
 		assertTrue(adapter.parseInputFile("testdata/ieee_format/Ieee14Bus.ieee"));
 		
 		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
-		LoadflowNetXmlType baseCaseNet = parser.getBaseCase();
+		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
 		assertTrue(baseCaseNet.getBusList().getBus().size() == 14);
 		assertTrue(baseCaseNet.getBranchList().getBranch().size() == 20);
 

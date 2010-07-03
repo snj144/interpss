@@ -58,7 +58,7 @@ public class PSSEV30_NEISO_ODMTest {
 		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
 		//parser.stdout();
 		
-		LoadflowNetXmlType net = parser.getBaseCase();
+		LoadflowNetXmlType net = parser.getAclfBaseCase();
 		assertTrue(net.getBasePower().getValue() == 100.0);
 		/*
      <bus id="Bus1" number="1" areaNumber="1" name="'0000        '" offLine="false">

@@ -56,7 +56,7 @@ public class PSSEV26_ODMTest {
 		//System.out.println(adapter.getModel());
 		
 		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
-		LoadflowNetXmlType net = parser.getBaseCase();
+		LoadflowNetXmlType net = parser.getAclfBaseCase();
 		assertTrue(net.getBasePower().getValue() == 100.0);
 		/*
         <bus id="No15021" number="15021" name="'PVERDE 1'" areaNumber="2" zoneNumber="4">
