@@ -28,6 +28,6 @@ package org.ieee.odm.model;
  * A Xml parser for the IEEE DOM schema. 
  */
 
-public interface ODMModelParser {
+public interface IODMModelParser {
 	String toXmlDoc(boolean addXsi);
 }

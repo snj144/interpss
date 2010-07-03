@@ -60,7 +60,7 @@ import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.schema.TielineXmlType;
 import org.ieee.odm.schema.TransientSimulationXmlType;
 
-public class JaxbODMModelParser implements ODMModelParser {
+public class JaxbODMModelParser implements IODMModelParser {
 	// add "No" to the bus number to create Bus Id
 	public static final String BusIdPreFix = "Bus";
 	

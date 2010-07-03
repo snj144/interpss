@@ -26,7 +26,7 @@ package org.ieee.odm.adapter;
 
 import java.io.InputStream;
 
-import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.IODMModelParser;
 
 public interface IODMPSSAdapter {
 	/**
@@ -65,5 +65,5 @@ public interface IODMPSSAdapter {
 	 * 
 	 * @return
 	 */
-	ODMModelParser getModel();
+	IODMModelParser getModel();
 }
