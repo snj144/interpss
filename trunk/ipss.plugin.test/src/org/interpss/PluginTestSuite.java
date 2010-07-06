@@ -39,7 +39,7 @@ import org.interpss.dstab.mach.Eq1MachineCaseTest;
 import org.interpss.dstab.mach.MachineSaturationTest;
 import org.interpss.dstab.mach.RoundRotorMachineTest;
 import org.interpss.dstab.mach.SalientPoleMachineTest;
-import org.interpss.ruleset.PreventiveCaseTest;
+import org.interpss.ruleset.RuleXmlCaseTest;
 import org.interpss.schema.AclfSchemaIeee14BusCaseTest;
 import org.interpss.schema.AcscSchemaSampleCaseTest;
 import org.interpss.schema.DStabSchemaIEEE11ModelTest;
@@ -105,7 +105,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	DStabSchemaIEEE11ModelTest.class,
 	UserStephenCaseTest.class,
 	ModificationCaseTest.class,
-	PreventiveCaseTest.class,
+	RuleXmlCaseTest.class,
 	N1Analysis_IEEE14BusTest.class,
 	N11Analysis_IEEE14BusTest.class,
 	N2Analysis_IEEE14BusTest.class,
