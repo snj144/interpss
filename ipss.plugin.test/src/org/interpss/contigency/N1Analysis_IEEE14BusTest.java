@@ -85,7 +85,7 @@ public class N1Analysis_IEEE14BusTest extends BaseTestSetup {
 				AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(caseId, caseName, ++cnt, mscase);
 				
 				ModificationXmlType mod = IpssXmlUtilFunc.createTurnOffBranchRec(branch);
-				scase.setModifyModelString(mod.xmlText());
+				scase.setModificationString(mod.xmlText());
 			}
 		}
 		
@@ -98,7 +98,7 @@ public class N1Analysis_IEEE14BusTest extends BaseTestSetup {
 			
 			AclfStudyCase scase = (AclfStudyCase)mscase.getStudyCaseList().poll();
 			
-		  	mapper.mapping(ModificationXmlType.Factory.parse(scase.getModifyModelString()), 
+		  	mapper.mapping(ModificationXmlType.Factory.parse(scase.getModificationString()), 
 		  			algo.getAclfAdjNetwork(), ModificationXmlType.class);
 			
 			scase.runLoadflow(algo, mscase);
