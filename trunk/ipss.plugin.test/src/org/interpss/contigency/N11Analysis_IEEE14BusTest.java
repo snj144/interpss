@@ -90,7 +90,7 @@ public class N11Analysis_IEEE14BusTest extends BaseTestSetup {
 				ContingencyCase scase = SimuObjectFactory.createContingencyCase(caseId, caseName, ++cnt, mscase);
 				
 				ModificationXmlType mod = IpssXmlUtilFunc.createTurnOffBranchRec(branch);
-				scase.setModifyModelString(mod.xmlText());
+				scase.setModificationString(mod.xmlText());
 			}
 		}
 		
@@ -103,7 +103,7 @@ public class N11Analysis_IEEE14BusTest extends BaseTestSetup {
 			
 			ContingencyCase scase1 = (ContingencyCase)mscase.getStudyCaseList().poll();
 			
-			ModificationXmlType mod1 = ModificationXmlType.Factory.parse(scase1.getModifyModelString()); 
+			ModificationXmlType mod1 = ModificationXmlType.Factory.parse(scase1.getModificationString()); 
 		  	mapper.mapping(mod1, algo.getAclfAdjNetwork(), ModificationXmlType.class);
 			
 			scase1.runLoadflow(algo, mscase);
@@ -124,7 +124,7 @@ public class N11Analysis_IEEE14BusTest extends BaseTestSetup {
 		  					
 		  					ModificationXmlType mod = IpssXmlUtilFunc.createTurnOffBranchRec(branch1);
 		  					IpssXmlUtilFunc.addTurnOffBranchRec(mod, branch2);
-		  					scase.setModifyModelString(mod.xmlText());
+		  					scase.setModificationString(mod.xmlText());
 		  					scase.setN11Case(true);
 		  				}
 		  			}

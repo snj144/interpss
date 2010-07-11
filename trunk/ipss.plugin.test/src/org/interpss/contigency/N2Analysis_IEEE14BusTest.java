@@ -88,7 +88,7 @@ public class N2Analysis_IEEE14BusTest extends BaseTestSetup {
 						
 						ModificationXmlType mod = IpssXmlUtilFunc.createTurnOffBranchRec(branch1);
 						IpssXmlUtilFunc.addTurnOffBranchRec(mod, branch2);
-						scase.setModifyModelString(mod.xmlText());
+						scase.setModificationString(mod.xmlText());
 					}
 				}
 			}
@@ -103,7 +103,7 @@ public class N2Analysis_IEEE14BusTest extends BaseTestSetup {
 			
 			AclfStudyCase scase = (AclfStudyCase)mscase.getStudyCaseList().poll();
 			
-		  	mapper.mapping(ModificationXmlType.Factory.parse(scase.getModifyModelString()), 
+		  	mapper.mapping(ModificationXmlType.Factory.parse(scase.getModificationString()), 
 		  			algo.getAclfAdjNetwork(), ModificationXmlType.class);
 			
 			scase.runLoadflow(algo, mscase);

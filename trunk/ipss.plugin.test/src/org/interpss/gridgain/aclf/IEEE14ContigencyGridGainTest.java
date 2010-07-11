@@ -29,6 +29,8 @@ import org.gridgain.grid.GridException;
 import org.interpss.gridgain.GridBaseTestSetup;
 import org.interpss.gridgain.GridRunner;
 import org.interpss.gridgain.job.ContingencyAnaysisJob;
+import org.interpss.gridgain.msg.RemoteMessageTable;
+import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.AclfStudyCaseXmlType;
@@ -41,8 +43,6 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.net.Branch;
-import com.interpss.ext.gridgain.IRemoteResult;
-import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -93,7 +93,7 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 			branchChange.setOffLine(true);
 			
 			// persist modification to be sent to the remote grid node
-			studyCase.setModifyModelString(xmlCase.getModification().xmlText());
+			studyCase.setModificationString(xmlCase.getModification().xmlText());
 		}
 
 		/**

@@ -31,6 +31,8 @@ import org.gridgain.grid.GridException;
 import org.interpss.gridgain.GridBaseTestSetup;
 import org.interpss.gridgain.GridRunner;
 import org.interpss.gridgain.job.GridAclfJob;
+import org.interpss.gridgain.msg.RemoteMessageTable;
+import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.AclfStudyCaseXmlType;
@@ -40,8 +42,6 @@ import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.ext.gridgain.IRemoteResult;
-import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -90,7 +90,7 @@ public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 			
 			if (xmlCase.getModification() != null) {
 				// persist modification to be sent to the remote grid node
-				studyCase.setModifyModelString(xmlCase.getModification().xmlText());
+				studyCase.setModificationString(xmlCase.getModification().xmlText());
 			} 
 		}
 
