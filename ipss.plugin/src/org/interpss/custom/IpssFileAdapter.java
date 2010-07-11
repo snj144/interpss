@@ -24,7 +24,7 @@
 
 package org.interpss.custom;
 
-import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.IODMModelParser;
 
 import com.interpss.common.custom.IpssCustomAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
@@ -101,5 +101,5 @@ public interface IpssFileAdapter extends IpssCustomAdapter {
 	 * 
 	 * @return
 	 */
-	ODMModelParser getODMModelParser();
+	IODMModelParser getODMModelParser();
 }

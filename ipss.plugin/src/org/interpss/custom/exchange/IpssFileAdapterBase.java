@@ -27,7 +27,7 @@ package org.interpss.custom.exchange;
 import java.io.File;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.IODMModelParser;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.mapper.IEEEODMMapper;
 
@@ -47,7 +47,7 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 	private String fileFilterString;
 	private String versionSelected;
 	
-	protected ODMModelParser parser;
+	protected IODMModelParser parser;
 	
 	public IpssFileAdapterBase(IPSSMsgHub msgHub) {
 		this.msgHub = msgHub;
@@ -70,7 +70,7 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 	}
 	
 	@Override
-	public ODMModelParser getODMModelParser() {
+	public IODMModelParser getODMModelParser() {
 		return this.parser;
 	}
 
