@@ -43,7 +43,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfLoadCode;
-import com.interpss.core.aclf.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.net.Network;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.modify.BranchModification;

@@ -36,7 +36,7 @@ import com.interpss.common.util.TestUtilFunc;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.CoreSpringAppContext;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultCode;
 import com.interpss.core.algorithm.LoadflowAlgorithm;

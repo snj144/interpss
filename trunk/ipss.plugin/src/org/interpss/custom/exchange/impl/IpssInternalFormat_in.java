@@ -38,12 +38,12 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.CapacitorBusAdapter;
-import com.interpss.core.aclf.LineAdapter;
-import com.interpss.core.aclf.LoadBusAdapter;
-import com.interpss.core.aclf.PQBusAdapter;
-import com.interpss.core.aclf.PVBusAdapter;
-import com.interpss.core.aclf.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
+import com.interpss.core.aclf.adpter.LineAdapter;
+import com.interpss.core.aclf.adpter.LoadBusAdapter;
+import com.interpss.core.aclf.adpter.PQBusAdapter;
+import com.interpss.core.aclf.adpter.PVBusAdapter;
+import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.aclfadj.PVBusLimit;
 
