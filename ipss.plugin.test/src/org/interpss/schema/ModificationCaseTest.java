@@ -32,7 +32,7 @@ import org.junit.Test;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
-import com.interpss.core.aclf.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.SimuContext;

@@ -30,7 +30,7 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.CapacitorBusAdapter;
+import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.net.Branch;

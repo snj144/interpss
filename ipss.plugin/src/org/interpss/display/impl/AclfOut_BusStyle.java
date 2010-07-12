@@ -32,9 +32,9 @@ import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.CapacitorBusAdapter;
-import com.interpss.core.aclf.GenBusAdapter;
-import com.interpss.core.aclf.PSXfrAdapter;
+import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
+import com.interpss.core.aclf.adpter.GenBusAdapter;
+import com.interpss.core.aclf.adpter.PSXfrAdapter;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
