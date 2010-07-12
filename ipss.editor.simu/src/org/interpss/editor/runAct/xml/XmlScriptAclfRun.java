@@ -32,6 +32,8 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.gridgain.GridRunner;
 import org.interpss.gridgain.job.GridAclfJob;
+import org.interpss.gridgain.msg.RemoteMessageTable;
+import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.gridgain.util.GridUtil;
@@ -51,10 +53,9 @@ import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.ext.gridgain.IRemoteResult;
-import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
+import com.interpss.simu.multicase.RemoteMessageType;
 import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
@@ -120,9 +121,11 @@ public class XmlScriptAclfRun {
 					if (gridRun) {
 						// if Grid computing, save the Algo object to the study case object
 						studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
-						if (reJobCreation && xmlCase.getModification() != null)
+						if (reJobCreation && xmlCase.getModification() != null) {
 							// persist modification to be sent to the remote grid node
-							studyCase.setModifyModelString(xmlCase.getModification().xmlText());
+							studyCase.setModificationString(xmlCase.getModification().xmlText());
+						    studyCase.setModStringType(RemoteMessageType.IPSS_XML);
+						}
 					} else {
 						// if not grid computing, perform Loadflow for the study case
 						algo.loadflow();

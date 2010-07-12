@@ -31,6 +31,8 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.gridgain.GridRunner;
 import org.interpss.gridgain.job.ContingencyAnaysisJob;
+import org.interpss.gridgain.msg.RemoteMessageTable;
+import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.AclfStudyCaseXmlType;
@@ -44,10 +46,9 @@ import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.ext.gridgain.IRemoteResult;
-import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
+import com.interpss.simu.multicase.RemoteMessageType;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 
@@ -103,9 +104,11 @@ public class XmlScriptContingency {
 				AclfStudyCase studyCase = SimuObjectFactory.createAclfStudyCase(xmlCase.getRecId(), 
 										xmlCase.getRecName(), ++cnt, mCaseContainer);
 				studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
-				if (xmlCase.getModification() != null)
+				if (xmlCase.getModification() != null) {
 					// persist modification to be sent to the remote grid node
-					studyCase.setModifyModelString(xmlCase.getModification().xmlText());
+					studyCase.setModificationString(xmlCase.getModification().xmlText());
+					studyCase.setModStringType(RemoteMessageType.IPSS_XML);
+				}
 				studyCase.setId(xmlCase.getRecId());
 				if (xmlCase.getRecName() != null)
 					studyCase.setName(xmlCase.getRecName());

@@ -29,8 +29,9 @@ import org.gridgain.grid.GridException;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.gridgain.GridRunner;
+import org.interpss.gridgain.msg.GridMessageRouter;
+import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.task.singleJob.DStabSingleJobTask;
-import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
@@ -45,7 +46,6 @@ import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
-import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 
