@@ -4,18 +4,16 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import org.gridgain.grid.Grid;
-import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridMessageListener;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.gridgain.GridRunner;
+import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.util.GridUtil;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IPSSMsgHubImpl;
-import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.util.sample.SampleCases;
 
 /**
@@ -51,9 +49,9 @@ public class ExtendIpssGridImpl {
         		RemoteMessageTable result = new GridRunner(grid).executeTask(MyAclfSingleJobTaskImpl.class, adjNet, 0);
         		
         		// de-serialized the returning results
-        		adjNet = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(result.getSerializedAclfNet());
+        		adjNet = (AclfAdjNetwork) adjNet.deserialize(result.getSerializedAclfNet());
         		adjNet.rebuildLookupTable();
-    		} catch (GridException e) {
+    		} catch (Exception e) {
     			e.printStackTrace();
     		}
 
