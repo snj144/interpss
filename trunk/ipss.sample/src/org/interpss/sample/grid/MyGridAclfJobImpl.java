@@ -3,6 +3,7 @@ package org.interpss.sample.grid;
 import java.io.Serializable;
 
 import org.interpss.gridgain.job.GridAclfJob;
+import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.result.RemoteResultFactory;
 
 import com.interpss.common.SpringAppContext;
@@ -11,7 +12,6 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.ext.gridgain.RemoteMessageTable;
 
 /**
  * This is the place where actual loadflow is implemented. This class will be
