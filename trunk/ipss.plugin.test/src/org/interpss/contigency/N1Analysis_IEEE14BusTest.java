@@ -41,6 +41,7 @@ import com.interpss.core.net.Branch;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
+import com.interpss.simu.multicase.RemoteMessageType;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysisType;
@@ -86,6 +87,7 @@ public class N1Analysis_IEEE14BusTest extends BaseTestSetup {
 				
 				ModificationXmlType mod = IpssXmlUtilFunc.createTurnOffBranchRec(branch);
 				scase.setModificationString(mod.xmlText());
+				scase.setModStringType(RemoteMessageType.IPSS_XML);
 			}
 		}
 		

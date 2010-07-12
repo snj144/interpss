@@ -46,12 +46,111 @@ import com.interpss.core.net.Branch;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
+import com.interpss.simu.multicase.RemoteMessageType;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
+import com.interpss.simu.multicase.modify.BranchModification;
+import com.interpss.simu.multicase.modify.Modification;
 
 public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 	@Test
-	public void AlgoCaseTest() throws Exception {
+	public void AlgoEMFCaseTest() throws Exception {
+		/*
+		 * step-1 Build the base case
+		 */
+    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
+		
+		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+		//System.out.println(net.net2String());	
+		// network id needs to be set. It is used for identification purpse
+		net.setId("IEEE 14_Bus");
+		
+		/*
+		 * step-2 Define LF algorithem
+		 */
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
+	  	//algo.setLfMethod(AclfMethod.PQ);
+
+	  	/*
+	  	 * step-3 define multiple study cases
+	  	 */
+		ContingencyAnalysis mCaseContainer = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, net);
+		// save the base case Network model to the netStr
+		mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(net));
+
+		int caseNo = 0;
+		for (Branch branch : net.getBranchList()) {
+			AclfStudyCase studyCase = SimuObjectFactory.createAclfStudyCase("caseId"+caseNo++, 
+					"Open Branch "+branch.getId(), caseNo, mCaseContainer);
+			// if Grid computing, save the Algo object to the study case object
+			studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
+
+			/*
+			// define modification to the case
+			AclfStudyCaseXmlType xmlCase = AclfStudyCaseXmlType.Factory.newInstance();
+			ModificationXmlType mod = xmlCase.addNewModification();
+			BranchChangeRecXmlType branchChange = mod.addNewBranchChangeRecList().addNewBranchChangeRec();
+			branchChange.setFromBusId(branch.getFromBus().getId());
+			branchChange.setToBusId(branch.getToBus().getId());
+			branchChange.setCircuitNumber(branch.getCircuitNumber());
+			branchChange.setOffLine(true);
+			
+			// persist modification to be sent to the remote grid node
+			studyCase.setModificationString(xmlCase.getModification().xmlText());
+			studyCase.setModStringType(RemoteMessageType.IPSS_XML);
+			*/
+			
+			BranchModification braMod = SimuObjectFactory.createBranchModification(
+					branch.getFromBus().getId(), 
+					branch.getToBus().getId(), 
+					branch.getCircuitNumber(), net);
+			braMod.setOutService(true);
+			
+			Modification mod = SimuObjectFactory.createModification(braMod);
+			studyCase.setModification(mod);			
+		}
+
+		/**
+		 * Step-5 perform grid computing
+		 */
+		try {
+			Grid grid = GridUtil.getDefaultGrid();
+			long timeout = 0;
+			RemoteMessageTable[] objAry = new GridRunner(grid,	"InterPSS Grid Aclf Calculation", 
+							mCaseContainer).executeMultiJob(timeout);
+			for (RemoteMessageTable result : objAry) {
+				IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
+				resultHandler.transferRemoteResult(mCaseContainer, result);
+			}
+		} catch (GridException e) {
+			System.out.println(e.toString());
+		} 
+		
+		/**
+		 * Step-6 process results
+		 */
+		//IRemoteResult resultHandler = RemoteResultFactory.createHandler(IpssGridGainAclfJob.class);
+		//System.out.println(resultHandler.toString(IRemoteResult.DisplayType_NoUsed, mCaseContainer).toString());
+		
+		IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
+		System.out.println(resultHandler.toString(IRemoteResult.DisplayType_SecViolation, mCaseContainer).toString());		
+		System.out.println(resultHandler.toString(IRemoteResult.DisplayType_SecAssessment, mCaseContainer).toString());		
+		
+		/*
+    	for (StudyCase scase : mCaseContainer.getStudyCaseList()) {
+    		AclfStudyCase aclfCase = (AclfStudyCase)scase;
+    		if (scase.getNetModelString() != null) {
+    			AclfAdjNetwork aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
+    			aclfAdjNet.rebuildLookupTable();
+    			assertTrue(aclfAdjNet.isLfConverged());
+    		}
+    	}
+    	*/	
+	}	
+
+	@Test
+	public void AlgoXmlCaseTest() throws Exception {
 		/*
 		 * step-1 Build the base case
 		 */
@@ -94,6 +193,7 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 			
 			// persist modification to be sent to the remote grid node
 			studyCase.setModificationString(xmlCase.getModification().xmlText());
+			studyCase.setModStringType(RemoteMessageType.IPSS_XML);
 		}
 
 		/**
