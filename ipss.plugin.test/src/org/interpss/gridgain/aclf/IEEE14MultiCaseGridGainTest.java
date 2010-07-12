@@ -45,6 +45,7 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
+import com.interpss.simu.multicase.RemoteMessageType;
 import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.StudyCase;
 import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;
@@ -91,6 +92,7 @@ public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 			if (xmlCase.getModification() != null) {
 				// persist modification to be sent to the remote grid node
 				studyCase.setModificationString(xmlCase.getModification().xmlText());
+				studyCase.setModStringType(RemoteMessageType.IPSS_XML);
 			} 
 		}
 
