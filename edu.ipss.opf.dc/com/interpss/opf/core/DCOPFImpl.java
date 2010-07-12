@@ -119,6 +119,7 @@ public class DCOPFImpl implements DCOPF {
     private void saveOPFResult() {
     	this.optimGen=new double[this.getNumOfGen()];
     	this.busAngle=new double[this.numOfBus-1];
+    	this.minTVC=0;
 		for(int i=0;i<this.getNumOfGen();i++){
 			this.optimGen[i]=getOptimX()[i];
 			
@@ -140,6 +141,16 @@ public class DCOPFImpl implements DCOPF {
 			if(!acbus.isSwing()){
 				acbus.setVoltageAng(this.busAngle[nonSwingBusIndex]);
 				nonSwingBusIndex++;
+			}
+		}
+		for(Bus b:this.net.getBusList()){
+			AclfBus acbus=(AclfBus) b;
+			if(acbus.isGen()&&GenBus4OPF.class.isInstance(acbus)){
+				
+				GenBus4OPF genOPF =(GenBus4OPF) acbus;
+				System.out.println(genOPF.getId());
+				this.minTVC=this.minTVC+genOPF.getCoeffA()*genOPF.getGenP()
+				+genOPF.getCoeffB()*Math.pow(genOPF.getGenP(), 2);		
 			}
 		}
 		
