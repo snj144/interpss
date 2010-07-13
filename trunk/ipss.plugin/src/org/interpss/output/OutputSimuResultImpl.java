@@ -29,7 +29,7 @@ import org.interpss.display.DclfOutFunc;
 
 import com.interpss.common.util.FileUtil;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.core.dclf.DclfAlgorithm;
 
 public class OutputSimuResultImpl implements IOutputSimuResult {

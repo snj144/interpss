@@ -3,7 +3,7 @@ package org.interpss.custom.exchange.psse;
 import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclf.adj.AclfAdjNetwork;
 
 public class PSSEDCLineDataRec {
 	public PSSEDCLineDataRec(String lineStr1,

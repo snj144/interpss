@@ -7,9 +7,9 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.core.aclfadj.AreaInterchangeControl;
-import com.interpss.core.aclfadj.InterareaTransfer;
+import com.interpss.core.aclf.adj.AclfAdjNetwork;
+import com.interpss.core.aclf.adj.AreaInterchangeControl;
+import com.interpss.core.aclf.adj.InterareaTransfer;
 import com.interpss.core.net.Owner;
 import com.interpss.core.net.Zone;
 
