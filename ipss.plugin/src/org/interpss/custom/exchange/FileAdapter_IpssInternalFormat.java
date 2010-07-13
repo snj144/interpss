@@ -38,7 +38,7 @@ import org.interpss.custom.exchange.impl.IpssInternalFormat_in;
 import org.interpss.custom.exchange.impl.IpssInternalFormat_out;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;

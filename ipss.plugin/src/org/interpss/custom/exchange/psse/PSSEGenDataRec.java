@@ -34,7 +34,7 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.psse.aclf.PSSEAclfGen;
 

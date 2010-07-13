@@ -31,7 +31,7 @@ import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;

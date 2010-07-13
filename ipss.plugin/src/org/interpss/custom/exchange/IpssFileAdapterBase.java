@@ -34,7 +34,7 @@ import org.interpss.mapper.IEEEODMMapper;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.simu.SimuContext;
 
 public class IpssFileAdapterBase implements IpssFileAdapter{

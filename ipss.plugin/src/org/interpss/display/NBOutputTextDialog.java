@@ -48,7 +48,7 @@ import com.interpss.common.msg.SimuMessage;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.DStabSimuDBRecord;

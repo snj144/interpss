@@ -34,9 +34,9 @@ import org.junit.Test;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.core.aclf.adpter.PSXfrAdapter;
 import com.interpss.core.aclf.adpter.XfrAdapter;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.pssl.simu.IpssAclf;
 
 public class XfrlTestCases extends BaseTestSetup {

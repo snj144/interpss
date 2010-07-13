@@ -35,8 +35,8 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
+import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
 
 public class PSSEBusDataRec {
 	public int i, ide, area = 1, zone = 1, owner = 1;

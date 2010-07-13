@@ -6,7 +6,7 @@ package org.interpss.custom.exchange.impl;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclf.adj.AclfAdjNetwork;
 
 public class BPAFormat_in {
     public static AclfAdjNetwork loadFile(java.io.BufferedReader din, String filename, IPSSMsgHub msg) throws Exception {
