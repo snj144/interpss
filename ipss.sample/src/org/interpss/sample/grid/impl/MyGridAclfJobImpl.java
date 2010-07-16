@@ -7,7 +7,6 @@ import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.result.RemoteResultFactory;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adj.AclfAdjNetwork;
@@ -30,29 +29,33 @@ public class MyGridAclfJobImpl extends GridAclfJob {
 	
 	@Override
 	protected Serializable performGridJob(RemoteMessageTable inRemoteMsg) {
-		/*
-		 * de-serialize the job object
-		 */
-		AclfNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(
-					inRemoteMsg.getStudyCaseNetworkModel());
-		net.rebuildLookupTable();
-		
-		/*
-		 * Perform Loadflow calculation. One can do anyting to the AclfNetwork object
-		 * here. Loadflow is just used as an example.
-		 */
-		LoadflowAlgorithm algo = CoreObjectFactory
-					.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
-		algo.loadflow();
- 
-		/*
-		 * Save results into the RemoteResult table, which will be sent to the master node
-		 */
-		String caseId = inRemoteMsg.getStudyCaseId();
 		RemoteMessageTable outRemoteResult = new RemoteMessageTable();
-		RemoteResultFactory.createHandler(MyGridAclfJobImpl.class)
-					.saveRemoteResult(outRemoteResult, caseId, getGrid().getLocalNode().getId().toString(), 
-							algo, getSession());  // Loadflow results stored in the algo object 
+		try {
+			/*
+			 * de-serialize the job object
+			 */
+			AclfNetwork net = CoreObjectFactory.createAclfNetwork();
+			net = (AclfAdjNetwork)net.deserialize(inRemoteMsg.getStudyCaseNetworkModel());
+			
+			/*
+			 * Perform Loadflow calculation. One can do anyting to the AclfNetwork object
+			 * here. Loadflow is just used as an example.
+			 */
+			LoadflowAlgorithm algo = CoreObjectFactory
+						.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+			algo.loadflow();
+	 
+			/*
+			 * Save results into the RemoteResult table, which will be sent to the master node
+			 */
+			String caseId = inRemoteMsg.getStudyCaseId();
+			RemoteResultFactory.createHandler(MyGridAclfJobImpl.class)
+						.saveRemoteResult(outRemoteResult, caseId, getGrid().getLocalNode().getId().toString(), 
+								algo, getSession());  // Loadflow results stored in the algo object
+		} catch (Exception e) {
+			outRemoteResult.put(RemoteMessageTable.KEY_bRsp_ReturnStatus, Boolean.FALSE);
+			outRemoteResult.addReturnMessage(e.toString());
+		}
 		return outRemoteResult;
 	}
 }
