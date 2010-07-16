@@ -46,6 +46,9 @@ public class ExtendIpssGridImpl {
         		
         		// de-serialized the returning results
         		adjNet = CoreObjectFactory.createAclfAdjNetwork(result.getSerializedAclfNet());
+        		
+        		// print out the user-defined returning result
+        		System.out.println("MyKey = " + result.get("MyKey").toString());
     		} catch (Exception e) {
     			e.printStackTrace();
     		}

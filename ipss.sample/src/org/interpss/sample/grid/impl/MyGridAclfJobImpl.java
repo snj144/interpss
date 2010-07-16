@@ -52,6 +52,9 @@ public class MyGridAclfJobImpl extends GridAclfJob {
 			RemoteResultFactory.createHandler(MyGridAclfJobImpl.class)
 						.saveRemoteResult(outRemoteResult, caseId, getGrid().getLocalNode().getId().toString(), 
 								algo, getSession());  // Loadflow results stored in the algo object
+
+			// an example to send some results back to the master node
+			outRemoteResult.put("MyKey", "MyValue");
 		} catch (Exception e) {
 			outRemoteResult.put(RemoteMessageTable.KEY_bRsp_ReturnStatus, Boolean.FALSE);
 			outRemoteResult.addReturnMessage(e.toString());
