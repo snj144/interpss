@@ -57,7 +57,7 @@ public class PSSEV30DcLine2TDataRec {
 		}
 		else if (MDC == 2) {
 			dcLine2T.setControlMode(DcLineControlModeEnumType.CURRENT);
-			dcLine2T.setCurrentDemand(JaxbDataSetter.createCurrentData(SETVL, CurrentUnitType.AMP));
+			dcLine2T.setCurrentDemand(JaxbDataSetter.createCurrentValue(SETVL, CurrentUnitType.AMP));
 		}
 		else
 			dcLine2T.setControlMode(DcLineControlModeEnumType.BLOCKED);
@@ -68,7 +68,7 @@ public class PSSEV30DcLine2TDataRec {
 			VSCHD Scheduled compounded dc voltage; entered in kV. No default allowed.
 			METER Metered end code of either ’R’ (for rectifier) or ’I’ (for inverter). METER = ’I’ by default.
 		*/
-		dcLine2T.setScheduledDCVoltage(JaxbDataSetter.createVoltageData(VSCHD, VoltageUnitType.KV));
+		dcLine2T.setScheduledDCVoltage(JaxbDataSetter.createVoltageValue(VSCHD, VoltageUnitType.KV));
 		dcLine2T.setMeteredEnd(METER.equals("R")? DcLineMeteredEndEnumType.RECTIFIER :
 								DcLineMeteredEndEnumType.INVERTER);
 		/*
@@ -82,7 +82,7 @@ public class PSSEV30DcLine2TDataRec {
 				end dc voltage VDCR, set RCOMP to the dc line resistance, RDC; otherwise, set
 				RCOMP to the appropriate fraction of RDC. RCOMP = 0.0 by default.
 		*/
-		dcLine2T.setModeSwitchDCVoltage(JaxbDataSetter.createVoltageData(VCMOD, VoltageUnitType.KV));
+		dcLine2T.setModeSwitchDCVoltage(JaxbDataSetter.createVoltageValue(VCMOD, VoltageUnitType.KV));
 		dcLine2T.setCompoundingR(JaxbDataSetter.createRValue(RCOMP, ZUnitType.OHM));
 
 		/*
@@ -95,7 +95,7 @@ public class PSSEV30DcLine2TDataRec {
 				a two-winding transformer). DCVMIN = 0.0 by default.
 		 */
 		dcLine2T.setPowerOrCurrentMarginPU(DELTI);
-		dcLine2T.setMinDCVoltage(JaxbDataSetter.createVoltageData(DCVMIN, VoltageUnitType.KV));
+		dcLine2T.setMinDCVoltage(JaxbDataSetter.createVoltageValue(DCVMIN, VoltageUnitType.KV));
 		
 		/*
 		Line-2: IPR,NBR,ALFMX,ALFMN,RCR,XCR,EBASR,TRR,TAPR,TMXR,TMNR,STPR,ICR,IFR,ITR,IDR,XCAPR
@@ -117,16 +117,16 @@ public class PSSEV30DcLine2TDataRec {
 		ConverterXmlType inverter = dcLine2T.getInverter();
 		
 		rectifier.setNumberofBridges(NBR);
-		rectifier.setMaxFiringAngle(JaxbDataSetter.createAngleData(ALFMX, AngleUnitType.DEG));
-		rectifier.setMinFiringAngle(JaxbDataSetter.createAngleData(ALFMN, AngleUnitType.DEG));
-		rectifier.setAcSideRatedVoltage(JaxbDataSetter.createVoltageData(EBASR, VoltageUnitType.KV));
+		rectifier.setMaxFiringAngle(JaxbDataSetter.createAngleValue(ALFMX, AngleUnitType.DEG));
+		rectifier.setMinFiringAngle(JaxbDataSetter.createAngleValue(ALFMN, AngleUnitType.DEG));
+		rectifier.setAcSideRatedVoltage(JaxbDataSetter.createVoltageValue(EBASR, VoltageUnitType.KV));
 		if (ICR != 0)
 			rectifier.setFiringAngleMeasuringBusId(parser.createBusRef(JaxbODMModelParser.BusIdPreFix+ICR));
 		
 		inverter.setNumberofBridges(NBI);
-		inverter.setMaxFiringAngle(JaxbDataSetter.createAngleData(GAMMX, AngleUnitType.DEG));
-		inverter.setMinFiringAngle(JaxbDataSetter.createAngleData(GAMMN, AngleUnitType.DEG));
-		inverter.setAcSideRatedVoltage(JaxbDataSetter.createVoltageData(EBASI, VoltageUnitType.KV));
+		inverter.setMaxFiringAngle(JaxbDataSetter.createAngleValue(GAMMX, AngleUnitType.DEG));
+		inverter.setMinFiringAngle(JaxbDataSetter.createAngleValue(GAMMN, AngleUnitType.DEG));
+		inverter.setAcSideRatedVoltage(JaxbDataSetter.createVoltageValue(EBASI, VoltageUnitType.KV));
 		if (ICI != 0)
 			inverter.setFiringAngleMeasuringBusId(parser.createBusRef(JaxbODMModelParser.BusIdPreFix+ICI));
 		

@@ -156,7 +156,7 @@ public class NetDataRec {
 			area.setNumber(this.arnum);
 			area.setName(this.arnam);	
 			area.setSwingBusId(parser.createBusRecRef(new Integer(this.swing).toString()));
-			area.setTotalExchangePower(JaxbDataSetter.createPowerData(this.pnet, this.qnet, ApparentPowerUnitType.MVA));
+			area.setTotalExchangePower(JaxbDataSetter.createPowerValue(this.pnet, this.qnet, ApparentPowerUnitType.MVA));
 			area.setDesiredExchangePower(JaxbDataSetter.createActivePower(this.pnetdes, ActivePowerUnitType.MW));
 			area.setExchangeErrTolerance(JaxbDataSetter.createActivePower(this.pnettol, ActivePowerUnitType.MW));
 		}
@@ -195,7 +195,7 @@ public class NetDataRec {
 			zone.setId(new Integer(this.zonum).toString());
 			zone.setNumber(this.zonum);
 			zone.setName(this.zonam);	
-			zone.setExchangePower(JaxbDataSetter.createPowerData(this.pznet, this.qznet, ApparentPowerUnitType.MVA)); 
+			zone.setExchangePower(JaxbDataSetter.createPowerValue(this.pznet, this.qznet, ApparentPowerUnitType.MVA)); 
 		}
 	}
 

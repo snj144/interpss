@@ -28,18 +28,8 @@ package org.ieee.odm.model;
  * A Xml parser for the IEEE DOM schema. 
  */
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Hashtable;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 import org.apache.xmlbeans.XmlException;
 import org.ieee.odm.schema.BranchRecordXmlType;
@@ -49,28 +39,16 @@ import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
-import org.ieee.odm.schema.IDRecordXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
-import org.ieee.odm.schema.ObjectFactory;
+import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ScenarioXmlType;
-import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.schema.TielineXmlType;
 import org.ieee.odm.schema.TransientSimulationXmlType;
 
-public class JaxbODMModelParser implements IODMModelParser {
-	// add "No" to the bus number to create Bus Id
-	public static final String BusIdPreFix = "Bus";
-	
-	// bus and branch object cache for fast lookup. 
-	private Hashtable<String,IDRecordXmlType> objectCache = null;
-	public Hashtable<String,IDRecordXmlType> getObjectCache() { return this.objectCache; }
-
-	private StudyCaseXmlType pssStudyCase = null;
-	
-	private ObjectFactory _factory = null;
+public class JaxbODMModelParser extends AbstractModelParser {
 	
 	/**
 	 * Constructor using an Xml file
@@ -78,11 +56,8 @@ public class JaxbODMModelParser implements IODMModelParser {
 	 * @param xmlFile
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
 	public JaxbODMModelParser(File xmlFile) throws Exception {
-		JAXBElement<StudyCaseXmlType> elem = (JAXBElement<StudyCaseXmlType>)createUnmarshaller().unmarshal(xmlFile);
-		this.pssStudyCase = elem.getValue();
-		this.objectCache = new Hashtable<String, IDRecordXmlType>();
+		super(xmlFile);
 	}
 
 	/**
@@ -91,12 +66,8 @@ public class JaxbODMModelParser implements IODMModelParser {
 	 * @param xmlString
 	 * @throws XmlException
 	 */
-	@SuppressWarnings("unchecked")
 	public JaxbODMModelParser(String xmlString) throws Exception {
-		ByteArrayInputStream bStr = new ByteArrayInputStream(xmlString.getBytes());
-		JAXBElement<StudyCaseXmlType> elem = (JAXBElement<StudyCaseXmlType>)createUnmarshaller().unmarshal(bStr);
-		this.pssStudyCase = elem.getValue();
-		this.objectCache = new Hashtable<String, IDRecordXmlType>();
+		super(xmlString);
 	}
 	
 	/**
@@ -105,16 +76,13 @@ public class JaxbODMModelParser implements IODMModelParser {
 	 * @param in
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
 	public JaxbODMModelParser(InputStream in) throws Exception {
-		JAXBElement<StudyCaseXmlType> elem = (JAXBElement<StudyCaseXmlType>)createUnmarshaller().unmarshal(in);
-		this.pssStudyCase = elem.getValue();
-		this.objectCache = new Hashtable<String, IDRecordXmlType>();
+		super(in);
 		// cache the loaded bus and branch objects
-		for (BusXmlType bus : this.getAclfBaseCase().getBusList().getBus())
+		for (BusXmlType bus : this.getBaseCase().getBusList().getBus())
 			this.objectCache.put(bus.getId(), bus);
-		for (BranchXmlType branch : this.getAclfBaseCase().getBranchList().getBranch())
-			this.objectCache.put(branch.getId(), branch);
+		for (BranchXmlType branch : this.getBaseCase().getBranchList().getBranch())
+			this.objectCache.put(branch.getId(), branch);		
 	}
 
 	/**
@@ -122,55 +90,16 @@ public class JaxbODMModelParser implements IODMModelParser {
 	 * 
 	 */
 	public JaxbODMModelParser() {
-		this._factory = new ObjectFactory();		
-		this.objectCache = new Hashtable<String, IDRecordXmlType>();
-		//this.doc = PSSStudyCaseDocument.Factory.newInstance();
-		this.getStudyCase().setId("ODM_StudyCase");
-		this.getStudyCase().setSchemaVersion(ModelContansts.ODM_Schema_Version);
+		super();
 	}
-	
-	public ObjectFactory getFactory() {
-		return this._factory;
-	}
-	
-	/**
-	 * Get the root schema element StudyCase
-	 * 
-	 * @return
-	 */
-	public StudyCaseXmlType getStudyCase() {
-		if (this.pssStudyCase == null) {
-			createStudyCase();
-		}	
-		return this.pssStudyCase;
-	}
-
-	private void createStudyCase() {
-		this.pssStudyCase = new StudyCaseXmlType();
-		this.pssStudyCase.setBaseCase(createAclfBaseCase());
-	}
-	
-	/**
-	 * create a ref record with id
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public BusRefRecordXmlType createBusRef(String id) {
-		BusRecordXmlType rec = this.getBusRecord(id);
-		BusRefRecordXmlType refBus = getFactory().createBusRefRecordXmlType();
-		refBus.setIdRef(rec);
-		return refBus;
-	}	
 	
 	/**
 	 * Get the baseCase element
 	 * 
 	 * @return
 	 */
-	public LoadflowNetXmlType getAclfBaseCase() {
-		if (getStudyCase() == null) 
-			createStudyCase();
+	@Override
+	public NetworkXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
 			LoadflowNetXmlType baseCase = createAclfBaseCase();
 			getStudyCase().setBaseCase(baseCase);
@@ -187,39 +116,14 @@ public class JaxbODMModelParser implements IODMModelParser {
 		return baseCase;
 	}
 	
-	/**
-	 * Get the cashed object by id
-	 * 
-	 * @param id
-	 * @return
-	 */
-	private IDRecordXmlType getCachedObject(String id) {
-		return this.objectCache.get(id);
+	public LoadflowNetXmlType getAclfBaseCase() {
+		return (LoadflowNetXmlType)getBaseCase();
 	}
 	
 	/**
 	 *  Bus/branch util functions
 	 *  =========================
 	 */
-	
-	/**
-	 * Get the cashed object by id
-	 * 
-	 * @param id
-	 */
-	private void removeCachedObject(String id) {
-		this.objectCache.remove(id);
-	}
-
-	/**
-	 * Get the cashed bus object by id
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public BusXmlType getBus(String id) {
-		return (BusXmlType)this.getCachedObject(id);
-	}
 	
 	/**
 	 * Get the cashed bus object by id
@@ -241,7 +145,7 @@ public class JaxbODMModelParser implements IODMModelParser {
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);
 		busRec.setZoneNumber(1);
-		getAclfBaseCase().getBusList().getBus().add(busRec);
+		getBaseCase().getBusList().getBus().add(busRec);
 		return busRec;
 	}	
 	
@@ -337,7 +241,7 @@ public class JaxbODMModelParser implements IODMModelParser {
 	 */
 	public BranchRecordXmlType createBranchRecord() {
 		BranchRecordXmlType branchRec = new BranchRecordXmlType();
-		getAclfBaseCase().getBranchList().getBranch().add(branchRec);
+		getBaseCase().getBranchList().getBranch().add(branchRec);
 		branchRec.setOffLine(false);
 		branchRec.setAreaNumber(1);
 		branchRec.setZoneNumber(1);
@@ -370,11 +274,11 @@ public class JaxbODMModelParser implements IODMModelParser {
 	 * @return
 	 */
 	public NetAreaXmlType createNetworkArea() {
-		if(getAclfBaseCase().getAreaList()==null){
-			getAclfBaseCase().setAreaList(this.getFactory().createNetworkXmlTypeAreaList());
+		if(getBaseCase().getAreaList()==null){
+			getBaseCase().setAreaList(this.getFactory().createNetworkXmlTypeAreaList());
 		}
 		NetAreaXmlType area = this.getFactory().createNetAreaXmlType();
-		getAclfBaseCase().getAreaList().getArea().add(area);
+		getBaseCase().getAreaList().getArea().add(area);
 		return area;
 	}
 	
@@ -384,11 +288,11 @@ public class JaxbODMModelParser implements IODMModelParser {
 	 * @return
 	 */
 	public NetZoneXmlType createNetworkLossZone() {
-		if(getAclfBaseCase().getLossZoneList() == null){
-			getAclfBaseCase().setLossZoneList(this.getFactory().createNetworkXmlTypeLossZoneList());
+		if(getBaseCase().getLossZoneList() == null){
+			getBaseCase().setLossZoneList(this.getFactory().createNetworkXmlTypeLossZoneList());
 		}
 		NetZoneXmlType zone = this.getFactory().createNetZoneXmlType();
-		getAclfBaseCase().getLossZoneList().getLossZone().add(zone);
+		getBaseCase().getLossZoneList().getLossZone().add(zone);
 		return zone;
 	}
 
@@ -477,46 +381,4 @@ public class JaxbODMModelParser implements IODMModelParser {
 	public TransientSimulationXmlType getDefaultTransSimu(){
 		return JaxbTranStabSimuHelper.getTransientSimlation(getDefaultScenario());
 	}
-	
-	public Unmarshaller createUnmarshaller() throws Exception {
-		JAXBContext jaxbContext = JAXBContext.newInstance(ModelContansts.ODM_Schema_NS);
-		return	jaxbContext.createUnmarshaller();	
-	}	
-	
-	/**
-	 * create a Jaxb marshaller to marshall the odm object to an Xml document
-	 * 
-	 * @return
-	 * @throws JAXBException
-	 */
-	public Marshaller createMarshaller() throws JAXBException {
-		JAXBContext jaxbContext	= JAXBContext.newInstance(ModelContansts.ODM_Schema_NS);
-		Marshaller marshaller = jaxbContext.createMarshaller();
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-		return marshaller;
-	}
-	
-	/**
-	 * print the Xml doc to the std out
-	 * 
-	 */
-	public void stdout() {
-		try {
-			JAXBElement<StudyCaseXmlType> element = getFactory().createPSSStudyCase(getStudyCase());
-			createMarshaller().marshal( element, System.out );
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public String toXmlDoc(boolean addXsi) {
-		OutputStream ostream = new ByteArrayOutputStream();
-		try {
-			JAXBElement<StudyCaseXmlType> element = getFactory().createPSSStudyCase(getStudyCase());
-			createMarshaller().marshal( element, ostream );
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return ostream.toString();
-	}	
 }

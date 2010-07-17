@@ -217,7 +217,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		 */
 		
 	    contriGen.setRatedPower(JaxbDataSetter.createPowerMva(this.mbase));
-	    contriGen.setPower(JaxbDataSetter.createPowerData(this.pgen, this.qgen, ApparentPowerUnitType.MVA));
+	    contriGen.setPower(JaxbDataSetter.createPowerValue(this.pgen, this.qgen, ApparentPowerUnitType.MVA));
 	    contriGen.setPLimit(JaxbDataSetter.createActivePowerLimitData(this.pmax, this.pmin, ActivePowerUnitType.MW));
 	    contriGen.setQLimit(JaxbDataSetter.createReactivePowerLimitData(this.qmax, this.qmin, ReactivePowerUnitType.MVAR));
 		

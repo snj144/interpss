@@ -114,7 +114,7 @@ public class BusDataRec extends BusHeaderRec {
 		busRec.setName(name);
 		if (this.longId != null && !this.longId.equals(""))
 			busRec.setDesc(this.longId);
-		busRec.setBaseVoltage(JaxbDataSetter.createVoltageData(bkv, VoltageUnitType.KV));
+		busRec.setBaseVoltage(JaxbDataSetter.createVoltageValue(bkv, VoltageUnitType.KV));
 		
 		/*
 		<ty> Bus type {0,1,2,-2}

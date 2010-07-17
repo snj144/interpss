@@ -110,11 +110,11 @@ public class LoadDataRec extends BusHeaderRec {
 		<b> Constant admittance reactive power (MVAR)
  */		
 		if (this.p != 0.0 || this.q != 0.0)
-			contribLoad.setConstPLoad(JaxbDataSetter.createPowerData(this.p, this.q, ApparentPowerUnitType.MVA));
+			contribLoad.setConstPLoad(JaxbDataSetter.createPowerValue(this.p, this.q, ApparentPowerUnitType.MVA));
 		if (this.ip != 0.0 || this.iq != 0.0)
-			contribLoad.setConstILoad(JaxbDataSetter.createPowerData(this.ip, this.iq, ApparentPowerUnitType.MVA));
+			contribLoad.setConstILoad(JaxbDataSetter.createPowerValue(this.ip, this.iq, ApparentPowerUnitType.MVA));
 		if (this.g != 0.0 || this.b != 0.0)
-			contribLoad.setConstZLoad(JaxbDataSetter.createPowerData(this.g, this.b, ApparentPowerUnitType.MVA));
+			contribLoad.setConstZLoad(JaxbDataSetter.createPowerValue(this.g, this.b, ApparentPowerUnitType.MVA));
 	}
 		
 	public String toString() {

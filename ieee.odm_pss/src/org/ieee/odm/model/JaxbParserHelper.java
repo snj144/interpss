@@ -73,7 +73,7 @@ public class JaxbParserHelper {
 	 * @param parser
 	 * @param originalFormat
 	 */
-	public static void setLFTransInfo(JaxbODMModelParser parser, OriginalDataFormatEnumType originalDataFormat) {
+	public static void setLFTransInfo(AbstractModelParser parser, OriginalDataFormatEnumType originalDataFormat) {
 		StudyCaseXmlType.ContentInfo info = getFactory().createStudyCaseXmlTypeContentInfo();
 		parser.getStudyCase().setContentInfo(info);
 		info.setOriginalDataFormat(originalDataFormat);
@@ -148,7 +148,7 @@ public class JaxbParserHelper {
 						// generator on a swing bus might turned off
 						genData.getEquivGen().setCode(LFGenCodeEnumType.OFF);
 					else {	
-						equivGen.setPower(JaxbDataSetter.createPowerData(pgen, qgen, ApparentPowerUnitType.MVA));
+						equivGen.setPower(JaxbDataSetter.createPowerValue(pgen, qgen, ApparentPowerUnitType.MVA));
 						if (pmax != 0.0 || pmin != 0.0) {
 							equivGen.setPLimit(JaxbDataSetter.createActivePowerLimitData(pmax, pmin, ActivePowerUnitType.MW));
 						}
@@ -156,7 +156,7 @@ public class JaxbParserHelper {
 							equivGen.setQLimit(JaxbDataSetter.createReactivePowerLimitData(qmax, qmin, ReactivePowerUnitType.MVAR));
 						}
 						if (vSpec != 0.0) {
-							equivGen.setDesiredVoltage(JaxbDataSetter.createVoltageData(vSpec, vSpecUnit));
+							equivGen.setDesiredVoltage(JaxbDataSetter.createVoltageValue(vSpec, vSpecUnit));
 						}
 					}
 					
@@ -200,21 +200,21 @@ public class JaxbParserHelper {
 					
 					if ((cp_p != 0.0 || cp_q != 0.0) && (ci_p==0.0 && ci_q ==0.0 && cz_p==0.0 && cz_q ==0.0) ) {
 						equivLoad.setCode(LFLoadCodeEnumType.CONST_P);
-			  			equivLoad.setConstPLoad(JaxbDataSetter.createPowerData(cp_p, cp_q, ApparentPowerUnitType.MVA));
+			  			equivLoad.setConstPLoad(JaxbDataSetter.createPowerValue(cp_p, cp_q, ApparentPowerUnitType.MVA));
 			  		}
 					else if ((ci_p != 0.0 || ci_q != 0.0) && (cp_p==0.0 && cp_q ==0.0 && cz_p==0.0 && cz_q ==0.0) ) {
 						equivLoad.setCode(LFLoadCodeEnumType.CONST_I);
-						equivLoad.setConstILoad(JaxbDataSetter.createPowerData(ci_p, ci_q, ApparentPowerUnitType.MVA));
+						equivLoad.setConstILoad(JaxbDataSetter.createPowerValue(ci_p, ci_q, ApparentPowerUnitType.MVA));
 			  		}
 					else if ((cz_p != 0.0 || cz_q != 0.0) && (ci_p==0.0 && ci_q ==0.0 && cp_p==0.0 && cp_q ==0.0) ) {
 						equivLoad.setCode(LFLoadCodeEnumType.CONST_Z);
-						equivLoad.setConstZLoad(JaxbDataSetter.createPowerData(cz_p, cz_q, ApparentPowerUnitType.MVA));
+						equivLoad.setConstZLoad(JaxbDataSetter.createPowerValue(cz_p, cz_q, ApparentPowerUnitType.MVA));
 			  		}
 					else if ((cp_p != 0.0 || cp_q != 0.0 || ci_p!= 0.0 || ci_q != 0.0 || cz_p != 0.0 || cz_q !=0.0)) {
 						equivLoad.setCode(LFLoadCodeEnumType.FUNCTION_LOAD);
-						equivLoad.setConstPLoad(JaxbDataSetter.createPowerData(cp_p, cp_q, ApparentPowerUnitType.MVA));
-						equivLoad.setConstILoad(JaxbDataSetter.createPowerData(ci_p, ci_q, ApparentPowerUnitType.MVA));
-						equivLoad.setConstZLoad(JaxbDataSetter.createPowerData(cz_p, cz_q, ApparentPowerUnitType.MVA));
+						equivLoad.setConstPLoad(JaxbDataSetter.createPowerValue(cp_p, cp_q, ApparentPowerUnitType.MVA));
+						equivLoad.setConstILoad(JaxbDataSetter.createPowerValue(ci_p, ci_q, ApparentPowerUnitType.MVA));
+						equivLoad.setConstZLoad(JaxbDataSetter.createPowerValue(cz_p, cz_q, ApparentPowerUnitType.MVA));
 					}
 					else {
 						loadData.getEquivLoad().setCode(LFLoadCodeEnumType.NONE_LOAD);

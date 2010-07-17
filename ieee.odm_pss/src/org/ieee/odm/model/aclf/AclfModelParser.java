@@ -24,10 +24,6 @@
 
 package org.ieee.odm.model.aclf;
 
-import java.io.File;
-import java.io.InputStream;
-
-import org.apache.xmlbeans.XmlException;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
@@ -46,50 +42,33 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 
 public class AclfModelParser extends AbstractModelParser {
 	/**
-	 * Constructor using an Xml file
+	 * get the base case object of type LoadflowXmlType
 	 * 
-	 * @param xmlFile
-	 * @throws Exception
+	 * @return
 	 */
-	public AclfModelParser(File xmlFile) throws Exception {
-		super(xmlFile);
-	}
-
-	/**
-	 * Constructor using an Xml string
-	 * 
-	 * @param xmlString
-	 * @throws XmlException
-	 */
-	public AclfModelParser(String xmlString) throws Exception {
-		super(xmlString);
-	}
-	
-	/**
-	 * Constructor using an Xml string
-	 * 
-	 * @param in
-	 * @throws Exception
-	 */
-	public AclfModelParser(InputStream in) throws Exception {
-		super(in);
-	}
-
-	/**
-	 * Default Constructor 
-	 * 
-	 */
-	public AclfModelParser() {
-		super();
-	}
-	
 	public LoadflowNetXmlType getAclfBaseCase() {
 		return (LoadflowNetXmlType)getBaseCase();
 	}
 	
+	/**
+	 * create the base case object of type LoadflowXmlType
+	 */
 	@Override
 	public NetworkXmlType createBaseCase() {
-		return null;
+		if (getStudyCase().getBaseCase() == null) {
+			LoadflowNetXmlType baseCase = createAclfBaseCase();
+			getStudyCase().setBaseCase(baseCase);
+		}
+		return (LoadflowNetXmlType)getStudyCase().getBaseCase();
+	}
+	
+	private LoadflowNetXmlType createAclfBaseCase() {
+		LoadflowNetXmlType baseCase = this.getFactory().createLoadflowNetXmlType();
+		
+		baseCase.setBusList(this.getFactory().createNetworkXmlTypeBusList());
+		baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
+				
+		return baseCase;
 	}
 	
 	/**
@@ -97,7 +76,7 @@ public class AclfModelParser extends AbstractModelParser {
 	 * 
 	 * @return
 	 */
-	public LoadflowBusXmlType createBusRecord() {
+	public LoadflowBusXmlType createBusXmlType() {
 		LoadflowBusXmlType busRec = this.getFactory().createLoadflowBusXmlType();
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);
@@ -106,8 +85,8 @@ public class AclfModelParser extends AbstractModelParser {
 		return busRec;
 	}	
 	
-	public LoadflowBusXmlType createBusRecord(String id) throws Exception {
-		LoadflowBusXmlType busRec = createBusRecord();
+	public LoadflowBusXmlType createBusXmlType(String id) throws Exception {
+		LoadflowBusXmlType busRec = createBusXmlType();
 		busRec.setId(id);
 		if (this.objectCache.get(id) != null) {
 			throw new Exception("Bus record duplication, bus id: " + id);
@@ -154,31 +133,29 @@ public class AclfModelParser extends AbstractModelParser {
 	 */
 	public LineBranchXmlType createLineBranchXmlType(String id) throws Exception {
 		LineBranchXmlType branch = createLineBranchXmlType();
-		if (this.objectCache.get(id) != null) {
-			throw new Exception("Line Branch record duplication, bus id: " + id);
-		}
-		this.objectCache.put(id, branch);
+		add2CacheTable(id, branch);
 		return branch;
 	}
 	
 	public XfrBranchXmlType createXfrBranchXmlType(String id) throws Exception {
 		XfrBranchXmlType branch = createXfrBranchXmlType();
-		if (this.objectCache.get(id) != null) {
-			throw new Exception("Xfr Branch record duplication, bus id: " + id);
-		}
-		this.objectCache.put(id, branch);
+		add2CacheTable(id, branch);
 		return branch;
 	}
 
 	public PSXfrBranchXmlType createPSXfrBranchXmlType(String id) throws Exception {
 		PSXfrBranchXmlType branch = createPSXfrBranchXmlType();
-		if (this.objectCache.get(id) != null) {
-			throw new Exception("PSXfr Branch record duplication, bus id: " + id);
-		}
-		this.objectCache.put(id, branch);
+		add2CacheTable(id, branch);
 		return branch;
 	}
 
+	private void add2CacheTable(String id, BranchXmlType branch) throws Exception {
+		if (this.objectCache.get(id) != null) {
+			throw new Exception("Line Branch record duplication, bus id: " + id);
+		}
+		this.objectCache.put(id, branch);		
+	}
+	
 	/**
 	 * create a tieLine object
 	 * 
