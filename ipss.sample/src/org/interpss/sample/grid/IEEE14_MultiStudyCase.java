@@ -33,7 +33,7 @@ import com.interpss.simu.multicase.modify.Modification;
  * This example assumes that at least one remote Gridgain 2.1.1 agent is running in the LAN. 
  *
  */
-public class IEEE14_N1Analysis {
+public class IEEE14_MultiStudyCase {
 	public static String GridGainHome = "c:/Program Files (x86)/gridgain-2.1.1";
 
 	/**
