@@ -1,21 +1,19 @@
+package com.interpss.opf.test;
+
 import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.math.complex.Complex;
+import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
-import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.net.Branch;
-import com.interpss.opf.core.DCOPF;
 import com.interpss.opf.core.DCOPFImpl;
 import com.interpss.opf.gen.GenBus4OPF;
 import com.interpss.opf.gen.GenBus4OPFImpl;
-
-import org.junit.*;
 
 public class Test3BusOPF {
 
