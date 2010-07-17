@@ -245,6 +245,9 @@
 		<complexContent>
 			<extension base="pss:XfrBranchXmlType">
 				<sequence>
+					<element name="fromAngle" type="pss:AngleXmlType" minOccurs="0"></element>
+					<element name="toAngle" type="pss:AngleXmlType" minOccurs="0"></element>
+					<element name="angleAdjustment" minOccurs="0" type="pss:AngleAdjustmentXmlType"></element>
 				</sequence>
 			</extension>
 		</complexContent>
