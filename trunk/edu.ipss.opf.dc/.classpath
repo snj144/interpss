@@ -8,5 +8,8 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.common_2.5.0.v200906151043.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore_2.5.0.v200906151043.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar"/>
+	<classpathentry kind="lib" path="lib/colt.jar"/>
+	<classpathentry kind="lib" path="lib/QuadProgJ.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
