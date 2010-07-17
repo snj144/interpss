@@ -13,8 +13,8 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 import org.junit.Test;
 
 public class FuncTestCase {
-	static String PSSStudyCaseHead = "<PSSStudyCase xmlns=\"http://www.ieee.org/odm/Schema/2008\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">";
-	static String PSSStudyCaseEnd = "</PSSStudyCase>";
+	static String PSSStudyCaseHead = "<pssStudyCase xmlns=\"http://www.ieee.org/odm/Schema/2008\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">";
+	static String PSSStudyCaseEnd = "</pssStudyCase>";
 	
 	static String BusListHead = PSSStudyCaseHead + "<baseCase xsi:type=\"LoadflowNetXmlType\"><busList>";
 	static String BusListEnd = "</busList></baseCase>" + PSSStudyCaseEnd; 
