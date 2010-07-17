@@ -80,9 +80,9 @@ public class PSSEV30GenDataRec {
 	    contriGen.setDesc("PSSE Generator " + id + " at Bus " + i);
 	    contriGen.setOffLine(stat!=1);
 
-	    contriGen.setPower(JaxbDataSetter.createPowerData(pg, qg, ApparentPowerUnitType.MVA));
+	    contriGen.setPower(JaxbDataSetter.createPowerValue(pg, qg, ApparentPowerUnitType.MVA));
 
-	    contriGen.setDesiredVoltage(JaxbDataSetter.createVoltageData(vs, VoltageUnitType.PU));
+	    contriGen.setDesiredVoltage(JaxbDataSetter.createVoltageValue(vs, VoltageUnitType.PU));
 		
 		if (pt == 0.0 & pb == 0.0 || pt < pb ) {
 			pt = 9999.0; pb = -9999.0;

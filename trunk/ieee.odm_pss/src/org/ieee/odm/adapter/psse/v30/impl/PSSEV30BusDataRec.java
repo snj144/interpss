@@ -72,18 +72,18 @@ public class PSSEV30BusDataRec {
 		}
 		
 		busRec.setName(name);
-		busRec.setBaseVoltage(JaxbDataSetter.createVoltageData(baseKv, VoltageUnitType.KV));
+		busRec.setBaseVoltage(JaxbDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
 		
 		LoadflowBusDataXmlType busData = parser.getFactory().createLoadflowBusDataXmlType(); 
 		busRec.setLoadflowData(busData);
-		busData.setVoltage(JaxbDataSetter.createVoltageData(vm, VoltageUnitType.PU));
-		busData.setAngle(JaxbDataSetter.createAngleData(va, AngleUnitType.DEG));
+		busData.setVoltage(JaxbDataSetter.createVoltageValue(vm, VoltageUnitType.PU));
+		busData.setAngle(JaxbDataSetter.createAngleValue(va, AngleUnitType.DEG));
 
     	if (gl != 0.0 || bl != 0.0) {
     		double factor = parser.getAclfBaseCase().getBasePower().getValue();  
     		// for transfer G+jB to PU on system base, gl, bl are entered in MW at one per unit voltage
     		// bl is reactive power consumed, - for capactor
-    		busData.setShuntY(JaxbDataSetter.createYData(gl/factor, bl/factor, YUnitType.PU));
+    		busData.setShuntY(JaxbDataSetter.createYValue(gl/factor, bl/factor, YUnitType.PU));
     	}
       	
     	// set input data to the bus object

@@ -29,14 +29,12 @@ import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
 import org.ieee.odm.schema.AngleLimitXmlType;
 import org.ieee.odm.schema.AngleUnitType;
-import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.BaseRecordXmlType;
 import org.ieee.odm.schema.BranchRatingLimitXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.CurrentXmlType;
-import org.ieee.odm.schema.GXmlType;
 import org.ieee.odm.schema.LFBranchCodeEnumType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
@@ -47,28 +45,23 @@ import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.schema.MvaRatingXmlType;
 import org.ieee.odm.schema.ObjectFactory;
-import org.ieee.odm.schema.PowerXmlType;
-import org.ieee.odm.schema.RXmlType;
 import org.ieee.odm.schema.ReactivePowerLimitXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ReactivePowerXmlType;
 import org.ieee.odm.schema.TapLimitXmlType;
-import org.ieee.odm.schema.TapXmlType;
 import org.ieee.odm.schema.TimePeriodUnitType;
 import org.ieee.odm.schema.TimePeriodXmlType;
 import org.ieee.odm.schema.TurnRatioLimitXmlType;
 import org.ieee.odm.schema.TurnRatioUnitType;
-import org.ieee.odm.schema.TurnRatioXmlType;
 import org.ieee.odm.schema.VoltageLimitXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.YUnitType;
-import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZUnitType;
 import org.ieee.odm.schema.ZXmlType;
 import org.ieee.odm.schema.BaseRecordXmlType.OwnerList.Owner;
 
-public class JaxbDataSetter {
+public class JaxbDataSetter extends BaseDataSetter {
 	/**
 	 * Set apparent power, unit = kva
 	 * 
@@ -146,189 +139,6 @@ public class JaxbDataSetter {
 		power.setUnit(unit); 		
 		return power;
 	}	
-	/**
-	 * Set value (r, x, unit) to the z object
-	 * 
-	 * @param z
-	 * @param r
-	 * @param x
-	 * @param unit
-	 */
-	/*
-	public static void setZValue(ZXmlType z, double r, double x, ZUnitType unit) {
-		z.setRe(r);
-		z.setIm(x);
-		z.setUnit(unit);
-	}
-	public static void setRValue(RXmlType rRec, double r, ZUnitType unit) {
-		rRec.setR(r);
-		rRec.setUnit(unit);
-	}
-	*/
-	public static ZXmlType createZValue(double r, double x, ZUnitType unit) {
-		ZXmlType z = getFactory().createZXmlType();
-		z.setRe(r);
-		z.setIm(x);
-		z.setUnit(unit);
-		return z;
-	}
- 
-	public static RXmlType createRValue(double r, ZUnitType unit) {
-		RXmlType rRec = getFactory().createRXmlType();
-		rRec.setR(r);
-		rRec.setUnit(unit);
-		return rRec;
-	}
-
-	/**
-	 * Set value (g, b, unit) to the y object
-	 * 
-	 * @param y
-	 * @param g
-	 * @param b
-	 * @param unit
-	 */
-	/*
-	public static void setYData(YXmlType y, double g, double b, YUnitType unit) {
-		y.setRe(g);
-		y.setIm(b);
-		y.setUnit(unit);
-	}
-	public static void setGData(GXmlType gRec, double g, YUnitType unit) {
-		gRec.setG(g);
-		gRec.setUnit(unit);
-	}
-	*/
-	
-	public static YXmlType createYData(double g, double b, YUnitType unit) {
-		YXmlType y = getFactory().createYXmlType();  
-		y.setRe(g);
-		y.setIm(b);
-		y.setUnit(unit);
-		return y;
-	}
-	
-	public static GXmlType createGData(double g, YUnitType unit) {
-		GXmlType gRec = getFactory().createGXmlType();
-		gRec.setG(g);
-		gRec.setUnit(unit);
-		return gRec;
-	}
-	
-	/**
-	 * Set value (p, q, unit) to the power object
-	 * 
-	 * @param power
-	 * @param p
-	 * @param q
-	 * @param unit
-	 */
-	/*
-	public static void setPowerData(PowerXmlType power, double p, double q, ApparentPowerUnitType unit) {
-    	power.setRe(p);
-    	power.setIm(q);
-    	power.setUnit(unit);		
-	}
-	*/
-	public static PowerXmlType createPowerData(double p, double q, ApparentPowerUnitType unit) {
-		PowerXmlType power = getFactory().createPowerXmlType();
-		power.setRe(p);
-    	power.setIm(q);
-    	power.setUnit(unit);
-    	return power;
-	}
-	
-	/**
-	 * Set tap, unit = PU
-	 * 
-	 * @param tap
-	 * @param p
-	 */
-	/*
-	public static void setTapPU(TapXmlType tap, double p) {
-    	tap.setValue(p);
-    	tap.setUnit(TurnRatioUnitType.PU);		
-	}
-	
-	public static void setTurnRatioPU(TurnRatioXmlType r, double p) {
-    	r.setValue(p);
-    	r.setUnit(TurnRatioUnitType.PU);		
-	}
-	*/
-	public static TapXmlType createTapPU(double p) {
-		TapXmlType tap = getFactory().createTapXmlType();
-		tap.setValue(p);
-    	tap.setUnit(TurnRatioUnitType.PU);
-    	return tap;
-	}
-	
-	public static TurnRatioXmlType createTurnRatioPU(double p) {
-		TurnRatioXmlType r = getFactory().createTurnRatioXmlType();
-		r.setValue(p);
-    	r.setUnit(TurnRatioUnitType.PU);
-    	return r;
-	}
-	
-	/**
-	 * set value (v, unit) to the voltage object
-	 * 
-	 * @param voltage
-	 * @param v
-	 * @param unit
-	 */
-	/*
-	public static void setVoltageData(VoltageXmlType voltage, double v, VoltageUnitType unit) {
-    	voltage.setValue(v);
-    	voltage.setUnit(unit);		
-	}
-	*/
-	public static VoltageXmlType createVoltageData(double v, VoltageUnitType unit) {
-		VoltageXmlType voltage = getFactory().createVoltageXmlType();
-		voltage.setValue(v);
-    	voltage.setUnit(unit);
-    	return voltage;
-	}
-
-	/**
-	 * set value (i, unit) to the current object
-	 * 
-	 * @param current
-	 * @param i
-	 * @param unit
-	 */
-	/*
-	public static void setCurrentData(CurrentXmlType current, double i, CurrentUnitType unit) {
-    	current.setValue(i);
-    	current.setUnit(unit);
-    			
-	}
-	*/
-	public static CurrentXmlType createCurrentData(double i, CurrentUnitType unit) {
-		CurrentXmlType current = getFactory().createCurrentXmlType();
-		current.setValue(i);
-    	current.setUnit(unit);
-    	return current;		
-	}
-
-	/**
-	 * set value (a, unit) to the angle object
-	 * 
-	 * @param angle
-	 * @param a
-	 * @param unit
-	 */
-	/*
-	public static void setAngleData(AngleXmlType angle, double a, AngleUnitType unit) {
-    	angle.setValue(a);
-    	angle.setUnit(unit);		
-	}
-    */
-	public static AngleXmlType createAngleData(double a, AngleUnitType unit) {
-		AngleXmlType angle = getFactory().createAngleXmlType();
-    	angle.setValue(a);
-    	angle.setUnit(unit);		
-    	return angle;
-	}
 	
 	/**
 	 * Set time/period
@@ -514,7 +324,7 @@ public class JaxbDataSetter {
 		LoadflowLoadDataXmlType equivLoad = factory.createLoadflowLoadDataXmlType();
 		loadData.setEquivLoad(equivLoad);
     	busData.getLoadData().getEquivLoad().setCode(code);
-    	equivLoad.setConstPLoad(createPowerData(p, q, unit));
+    	equivLoad.setConstPLoad(createPowerValue(p, q, unit));
 	}
 	
 	/**
@@ -534,13 +344,13 @@ public class JaxbDataSetter {
    		LoadflowGenDataXmlType equivGen = getFactory().createLoadflowGenDataXmlType();
    		busData.getGenData().setEquivGen(equivGen);
    		equivGen.setCode(code);
-   		equivGen.setPower(createPowerData(p, q, pUnit));
+   		equivGen.setPower(createPowerValue(p, q, pUnit));
    		if (code == LFGenCodeEnumType.PV) {
-   			equivGen.setDesiredVoltage(createVoltageData(v, vUnit));
+   			equivGen.setDesiredVoltage(createVoltageValue(v, vUnit));
    		}
    		else if (code == LFGenCodeEnumType.SWING) {
-   			equivGen.setDesiredVoltage(createVoltageData(v, vUnit));
-   			equivGen.setDesiredAngle(createAngleData(ang, angUnit));
+   			equivGen.setDesiredVoltage(createVoltageValue(v, vUnit));
+   			equivGen.setDesiredAngle(createAngleValue(ang, angUnit));
    		}
 	}
 	
@@ -563,7 +373,7 @@ public class JaxbDataSetter {
 		ZXmlType z = createZValue(r, x, zUnit);
 		branchData.setZ(z);
 		if (g != 0.0 || b != 0.0) {
-			branchData.setTotalShuntY(createYData(g, b, yUnit));
+			branchData.setTotalShuntY(createYValue(g, b, yUnit));
 		}
 	}
 
@@ -618,10 +428,10 @@ public class JaxbDataSetter {
 		xfrData.setFromTurnRatio(createTurnRatioPU(fromTap));
 		xfrData.setToTurnRatio(createTurnRatioPU(toTap));
 		if (gFrom != 0.0 || bFrom != 0.0) {
-			xfrData.setFromShuntY(createYData(gFrom, bFrom, yUnit));
+			xfrData.setFromShuntY(createYValue(gFrom, bFrom, yUnit));
 		}	
 		if (gTo != 0.0 || bTo != 0.0) {
-			xfrData.setToShuntY(createYData(gTo, bTo, yUnit));
+			xfrData.setToShuntY(createYValue(gTo, bTo, yUnit));
 		}
 	}
 	
@@ -647,10 +457,10 @@ public class JaxbDataSetter {
 		setXformerData(branchData,
 				r, x, zUnit, fromTap, toTap, gFrom, bFrom, gTo, bTo, yUnit);
 		if (fromAng != 0.0) {
-			branchData.setFromAngle(createAngleData(fromAng, angUnit));
+			branchData.setFromAngle(createAngleValue(fromAng, angUnit));
 		}
 		if (toAng != 0.0) {
-			branchData.setToAngle(createAngleData(toAng, angUnit));
+			branchData.setToAngle(createAngleValue(toAng, angUnit));
 		}
 	}
 
@@ -801,12 +611,5 @@ public class JaxbDataSetter {
 	public static void setXfrRatingData(LoadflowBranchDataXmlType xfrData, 
 			double fromRatedV, double toRatedV, VoltageUnitType vUnit) {
 		setXfrRatingData(xfrData, fromRatedV, toRatedV, vUnit, 0.0, null);
-	}
-	
-	private static ObjectFactory _factory = null;	
-	private static ObjectFactory getFactory() {
-		if (_factory == null)
-			_factory = new ObjectFactory();
-		return _factory;
 	}
 }

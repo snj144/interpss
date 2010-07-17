@@ -258,13 +258,13 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
       		busRec.setName(name);
       	if (isoId != null && !isoId.trim().equals(""))
       		busRec.setIsoCode(isoId);
-      	busRec.setBaseVoltage(JaxbDataSetter.createVoltageData(baseKv, VoltageUnitType.KV));
+      	busRec.setBaseVoltage(JaxbDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
 		
 		LoadflowBusDataXmlType busData = parser.getFactory().createLoadflowBusDataXmlType();
 		busRec.setLoadflowData(busData);
-		busData.setVoltage(JaxbDataSetter.createVoltageData(voltage, VoltageUnitType.KV));
+		busData.setVoltage(JaxbDataSetter.createVoltageValue(voltage, VoltageUnitType.KV));
 
-		busData.setAngle(JaxbDataSetter.createAngleData(0.0, AngleUnitType.DEG));    	
+		busData.setAngle(JaxbDataSetter.createAngleValue(0.0, AngleUnitType.DEG));    	
     	
 		if (pLoadMW != 0.0 || qLoadMvar != 0.0) {
 			JaxbDataSetter.setLoadData(busData,
@@ -602,7 +602,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			
 			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
 			
-			branchData.setToAngle(JaxbDataSetter.createAngleData(-ang*ModelContansts.Rad2Deg, AngleUnitType.DEG));
+			branchData.setToAngle(JaxbDataSetter.createAngleValue(-ang*ModelContansts.Rad2Deg, AngleUnitType.DEG));
 			branchData.setToTurnRatio(JaxbDataSetter.createTurnRatioPU(ratioFactor/x));
 			
 			if (pMwAngle != 0.0) {
@@ -654,7 +654,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		interChange.setUcteExchange(ucteExRec);
 		ucteExRec.setFromIsoId(fromIsoId);
 		ucteExRec.setToIsoId(toIsoId);
-		ucteExRec.setExchangePower(JaxbDataSetter.createPowerData(exPower, 0.0, ApparentPowerUnitType.MVA)); 
+		ucteExRec.setExchangePower(JaxbDataSetter.createPowerValue(exPower, 0.0, ApparentPowerUnitType.MVA)); 
 		if (comment != null)
 			ucteExRec.setComment(comment);
     }

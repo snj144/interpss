@@ -131,11 +131,11 @@ public class PSSEV30XfrDataRec {
     	if (cm == 2) {
     		//TODO
     		if (mag1 != 0.0 || mag2 != 0.0)
-    			branchData.setFromShuntY(JaxbDataSetter.createYData(mag1, mag2, YUnitType.PU));
+    			branchData.setFromShuntY(JaxbDataSetter.createYValue(mag1, mag2, YUnitType.PU));
     	}
     	else {
     		if (mag1 != 0.0 || mag2 != 0.0)
-    			branchData.setFromShuntY(JaxbDataSetter.createYData(mag1, mag2, YUnitType.PU));
+    			branchData.setFromShuntY(JaxbDataSetter.createYValue(mag1, mag2, YUnitType.PU));
     	}
       	
     	// owner id = 0.0, no contribution
@@ -158,8 +158,8 @@ public class PSSEV30XfrDataRec {
        	if (is3W) {
        		xfrInfo.setRatedPower23(JaxbDataSetter.createPowerMva(sbase2_3));
        		xfrInfo.setRatedPower31(JaxbDataSetter.createPowerMva(sbase3_1));
-       		xfrInfo.setStarVMag(JaxbDataSetter.createVoltageData(vmstar, VoltageUnitType.PU));
-       		xfrInfo.setStarVAng(JaxbDataSetter.createAngleData(anstar, AngleUnitType.DEG));
+       		xfrInfo.setStarVMag(JaxbDataSetter.createVoltageValue(vmstar, VoltageUnitType.PU));
+       		xfrInfo.setStarVAng(JaxbDataSetter.createAngleValue(anstar, AngleUnitType.DEG));
        	}
        	
        	if (cz == 1) {
@@ -222,7 +222,7 @@ public class PSSEV30XfrDataRec {
   		
   		if (!xfrInfo.isDataOnSystemBase()) {
   			windv1 /= nomv1;
-  			xfrInfo.setRatedVoltage1(JaxbDataSetter.createVoltageData(nomv1, VoltageUnitType.KV));
+  			xfrInfo.setRatedVoltage1(JaxbDataSetter.createVoltageValue(nomv1, VoltageUnitType.KV));
   		}
   		branchData.setFromTurnRatio(JaxbDataSetter.createTapPU(windv1));
 	
@@ -232,7 +232,7 @@ public class PSSEV30XfrDataRec {
     		// PhaseShifting transformer branch
     		isPsXfr = true;
 			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
-			branchData.setFromAngle(JaxbDataSetter.createAngleData(ang1, AngleUnitType.DEG));
+			branchData.setFromAngle(JaxbDataSetter.createAngleValue(ang1, AngleUnitType.DEG));
     	}
     	branchData.setBranchRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
     	JaxbDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(), rata1, ratb1, ratc1, ApparentPowerUnitType.MVA);
@@ -365,11 +365,11 @@ public class PSSEV30XfrDataRec {
   		 */
   		if (!xfrInfo.isDataOnSystemBase()) {
   			windv2 /= nomv2;
-  			xfrInfo.setRatedVoltage2(JaxbDataSetter.createVoltageData(nomv2, VoltageUnitType.KV));
+  			xfrInfo.setRatedVoltage2(JaxbDataSetter.createVoltageValue(nomv2, VoltageUnitType.KV));
   		}
   		branchData.setToTurnRatio(JaxbDataSetter.createTapPU(windv2));
        	if (isPsXfr) {
-       		branchData.setToAngle(JaxbDataSetter.createAngleData(ang2, AngleUnitType.DEG));
+       		branchData.setToAngle(JaxbDataSetter.createAngleValue(ang2, AngleUnitType.DEG));
        	}
 
        	if (is3W) {
@@ -387,13 +387,13 @@ public class PSSEV30XfrDataRec {
        	if (is3W) {
       		if (!xfrInfo.isDataOnSystemBase()) {
       			windv3 /= nomv3;
-      			xfrInfo.setRatedVoltage3(JaxbDataSetter.createVoltageData(nomv3, VoltageUnitType.KV));
+      			xfrInfo.setRatedVoltage3(JaxbDataSetter.createVoltageValue(nomv3, VoltageUnitType.KV));
       		}
       		xfrInfo.setTurnRatio3(JaxbDataSetter.createTapPU(windv3));
       		xfrInfo.setBranchRatingLimit13(parser.getFactory().createBranchRatingLimitXmlType());
            	JaxbDataSetter.setBranchRatingLimitData(xfrInfo.getBranchRatingLimit13(), rata3, ratb3, ratc3, ApparentPowerUnitType.MVA);
            	if (isPsXfr) {
-           		xfrInfo.setShiftAngle3(JaxbDataSetter.createAngleData(ang3, AngleUnitType.DEG));
+           		xfrInfo.setShiftAngle3(JaxbDataSetter.createAngleValue(ang3, AngleUnitType.DEG));
            	}
        	}
 	}

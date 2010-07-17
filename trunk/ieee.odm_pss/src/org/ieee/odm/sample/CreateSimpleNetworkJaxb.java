@@ -42,7 +42,7 @@ public class CreateSimpleNetworkJaxb {
 		branch.setFromBus(parser.createBusRecRef("Bus-1"));
 		branch.setToBus(parser.createBusRecRef("Bus-2"));
 		
-		JAXBElement<StudyCaseXmlType> element = (new ObjectFactory()).createPSSStudyCase(parser.getStudyCase());
+		JAXBElement<StudyCaseXmlType> element = (new ObjectFactory()).createPssStudyCase(parser.getStudyCase());
 		parser.createMarshaller().marshal( element, System.out );
 	}
 }

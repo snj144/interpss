@@ -67,11 +67,11 @@ public class PSSEV30LoadDataRec {
 	    JaxbParserHelper.addOwner(contribLoad, new Integer(owner).toString());
 		
 		if (pl != 0.0 || ql != 0.0)
-			contribLoad.setConstPLoad(JaxbDataSetter.createPowerData(pl, ql, ApparentPowerUnitType.MVA));
+			contribLoad.setConstPLoad(JaxbDataSetter.createPowerValue(pl, ql, ApparentPowerUnitType.MVA));
 		if (ip != 0.0 || iq != 0.0)
-			contribLoad.setConstILoad(JaxbDataSetter.createPowerData(ip, iq, ApparentPowerUnitType.MVA));
+			contribLoad.setConstILoad(JaxbDataSetter.createPowerValue(ip, iq, ApparentPowerUnitType.MVA));
 		if (yp != 0.0 || yq != 0.0)
-			contribLoad.setConstZLoad(JaxbDataSetter.createPowerData(yp, yq, ApparentPowerUnitType.MVA));
+			contribLoad.setConstZLoad(JaxbDataSetter.createPowerValue(yp, yq, ApparentPowerUnitType.MVA));
 	}
 
 	private static void procLineString(String lineStr, PsseVersion version, Logger logger) {

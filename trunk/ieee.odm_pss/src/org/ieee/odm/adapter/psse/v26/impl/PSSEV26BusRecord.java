@@ -76,7 +76,7 @@ public class PSSEV26BusRecord {
 		final String owner=strAry[10];
 		JaxbParserHelper.addOwner(busRec, owner);
 		
-		busRec.setBaseVoltage(JaxbDataSetter.createVoltageData(baseKv, VoltageUnitType.KV));
+		busRec.setBaseVoltage(JaxbDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
 		
 		LoadflowBusDataXmlType busData = parser.getFactory().createLoadflowBusDataXmlType(); 
 		busRec.setLoadflowData(busData);
@@ -85,8 +85,8 @@ public class PSSEV26BusRecord {
 		//va angle, degrees [F] *
 		final double vpu = ModelStringUtil.getDouble(strAry[8], 1.0);
 		final double angDeg = ModelStringUtil.getDouble(strAry[9], 0.0);
-		busData.setVoltage(JaxbDataSetter.createVoltageData(vpu, VoltageUnitType.PU));
-		busData.setAngle(JaxbDataSetter.createAngleData(angDeg, AngleUnitType.DEG));
+		busData.setVoltage(JaxbDataSetter.createVoltageValue(vpu, VoltageUnitType.PU));
+		busData.setAngle(JaxbDataSetter.createAngleValue(angDeg, AngleUnitType.DEG));
 		
 		/* bus type identifier IDE
 			1 - load bus (no generator boundary condition)
@@ -101,8 +101,8 @@ public class PSSEV26BusRecord {
 			LoadflowGenDataXmlType equivGen = parser.getFactory().createLoadflowGenDataXmlType(); 
 			busData.getGenData().setEquivGen(equivGen);
 			equivGen.setCode(LFGenCodeEnumType.SWING);
-			equivGen.setDesiredVoltage(JaxbDataSetter.createVoltageData(vpu, VoltageUnitType.PU));
-			equivGen.setDesiredAngle(JaxbDataSetter.createAngleData(angDeg, AngleUnitType.DEG));
+			equivGen.setDesiredVoltage(JaxbDataSetter.createVoltageValue(vpu, VoltageUnitType.PU));
+			equivGen.setDesiredAngle(JaxbDataSetter.createAngleValue(angDeg, AngleUnitType.DEG));
 		}
 		else if (IDE==2){// generator bus. At this point we do not know if it is a PQ or PV bus
 			// by default, Gen is a PV bus
@@ -122,7 +122,7 @@ public class PSSEV26BusRecord {
 		final double gPU = ModelStringUtil.getDouble(strAry[4], 0.0);
 		final double bPU = ModelStringUtil.getDouble(strAry[5], 0.0);
 		if (gPU != 0.0 || bPU != 0.0) {
-			busData.setShuntY(JaxbDataSetter.createYData(gPU, bPU, YUnitType.PU));
+			busData.setShuntY(JaxbDataSetter.createYValue(gPU, bPU, YUnitType.PU));
 		}
 		//area zone	
 		final String areaNo = strAry[6];
@@ -187,15 +187,15 @@ public class PSSEV26BusRecord {
 		final double CYloadMvar = ModelStringUtil.getDouble(strAry[10], 0.0);
 
 		if (CPloadMw!=0.0 || CQloadMvar!=0.0 )
-			contribLoad.setConstPLoad(JaxbDataSetter.createPowerData(
+			contribLoad.setConstPLoad(JaxbDataSetter.createPowerValue(
 	    			CPloadMw, CQloadMvar, ApparentPowerUnitType.MVA));
 
 	    if (CIloadMw!=0.0 || CIloadMvar!=0.0)
-	    	contribLoad.setConstILoad(JaxbDataSetter.createPowerData(
+	    	contribLoad.setConstILoad(JaxbDataSetter.createPowerValue(
 	    			CIloadMw, CIloadMvar, ApparentPowerUnitType.MVA));
 	   
 	    if (CYloadMw!=0.0 || CYloadMvar!=0.0)
-	    	contribLoad.setConstZLoad(JaxbDataSetter.createPowerData(
+	    	contribLoad.setConstZLoad(JaxbDataSetter.createPowerValue(
 	    			CYloadMw, CYloadMvar, ApparentPowerUnitType.MVA));
 	    
 	    // processing equiv load data
@@ -209,7 +209,7 @@ public class PSSEV26BusRecord {
 	    	load.setConstPLoad(parser.getFactory().createPowerXmlType());
 	    double tp = CPloadMw + CIloadMw + CYloadMw + load.getConstPLoad().getRe();
 	    double tq = CQloadMvar + CIloadMvar + CYloadMvar  + load.getConstPLoad().getIm();;
-	    load.setConstPLoad(JaxbDataSetter.createPowerData(tp, tq, ApparentPowerUnitType.MVA));
+	    load.setConstPLoad(JaxbDataSetter.createPowerValue(tp, tq, ApparentPowerUnitType.MVA));
 	}
 	
 	public static  void processGenData(final String str,final JaxbODMModelParser parser, Logger logger) {
@@ -264,7 +264,7 @@ public class PSSEV26BusRecord {
 		
 		final double genMw = ModelStringUtil.getDouble(strAry[2], 0.0);
 		final double genMvar = ModelStringUtil.getDouble(strAry[3], 0.0);
-		contriGen.setPower(JaxbDataSetter.createPowerData(genMw, genMvar, ApparentPowerUnitType.MVA));
+		contriGen.setPower(JaxbDataSetter.createPowerValue(genMw, genMvar, ApparentPowerUnitType.MVA));
 
 		JaxbParserHelper.addOwner(contriGen, 
 				strAry[18], ModelStringUtil.getDouble(strAry[19], 0.0), 
@@ -274,17 +274,17 @@ public class PSSEV26BusRecord {
 
 		// processing Equiv Gen Data
 		if (!contriGen.isOffLine()) {
-			equivGen.setPower(JaxbDataSetter.createPowerData(genMw, genMvar, ApparentPowerUnitType.MVA));
+			equivGen.setPower(JaxbDataSetter.createPowerValue(genMw, genMvar, ApparentPowerUnitType.MVA));
 
 			final double vSpecPu = ModelStringUtil.getDouble(strAry[6], 1.0);
 			if (genData.getEquivGen().getCode() == LFGenCodeEnumType.SWING) {
-				equivGen.setDesiredVoltage(JaxbDataSetter.createVoltageData(vSpecPu, VoltageUnitType.PU));
+				equivGen.setDesiredVoltage(JaxbDataSetter.createVoltageValue(vSpecPu, VoltageUnitType.PU));
 			}
 			else {
 				// qmax, gmin in Mvar
 				final double max = ModelStringUtil.getDouble(strAry[4], 0.0);
 				final double min = ModelStringUtil.getDouble(strAry[5], 0.0);
-				equivGen.setDesiredVoltage(JaxbDataSetter.createVoltageData(vSpecPu, VoltageUnitType.PU));
+				equivGen.setDesiredVoltage(JaxbDataSetter.createVoltageValue(vSpecPu, VoltageUnitType.PU));
 				equivGen.setQLimit(JaxbDataSetter.createReactivePowerLimitData(max, min, ReactivePowerUnitType.MVAR));
 
 				// Desired volts (pu) (This is desired remote voltage if this bus is controlling another bus.)

@@ -214,8 +214,8 @@ public class XformerDataRec extends BaseBranchDataRec {
 			branchData.setNvPairList(parser.getFactory().createNameValuePairListXmlType());
 		JaxbParserHelper.addNVPair(branchData.getNvPairList(), GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
 		xfrInfo.setRatedPower12(JaxbDataSetter.createPowerMva(this.tbase));
-		xfrInfo.setRatedVoltage1(JaxbDataSetter.createVoltageData(this.vnomp, VoltageUnitType.KV));
-		xfrInfo.setRatedVoltage2(JaxbDataSetter.createVoltageData(this.vnoms, VoltageUnitType.KV));
+		xfrInfo.setRatedVoltage1(JaxbDataSetter.createVoltageValue(this.vnomp, VoltageUnitType.KV));
+		xfrInfo.setRatedVoltage2(JaxbDataSetter.createVoltageValue(this.vnoms, VoltageUnitType.KV));
 		
 		branchData.setZ(JaxbDataSetter.createZValue(this.zpsr, this.zpsx, ZUnitType.PU));
 		branchData.getXfrInfo().setDataOnSystemBase(false);
@@ -225,12 +225,12 @@ public class XformerDataRec extends BaseBranchDataRec {
 		
 		if (this.anglp != 0.0 || this.angls != 0.0) {
 			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
-			branchData.setFromAngle(JaxbDataSetter.createAngleData(this.anglp, AngleUnitType.DEG));
-			branchData.setToAngle(JaxbDataSetter.createAngleData(this.angls, AngleUnitType.DEG));
+			branchData.setFromAngle(JaxbDataSetter.createAngleValue(this.anglp, AngleUnitType.DEG));
+			branchData.setToAngle(JaxbDataSetter.createAngleValue(this.angls, AngleUnitType.DEG));
 		}
 
 		if (this.gmag != 0.0 || this.bmag != 0.0)
-			branchData.setFromShuntY(JaxbDataSetter.createYData(this.gmag, this.bmag, YUnitType.PU));
+			branchData.setFromShuntY(JaxbDataSetter.createYValue(this.gmag, this.bmag, YUnitType.PU));
 		
 		if (this.aloss != 0.0)
 			xfrInfo.setLossFactor1(this.aloss);

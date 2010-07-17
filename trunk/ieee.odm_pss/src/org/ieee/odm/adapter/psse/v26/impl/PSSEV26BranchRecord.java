@@ -129,7 +129,7 @@ public class PSSEV26BranchRecord {
 		final double GI= ModelStringUtil.getDouble(strAry[11], 0.0);
 		final double BI= ModelStringUtil.getDouble(strAry[12], 0.0);
         if(GI!=0.0 || BI!=0.0 )  {
-        	YXmlType y = JaxbDataSetter.createYData(GI, BI, YUnitType.PU);
+        	YXmlType y = JaxbDataSetter.createYValue(GI, BI, YUnitType.PU);
         	if (branchData.getCode() == LFBranchCodeEnumType.LINE)
         		branchData.setFromShuntY(y);
         	else if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER)
@@ -143,7 +143,7 @@ public class PSSEV26BranchRecord {
 		final double GJ= ModelStringUtil.getDouble(strAry[13], 0.0);
 		final double BJ= ModelStringUtil.getDouble(strAry[14], 0.0);
 	    if(GJ!=0.0 || BJ!=0.0)  {
-        	YXmlType y = JaxbDataSetter.createYData(GJ, BJ, YUnitType.PU);
+        	YXmlType y = JaxbDataSetter.createYValue(GJ, BJ, YUnitType.PU);
         	if (branchData.getCode() == LFBranchCodeEnumType.LINE)
         		branchData.setToShuntY(y);
         	else if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER)
