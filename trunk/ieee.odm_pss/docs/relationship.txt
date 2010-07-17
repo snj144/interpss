@@ -1,9 +1,12 @@
-BusXmlType(A) <- LoadflowBusXmlType
-              <- BusRecordXmlType
+BusXmlType(A) 		<- LoadflowBusXmlType
+              		
+              		<- BusRecordXmlType
 
-BranchXmlType(A) <- LineXmlType
-                 <- TransformerXmlType
-                 <- PShiftTransformerXmlType
-                 <- W3TransformerXmlType
+BranchXmlType(A) 	<- LineBranchXmlType
+                 	<- XfrBranchXmlType
+                 	<- PSXrBranchXmlType
+                 	<- W3TransformerXmlType
                  
-NetworkXmlType(A) <- LoadflowNetXmlType                 
+                 	<- BranchRecordXmlType
+                 
+NetworkXmlType(A) 	<- LoadflowNetXmlType                 
