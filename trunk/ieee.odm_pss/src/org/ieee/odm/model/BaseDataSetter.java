@@ -46,7 +46,7 @@ import org.ieee.odm.schema.ZXmlType;
 
 public class BaseDataSetter {
 	/**
-	 * Set value (p, q, unit) to the power object
+	 * Create and Set value (p, q, unit) to the power object
 	 * 
 	 * @param power
 	 * @param p

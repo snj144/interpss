@@ -42,6 +42,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.xmlbeans.XmlException;
+import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
@@ -207,6 +208,28 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		return refBus;
 	}
 	
+	/**
+	 * Get the cashed branch object by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public BranchXmlType getBranch(String branchId) {
+		return (BranchXmlType)this.getCachedObject(branchId); 
+	}
+
+	/**
+	 * get the cashed branch record using fromId, toId and cirId
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param cirId
+	 * @return
+	 */
+	public BranchXmlType getBranch(String fromId, String toId, String cirId) {
+		String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
+		return this.getBranch(id);
+	}	
 	/*
 	 * 	marshall/unmarshall, out functions
 	 * 	==================================
