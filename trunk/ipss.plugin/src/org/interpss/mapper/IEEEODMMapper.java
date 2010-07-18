@@ -25,6 +25,7 @@
 package org.interpss.mapper;
 
 import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 import com.interpss.common.mapper.AbstractMapper;
@@ -51,6 +52,11 @@ public class IEEEODMMapper extends AbstractMapper {
 			}
 			else if (fromObj instanceof JaxbODMModelParser) {
 				JaxbODMModelParser parser = (JaxbODMModelParser) fromObj;
+				SimuContext simuCtx = (SimuContext) toObj;
+				return org.interpss.mapper.ieee_odm.ODM2SimuCtxMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
+			}
+			else if (fromObj instanceof AclfModelParser) {
+				AclfModelParser parser = (AclfModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;
 				return org.interpss.mapper.ieee_odm.ODM2SimuCtxMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
 			}
