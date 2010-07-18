@@ -28,7 +28,7 @@ import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchXmlType;
-import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.CimRdfXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
@@ -274,8 +274,8 @@ public class ODMAclfDataMapperImpl {
 		AclfBranch aclfBranch = CoreObjectFactory.createAclfBranch();
 		aclfBranch.setCircuitNumber(branchRec.getCircuitId());
 		try {
-			BusRecordXmlType fromBus = (BusRecordXmlType)branchRec.getFromBus().getIdRef();
-			BusRecordXmlType toBus = (BusRecordXmlType)branchRec.getToBus().getIdRef();
+			BusXmlType fromBus = (BusXmlType)branchRec.getFromBus().getIdRef();
+			BusXmlType toBus = (BusXmlType)branchRec.getToBus().getIdRef();
 			adjNet.addBranch(aclfBranch, fromBus.getId(), toBus.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
