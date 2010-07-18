@@ -71,6 +71,11 @@ public class AclfModelParser extends AbstractModelParser {
 		return baseCase;
 	}
 	
+	/*
+	 * 		Bus functions
+	 * 		=============
+	 */
+
 	/**
 	 * add a new Bus record to the base case
 	 * 
@@ -95,11 +100,26 @@ public class AclfModelParser extends AbstractModelParser {
 		return busRec;
 	}		
 	
-	/**
-	 * add a new Branch record to the base case
-	 * 
-	 * @return
+	public LoadflowBusXmlType getAclfBus(String id) {
+		return (LoadflowBusXmlType)getBus(id);
+	}
+
+	/*
+	 * 		Branch functions
+	 * 		================
 	 */
+	public LineBranchXmlType getLineBranch(String fromId, String toId, String cirId) {
+		return (LineBranchXmlType)getBranch(fromId, toId, cirId);
+	}
+	
+	public XfrBranchXmlType getXfrBranch(String fromId, String toId, String cirId) {
+		return (XfrBranchXmlType)getBranch(fromId, toId, cirId);
+	}
+
+	public PSXfrBranchXmlType getPSXfrBranch(String fromId, String toId, String cirId) {
+		return (PSXfrBranchXmlType)getBranch(fromId, toId, cirId);
+	}
+
 	public LineBranchXmlType createLineBranchXmlType() {
 		LineBranchXmlType branch = this.getFactory().createLineBranchXmlType();
 		intiBranchData(branch);
@@ -151,11 +171,15 @@ public class AclfModelParser extends AbstractModelParser {
 
 	private void add2CacheTable(String id, BranchXmlType branch) throws Exception {
 		if (this.objectCache.get(id) != null) {
-			throw new Exception("Line Branch record duplication, bus id: " + id);
+			throw new Exception("Branch record duplication, bus id: " + id);
 		}
 		this.objectCache.put(id, branch);		
 	}
 	
+	/*
+	 * 		Network object functions
+	 * 		========================
+	 */
 	/**
 	 * create a tieLine object
 	 * 
