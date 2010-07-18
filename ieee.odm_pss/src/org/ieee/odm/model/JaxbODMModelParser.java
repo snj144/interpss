@@ -188,16 +188,6 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	}
 	
 	/**
-	 * Get the cashed branch object by id
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public BranchXmlType getBranch(String branchId) {
-		return (BranchXmlType)this.getCachedObject(branchId); 
-	}
-
-	/**
 	 * Get the cashed branch record object by id
 	 * 
 	 * @param id
