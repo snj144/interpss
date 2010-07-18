@@ -51,7 +51,7 @@ import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.StudyCaseXmlType;
 
 public abstract class AbstractModelParser implements IODMModelParser {
-	// add "No" to the bus number to create Bus Id
+	// add "Bus" pre-fix to the bus number to create Bus Id
 	public static final String BusIdPreFix = "Bus";
 	
 	/*
@@ -111,6 +111,11 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		JAXBElement<StudyCaseXmlType> elem = (JAXBElement<StudyCaseXmlType>)createUnmarshaller().unmarshal(in);
 		this.pssStudyCase = elem.getValue();
 		this.objectCache = new Hashtable<String, IDRecordXmlType>();
+		// cache the loaded bus and branch objects
+		for (BusXmlType bus : this.getBaseCase().getBusList().getBus())
+			this.objectCache.put(bus.getId(), bus);
+		for (BranchXmlType branch : this.getBaseCase().getBranchList().getBranch())
+			this.objectCache.put(branch.getId(), branch);		
 	}
 
 	/**
@@ -147,16 +152,12 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 */
 	public StudyCaseXmlType getStudyCase() {
 		if (this.pssStudyCase == null) {
-			createStudyCase();
+			this.pssStudyCase = new StudyCaseXmlType();
+			this.pssStudyCase.setBaseCase(createBaseCase());
 		}	
 		return this.pssStudyCase;
 	}
 
-	protected void createStudyCase() {
-		this.pssStudyCase = new StudyCaseXmlType();
-		this.pssStudyCase.setBaseCase(createBaseCase());
-	}
-	
 	protected NetworkXmlType getBaseCase() {
 		return this.pssStudyCase.getBaseCase();
 	}
