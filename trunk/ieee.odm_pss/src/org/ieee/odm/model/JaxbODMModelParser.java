@@ -33,10 +33,8 @@ import java.io.InputStream;
 
 import org.apache.xmlbeans.XmlException;
 import org.ieee.odm.schema.BranchRecordXmlType;
-import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
-import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
@@ -78,11 +76,6 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	 */
 	public JaxbODMModelParser(InputStream in) throws Exception {
 		super(in);
-		// cache the loaded bus and branch objects
-		for (BusXmlType bus : this.getBaseCase().getBusList().getBus())
-			this.objectCache.put(bus.getId(), bus);
-		for (BranchXmlType branch : this.getBaseCase().getBranchList().getBranch())
-			this.objectCache.put(branch.getId(), branch);		
 	}
 
 	/**

@@ -119,6 +119,12 @@ public class BaseDataSetter {
 		return z;
 	}
  
+	/**
+	 * Set value (r, unit) to the r object
+	 * 
+	 * @param r
+	 * @param unit
+	 */
 	public static RXmlType createRValue(double r, ZUnitType unit) {
 		RXmlType rRec = getFactory().createRXmlType();
 		rRec.setR(r);
@@ -142,6 +148,12 @@ public class BaseDataSetter {
 		return y;
 	}
 	
+	/**
+	 * Set value (g, unit) to the G object
+	 * 
+	 * @param g
+	 * @param unit
+	 */
 	public static GXmlType createGValue(double g, YUnitType unit) {
 		GXmlType gRec = getFactory().createGXmlType();
 		gRec.setG(g);
@@ -162,6 +174,12 @@ public class BaseDataSetter {
     	return tap;
 	}
 	
+	/**
+	 * Set the turnratio object
+	 * 
+	 * @param p
+	 * @return
+	 */
 	public static TurnRatioXmlType createTurnRatioPU(double p) {
 		TurnRatioXmlType r = getFactory().createTurnRatioXmlType();
 		r.setValue(p);
@@ -169,6 +187,10 @@ public class BaseDataSetter {
     	return r;
 	}	
 	
+	/*
+	 * The Jaxb Factory object
+	 * =======================
+	 */
 	private static ObjectFactory _factory = null;	
 	protected static ObjectFactory getFactory() {
 		if (_factory == null)
