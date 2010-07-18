@@ -165,8 +165,6 @@ public class AclfDataSetter extends BaseDataSetter {
 	 * @param zUnit
 	 * @param gFrom
 	 * @param bFrom
-	 * @param gTo
-	 * @param bTo
 	 * @param bUnit
 	 */
 	public static void createPhaseShiftXfrData(PSXfrBranchXmlType branch,
@@ -183,6 +181,18 @@ public class AclfDataSetter extends BaseDataSetter {
 		}
 	}
 
+	/**
+	 * add a PhaseShiftXfrData object to the branchData object, then set value(r, x, zUnit, gFrom, bFrom, gTo, bTo, yUnit) 
+	 * to the created PhaseShiftXfrData object
+	 * 
+	 * @param branchData
+	 * @param r
+	 * @param x
+	 * @param zUnit
+	 * @param gFrom
+	 * @param bFrom
+	 * @param bUnit
+	 */
 	public static void createPhaseShiftXfrData(PSXfrBranchXmlType branchData,
 			double r, double x, ZUnitType zUnit,
 			double fromTap, double toTap,
@@ -286,6 +296,16 @@ public class AclfDataSetter extends BaseDataSetter {
 		setBranchRatingLimitData(branchLimit, mvar1, mvar2, mvar3, mvarUnit, 0.0, null);
 	}
 
+	/**
+	 * add a RatingLimitData object to the branchData object, then set value(mvarLimit1, mvarLimit2, mvarLimit3, mvarUnit) 
+	 * to the created RatingLimitData object
+	 * 
+	 * @param branchData
+	 * @param mvar1
+	 * @param mvar2
+	 * @param mvar3
+	 * @param mvarUnit
+	 */
 	public static void setBranchRatingLimitData(BranchRatingLimitXmlType branchLimit, 
 			double[] mvarAry, ApparentPowerUnitType mvarUnit) {
 		setBranchRatingLimitData(branchLimit, mvarAry[0], mvarAry[1], mvarAry[2], mvarUnit);
@@ -307,5 +327,4 @@ public class AclfDataSetter extends BaseDataSetter {
 				double current, CurrentUnitType curUnit) {
 		setBranchRatingLimitData(branchLimit, 0.0, 0.0, 0.0, null, current, curUnit);
 	}
-	
 }

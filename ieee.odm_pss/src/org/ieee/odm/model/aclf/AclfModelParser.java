@@ -56,19 +56,13 @@ public class AclfModelParser extends AbstractModelParser {
 	@Override
 	public NetworkXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
-			LoadflowNetXmlType baseCase = createAclfBaseCase();
+			LoadflowNetXmlType baseCase = this.getFactory().createLoadflowNetXmlType();
+			
+			baseCase.setBusList(this.getFactory().createNetworkXmlTypeBusList());
+			baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(baseCase);
 		}
 		return (LoadflowNetXmlType)getStudyCase().getBaseCase();
-	}
-	
-	private LoadflowNetXmlType createAclfBaseCase() {
-		LoadflowNetXmlType baseCase = this.getFactory().createLoadflowNetXmlType();
-		
-		baseCase.setBusList(this.getFactory().createNetworkXmlTypeBusList());
-		baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
-				
-		return baseCase;
 	}
 	
 	/*
@@ -90,6 +84,13 @@ public class AclfModelParser extends AbstractModelParser {
 		return busRec;
 	}	
 	
+	/**
+	 * create a bus object with the id, make sure there is no duplication
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
 	public LoadflowBusXmlType createBusXmlType(String id) throws Exception {
 		LoadflowBusXmlType busRec = createBusXmlType();
 		busRec.setId(id);
@@ -100,6 +101,12 @@ public class AclfModelParser extends AbstractModelParser {
 		return busRec;
 	}		
 	
+	/**
+	 * get the bus object using the id
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public LoadflowBusXmlType getAclfBus(String id) {
 		return (LoadflowBusXmlType)getBus(id);
 	}
@@ -108,36 +115,81 @@ public class AclfModelParser extends AbstractModelParser {
 	 * 		Branch functions
 	 * 		================
 	 */
+	
+	/**
+	 * get the Line branch object
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param cirId
+	 * @return
+	 */
 	public LineBranchXmlType getLineBranch(String fromId, String toId, String cirId) {
 		return (LineBranchXmlType)getBranch(fromId, toId, cirId);
 	}
 	
+	/**
+	 * get the xfr branch object
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param cirId
+	 * @return
+	 */
 	public XfrBranchXmlType getXfrBranch(String fromId, String toId, String cirId) {
 		return (XfrBranchXmlType)getBranch(fromId, toId, cirId);
 	}
 
+	/**
+	 * get the ps xfr branch object
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param cirId
+	 * @return
+	 */
 	public PSXfrBranchXmlType getPSXfrBranch(String fromId, String toId, String cirId) {
 		return (PSXfrBranchXmlType)getBranch(fromId, toId, cirId);
 	}
 
+	/**
+	 * create a LineBranchXmlType object
+	 * 
+	 * @return
+	 */
 	public LineBranchXmlType createLineBranchXmlType() {
 		LineBranchXmlType branch = this.getFactory().createLineBranchXmlType();
 		intiBranchData(branch);
 		return branch;
 	}
 	
+	/**
+	 * create a XfrBranchXmlType object
+	 * 
+	 * @return
+	 */
 	public XfrBranchXmlType createXfrBranchXmlType() {
 		XfrBranchXmlType branch = this.getFactory().createXfrBranchXmlType();
 		intiBranchData(branch);
 		return branch;
 	}
 
+	/**
+	 * create a PSXfrBranchXmlType object
+	 * 
+	 * @return
+	 */
 	public PSXfrBranchXmlType createPSXfrBranchXmlType() {
 		PSXfrBranchXmlType branch = this.getFactory().createPSXfrBranchXmlType();
 		intiBranchData(branch);
 		return branch;
 	}
 
+	/**
+	 * init the branch object
+	 * 
+	 * @param branch
+	 */
 	private void intiBranchData(BranchXmlType branch) {
 		getBaseCase().getBranchList().getBranch().add(branch);
 		branch.setOffLine(false);
@@ -146,7 +198,7 @@ public class AclfModelParser extends AbstractModelParser {
 	}
 	
 	/**
-	 * add a new branch record to the base case and to the cache table
+	 * add a new Line branch record to the base case and to the cache table
 	 * 
 	 * @param id
 	 * @return
@@ -157,12 +209,24 @@ public class AclfModelParser extends AbstractModelParser {
 		return branch;
 	}
 	
+	/**
+	 * add a new Xfr branch record to the base case and to the cache table
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public XfrBranchXmlType createXfrBranchXmlType(String id) throws Exception {
 		XfrBranchXmlType branch = createXfrBranchXmlType();
 		add2CacheTable(id, branch);
 		return branch;
 	}
 
+	/**
+	 * add a new PS Xfr branch record to the base case and to the cache table
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public PSXfrBranchXmlType createPSXfrBranchXmlType(String id) throws Exception {
 		PSXfrBranchXmlType branch = createPSXfrBranchXmlType();
 		add2CacheTable(id, branch);
@@ -193,6 +257,11 @@ public class AclfModelParser extends AbstractModelParser {
 		return tieLine;
 	}	
 	
+	/**
+	 * create a LossZone object
+	 * 
+	 * @return
+	 */
 	public NetZoneXmlType createNetworkLossZone() {
 		if(getBaseCase().getLossZoneList() == null){
 			getBaseCase().setLossZoneList(this.getFactory().createNetworkXmlTypeLossZoneList());
@@ -202,6 +271,11 @@ public class AclfModelParser extends AbstractModelParser {
 		return zone;
 	}
 	
+	/**
+	 * create a Interchange object
+	 * 
+	 * @return
+	 */
 	public InterchangeXmlType createInterchange() {
 		if (getAclfBaseCase().getInterchangeList() == null)
 			getAclfBaseCase().setInterchangeList(this.getFactory().createLoadflowNetXmlTypeInterchangeList());
