@@ -26,28 +26,40 @@ package org.interpss.core.adapter.ieee;
 
 import static org.junit.Assert.assertTrue;
 
+import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.mapper.IEEEODMMapper;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuCtxType;
+import com.interpss.simu.SimuObjectFactory;
 
 public class IEEECommonFormatTest extends BaseTestSetup {
 	@Test 
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
-		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee14.ieee");
-
+		IODMPSSAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
+		adapter.parseInputFile("testdata/ieee_format/Ieee14Bus.ieee");
+		
+		IEEEODMMapper mapper = new IEEEODMMapper();
+		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
+		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
+  	  		simuCtx.setName("IEEE14");
+		}		
 		AclfNetwork net = simuCtx.getAclfNet();
-  		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
+  		System.out.println(net.net2String());
+		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.loadflow();
@@ -58,8 +70,6 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.32393)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.16549)<0.0001);
-
-  		//System.out.println(AclfOut.lfResultsBusStyle(net));
 	}
 
 	@Test
