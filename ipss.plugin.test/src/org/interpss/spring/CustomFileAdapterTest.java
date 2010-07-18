@@ -37,7 +37,7 @@ public class CustomFileAdapterTest extends BaseTestSetup {
 	public void testcustomFileAdapterList() {
 		List list = PluginSpringAppContext.getCustomFileAdapterList();
 		assertTrue(list.size() >= 5);
-		assertTrue(PluginSpringAppContext.getCustomFileAdapter("m") != null);
+		// assertTrue(PluginSpringAppContext.getCustomFileAdapter("m") != null);  Matlab not support anymore
 		assertTrue(PluginSpringAppContext.getCustomFileAdapter("ieee") != null);
 	}
 }
