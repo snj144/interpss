@@ -32,6 +32,7 @@ import org.interpss.display.AclfOutFunc;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.PerformanceTimer;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
@@ -70,7 +71,7 @@ public class SampleLoadflow {
 	
 	public static void simpleLoadflow(IPSSMsgHub msg) {
 		// Create an AclfNetwork object
-		AclfNetwork net = IpssAclf.createAclfNetwork("")
+		AclfNetwork net = IpssAclf.createAclfNetwork("Net")
 				.setBaseKva(100000.0)
 				.getAclfNet();
 
@@ -81,7 +82,10 @@ public class SampleLoadflow {
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 
 	  	// use the loadflow algorithm to perform loadflow calculation
+	  	PerformanceTimer timer = new PerformanceTimer();
+	  	timer.start();
 	  	algo.loadflow();
+	  	timer.logStd("Duration for loadflow: ");
 	  	
 	  	// output loadflow calculation results
 	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
@@ -89,7 +93,7 @@ public class SampleLoadflow {
 
 	public static void loadflowWithAdjustment(IPSSMsgHub msg) {
 		// Create an AclfAdjNetwork object
-		AclfAdjNetwork net = IpssAclf.createAclfNetwork("")
+		AclfAdjNetwork net = IpssAclf.createAclfNetwork("Net")
 				.setBaseKva(100000.0)
 				.getAclfNet();
 
