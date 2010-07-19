@@ -66,7 +66,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	protected StudyCaseXmlType pssStudyCase = null;
 	
 	protected ObjectFactory _factory = null;
-	public ObjectFactory getFactory() {	return this._factory; }
+	public ObjectFactory getFactory() {	return this._factory == null? new ObjectFactory() : this._factory; }
 	
 	/*
 	 *	Constructor 
@@ -196,6 +196,12 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		return (BusXmlType)this.getCachedObject(id);
 	}	
 
+	public boolean removeBus(String busId) {
+		Object bus = this.objectCache.get(busId);
+		this.removeCachedObject(busId);
+		return this.getBaseCase().getBusList().getBus().remove(bus); 
+	}
+
 	/**
 	 * create a ref record with id
 	 * 
@@ -219,6 +225,17 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		return (BranchXmlType)this.getCachedObject(branchId); 
 	}
 
+	public boolean removeBranch(String branchId) {
+		Object branch = this.objectCache.get(branchId);
+		this.removeCachedObject(branchId);
+		return this.getBaseCase().getBranchList().getBranch().remove(branch); 
+	}
+
+	public boolean removeBranch(String fromId, String toId, String cirId) {
+		String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
+		return removeBranch(id);
+	}
+	
 	/**
 	 * get the cashed branch record using fromId, toId and cirId
 	 * 

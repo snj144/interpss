@@ -26,6 +26,9 @@ package org.ieee.odm.model;
 
 import java.text.DecimalFormat;
 
+import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.schema.BranchXmlType;
+
 public class ModelStringUtil {
 	/**
 	 * form branch id based on from node id, to node id and branch circuit id 
@@ -170,7 +173,6 @@ public class ModelStringUtil {
 		return str.substring(beginCol-1, endCol).trim();
 	}
 	
-	
 	public static double getNumberFormat(double d){
 		DecimalFormat   format=new   DecimalFormat("###0.0000");
 		String str="";
@@ -181,4 +183,23 @@ public class ModelStringUtil {
 		//}
 		return e;
 	}
+	
+	/**
+	 * casting branch objects
+	 * 
+	 * @param from from branch object
+	 * @param fromType
+	 * @param toType
+	 * @return
+	 * @throws Exception
+	 */
+	public static BranchXmlType casting(BranchXmlType from, String fromType, String toType) throws Exception {
+		AclfModelParser parser = new AclfModelParser();
+		parser.getAclfBaseCase().getBranchList().getBranch().add(from);
+		String xfrStr = parser.toXmlDoc(true);
+		parser = new AclfModelParser(xfrStr.replaceFirst(
+				"xsi:type=\"" + fromType + "\"", 
+				"xsi:type=\"" + toType + "\""));
+		return (BranchXmlType)parser.getAclfBaseCase().getBranchList().getBranch().get(0);
+	}	
 }
