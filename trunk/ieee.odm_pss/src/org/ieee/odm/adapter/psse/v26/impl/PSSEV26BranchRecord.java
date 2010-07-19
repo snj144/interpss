@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
@@ -185,7 +185,7 @@ public class PSSEV26BranchRecord {
 	    }	
 
 	    // only one branch section
-		LoadflowBranchDataXmlType branchData = JaxbParserHelper.getDefaultBranchData(branchRec);
+		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(branchRec);
 		if (branchData.getXfrInfo() == null)
 			branchData.setXfrInfo(parser.getFactory().createLoadflowBranchDataXmlTypeXfrInfo());
 	    
@@ -207,7 +207,7 @@ public class PSSEV26BranchRecord {
 	    	TapAdjustmentXmlType tapAdj = parser.getFactory().createTapAdjustmentXmlType(); 
 	    	branchData.getXfrInfo().setTapAdjustment(tapAdj);
 	    	tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
-	    	tapAdj.setTapLimit(JaxbDataSetter.createTapLimitData(tmax, tmin));
+	    	tapAdj.setTapLimit(JaxbDataSetter.createTapLimit(tmax, tmin));
 	    	tapAdj.setTapAdjStepSize(tstep);
 	    	tapAdj.setTapAdjOnFromSide(true);
 
@@ -242,7 +242,7 @@ public class PSSEV26BranchRecord {
 
 	    	AngleAdjustmentXmlType angAdj = parser.getFactory().createAngleAdjustmentXmlType(); 
 	    	branchData.getXfrInfo().setAngleAdjustment(angAdj);
-	    	angAdj.setAngleLimit(JaxbDataSetter.createAngleLimitData(angmax, angmin, AngleUnitType.DEG));
+	    	angAdj.setAngleLimit(JaxbDataSetter.createAngleLimit(angmax, angmin, AngleUnitType.DEG));
 	    	angAdj.setMax(mwup);
 	    	angAdj.setMin(mwlow);
 	    	angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);

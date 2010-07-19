@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.ieee.odm.schema.AngleUnitType;
@@ -74,7 +74,7 @@ public class PSSEV26BusRecord {
 		}
 		
 		final String owner=strAry[10];
-		JaxbParserHelper.addOwner(busRec, owner);
+		ParserHelper.addOwner(busRec, owner);
 		
 		busRec.setBaseVoltage(JaxbDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
 		
@@ -174,7 +174,7 @@ public class PSSEV26BusRecord {
 		
 		//set owner and it's factor
 		final String owner =strAry[11];
-		JaxbParserHelper.addOwner(contribLoad, owner);
+		ParserHelper.addOwner(contribLoad, owner);
 		    
 	    //Constant-P load
 		final double CPloadMw = ModelStringUtil.getDouble(strAry[5], 0.0);
@@ -251,7 +251,7 @@ public class PSSEV26BusRecord {
 		       rt = ModelStringUtil.getDouble(strAry[11], 0.0),
 		       xt = ModelStringUtil.getDouble(strAry[12], 0.0),
 		       gtap = ModelStringUtil.getDouble(strAry[13], 0.0); 
-		contriGen.setRatedPower(JaxbDataSetter.createPowerMva(mbase));
+		contriGen.setRatedPower(JaxbDataSetter.createPowerMvaValue(mbase));
 		if(zr != 0.0 || zx != 0.0)
 			contriGen.setSourceZ(JaxbDataSetter.createZValue(zr, zx, ZUnitType.PU));
 		if(rt != 0.0 || xt != 0.0)
@@ -266,7 +266,7 @@ public class PSSEV26BusRecord {
 		final double genMvar = ModelStringUtil.getDouble(strAry[3], 0.0);
 		contriGen.setPower(JaxbDataSetter.createPowerValue(genMw, genMvar, ApparentPowerUnitType.MVA));
 
-		JaxbParserHelper.addOwner(contriGen, 
+		ParserHelper.addOwner(contriGen, 
 				strAry[18], ModelStringUtil.getDouble(strAry[19], 0.0), 
 				strAry[20], ModelStringUtil.getDouble(strAry[21], 0.0), 
 				strAry[22], ModelStringUtil.getDouble(strAry[23], 0.0), 
@@ -285,7 +285,7 @@ public class PSSEV26BusRecord {
 				final double max = ModelStringUtil.getDouble(strAry[4], 0.0);
 				final double min = ModelStringUtil.getDouble(strAry[5], 0.0);
 				equivGen.setDesiredVoltage(JaxbDataSetter.createVoltageValue(vSpecPu, VoltageUnitType.PU));
-				equivGen.setQLimit(JaxbDataSetter.createReactivePowerLimitData(max, min, ReactivePowerUnitType.MVAR));
+				equivGen.setQLimit(JaxbDataSetter.createReactivePowerLimit(max, min, ReactivePowerUnitType.MVAR));
 
 				// Desired volts (pu) (This is desired remote voltage if this bus is controlling another bus.)
 				/*  IREG  */

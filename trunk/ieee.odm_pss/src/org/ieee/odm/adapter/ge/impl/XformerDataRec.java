@@ -29,7 +29,7 @@ import java.util.StringTokenizer;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.LFBranchCodeEnumType;
@@ -212,8 +212,8 @@ public class XformerDataRec extends BaseBranchDataRec {
 		branchData.setXfrInfo(xfrInfo);
 		if (branchData.getNvPairList() == null)
 			branchData.setNvPairList(parser.getFactory().createNameValuePairListXmlType());
-		JaxbParserHelper.addNVPair(branchData.getNvPairList(), GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
-		xfrInfo.setRatedPower12(JaxbDataSetter.createPowerMva(this.tbase));
+		ParserHelper.addNVPair(branchData.getNvPairList(), GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
+		xfrInfo.setRatedPower12(JaxbDataSetter.createPowerMvaValue(this.tbase));
 		xfrInfo.setRatedVoltage1(JaxbDataSetter.createVoltageValue(this.vnomp, VoltageUnitType.KV));
 		xfrInfo.setRatedVoltage2(JaxbDataSetter.createVoltageValue(this.vnoms, VoltageUnitType.KV));
 		

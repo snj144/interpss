@@ -150,10 +150,10 @@ public class ParserHelper {
 					else {	
 						equivGen.setPower(JaxbDataSetter.createPowerValue(pgen, qgen, ApparentPowerUnitType.MVA));
 						if (pmax != 0.0 || pmin != 0.0) {
-							equivGen.setPLimit(JaxbDataSetter.createActivePowerLimitData(pmax, pmin, ActivePowerUnitType.MW));
+							equivGen.setPLimit(JaxbDataSetter.createActivePowerLimit(pmax, pmin, ActivePowerUnitType.MW));
 						}
 						if (qmax != 0.0 || qmin != 0.0) {
-							equivGen.setQLimit(JaxbDataSetter.createReactivePowerLimitData(qmax, qmin, ReactivePowerUnitType.MVAR));
+							equivGen.setQLimit(JaxbDataSetter.createReactivePowerLimit(qmax, qmin, ReactivePowerUnitType.MVAR));
 						}
 						if (vSpec != 0.0) {
 							equivGen.setDesiredVoltage(JaxbDataSetter.createVoltageValue(vSpec, vSpecUnit));

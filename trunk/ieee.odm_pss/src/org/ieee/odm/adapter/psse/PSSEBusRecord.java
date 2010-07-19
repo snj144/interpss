@@ -104,7 +104,7 @@ public class PSSEBusRecord {
 		//VSWLO - Desired voltage lower limit, per unit
 		final double vmax = ModelStringUtil.getDouble(strAry[2], 1.0);
 		final double vmin = ModelStringUtil.getDouble(strAry[3], 1.0);
-		shunt.setDesiredVoltageRange(JaxbDataSetter.createVoltageLimitData(vmax, vmin, VoltageUnitType.PU));
+		shunt.setDesiredVoltageRange(JaxbDataSetter.createVoltageLimit(vmax, vmin, VoltageUnitType.PU));
 		
 		//SWREM - Number of remote bus to control. 0 to control own bus.
 		int busNo = ModelStringUtil.getInt(strAry[4], 0);
@@ -140,7 +140,7 @@ public class PSSEBusRecord {
 		double equiQ = 0.0;
 		if (lfData.getShuntCompensatorData().getEquivQ() != null)
 			equiQ = lfData.getShuntCompensatorData().getEquivQ().getValue();
-		lfData.getShuntCompensatorData().setEquivQ(JaxbDataSetter.createReactivePower(equiQ+binit, ReactivePowerUnitType.MVAR));
+		lfData.getShuntCompensatorData().setEquivQ(JaxbDataSetter.createReactivePowerValue(equiQ+binit, ReactivePowerUnitType.MVAR));
 		
 		//N1 - Number of steps for block 1, first 0 is end of blocks
 		//B1 - Admittance increment of block 1 in MVAR at 1.0 per unit volts. N2, B2, etc, as N1, B1
@@ -154,7 +154,7 @@ public class PSSEBusRecord {
 	  			ShuntCompensatorXmlType.Block block = parser.getFactory().createShuntCompensatorXmlTypeBlock(); 
 	  			shunt.getBlock().add(block);
 	  			block.setSteps(n);
-	  			block.setIncrementB(JaxbDataSetter.createReactivePower(b, ReactivePowerUnitType.MVAR));
+	  			block.setIncrementB(JaxbDataSetter.createReactivePowerValue(b, ReactivePowerUnitType.MVAR));
 	  		}
 		}
 	}

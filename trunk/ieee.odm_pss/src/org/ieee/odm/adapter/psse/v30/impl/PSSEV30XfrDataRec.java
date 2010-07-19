@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
@@ -139,7 +139,7 @@ public class PSSEV30XfrDataRec {
     	}
       	
     	// owner id = 0.0, no contribution
-    	JaxbParserHelper.addOwner(branchRec, 
+    	ParserHelper.addOwner(branchRec, 
     			new Integer(o1).toString(), f1, 
     			new Integer(o2).toString(), o2==0?0.0:f2, 
     			new Integer(o3).toString(), o3==0?0.0:f3, 
@@ -154,10 +154,10 @@ public class PSSEV30XfrDataRec {
 			ANSTAR The bus voltage phase angle at the hidden "star point" bus; entered in degrees. ANSTAR = 0.0 by default.       		
 
     	*/
-    	xfrInfo.setRatedPower12(JaxbDataSetter.createPowerMva(sbase1_2));
+    	xfrInfo.setRatedPower12(JaxbDataSetter.createPowerMvaValue(sbase1_2));
        	if (is3W) {
-       		xfrInfo.setRatedPower23(JaxbDataSetter.createPowerMva(sbase2_3));
-       		xfrInfo.setRatedPower31(JaxbDataSetter.createPowerMva(sbase3_1));
+       		xfrInfo.setRatedPower23(JaxbDataSetter.createPowerMvaValue(sbase2_3));
+       		xfrInfo.setRatedPower31(JaxbDataSetter.createPowerMvaValue(sbase3_1));
        		xfrInfo.setStarVMag(JaxbDataSetter.createVoltageValue(vmstar, VoltageUnitType.PU));
        		xfrInfo.setStarVAng(JaxbDataSetter.createAngleValue(anstar, AngleUnitType.DEG));
        	}
@@ -295,7 +295,7 @@ public class PSSEV30XfrDataRec {
            		branchData.getXfrInfo().setTapAdjustment(tapAdj);
            		tapAdj.setOffLine(cod < 0);
            		tapAdj.setTapAdjOnFromSide(onFromSide);
-           		tapAdj.setTapLimit(JaxbDataSetter.createTapLimitData(rma, rmi));
+           		tapAdj.setTapLimit(JaxbDataSetter.createTapLimit(rma, rmi));
            		tapAdj.setTapAdjStep(ntp);
            		if (Math.abs(cod) == 1) {
                		tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
@@ -317,7 +317,7 @@ public class PSSEV30XfrDataRec {
     	    else if (branchData.getCode() == LFBranchCodeEnumType.PHASE_SHIFT_XFORMER) {
     	    	AngleAdjustmentXmlType angAdj = parser.getFactory().createAngleAdjustmentXmlType();
     	    	branchData.getXfrInfo().setAngleAdjustment(angAdj);
-    	    	angAdj.setAngleLimit(JaxbDataSetter.createAngleLimitData(rma, rmi, AngleUnitType.DEG));
+    	    	angAdj.setAngleLimit(JaxbDataSetter.createAngleLimit(rma, rmi, AngleUnitType.DEG));
     	    	angAdj.setMax(vma);
     	    	angAdj.setMin(vmi);
     	    	angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
@@ -333,7 +333,7 @@ public class PSSEV30XfrDataRec {
       	if (cr != 0.0 || cx != 0.0) {
       		if (branchData.getNvPairList() == null)
       			branchData.setNvPairList(parser.getFactory().createNameValuePairListXmlType());
-      		JaxbParserHelper.addNVPair(branchData.getNvPairList(), "Xfr LoadDropCZ", new Double(cr).toString() + "," + new Double(cx).toString());
+      		ParserHelper.addNVPair(branchData.getNvPairList(), "Xfr LoadDropCZ", new Double(cr).toString() + "," + new Double(cx).toString());
       	}
 
       	/*
