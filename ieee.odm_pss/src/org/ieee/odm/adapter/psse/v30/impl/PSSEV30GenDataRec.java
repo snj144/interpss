@@ -36,7 +36,7 @@ import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.ZUnitType;
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.JaxbODMModelParser;
 
 public class PSSEV30GenDataRec {
@@ -73,7 +73,7 @@ public class PSSEV30GenDataRec {
 	    	return;
 	    }
 	    
-	    LoadflowGenDataXmlType contriGen = JaxbParserHelper.createContriGen(busRec);
+	    LoadflowGenDataXmlType contriGen = ParserHelper.createContriGen(busRec);
 	    
 	    contriGen.setId(id);
 	    contriGen.setName("Gen:" + id + "(" + i + ")");
@@ -87,19 +87,19 @@ public class PSSEV30GenDataRec {
 		if (pt == 0.0 & pb == 0.0 || pt < pb ) {
 			pt = 9999.0; pb = -9999.0;
 		}
-		contriGen.setPLimit(JaxbDataSetter.createActivePowerLimitData(pt, pb, ActivePowerUnitType.MW));
+		contriGen.setPLimit(JaxbDataSetter.createActivePowerLimit(pt, pb, ActivePowerUnitType.MW));
 		
 		if (qt == 0.0 & qb == 0.0 || qt < qb) {
 			qt = 9999.0; qb = -9999.0;
 		}
-		contriGen.setQLimit(JaxbDataSetter.createReactivePowerLimitData(qt, qb, ReactivePowerUnitType.MVAR));
+		contriGen.setQLimit(JaxbDataSetter.createReactivePowerLimit(qt, qb, ReactivePowerUnitType.MVAR));
 		
 	    if (ireg > 0) {
 	    	final String reBusId = JaxbODMModelParser.BusIdPreFix+ireg;
 	    	contriGen.setRemoteVoltageControlBus(parser.createBusRef(reBusId));
 	    }
 	    
-	    contriGen.setRatedPower(JaxbDataSetter.createPowerMva(mbase));
+	    contriGen.setRatedPower(JaxbDataSetter.createPowerMvaValue(mbase));
 
 		if ( zr != 0.0 || zx != 0.0 )
 			contriGen.setSourceZ(JaxbDataSetter.createZValue(zr, zx, ZUnitType.PU));
@@ -111,7 +111,7 @@ public class PSSEV30GenDataRec {
 		
 		contriGen.setMvarVControlParticipateFactor(rmpct*0.01);
 
-		JaxbParserHelper.addOwner(contriGen, 
+		ParserHelper.addOwner(contriGen, 
 				new Integer(o1).toString(), f1, 
 				new Integer(o2).toString(), o2==0?0.0:f2, 
 				new Integer(o3).toString(), o3==0?0.0:f3, 

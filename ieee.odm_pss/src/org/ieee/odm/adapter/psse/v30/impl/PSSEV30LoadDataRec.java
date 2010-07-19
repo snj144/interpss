@@ -32,7 +32,7 @@ import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.JaxbODMModelParser;
 
 public class PSSEV30LoadDataRec {
@@ -55,7 +55,7 @@ public class PSSEV30LoadDataRec {
 	    	return;
 	    }
 		
-	    LoadflowLoadDataXmlType contribLoad = JaxbParserHelper.createContriLoad(busRec); 
+	    LoadflowLoadDataXmlType contribLoad = ParserHelper.createContriLoad(busRec); 
 
 	    contribLoad.setId(id);
 	    contribLoad.setName("Load:" + id + "(" + i + ")");
@@ -64,7 +64,7 @@ public class PSSEV30LoadDataRec {
 
 	    contribLoad.setAreaNumber(area);
 	    contribLoad.setZoneNumber(zone);
-	    JaxbParserHelper.addOwner(contribLoad, new Integer(owner).toString());
+	    ParserHelper.addOwner(contribLoad, new Integer(owner).toString());
 		
 		if (pl != 0.0 || ql != 0.0)
 			contribLoad.setConstPLoad(JaxbDataSetter.createPowerValue(pl, ql, ApparentPowerUnitType.MVA));

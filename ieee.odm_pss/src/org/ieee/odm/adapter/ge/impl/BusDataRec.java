@@ -36,7 +36,7 @@ import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.ParserHelper;
 
 public class BusDataRec extends BusHeaderRec {
 			public int ty, owner;
@@ -130,7 +130,7 @@ public class BusDataRec extends BusHeaderRec {
 		<vmi> Voltage checking limit (pu)		
  */	
 		if (owner > 0)
-			JaxbParserHelper.addOwner(busRec, new Integer(owner).toString());
+			ParserHelper.addOwner(busRec, new Integer(owner).toString());
 
 		LoadflowBusDataXmlType busData = parser.getFactory().createLoadflowBusDataXmlType();
 		busRec.setLoadflowData(busData);
@@ -138,6 +138,6 @@ public class BusDataRec extends BusHeaderRec {
 				( ty == 1? LFGenCodeEnumType.PQ : LFGenCodeEnumType.PV);
 		JaxbDataSetter.setGenData(busData, genType, vs_pu, VoltageUnitType.PU, an_deg, AngleUnitType.DEG, 
 							0.0, 0.0,	ApparentPowerUnitType.MVA);
-		busData.getGenData().getEquivGen().setVoltageLimit(JaxbDataSetter.createVoltageLimitData(vma, vmi, VoltageUnitType.PU));
+		busData.getGenData().getEquivGen().setVoltageLimit(JaxbDataSetter.createVoltageLimit(vma, vmi, VoltageUnitType.PU));
 	}
 }

@@ -53,7 +53,7 @@ public class PSSEV30DcLine2TDataRec {
 		if (MDC == 1) {
 			dcLine2T.setControlMode(DcLineControlModeEnumType.POWER);
 			dcLine2T.setControlOnRectifierSide(SETVL > 0.0);
-			dcLine2T.setPowerDemand(JaxbDataSetter.createActivePower(SETVL, ActivePowerUnitType.MW));
+			dcLine2T.setPowerDemand(JaxbDataSetter.createActivePowerValue(SETVL, ActivePowerUnitType.MW));
 		}
 		else if (MDC == 2) {
 			dcLine2T.setControlMode(DcLineControlModeEnumType.CURRENT);
@@ -150,12 +150,12 @@ public class PSSEV30DcLine2TDataRec {
 			*/
 		rectifier.setXformerTurnRatio(TRR);
 		rectifier.setXformerTapSetting(JaxbDataSetter.createTapPU(TAPR));
-		rectifier.setXformerTapLimit(JaxbDataSetter.createTapLimitData(TMXR, TMNR));
+		rectifier.setXformerTapLimit(JaxbDataSetter.createTapLimit(TMXR, TMNR));
        	rectifier.setXformerTapStepSize(STPR);
 
        	inverter.setXformerTurnRatio(TRI);
        	inverter.setXformerTapSetting(JaxbDataSetter.createTapPU(TAPI));
-       	inverter.setXformerTapLimit(JaxbDataSetter.createTapLimitData(TMXI, TMNI));
+       	inverter.setXformerTapLimit(JaxbDataSetter.createTapLimit(TMXI, TMNI));
        	inverter.setXformerTapStepSize(STPI);
 		/*
 			IFR Winding one side "from bus" number, or extended bus name enclosed in single

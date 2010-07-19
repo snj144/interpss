@@ -32,7 +32,7 @@ import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -88,7 +88,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	protected AclfModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		AclfModelParser parser = new AclfModelParser();
-		JaxbParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.IEEE_CDF);
+		ParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.IEEE_CDF);
 
 		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
 		baseCaseNet.setId("Base_Case_from_IEEECDF_format");
@@ -168,27 +168,27 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//[0] Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
 		final String date = strAry[0];
 		if (date != null) 
-			JaxbParserHelper.addNVPair(nvList, Token_Date, date);
+			ParserHelper.addNVPair(nvList, Token_Date, date);
 
 		//[1] Columns 11-30   Originator's name [A]
 		final String orgName = strAry[1];
 		if (orgName != null)
-			JaxbParserHelper.addNVPair(nvList, Token_OrgName, orgName);
+			ParserHelper.addNVPair(nvList, Token_OrgName, orgName);
 
 		//[3] Columns 39-42   Year [I]
 		final String year = strAry[3];
 		if (year != null)
-			JaxbParserHelper.addNVPair(nvList, Token_Year, year);
+			ParserHelper.addNVPair(nvList, Token_Year, year);
 
 		//[4] Column  44      Season (S - Summer, W - Winter)
 		final String season = strAry[4];
 		if (season != null)
-			JaxbParserHelper.addNVPair(nvList, Token_Season, season);
+			ParserHelper.addNVPair(nvList, Token_Season, season);
 
 		//[5] Column  46-73   Case identification [A]
 		final String caseId = strAry[5];
 		if (caseId != null)
-			JaxbParserHelper.addNVPair(nvList, Token_CaseId, caseId);
+			ParserHelper.addNVPair(nvList, Token_CaseId, caseId);
 
 		getLogger().fine("date, orgName, year, season, caseId: " + date + ", "
 				+ orgName + ", " + year + ", " + season + ", " + caseId);
@@ -196,7 +196,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//[2] Columns 32-37   MVA Base [F] *
 		final double baseMva = new Double(strAry[2]).doubleValue(); // in MVA
 		getLogger().fine("BaseKva: " + baseMva);
-		baseCaseNet.setBasePower(JaxbDataSetter.createPowerMva(baseMva));
+		baseCaseNet.setBasePower(JaxbDataSetter.createPowerMvaValue(baseMva));
 	}
 
 	/*
@@ -298,9 +298,9 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		if (max != 0.0 || min != 0.0) {
 			LoadflowGenDataXmlType equivGen = aclfBus.getGenData().getEquivGen();
 			if (type == 1) {
-				equivGen.setVoltageLimit(JaxbDataSetter.createVoltageLimitData(max, min, VoltageUnitType.PU));
+				equivGen.setVoltageLimit(JaxbDataSetter.createVoltageLimit(max, min, VoltageUnitType.PU));
 			} else if (type == 2) {
-				aclfBus.getGenData().getEquivGen().setQLimit(JaxbDataSetter.createReactivePowerLimitData(max, min, ReactivePowerUnitType.MVAR));
+				aclfBus.getGenData().getEquivGen().setQLimit(JaxbDataSetter.createReactivePowerLimit(max, min, ReactivePowerUnitType.MVAR));
 				if (reBusId != null && !reBusId.equals("0")
 						&& !reBusId.equals(busId)) {
 					equivGen.setDesiredVoltage(JaxbDataSetter.createVoltageValue(vSpecPu, VoltageUnitType.PU));
@@ -461,7 +461,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			XfrBranchXmlType xfrBranch = (XfrBranchXmlType)branch;
 			TapAdjustmentXmlType tapAdj = this.factory.createTapAdjustmentXmlType();
 			xfrBranch.setTapAdjustment(tapAdj);
-			tapAdj.setTapLimit(JaxbDataSetter.createTapLimitData(maxTapAng, minTapAng));
+			tapAdj.setTapLimit(JaxbDataSetter.createTapLimit(maxTapAng, minTapAng));
 			tapAdj.setTapAdjStepSize(stepSize);
 			tapAdj.setTapAdjOnFromSide(true);
 			if (branchType == 2) {
@@ -477,11 +477,11 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 								: (controlSide == 1 ? TapAdjustBusLocationEnumType.NEAR_FROM_BUS
 										: TapAdjustBusLocationEnumType.NEAR_TO_BUS));
 				voltTapAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
-				JaxbDataSetter.setLimitData(voltTapAdj, maxVoltPQ, minVoltPQ);
+				JaxbDataSetter.setLimit(voltTapAdj, maxVoltPQ, minVoltPQ);
 			} else if (branchType == 3) {
 				TapAdjustmentXmlType.MvarFlowAdjData mvarTapAdj = this.factory.createTapAdjustmentXmlTypeMvarFlowAdjData();
 				tapAdj.setMvarFlowAdjData(mvarTapAdj);
-				JaxbDataSetter.setLimitData(mvarTapAdj, maxVoltPQ, minVoltPQ);
+				JaxbDataSetter.setLimit(mvarTapAdj, maxVoltPQ, minVoltPQ);
 				mvarTapAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
 				mvarTapAdj.setMvarMeasuredOnFormSide(true);
 			}
@@ -490,8 +490,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			AngleAdjustmentXmlType angAdj = this.factory.createAngleAdjustmentXmlType();
 			psXfrBranch.setAngleAdjustment(angAdj);
 			angAdj.setAngleLimit(this.factory.createAngleLimitXmlType());
-			JaxbDataSetter.setLimitData(angAdj.getAngleLimit(), maxTapAng, minTapAng);
-			JaxbDataSetter.setLimitData(angAdj, maxVoltPQ, minVoltPQ);
+			JaxbDataSetter.setLimit(angAdj.getAngleLimit(), maxTapAng, minTapAng);
+			JaxbDataSetter.setLimit(angAdj, maxVoltPQ, minVoltPQ);
 			angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
 			angAdj.setDesiredMeasuredOnFromSide(true);
 		}
@@ -551,8 +551,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				this.logErr("Interchange data error, " + e.toString());
 			}
 		
-		interchange.setDesiredExPower(JaxbDataSetter.createActivePower(mw, ActivePowerUnitType.MW));
-		interchange.setExErrTolerance(JaxbDataSetter.createActivePower(err, ActivePowerUnitType.MW));
+		interchange.setDesiredExPower(JaxbDataSetter.createActivePowerValue(mw, ActivePowerUnitType.MW));
+		interchange.setExErrTolerance(JaxbDataSetter.createActivePowerValue(err, ActivePowerUnitType.MW));
 
 		interchange.setAreaCode(code);
 		interchange.setAreaName(name);

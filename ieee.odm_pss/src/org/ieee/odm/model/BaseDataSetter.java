@@ -24,18 +24,32 @@
 
 package org.ieee.odm.model;
 
+import org.ieee.odm.schema.ActivePowerLimitXmlType;
+import org.ieee.odm.schema.ActivePowerUnitType;
+import org.ieee.odm.schema.ActivePowerXmlType;
+import org.ieee.odm.schema.AngleLimitXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.CurrentXmlType;
 import org.ieee.odm.schema.GXmlType;
+import org.ieee.odm.schema.LimitXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.PowerXmlType;
 import org.ieee.odm.schema.RXmlType;
+import org.ieee.odm.schema.ReactivePowerLimitXmlType;
+import org.ieee.odm.schema.ReactivePowerUnitType;
+import org.ieee.odm.schema.ReactivePowerXmlType;
+import org.ieee.odm.schema.TapLimitXmlType;
 import org.ieee.odm.schema.TapXmlType;
+import org.ieee.odm.schema.TimePeriodUnitType;
+import org.ieee.odm.schema.TimePeriodXmlType;
+import org.ieee.odm.schema.TurnRatioLimitXmlType;
 import org.ieee.odm.schema.TurnRatioUnitType;
 import org.ieee.odm.schema.TurnRatioXmlType;
+import org.ieee.odm.schema.VoltageLimitXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.YUnitType;
@@ -45,6 +59,186 @@ import org.ieee.odm.schema.ZXmlType;
 
 
 public class BaseDataSetter {
+	/**
+	 * Set apparent power, unit = kva
+	 * 
+	 * @param power
+	 * @param kva
+	 */
+	/*
+	public static void setPowerKva(ApparentPowerXmlType power, double kva) {
+		power.setValue(kva);   
+		power.setUnit(ApparentPowerUnitType.KVA); 		
+	}
+	*/
+	public static ApparentPowerXmlType createPowerKvaValue(double kva) {
+		ApparentPowerXmlType power = getFactory().createApparentPowerXmlType();
+		power.setValue(kva);   
+		power.setUnit(ApparentPowerUnitType.KVA); 		
+		return power;
+	}
+	
+	/**
+	 * Set apparent power, unit = mva
+	 * 
+	 * @param power
+	 * @param mva
+	 */
+	public static ApparentPowerXmlType createPowerMvaValue(double mva) {
+		ApparentPowerXmlType power = getFactory().createApparentPowerXmlType();
+		power.setValue(mva);   
+		power.setUnit(ApparentPowerUnitType.MVA); 		
+		return power;
+	}
+
+	/**
+	 * Set apparent power
+	 * 
+	 * @param power
+	 * @param p
+	 * @param unit
+	 */
+	public static ActivePowerXmlType createActivePowerValue(double p, ActivePowerUnitType unit) {
+		ActivePowerXmlType power = getFactory().createActivePowerXmlType();
+		power.setValue(p);   
+		power.setUnit(unit);
+		return power;
+	}
+
+	/**
+	 * set reactive power
+	 * 
+	 * @param power
+	 * @param q
+	 * @param unit
+	 */
+	public static ReactivePowerXmlType createReactivePowerValue(double q, ReactivePowerUnitType unit) {
+		ReactivePowerXmlType power = getFactory().createReactivePowerXmlType();
+		power.setValue(q);   
+		power.setUnit(unit); 		
+		return power;
+	}	
+	
+	/**
+	 * Set time/period
+	 * 
+	 * @param time
+	 * @param t
+	 * @param unit
+	 */
+	public static TimePeriodXmlType createTimePeriodValue(double t,TimePeriodUnitType unit){
+		TimePeriodXmlType time = getFactory().createTimePeriodXmlType();
+		time.setValue(t);
+		time.setUnit(unit);
+		return time;
+	}
+
+	/**
+	 * set value (max, min) to the limit object
+	 * 
+	 * @param limit
+	 * @param max
+	 * @param min
+	 */
+	public static void setLimit(LimitXmlType limit, double max, double min) {
+		limit.setMax(max);
+		limit.setMin(min);
+	}
+
+	public static LimitXmlType createLimit(double max, double min) {
+		LimitXmlType limit = getFactory().createLimitXmlType();
+		limit.setMax(max);
+		limit.setMin(min);
+		return limit;
+	}
+	
+	/**
+	 * set voltage limit data
+	 * 
+	 * @param limit
+	 * @param max
+	 * @param min
+	 * @param unit
+	 */
+	public static VoltageLimitXmlType createVoltageLimit(double max, double min, VoltageUnitType unit) {
+		VoltageLimitXmlType limit = getFactory().createVoltageLimitXmlType();
+		limit.setMax(max);
+		limit.setMin(min);
+		limit.setUnit(unit);
+		return limit;
+	}
+
+	/**
+	 * Set active power limit data
+	 * 
+	 * @param limit
+	 * @param max
+	 * @param min
+	 * @param unit
+	 */
+	public static ActivePowerLimitXmlType createActivePowerLimit(double max, double min, ActivePowerUnitType unit) {
+		ActivePowerLimitXmlType limit = getFactory().createActivePowerLimitXmlType();
+		limit.setMax(max);
+		limit.setMin(min);
+		limit.setUnit(unit);
+		return limit;
+	}
+
+	/**
+	 * Set reactive power limit data
+	 * 
+	 * @param limit
+	 * @param max
+	 * @param min
+	 * @param unit
+	 */
+	public static ReactivePowerLimitXmlType createReactivePowerLimit(double max, double min, ReactivePowerUnitType unit) {
+		ReactivePowerLimitXmlType limit = getFactory().createReactivePowerLimitXmlType();
+		limit.setMax(max);
+		limit.setMin(min);
+		limit.setUnit(unit);
+		return limit;
+	}
+
+	/**
+	 * set tap limit data
+	 * 
+	 * @param limit
+	 * @param max
+	 * @param min
+	 */
+	public static TapLimitXmlType createTapLimit(double max, double min) {
+		TapLimitXmlType limit = getFactory().createTapLimitXmlType();
+		limit.setMax(max);
+		limit.setMin(min);
+		limit.setUnit(TurnRatioUnitType.PU);
+		return limit;
+	}
+
+	public static TurnRatioLimitXmlType createTurnRatioLimit(double max, double min) {
+		TurnRatioLimitXmlType limit = getFactory().createTurnRatioLimitXmlType();
+		limit.setMax(max);
+		limit.setMin(min);
+		limit.setUnit(TurnRatioUnitType.PU);
+		return limit;
+	}
+
+	/**
+	 * set angle limit data
+	 * 
+	 * @param limit
+	 * @param max
+	 * @param min
+	 * @param unit
+	 */
+	public static AngleLimitXmlType createAngleLimit(double max, double min, AngleUnitType unit) {
+		AngleLimitXmlType limit = getFactory().createAngleLimitXmlType();
+		limit.setMax(max);
+		limit.setMin(min);
+		limit.setUnit(unit);
+		return limit;
+	}
+	
 	/**
 	 * Create and Set value (p, q, unit) to the power object
 	 * 

@@ -7,7 +7,7 @@ import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.xbean.v30.XBeanPSSEV30Adapter;
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchMeterLocationEnumType;
@@ -77,7 +77,7 @@ public class PSSEV30LineDataRec {
        if ( gj != 0.0 || bj != 0.0)
     	   branchData.setFromShuntY(JaxbDataSetter.createYValue(gj, bj, YUnitType.PU));
       
-    	JaxbParserHelper.addOwner(branchRec, 
+    	ParserHelper.addOwner(branchRec, 
     			new Integer(o1).toString(), f1, 
     			new Integer(o2).toString(), o2==0?0.0:f2, 
     			new Integer(o3).toString(), o3==0?0.0:f3, 
