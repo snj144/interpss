@@ -24,6 +24,9 @@
 
 package org.ieee.odm.model.aclf;
 
+import java.io.InputStream;
+
+import org.apache.xmlbeans.XmlException;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
@@ -41,6 +44,34 @@ import org.ieee.odm.schema.XfrBranchXmlType;
  */
 
 public class AclfModelParser extends AbstractModelParser {
+	/**
+	 * Constructor using an Xml string
+	 * 
+	 * @param xmlString
+	 * @throws XmlException
+	 */
+	public AclfModelParser(String xmlString) throws Exception {
+		super(xmlString);
+	}
+	
+	/**
+	 * Constructor using an Xml string
+	 * 
+	 * @param in
+	 * @throws Exception
+	 */
+	public AclfModelParser(InputStream in) throws Exception {
+		super(in);
+	}
+	
+	/**
+	 * Default Constructor 
+	 * 
+	 */
+	public AclfModelParser() {
+		super();
+	}	
+	
 	/**
 	 * get the base case object of type LoadflowXmlType
 	 * 
@@ -115,6 +146,11 @@ public class AclfModelParser extends AbstractModelParser {
 	 * 		Branch functions
 	 * 		================
 	 */
+	
+	public void addBranchData(BranchXmlType branch) {
+		getBaseCase().getBranchList().getBranch().add(branch);
+		this.objectCache.put(branch.getId(), branch);
+	}
 	
 	/**
 	 * get the Line branch object
