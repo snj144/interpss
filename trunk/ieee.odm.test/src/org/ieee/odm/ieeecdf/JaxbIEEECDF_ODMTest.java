@@ -33,7 +33,7 @@ import java.util.logging.Logger;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchRecordXmlType;
@@ -222,7 +222,7 @@ public class JaxbIEEECDF_ODMTest {
 		//    1    2  1  1 1 0  0.01938   0.05917     0.0528     0     0     0    0 0  0.0       0.0 0.0    0.0     0.0    0.0   0.0
 		BranchRecordXmlType braRec = parser.getBranchRecord("Bus1", "Bus2", "1");
 		assertTrue(braRec != null);
-		LoadflowBranchDataXmlType branchData = JaxbParserHelper.getDefaultBranchData(braRec);
+		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(braRec);
 		
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.LINE); 
 		assertTrue(branchData.getZ().getRe() == 0.01938); 
@@ -236,7 +236,7 @@ public class JaxbIEEECDF_ODMTest {
 		//   4    7  1  1 1 1  0.0       0.20912     0.0        0     0     0    0 0  0.978     0.0 0.0    0.0     0.0    0.0   0.0
 		braRec = parser.getBranchRecord("Bus4", "Bus7", "1");
 		assertTrue(braRec != null);
-		branchData = JaxbParserHelper.getDefaultBranchData(braRec);
+		branchData = ParserHelper.getDefaultBranchData(braRec);
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER); 
 		assertTrue(branchData.getZ().getRe() == 0.0); 
 		assertTrue(branchData.getZ().getIm() == 0.20912); 

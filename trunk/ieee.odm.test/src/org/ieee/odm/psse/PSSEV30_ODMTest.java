@@ -33,7 +33,7 @@ import java.util.logging.Logger;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.schema.BranchMeterLocationEnumType;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
@@ -163,7 +163,7 @@ public class PSSEV30_ODMTest {
       </branch>
 */
 		BranchRecordXmlType branch = parser.getBranchRecord("Bus2", "Bus3", "1");
-		LoadflowBranchDataXmlType branchData = JaxbParserHelper.getDefaultBranchData(branch);
+		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(branch);
 		
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.LINE);
 		assertTrue(branchData.getZ().getRe() == 0.0015);
@@ -198,7 +198,7 @@ public class PSSEV30_ODMTest {
       </branch>
  */
 		branch = parser.getBranchRecord("Bus2", "Bus1", "1");
-		branchData = JaxbParserHelper.getDefaultBranchData(branch);
+		branchData = ParserHelper.getDefaultBranchData(branch);
 		
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER);
 		assertTrue(branchData.getZ().getRe() == 0.0);

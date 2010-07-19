@@ -7,8 +7,11 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
+import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.junit.Test;
 
@@ -22,6 +25,51 @@ public class FuncTestCase {
 	static String BranchListHead = PSSStudyCaseHead + "<baseCase xsi:type=\"LoadflowNetXmlType\"><branchList>";
 	static String BranchListEnd = "</branchList></baseCase>" + PSSStudyCaseEnd; 
 
+	@Test
+	public void removeObjectTestCase() throws Exception {
+		InputStream in = new BufferedInputStream(new FileInputStream("testdata/ieee_odm/Ieee14Bus_odm.xml"));
+		JaxbODMModelParser parser = new JaxbODMModelParser(in);
+		
+		assertTrue(parser.getAclfBaseCase().getBranchList().getBranch().size() == 20);
+		assertTrue(parser.getAclfBaseCase().getBusList().getBus().size() == 14);
+
+		assertTrue(parser.getBus("Bus1") != null);
+		
+		parser.removeBus("Bus1");
+		assertTrue(parser.getAclfBaseCase().getBusList().getBus().size() == 13);
+		assertTrue(parser.getBus("Bus1") == null);
+
+		assertTrue(parser.getBranch("Bus4_to_Bus7_cirId_1") != null);
+		parser.removeBranch("Bus4_to_Bus7_cirId_1");
+		assertTrue(parser.getAclfBaseCase().getBranchList().getBranch().size() == 19);
+		assertTrue(parser.getBranch("Bus4_to_Bus7_cirId_1") == null);
+	}
+	
+	@Test
+	public void castingTestCase() throws Exception {
+		String str = BranchListHead +
+		      "<branch xsi:type=\"XfrBranchXmlType\" areaNumber=\"1\" zoneNumber=\"1\" circuitId=\"1\" id=\"Bus4_to_Bus7_cirId_1\">" +
+		      "  <fromBus idRef=\"Bus4\"/>" +
+		      "  <toBus idRef=\"Bus7\"/>" +
+		      "    <z re=\"0.0\" im=\"0.20912\" unit=\"PU\"/>" +
+		      "    <fromTurnRatio value=\"0.978\" unit=\"PU\"/>" +
+		      "    <toTurnRatio value=\"1.0\" unit=\"PU\"/>" +
+		      "    <xfrInfo>" +
+		      "      <fromRatedVoltage value=\"132.0\" unit=\"KV\"/>" +
+		      "      <toRatedVoltage value=\"35.0\" unit=\"KV\"/>" +
+		      "    </xfrInfo>" +
+		      "</branch>" + 
+		      BranchListEnd;		
+		
+		AclfModelParser parser = new AclfModelParser(str);
+		XfrBranchXmlType xfr = (XfrBranchXmlType)parser.getAclfBaseCase().getBranchList().getBranch().get(0);
+		
+		PSXfrBranchXmlType psXfr = (PSXfrBranchXmlType)ModelStringUtil.casting(xfr, "XfrBranchXmlType", "PSXfrBranchXmlType");
+		assertTrue(psXfr.getId() != null);
+		assertTrue(psXfr.getFromBus() != null);
+		assertTrue(psXfr.getZ().getIm() == .20912);
+	}
+	
 	@Test
 	public void parseLodflowBusXmlTypeTestCase() throws Exception {
 		String str = PSSStudyCaseHead +
