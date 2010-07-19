@@ -8,6 +8,7 @@ import org.ieee.odm.psse.PSSEV30_GuideSampleTest;
 import org.ieee.odm.psse.PSSEV30_NEISO_ODMTest;
 import org.ieee.odm.psse.PSSEV30_ODMTest;
 import org.ieee.odm.psse.PSSEV30_SegmentTest;
+import org.ieee.odm.ucte.JaxbUCTE_ODMTest;
 import org.ieee.odm.ucte.UCTE_ODMTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -19,6 +20,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	
 	IEEECDF_ODMTest.class,
 	
+	JaxbUCTE_ODMTest.class,
 	UCTE_ODMTest.class,
 	
 	BPA_ODMTest.class,
