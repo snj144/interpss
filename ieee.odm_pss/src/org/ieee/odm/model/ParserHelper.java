@@ -87,7 +87,7 @@ public class ParserHelper {
 	}
 	
 	/**
-	 * consolidate branch genContributionList and loadContributionList to the equiv gen and load 
+	 * consolidate bus genContributionList and loadContributionList to the equiv gen and load 
 	 * 
 	 */
 	public static boolean createBusEquivData(JaxbODMModelParser parser, Logger logger) {
