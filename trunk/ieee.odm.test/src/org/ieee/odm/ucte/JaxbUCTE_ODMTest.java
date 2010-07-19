@@ -31,7 +31,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.ucte.UCTE_DEFAdapterNew;
+import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.CurrentUnitType;
@@ -53,7 +53,7 @@ public class JaxbUCTE_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new UCTE_DEFAdapterNew(logger);
+		IODMPSSAdapter adapter = new UCTE_DEFAdapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/ucte/AusPower_TestCase_Xfr.uct"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
