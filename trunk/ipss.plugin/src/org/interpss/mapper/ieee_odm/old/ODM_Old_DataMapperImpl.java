@@ -25,7 +25,7 @@
 package org.interpss.mapper.ieee_odm.old;
 
 import org.apache.commons.math.complex.Complex;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchRecordXmlType;
@@ -164,7 +164,7 @@ public class ODM_Old_DataMapperImpl {
 		if (branchRec.getLoadflowData().size() > 0) {
 			if (branchRec.getLoadflowData().size() == 1)
 				ODM_Old_DataMapperImpl.setBranchLoadflowData( 
-						JaxbParserHelper.getDefaultBranchData(branchRec), aclfBranch, adjNet, msg);
+						ParserHelper.getDefaultBranchData(branchRec), aclfBranch, adjNet, msg);
 		}
 		return aclfBranch;
 	}
