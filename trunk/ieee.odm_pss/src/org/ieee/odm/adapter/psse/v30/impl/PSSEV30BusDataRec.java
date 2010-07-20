@@ -28,14 +28,14 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.aclf.AclfDataSetter;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
-import org.ieee.odm.schema.LoadflowBusDataXmlType;
+import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
 
@@ -49,54 +49,52 @@ public class PSSEV30BusDataRec {
 	 *       101743,'TAU 9A,8    ',  13.8000,2,     0.000,     0.000, 101, 101,1.02610, -98.5705,   1
 
 	 */
-	public static void procLineString(String lineStr, PsseVersion version, JaxbODMModelParser parser, Logger logger) {
+	public static void procLineString(String lineStr, PsseVersion version, AclfModelParser parser, Logger logger) {
 		procFields(lineStr, version);
 
 /*
 		Format: I,    ’NAME’,    BASKV, IDE,  GL,      BL,  AREA, ZONE, VM, VA, OWNER
 */
-		String iStr = JaxbODMModelParser.BusIdPreFix+i;
-		BusRecordXmlType busRec;
+		String iStr = AbstractModelParser.BusIdPreFix+i;
+		LoadflowBusXmlType aclfBus;
 		try {
-			busRec = parser.createBusRecord(iStr, i);
+			aclfBus = parser.createAclfBus(iStr, i);
 		} catch (Exception e) {
 			logger.severe(e.toString());
 			return;
 		}
-		busRec.setNumber((long)i);
+		aclfBus.setNumber((long)i);
 		
-		busRec.setAreaNumber(area);
-		busRec.setZoneNumber(zone);
+		aclfBus.setAreaNumber(area);
+		aclfBus.setZoneNumber(zone);
 		if (owner > 0) {
-			ParserHelper.addOwner(busRec, new Integer(owner).toString());
+			ParserHelper.addOwner(aclfBus, new Integer(owner).toString());
 		}
 		
-		busRec.setName(name);
-		busRec.setBaseVoltage(JaxbDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
+		aclfBus.setName(name);
+		aclfBus.setBaseVoltage(AclfDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
 		
-		LoadflowBusDataXmlType busData = parser.getFactory().createLoadflowBusDataXmlType(); 
-		busRec.setLoadflowData(busData);
-		busData.setVoltage(JaxbDataSetter.createVoltageValue(vm, VoltageUnitType.PU));
-		busData.setAngle(JaxbDataSetter.createAngleValue(va, AngleUnitType.DEG));
+		aclfBus.setVoltage(AclfDataSetter.createVoltageValue(vm, VoltageUnitType.PU));
+		aclfBus.setAngle(AclfDataSetter.createAngleValue(va, AngleUnitType.DEG));
 
     	if (gl != 0.0 || bl != 0.0) {
     		double factor = parser.getAclfBaseCase().getBasePower().getValue();  
     		// for transfer G+jB to PU on system base, gl, bl are entered in MW at one per unit voltage
     		// bl is reactive power consumed, - for capactor
-    		busData.setShuntY(JaxbDataSetter.createYValue(gl/factor, bl/factor, YUnitType.PU));
+    		aclfBus.setShuntY(AclfDataSetter.createYValue(gl/factor, bl/factor, YUnitType.PU));
     	}
       	
     	// set input data to the bus object
 		LFGenCodeEnumType genType = ide == 3? LFGenCodeEnumType.SWING : 
 								( ide == 1? LFGenCodeEnumType.PQ : 
 									( ide == 2 ? LFGenCodeEnumType.PV : LFGenCodeEnumType.NONE_GEN ));
-		JaxbDataSetter.setGenData(busData, genType, vm, VoltageUnitType.PU, va, AngleUnitType.DEG, 
+		AclfDataSetter.setGenData(aclfBus, genType, vm, VoltageUnitType.PU, va, AngleUnitType.DEG, 
 						0.0, 0.0,	ApparentPowerUnitType.MVA);
 
 		if (ide == 1 || ide == 2 || ide == 3) 
-			busRec.setOffLine(false);
+			aclfBus.setOffLine(false);
 		else
-			busRec.setOffLine(true);
+			aclfBus.setOffLine(true);
 			
 	}
 	

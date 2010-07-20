@@ -37,8 +37,8 @@ import org.ieee.odm.adapter.psse.v30.impl.PSSEV30GenDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LineDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LoadDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30XfrDataRec;
-import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
@@ -71,9 +71,9 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 		return "PSS/E File elements coount\n" + this.elemCntStr;
 	}
 	
-	protected JaxbODMModelParser parseInputFile(
+	protected AclfModelParser parseInputFile(
 			final IFileReader din) throws Exception {
-		JaxbODMModelParser parser = new JaxbODMModelParser();
+		AclfModelParser parser = new AclfModelParser();
 		parser.setLFTransInfo(OriginalDataFormatEnumType.PSS_E);
 		parser.getStudyCase().getContentInfo().setOriginalFormatVersion("PSSEV30");
 
@@ -351,10 +351,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 		String s = str.trim();
 		return s.startsWith("0") || s.startsWith("/") || s.startsWith("Q");
 	}	
-	
-	public static String trimQuote(String str) {
-		return str.substring(1, str.length()-1);
-	}
+
 	
 	public static boolean is3WXfr(String str) {
 		// for 2W xfr, line1, K = 0
@@ -364,11 +361,4 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 		int K = new Integer(st.nextToken().trim()).intValue();
 		return K != 0;
 	}
-	
-	public static String removeTailComment(String s) {
-		if (s.indexOf("/*") > 0)
-			return s.substring(0, s.indexOf("/*"));
-		else
-			return s;
-	}	
 }

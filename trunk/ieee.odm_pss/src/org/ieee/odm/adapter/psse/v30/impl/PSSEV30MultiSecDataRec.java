@@ -4,7 +4,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.aclf.AclfModelParser;
 
 public class PSSEV30MultiSecDataRec {
 	/*
@@ -21,7 +21,7 @@ public class PSSEV30MultiSecDataRec {
 		of the "dummy buses" connected by the branches that comprise this multisection
 		line grouping.	 
 */
-	public static void procMultiSecString(String lineStr, PsseVersion version, XBeanODMModelParser parser, Logger logger) {
+	public static void procMultiSecString(String lineStr, PsseVersion version, AclfModelParser parser, Logger logger) {
 		procMultiSecFields(lineStr, version, logger);
 	}
 	

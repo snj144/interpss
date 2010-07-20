@@ -27,17 +27,18 @@ package org.ieee.odm.adapter.psse.v30.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.aclf.AclfDataSetter;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.ZUnitType;
-import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.ParserHelper;
-import org.ieee.odm.model.JaxbODMModelParser;
 
 public class PSSEV30GenDataRec {
 	private static int i, ireg, stat ;
@@ -55,7 +56,7 @@ public class PSSEV30GenDataRec {
 	 * some designated bus, not necessarily bus k.
 	 */
 
-	public static void procLineString(String lineStr, PsseVersion version, final JaxbODMModelParser parser, Logger logger) {
+	public static void procLineString(String lineStr, PsseVersion version, final AclfModelParser parser, Logger logger) {
 		procFields(lineStr, version, logger);
 
 /*
@@ -66,8 +67,8 @@ public class PSSEV30GenDataRec {
 		
 		STAT - Initial machine status of one for in-service and zero for out-of-service; STAT = 1 by default.
 */		
-	    final String busId = JaxbODMModelParser.BusIdPreFix+i;
-		BusRecordXmlType busRec = parser.getBusRecord(busId);
+	    final String busId = AbstractModelParser.BusIdPreFix+i;
+		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
 	    if (busRec == null){
 	    	logger.severe("Bus "+ busId+ " not found in the network");
 	    	return;
@@ -80,32 +81,32 @@ public class PSSEV30GenDataRec {
 	    contriGen.setDesc("PSSE Generator " + id + " at Bus " + i);
 	    contriGen.setOffLine(stat!=1);
 
-	    contriGen.setPower(JaxbDataSetter.createPowerValue(pg, qg, ApparentPowerUnitType.MVA));
+	    contriGen.setPower(AclfDataSetter.createPowerValue(pg, qg, ApparentPowerUnitType.MVA));
 
-	    contriGen.setDesiredVoltage(JaxbDataSetter.createVoltageValue(vs, VoltageUnitType.PU));
+	    contriGen.setDesiredVoltage(AclfDataSetter.createVoltageValue(vs, VoltageUnitType.PU));
 		
 		if (pt == 0.0 & pb == 0.0 || pt < pb ) {
 			pt = 9999.0; pb = -9999.0;
 		}
-		contriGen.setPLimit(JaxbDataSetter.createActivePowerLimit(pt, pb, ActivePowerUnitType.MW));
+		contriGen.setPLimit(AclfDataSetter.createActivePowerLimit(pt, pb, ActivePowerUnitType.MW));
 		
 		if (qt == 0.0 & qb == 0.0 || qt < qb) {
 			qt = 9999.0; qb = -9999.0;
 		}
-		contriGen.setQLimit(JaxbDataSetter.createReactivePowerLimit(qt, qb, ReactivePowerUnitType.MVAR));
+		contriGen.setQLimit(AclfDataSetter.createReactivePowerLimit(qt, qb, ReactivePowerUnitType.MVAR));
 		
 	    if (ireg > 0) {
-	    	final String reBusId = JaxbODMModelParser.BusIdPreFix+ireg;
+	    	final String reBusId = AbstractModelParser.BusIdPreFix+ireg;
 	    	contriGen.setRemoteVoltageControlBus(parser.createBusRef(reBusId));
 	    }
 	    
-	    contriGen.setRatedPower(JaxbDataSetter.createPowerMvaValue(mbase));
+	    contriGen.setRatedPower(AclfDataSetter.createPowerMvaValue(mbase));
 
 		if ( zr != 0.0 || zx != 0.0 )
-			contriGen.setSourceZ(JaxbDataSetter.createZValue(zr, zx, ZUnitType.PU));
+			contriGen.setSourceZ(AclfDataSetter.createZValue(zr, zx, ZUnitType.PU));
 
 		if ( rt != 0.0 || xt != 0.0 ) {
-			contriGen.setXfrZ(JaxbDataSetter.createZValue(rt, xt, ZUnitType.PU));
+			contriGen.setXfrZ(AclfDataSetter.createZValue(rt, xt, ZUnitType.PU));
 			contriGen.setXfrTap(gtap);
 		}
 		
