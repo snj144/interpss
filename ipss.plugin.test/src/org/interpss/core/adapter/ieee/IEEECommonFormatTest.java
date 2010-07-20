@@ -58,7 +58,7 @@ public class IEEECommonFormatTest extends BaseTestSetup {
   	  		simuCtx.setName("IEEE14");
 		}		
 		AclfNetwork net = simuCtx.getAclfNet();
-  		System.out.println(net.net2String());
+  		//System.out.println(net.net2String());
 		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
