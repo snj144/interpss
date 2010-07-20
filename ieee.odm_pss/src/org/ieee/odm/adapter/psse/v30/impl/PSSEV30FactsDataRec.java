@@ -4,7 +4,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.aclf.AclfModelParser;
 
 public class PSSEV30FactsDataRec {
 	/*
@@ -71,7 +71,7 @@ public class PSSEV30FactsDataRec {
 		VSREF = 0 by default.
 	 * 
 	 */
-	public static void procFactsString(String lineStr, PsseVersion version, XBeanODMModelParser parser, Logger logger) {
+	public static void procFactsString(String lineStr, PsseVersion version, AclfModelParser parser, Logger logger) {
 		procFactsFields(lineStr, version, logger);
 	}
 	

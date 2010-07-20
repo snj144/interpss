@@ -26,10 +26,10 @@ package org.ieee.odm.adapter.psse.v26.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.aclf.AclfDataSetter;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -50,7 +50,7 @@ public class PSSEV26NetRecord {
 		
 		final double baseMva = ModelStringUtil.getDouble(strAry[1], 100.0);
 	    logger.fine("BaseKva: "  + baseMva);
-		baseCaseNet.setBasePower(JaxbDataSetter.createPowerMvaValue(baseMva));	    
+		baseCaseNet.setBasePower(AclfDataSetter.createPowerMvaValue(baseMva));	    
 	    
 		NameValuePairListXmlType nvList = factory.createNameValuePairListXmlType();
 		baseCaseNet.setNvPairList(nvList);
@@ -66,8 +66,9 @@ public class PSSEV26NetRecord {
         return true;
 	}
         
-	public static  void processAreaInterchangeData(final String str,
-			final LoadflowNetXmlType baseCaseNet, JaxbODMModelParser parser) {
+	public static  void processAreaInterchangeData(final String str, AclfModelParser parser) {
+		final LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
+
 		final String[] strAry = getAreaInterchangeDataFields(str);
 		
 		//     Area number , no zeros! *
@@ -91,8 +92,8 @@ public class PSSEV26NetRecord {
 
 		interchange.setSwingBus(parser.createBusRef(swingBusName));
 		
-		interchange.setDesiredExPower(JaxbDataSetter.createActivePowerValue(mw, ActivePowerUnitType.MW));
-		interchange.setExErrTolerance(JaxbDataSetter.createActivePowerValue(err, ActivePowerUnitType.MW));			
+		interchange.setDesiredExPower(AclfDataSetter.createActivePowerValue(mw, ActivePowerUnitType.MW));
+		interchange.setExErrTolerance(AclfDataSetter.createActivePowerValue(err, ActivePowerUnitType.MW));			
 	}
 	
 	public static  void processInterAreaTransferData(final String str,

@@ -33,8 +33,8 @@ import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26BranchRecord;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26BusRecord;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26NetRecord;
-import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
@@ -64,10 +64,10 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 		this.factory = new ObjectFactory();
 	}
 	
-	protected JaxbODMModelParser parseInputFile(
+	protected AclfModelParser parseInputFile(
 			final IFileReader din) throws Exception {
-		JaxbODMModelParser parser = new JaxbODMModelParser();
-		parser.setLFTransInfo(OriginalDataFormatEnumType.PSS_E);
+		AclfModelParser parser = new AclfModelParser();
+		ParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.PSS_E);
 		parser.getStudyCase().getContentInfo().setOriginalFormatVersion("PSSEV26");
 
 		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
@@ -131,7 +131,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         				} 
         				else if(type==InterchangeData){
         					//System.out.println("InterData: " + str);
-        					PSSEV26NetRecord.processAreaInterchangeData(str,baseCaseNet, parser); 
+        					PSSEV26NetRecord.processAreaInterchangeData(str, parser); 
         				}
         				else if(type==ZoneData){
         					//System.out.println("ZoneData: " + str);

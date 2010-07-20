@@ -4,11 +4,11 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.adapter.xbean.v30.XBeanPSSEV30Adapter;
-import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.aclf.AclfDataSetter;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchMeterLocationEnumType;
 import org.ieee.odm.schema.BranchRecordXmlType;
@@ -28,7 +28,7 @@ public class PSSEV30LineDataRec {
 	 * BranchData
 	 * I,J,CKT,R,X,B,RATEA,RATEB,RATEC,GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4
 	 */
-	public static void procLineString(String lineStr, PsseVersion version, JaxbODMModelParser parser, Logger logger) {
+	public static void procLineString(String lineStr, PsseVersion version, AclfModelParser parser, Logger logger) {
 		procLineFields(lineStr, version, logger);
 
 /*
@@ -42,8 +42,8 @@ public class PSSEV30LineDataRec {
 			j = -j;
 		}
       	
-		final String fid = JaxbODMModelParser.BusIdPreFix+i;
-		final String tid = JaxbODMModelParser.BusIdPreFix+j;
+		final String fid = AbstractModelParser.BusIdPreFix+i;
+		final String tid = AbstractModelParser.BusIdPreFix+j;
 		String branchId = ModelStringUtil.formBranchId(fid, tid, ckt);
 
 		BranchRecordXmlType branchRec;
@@ -66,16 +66,16 @@ public class PSSEV30LineDataRec {
 		branchData.setMeterLocation( fromMetered ? BranchMeterLocationEnumType.FROM_SIDE :
 										BranchMeterLocationEnumType.TO_SIDE);
       	
-		JaxbDataSetter.setLineData(branchData, r, x, ZUnitType.PU, 0.0, b, YUnitType.PU);
+		AclfDataSetter.setLineData(branchData, r, x, ZUnitType.PU, 0.0, b, YUnitType.PU);
 
 		branchData.setBranchRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
-		JaxbDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(),
+		AclfDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(),
     				ratea, rateb, ratec, ApparentPowerUnitType.MVA);
         
        if ( gi != 0.0 || bi != 0.0)
-    	   branchData.setFromShuntY(JaxbDataSetter.createYValue(gi, bi, YUnitType.PU));
+    	   branchData.setFromShuntY(AclfDataSetter.createYValue(gi, bi, YUnitType.PU));
        if ( gj != 0.0 || bj != 0.0)
-    	   branchData.setFromShuntY(JaxbDataSetter.createYValue(gj, bj, YUnitType.PU));
+    	   branchData.setFromShuntY(AclfDataSetter.createYValue(gj, bj, YUnitType.PU));
       
     	ParserHelper.addOwner(branchRec, 
     			new Integer(o1).toString(), f1, 
@@ -89,7 +89,7 @@ public class PSSEV30LineDataRec {
 		st = new StringTokenizer(lineStr, ",");
 		i = new Integer(st.nextToken().trim()).intValue();
 		j = new Integer(st.nextToken().trim()).intValue();
-		ckt = XBeanPSSEV30Adapter.trimQuote(st.nextToken()).trim();
+		ckt = ModelStringUtil.trimQuote(st.nextToken()).trim();
 		r = new Double(st.nextToken().trim()).doubleValue();
 		x = new Double(st.nextToken().trim()).doubleValue();
 		b = new Double(st.nextToken().trim()).doubleValue();

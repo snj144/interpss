@@ -2,9 +2,10 @@ package org.ieee.odm.adapter.psse;
 
 import java.util.StringTokenizer;
 
-import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.aclf.AclfDataSetter;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.BaseRecordXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
@@ -25,7 +26,7 @@ public class PSSENetDataRec {
 				// at here we have "100.00 / PSS/E-29.0 THU, JUN 20 2002 14:19"
 				st = new StringTokenizer(st.nextToken(), "/");
 				double baseMva = new Double(st.nextToken().trim()).doubleValue();
-				baseCaseNet.setBasePower(JaxbDataSetter.createPowerMvaValue(baseMva));
+				baseCaseNet.setBasePower(AclfDataSetter.createPowerMvaValue(baseMva));
 				
 				NameValuePairListXmlType nvList = factory.createNameValuePairListXmlType();
 				baseCaseNet.setNvPairList(nvList);
@@ -48,7 +49,7 @@ public class PSSENetDataRec {
 	 * Area Data I,ISW,PDES,PTOL,'ARNAM'
 	 */
 	public static void processAreaRec(String lineStr, PsseVersion version, 
-				final LoadflowNetXmlType baseCaseNet, JaxbODMModelParser parser) {
+				final LoadflowNetXmlType baseCaseNet, AclfModelParser parser) {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int i = new Integer(st.nextToken().trim()).intValue();
 		int isw = new Integer(st.nextToken().trim()).intValue();
@@ -70,10 +71,10 @@ public class PSSENetDataRec {
 		area.setName(arnam);
 
 		if (isw > 0) {
-			area.setSwingBusId(parser.createBusRef(JaxbODMModelParser.BusIdPreFix+isw));
+			area.setSwingBusId(parser.createBusRef(AbstractModelParser.BusIdPreFix+isw));
 			
-			area.setDesiredExchangePower(JaxbDataSetter.createActivePowerValue(pdes, ActivePowerUnitType.MW));
-			area.setExchangeErrTolerance(JaxbDataSetter.createActivePowerValue(ptol, ActivePowerUnitType.MW));			
+			area.setDesiredExchangePower(AclfDataSetter.createActivePowerValue(pdes, ActivePowerUnitType.MW));
+			area.setExchangeErrTolerance(AclfDataSetter.createActivePowerValue(ptol, ActivePowerUnitType.MW));			
 		}
 	}
 

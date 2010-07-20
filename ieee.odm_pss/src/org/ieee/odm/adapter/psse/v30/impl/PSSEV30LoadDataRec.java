@@ -27,13 +27,14 @@ package org.ieee.odm.adapter.psse.v30.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.aclf.AclfDataSetter;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
-import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.ParserHelper;
-import org.ieee.odm.model.JaxbODMModelParser;
 
 public class PSSEV30LoadDataRec {
 	private static int i, status, area = 1, zone = 1, owner = 1;
@@ -43,12 +44,12 @@ public class PSSEV30LoadDataRec {
 	/*
 	 * LoadData I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 	 */	
-	public static void procLineString(String lineStr, PsseVersion version, final JaxbODMModelParser parser, Logger logger) {
+	public static void procLineString(String lineStr, PsseVersion version, final AclfModelParser parser, Logger logger) {
 		procLineString(lineStr, version, logger);
 /*
 		I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 */		
-	    final String busId = JaxbODMModelParser.BusIdPreFix+i;
+	    final String busId = AbstractModelParser.BusIdPreFix+i;
 		BusRecordXmlType busRec = parser.getBusRecord(busId);
 	    if (busRec == null){
 	    	logger.severe("Bus "+ busId+ " not found in the network");
@@ -67,11 +68,11 @@ public class PSSEV30LoadDataRec {
 	    ParserHelper.addOwner(contribLoad, new Integer(owner).toString());
 		
 		if (pl != 0.0 || ql != 0.0)
-			contribLoad.setConstPLoad(JaxbDataSetter.createPowerValue(pl, ql, ApparentPowerUnitType.MVA));
+			contribLoad.setConstPLoad(AclfDataSetter.createPowerValue(pl, ql, ApparentPowerUnitType.MVA));
 		if (ip != 0.0 || iq != 0.0)
-			contribLoad.setConstILoad(JaxbDataSetter.createPowerValue(ip, iq, ApparentPowerUnitType.MVA));
+			contribLoad.setConstILoad(AclfDataSetter.createPowerValue(ip, iq, ApparentPowerUnitType.MVA));
 		if (yp != 0.0 || yq != 0.0)
-			contribLoad.setConstZLoad(JaxbDataSetter.createPowerValue(yp, yq, ApparentPowerUnitType.MVA));
+			contribLoad.setConstZLoad(AclfDataSetter.createPowerValue(yp, yq, ApparentPowerUnitType.MVA));
 	}
 
 	private static void procLineString(String lineStr, PsseVersion version, Logger logger) {
