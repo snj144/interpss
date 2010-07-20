@@ -83,7 +83,7 @@ public class IeeeCDFAdapterOld  extends AbstractODMAdapter {
 	protected JaxbODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		JaxbODMModelParser parser = new JaxbODMModelParser();
-		ParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.IEEE_CDF);
+		parser.setLFTransInfo(OriginalDataFormatEnumType.IEEE_CDF);
 
 		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
 		baseCaseNet.setId("Base_Case_from_IEEECDF_format");

@@ -42,12 +42,15 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.xmlbeans.XmlException;
+import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
+import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ObjectFactory;
+import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.StudyCaseXmlType;
 
 public abstract class AbstractModelParser implements IODMModelParser {
@@ -144,6 +147,25 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 * 	Case/Network level functions
 	 * 	=========================== 
 	 */
+
+	/**
+	 * Set BaseCase to Loadflow and Transmission 
+	 * 
+	 * @param parser
+	 * @param originalFormat
+	 */
+	public void setLFTransInfo(OriginalDataFormatEnumType originalDataFormat) {
+		StudyCaseXmlType.ContentInfo info = getFactory().createStudyCaseXmlTypeContentInfo();
+		getStudyCase().setContentInfo(info);
+		info.setOriginalDataFormat(originalDataFormat);
+		info.setAdapterProviderName("www.interpss.org");
+		info.setAdapterProviderVersion("1.00");
+		
+		getStudyCase().getBaseCase().setAnalysisCategory(
+				AnalysisCategoryEnumType.LOADFLOW);
+		getStudyCase().getBaseCase().setNetworkCategory(
+				NetworkCategoryEnumType.TRANSMISSION);		
+	}	
 	
 	/**
 	 * Get the root schema element StudyCase

@@ -88,7 +88,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	protected AclfModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		AclfModelParser parser = new AclfModelParser();
-		ParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.IEEE_CDF);
+		parser.setLFTransInfo(OriginalDataFormatEnumType.IEEE_CDF);
 
 		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
 		baseCaseNet.setId("Base_Case_from_IEEECDF_format");
@@ -213,7 +213,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		getLogger().fine("Bus data loaded, id: " + busId);
 		LoadflowBusXmlType aclfBus = null;
 		try {
-			aclfBus = parser.createBusXmlType(busId);
+			aclfBus = parser.createAclfBus(busId);
 		} catch (Exception e) {
 			this.logErr(e.toString());
 			return;
@@ -342,9 +342,9 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		BranchXmlType branch = null;
 		try {
 			branch = branchType == 0?
-					parser.createLineBranchXmlType(branchId) :
+					parser.createLineBranch(branchId) :
 						((branchType == 1 || branchType == 2 || branchType == 3)?
-								parser.createXfrBranchXmlType(branchId) : parser.createPSXfrBranchXmlType(branchId));
+								parser.createXfrBranch(branchId) : parser.createPSXfrBranch(branchId));
 		} catch (Exception e) {
 			this.logErr("branch data error, " + e.toString());
 		}

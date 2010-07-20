@@ -27,7 +27,6 @@ package org.ieee.odm.model;
 import java.util.logging.Logger;
 
 import org.ieee.odm.schema.ActivePowerUnitType;
-import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BaseRecordXmlType;
 import org.ieee.odm.schema.BranchFaultXmlType;
@@ -51,41 +50,18 @@ import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NameValuePairXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
-import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ObjectFactory;
-import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.StabilizerXmlType;
 import org.ieee.odm.schema.StaticVarCompensatorXmlType;
-import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.schema.TransientSimulationXmlType;
 import org.ieee.odm.schema.TurbineGovernorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 
 public class ParserHelper {
-	
-	/**
-	 * Set BaseCase to Loadflow and Transmission 
-	 * 
-	 * @param parser
-	 * @param originalFormat
-	 */
-	public static void setLFTransInfo(AbstractModelParser parser, OriginalDataFormatEnumType originalDataFormat) {
-		StudyCaseXmlType.ContentInfo info = getFactory().createStudyCaseXmlTypeContentInfo();
-		parser.getStudyCase().setContentInfo(info);
-		info.setOriginalDataFormat(originalDataFormat);
-		info.setAdapterProviderName("www.interpss.org");
-		info.setAdapterProviderVersion("1.00");
-		
-		parser.getStudyCase().getBaseCase().setAnalysisCategory(
-				AnalysisCategoryEnumType.LOADFLOW);
-		parser.getStudyCase().getBaseCase().setNetworkCategory(
-				NetworkCategoryEnumType.TRANSMISSION);		
-	}
-	
 	/**
 	 * consolidate bus genContributionList and loadContributionList to the equiv gen and load 
 	 * 

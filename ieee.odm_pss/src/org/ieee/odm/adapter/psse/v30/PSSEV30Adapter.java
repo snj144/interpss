@@ -74,7 +74,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 	protected JaxbODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		JaxbODMModelParser parser = new JaxbODMModelParser();
-		ParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.PSS_E);
+		parser.setLFTransInfo(OriginalDataFormatEnumType.PSS_E);
 		parser.getStudyCase().getContentInfo().setOriginalFormatVersion("PSSEV30");
 
 		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
