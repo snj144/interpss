@@ -34,7 +34,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
-import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.old.PsseVersion;
 import org.ieee.odm.model.xbean.XBeanDataSetter;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
