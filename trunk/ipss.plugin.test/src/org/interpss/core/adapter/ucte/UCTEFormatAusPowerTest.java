@@ -27,20 +27,51 @@ package org.interpss.core.adapter.ucte;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
+import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.mapper.IEEEODMMapper;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuCtxType;
+import com.interpss.simu.SimuObjectFactory;
 
 public class UCTEFormatAusPowerTest extends BaseTestSetup { 
+	@Test 
+	public void testCaseAclfNet() throws Exception {
+		IODMPSSAdapter adapter = new UCTE_DEFAdapter(IpssLogger.getLogger());
+		adapter.parseInputFile("testData/ucte/MarioTest1_Simple.uct");
+		
+		IEEEODMMapper mapper = new IEEEODMMapper();
+		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
+		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
+  	  		simuCtx.setName("UCTE");
+		}		
+		AclfNetwork net = simuCtx.getAclfNet();
+  		//System.out.println(net.net2String());
+
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	algo.loadflow();
+  		//System.out.println(net.net2String());
+	  	
+  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("B4____1");
+		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+  		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
+  		assertTrue(Math.abs(p.getReal()-6.326)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()+1289.429)<0.01);
+	}
+	
 	@Test
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
