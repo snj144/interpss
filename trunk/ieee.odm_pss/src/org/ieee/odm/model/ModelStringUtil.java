@@ -185,6 +185,29 @@ public class ModelStringUtil {
 	}
 	
 	/**
+	 * remove ending /*
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static String removeTailComment(String s) {
+		if (s.indexOf("/*") > 0)
+			return s.substring(0, s.indexOf("/*"));
+		else
+			return s;
+	}	
+	
+	/**
+	 * trim "xxxx" -> xxxx
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static String trimQuote(String str) {
+		return str.substring(1, str.length()-1);
+	}	
+	
+	/**
 	 * casting branch objects
 	 * 
 	 * @param from from branch object

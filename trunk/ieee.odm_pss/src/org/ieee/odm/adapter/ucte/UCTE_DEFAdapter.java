@@ -101,7 +101,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 	protected AclfModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		AclfModelParser parser = new AclfModelParser();
-		ParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.UCTE_DEF);
+		parser.setLFTransInfo(OriginalDataFormatEnumType.UCTE_DEF);
 
 		// BaseCase object, plus busRecList and BranchRecList are created 
 		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
@@ -250,7 +250,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		}
 
 		// create a bus record
-		LoadflowBusXmlType aclfBus = parser.createBusXmlType(id); 
+		LoadflowBusXmlType aclfBus = parser.createAclfBus(id); 
       	aclfBus.setId(id);
       	aclfBus.setNumber((long)busCnt);
       	if (name != null && !name.trim().equals(""))
@@ -354,7 +354,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		}
 
     	// create a branch record
-		LineBranchXmlType aclfLine = parser.createLineBranchXmlType(ModelStringUtil.formBranchId(fromNodeId, toNodeId, orderCode));
+		LineBranchXmlType aclfLine = parser.createLineBranch(ModelStringUtil.formBranchId(fromNodeId, toNodeId, orderCode));
       	if (elemName != null)
       		aclfLine.setName(elemName);
       	aclfLine.setCircuitId(orderCode);
@@ -415,7 +415,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     	}
 
     	// create a branch record
-		XfrBranchXmlType branchRec = parser.createXfrBranchXmlType(ModelStringUtil.formBranchId(fromNodeId, toNodeId, orderCode));
+		XfrBranchXmlType branchRec = parser.createXfrBranch(ModelStringUtil.formBranchId(fromNodeId, toNodeId, orderCode));
       	if (elemName != null)
       		branchRec.setName(elemName);
       	branchRec.setCircuitId(orderCode);
