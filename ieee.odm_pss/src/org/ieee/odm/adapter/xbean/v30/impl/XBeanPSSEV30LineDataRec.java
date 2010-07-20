@@ -10,7 +10,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.old.PsseVersion;
 import org.ieee.odm.adapter.xbean.v30.XBeanPSSEV30Adapter;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.xbean.XBeanDataSetter;

@@ -3,7 +3,7 @@ package org.ieee.odm.adapter.xbean.v30.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.old.PsseVersion;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 public class XbeanPSSEV30FactsDataRec {
