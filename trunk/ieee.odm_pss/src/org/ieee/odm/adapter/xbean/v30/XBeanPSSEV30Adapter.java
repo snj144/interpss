@@ -30,7 +30,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
-import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.old.PsseVersion;
 import org.ieee.odm.adapter.xbean.XBeanPSSEBusRecord;
 import org.ieee.odm.adapter.xbean.XBeanPSSENetDataRec;
 import org.ieee.odm.adapter.xbean.v30.impl.XBeanPSSEV30BusDataRec;
