@@ -33,7 +33,6 @@ import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26BranchRecord;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26BusRecord;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26NetRecord;
-import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.ObjectFactory;
@@ -67,7 +66,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 	protected AclfModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		AclfModelParser parser = new AclfModelParser();
-		ParserHelper.setLFTransInfo(parser, OriginalDataFormatEnumType.PSS_E);
+		parser.setLFTransInfo(OriginalDataFormatEnumType.PSS_E);
 		parser.getStudyCase().getContentInfo().setOriginalFormatVersion("PSSEV26");
 
 		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();

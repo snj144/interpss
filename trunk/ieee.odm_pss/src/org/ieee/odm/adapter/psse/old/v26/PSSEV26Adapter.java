@@ -34,7 +34,7 @@ import org.ieee.odm.adapter.psse.old.v26.impl.PSSEV26BranchRecord;
 import org.ieee.odm.adapter.psse.old.v26.impl.PSSEV26BusRecord;
 import org.ieee.odm.adapter.psse.old.v26.impl.PSSEV26NetRecord;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;

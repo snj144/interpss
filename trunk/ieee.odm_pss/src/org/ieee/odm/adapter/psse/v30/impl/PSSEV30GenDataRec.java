@@ -29,9 +29,10 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.AbstractModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
@@ -74,7 +75,7 @@ public class PSSEV30GenDataRec {
 	    	return;
 	    }
 	    
-	    LoadflowGenDataXmlType contriGen = ParserHelper.createContriGen(busRec);
+	    LoadflowGenDataXmlType contriGen = AclfParserHelper.createContriGen(busRec);
 	    
 	    contriGen.setId(id);
 	    contriGen.setName("Gen:" + id + "(" + i + ")");
@@ -112,7 +113,7 @@ public class PSSEV30GenDataRec {
 		
 		contriGen.setMvarVControlParticipateFactor(rmpct*0.01);
 
-		ParserHelper.addOwner(contriGen, 
+		JaxbParserHelper.addOwner(contriGen, 
 				new Integer(o1).toString(), f1, 
 				new Integer(o2).toString(), o2==0?0.0:f2, 
 				new Integer(o3).toString(), o3==0?0.0:f3, 

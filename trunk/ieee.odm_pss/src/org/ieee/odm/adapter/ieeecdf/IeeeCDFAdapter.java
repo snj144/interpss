@@ -32,7 +32,7 @@ import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -168,27 +168,27 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//[0] Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
 		final String date = strAry[0];
 		if (date != null) 
-			ParserHelper.addNVPair(nvList, Token_Date, date);
+			JaxbParserHelper.addNVPair(nvList, Token_Date, date);
 
 		//[1] Columns 11-30   Originator's name [A]
 		final String orgName = strAry[1];
 		if (orgName != null)
-			ParserHelper.addNVPair(nvList, Token_OrgName, orgName);
+			JaxbParserHelper.addNVPair(nvList, Token_OrgName, orgName);
 
 		//[3] Columns 39-42   Year [I]
 		final String year = strAry[3];
 		if (year != null)
-			ParserHelper.addNVPair(nvList, Token_Year, year);
+			JaxbParserHelper.addNVPair(nvList, Token_Year, year);
 
 		//[4] Column  44      Season (S - Summer, W - Winter)
 		final String season = strAry[4];
 		if (season != null)
-			ParserHelper.addNVPair(nvList, Token_Season, season);
+			JaxbParserHelper.addNVPair(nvList, Token_Season, season);
 
 		//[5] Column  46-73   Case identification [A]
 		final String caseId = strAry[5];
 		if (caseId != null)
-			ParserHelper.addNVPair(nvList, Token_CaseId, caseId);
+			JaxbParserHelper.addNVPair(nvList, Token_CaseId, caseId);
 
 		getLogger().fine("date, orgName, year, season, caseId: " + date + ", "
 				+ orgName + ", " + year + ", " + season + ", " + caseId);
@@ -338,17 +338,17 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final String zoneNo = strAry[3];
 		final String cirId = strAry[4];
 		final int branchType = new Integer(strAry[5]).intValue();
-		String branchId = ModelStringUtil.formBranchId(fid, tid, cirId);
+		//String branchId = ModelStringUtil.formBranchId(fid, tid, cirId);
 		BranchXmlType branch = null;
 		try {
 			branch = branchType == 0?
-					parser.createLineBranch(branchId) :
+					parser.createLineBranch(fid, tid, cirId) :
 						((branchType == 1 || branchType == 2 || branchType == 3)?
-								parser.createXfrBranch(branchId) : parser.createPSXfrBranch(branchId));
+								parser.createXfrBranch(fid, tid, cirId) : parser.createPSXfrBranch(fid, tid, cirId));
 		} catch (Exception e) {
 			this.logErr("branch data error, " + e.toString());
 		}
-		
+		/*
 		getLogger().fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		try {
 			branch.setFromBus(parser.createBusRef(fid));
@@ -356,7 +356,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		} catch (Exception e) {
 			this.logErr("branch is not connected properly, " + e.toString());
 		}
-
+		*/
 		branch.setAreaNumber(new Integer(areaNo).intValue());
 		branch.setZoneNumber(new Integer(zoneNo).intValue());
 		branch.setCircuitId(cirId);

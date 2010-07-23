@@ -35,7 +35,7 @@ import org.ieee.odm.adapter.ge.impl.LoadDataRec;
 import org.ieee.odm.adapter.ge.impl.NetDataRec;
 import org.ieee.odm.adapter.ge.impl.XformerDataRec;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 
@@ -295,7 +295,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
     		throw new Exception("GE data input error, line no " + lineNo + ", " + e.toString() + "\n" + lineStr);
   		}
 
-  		ParserHelper.createBusEquivData(parser, this.getLogger());
+  		JaxbParserHelper.createBusEquivData(parser, this.getLogger());
   		
 		return parser;
 	}

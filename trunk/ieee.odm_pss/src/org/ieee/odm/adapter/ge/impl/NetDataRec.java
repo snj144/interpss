@@ -29,7 +29,7 @@ import java.util.StringTokenizer;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -43,7 +43,7 @@ public class NetDataRec {
 			LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
 			NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType(); 
 			baseCaseNet.setNvPairList(nvList);
-			ParserHelper.addNVPair(nvList, "Title", lineStr);
+			JaxbParserHelper.addNVPair(nvList, "Title", lineStr);
 		}
 	}
 	
@@ -54,7 +54,7 @@ public class NetDataRec {
 			LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
 			NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType(); 
 			baseCaseNet.setNvPairList(nvList);
-			ParserHelper.addNVPair(nvList, "Comments", lineStr);
+			JaxbParserHelper.addNVPair(nvList, "Comments", lineStr);
 		}
 	}
 

@@ -4,7 +4,7 @@ import java.util.StringTokenizer;
 
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.BaseRecordXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
@@ -30,7 +30,7 @@ public class PSSENetDataRec {
 				NameValuePairListXmlType nvList = factory.createNameValuePairListXmlType();
 				baseCaseNet.setNvPairList(nvList);
 				
-				ParserHelper.addNVPair(nvList, "CaseIndicator", 
+				JaxbParserHelper.addNVPair(nvList, "CaseIndicator", 
 						new Integer(indicator).toString());
 			}
 			else if (lineNo == 2) {

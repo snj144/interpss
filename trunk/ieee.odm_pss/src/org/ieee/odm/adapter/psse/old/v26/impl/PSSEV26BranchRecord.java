@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
@@ -185,7 +185,7 @@ public class PSSEV26BranchRecord {
 	    }	
 
 	    // only one branch section
-		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(branchRec);
+		LoadflowBranchDataXmlType branchData = JaxbParserHelper.getDefaultBranchData(branchRec);
 		if (branchData.getXfrInfo() == null)
 			branchData.setXfrInfo(parser.getFactory().createLoadflowBranchDataXmlTypeXfrInfo());
 	    

@@ -32,7 +32,7 @@ import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.JaxbODMModelParser;
 
 public class LoadDataRec extends BusHeaderRec {
@@ -91,7 +91,7 @@ public class LoadDataRec extends BusHeaderRec {
 
 	    // ODM allows one equiv load has many contribute loads, but here, we assume there is only one contribute load.
 
-	    LoadflowLoadDataXmlType contribLoad = ParserHelper.createContriLoad(busRec); 
+	    LoadflowLoadDataXmlType contribLoad = JaxbParserHelper.createContriLoad(busRec); 
 
 		contribLoad.setAreaNumber(this.ar);
 		contribLoad.setZoneNumber(this.z);
