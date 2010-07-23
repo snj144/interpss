@@ -326,9 +326,11 @@ public class JaxbODMModelParser extends AbstractModelParser {
 		//if (getStudyCase().getBaseCase().getDcLineList() == null)
 		//	getStudyCase().getBaseCase().addNewDcLineList();
 		DCLineData2TXmlType dcLine = getFactory().createDCLineData2TXmlType();
+/*
 		if (getAclfBaseCase().getDcLineList() == null)
 			getAclfBaseCase().setDcLineList(this.getFactory().createLoadflowNetXmlTypeDcLineList());
 		getAclfBaseCase().getDcLineList().getDcLint2T().add(dcLine);
+		*/
 		String branchId = ModelStringUtil.formBranchId(recId, invId, new Long(number).toString());
 		dcLine.setId(branchId);
 		dcLine.setNumber(number);

@@ -132,24 +132,34 @@ public class AclfDataSetter extends BaseDataSetter {
 	 * @param bUnit
 	 */
 	public static void createXformerData(XfrBranchXmlType branch, 
+            double r, double x, ZUnitType zUnit,
+            double fromTurnRatio, double toTurnRatio) {
+		branch.setXfrInfo(getFactory().createTransformerInfoXmlType());
+		branch.getXfrInfo().setDataOnSystemBase(true);
+		setXformerData(branch,
+				r, x, zUnit, fromTurnRatio, toTurnRatio,
+				0.0, 0.0, YUnitType.PU);
+	}
+
+	public static void createXformerData(XfrBranchXmlType branch, 
 			             double r, double x, ZUnitType zUnit,
-			             double fromTap, double toTap,
+			             double fromTurnRaio, double toTurnRatio,
 			             double gMag, double bMag, YUnitType yUnit) {
 		branch.setXfrInfo(getFactory().createTransformerInfoXmlType());
 		branch.getXfrInfo().setDataOnSystemBase(true);
 		setXformerData(branch,
-				r, x, zUnit, fromTap, toTap,
+				r, x, zUnit, fromTurnRaio, toTurnRatio,
 				gMag, bMag, yUnit);
 	}
 	
 	private static void setXformerData(XfrBranchXmlType xfr,
 			double r, double x, ZUnitType zUnit, 
-			double fromTap, double toTap,
+			double fromTurnRatio, double toTurnRatio,
 			double gMag, double bMag, YUnitType yUnit) {
 		ZXmlType z = createZValue(r, x, zUnit);
 		xfr.setZ(z);
-		xfr.setFromTurnRatio(createTurnRatioPU(fromTap));
-		xfr.setToTurnRatio(createTurnRatioPU(toTap));
+		xfr.setFromTurnRatio(createTurnRatioPU(fromTurnRatio));
+		xfr.setToTurnRatio(createTurnRatioPU(toTurnRatio));
 		if (gMag != 0.0 || bMag != 0.0) {
 			xfr.setMagnitizingY(createYValue(gMag, bMag, yUnit));
 		}	

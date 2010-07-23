@@ -36,7 +36,6 @@ import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.CurrentXmlType;
 import org.ieee.odm.schema.GXmlType;
 import org.ieee.odm.schema.LimitXmlType;
-import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.PowerXmlType;
 import org.ieee.odm.schema.RXmlType;
 import org.ieee.odm.schema.ReactivePowerLimitXmlType;
@@ -58,7 +57,7 @@ import org.ieee.odm.schema.ZUnitType;
 import org.ieee.odm.schema.ZXmlType;
 
 
-public class BaseDataSetter {
+public class BaseDataSetter extends BaseJaxbHelper {
 	/**
 	 * Set apparent power, unit = kva
 	 * 
@@ -380,15 +379,4 @@ public class BaseDataSetter {
     	r.setUnit(TurnRatioUnitType.PU);
     	return r;
 	}	
-	
-	/*
-	 * The Jaxb Factory object
-	 * =======================
-	 */
-	private static ObjectFactory _factory = null;	
-	protected static ObjectFactory getFactory() {
-		if (_factory == null)
-			_factory = new ObjectFactory();
-		return _factory;
-	}
 }

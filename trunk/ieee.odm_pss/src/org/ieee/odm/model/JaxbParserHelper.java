@@ -46,12 +46,9 @@ import org.ieee.odm.schema.LoadflowBusDataXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.NameValuePairListXmlType;
-import org.ieee.odm.schema.NameValuePairXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
-import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
@@ -61,7 +58,7 @@ import org.ieee.odm.schema.TransientSimulationXmlType;
 import org.ieee.odm.schema.TurbineGovernorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 
-public class ParserHelper {
+public class JaxbParserHelper extends BaseJaxbHelper {
 	/**
 	 * consolidate bus genContributionList and loadContributionList to the equiv gen and load 
 	 * 
@@ -298,21 +295,6 @@ public class ParserHelper {
 	}
 	
 	/**
-	 * add a name/value pair to the name/value pair List
-	 * 
-	 * @param nvList name/value pair list
-	 * @param name name string
-	 * @param value value string
-	 */
-	public static void addNVPair(NameValuePairListXmlType nvList, String name, 
-					String value) {
-    	NameValuePairXmlType nvPair = getFactory().createNameValuePairXmlType();
-    	nvList.getNvPair().add(nvPair);
-    	nvPair.setName(name);
-    	nvPair.setValue(value);
-	}
-
-	/**
 	 * add an owner record to the BaseRecord
 	 * 
 	 * @param rec
@@ -537,11 +519,4 @@ public class ParserHelper {
 		}	
 		return null;		
 	}
-	
-	private static ObjectFactory _factory = null;	
-	private static ObjectFactory getFactory() {
-		if (_factory == null)
-			_factory = new ObjectFactory();
-		return _factory;
-	}	
 }
