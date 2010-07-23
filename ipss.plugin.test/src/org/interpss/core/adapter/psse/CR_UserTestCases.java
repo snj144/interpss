@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.xbean.v30.XBeanPSSEV30Adapter;
+import org.ieee.odm.adapter.xbean.psse.v30.XBeanPSSEV30Adapter;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;

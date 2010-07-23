@@ -3,7 +3,7 @@ package org.interpss.display;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.xbean.v30.XBeanPSSEV30Adapter;
+import org.ieee.odm.adapter.xbean.psse.v30.XBeanPSSEV30Adapter;
 import org.interpss.display.impl.AclfOut_PSSE;
 import org.interpss.mapper.IEEEODMMapper;
 import org.junit.Test;
