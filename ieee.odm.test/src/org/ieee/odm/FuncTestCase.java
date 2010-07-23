@@ -114,7 +114,7 @@ public class FuncTestCase {
 		parser = new JaxbODMModelParser(str);
 		assertTrue(parser.getAclfBaseCase().getBranchList().getBranch().get(0).getId() != null);
 		assertTrue(parser.getAclfBaseCase().getBranchList().getBranch().get(0).getFromBus() != null);
-		assertTrue(parser.getAclfBaseCase().getBranchList().getBranch().get(0).getZ().getRe() == .01938);
+		assertTrue(((LineBranchXmlType)(parser.getAclfBaseCase().getBranchList().getBranch().get(0))).getZ().getRe() == .01938);
 	}
 
 	@Test

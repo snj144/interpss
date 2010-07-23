@@ -22,7 +22,7 @@
   *
   */
 
-package org.ieee.odm.psse.old;
+package org.ieee.odm.psse;
 
 import static org.junit.Assert.assertTrue;
 
@@ -31,17 +31,15 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.psse.old.v30.PSSEV30Adapter;
-import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.BranchMeterLocationEnumType;
-import org.ieee.odm.schema.BranchRecordXmlType;
-import org.ieee.odm.schema.BusRecordXmlType;
-import org.ieee.odm.schema.LFBranchCodeEnumType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
-import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.LineBranchXmlType;
+import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.XfrBranchXmlType;
 import org.junit.Test;
 
 public class PSSEV30_ODMTest { 
@@ -57,7 +55,7 @@ public class PSSEV30_ODMTest {
 		
 //		System.out.println(adapter.getModel().toString());
 		
-		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
+		AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		//parser.stdout();		
 		
 		LoadflowNetXmlType net = parser.getAclfBaseCase();
@@ -81,9 +79,9 @@ public class PSSEV30_ODMTest {
         </loadflowData>
       </bus>
  */
-		BusRecordXmlType bus = parser.getBusRecord("Bus1");
+		LoadflowBusXmlType bus = parser.getAclfBus("Bus1");
 		assertTrue(bus.getBaseVoltage().getValue() == 13.8);
-		LoadflowGenDataXmlType equivGen = bus.getLoadflowData().getGenData().getEquivGen();
+		LoadflowGenDataXmlType equivGen = bus.getGenData().getEquivGen();
 		assertTrue(equivGen.getCode() == LFGenCodeEnumType.SWING);
 		assertTrue(equivGen.getDesiredVoltage().getValue() == 1.0);
 		assertTrue(equivGen.getDesiredAngle().getValue() == 0.0);
@@ -107,9 +105,9 @@ public class PSSEV30_ODMTest {
         </loadflowData>
       </bus>
 */
-		bus = parser.getBusRecord("Bus2");
-		assertTrue(bus.getLoadflowData().getLoadData() == null);
-		equivGen = bus.getLoadflowData().getGenData().getEquivGen();
+		bus = parser.getAclfBus("Bus2");
+		assertTrue(bus.getLoadData() == null);
+		equivGen = bus.getGenData().getEquivGen();
 		assertTrue(equivGen.getCode() == LFGenCodeEnumType.NONE_GEN);
 		
 /*
@@ -132,9 +130,9 @@ public class PSSEV30_ODMTest {
         </loadflowData>
       </bus>
 */
-		bus = parser.getBusRecord("Bus5");
-		assertTrue(bus.getLoadflowData().getLoadData() == null);
-		equivGen = bus.getLoadflowData().getGenData().getEquivGen();
+		bus = parser.getAclfBus("Bus5");
+		assertTrue(bus.getLoadData() == null);
+		equivGen = bus.getGenData().getEquivGen();
 		assertTrue(equivGen.getCode() == LFGenCodeEnumType.PV);
 		assertTrue(equivGen.getPower().getRe() == 22.5);
 		assertTrue(equivGen.getPower().getIm() == 15.852);
@@ -162,18 +160,16 @@ public class PSSEV30_ODMTest {
         </loadflowData>
       </branch>
 */
-		BranchRecordXmlType branch = parser.getBranchRecord("Bus2", "Bus3", "1");
-		LoadflowBranchDataXmlType branchData = JaxbParserHelper.getDefaultBranchData(branch);
+		LineBranchXmlType line = parser.getLineBranch("Bus2", "Bus3", "1");
 		
-		assertTrue(branchData.getCode() == LFBranchCodeEnumType.LINE);
-		assertTrue(branchData.getZ().getRe() == 0.0015);
-		assertTrue(branchData.getZ().getIm() == 0.0085);
-		assertTrue(branchData.getTotalShuntY().getRe() == 0.0);
-		assertTrue(branchData.getTotalShuntY().getIm() == 0.0164);
-		assertTrue(branchData.getMeterLocation() == BranchMeterLocationEnumType.FROM_SIDE);
-		assertTrue(branchData.getBranchRatingLimit().getMva().getRating1() == 300.0);
-		assertTrue(branchData.getBranchRatingLimit().getMva().getRating2() == 330.0);
-		assertTrue(branchData.getBranchRatingLimit().getMva().getRating3() == 0.0);
+		assertTrue(line.getZ().getRe() == 0.0015);
+		assertTrue(line.getZ().getIm() == 0.0085);
+		assertTrue(line.getTotalShuntY().getRe() == 0.0);
+		assertTrue(line.getTotalShuntY().getIm() == 0.0164);
+		assertTrue(line.getMeterLocation() == BranchMeterLocationEnumType.FROM_SIDE);
+		assertTrue(line.getRatingLimit().getMva().getRating1() == 300.0);
+		assertTrue(line.getRatingLimit().getMva().getRating2() == 330.0);
+		assertTrue(line.getRatingLimit().getMva().getRating3() == 0.0);
 		
 /*
       <branch id="Bus2_to_Bus1_cirId_1" circuitId="1" name="T1          " offLine="false">
@@ -197,20 +193,18 @@ public class PSSEV30_ODMTest {
         </loadflowData>
       </branch>
  */
-		branch = parser.getBranchRecord("Bus2", "Bus1", "1");
-		branchData = JaxbParserHelper.getDefaultBranchData(branch);
-		
-		assertTrue(branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER);
-		assertTrue(branchData.getZ().getRe() == 0.0);
-		assertTrue(branchData.getZ().getIm() == 0.17191);
-		assertTrue(branchData.getFromTurnRatio().getValue() == 1.0);
-		assertTrue(branchData.getToTurnRatio().getValue() == 1.0);
-		assertTrue(branchData.getMeterLocation() == BranchMeterLocationEnumType.TO_SIDE);
-		assertTrue(branchData.getMeterLocation() == BranchMeterLocationEnumType.TO_SIDE);
-		assertTrue(branchData.getXfrInfo().getRatedPower12().getValue() == 100.0 );
-		assertTrue(branchData.getXfrInfo().isDataOnSystemBase());
-		assertTrue(branchData.getBranchRatingLimit().getMva().getRating2() == 118.5);
-		assertTrue(branchData.getBranchRatingLimit().getMva().getRating3() == 0.0);
+		XfrBranchXmlType xfr = parser.getXfrBranch("Bus2", "Bus1", "1");
+
+		assertTrue(xfr.getZ().getRe() == 0.0);
+		assertTrue(xfr.getZ().getIm() == 0.17191);
+		assertTrue(xfr.getFromTurnRatio().getValue() == 1.0);
+		assertTrue(xfr.getToTurnRatio().getValue() == 1.0);
+		assertTrue(xfr.getMeterLocation() == BranchMeterLocationEnumType.TO_SIDE);
+		assertTrue(xfr.getMeterLocation() == BranchMeterLocationEnumType.TO_SIDE);
+		assertTrue(xfr.getXfrInfo().getRatedPower().getValue() == 100.0 );
+		assertTrue(xfr.getXfrInfo().isDataOnSystemBase());
+		assertTrue(xfr.getRatingLimit().getMva().getRating2() == 118.5);
+		assertTrue(xfr.getRatingLimit().getMva().getRating3() == 0.0);
 	}
 
 }

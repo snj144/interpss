@@ -22,7 +22,7 @@
   *
   */
 
-package org.ieee.odm.psse.old;
+package org.ieee.odm.psse;
 
 import static org.junit.Assert.assertTrue;
 
@@ -31,16 +31,14 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.psse.old.v26.PSSEV26Adapter;
-import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.JaxbParserHelper;
-import org.ieee.odm.schema.BranchRecordXmlType;
-import org.ieee.odm.schema.BusRecordXmlType;
-import org.ieee.odm.schema.LFBranchCodeEnumType;
+import org.ieee.odm.adapter.psse.v26.PSSEV26Adapter;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
-import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.LineBranchXmlType;
+import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.XfrBranchXmlType;
 import org.junit.Test;
 
 public class PSSEV26_ODMTest { 
@@ -55,7 +53,7 @@ public class PSSEV26_ODMTest {
 		assertTrue(adapter.parseInputFile("testData/psse/LFModel_testV26.raw"));
 		//System.out.println(adapter.getModel());
 		
-		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();
+		AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		LoadflowNetXmlType net = parser.getAclfBaseCase();
 		assertTrue(net.getBasePower().getValue() == 100.0);
 		/*
@@ -67,10 +65,10 @@ public class PSSEV26_ODMTest {
             </equivGen>
         </bus>
       		 */
-		BusRecordXmlType bus = parser.getBusRecord("Bus15021");
-		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.SWING);
-		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getDesiredVoltage().getValue() == 1.07);
-		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getDesiredAngle().getValue() == 3.1024);
+		LoadflowBusXmlType bus = parser.getAclfBus("Bus15021");
+		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.SWING);
+		assertTrue(bus.getGenData().getEquivGen().getDesiredVoltage().getValue() == 1.07);
+		assertTrue(bus.getGenData().getEquivGen().getDesiredAngle().getValue() == 3.1024);
 				
 		/*
         <baseVoltage value="115.0" unit="KV"/>
@@ -80,10 +78,10 @@ public class PSSEV26_ODMTest {
           <loadData/>
         </loadflowData>
         */
-		bus = parser.getBusRecord("Bus31212");
+		bus = parser.getAclfBus("Bus31212");
 		assertTrue(bus.getBaseVoltage().getValue() == 115.0);
-		assertTrue(bus.getLoadflowData().getVoltage().getValue() == 1.01273);
-				assertTrue(bus.getLoadflowData().getAngle().getValue() == -10.5533);			
+		assertTrue(bus.getVoltage().getValue() == 1.01273);
+		assertTrue(bus.getAngle().getValue() == -10.5533);			
 		
 		/*
           <genData code="PV">
@@ -96,13 +94,13 @@ public class PSSEV26_ODMTest {
 		 */
 						
 		// gen bus
-		bus = parser.getBusRecord("Bus31435");
-		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
-		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getPower().getRe() == 8.52);
-		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getPower().getIm() == 2.51);
-		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getDesiredVoltage().getValue() == 1.0203);
-		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getQLimit().getMax() == 10.0);
-		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getQLimit().getMin() == -6.0);
+		bus = parser.getAclfBus("Bus31435");
+		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
+		assertTrue(bus.getGenData().getEquivGen().getPower().getRe() == 8.52);
+		assertTrue(bus.getGenData().getEquivGen().getPower().getIm() == 2.51);
+		assertTrue(bus.getGenData().getEquivGen().getDesiredVoltage().getValue() == 1.0203);
+		assertTrue(bus.getGenData().getEquivGen().getQLimit().getMax() == 10.0);
+		assertTrue(bus.getGenData().getEquivGen().getQLimit().getMin() == -6.0);
 
 		/*
           <loadData code="CONST_P">
@@ -111,18 +109,18 @@ public class PSSEV26_ODMTest {
             </equivLoad>
           </loadData>
 		 */
-		bus = parser.getBusRecord("Bus36016");
-		assertTrue(bus.getLoadflowData().getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);
-		assertTrue(bus.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getRe() == 6.5);
-		assertTrue(bus.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getIm() == 3.86);
+		bus = parser.getAclfBus("Bus36016");
+		assertTrue(bus.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);
+		assertTrue(bus.getLoadData().getEquivLoad().getConstPLoad().getRe() == 6.5);
+		assertTrue(bus.getLoadData().getEquivLoad().getConstPLoad().getIm() == 3.86);
 
 		/*
           <shuntQData>
             <equivQ value="75.0" unit="MVAR"/>
           </shuntQData>
 		 */
-		bus = parser.getBusRecord("Bus30810");
-		assertTrue(bus.getLoadflowData().getShuntCompensatorData().getEquivQ().getValue() == 75.0);
+		bus = parser.getAclfBus("Bus30810");
+		assertTrue(bus.getShuntCompensatorData().getEquivQ().getValue() == 75.0);
 
 		// two loads on a bus, also, gen on the bus is turned off
 		/*
@@ -143,9 +141,9 @@ public class PSSEV26_ODMTest {
         </loadflowData>
       </bus>
 		 */
-		bus = parser.getBusRecord("Bus32252");
-		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.OFF);
-		assertTrue(bus.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getRe() == 20.32);
+		bus = parser.getAclfBus("Bus32252");
+		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.OFF);
+		assertTrue(bus.getLoadData().getEquivLoad().getConstPLoad().getRe() == 20.32);
 		
 		// bus turned off case
 /*
@@ -159,8 +157,8 @@ public class PSSEV26_ODMTest {
         </loadflowData>
       </bus>
  */
-		bus = parser.getBusRecord("Bus32252");
-		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.OFF);
+		bus = parser.getAclfBus("Bus32252");
+		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.OFF);
 
 		// Branch info
 		// =========
@@ -179,15 +177,13 @@ public class PSSEV26_ODMTest {
         </loadflowData>
       </branch>
 		 */
-		BranchRecordXmlType branch = parser.getBranchRecord("Bus31212", "Bus31210", "_1");
-		LoadflowBranchDataXmlType branchData = JaxbParserHelper.getDefaultBranchData(branch);
+		LineBranchXmlType line = parser.getLineBranch("Bus31212", "Bus31210", "_1");
 		
-		assertTrue(branchData.getCode() == LFBranchCodeEnumType.LINE);
-		assertTrue(branchData.getZ().getRe() == 0.00392);
-		assertTrue(branchData.getZ().getIm() == 0.01132);
-		assertTrue(branchData.getBranchRatingLimit().getMva().getRating1() == 97.8);
-		assertTrue(branchData.getBranchRatingLimit().getMva().getRating2() == 111.7);
-		assertTrue(branchData.getBranchRatingLimit().getMva().getRating3() == 0.0);
+		assertTrue(line.getZ().getRe() == 0.00392);
+		assertTrue(line.getZ().getIm() == 0.01132);
+		assertTrue(line.getRatingLimit().getMva().getRating1() == 97.8);
+		assertTrue(line.getRatingLimit().getMva().getRating2() == 111.7);
+		assertTrue(line.getRatingLimit().getMva().getRating3() == 0.0);
 		
 		/*
       <branch circuitId="' 1'" id="No31212_to_No31435_cirId_' 1'" offLine="false">
@@ -205,14 +201,12 @@ public class PSSEV26_ODMTest {
         </loadflowData>
       </branch>
 		 */
-		branch = parser.getBranchRecord("Bus31212", "Bus31435", "_1");
-		branchData = JaxbParserHelper.getDefaultBranchData(branch);
+		XfrBranchXmlType xfr = parser.getXfrBranch("Bus31212", "Bus31435", "_1");
 
-		assertTrue(branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER);
-		assertTrue(branchData.getZ().getRe() == 0.0);
-		assertTrue(branchData.getZ().getIm() == 0.266667);
-		assertTrue(branchData.getFromTurnRatio().getValue() == 1.0);
-		assertTrue(branchData.getToTurnRatio().getValue() == 1.0);
+		assertTrue(xfr.getZ().getRe() == 0.0);
+		assertTrue(xfr.getZ().getIm() == 0.266667);
+		assertTrue(xfr.getFromTurnRatio().getValue() == 1.0);
+		assertTrue(xfr.getToTurnRatio().getValue() == 1.0);
 	}
 }
 
