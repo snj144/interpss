@@ -22,7 +22,7 @@
  *
  */
 
-package org.ieee.odm.adapter.ucte;
+package org.ieee.odm.adapter.ucte.old;
 
 import java.util.ArrayList;
 import java.util.List;
