@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.AbstractModelParser;
-import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
@@ -66,7 +65,7 @@ public class PSSEV30LoadDataRec {
 
 	    contribLoad.setAreaNumber(area);
 	    contribLoad.setZoneNumber(zone);
-	    JaxbParserHelper.addOwner(contribLoad, new Integer(owner).toString());
+	    AclfParserHelper.addOwner(contribLoad, new Integer(owner).toString());
 		
 		if (pl != 0.0 || ql != 0.0)
 			contribLoad.setConstPLoad(AclfDataSetter.createPowerValue(pl, ql, ApparentPowerUnitType.MVA));

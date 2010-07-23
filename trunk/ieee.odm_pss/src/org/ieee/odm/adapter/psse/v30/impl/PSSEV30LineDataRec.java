@@ -5,10 +5,10 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.AbstractModelParser;
-import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchMeterLocationEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;
@@ -67,7 +67,7 @@ public class PSSEV30LineDataRec {
        if ( gj != 0.0 || bj != 0.0)
     	   branchRec.setFromShuntY(AclfDataSetter.createYValue(gj, bj, YUnitType.PU));
       
-    	JaxbParserHelper.addOwner(branchRec, 
+    	AclfParserHelper.addOwner(branchRec, 
     			new Integer(o1).toString(), f1, 
     			new Integer(o2).toString(), o2==0?0.0:f2, 
     			new Integer(o3).toString(), o3==0?0.0:f3, 

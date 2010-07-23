@@ -32,9 +32,9 @@ import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.model.ModelContansts;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
@@ -309,21 +309,21 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType();
 		aclfBus.setNvPairList(nvList);
 		if (status != 0)
-			JaxbParserHelper.addNVPair(nvList, Token_Status, new Integer(status).toString());
+			AclfParserHelper.addNVPair(nvList, Token_Status, new Integer(status).toString());
 		if (minGenMW != 0.0)
-			JaxbParserHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString());
+			AclfParserHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString());
 		if (maxGenMW != 0.0)
-			JaxbParserHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString());
+			AclfParserHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString());
 		if (staticPrimaryControl != 0.0)
-			JaxbParserHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString());
+			AclfParserHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString());
 		if (normalPowerPrimaryControl != 0.0)
-			JaxbParserHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
+			AclfParserHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
 		if (scMVA3P != 0.0)
-			JaxbParserHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString());
+			AclfParserHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString());
 		if (x_rRatio != 0.0)
-			JaxbParserHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString());
+			AclfParserHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString());
 		if (powerPlanType != null)
-			JaxbParserHelper.addNVPair(nvList, Token_PPlanType, powerPlanType);
+			AclfParserHelper.addNVPair(nvList, Token_PPlanType, powerPlanType);
     }
     
     /*
@@ -501,13 +501,13 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
       	if (dUPhase > 0.0) {
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString());
+				AclfParserHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString());
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString());
+				AclfParserHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString());
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString());
+				AclfParserHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString());
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
+				AclfParserHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
 
 			double ratioFactor = xfrBranch.getToTurnRatio().getValue();
 
@@ -543,15 +543,15 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		}
 		else if (dUAngle > 0.0) {
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString());
+				AclfParserHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString());
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
+				AclfParserHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString());
+				AclfParserHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString());
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString());
+				AclfParserHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString());
 			if (dUPhase != 0.0)
-				JaxbParserHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
+				AclfParserHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
 
 			double ratioFactor = xfrBranch.getToTurnRatio().getValue();
 
