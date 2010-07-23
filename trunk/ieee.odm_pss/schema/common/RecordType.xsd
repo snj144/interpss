@@ -25,7 +25,7 @@
 					<element name="branchList" minOccurs="1" maxOccurs="1">
 						<complexType>
 							<sequence>
-								<element name="branch" type="pss:BranchXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+								<element name="branch" type="pss:BaseBranchXmlType" maxOccurs="unbounded" minOccurs="0"></element>
 							</sequence>
 						</complexType>
 					</element>
@@ -76,17 +76,27 @@
 		</complexContent>
 	</complexType>
 
-	<complexType name="BranchXmlType" abstract="true">
+	<complexType name="BaseBranchXmlType" abstract="true">
 		<complexContent>
 			<extension base="pss:CimConnectionRecordType">
 				<sequence>
 					<element name="fromBus" type="pss:BusRefRecordXmlType" minOccurs="1" maxOccurs="1"></element>
 					<element name="toBus" type="pss:BusRefRecordXmlType" minOccurs="1" maxOccurs="1"></element>
-
-				    <element name="z" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="ratingLimit" minOccurs="0" maxOccurs="1" type="pss:BranchRatingLimitXmlType"></element>
+					<element name="tertiaryBus" type="pss:BusRefRecordXmlType" minOccurs="0" maxOccurs="1"></element>
 				</sequence>
 				<attribute name="circuitId" type="string" use="optional"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="BranchXmlType" abstract="true">
+		<complexContent>
+			<extension base="pss:BaseBranchXmlType">
+				<sequence>
+				    <element name="z" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="ratingLimit" minOccurs="0" maxOccurs="1" type="pss:BranchRatingLimitXmlType"></element>
+					<element name="meterLocation" minOccurs="0" type="pss:BranchMeterLocationEnumType"></element>
+				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
@@ -136,4 +146,11 @@
 		<attribute name="name" type="string" use="optional"></attribute>
 		<attribute name="number" type="int" use="optional"></attribute>
 	</complexType>
+	
+	<simpleType name="BranchMeterLocationEnumType">
+		<restriction base="string">
+			<enumeration value="FromSide"></enumeration>
+			<enumeration value="ToSide"></enumeration>
+		</restriction>
+	</simpleType>		
 </schema>

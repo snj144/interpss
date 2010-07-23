@@ -48,7 +48,6 @@
 		<complexContent>
 			<extension base="pss:BranchXmlType">
 				<sequence>
-					<element name="tertiaryBus" type="pss:BusRefRecordXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="loadflowData" type="pss:LoadflowBranchDataXmlType" minOccurs="0" maxOccurs="unbounded">
 						<annotation>
 							<documentation>Loadflow data may defined in multiple sections, section number (1-9) in ascending order beginning at "from" end</documentation>
