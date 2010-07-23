@@ -27,8 +27,8 @@ package org.interpss.mapper.ieee_odm;
 import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
+import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchRecordXmlType;
-import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
@@ -70,7 +70,7 @@ public class ODM2SimuCtxMapperImpl {
 					ODMAclfDataMapperImpl.mapBusData(busRec, simuCtx.getAclfAdjNet());
 				}
 
-				for (BranchXmlType branch : xmlNet.getBranchList().getBranch()) { 
+				for (BaseBranchXmlType branch : xmlNet.getBranchList().getBranch()) { 
 					if (branch instanceof LineBranchXmlType) {
 						LineBranchXmlType branchRec = (LineBranchXmlType) branch;
 						ODMAclfDataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
@@ -133,7 +133,7 @@ public class ODM2SimuCtxMapperImpl {
 					ODM_Old_DataMapperImpl.mapBusData(busRec, simuCtx.getAclfAdjNet());
 				}
 
-				for (BranchXmlType branch : xmlNet.getBranchList().getBranch()) { 
+				for (BaseBranchXmlType branch : xmlNet.getBranchList().getBranch()) { 
 					BranchRecordXmlType branchRec = (BranchRecordXmlType) branch;
 					ODM_Old_DataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
 				}
