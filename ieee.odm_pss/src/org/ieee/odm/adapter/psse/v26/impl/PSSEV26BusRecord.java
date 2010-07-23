@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.AngleUnitType;
@@ -73,7 +73,7 @@ public class PSSEV26BusRecord {
 		}
 		
 		final String owner=strAry[10];
-		ParserHelper.addOwner(busRec, owner);
+		JaxbParserHelper.addOwner(busRec, owner);
 		
 		busRec.setBaseVoltage(AclfDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
 		
@@ -170,7 +170,7 @@ public class PSSEV26BusRecord {
 		
 		//set owner and it's factor
 		final String owner =strAry[11];
-		ParserHelper.addOwner(contribLoad, owner);
+		JaxbParserHelper.addOwner(contribLoad, owner);
 		    
 	    //Constant-P load
 		final double CPloadMw = ModelStringUtil.getDouble(strAry[5], 0.0);
@@ -262,7 +262,7 @@ public class PSSEV26BusRecord {
 		final double genMvar = ModelStringUtil.getDouble(strAry[3], 0.0);
 		contriGen.setPower(AclfDataSetter.createPowerValue(genMw, genMvar, ApparentPowerUnitType.MVA));
 
-		ParserHelper.addOwner(contriGen, 
+		JaxbParserHelper.addOwner(contriGen, 
 				strAry[18], ModelStringUtil.getDouble(strAry[19], 0.0), 
 				strAry[20], ModelStringUtil.getDouble(strAry[21], 0.0), 
 				strAry[22], ModelStringUtil.getDouble(strAry[23], 0.0), 

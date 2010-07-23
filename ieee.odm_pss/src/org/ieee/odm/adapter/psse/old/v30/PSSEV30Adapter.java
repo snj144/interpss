@@ -38,7 +38,7 @@ import org.ieee.odm.adapter.psse.old.v30.impl.PSSEV30LineDataRec;
 import org.ieee.odm.adapter.psse.old.v30.impl.PSSEV30LoadDataRec;
 import org.ieee.odm.adapter.psse.old.v30.impl.PSSEV30XfrDataRec;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
@@ -336,7 +336,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
   		}
              
 		if (!this.elemCntOnly)
-			ParserHelper.createBusEquivData(parser, this.getLogger());
+			JaxbParserHelper.createBusEquivData(parser, this.getLogger());
   		
    	   	return parser;
 	}

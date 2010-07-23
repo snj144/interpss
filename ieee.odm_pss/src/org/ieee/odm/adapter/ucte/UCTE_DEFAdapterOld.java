@@ -32,7 +32,7 @@ import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.ModelContansts;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.schema.ActivePowerUnitType;
@@ -312,21 +312,21 @@ public class UCTE_DEFAdapterOld extends AbstractODMAdapter {
 		NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType();
 		busRec.setNvPairList(nvList);
 		if (status != 0)
-			ParserHelper.addNVPair(nvList, Token_Status, new Integer(status).toString());
+			JaxbParserHelper.addNVPair(nvList, Token_Status, new Integer(status).toString());
 		if (minGenMW != 0.0)
-			ParserHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString());
+			JaxbParserHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString());
 		if (maxGenMW != 0.0)
-			ParserHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString());
+			JaxbParserHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString());
 		if (staticPrimaryControl != 0.0)
-			ParserHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString());
+			JaxbParserHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString());
 		if (normalPowerPrimaryControl != 0.0)
-			ParserHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
+			JaxbParserHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
 		if (scMVA3P != 0.0)
-			ParserHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString());
+			JaxbParserHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString());
 		if (x_rRatio != 0.0)
-			ParserHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString());
+			JaxbParserHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString());
 		if (powerPlanType != null)
-			ParserHelper.addNVPair(nvList, Token_PPlanType, powerPlanType);
+			JaxbParserHelper.addNVPair(nvList, Token_PPlanType, powerPlanType);
     }
     
     /*
@@ -504,7 +504,7 @@ public class UCTE_DEFAdapterOld extends AbstractODMAdapter {
       		return;
       	}
       	// there might be multiple branch sections, but UTCE only has one
-		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(branchRec);
+		LoadflowBranchDataXmlType branchData = JaxbParserHelper.getDefaultBranchData(branchRec);
 		if (branchData.getXfrInfo() == null) 
 			branchData.setXfrInfo(parser.getFactory().createLoadflowBranchDataXmlTypeXfrInfo());
       	
@@ -514,13 +514,13 @@ public class UCTE_DEFAdapterOld extends AbstractODMAdapter {
       	if (dUPhase > 0.0) {
       		getLogger().fine("Phase regulation data persented");
 			if (dUPhase != 0.0)
-				ParserHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString());
 			if (dUPhase != 0.0)
-				ParserHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString());
 			if (dUPhase != 0.0)
-				ParserHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString());
 			if (dUPhase != 0.0)
-				ParserHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
 
 			double ratioFactor = branchData.getToTurnRatio().getValue();
 
@@ -557,15 +557,15 @@ public class UCTE_DEFAdapterOld extends AbstractODMAdapter {
 		else if (dUAngle > 0.0) {
 			getLogger().fine("angle regulation data persented");
 			if (dUPhase != 0.0)
-				ParserHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString());
 			if (dUPhase != 0.0)
-				ParserHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
 			if (dUPhase != 0.0)
-				ParserHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString());
 			if (dUPhase != 0.0)
-				ParserHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString());
 			if (dUPhase != 0.0)
-				ParserHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
+				JaxbParserHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
 
 			double ratioFactor = branchData.getToTurnRatio().getValue();
 

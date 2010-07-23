@@ -5,15 +5,13 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchMeterLocationEnumType;
-import org.ieee.odm.schema.BranchRecordXmlType;
-import org.ieee.odm.schema.LFBranchCodeEnumType;
-import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
@@ -44,40 +42,32 @@ public class PSSEV30LineDataRec {
       	
 		final String fid = AbstractModelParser.BusIdPreFix+i;
 		final String tid = AbstractModelParser.BusIdPreFix+j;
-		String branchId = ModelStringUtil.formBranchId(fid, tid, ckt);
 
-		BranchRecordXmlType branchRec;
+		LineBranchXmlType branchRec;
 		try {
-			branchRec = parser.createBranchRecord(branchId);
+			branchRec = parser.createLineBranch(fid, tid, ckt);
 		} catch (Exception e) {
 			logger.severe(e.toString());
 			return;
 		}		
-		branchRec.setFromBus(parser.createBusRef(fid));
-		branchRec.setToBus(parser.createBusRef(tid));	
-		branchRec.setCircuitId(ckt);
 		
 		branchRec.setOffLine(status != 1);
 		
-		LoadflowBranchDataXmlType branchData = parser.getFactory().createLoadflowBranchDataXmlType(); 
-		branchRec.getLoadflowData().add(branchData);	
-		branchData.setCode(LFBranchCodeEnumType.LINE);
-		
-		branchData.setMeterLocation( fromMetered ? BranchMeterLocationEnumType.FROM_SIDE :
+		branchRec.setMeterLocation( fromMetered ? BranchMeterLocationEnumType.FROM_SIDE :
 										BranchMeterLocationEnumType.TO_SIDE);
       	
-		AclfDataSetter.setLineData(branchData, r, x, ZUnitType.PU, 0.0, b, YUnitType.PU);
+		AclfDataSetter.setLineData(branchRec, r, x, ZUnitType.PU, 0.0, b, YUnitType.PU);
 
-		branchData.setBranchRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
-		AclfDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(),
+		branchRec.setRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
+		AclfDataSetter.setBranchRatingLimitData(branchRec.getRatingLimit(),
     				ratea, rateb, ratec, ApparentPowerUnitType.MVA);
         
        if ( gi != 0.0 || bi != 0.0)
-    	   branchData.setFromShuntY(AclfDataSetter.createYValue(gi, bi, YUnitType.PU));
+    	   branchRec.setFromShuntY(AclfDataSetter.createYValue(gi, bi, YUnitType.PU));
        if ( gj != 0.0 || bj != 0.0)
-    	   branchData.setFromShuntY(AclfDataSetter.createYValue(gj, bj, YUnitType.PU));
+    	   branchRec.setFromShuntY(AclfDataSetter.createYValue(gj, bj, YUnitType.PU));
       
-    	ParserHelper.addOwner(branchRec, 
+    	JaxbParserHelper.addOwner(branchRec, 
     			new Integer(o1).toString(), f1, 
     			new Integer(o2).toString(), o2==0?0.0:f2, 
     			new Integer(o3).toString(), o3==0?0.0:f3, 

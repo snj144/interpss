@@ -28,20 +28,19 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.ParserHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BranchRecordXmlType;
-import org.ieee.odm.schema.BusRefRecordXmlType;
-import org.ieee.odm.schema.LFBranchCodeEnumType;
-import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.LineBranchXmlType;
+import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
 import org.ieee.odm.schema.TapAdjustmentEnumType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
+import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZUnitType;
@@ -67,7 +66,6 @@ public class PSSEV26BranchRecord {
 		final String fid = AbstractModelParser.BusIdPreFix+strAry[0];
 		final String tid = AbstractModelParser.BusIdPreFix+strAry[1];
 		final String cirId = ModelStringUtil.formatCircuitId(strAry[2]);
-		String branchId = ModelStringUtil.formBranchId(fid, tid, cirId);
 		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		
         //      Branch resistance R, per unit  *
@@ -83,75 +81,71 @@ public class PSSEV26BranchRecord {
 		final double fromTap = ratio, toTap = 1.0;
 		final double fromAng = angle, toAng = 0.0;
 		
-		BranchRecordXmlType branchRec;
+		//From side shuntY
+		final double GI= ModelStringUtil.getDouble(strAry[11], 0.0);
+		final double BI= ModelStringUtil.getDouble(strAry[12], 0.0);
+
+	    //To side shuntY
+		final double GJ= ModelStringUtil.getDouble(strAry[13], 0.0);
+		final double BJ= ModelStringUtil.getDouble(strAry[14], 0.0);
+		
+		BranchXmlType branchRec;
 		try {
-			branchRec = parser.createBranchRecord(branchId);
+			if (ratio == 0.0) {
+				branchRec = parser.createLineBranch(fid, tid, cirId);
+				LineBranchXmlType branchData = (LineBranchXmlType)branchRec;
+				AclfDataSetter.setLineData(branchData, rpu, xpu, ZUnitType.PU, 0.0, bpu, YUnitType.PU);
+				//From side shuntY
+		        if(GI!=0.0 || BI!=0.0 )  {
+		        	YXmlType y = AclfDataSetter.createYValue(GI, BI, YUnitType.PU);
+	        		branchData.setFromShuntY(y);
+		        }
+
+			    //To side shuntY
+			    if(GJ!=0.0 || BJ!=0.0)  {
+		        	YXmlType y = AclfDataSetter.createYValue(GJ, BJ, YUnitType.PU);
+	        		branchData.setToShuntY(y);
+			    }
+			}
+			else if (angle == 0.0) {
+				branchRec = parser.createXfrBranch(fid, tid, cirId);
+				XfrBranchXmlType branchData = (XfrBranchXmlType)branchRec;
+				AclfDataSetter.createXformerData(branchData,
+					       rpu, xpu, ZUnitType.PU, fromTap, toTap);		
+				//From side shuntY
+		        if(GI!=0.0 || BI!=0.0 )  {
+		        	YXmlType y = AclfDataSetter.createYValue(GI, BI, YUnitType.PU);
+	        		branchData.setMagnitizingY(y);
+		        }
+			}
+			else {
+				branchRec = parser.createPSXfrBranch(fid, tid, cirId);
+				PSXfrBranchXmlType branchData = (PSXfrBranchXmlType)branchRec;
+				AclfDataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, 
+						ZUnitType.PU, fromTap, toTap, fromAng, toAng, AngleUnitType.DEG);			
+				//From side shuntY
+		        if(GI!=0.0 || BI!=0.0 )  {
+		        	YXmlType y = AclfDataSetter.createYValue(GI, BI, YUnitType.PU);
+		        	branchData.setMagnitizingY(y);
+		        }
+			}
 		} catch (Exception e) {
 			logger.severe(e.toString());
 			return;
 		}		
-		BusRefRecordXmlType fbus = parser.getFactory().createBusRefRecordXmlType();
-		BusRefRecordXmlType tbus = parser.getFactory().createBusRefRecordXmlType();
-		branchRec.setFromBus(fbus);
-		fbus.setIdRef(fid);
-		branchRec.setToBus(tbus);
-		tbus.setIdRef(tid);	
-		branchRec.setCircuitId(cirId);
 		
 		int status = ModelStringUtil.getInt(strAry[15], 0);
 		branchRec.setOffLine(status == 0);
-		
-		LoadflowBranchDataXmlType branchData = parser.getFactory().createLoadflowBranchDataXmlType(); 
-		branchRec.getLoadflowData().add(branchData);	
-
-		if (ratio == 0.0) {
-			AclfDataSetter.setLineData(branchData, rpu, xpu, ZUnitType.PU, 0.0, bpu, YUnitType.PU);
-		}
-		else if (angle == 0.0) {
-			AclfDataSetter.createXformerData(branchData,
-				       rpu, xpu, ZUnitType.PU, fromTap, toTap);		
-		}
-		else {
-			AclfDataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, 
-					ZUnitType.PU, fromTap, toTap, fromAng, toAng, AngleUnitType.DEG);			
-		}
 		
 		final double rating1Mvar = ModelStringUtil.getDouble(strAry[6], 0.0);
 		final double rating2Mvar = ModelStringUtil.getDouble(strAry[7], 0.0);
 		final double rating3Mvar = ModelStringUtil.getDouble(strAry[8], 0.0);
 		
-		branchData.setBranchRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
-		AclfDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(),
+		branchRec.setRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
+		AclfDataSetter.setBranchRatingLimitData(branchRec.getRatingLimit(),
 				rating1Mvar, rating2Mvar, rating3Mvar,
 				ApparentPowerUnitType.MVA, 0.0,
 				null);
-		
-		//From side shuntY
-		final double GI= ModelStringUtil.getDouble(strAry[11], 0.0);
-		final double BI= ModelStringUtil.getDouble(strAry[12], 0.0);
-        if(GI!=0.0 || BI!=0.0 )  {
-        	YXmlType y = AclfDataSetter.createYValue(GI, BI, YUnitType.PU);
-        	if (branchData.getCode() == LFBranchCodeEnumType.LINE)
-        		branchData.setFromShuntY(y);
-        	else if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER)
-        		branchData.setFromShuntY(y);
-        	else
-        		branchData.setFromShuntY(y);
-        	
-        }
-
-	    //To side shuntY
-		final double GJ= ModelStringUtil.getDouble(strAry[13], 0.0);
-		final double BJ= ModelStringUtil.getDouble(strAry[14], 0.0);
-	    if(GJ!=0.0 || BJ!=0.0)  {
-        	YXmlType y = AclfDataSetter.createYValue(GJ, BJ, YUnitType.PU);
-        	if (branchData.getCode() == LFBranchCodeEnumType.LINE)
-        		branchData.setToShuntY(y);
-        	else if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER)
-        		branchData.setToShuntY(y);
-        	else
-        		branchData.setToShuntY(y);
-	    }
 	}
    
 	public static void processXformerAdjData(final String str, final AclfModelParser parser, Logger logger) {
@@ -178,7 +172,7 @@ public class PSSEV26BranchRecord {
 		final String cirId = ModelStringUtil.formatCircuitId(strAry[2]);
 		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		
-		BranchRecordXmlType branchRec = parser.getBranchRecord(fid, tid, cirId);
+		BranchXmlType branchRec = parser.getBranch(fid, tid, cirId);
 	    if (branchRec == null){
 			String branchId = ModelStringUtil.formBranchId(fid, tid, cirId);
 	    	logger.severe("Branch "+ branchId + " not found in the network");
@@ -186,9 +180,6 @@ public class PSSEV26BranchRecord {
 	    }	
 
 	    // only one branch section
-		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(branchRec);
-		if (branchData.getXfrInfo() == null)
-			branchData.setXfrInfo(parser.getFactory().createLoadflowBranchDataXmlTypeXfrInfo());
 	    
 	    int icon = ModelStringUtil.getInt(strAry[3], 0);
 	    boolean isNegative = false;
@@ -198,7 +189,8 @@ public class PSSEV26BranchRecord {
 	    }
 		final String iconId = icon > 0? AbstractModelParser.BusIdPreFix+icon : null;
 
-		if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER) {
+		if (branchRec instanceof XfrBranchXmlType) {
+			XfrBranchXmlType branchData = (XfrBranchXmlType)branchRec;
 	    	double tmax = ModelStringUtil.getDouble(strAry[4], 0.0);
 	    	double tmin = ModelStringUtil.getDouble(strAry[5], 0.0);
 	    	double tstep = ModelStringUtil.getDouble(strAry[8], 0.0);
@@ -206,7 +198,7 @@ public class PSSEV26BranchRecord {
 	    	double vlow = ModelStringUtil.getDouble(strAry[7], 0.0);
 	    	
 	    	TapAdjustmentXmlType tapAdj = parser.getFactory().createTapAdjustmentXmlType(); 
-	    	branchData.getXfrInfo().setTapAdjustment(tapAdj);
+	    	branchData.setTapAdjustment(tapAdj);
 	    	tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
 	    	tapAdj.setTapLimit(AclfDataSetter.createTapLimit(tmax, tmin));
 	    	tapAdj.setTapAdjStepSize(tstep);
@@ -235,14 +227,15 @@ public class PSSEV26BranchRecord {
 	    	else
 		    	tapAdj.setOffLine(true);
 	    }
-	    else if (branchData.getCode() == LFBranchCodeEnumType.PHASE_SHIFT_XFORMER) {
+	    else if (branchRec instanceof PSXfrBranchXmlType) {
+			PSXfrBranchXmlType branchData = (PSXfrBranchXmlType)branchRec;
 	    	double angmax = ModelStringUtil.getDouble(strAry[4], 0.0);
 	    	double angmin = ModelStringUtil.getDouble(strAry[5], 0.0);
 	    	double mwup = ModelStringUtil.getDouble(strAry[6], 0.0);
 	    	double mwlow = ModelStringUtil.getDouble(strAry[7], 0.0);
 
 	    	AngleAdjustmentXmlType angAdj = parser.getFactory().createAngleAdjustmentXmlType(); 
-	    	branchData.getXfrInfo().setAngleAdjustment(angAdj);
+	    	branchData.setAngleAdjustment(angAdj);
 	    	angAdj.setAngleLimit(AclfDataSetter.createAngleLimit(angmax, angmin, AngleUnitType.DEG));
 	    	angAdj.setMax(mwup);
 	    	angAdj.setMin(mwlow);

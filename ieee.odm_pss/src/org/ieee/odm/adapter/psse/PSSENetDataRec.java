@@ -3,7 +3,7 @@ package org.ieee.odm.adapter.psse;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.model.AbstractModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.ActivePowerUnitType;
@@ -31,7 +31,7 @@ public class PSSENetDataRec {
 				NameValuePairListXmlType nvList = factory.createNameValuePairListXmlType();
 				baseCaseNet.setNvPairList(nvList);
 				
-				ParserHelper.addNVPair(nvList, "CaseIndicator", 
+				JaxbParserHelper.addNVPair(nvList, "CaseIndicator", 
 						new Integer(indicator).toString());
 			}
 			else if (lineNo == 2) {

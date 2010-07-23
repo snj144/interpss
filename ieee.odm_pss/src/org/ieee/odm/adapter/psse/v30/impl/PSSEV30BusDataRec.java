@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.AbstractModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.AngleUnitType;
@@ -68,7 +68,7 @@ public class PSSEV30BusDataRec {
 		aclfBus.setAreaNumber(area);
 		aclfBus.setZoneNumber(zone);
 		if (owner > 0) {
-			ParserHelper.addOwner(aclfBus, new Integer(owner).toString());
+			JaxbParserHelper.addOwner(aclfBus, new Integer(owner).toString());
 		}
 		
 		aclfBus.setName(name);

@@ -29,11 +29,12 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.AbstractModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 
 public class PSSEV30LoadDataRec {
@@ -50,13 +51,13 @@ public class PSSEV30LoadDataRec {
 		I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 */		
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
-		BusRecordXmlType busRec = parser.getBusRecord(busId);
+		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
 	    if (busRec == null){
 	    	logger.severe("Bus "+ busId+ " not found in the network");
 	    	return;
 	    }
 		
-	    LoadflowLoadDataXmlType contribLoad = ParserHelper.createContriLoad(busRec); 
+	    LoadflowLoadDataXmlType contribLoad = AclfParserHelper.createContriLoad(busRec); 
 
 	    contribLoad.setId(id);
 	    contribLoad.setName("Load:" + id + "(" + i + ")");
@@ -65,7 +66,7 @@ public class PSSEV30LoadDataRec {
 
 	    contribLoad.setAreaNumber(area);
 	    contribLoad.setZoneNumber(zone);
-	    ParserHelper.addOwner(contribLoad, new Integer(owner).toString());
+	    JaxbParserHelper.addOwner(contribLoad, new Integer(owner).toString());
 		
 		if (pl != 0.0 || ql != 0.0)
 			contribLoad.setConstPLoad(AclfDataSetter.createPowerValue(pl, ql, ApparentPowerUnitType.MVA));

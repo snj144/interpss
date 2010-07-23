@@ -36,7 +36,7 @@ import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.ZUnitType;
 import org.ieee.odm.adapter.psse.old.PsseVersion;
 import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.JaxbODMModelParser;
 
 public class PSSEV30GenDataRec {
@@ -73,7 +73,7 @@ public class PSSEV30GenDataRec {
 	    	return;
 	    }
 	    
-	    LoadflowGenDataXmlType contriGen = ParserHelper.createContriGen(busRec);
+	    LoadflowGenDataXmlType contriGen = JaxbParserHelper.createContriGen(busRec);
 	    
 	    contriGen.setId(id);
 	    contriGen.setName("Gen:" + id + "(" + i + ")");
@@ -111,7 +111,7 @@ public class PSSEV30GenDataRec {
 		
 		contriGen.setMvarVControlParticipateFactor(rmpct*0.01);
 
-		ParserHelper.addOwner(contriGen, 
+		JaxbParserHelper.addOwner(contriGen, 
 				new Integer(o1).toString(), f1, 
 				new Integer(o2).toString(), o2==0?0.0:f2, 
 				new Integer(o3).toString(), o3==0?0.0:f3, 

@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 import org.ieee.odm.adapter.psse.old.PsseVersion;
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.ParserHelper;
+import org.ieee.odm.model.JaxbParserHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
@@ -139,7 +139,7 @@ public class PSSEV30XfrDataRec {
     	}
       	
     	// owner id = 0.0, no contribution
-    	ParserHelper.addOwner(branchRec, 
+    	JaxbParserHelper.addOwner(branchRec, 
     			new Integer(o1).toString(), f1, 
     			new Integer(o2).toString(), o2==0?0.0:f2, 
     			new Integer(o3).toString(), o3==0?0.0:f3, 
@@ -333,7 +333,7 @@ public class PSSEV30XfrDataRec {
       	if (cr != 0.0 || cx != 0.0) {
       		if (branchData.getNvPairList() == null)
       			branchData.setNvPairList(parser.getFactory().createNameValuePairListXmlType());
-      		ParserHelper.addNVPair(branchData.getNvPairList(), "Xfr LoadDropCZ", new Double(cr).toString() + "," + new Double(cx).toString());
+      		JaxbParserHelper.addNVPair(branchData.getNvPairList(), "Xfr LoadDropCZ", new Double(cr).toString() + "," + new Double(cx).toString());
       	}
 
       	/*
