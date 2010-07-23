@@ -4,7 +4,6 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.old.PsseVersion;
-import org.ieee.odm.adapter.xbean.v30.XBeanPSSEV30Adapter;
 import org.ieee.odm.model.JaxbDataSetter;
 import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.JaxbParserHelper;
@@ -89,7 +88,7 @@ public class PSSEV30LineDataRec {
 		st = new StringTokenizer(lineStr, ",");
 		i = new Integer(st.nextToken().trim()).intValue();
 		j = new Integer(st.nextToken().trim()).intValue();
-		ckt = XBeanPSSEV30Adapter.trimQuote(st.nextToken()).trim();
+		ckt = ModelStringUtil.trimQuote(st.nextToken()).trim();
 		r = new Double(st.nextToken().trim()).doubleValue();
 		x = new Double(st.nextToken().trim()).doubleValue();
 		b = new Double(st.nextToken().trim()).doubleValue();
