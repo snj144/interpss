@@ -43,6 +43,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.xmlbeans.XmlException;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
+import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
@@ -117,7 +118,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		// cache the loaded bus and branch objects
 		for (BusXmlType bus : this.getBaseCase().getBusList().getBus())
 			this.objectCache.put(bus.getId(), bus);
-		for (BranchXmlType branch : this.getBaseCase().getBranchList().getBranch())
+		for (BaseBranchXmlType branch : this.getBaseCase().getBranchList().getBranch())
 			this.objectCache.put(branch.getId(), branch);		
 	}
 
@@ -126,7 +127,6 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 * 
 	 */
 	public AbstractModelParser() {
-		this._factory = new ObjectFactory();		
 		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 		this.getStudyCase().setId("ODM_StudyCase");
 		this.getStudyCase().setSchemaVersion(ModelContansts.ODM_Schema_Version);
@@ -270,6 +270,12 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
 		return this.getBranch(id);
 	}	
+	
+	public BranchXmlType getBranch(String fromId, String toId, String tertId, String cirId) {
+		String id = ModelStringUtil.formBranchId(fromId, toId, tertId, cirId);
+		return this.getBranch(id);
+	}	
+
 	/*
 	 * 	marshall/unmarshall, out functions
 	 * 	==================================
