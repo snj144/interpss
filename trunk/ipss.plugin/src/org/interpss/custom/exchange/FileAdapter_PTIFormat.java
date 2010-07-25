@@ -31,8 +31,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.psse.old.v26.PSSEV26Adapter;
-import org.ieee.odm.adapter.psse.old.v30.PSSEV30Adapter;
+import org.ieee.odm.adapter.v07.psse.v26.PSSEV26Adapter;
+import org.ieee.odm.adapter.v07.psse.v30.PSSEV30Adapter;
 import org.interpss.custom.exchange.impl.PSSEFormat_in;
 import org.interpss.custom.exchange.psse.PSSEDataRec;
 import org.interpss.mapper.IEEEODMMapper;

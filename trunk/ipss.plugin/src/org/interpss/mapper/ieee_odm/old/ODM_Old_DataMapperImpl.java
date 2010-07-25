@@ -25,7 +25,7 @@
 package org.interpss.mapper.ieee_odm.old;
 
 import org.apache.commons.math.complex.Complex;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.jaxb.JaxbParserHelper;
 import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchRecordXmlType;
