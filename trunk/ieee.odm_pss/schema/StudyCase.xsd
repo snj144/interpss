@@ -23,27 +23,7 @@
 				<sequence>
 					<element name="schemaVersion" minOccurs="1" maxOccurs="1" type="pss:ODMSchemaVersionEnumType">
 					</element>
-					<element name="contentInfo" minOccurs="0">
-						<complexType>
-							<sequence>
-								<element name="originalDataFormat" minOccurs="1" maxOccurs="1" type="pss:OriginalDataFormatEnumType">
-									<annotation>
-										<documentation>for describing the original data format, from which this xml file is produced</documentation>
-									</annotation>
-								</element>
-								<element name="originalFormatVersion" type="string" minOccurs="0"></element>
-								<element name="adapterProviderName" type="string" minOccurs="0" maxOccurs="1">
-									<annotation>
-										<documentation>adapter provider name this file was created or this file is inteded for</documentation>
-									</annotation>
-								</element>
-								<element name="adapterProviderVersion" type="string" minOccurs="0" maxOccurs="1">
-									<annotation>
-										<documentation>adapter provider version this file was created or this file is inteded for</documentation>
-									</annotation>
-								</element>
-							</sequence>
-						</complexType>
+					<element name="contentInfo" minOccurs="0" type="pss:ContentInfoXmlType">
 					</element>
 					<element name="baseCase" type="pss:NetworkXmlType" minOccurs="1" maxOccurs="1">
 						<annotation>
@@ -70,12 +50,32 @@
 							</sequence>
 						</complexType>
 					</element>
-
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
 
+	<complexType name="ContentInfoXmlType">
+		<sequence>
+			<element name="originalDataFormat" minOccurs="1" maxOccurs="1" type="pss:OriginalDataFormatEnumType">
+				<annotation>
+					<documentation>for describing the original data format, from which this xml file is produced</documentation>
+				</annotation>
+			</element>
+			<element name="originalFormatVersion" type="string" minOccurs="0"></element>
+			<element name="adapterProviderName" type="string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>adapter provider name this file was created or this file is inteded for</documentation>
+				</annotation>
+			</element>
+			<element name="adapterProviderVersion" type="string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>adapter provider version this file was created or this file is inteded for</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+						
 	<simpleType name="ODMSchemaVersionEnumType">
 		<restriction base="string">
 			<enumeration value="V0.8"></enumeration>
@@ -103,7 +103,9 @@
 
 	<complexType name="ScenarioXmlType">
 		<annotation>
-			<documentation>for define a study scenario. In addtion to the modification defined at the StudyCase level, modification can be also defined at each scenario level</documentation>
+			<documentation>
+				for define a study scenario. In addtion to the modification defined at the StudyCase level, 
+			 	modification can be also defined at each scenario level</documentation>
 		</annotation>
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
@@ -155,7 +157,6 @@
 			</element>
 			<element name="dynamicDataList" type="pss:DynamicDataListXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="outPutSetting" maxOccurs="1" minOccurs="0">
-				<complexType></complexType>
 			</element>
 		</sequence>
 	</complexType>
