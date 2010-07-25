@@ -35,9 +35,7 @@
 					<element name="tieLineList" minOccurs="0">
 						<complexType>
 							<sequence>
-								<element name="tieline" minOccurs="0" maxOccurs="unbounded" type="pss:TielineXmlType">
-
-								</element>
+								<element name="tieline" minOccurs="0" maxOccurs="unbounded" type="pss:TielineXmlType"></element>
 							</sequence>
 						</complexType>
 					</element>
@@ -357,8 +355,7 @@
 							<complexContent>
 								<extension base="pss:AdjustmentDataXmlType">
 									<sequence>
-										<element name="desiredMvarFlowUnit" minOccurs="1" type="pss:ReactivePowerUnitType">
-										</element>
+										<element name="desiredMvarFlowUnit" minOccurs="1" type="pss:ReactivePowerUnitType">	</element>
 										<element name="mvarMeasuredOnFormSide" type="boolean" minOccurs="1"></element>
 									</sequence>
 								</extension>
@@ -377,8 +374,7 @@
 				<sequence>
 					<element name="angleLimit" type="pss:AngleLimitXmlType" minOccurs="1"></element>
 					<element name="angleAdjOnFromSide" type="boolean" minOccurs="1"></element>
-					<element name="desiredPowerUnit" minOccurs="1" type="pss:ActivePowerUnitType">
-					</element>
+					<element name="desiredPowerUnit" minOccurs="1" type="pss:ActivePowerUnitType"></element>
 					<element name="desiredMeasuredOnFromSide" type="boolean" minOccurs="1"></element>
 				</sequence>
 				<attribute name="offLine" type="boolean" use="required"></attribute>
