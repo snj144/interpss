@@ -35,8 +35,8 @@ import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ZUnitType;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.odm.model.jaxb.JaxbDataSetter;
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.jaxb.JaxbParserHelper;
+import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 
 public class GenDataRec extends BusHeaderRec {
 	public int st, igregBus, nst; 
