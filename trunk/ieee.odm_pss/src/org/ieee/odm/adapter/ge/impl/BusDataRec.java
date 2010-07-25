@@ -34,9 +34,9 @@ import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusDataXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.JaxbODMModelParser;
-import org.ieee.odm.model.JaxbParserHelper;
+import org.ieee.odm.model.jaxb.JaxbDataSetter;
+import org.ieee.odm.model.jaxb.JaxbODMModelParser;
+import org.ieee.odm.model.jaxb.JaxbParserHelper;
 
 public class BusDataRec extends BusHeaderRec {
 			public int ty, owner;

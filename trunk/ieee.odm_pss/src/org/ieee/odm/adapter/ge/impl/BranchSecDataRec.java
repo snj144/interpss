@@ -27,8 +27,8 @@ package org.ieee.odm.adapter.ge.impl;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.odm.model.JaxbDataSetter;
-import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.model.jaxb.JaxbDataSetter;
+import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.LFBranchCodeEnumType;
