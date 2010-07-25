@@ -22,7 +22,7 @@
  *
  */
 
-package org.ieee.odm.model;
+package org.ieee.odm.model.jaxb;
 
 /**
  * A Xml parser for the IEEE DOM schema. 
@@ -32,6 +32,8 @@ import java.io.File;
 import java.io.InputStream;
 
 import org.apache.xmlbeans.XmlException;
+import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
