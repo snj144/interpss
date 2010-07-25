@@ -32,8 +32,8 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.psse.old.v30.PSSEV30Adapter;
-import org.ieee.odm.model.JaxbODMModelParser;
+import org.ieee.odm.adapter.v07.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.junit.Test;
 
 public class PSSEV30_SegmentTest { 
