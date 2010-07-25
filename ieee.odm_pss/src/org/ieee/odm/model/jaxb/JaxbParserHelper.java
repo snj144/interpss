@@ -22,10 +22,11 @@
   *
   */
 
-package org.ieee.odm.model;
+package org.ieee.odm.model.jaxb;
 
 import java.util.logging.Logger;
 
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BaseRecordXmlType;

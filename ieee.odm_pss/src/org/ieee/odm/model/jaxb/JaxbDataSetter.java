@@ -22,8 +22,9 @@
   *
   */
 
-package org.ieee.odm.model;
+package org.ieee.odm.model.jaxb;
 
+import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
