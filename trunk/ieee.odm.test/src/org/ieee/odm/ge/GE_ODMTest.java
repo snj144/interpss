@@ -40,7 +40,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.ge.xbean.XBeanGE_PSLF_Adapter;
+import org.ieee.odm.adapter.xbean.ge.XBeanGE_PSLF_Adapter;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.junit.Test;
