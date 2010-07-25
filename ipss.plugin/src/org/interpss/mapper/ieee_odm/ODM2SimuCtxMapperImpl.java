@@ -24,8 +24,8 @@
 
 package org.interpss.mapper.ieee_odm;
 
-import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchRecordXmlType;

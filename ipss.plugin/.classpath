@@ -19,10 +19,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm_pss"/>
-	<classpathentry kind="lib" path="/ieee.odm_pss/lib/ieee.odm_pss.schemas.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.ext_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.core_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ieee/ieee.odm_pss.schemas.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>

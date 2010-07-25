@@ -24,8 +24,8 @@
 
 package org.interpss.mapper;
 
-import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 
 import com.interpss.common.mapper.AbstractMapper;
