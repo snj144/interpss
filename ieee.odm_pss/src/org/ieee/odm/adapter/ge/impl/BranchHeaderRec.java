@@ -26,8 +26,8 @@ package org.ieee.odm.adapter.ge.impl;
 
 import java.util.StringTokenizer;
 
-import org.ieee.odm.model.JaxbODMModelParser;
 import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.schema.BranchRecordXmlType;
 
 public class BranchHeaderRec {
