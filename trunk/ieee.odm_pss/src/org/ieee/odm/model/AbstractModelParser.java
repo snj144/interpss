@@ -47,6 +47,7 @@ import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.ContentInfoXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.NetworkXmlType;
@@ -155,7 +156,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 * @param originalFormat
 	 */
 	public void setLFTransInfo(OriginalDataFormatEnumType originalDataFormat) {
-		StudyCaseXmlType.ContentInfo info = getFactory().createStudyCaseXmlTypeContentInfo();
+		ContentInfoXmlType info = getFactory().createContentInfoXmlType();
 		getStudyCase().setContentInfo(info);
 		info.setOriginalDataFormat(originalDataFormat);
 		info.setAdapterProviderName("www.interpss.org");
