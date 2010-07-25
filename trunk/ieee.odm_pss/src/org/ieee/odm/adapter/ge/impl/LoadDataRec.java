@@ -32,8 +32,8 @@ import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.odm.model.jaxb.JaxbDataSetter;
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.jaxb.JaxbParserHelper;
+import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 
 public class LoadDataRec extends BusHeaderRec {
 	public int st, nst, owner;
