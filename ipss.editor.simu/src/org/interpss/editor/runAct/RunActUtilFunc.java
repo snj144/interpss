@@ -65,7 +65,7 @@ public class RunActUtilFunc {
 			FunctionLoad load = (FunctionLoad) adjNet.getFunctionLoadList()
 					.get(i);
 			if (load.needAdjust(tolerance, adjNet.getBaseKva(), msg))
-				list.add(load.getId() + " at " + load.getBus().getName());
+				list.add(load.getId() + " at " + load.getParentBus().getName());
 		}
 		return list.toArray();
 	}
