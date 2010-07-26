@@ -282,14 +282,14 @@ public class AclfResultMapperImpl {
 		List<RptFuncLoadBean> list = new ArrayList<RptFuncLoadBean>();
 		double baseKva = net.getBaseKva();
 		for (FunctionLoad fload : net.getFunctionLoadList()) {
-			double vpu = fload.getAclfBus().getVoltage().abs();
+			double vpu = fload.getParentBus().getVoltage().abs();
 			RptFuncLoadBean bean = new RptFuncLoadBean();
-			bean.setBusId(fload.getAclfBus().getId());
+			bean.setBusId(fload.getParentBus().getId());
 			bean.setPact(Number2String.toStr("##0.0000", fload.getP().getLoad(
 					vpu, UnitType.PU, baseKva)));
 			bean.setQact(Number2String.toStr("##0.0000", fload.getQ().getLoad(
 					vpu, UnitType.PU, baseKva)));
-			bean.setV(Number2String.toStr("##0.0000", fload.getAclfBus()
+			bean.setV(Number2String.toStr("##0.0000", fload.getParentBus()
 					.getVoltageMag(UnitType.PU)));
 			bean.setP0(Number2String.toStr("##0.0000", fload.getP().getLoad0(
 					UnitType.PU, baseKva)));
