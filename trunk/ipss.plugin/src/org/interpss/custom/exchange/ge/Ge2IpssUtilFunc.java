@@ -28,6 +28,7 @@ import org.apache.commons.math.complex.Complex;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
@@ -86,7 +87,11 @@ public class Ge2IpssUtilFunc {
 			geBus.setZone(net.getZone(geBus.getGeZoneNo()));
 			geBus.setOwner(net.getOwner(geBus.getGeOwnerNo()));
 
-			setBusLoadData(geBus, net.getBaseKva(), net);
+			try{
+				setBusLoadData(geBus, net.getBaseKva(), net);
+			} catch (InterpssException e) {
+				msg.sendErrorMsg(e.toString());
+			}
 			
 			if (!setBusGenData(geBus, net.getBaseKva(), net, msg))
 				dataError = true;
@@ -136,7 +141,7 @@ public class Ge2IpssUtilFunc {
 		}
 	}
 	
-	private static void setBusLoadData(GeAclfBus geBus, double baseKva, GeAclfNetwork net) {
+	private static void setBusLoadData(GeAclfBus geBus, double baseKva, GeAclfNetwork net) throws InterpssException {
 		double cp_p=0.0, cp_q=0.0, ci_p=0.0, ci_q=0.0, cz_p=0.0, cz_q=0.0; 
 		for (GeLoad load : geBus.getLoadList()) {
 			if (load.isInSevice()) {
@@ -165,7 +170,7 @@ public class Ge2IpssUtilFunc {
   			load.setLoad(new Complex(cz_p, cz_q), UnitType.mVA, baseKva);
   		}
 		else if ((cp_p != 0.0 || cp_q != 0.0 || ci_p!= 0.0 || ci_q != 0.0 || cz_p != 0.0 || cz_q !=0.0)) {
-			FunctionLoad fload = CoreObjectFactory.createFunctionLoad(net, geBus.getId());
+			FunctionLoad fload = CoreObjectFactory.createFunctionLoad(geBus);
 			double loadP0 = cp_p + ci_p + cz_p;
 			double loadQ0 = cp_q + ci_q + cz_q;
 			fload.getP().setLoad0(loadP0, UnitType.mVA, baseKva);

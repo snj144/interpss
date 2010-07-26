@@ -40,6 +40,7 @@ import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -137,12 +138,15 @@ public class AclfFormDataMapperImpl {
 		}
 
 		// Then put AclfAdjBus and AclfAdjBranch info into Net
-		if (((GNetForm) editNet.getGNetForm()).getAcscNetData()
-				.isHasAdjustment()) {
+		if (((GNetForm) editNet.getGNetForm()).getAcscNetData().isHasAdjustment()) {
 			for (Object obj : editNet.getBusFormList()) {
 				// For each AcscBus xml object, parse for an AcscBus form object
-				GBusForm busForm = (GBusForm) obj;
-				addAclfAdjBusFormInfo(busForm, aclfNet);
+				try {
+					GBusForm busForm = (GBusForm) obj;
+					addAclfAdjBusFormInfo(busForm, aclfNet);
+				} catch (InterpssException e) {
+					msg.sendErrorMsg(e.toString());
+				}
 				// System.out.println("\nBus info, #:" + (i+1));
 				// System.out.println(busForm.toString());
 			}
@@ -343,7 +347,7 @@ public class AclfFormDataMapperImpl {
 	 * @return the status
 	 */
 	private static boolean addAclfAdjBusFormInfo(GBusForm formBus,
-			AclfAdjNetwork aclfNet) {
+			AclfAdjNetwork aclfNet) throws InterpssException {
 		AclfBus bus = aclfNet.getAclfBus(formBus.getId());
 		AclfBusData busData = formBus.getAcscBusData();
 		if (busData.getGenCode().equals(AclfBusData.GenCode_PQ)) {
@@ -398,8 +402,7 @@ public class AclfFormDataMapperImpl {
 
 		if (busData.getLoadCode().equals(AclfBusData.LoadCode_FuncLoad)) {
 			AclfAdjBusData adjData = formBus.getAcscBusData();
-			FunctionLoad fload = CoreObjectFactory.createFunctionLoad(aclfNet,
-					bus.getId());
+			FunctionLoad fload = CoreObjectFactory.createFunctionLoad(bus);
 			fload.getP().setA(adjData.getLoadP_PPct(), UnitType.Percent);
 			fload.getP().setB(adjData.getLoadP_IPct(), UnitType.Percent);
 			fload.getQ().setA(adjData.getLoadQ_PPct(), UnitType.Percent);

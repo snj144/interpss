@@ -30,6 +30,7 @@ import org.apache.commons.math.complex.Complex;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
@@ -139,11 +140,15 @@ public class PSSE2IpssUtilFunc {
 					bus.setLoadP(data.loadPSum);
 					bus.setLoadQ(data.loadQSum);
 					if (data.isFuncLoad) {
-				  		FunctionLoad fload = CoreObjectFactory.createFunctionLoad(adjNet, bus.getId());
-				  		fload.getP().setA(data.constP_P/data.loadPSum);
-				  		fload.getP().setB(data.constI_P/data.loadPSum);
-				  		fload.getQ().setA(data.constP_Q/data.loadQSum);
-				  		fload.getQ().setB(data.constI_Q/data.loadQSum);					
+				  		try {
+				  			FunctionLoad fload = CoreObjectFactory.createFunctionLoad(bus);
+					  		fload.getP().setA(data.constP_P/data.loadPSum);
+					  		fload.getP().setB(data.constI_P/data.loadPSum);
+					  		fload.getQ().setA(data.constP_Q/data.loadQSum);
+					  		fload.getQ().setB(data.constI_Q/data.loadQSum);					
+				  		} catch (InterpssException e) {
+				  			msg.sendErrorMsg(e.toString());
+				  		}
 					}
 				}
 				
