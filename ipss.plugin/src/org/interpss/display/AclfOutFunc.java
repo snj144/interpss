@@ -426,15 +426,15 @@ public class AclfOutFunc {
 
 		for (FunctionLoad x : net.getFunctionLoadList()) {
 			str.append(Number2String.toStr(5, " "));
-			str.append(Number2String.toStr(-8, x.getAclfBus().getId()) + " ");
-			double vpu = x.getAclfBus().getVoltage().abs();
+			str.append(Number2String.toStr(-8, x.getParentBus().getId()) + " ");
+			double vpu = x.getParentBus().getVoltage().abs();
 			str.append(Number2String.toStr("##0.0000", x.getP().getLoad(vpu,
 					UnitType.PU, baseKVA))
 					+ " ");
 			str.append(Number2String.toStr("##0.0000", x.getQ().getLoad(vpu,
 					UnitType.PU, baseKVA))
 					+ " ");
-			str.append(Number2String.toStr("##0.0000", x.getAclfBus()
+			str.append(Number2String.toStr("##0.0000", x.getParentBus()
 					.getVoltageMag(UnitType.PU))
 					+ " ");
 			str.append(Number2String.toStr("##0.0000", x.getP().getLoad0(
