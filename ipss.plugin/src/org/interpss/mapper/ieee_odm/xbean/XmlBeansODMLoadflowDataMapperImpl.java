@@ -181,7 +181,7 @@ public class XmlBeansODMLoadflowDataMapperImpl {
 				PQBusAdapter pqBus = (PQBusAdapter) aclfBus.getAdapter(PQBusAdapter.class);
 				pqBus.setGen(new Complex(xmlEquivGenData.getPower().getRe(), 
 						                 xmlEquivGenData.getPower().getIm()),
-						           XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
+						           XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()));
 				if (xmlEquivGenData.getVoltageLimit() != null) {
   			  		final PQBusLimit pqLimit = CoreObjectFactory.createPQBusLimit(adjNet, aclfBus.getId());
   			  		pqLimit.setVLimit(new LimitType(xmlEquivGenData.getVoltageLimit().getMax(), 
@@ -196,7 +196,7 @@ public class XmlBeansODMLoadflowDataMapperImpl {
 					//if (xmlEquivGenData == null)
 					//	System.out.print(busXmlData);
 					pvBus.setGenP(xmlEquivGenData.getPower().getRe(),
-								XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
+								XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()));
 					vXml = xmlEquivGenData.getDesiredVoltage();
 					vpu = UnitType.vConversion(vXml.getValue(),
 							aclfBus.getBaseVoltage(), XmlBeansODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
@@ -224,7 +224,7 @@ public class XmlBeansODMLoadflowDataMapperImpl {
   			  			final PQBusAdapter gen = (PQBusAdapter)aclfBus.getAdapter(PQBusAdapter.class);
   			  			gen.setGen(new Complex(xmlEquivGenData.getPower().getRe(),
   			  					               xmlEquivGenData.getPower().getIm()), 
-  			  					               XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
+  			  					               XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()));
   	  			  		reQBus.setQLimit(new LimitType(xmlEquivGenData.getQLimit().getMax(), 
   														xmlEquivGenData.getQLimit().getMin()), 
   										XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()), adjNet.getBaseKva());						
@@ -291,12 +291,12 @@ public class XmlBeansODMLoadflowDataMapperImpl {
 				LineAdapter line = (LineAdapter) aclfBra.getAdapter(LineAdapter.class);
 				line.setZ(new Complex(braXmlData.getZ().getRe(), braXmlData.getZ().getIm()), 
 							XmlBeansODMXmlHelper.toUnit(braXmlData.getZ().getUnit()), 
-							aclfBra.getFromAclfBus().getBaseVoltage(),	baseKva, msg);
+							aclfBra.getFromAclfBus().getBaseVoltage(), msg);
 				if (braXmlData.getTotalShuntY() != null)
 					line.setHShuntY(new Complex(0.5 * braXmlData.getTotalShuntY().getRe(),
 									0.5 * braXmlData.getTotalShuntY().getIm()),
 							XmlBeansODMXmlHelper.toUnit(braXmlData.getTotalShuntY().getUnit()), 
-							aclfBra.getFromAclfBus().getBaseVoltage(), baseKva);
+							aclfBra.getFromAclfBus().getBaseVoltage());
 				
 				fromShuntY = braXmlData.getFromShuntY();
 				toShuntY = braXmlData.getToShuntY();
@@ -379,7 +379,7 @@ public class XmlBeansODMLoadflowDataMapperImpl {
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		XfrAdapter xfr = (XfrAdapter) aclfBra.getAdapter(XfrAdapter.class);
 		xfr.setZ(new Complex(xfrData.getZ().getRe()*zratio, xfrData.getZ().getIm()*zratio),
-				XmlBeansODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV, adjNet.getBaseKva(),
+				XmlBeansODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV,
 				msg);
 		xfr.setFromTurnRatio(xfrData.getFromTurnRatio().getValue() == 0.0 ? 1.0 : xfrData
 				.getFromTurnRatio().getValue()*tapratio, UnitType.PU);

@@ -245,15 +245,12 @@ public class AclfFormDataMapperImpl {
 		if (busData.getGenCode().equals(AclfBusData.GenCode_PQ)) {
 			bus.setGenCode(AclfGenCode.GEN_PQ);
 			PQBusAdapter pqBus = (PQBusAdapter) bus.getAdapter(PQBusAdapter.class);
-			pqBus
-					.setGen(new Complex(busData.getGenP(), busData.getGenQ()),
-							UnitType.toUnit(busData.getGenUnit()), aclfNet
-									.getBaseKva());
+			pqBus.setGen(new Complex(busData.getGenP(), busData.getGenQ()),
+							UnitType.toUnit(busData.getGenUnit()));
 		} else if (busData.getGenCode().equals(AclfBusData.GenCode_PV)) {
 			bus.setGenCode(AclfGenCode.GEN_PV);
 			PVBusAdapter pvBus = (PVBusAdapter) bus.getAdapter(PVBusAdapter.class);
-			pvBus.setGenP(busData.getGenP(), UnitType.toUnit(busData
-					.getGenUnit()), aclfNet.getBaseKva());
+			pvBus.setGenP(busData.getGenP(), UnitType.toUnit(busData.getGenUnit()));
 			// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and
 			// ReQMvarFlow-MvarSpec
 			pvBus.setVoltMag(busData.getVoltageMag(), UnitType.toUnit(busData
@@ -272,8 +269,7 @@ public class AclfFormDataMapperImpl {
 			CapacitorBusAdapter cBus = (CapacitorBusAdapter) bus
 					.getAdapter(CapacitorBusAdapter.class);
 			cBus.setQ(busData.getCapQ(),
-					UnitType.toUnit(busData.getCapQUnit()), aclfNet
-							.getBaseKva());
+					UnitType.toUnit(busData.getCapQUnit()));
 		} else if (busData.getGenCode()
 				.equals(AclfBusData.GenCode_GenScripting)) {
 			bus.setGenCode(AclfGenCode.GEN_SCRIPTING);
@@ -502,14 +498,14 @@ public class AclfFormDataMapperImpl {
 			LineAdapter line = (LineAdapter) branch.getAdapter(LineAdapter.class);
 			line.setZ(new Complex(data.getZR(), data.getZX()), UnitType
 					.toUnit(data.getZUnit()), branch.getFromAclfBus()
-					.getBaseVoltage(), net.getBaseKva(), msg);
+					.getBaseVoltage(), msg);
 			line.setHShuntY(new Complex(0.0, data.getHalfShuntB()), UnitType
 					.toUnit(data.getHalfShuntBUnit()), branch.getFromAclfBus()
-					.getBaseVoltage(), net.getBaseKva());
+					.getBaseVoltage());
 			line.setFromShuntY(new Complex(data.getFromShuntG(),data.getFromShuntB()), 
-					UnitType.toUnit(data.getShuntYUnit()), net.getBaseKva());
+					UnitType.toUnit(data.getShuntYUnit()));
 			line.setToShuntY(new Complex(data.getToShuntG(),data.getToShuntB()), 
-					UnitType.toUnit(data.getShuntYUnit()), net.getBaseKva());
+					UnitType.toUnit(data.getShuntYUnit()));
 			line.setMvaRating1(data.getRating1());
 			line.setMvaRating2(data.getRating2());
 			line.setMvaRating3(data.getRating3());
@@ -532,16 +528,16 @@ public class AclfFormDataMapperImpl {
 			double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 			XfrAdapter xfr = (XfrAdapter) branch.getAdapter(XfrAdapter.class);
 			xfr.setZ(new Complex(data.getZR(), data.getZX()), UnitType
-					.toUnit(data.getZUnit()), baseV, net.getBaseKva(), msg);
+					.toUnit(data.getZUnit()), baseV, msg);
 
 			xfr.setFromTurnRatio(data.getXfrTapFromSideTap(), UnitType
 					.toUnit(data.getXfrTapUnit()));
 			xfr.setToTurnRatio(data.getXfrTapToSideTap(), UnitType.toUnit(data
 					.getXfrTapUnit()));
 			xfr.setFromShuntY(new Complex(data.getFromShuntG(),data.getFromShuntB()), 
-					UnitType.toUnit(data.getShuntYUnit()), net.getBaseKva());
+					UnitType.toUnit(data.getShuntYUnit()));
 			xfr.setToShuntY(new Complex(data.getToShuntG(),data.getToShuntB()), 
-					UnitType.toUnit(data.getShuntYUnit()), net.getBaseKva());
+					UnitType.toUnit(data.getShuntYUnit()));
 			xfr.setMvaRating1(data.getRating1());
 			xfr.setMvaRating2(data.getRating2());
 			xfr.setMvaRating3(data.getRating3());

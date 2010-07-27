@@ -185,7 +185,7 @@ public class ODM_Old_DataMapperImpl {
 				PQBusAdapter pqBus = (PQBusAdapter) aclfBus.getAdapter(PQBusAdapter.class);
 				pqBus.setGen(new Complex(xmlEquivGenData.getPower().getRe(), 
 						                 xmlEquivGenData.getPower().getIm()),
-						           ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
+						           ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()));
 				if (xmlEquivGenData.getVoltageLimit() != null) {
   			  		final PQBusLimit pqLimit = CoreObjectFactory.createPQBusLimit(adjNet, aclfBus.getId());
   			  		pqLimit.setVLimit(new LimitType(xmlEquivGenData.getVoltageLimit().getMax(), 
@@ -200,7 +200,7 @@ public class ODM_Old_DataMapperImpl {
 					//if (xmlEquivGenData == null)
 					//	System.out.print(busXmlData);
 					pvBus.setGenP(xmlEquivGenData.getPower().getRe(),
-								ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
+								ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()));
 					vXml = xmlEquivGenData.getDesiredVoltage();
 					vpu = UnitType.vConversion(vXml.getValue(),
 							aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
@@ -228,7 +228,7 @@ public class ODM_Old_DataMapperImpl {
   			  			final PQBusAdapter gen = (PQBusAdapter)aclfBus.getAdapter(PQBusAdapter.class);
   			  			gen.setGen(new Complex(xmlEquivGenData.getPower().getRe(),
   			  					               xmlEquivGenData.getPower().getIm()), 
-  			  					               ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
+  			  					               ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()));
   	  			  		reQBus.setQLimit(new LimitType(xmlEquivGenData.getQLimit().getMax(), 
   														xmlEquivGenData.getQLimit().getMin()), 
   										ODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()), adjNet.getBaseKva());						
@@ -295,12 +295,12 @@ public class ODM_Old_DataMapperImpl {
 				LineAdapter line = (LineAdapter) aclfBra.getAdapter(LineAdapter.class);
 				line.setZ(new Complex(braXmlData.getZ().getRe(), braXmlData.getZ().getIm()), 
 							ODMXmlHelper.toUnit(braXmlData.getZ().getUnit()), 
-							aclfBra.getFromAclfBus().getBaseVoltage(),	baseKva, msg);
+							aclfBra.getFromAclfBus().getBaseVoltage(), msg);
 				if (braXmlData.getTotalShuntY() != null)
 					line.setHShuntY(new Complex(0.5 * braXmlData.getTotalShuntY().getRe(),
 									0.5 * braXmlData.getTotalShuntY().getIm()),
 							ODMXmlHelper.toUnit(braXmlData.getTotalShuntY().getUnit()), 
-							aclfBra.getFromAclfBus().getBaseVoltage(), baseKva);
+							aclfBra.getFromAclfBus().getBaseVoltage());
 				
 				fromShuntY = braXmlData.getFromShuntY();
 				toShuntY = braXmlData.getToShuntY();
@@ -383,8 +383,7 @@ public class ODM_Old_DataMapperImpl {
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		XfrAdapter xfr = (XfrAdapter) aclfBra.getAdapter(XfrAdapter.class);
 		xfr.setZ(new Complex(xfrData.getZ().getRe()*zratio, xfrData.getZ().getIm()*zratio),
-				ODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV, adjNet.getBaseKva(),
-				msg);
+				ODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV, msg);
 		xfr.setFromTurnRatio(xfrData.getFromTurnRatio().getValue() == 0.0 ? 1.0 : xfrData
 				.getFromTurnRatio().getValue()*tapratio, UnitType.PU);
 		xfr.setToTurnRatio(xfrData.getToTurnRatio().getValue() == 0.0 ? 1.0 : xfrData

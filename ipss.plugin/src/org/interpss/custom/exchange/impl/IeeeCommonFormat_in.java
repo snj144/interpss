@@ -288,7 +288,7 @@ public class IeeeCommonFormat_in {
     		bus.setGenCode(AclfGenCode.GEN_PQ);
     		bus.setLoadCode(AclfLoadCode.CONST_P);
    			final PQBusAdapter gen = (PQBusAdapter)bus.getAdapter(PQBusAdapter.class);
-    		gen.setGen(new Complex(genMw, genMvar), UnitType.mVA, net.getBaseKva());
+    		gen.setGen(new Complex(genMw, genMvar), UnitType.mVA);
     		gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
     		if ((max != 0.0) || (min != 0.0)) {
     			IpssLogger.getLogger().fine("Bus is a PQLimitBus, id: " + busId);
@@ -301,7 +301,7 @@ public class IeeeCommonFormat_in {
    		 	bus.setGenCode(AclfGenCode.GEN_PV);
    		 	bus.setLoadCode(AclfLoadCode.CONST_P);
   			final PVBusAdapter gen = (PVBusAdapter)bus.getAdapter(PVBusAdapter.class);
-  			gen.setGenP(genMw, UnitType.mW, net.getBaseKva());
+  			gen.setGenP(genMw, UnitType.mW);
   			gen.setVoltMag(vpu, UnitType.PU);
   			gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
   			if ((max != 0.0) || (min != 0.0)) {
@@ -495,7 +495,7 @@ public class IeeeCommonFormat_in {
         	bra.setBranchCode(AclfBranchCode.LINE);
     		final LineAdapter line = (LineAdapter)bra.getAdapter(LineAdapter.class);
         	line.getAclfBranch().setZ(new Complex(rpu,xpu), msg);
-        	line.setHShuntY(new Complex(0.0,0.5*bpu), UnitType.PU, 1.0, net.getBaseKva()); // Unit is PU, no need to enter baseV
+        	line.setHShuntY(new Complex(0.0,0.5*bpu), UnitType.PU, 1.0); // Unit is PU, no need to enter baseV
       	}
       	else if (type >= 1) {
       		// Transformer branch
