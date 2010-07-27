@@ -86,7 +86,7 @@ public class AclfResultMapperImpl {
 				GenBusAdapter genBus = (GenBusAdapter) bus
 						.getAdapter(GenBusAdapter.class);
 				Complex busPQ = genBus.getGenResults(UnitType.PU, baseKVA)
-						.subtract(genBus.getLoadResults(UnitType.PU, baseKVA));
+						.subtract(genBus.getLoadResults(UnitType.PU));
 				if (bus.isCapacitor()) {
 					CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
 							.getAdapter(CapacitorBusAdapter.class);
@@ -123,7 +123,7 @@ public class AclfResultMapperImpl {
 				GenBusAdapter genBus = (GenBusAdapter) bus
 						.getAdapter(GenBusAdapter.class);
 				Complex busGen = genBus.getGenResults(UnitType.mVA, baseKVA);
-				Complex busLoad = genBus.getLoadResults(UnitType.mVA, baseKVA);
+				Complex busLoad = genBus.getLoadResults(UnitType.mVA);
 				if (bus.isCapacitor()) {
 					CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
 							.getAdapter(CapacitorBusAdapter.class);

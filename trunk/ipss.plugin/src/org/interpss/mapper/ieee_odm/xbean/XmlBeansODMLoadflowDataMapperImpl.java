@@ -266,7 +266,7 @@ public class XmlBeansODMLoadflowDataMapperImpl {
 					p = xmlEquivLoad.getConstZLoad();
 				if (p != null)
 					loadBus.setLoad(new Complex(p.getRe(), p.getIm()),
-							XmlBeansODMXmlHelper.toUnit(p.getUnit()), adjNet.getBaseKva());
+							XmlBeansODMXmlHelper.toUnit(p.getUnit()));
 			}
 		} else {
 			aclfBus.setLoadCode(AclfLoadCode.NON_LOAD);

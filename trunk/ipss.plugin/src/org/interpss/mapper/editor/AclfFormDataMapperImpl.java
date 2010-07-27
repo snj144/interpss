@@ -290,8 +290,7 @@ public class AclfFormDataMapperImpl {
 					.getAdapter(LoadBusAdapter.class);
 			if (!busData.getLoadCode().equals(AclfBusData.LoadCode_NonLoad))
 				loadBus.setLoad(new Complex(busData.getLoadP(), busData
-						.getLoadQ()), UnitType.toUnit(busData.getLoadUnit()),
-						aclfNet.getBaseKva());
+						.getLoadQ()), UnitType.toUnit(busData.getLoadUnit()));
 		}
 
 		Complex ypu = UnitType.yConversion(new Complex(busData.getShuntG(),

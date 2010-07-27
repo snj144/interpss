@@ -270,7 +270,7 @@ public class ODM_Old_DataMapperImpl {
 					p = xmlEquivLoad.getConstZLoad();
 				if (p != null)
 					loadBus.setLoad(new Complex(p.getRe(), p.getIm()),
-							ODMXmlHelper.toUnit(p.getUnit()), adjNet.getBaseKva());
+							ODMXmlHelper.toUnit(p.getUnit()));
 			}
 		} else {
 			aclfBus.setLoadCode(AclfLoadCode.NON_LOAD);
