@@ -230,8 +230,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 			bus.setLoadCode(AclfLoadCode.CONST_P);
 			final PQBusAdapter pqGen = (PQBusAdapter) bus
 					.getAdapter(PQBusAdapter.class);
-			pqGen.setGen(new Complex(pGenMW, qGenMvar), UnitType.mVA, aclfNet
-					.getBaseKva());
+			pqGen.setGen(new Complex(pGenMW, qGenMvar), UnitType.mVA);
 			pqGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA);
 			break;
 		case 1: // Q angle bus
@@ -243,7 +242,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 			bus.setLoadCode(AclfLoadCode.CONST_P);
 			final PVBusAdapter pvGen = (PVBusAdapter) bus
 					.getAdapter(PVBusAdapter.class);
-			pvGen.setGenP(pGenMW, UnitType.mW, aclfNet.getBaseKva());
+			pvGen.setGenP(pGenMW, UnitType.mW);
 			pvGen.setVoltMag(voltage, UnitType.kV);
 			pvGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA);
 			if (((maxGenMVar != 0.0) || (minGenMVar != 0.0))
@@ -319,9 +318,9 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
     	// set line info into InterPSS simulation engine 
     	branch.setBranchCode(AclfBranchCode.LINE);
 		final LineAdapter line = (LineAdapter)branch.getAdapter(LineAdapter.class);
-    	line.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, branch.getFromAclfBus().getBaseVoltage(), aclfNet.getBaseKva(), msg);
+    	line.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, branch.getFromAclfBus().getBaseVoltage(), msg);
     	// UCTE line B is treated as half branch B
-    	line.setHShuntY(new Complex(0.0,0.5*bMuS), UnitType.MicroMho, branch.getFromAclfBus().getBaseVoltage(), aclfNet.getBaseKva()); 
+    	line.setHShuntY(new Complex(0.0,0.5*bMuS), UnitType.MicroMho, branch.getFromAclfBus().getBaseVoltage()); 
     	//line.setHShuntY(new Complex(0.0,bMuS), UnitType.MicroMho, branch.getFromAclfBus().getBaseVoltage(), aclfNet.getBaseKva()); 
       	
     	// by default the branch is active
@@ -384,10 +383,10 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 		final XfrAdapter xfr = (XfrAdapter)branch.getAdapter(XfrAdapter.class);
 		// r, x, g, b are measured at from side in Ohms
 		// they are converted to PU using from bus base voltage
-    	xfr.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, branch.getFromBus().getBaseVoltage(), aclfNet.getBaseKva(), msg);
+    	xfr.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, branch.getFromBus().getBaseVoltage(), msg);
     	Complex yPU = UnitType.yConversion(new Complex(gMuS,bMuS), branch.getFromBus().getBaseVoltage(), 
     						aclfNet.getBaseKva(), UnitType.MicroMho, UnitType.PU);
-    	xfr.setToShuntY(yPU, UnitType.PU, aclfNet.getBaseKva()); 
+    	xfr.setToShuntY(yPU, UnitType.PU); 
     	// turn ratio is 1.0 for un-regulated xfr, but defined in term of 
     	// rated voltage. It needs to be converted to base base voltage
     	xfr.setFromTurnRatio(1.0, UnitType.PU);

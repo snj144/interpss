@@ -242,7 +242,7 @@ public class PSSEXfrDataRec {
 				should always be entered as a positive quantity.
 	    	 */
 	    	if (this.cm == 1) {
-	    		xfr.setFromShuntY(new Complex(this.mag1, this.mag2), UnitType.PU, adjNet.getBaseKva());
+	    		xfr.setFromShuntY(new Complex(this.mag1, this.mag2), UnitType.PU);
 	    	}
 	    	else {
 	    		IpssLogger.getLogger().severe("PEES Xfr cm != 1, not implemented");
@@ -377,7 +377,7 @@ public class PSSEXfrDataRec {
 	       	bra.create2WBranches();
 	       	XfrAdapter fromXfr = (XfrAdapter)bra.getFromBranch().getAdapter(XfrAdapter.class);
 	    	if (this.cm == 1) {
-	    		fromXfr.setFromShuntY(new Complex(this.mag1, this.mag2), UnitType.PU, adjNet.getBaseKva());
+	    		fromXfr.setFromShuntY(new Complex(this.mag1, this.mag2), UnitType.PU);
 	    	}
 	    	else {
 	    		IpssLogger.getLogger().severe("PEES Xfr cm != 1, not implemented");

@@ -85,13 +85,13 @@ public class AclfResultMapperImpl {
 				AclfBus bus = (AclfBus) b;
 				GenBusAdapter genBus = (GenBusAdapter) bus
 						.getAdapter(GenBusAdapter.class);
-				Complex busPQ = genBus.getGenResults(UnitType.PU, baseKVA)
+				Complex busPQ = genBus.getGenResults(UnitType.PU)
 						.subtract(genBus.getLoadResults(UnitType.PU));
 				if (bus.isCapacitor()) {
 					CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
 							.getAdapter(CapacitorBusAdapter.class);
 					busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
-							.getVoltageMag(), UnitType.PU, baseKVA)));
+							.getVoltageMag(), UnitType.PU)));
 				}
 				RptAclfSummaryBusBean bean = new RptAclfSummaryBusBean();
 				bean.setBusId(new String(bus.getId()));
@@ -122,13 +122,13 @@ public class AclfResultMapperImpl {
 				AclfBus bus = (AclfBus) b;
 				GenBusAdapter genBus = (GenBusAdapter) bus
 						.getAdapter(GenBusAdapter.class);
-				Complex busGen = genBus.getGenResults(UnitType.mVA, baseKVA);
+				Complex busGen = genBus.getGenResults(UnitType.mVA);
 				Complex busLoad = genBus.getLoadResults(UnitType.mVA);
 				if (bus.isCapacitor()) {
 					CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
 							.getAdapter(CapacitorBusAdapter.class);
 					busGen = busGen.add(new Complex(0.0, cap.getQResults(bus
-							.getVoltageMag(), UnitType.PU, baseKVA)));
+							.getVoltageMag(), UnitType.PU)));
 				}
 				RptAclfBusStyleBean bean = new RptAclfBusStyleBean();
 				bean.setBusId(bus.getId());
@@ -240,7 +240,7 @@ public class AclfResultMapperImpl {
 			bean.setVspec(Number2String.toStr("###0.0000", pv
 					.getVSpecified(UnitType.PU)));
 			bean.setQ(Number2String.toStr("#####0.00", genBus.getGenResults(
-					UnitType.PU, baseKva).getImaginary()));
+					UnitType.PU).getImaginary()));
 			bean.setQmax(Number2String.toStr("#####0.00", pv.getQLimit(
 					UnitType.PU, baseKva).getMax()));
 			bean.setQmin(Number2String.toStr("#####0.00", pv.getQLimit(
@@ -261,7 +261,7 @@ public class AclfResultMapperImpl {
 			RptPQLimitBean bean = new RptPQLimitBean();
 			bean.setBusId(Number2String.toStr(-8, pq.getAclfBus().getId()));
 			bean.setQact(Number2String.toStr("####0.00", genBus.getGenResults(
-					UnitType.PU, baseKva).getImaginary()));
+					UnitType.PU).getImaginary()));
 			bean.setQspec(Number2String.toStr("####0.00", pq.getQSpecified(
 					UnitType.PU, baseKva)));
 			bean.setV(Number2String.toStr("##0.0000", pq.getAclfBus()
@@ -328,7 +328,7 @@ public class AclfResultMapperImpl {
 			bean.setSpec(Number2String.toStr("###0.0000", re
 					.getVSpecified(UnitType.PU)));
 			bean.setQ(Number2String.toStr("#####0.00", genBus.getGenResults(
-					UnitType.PU, baseKva).getImaginary()));
+					UnitType.PU).getImaginary()));
 			bean.setQmax(Number2String.toStr("#####0.00", re.getQLimit(
 					UnitType.PU, baseKva).getMax()));
 			bean.setQmin(Number2String.toStr("#####0.00", re.getQLimit(

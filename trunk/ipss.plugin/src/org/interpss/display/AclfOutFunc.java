@@ -120,13 +120,13 @@ public class AclfOutFunc {
 				if (bus.isActive()) {
 					GenBusAdapter genBus = (GenBusAdapter) bus
 							.getAdapter(GenBusAdapter.class);
-					Complex busPQ = genBus.getGenResults(UnitType.PU, baseKVA);
+					Complex busPQ = genBus.getGenResults(UnitType.PU);
 					busPQ = busPQ.subtract(genBus.getLoadResults(UnitType.PU));
 					if (bus.isCapacitor()) {
 						CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
 								.getAdapter(CapacitorBusAdapter.class);
 						busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
-								.getVoltageMag(), UnitType.PU, baseKVA)));
+								.getVoltageMag(), UnitType.PU)));
 					}
 					str.append("  ");
 					str.append(String.format("%-12s  ", getBusId(bus, net.getOriginalDataFormat())));
@@ -316,7 +316,7 @@ public class AclfOutFunc {
 			str.append(Number2String.toStr("###0.0000", pv
 					.getVSpecified(UnitType.PU)));
 			str.append(Number2String.toStr("#####0.00", genBus.getGenResults(
-					UnitType.PU, baseKVA).getImaginary()));
+					UnitType.PU).getImaginary()));
 			str.append(Number2String.toStr("#####0.00", pv.getQLimit(
 					UnitType.PU, baseKVA).getMax()));
 			str.append(Number2String.toStr("#####0.00", pv.getQLimit(
@@ -346,7 +346,7 @@ public class AclfOutFunc {
 			str.append(Number2String.toStr(5, " "));
 			str.append(Number2String.toStr(-8, getBusId(pq.getAclfBus(), net.getOriginalDataFormat())) + " ");
 			str.append(Number2String.toStr("####0.00", genBus.getGenResults(
-					UnitType.PU, baseKVA).getImaginary())
+					UnitType.PU).getImaginary())
 					+ " ");
 			str.append(Number2String.toStr("####0.00", pq.getQSpecified(
 					UnitType.PU, baseKVA))
@@ -399,7 +399,7 @@ public class AclfOutFunc {
 			str.append(Number2String.toStr("###0.0000", re
 					.getVSpecified(UnitType.PU)));
 			str.append(Number2String.toStr("#####0.00", genBus.getGenResults(
-					UnitType.PU, baseKVA).getImaginary()));
+					UnitType.PU).getImaginary()));
 			str.append(Number2String.toStr("#####0.00", re.getQLimit(
 					UnitType.PU, baseKVA).getMax()));
 			str.append(Number2String.toStr("#####0.00", re.getQLimit(

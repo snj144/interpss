@@ -235,7 +235,7 @@ public class Ge2IpssUtilFunc {
 			case 1 : {
 				geBus.setGenCode(AclfGenCode.GEN_PQ);
 	   			final PQBusAdapter gen = (PQBusAdapter)geBus.getAdapter(PQBusAdapter.class);
-	    		gen.setGen(new Complex(pgen, qgen), UnitType.mVA, net.getBaseKva());
+	    		gen.setGen(new Complex(pgen, qgen), UnitType.mVA);
 	    	} break;
 			case 2 : {
 				if (regBusNumber != -1) {
@@ -243,7 +243,7 @@ public class Ge2IpssUtilFunc {
 	  					// PV Bus limit control
 						geBus.setGenCode(AclfGenCode.GEN_PV);
 			  			final PVBusAdapter gen = (PVBusAdapter)geBus.getAdapter(PVBusAdapter.class);
-			  			gen.setGenP(pgen, UnitType.mW, net.getBaseKva());
+			  			gen.setGenP(pgen, UnitType.mW);
 			  			gen.setVoltMag(geBus.getVSpecPU(), UnitType.PU);
 
 			  			final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(net, geBus.getId());
@@ -263,7 +263,7 @@ public class Ge2IpssUtilFunc {
 			case -2 : {
 				geBus.setGenCode(AclfGenCode.GEN_PV);
 	  			final PVBusAdapter gen = (PVBusAdapter)geBus.getAdapter(PVBusAdapter.class);
-	  			gen.setGenP(pgen, UnitType.mW, net.getBaseKva());
+	  			gen.setGenP(pgen, UnitType.mW);
 	  			gen.setVoltMag(geBus.getVSpecPU(), UnitType.PU);
 	  		} break;
 		}
@@ -335,7 +335,7 @@ public class Ge2IpssUtilFunc {
 	   		geBra.setBranchCode(AclfBranchCode.LINE);
 			final LineAdapter line = (LineAdapter)geBra.getAdapter(LineAdapter.class);
 		   	line.getAclfBranch().setZ(new Complex(sec.getR(),sec.getX()), msg);
-		   	line.setHShuntY(new Complex(0.0,0.5*sec.getB()), UnitType.PU, 1.0, baseKva); // Unit is PU, no need to enter baseV
+		   	line.setHShuntY(new Complex(0.0,0.5*sec.getB()), UnitType.PU, 1.0); // Unit is PU, no need to enter baseV
 		   	line.setMvaRating1(sec.getMvaRatingAry().get(0));
 		   	line.setMvaRating2(sec.getMvaRatingAry().get(1));
 		   	line.setMvaRating3(sec.getMvaRatingAry().get(2));

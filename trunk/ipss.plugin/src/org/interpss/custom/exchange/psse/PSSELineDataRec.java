@@ -115,7 +115,7 @@ public class PSSELineDataRec {
        		final LineAdapter line = (LineAdapter)bra.getAdapter(LineAdapter.class);
            	line.getAclfBranch().setZ(z, msg);
            	// Unit is PU, no need to enter baseV
-           	line.setHShuntY(new Complex(0.0,0.5*this.b), UnitType.PU, 1.0, adjNet.getBaseKva()); 
+           	line.setHShuntY(new Complex(0.0,0.5*this.b), UnitType.PU, 1.0); 
       	}
       	else {
            	bra.setBranchCode(AclfBranchCode.ZERO_IMPEDENCE);

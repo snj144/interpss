@@ -201,7 +201,7 @@ public class PSATFormat_in {
     	bra.setBranchCode(AclfBranchCode.LINE);
 		LineAdapter line = (LineAdapter)bra.getAdapter(LineAdapter.class);
     	line.getAclfBranch().setZ(new Complex(l*r,l*x), msg);
-    	line.setHShuntY(new Complex(0.0,0.5*l*b), UnitType.PU, 1.0, adjNet.getBaseKva()); 
+    	line.setHShuntY(new Complex(0.0,0.5*l*b), UnitType.PU, 1.0); 
     				                  // Unit is PU, no need to enter branch baseV, so put 1.0 for baseV
     }
 }
