@@ -40,6 +40,7 @@ import org.interpss.schema.RunStudyCaseXmlType;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.core.aclf.adj.FunctionLoad;
 import com.interpss.core.aclf.adj.PQBusLimit;
@@ -50,6 +51,7 @@ import com.interpss.core.aclf.adj.RemoteQControlType;
 import com.interpss.core.aclf.adj.TapControl;
 import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.net.Area;
+import com.interpss.core.net.Bus;
 import com.interpss.core.net.IRegulationDevice;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
@@ -61,11 +63,13 @@ public class RunActUtilFunc {
 			double tolerance, IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
-		for (int i = 0; i < adjNet.getFunctionLoadList().size(); i++) {
-			FunctionLoad load = (FunctionLoad) adjNet.getFunctionLoadList()
-					.get(i);
-			if (load.needAdjust(tolerance, adjNet.getBaseKva(), msg))
-				list.add(load.getId() + " at " + load.getParentBus().getName());
+		for (Bus b : adjNet.getBusList()) {
+			AclfBus bus = (AclfBus)b;
+			if (bus.getFunctionLoad() != null) {
+				FunctionLoad load = bus.getFunctionLoad();
+				if (load.needAdjust(tolerance, adjNet.getBaseKva(), msg))
+					list.add(load.getId() + " at " + load.getParentBus().getName());
+			}
 		}
 		return list.toArray();
 	}
