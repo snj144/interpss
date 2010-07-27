@@ -161,7 +161,7 @@ public class PSATFormat_in {
       	}
 	 	bus.setLoadCode(AclfLoadCode.CONST_P);
 		LoadBusAdapter load = (LoadBusAdapter)bus.getAdapter(LoadBusAdapter.class);
-		load.setLoad(new Complex(pl, ql), UnitType.PU, adjNet.getBaseKva());      	
+		load.setLoad(new Complex(pl, ql), UnitType.PU);      	
     }
 
     private static void processBranchDataLine(String lineStr, AclfAdjNetwork  adjNet, IPSSMsgHub msg) {

@@ -157,17 +157,17 @@ public class Ge2IpssUtilFunc {
 		if ((cp_p != 0.0 || cp_q != 0.0) && (ci_p==0.0 && ci_q ==0.0 && cz_p==0.0 && cz_q ==0.0) ) {
 			geBus.setLoadCode(AclfLoadCode.CONST_P);
   			final LoadBusAdapter load = (LoadBusAdapter)geBus.getAdapter(LoadBusAdapter.class);
-  			load.setLoad(new Complex(cp_p, cp_q), UnitType.mVA, baseKva);
+  			load.setLoad(new Complex(cp_p, cp_q), UnitType.mVA);
   		}
 		else if ((ci_p != 0.0 || ci_q != 0.0) && (cp_p==0.0 && cp_q ==0.0 && cz_p==0.0 && cz_q ==0.0) ) {
 			geBus.setLoadCode(AclfLoadCode.CONST_I);
   			final LoadBusAdapter load = (LoadBusAdapter)geBus.getAdapter(LoadBusAdapter.class);
-  			load.setLoad(new Complex(ci_p, ci_q), UnitType.mVA, baseKva);
+  			load.setLoad(new Complex(ci_p, ci_q), UnitType.mVA);
   		}
 		else if ((cz_p != 0.0 || cz_q != 0.0) && (ci_p==0.0 && ci_q ==0.0 && cp_p==0.0 && cp_q ==0.0) ) {
 			geBus.setLoadCode(AclfLoadCode.CONST_Z);
   			final LoadBusAdapter load = (LoadBusAdapter)geBus.getAdapter(LoadBusAdapter.class);
-  			load.setLoad(new Complex(cz_p, cz_q), UnitType.mVA, baseKva);
+  			load.setLoad(new Complex(cz_p, cz_q), UnitType.mVA);
   		}
 		else if ((cp_p != 0.0 || cp_q != 0.0 || ci_p!= 0.0 || ci_q != 0.0 || cz_p != 0.0 || cz_q !=0.0)) {
 			FunctionLoad fload = CoreObjectFactory.createFunctionLoad(geBus);
