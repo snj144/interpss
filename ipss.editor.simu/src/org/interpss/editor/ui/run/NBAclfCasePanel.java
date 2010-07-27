@@ -983,11 +983,11 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         String selected = (String)funcLoadComboBox.getSelectedItem();
         if (selected.equals(RunActUtilFunc.AllControlDevices)) {
         	IpssLogger.getLogger().info("Apply All Function load adjustment");
-        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doFuncLoadAdjust();
+        	//_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doFuncLoadAdjust();
         }
         else {
         	String id = new StringTokenizer(selected).nextToken();
-        	FunctionLoad load = _simuCtx.getAclfAdjNet().getFunctionLoad(id);
+        	FunctionLoad load = _simuCtx.getAclfAdjNet().getAclfBus(id).getFunctionLoad();
         	load.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva(), _simuCtx.getMsgHub());
         	IpssLogger.getLogger().info("Apply Function load adjustment: " + id);
         }
