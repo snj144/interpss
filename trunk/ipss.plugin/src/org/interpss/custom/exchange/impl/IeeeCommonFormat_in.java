@@ -281,7 +281,7 @@ public class IeeeCommonFormat_in {
   			final SwingBusAdapter gen = (SwingBusAdapter)bus.getAdapter(SwingBusAdapter.class);
   			gen.setVoltMag(vpu, UnitType.PU);
   			gen.setVoltAng(angDeg, UnitType.Deg);
-  			gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA, net.getBaseKva());
+  			gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
     	}
     	else if ( type == 1 ) {
     		// PQ bus
@@ -289,7 +289,7 @@ public class IeeeCommonFormat_in {
     		bus.setLoadCode(AclfLoadCode.CONST_P);
    			final PQBusAdapter gen = (PQBusAdapter)bus.getAdapter(PQBusAdapter.class);
     		gen.setGen(new Complex(genMw, genMvar), UnitType.mVA, net.getBaseKva());
-    		gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA, net.getBaseKva());
+    		gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
     		if ((max != 0.0) || (min != 0.0)) {
     			IpssLogger.getLogger().fine("Bus is a PQLimitBus, id: " + busId);
     		  	final PQBusLimit pqLimit = CoreObjectFactory.createPQBusLimit(net, busId);
@@ -303,7 +303,7 @@ public class IeeeCommonFormat_in {
   			final PVBusAdapter gen = (PVBusAdapter)bus.getAdapter(PVBusAdapter.class);
   			gen.setGenP(genMw, UnitType.mW, net.getBaseKva());
   			gen.setVoltMag(vpu, UnitType.PU);
-  			gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA, net.getBaseKva());
+  			gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
   			if ((max != 0.0) || (min != 0.0)) {
   				if (reBusId.equals("0") || reBusId.equals("") || reBusId.equals(busId)) {
   					// PV Bus limit control
@@ -326,7 +326,7 @@ public class IeeeCommonFormat_in {
    		 	bus.setGenCode(AclfGenCode.NON_GEN);
    		 	bus.setLoadCode(AclfLoadCode.CONST_P);
   			final LoadBusAdapter load = (LoadBusAdapter)bus.getAdapter(LoadBusAdapter.class);
-  			load.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA, net.getBaseKva());
+  			load.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
     	}
     	else {
     		// Non-gen and non-load bus

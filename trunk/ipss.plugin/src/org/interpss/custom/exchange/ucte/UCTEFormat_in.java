@@ -232,8 +232,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 					.getAdapter(PQBusAdapter.class);
 			pqGen.setGen(new Complex(pGenMW, qGenMvar), UnitType.mVA, aclfNet
 					.getBaseKva());
-			pqGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA,
-					aclfNet.getBaseKva());
+			pqGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA);
 			break;
 		case 1: // Q angle bus
 			IpssLogger.getLogger().severe("Node type = 1, not support currently. Please contact support@interpss.org");
@@ -246,8 +245,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 					.getAdapter(PVBusAdapter.class);
 			pvGen.setGenP(pGenMW, UnitType.mW, aclfNet.getBaseKva());
 			pvGen.setVoltMag(voltage, UnitType.kV);
-			pvGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA,
-					aclfNet.getBaseKva());
+			pvGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA);
 			if (((maxGenMVar != 0.0) || (minGenMVar != 0.0))
 					&& maxGenMVar > minGenMVar) {
 				// PV Bus limit control
@@ -265,8 +263,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 					.getAdapter(SwingBusAdapter.class);
 			swingGen.setVoltMag(voltage, UnitType.kV);
 			swingGen.setVoltAng(0.0, UnitType.Deg);
-			swingGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA,
-					aclfNet.getBaseKva());
+			swingGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA);
 			break;
 		default:
 			// error bus nodeType code
