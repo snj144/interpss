@@ -85,14 +85,14 @@ public class GraphSimuUtilFunc {
 					GenBusAdapter genBus = (GenBusAdapter) bus
 							.getAdapter(GenBusAdapter.class);
 					Complex busPQ = genBus
-							.getGenResults(UnitType.PU, baseKva)
+							.getGenResults(UnitType.PU)
 							.subtract(
 									genBus.getLoadResults(UnitType.PU));
 					if (bus.isCapacitor()) {
 						CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
 								.getAdapter(CapacitorBusAdapter.class);
 						busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
-								.getVoltageMag(), UnitType.PU, baseKva)));
+								.getVoltageMag(), UnitType.PU)));
 					}
 					String v = Number2String.toStr("0.000", bus
 							.getVoltageMag(UnitType.PU));
