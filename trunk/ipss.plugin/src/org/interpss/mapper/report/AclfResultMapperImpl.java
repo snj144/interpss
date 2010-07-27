@@ -281,23 +281,28 @@ public class AclfResultMapperImpl {
 	public static Object[] createFunctionLoadBeanArray(AclfAdjNetwork net) {
 		List<RptFuncLoadBean> list = new ArrayList<RptFuncLoadBean>();
 		double baseKva = net.getBaseKva();
-		for (FunctionLoad fload : net.getFunctionLoadList()) {
-			double vpu = fload.getParentBus().getVoltage().abs();
-			RptFuncLoadBean bean = new RptFuncLoadBean();
-			bean.setBusId(fload.getParentBus().getId());
-			bean.setPact(Number2String.toStr("##0.0000", fload.getP().getLoad(
-					vpu, UnitType.PU, baseKva)));
-			bean.setQact(Number2String.toStr("##0.0000", fload.getQ().getLoad(
-					vpu, UnitType.PU, baseKva)));
-			bean.setV(Number2String.toStr("##0.0000", fload.getParentBus()
-					.getVoltageMag(UnitType.PU)));
-			bean.setP0(Number2String.toStr("##0.0000", fload.getP().getLoad0(
-					UnitType.PU, baseKva)));
-			bean.setQ0(Number2String.toStr("##0.0000", fload.getQ().getLoad0(
-					UnitType.PU, baseKva)));
-			bean.setStatus(Number2String.toStr(5, fload.isActive() ? "on"
-					: "off"));
-			list.add(bean);
+		
+		for (Bus b : net.getBusList()) {
+			AclfBus bus = (AclfBus)b;
+			if (bus.getFunctionLoad() != null) {
+				FunctionLoad fload = bus.getFunctionLoad();
+				double vpu = fload.getParentBus().getVoltage().abs();
+				RptFuncLoadBean bean = new RptFuncLoadBean();
+				bean.setBusId(fload.getParentBus().getId());
+				bean.setPact(Number2String.toStr("##0.0000", fload.getP().getLoad(
+						vpu, UnitType.PU, baseKva)));
+				bean.setQact(Number2String.toStr("##0.0000", fload.getQ().getLoad(
+						vpu, UnitType.PU, baseKva)));
+				bean.setV(Number2String.toStr("##0.0000", fload.getParentBus()
+						.getVoltageMag(UnitType.PU)));
+				bean.setP0(Number2String.toStr("##0.0000", fload.getP().getLoad0(
+						UnitType.PU, baseKva)));
+				bean.setQ0(Number2String.toStr("##0.0000", fload.getQ().getLoad0(
+						UnitType.PU, baseKva)));
+				bean.setStatus(Number2String.toStr(5, fload.isActive() ? "on"
+						: "off"));
+				list.add(bean);
+			}
 		}
 		return list.toArray();
 	}
