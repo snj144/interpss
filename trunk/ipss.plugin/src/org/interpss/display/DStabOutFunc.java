@@ -173,8 +173,7 @@ public class DStabOutFunc {
 				GenBusAdapter genBus = (GenBusAdapter) bus
 						.getAdapter(GenBusAdapter.class);
 				Complex busPQ = genBus.getGenResults(UnitType.PU, baseKVA);
-				busPQ = busPQ.subtract(genBus.getLoadResults(UnitType.PU,
-						baseKVA));
+				busPQ = busPQ.subtract(genBus.getLoadResults(UnitType.PU));
 				if (bus.isCapacitor()) {
 					CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
 							.getAdapter(CapacitorBusAdapter.class);
