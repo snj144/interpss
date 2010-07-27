@@ -73,9 +73,9 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
     	
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
   		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-		System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-0.11824)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()-0.37383)<0.0001);
+		System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.11824)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.37383)<0.0001);
 	}	
 
 	@Test
@@ -108,8 +108,8 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
     	
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
   		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-		System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-0.11824)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()-0.37383)<0.0001);
+		System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.11824)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.37383)<0.0001);
 	}	
 }

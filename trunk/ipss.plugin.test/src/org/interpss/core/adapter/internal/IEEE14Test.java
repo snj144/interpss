@@ -74,8 +74,8 @@ public class IEEE14Test extends BaseTestSetup {
   		 */
   		AclfBus swingBus = (AclfBus)net.getBus("1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.32386)<0.0001);
-  		assertTrue( Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.16889)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32386)<0.0001);
+  		assertTrue( Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.16889)<0.0001);
 	}
 	
 	@Test

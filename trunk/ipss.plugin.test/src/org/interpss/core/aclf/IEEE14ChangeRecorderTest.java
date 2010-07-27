@@ -37,8 +37,8 @@ public class IEEE14ChangeRecorderTest  extends BaseTestSetup {
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.32428)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.26235)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32428)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.26235)<0.0001);
   		
   		net.getAclfBus("0001").setGenCode(AclfGenCode.GEN_PV);
   		net.getBus("0008").setStatus(false);
@@ -50,7 +50,7 @@ public class IEEE14ChangeRecorderTest  extends BaseTestSetup {
   		swingBus = (AclfBus)net.getBus("0001");
 		swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.32428)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.26235)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32428)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.26235)<0.0001);
 	}			
 }

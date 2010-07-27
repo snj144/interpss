@@ -68,8 +68,8 @@ public class IEEECommonFormatTest extends BaseTestSetup {
   		assertTrue(net.isLfConverged());		
   		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.32393)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.16549)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32393)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.16549)<0.0001);
 	}
 
 	@Test
@@ -87,8 +87,8 @@ public class IEEECommonFormatTest extends BaseTestSetup {
   		assertTrue(net.isLfConverged());		
  		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-  		assertTrue( Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.6095)<0.0001);
-  		assertTrue( Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.1653)<0.0001);
+  		assertTrue( Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.6095)<0.0001);
+  		assertTrue( Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.1653)<0.0001);
   		
   		//System.out.println(AclfOut.lfResultsBusStyle(net));
 	}
@@ -110,8 +110,8 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).re);
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).im);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-4.7942)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()-1.2951)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-4.7942)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-1.2951)<0.0001);
   		
   		//System.out.println(AclfOut.lfResultsBusStyle(net));
 	}
@@ -133,8 +133,8 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).re);
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).im);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-5.1348)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.8239)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.1348)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.8239)<0.0001);
 	}
 
 	public void xtestCase5() throws Exception{
@@ -153,8 +153,8 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).re);
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).im);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-5.1348)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.8239)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.1348)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.8239)<0.0001);
 	}
 }
 
