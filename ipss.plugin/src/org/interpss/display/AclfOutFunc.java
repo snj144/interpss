@@ -211,7 +211,7 @@ public class AclfOutFunc {
 			if (net.getRemoteQBusList().size() > 0)
 				str.append(remoteQBusToString(net));
 
-			if (net.getFunctionLoadList().size() > 0)
+			if (net.hasFunctionLoad())
 				str.append(aclfFuncLoadToString(net));
 
 			if (net.getTapControlList().size() > 0)
@@ -423,27 +423,31 @@ public class AclfOutFunc {
 		str
 				.append("     -------- -------- -------- -------- -------- -------- ------\n");
 
-		for (FunctionLoad x : net.getFunctionLoadList()) {
-			str.append(Number2String.toStr(5, " "));
-			str.append(Number2String.toStr(-8, x.getParentBus().getId()) + " ");
-			double vpu = x.getParentBus().getVoltage().abs();
-			str.append(Number2String.toStr("##0.0000", x.getP().getLoad(vpu,
-					UnitType.PU, baseKVA))
-					+ " ");
-			str.append(Number2String.toStr("##0.0000", x.getQ().getLoad(vpu,
-					UnitType.PU, baseKVA))
-					+ " ");
-			str.append(Number2String.toStr("##0.0000", x.getParentBus()
-					.getVoltageMag(UnitType.PU))
-					+ " ");
-			str.append(Number2String.toStr("##0.0000", x.getP().getLoad0(
-					UnitType.PU, baseKVA))
-					+ " ");
-			str.append(Number2String.toStr("##0.0000", x.getQ().getLoad0(
-					UnitType.PU, baseKVA))
-					+ " ");
-			str.append(Number2String.toStr(5, x.isActive() ? "on" : "off")
-					+ "\n");
+		for (Bus b : net.getBusList()) {
+			AclfBus bus = (AclfBus)b;
+			if (bus.getFunctionLoad() != null) {
+				FunctionLoad x = bus.getFunctionLoad();
+				str.append(Number2String.toStr(5, " "));
+				str.append(Number2String.toStr(-8, x.getParentBus().getId()) + " ");
+				double vpu = x.getParentBus().getVoltage().abs();
+				str.append(Number2String.toStr("##0.0000", x.getP().getLoad(vpu,
+						UnitType.PU, baseKVA))
+						+ " ");
+				str.append(Number2String.toStr("##0.0000", x.getQ().getLoad(vpu,
+						UnitType.PU, baseKVA))
+						+ " ");
+				str.append(Number2String.toStr("##0.0000", x.getParentBus()
+						.getVoltageMag(UnitType.PU))
+						+ " ");
+				str.append(Number2String.toStr("##0.0000", x.getP().getLoad0(
+						UnitType.PU, baseKVA))
+						+ " ");
+				str.append(Number2String.toStr("##0.0000", x.getQ().getLoad0(
+						UnitType.PU, baseKVA))
+						+ " ");
+				str.append(Number2String.toStr(5, x.isActive() ? "on" : "off")
+						+ "\n");
+			}
 		}
 		return str.toString();
 	}
