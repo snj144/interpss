@@ -988,7 +988,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         else {
         	String id = new StringTokenizer(selected).nextToken();
         	FunctionLoad load = _simuCtx.getAclfAdjNet().getAclfBus(id).getFunctionLoad();
-        	load.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva(), _simuCtx.getMsgHub());
+        	load.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva());
         	IpssLogger.getLogger().info("Apply Function load adjustment: " + id);
         }
         initAdvanceControlPanel();
@@ -1056,7 +1056,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         else {
         	String id = new StringTokenizer(selected).nextToken();
         	RemoteQBus reQ = _simuCtx.getAclfAdjNet().getRemoteQBus(id);
-        	reQ.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva(), _simuCtx.getMsgHub());
+        	reQ.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva());
         	IpssLogger.getLogger().info("Apply Remote Q Bus adjustment: " + id);
         }
         initAdvanceControlPanel();
@@ -1072,7 +1072,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         else {
         	String id = new StringTokenizer(selected).nextToken();
         	PQBusLimit pq = _simuCtx.getAclfAdjNet().getPQBusLimit(id);
-        	pq.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva(), _simuCtx.getMsgHub());
+        	pq.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva());
         	IpssLogger.getLogger().info("Apply PQ Bus Limit: " + id);
         }
         initAdvanceControlPanel();
@@ -1088,7 +1088,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         else {
         	String id = new StringTokenizer(selected).nextToken();
         	PVBusLimit pv = _simuCtx.getAclfAdjNet().getPVBusLimit(id);
-        	pv.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva(), _simuCtx.getMsgHub());
+        	pv.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva());
         	IpssLogger.getLogger().info("Apply PV Bus Limit: " + id);
         }
         initAdvanceControlPanel();
