@@ -73,7 +73,7 @@ public class RoseHulman_UserTestCases extends BaseTestSetup {
 	  	
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-  		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
+  		Complex p = swing.getGenResults(UnitType.mW);
   		assertTrue(Math.abs(p.getReal()-22.547)<0.01);
   		assertTrue(Math.abs(p.getImaginary()-15.852)<0.01);	  	
 	}
