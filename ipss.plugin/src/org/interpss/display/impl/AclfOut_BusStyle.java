@@ -60,7 +60,7 @@ public class AclfOut_BusStyle {
 
 		GenBusAdapter genBus = (GenBusAdapter) bus.getAdapter(GenBusAdapter.class);
 		Complex busGen = genBus.getGenResults(UnitType.mVA, baseKVA);
-		Complex busLoad = genBus.getLoadResults(UnitType.mVA,baseKVA);
+		Complex busLoad = genBus.getLoadResults(UnitType.mVA);
 		if (bus.isCapacitor()) {
 			CapacitorBusAdapter cap = (CapacitorBusAdapter) bus.getAdapter(CapacitorBusAdapter.class);
 			busGen = busGen.add(new Complex(0.0, cap.getQResults(bus.getVoltageMag(), UnitType.PU, baseKVA)));
