@@ -87,7 +87,7 @@ public class GraphSimuUtilFunc {
 					Complex busPQ = genBus
 							.getGenResults(UnitType.PU, baseKva)
 							.subtract(
-									genBus.getLoadResults(UnitType.PU, baseKva));
+									genBus.getLoadResults(UnitType.PU));
 					if (bus.isCapacitor()) {
 						CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
 								.getAdapter(CapacitorBusAdapter.class);
