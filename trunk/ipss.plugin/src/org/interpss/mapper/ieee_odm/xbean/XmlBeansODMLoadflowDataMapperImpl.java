@@ -205,7 +205,7 @@ public class XmlBeansODMLoadflowDataMapperImpl {
 	  			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(aclfBus);
 	  			  		pvLimit.setQLimit(new LimitType(xmlEquivGenData.getQLimit().getMax(), 
 	  			  										xmlEquivGenData.getQLimit().getMin()), 
-	  			  				XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()), adjNet.getBaseKva());						
+	  			  				XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()));						
 					}
 				}
 				else {
@@ -227,7 +227,7 @@ public class XmlBeansODMLoadflowDataMapperImpl {
   			  					               XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()));
   	  			  		reQBus.setQLimit(new LimitType(xmlEquivGenData.getQLimit().getMax(), 
   														xmlEquivGenData.getQLimit().getMin()), 
-  										XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()), adjNet.getBaseKva());						
+  										XmlBeansODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()));						
   	  			  		reQBus.setVSpecified(UnitType.vConversion(xmlEquivGenData.getDesiredVoltage().getValue(),
   								aclfBus.getBaseVoltage(), XmlBeansODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU));					
   					}

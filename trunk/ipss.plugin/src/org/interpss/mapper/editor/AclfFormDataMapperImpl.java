@@ -369,8 +369,7 @@ public class AclfFormDataMapperImpl {
 							.getMinGenQ()));
 					// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and
 					// ReQMvarFlow-MvarSpec
-					reQ.setMvarSpecified(adjData.getVoltageMag(), UnitType.PU,
-							aclfNet.getBaseKva());
+					reQ.setMvarSpecified(adjData.getVoltageMag(), UnitType.PU);
 					reQ.setFlowFrom2To(adjData.isFlowFrom2To());
 					reQ.setMvarOnFromSide(adjData.isMvarControlOnFromSide());
 				}
@@ -386,8 +385,7 @@ public class AclfFormDataMapperImpl {
 				double max = adjData.getMaxGenQ();
 				double min = adjData.getMinGenQ();
 				PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(bus);
-				pvLimit.setQLimit(new LimitType(max, min), UnitType.PU, aclfNet
-						.getBaseKva());
+				pvLimit.setQLimit(new LimitType(max, min), UnitType.PU);
 			}
 		}
 
