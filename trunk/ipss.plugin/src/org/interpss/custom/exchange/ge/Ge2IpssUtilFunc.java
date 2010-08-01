@@ -252,7 +252,7 @@ public class Ge2IpssUtilFunc {
 			  			gen.setVoltMag(geBus.getVSpecPU(), UnitType.PU);
 
 			  			final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(geBus);
-	  			  		pvLimit.setQLimit(new LimitType(qmax, qmin), UnitType.mVar, net.getBaseKva());		  				
+	  			  		pvLimit.setQLimit(new LimitType(qmax, qmin), UnitType.mVar);		  				
 		  			}
 		  			else {
 	  					// Remote Q  Bus control, we need to change this bus to a GPQ bus so that its Q could be adjusted
@@ -260,7 +260,7 @@ public class Ge2IpssUtilFunc {
 						String reBusId = new Integer(regBusNumber).toString();
 	  			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(geBus, 
 	  			  				RemoteQControlType.BUS_VOLTAGE, net, reBusId);
-	  			  		reQ1.setQLimit(new LimitType(qmax, qmin), UnitType.mVar, net.getBaseKva());
+	  			  		reQ1.setQLimit(new LimitType(qmax, qmin), UnitType.mVar);
 	  			  		reQ1.setVSpecified(geBus.getVSpecPU());						
 		  			}
 				}

@@ -310,14 +310,14 @@ public class IeeeCommonFormat_in {
   					// PV Bus limit control
   					IpssLogger.getLogger().fine("Bus is a PVLimitBus, id: " + busId);
   			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(bus);
-  			  		pvLimit.setQLimit(new LimitType(max, min), UnitType.mVar, net.getBaseKva());
+  			  		pvLimit.setQLimit(new LimitType(max, min), UnitType.mVar);
   				}
   				else {
   					// Remote Q  Bus control
   					IpssLogger.getLogger().fine("Bus is a RemoteQBus, id: " + busId);
   			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(bus, 
   			  				RemoteQControlType.BUS_VOLTAGE, net, reBusId);
-  			  		reQ1.setQLimit(new LimitType(max, min), UnitType.mVar, net.getBaseKva());
+  			  		reQ1.setQLimit(new LimitType(max, min), UnitType.mVar);
   			  		reQ1.setVSpecified(vSpecPu);
   				}
   			}
