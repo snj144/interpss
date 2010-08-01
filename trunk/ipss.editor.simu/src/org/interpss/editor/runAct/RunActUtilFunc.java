@@ -78,11 +78,14 @@ public class RunActUtilFunc {
 			IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
-		for (int i = 0; i < adjNet.getPvBusLimitList().size(); i++) {
-			PVBusLimit pvLimit = (PVBusLimit) adjNet.getPvBusLimitList().get(i);
-			if (pvLimit.needAdjust(0.0, adjNet.getBaseKva()))
-				list.add(pvLimit.getId() + " at " + pvLimit.getBus().getName()
-						+ "(" + (pvLimit.isActive() ? "on" : "off") + ")");
+		for (Bus b : adjNet.getBusList()) { 
+			AclfBus bus = (AclfBus)b;
+			if (bus.isPVBusLimit()) {
+				PVBusLimit pvLimit = (PVBusLimit)bus.getBranchList();
+				if (pvLimit.needAdjust(0.0, adjNet.getBaseKva()))
+					list.add(pvLimit.getId() + " at " + pvLimit.getParentBus().getName()
+							+ "(" + (pvLimit.isActive() ? "on" : "off") + ")");
+			}
 		}
 		return list.toArray();
 	}
@@ -91,11 +94,14 @@ public class RunActUtilFunc {
 			IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
-		for (int i = 0; i < adjNet.getPqBusLimitList().size(); i++) {
-			PQBusLimit pqLimit = (PQBusLimit) adjNet.getPqBusLimitList().get(i);
-			if (pqLimit.needAdjust(0.0, adjNet.getBaseKva()))
-				list.add(pqLimit.getId() + " at " + pqLimit.getBus().getName()
-						+ "(" + (pqLimit.isActive() ? "on" : "off") + ")");
+		for (Bus b : adjNet.getBusList()) { 
+			AclfBus bus = (AclfBus)b;
+			if (bus.isPVBusLimit()) {
+				PQBusLimit pqLimit = (PQBusLimit)bus.getBranchList();
+				if (pqLimit.needAdjust(0.0, adjNet.getBaseKva()))
+					list.add(pqLimit.getId() + " at " + pqLimit.getParentBus().getName()
+							+ "(" + (pqLimit.isActive() ? "on" : "off") + ")");
+			}
 		}
 		return list.toArray();
 	}
@@ -104,15 +110,18 @@ public class RunActUtilFunc {
 			double tolerance, IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
-		for (int i = 0; i < adjNet.getRemoteQBusList().size(); i++) {
-			RemoteQBus reQ = (RemoteQBus) adjNet.getRemoteQBusList().get(i);
-			if (reQ.needAdjust(tolerance, adjNet.getBaseKva())) {
-				if (reQ.getControlType() == RemoteQControlType.BUS_VOLTAGE)
-					list.add(reQ.getId() + " at " + reQ.getBus().getName()
-							+ "-> Bus:" + reQ.getRemoteBus().getId());
-				else
-					list.add(reQ.getId() + " at " + reQ.getBus().getName()
-							+ "-> Branch:" + reQ.getRemoteBranch().getId());
+		for (Bus b : adjNet.getBusList()) { 
+			AclfBus bus = (AclfBus)b;
+			if (bus.isPVBusLimit()) {
+				RemoteQBus reQ = (RemoteQBus)bus.getBranchList();
+				if (reQ.needAdjust(tolerance, adjNet.getBaseKva())) {
+					if (reQ.getControlType() == RemoteQControlType.BUS_VOLTAGE)
+						list.add(reQ.getId() + " at " + reQ.getParentBus().getName()
+								+ "-> Bus:" + reQ.getRemoteBus().getId());
+					else
+						list.add(reQ.getId() + " at " + reQ.getParentBus().getName()
+								+ "-> Branch:" + reQ.getRemoteBranch().getId());
+				}
 			}
 		}
 		return list.toArray();
