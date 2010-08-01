@@ -283,7 +283,7 @@ public class IpssInternalFormat_in {
         	bus.setGenCode(AclfGenCode.GEN_PV);
       		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(bus);
       		pvLimit.setVSpecified(v, UnitType.PU);
-      		pvLimit.setQLimit(new LimitType(qmax,qmin), UnitType.mVA, adjNet.getBaseKva());
+      		pvLimit.setQLimit(new LimitType(qmax,qmin), UnitType.mVA);
       		pvLimit.setStatus(true);
 			final PVBusAdapter pv = (PVBusAdapter)bus.getAdapter(PVBusAdapter.class);
         	pv.setVoltMag(pvLimit.getVSpecified(UnitType.PU), UnitType.PU);

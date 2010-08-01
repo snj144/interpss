@@ -115,7 +115,7 @@ public class PSSE2IpssUtilFunc {
 				  			gen.setVoltMag(data.vSpec, UnitType.PU);
 		  					IpssLogger.getLogger().fine("Bus is a PVLimitBus, id: " + bus.getId());
 		  			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(bus);
-		  			  		pvLimit.setQLimit(new LimitType(data.genQmax, data.genQmin), UnitType.PU, adjNet.getBaseKva());
+		  			  		pvLimit.setQLimit(new LimitType(data.genQmax, data.genQmin), UnitType.PU);
 						}
 						else {
 							// remote bus voltage
@@ -129,7 +129,7 @@ public class PSSE2IpssUtilFunc {
 		  			  				RemoteQControlType.BUS_VOLTAGE, adjNet, data.remoteBusId);
 				  			final PQBusAdapter gen = (PQBusAdapter)bus.getAdapter(PQBusAdapter.class);
 				  			gen.setGen(new Complex(data.genPSum,data.genQSum), UnitType.PU);
-		  			  		reQ1.setQLimit(new LimitType(data.genQmax, data.genQmin), UnitType.PU, adjNet.getBaseKva());
+		  			  		reQ1.setQLimit(new LimitType(data.genQmax, data.genQmin), UnitType.PU);
 		  			  		reQ1.setVSpecified(data.vSpec);
 		  			  	}
 					}

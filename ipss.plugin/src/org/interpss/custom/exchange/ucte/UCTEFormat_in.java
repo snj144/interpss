@@ -250,8 +250,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 				// PV Bus limit control
 				IpssLogger.getLogger().fine("Bus is a PVLimitBus, id: " + id);
 				final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(bus);
-				pvLimit.setQLimit(new LimitType(maxGenMVar, minGenMVar),
-						UnitType.mVar, aclfNet.getBaseKva());
+				pvLimit.setQLimit(new LimitType(maxGenMVar, minGenMVar), UnitType.mVar);
 			}
 			break;
 		case 3: // swing bus
