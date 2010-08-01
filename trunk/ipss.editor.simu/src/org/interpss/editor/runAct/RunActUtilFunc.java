@@ -67,7 +67,7 @@ public class RunActUtilFunc {
 			AclfBus bus = (AclfBus)b;
 			if (bus.getFunctionLoad() != null) {
 				FunctionLoad load = bus.getFunctionLoad();
-				if (load.needAdjust(tolerance, adjNet.getBaseKva()))
+				if (load.needAdjust(tolerance))
 					list.add(load.getId() + " at " + load.getParentBus().getName());
 			}
 		}
@@ -82,7 +82,7 @@ public class RunActUtilFunc {
 			AclfBus bus = (AclfBus)b;
 			if (bus.isPVBusLimit()) {
 				PVBusLimit pvLimit = (PVBusLimit)bus.getBranchList();
-				if (pvLimit.needAdjust(0.0, adjNet.getBaseKva()))
+				if (pvLimit.needAdjust(0.0))
 					list.add(pvLimit.getId() + " at " + pvLimit.getParentBus().getName()
 							+ "(" + (pvLimit.isActive() ? "on" : "off") + ")");
 			}
@@ -98,7 +98,7 @@ public class RunActUtilFunc {
 			AclfBus bus = (AclfBus)b;
 			if (bus.isPVBusLimit()) {
 				PQBusLimit pqLimit = (PQBusLimit)bus.getBranchList();
-				if (pqLimit.needAdjust(0.0, adjNet.getBaseKva()))
+				if (pqLimit.needAdjust(0.0))
 					list.add(pqLimit.getId() + " at " + pqLimit.getParentBus().getName()
 							+ "(" + (pqLimit.isActive() ? "on" : "off") + ")");
 			}
@@ -114,7 +114,7 @@ public class RunActUtilFunc {
 			AclfBus bus = (AclfBus)b;
 			if (bus.isPVBusLimit()) {
 				RemoteQBus reQ = (RemoteQBus)bus.getBranchList();
-				if (reQ.needAdjust(tolerance, adjNet.getBaseKva())) {
+				if (reQ.needAdjust(tolerance)) {
 					if (reQ.getControlType() == RemoteQControlType.BUS_VOLTAGE)
 						list.add(reQ.getId() + " at " + reQ.getParentBus().getName()
 								+ "-> Bus:" + reQ.getRemoteBus().getId());
