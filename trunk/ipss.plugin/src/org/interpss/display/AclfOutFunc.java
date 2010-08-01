@@ -202,13 +202,13 @@ public class AclfOutFunc {
 	public static String loadFlowSummary(AclfAdjNetwork net) {
 		StringBuffer str = new StringBuffer(loadFlowSummary((AclfNetwork) net));
 		try {
-			if (net.getPvBusLimitList().size() > 0)
+			if (net.hasPVBusLimit())
 				str.append(pvBusLimitToString(net));
 
-			if (net.getPqBusLimitList().size() > 0)
+			if (net.hasPQBusLimit())
 				str.append(pqBusLimitToString(net));
 
-			if (net.getRemoteQBusList().size() > 0)
+			if (net.hasRemoteQBus())
 				str.append(remoteQBusToString(net));
 
 			if (net.hasFunctionLoad())
@@ -306,23 +306,27 @@ public class AclfOutFunc {
 		str
 				.append("     -------- -------- -------- -------- -------- -------- ------\n");
 
-		for (PVBusLimit pv : net.getPvBusLimitList()) {
-			GenBusAdapter genBus = (GenBusAdapter) pv.getAclfBus().getAdapter(
-					GenBusAdapter.class);
-			str.append(Number2String.toStr(5, " "));
-			str.append(Number2String.toStr(-8, getBusId(pv.getAclfBus(), net.getOriginalDataFormat())));
-			str.append(Number2String.toStr("###0.0000", pv.getAclfBus()
-					.getVoltageMag(UnitType.PU)));
-			str.append(Number2String.toStr("###0.0000", pv
-					.getVSpecified(UnitType.PU)));
-			str.append(Number2String.toStr("#####0.00", genBus.getGenResults(
-					UnitType.PU).getImaginary()));
-			str.append(Number2String.toStr("#####0.00", pv.getQLimit(
-					UnitType.PU, baseKVA).getMax()));
-			str.append(Number2String.toStr("#####0.00", pv.getQLimit(
-					UnitType.PU, baseKVA).getMin()));
-			str.append(Number2String.toStr(6, pv.isActive() ? "on" : "off")
-					+ "\n");
+		for (Bus b : net.getBusList()) {
+			AclfBus bus = (AclfBus)b;
+			if (bus.isPVBusLimit()) {
+				PVBusLimit pv = (PVBusLimit)bus.getBusControl();
+				GenBusAdapter genBus = (GenBusAdapter) pv.getParentBus().getAdapter(
+						GenBusAdapter.class);
+				str.append(Number2String.toStr(5, " "));
+				str.append(Number2String.toStr(-8, getBusId(pv.getParentBus(), net.getOriginalDataFormat())));
+				str.append(Number2String.toStr("###0.0000", pv.getParentBus()
+						.getVoltageMag(UnitType.PU)));
+				str.append(Number2String.toStr("###0.0000", pv
+						.getVSpecified(UnitType.PU)));
+				str.append(Number2String.toStr("#####0.00", genBus.getGenResults(
+						UnitType.PU).getImaginary()));
+				str.append(Number2String.toStr("#####0.00", pv.getQLimit(
+						UnitType.PU, baseKVA).getMax()));
+				str.append(Number2String.toStr("#####0.00", pv.getQLimit(
+						UnitType.PU, baseKVA).getMin()));
+				str.append(Number2String.toStr(6, pv.isActive() ? "on" : "off")
+						+ "\n");
+			}
 		}
 		return str.toString();
 	}
@@ -340,28 +344,32 @@ public class AclfOutFunc {
 		str
 				.append("     -------- -------- -------- -------- -------- -------- ------\n");
 
-		for (PQBusLimit pq : net.getPqBusLimitList()) {
-			GenBusAdapter genBus = (GenBusAdapter) pq.getAclfBus().getAdapter(
-					GenBusAdapter.class);
-			str.append(Number2String.toStr(5, " "));
-			str.append(Number2String.toStr(-8, getBusId(pq.getAclfBus(), net.getOriginalDataFormat())) + " ");
-			str.append(Number2String.toStr("####0.00", genBus.getGenResults(
-					UnitType.PU).getImaginary())
-					+ " ");
-			str.append(Number2String.toStr("####0.00", pq.getQSpecified(
-					UnitType.PU, baseKVA))
-					+ " ");
-			str.append(Number2String.toStr("##0.0000", pq.getAclfBus()
-					.getVoltageMag(UnitType.PU))
-					+ " ");
-			str.append(Number2String.toStr("##0.0000", pq
-					.getVLimit(UnitType.PU).getMax())
-					+ " ");
-			str.append(Number2String.toStr("##0.0000", pq
-					.getVLimit(UnitType.PU).getMin())
-					+ " ");
-			str.append(Number2String.toStr(5, pq.isActive() ? "on" : "off")
-					+ "\n");
+		for (Bus b : net.getBusList()) {
+			AclfBus bus = (AclfBus)b;
+			if (bus.isPQBusLimit()) {
+				PQBusLimit pq = (PQBusLimit)bus.getBusControl();
+				GenBusAdapter genBus = (GenBusAdapter) pq.getParentBus().getAdapter(
+						GenBusAdapter.class);
+				str.append(Number2String.toStr(5, " "));
+				str.append(Number2String.toStr(-8, getBusId(pq.getParentBus(), net.getOriginalDataFormat())) + " ");
+				str.append(Number2String.toStr("####0.00", genBus.getGenResults(
+						UnitType.PU).getImaginary())
+						+ " ");
+				str.append(Number2String.toStr("####0.00", pq.getQSpecified(
+						UnitType.PU, baseKVA))
+						+ " ");
+				str.append(Number2String.toStr("##0.0000", pq.getParentBus()
+						.getVoltageMag(UnitType.PU))
+						+ " ");
+				str.append(Number2String.toStr("##0.0000", pq
+						.getVLimit(UnitType.PU).getMax())
+						+ " ");
+				str.append(Number2String.toStr("##0.0000", pq
+						.getVLimit(UnitType.PU).getMin())
+						+ " ");
+				str.append(Number2String.toStr(5, pq.isActive() ? "on" : "off")
+						+ "\n");
+			}
 		}
 		return str.toString();
 	}
@@ -379,33 +387,35 @@ public class AclfOutFunc {
 		str
 				.append("     -------- -------- --------------- -------- -------- -------- -------- -------- ------\n");
 
-		for (RemoteQBus re : net.getRemoteQBusList()) {
-			GenBusAdapter genBus = (GenBusAdapter) re.getAclfBus().getAdapter(
-					GenBusAdapter.class);
-			str.append(Number2String.toStr(5, " "));
-			str.append(Number2String.toStr(-9, getBusId(re.getAclfBus(), net.getOriginalDataFormat())));
-			str.append(Number2String.toStr(-9,
-									(re.getControlType() == RemoteQControlType.BUS_VOLTAGE ? " Voltage"
-											: "MvarFlow")));
-			str.append(Number2String.toStr(15,
-					re.getControlType() == RemoteQControlType.BUS_VOLTAGE ? re
-							.getRemoteBus().getId() : re.getRemoteBranch()
-							.getId()));
-			str.append(Number2String.toStr("###0.0000",
-					re.getControlType() == RemoteQControlType.BUS_VOLTAGE ? re
-							.getRemoteBus().getVoltageMag(UnitType.PU) : re
-							.getMvarFlowCalculated(re.getRemoteBranch(),
-									UnitType.PU, baseKVA)));
-			str.append(Number2String.toStr("###0.0000", re
-					.getVSpecified(UnitType.PU)));
-			str.append(Number2String.toStr("#####0.00", genBus.getGenResults(
-					UnitType.PU).getImaginary()));
-			str.append(Number2String.toStr("#####0.00", re.getQLimit(
-					UnitType.PU, baseKVA).getMax()));
-			str.append(Number2String.toStr("#####0.00", re.getQLimit(
-					UnitType.PU, baseKVA).getMin()));
-			str.append(Number2String.toStr(6, re.isActive() ? "on" : "off")
-					+ "\n");
+		for (Bus b : net.getBusList()) {
+			AclfBus bus = (AclfBus)b;
+			if (bus.isRemoteQBus()) {
+				RemoteQBus re = (RemoteQBus)bus.getBusControl();
+				GenBusAdapter genBus = (GenBusAdapter) re.getParentBus().getAdapter(
+						GenBusAdapter.class);
+				str.append(Number2String.toStr(5, " "));
+				str.append(Number2String.toStr(-9, getBusId(re.getParentBus(), net.getOriginalDataFormat())));
+				str.append(Number2String.toStr(-9,
+										(re.getControlType() == RemoteQControlType.BUS_VOLTAGE ? " Voltage"
+												: "MvarFlow")));
+				str.append(Number2String.toStr(15,
+						re.getControlType() == RemoteQControlType.BUS_VOLTAGE ? re
+								.getRemoteBus().getId() : re.getRemoteBranch()
+								.getId()));
+				str.append(Number2String.toStr("###0.0000",
+						re.getControlType() == RemoteQControlType.BUS_VOLTAGE ? re
+								.getRemoteBus().getVoltageMag(UnitType.PU) : re
+								.getMvarFlowCalculated(re.getRemoteBranch(),
+										UnitType.PU, baseKVA)));
+				str.append(Number2String.toStr("###0.0000", re.getVSpecified(UnitType.PU)));
+				str.append(Number2String.toStr("#####0.00", genBus.getGenResults(
+						UnitType.PU).getImaginary()));
+				str.append(Number2String.toStr("#####0.00", re.getQLimit(
+						UnitType.PU, baseKVA).getMax()));
+				str.append(Number2String.toStr("#####0.00", re.getQLimit(
+						UnitType.PU, baseKVA).getMin()));
+				str.append(Number2String.toStr(6, re.isActive() ? "on" : "off")	+ "\n");
+			}
 		}
 		return str.toString();
 	}

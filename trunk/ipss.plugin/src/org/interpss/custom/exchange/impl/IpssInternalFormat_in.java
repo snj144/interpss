@@ -281,7 +281,7 @@ public class IpssInternalFormat_in {
       	AclfBus bus = adjNet.getAclfBus(id);
     	if (bus != null ) {
         	bus.setGenCode(AclfGenCode.GEN_PV);
-      		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(adjNet, id);
+      		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(bus);
       		pvLimit.setVSpecified(v, UnitType.PU);
       		pvLimit.setQLimit(new LimitType(qmax,qmin), UnitType.mVA, adjNet.getBaseKva());
       		pvLimit.setStatus(true);
