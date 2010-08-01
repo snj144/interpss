@@ -187,7 +187,7 @@ public class ODM_Old_DataMapperImpl {
 						                 xmlEquivGenData.getPower().getIm()),
 						           ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()));
 				if (xmlEquivGenData.getVoltageLimit() != null) {
-  			  		final PQBusLimit pqLimit = CoreObjectFactory.createPQBusLimit(adjNet, aclfBus.getId());
+  			  		final PQBusLimit pqLimit = CoreObjectFactory.createPQBusLimit(aclfBus);
   			  		pqLimit.setVLimit(new LimitType(xmlEquivGenData.getVoltageLimit().getMax(), 
   			  										xmlEquivGenData.getVoltageLimit().getMin()), 
   			  				ODMXmlHelper.toUnit(xmlEquivGenData.getVoltageLimit().getUnit()));						
@@ -206,7 +206,7 @@ public class ODM_Old_DataMapperImpl {
 							aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
 					pvBus.setVoltMag(vpu, UnitType.PU);
 					if (xmlEquivGenData.getQLimit() != null) {
-	  			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(adjNet, aclfBus.getId());
+	  			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(aclfBus);
 	  			  		pvLimit.setQLimit(new LimitType(xmlEquivGenData.getQLimit().getMax(), 
 	  			  										xmlEquivGenData.getQLimit().getMin()), 
 	  			  				ODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()), adjNet.getBaseKva());						
@@ -223,8 +223,8 @@ public class ODM_Old_DataMapperImpl {
   					if (remoteBus != null) {
   	  					if (remoteBus.isGenPV())
   	  						remoteBus.setGenCode(AclfGenCode.GEN_PQ);
-  	  			  		final RemoteQBus reQBus = CoreObjectFactory.createRemoteQBus(adjNet, aclfBus.getId(), 
-  	  			  				RemoteQControlType.BUS_VOLTAGE, remoteId);
+  	  			  		final RemoteQBus reQBus = CoreObjectFactory.createRemoteQBus(aclfBus, 
+  	  			  				RemoteQControlType.BUS_VOLTAGE, adjNet, remoteId);
   			  			final PQBusAdapter gen = (PQBusAdapter)aclfBus.getAdapter(PQBusAdapter.class);
   			  			gen.setGen(new Complex(xmlEquivGenData.getPower().getRe(),
   			  					               xmlEquivGenData.getPower().getIm()), 

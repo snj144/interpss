@@ -353,8 +353,7 @@ public class AclfFormDataMapperImpl {
 							.getBusIdFromDisplayNameId(adjData
 									.getRemoteControlBusId());
 					RemoteQBus reQ = CoreObjectFactory.createRemoteQBus(
-							aclfNet, bus.getId(),
-							RemoteQControlType.BUS_VOLTAGE, remoteBusId);
+							bus, RemoteQControlType.BUS_VOLTAGE, aclfNet, remoteBusId);
 					reQ.setQLimit(new LimitType(adjData.getMaxGenQ(), adjData
 							.getMinGenQ()));
 					// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and
@@ -365,8 +364,7 @@ public class AclfFormDataMapperImpl {
 							.getBranchIdFromDisplayNameId(adjData
 									.getRemoteControlBranchId());
 					RemoteQBus reQ = CoreObjectFactory.createRemoteQBus(
-							aclfNet, bus.getId(), RemoteQControlType.BRANCH_Q,
-							remoteBranchId);
+							bus, RemoteQControlType.BRANCH_Q, aclfNet, remoteBranchId);
 					reQ.setQLimit(new LimitType(adjData.getMaxGenQ(), adjData
 							.getMinGenQ()));
 					// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and
@@ -379,8 +377,7 @@ public class AclfFormDataMapperImpl {
 			} else if (adjData.isHasLimitControl()) {
 				double max = adjData.getMaxVoltMag();
 				double min = adjData.getMinVoltMag();
-				PQBusLimit pqLimit = CoreObjectFactory.createPQBusLimit(
-						aclfNet, bus.getId());
+				PQBusLimit pqLimit = CoreObjectFactory.createPQBusLimit(bus);
 				pqLimit.setVLimit(new LimitType(max, min), UnitType.PU);
 			}
 		} else if (busData.getGenCode().equals(AclfBusData.GenCode_PV)) {
@@ -388,8 +385,7 @@ public class AclfFormDataMapperImpl {
 			if (adjData.isHasLimitControl()) {
 				double max = adjData.getMaxGenQ();
 				double min = adjData.getMinGenQ();
-				PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(
-						aclfNet, bus.getId());
+				PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(bus);
 				pvLimit.setQLimit(new LimitType(max, min), UnitType.PU, aclfNet
 						.getBaseKva());
 			}

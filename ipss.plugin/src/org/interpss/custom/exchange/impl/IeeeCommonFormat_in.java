@@ -36,6 +36,7 @@ import org.apache.commons.math.complex.Complex;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
@@ -202,7 +203,7 @@ public class IeeeCommonFormat_in {
      *   ======== 
      */
 
-    private static void processBusData(final String str, final AclfAdjNetwork  net) {
+    private static void processBusData(final String str, final AclfAdjNetwork  net)  throws InterpssException {
     	// parse the input data line
     	final String[] strAry = getBusDataFields(str);
     	
@@ -292,7 +293,7 @@ public class IeeeCommonFormat_in {
     		gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
     		if ((max != 0.0) || (min != 0.0)) {
     			IpssLogger.getLogger().fine("Bus is a PQLimitBus, id: " + busId);
-    		  	final PQBusLimit pqLimit = CoreObjectFactory.createPQBusLimit(net, busId);
+    		  	final PQBusLimit pqLimit = CoreObjectFactory.createPQBusLimit(bus);
     		  	pqLimit.setVLimit(new LimitType(max, min));
     		}
     	}
@@ -308,14 +309,14 @@ public class IeeeCommonFormat_in {
   				if (reBusId.equals("0") || reBusId.equals("") || reBusId.equals(busId)) {
   					// PV Bus limit control
   					IpssLogger.getLogger().fine("Bus is a PVLimitBus, id: " + busId);
-  			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(net, busId);
+  			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(bus);
   			  		pvLimit.setQLimit(new LimitType(max, min), UnitType.mVar, net.getBaseKva());
   				}
   				else {
   					// Remote Q  Bus control
   					IpssLogger.getLogger().fine("Bus is a RemoteQBus, id: " + busId);
-  			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(net, busId, 
-  			  				RemoteQControlType.BUS_VOLTAGE, reBusId);
+  			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(bus, 
+  			  				RemoteQControlType.BUS_VOLTAGE, net, reBusId);
   			  		reQ1.setQLimit(new LimitType(max, min), UnitType.mVar, net.getBaseKva());
   			  		reQ1.setVSpecified(vSpecPu);
   				}

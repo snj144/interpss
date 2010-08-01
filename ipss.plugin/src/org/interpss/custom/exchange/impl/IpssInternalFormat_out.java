@@ -84,12 +84,16 @@ public class IpssInternalFormat_out {
 
         // output PV Limit control bus info
         out.write(String.format("%s%n", "PVBusInfo"));
-		for (PVBusLimit pv : net.getPvBusLimitList()) {
-			out.write(String.format("%8s %7.4f %7.2f %7.2f %n", 
-					pv.getAclfBus().getId(),
-					pv.getVSpecified(),
-					pv.getQLimit().getMin()*baseMva,
-					pv.getQLimit().getMax()*baseMva));
+		for (Bus b : net.getBusList()) {
+			AclfBus bus = (AclfBus) b;
+			if (bus.isPVBusLimit()) {
+				PVBusLimit pv = (PVBusLimit)bus.getBusControl();
+				out.write(String.format("%8s %7.4f %7.2f %7.2f %n", 
+							pv.getParentBus().getId(),
+							pv.getVSpecified(),
+							pv.getQLimit().getMin()*baseMva,
+							pv.getQLimit().getMax()*baseMva));
+			}
 		}
         out.write(String.format("%s%n%n", "end"));
 

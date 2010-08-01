@@ -80,7 +80,7 @@ public class PSSE2IpssUtilFunc {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean transferData(AclfAdjNetwork adjNet, IPSSMsgHub msg) {
+	public static boolean transferData(AclfAdjNetwork adjNet, IPSSMsgHub msg) throws InterpssException {
 		boolean hasError = false;
 		
 		// PSS/E do not have ground branch concept
@@ -114,7 +114,7 @@ public class PSSE2IpssUtilFunc {
 				  			gen.setGenP(data.genPSum, UnitType.PU);
 				  			gen.setVoltMag(data.vSpec, UnitType.PU);
 		  					IpssLogger.getLogger().fine("Bus is a PVLimitBus, id: " + bus.getId());
-		  			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(adjNet, bus.getId());
+		  			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(bus);
 		  			  		pvLimit.setQLimit(new LimitType(data.genQmax, data.genQmin), UnitType.PU, adjNet.getBaseKva());
 						}
 						else {
@@ -125,8 +125,8 @@ public class PSSE2IpssUtilFunc {
 		  					// be changed to PQ bus
 		  					if (adjNet.getAclfBus(data.remoteBusId).isGenPV())
 		  						adjNet.getAclfBus(data.remoteBusId).setGenCode(AclfGenCode.GEN_PQ);
-		  			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(adjNet, bus.getId(), 
-		  			  				RemoteQControlType.BUS_VOLTAGE, data.remoteBusId);
+		  			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(bus, 
+		  			  				RemoteQControlType.BUS_VOLTAGE, adjNet, data.remoteBusId);
 				  			final PQBusAdapter gen = (PQBusAdapter)bus.getAdapter(PQBusAdapter.class);
 				  			gen.setGen(new Complex(data.genPSum,data.genQSum), UnitType.PU);
 		  			  		reQ1.setQLimit(new LimitType(data.genQmax, data.genQmin), UnitType.PU, adjNet.getBaseKva());
