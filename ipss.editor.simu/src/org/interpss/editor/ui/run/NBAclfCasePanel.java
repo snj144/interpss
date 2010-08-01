@@ -47,6 +47,7 @@ import com.interpss.common.msg.SimuMessage;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.adj.FunctionLoad;
 import com.interpss.core.aclf.adj.PQBusLimit;
 import com.interpss.core.aclf.adj.PSXfrPControl;
@@ -1055,7 +1056,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         }
         else {
         	String id = new StringTokenizer(selected).nextToken();
-        	RemoteQBus reQ = _simuCtx.getAclfAdjNet().getRemoteQBus(id);
+    		AclfBus bus = _simuCtx.getAclfAdjNet().getAclfBus(id);
+    		RemoteQBus reQ = (RemoteQBus)bus.getBusControl();
         	reQ.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva());
         	IpssLogger.getLogger().info("Apply Remote Q Bus adjustment: " + id);
         }
@@ -1071,7 +1073,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         }
         else {
         	String id = new StringTokenizer(selected).nextToken();
-        	PQBusLimit pq = _simuCtx.getAclfAdjNet().getPQBusLimit(id);
+    		AclfBus bus = _simuCtx.getAclfAdjNet().getAclfBus(id);
+        	PQBusLimit pq = (PQBusLimit)bus.getBusControl();
         	pq.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva());
         	IpssLogger.getLogger().info("Apply PQ Bus Limit: " + id);
         }
@@ -1087,7 +1090,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         }
         else {
         	String id = new StringTokenizer(selected).nextToken();
-        	PVBusLimit pv = _simuCtx.getAclfAdjNet().getPVBusLimit(id);
+    		AclfBus bus = _simuCtx.getAclfAdjNet().getAclfBus(id);
+        	PVBusLimit pv = (PVBusLimit)bus.getBusControl();
         	pv.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva());
         	IpssLogger.getLogger().info("Apply PV Bus Limit: " + id);
         }
