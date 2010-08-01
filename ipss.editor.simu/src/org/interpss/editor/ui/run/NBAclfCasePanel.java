@@ -989,7 +989,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         else {
         	String id = new StringTokenizer(selected).nextToken();
         	FunctionLoad load = _simuCtx.getAclfAdjNet().getAclfBus(id).getFunctionLoad();
-        	load.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva());
+        	load.performAdjust();
         	IpssLogger.getLogger().info("Apply Function load adjustment: " + id);
         }
         initAdvanceControlPanel();
@@ -1058,7 +1058,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         	String id = new StringTokenizer(selected).nextToken();
     		AclfBus bus = _simuCtx.getAclfAdjNet().getAclfBus(id);
     		RemoteQBus reQ = (RemoteQBus)bus.getBusControl();
-        	reQ.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva());
+        	reQ.performAdjust();
         	IpssLogger.getLogger().info("Apply Remote Q Bus adjustment: " + id);
         }
         initAdvanceControlPanel();
@@ -1075,7 +1075,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         	String id = new StringTokenizer(selected).nextToken();
     		AclfBus bus = _simuCtx.getAclfAdjNet().getAclfBus(id);
         	PQBusLimit pq = (PQBusLimit)bus.getBusControl();
-        	pq.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva());
+        	pq.performAdjust();
         	IpssLogger.getLogger().info("Apply PQ Bus Limit: " + id);
         }
         initAdvanceControlPanel();
@@ -1092,7 +1092,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         	String id = new StringTokenizer(selected).nextToken();
     		AclfBus bus = _simuCtx.getAclfAdjNet().getAclfBus(id);
         	PVBusLimit pv = (PVBusLimit)bus.getBusControl();
-        	pv.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva());
+        	pv.performAdjust();
         	IpssLogger.getLogger().info("Apply PV Bus Limit: " + id);
         }
         initAdvanceControlPanel();
