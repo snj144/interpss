@@ -245,9 +245,9 @@ public class AclfResultMapperImpl {
 				bean.setQ(Number2String.toStr("#####0.00", genBus.getGenResults(
 						UnitType.PU).getImaginary()));
 				bean.setQmax(Number2String.toStr("#####0.00", pv.getQLimit(
-						UnitType.PU, baseKva).getMax()));
+						UnitType.PU).getMax()));
 				bean.setQmin(Number2String.toStr("#####0.00", pv.getQLimit(
-						UnitType.PU, baseKva).getMin()));
+						UnitType.PU).getMin()));
 				bean.setStatus(Number2String.toStr(6, pv.isActive() ? "on" : "off")
 						+ "\n");
 				list.add(bean);
@@ -270,7 +270,7 @@ public class AclfResultMapperImpl {
 				bean.setQact(Number2String.toStr("####0.00", genBus.getGenResults(
 						UnitType.PU).getImaginary()));
 				bean.setQspec(Number2String.toStr("####0.00", pq.getQSpecified(
-						UnitType.PU, baseKva)));
+						UnitType.PU)));
 				bean.setV(Number2String.toStr("##0.0000", pq.getParentBus()
 						.getVoltageMag(UnitType.PU)));
 				bean.setVmax(Number2String.toStr("##0.0000", pq.getVLimit(
@@ -339,16 +339,15 @@ public class AclfResultMapperImpl {
 				bean.setActual(Number2String.toStr("###0.0000",
 						re.getControlType() == RemoteQControlType.BUS_VOLTAGE ? re
 								.getRemoteBus().getVoltageMag(UnitType.PU) : re
-								.getMvarFlowCalculated(re.getRemoteBranch(),
-										UnitType.PU, baseKva)));
+								.getMvarFlowCalculated(re.getRemoteBranch(), UnitType.PU)));
 				bean.setSpec(Number2String.toStr("###0.0000", re
 						.getVSpecified(UnitType.PU)));
 				bean.setQ(Number2String.toStr("#####0.00", genBus.getGenResults(
 						UnitType.PU).getImaginary()));
 				bean.setQmax(Number2String.toStr("#####0.00", re.getQLimit(
-						UnitType.PU, baseKva).getMax()));
+						UnitType.PU).getMax()));
 				bean.setQmin(Number2String.toStr("#####0.00", re.getQLimit(
-						UnitType.PU, baseKva).getMin()));
+						UnitType.PU).getMin()));
 				bean
 						.setStatus(Number2String.toStr(6, re.isActive() ? "on"
 								: "off"));
