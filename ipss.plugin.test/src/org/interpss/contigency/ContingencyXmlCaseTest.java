@@ -68,12 +68,12 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 		
 		rbus = mscase.getBusResultSummary().get("0014");
   		assertTrue(rbus != null);
-	  	assertTrue(Math.abs(rbus.getHighVoltMagPU()-1.0426) < 0.001);
-	  	assertTrue(Math.abs(rbus.getLowVoltMagPU()-1.0340) < 0.001);
+	  	assertTrue(Math.abs(rbus.getHighVoltMagPU()-1.0486) < 0.001);
+	  	assertTrue(Math.abs(rbus.getLowVoltMagPU()-1.04355) < 0.001);
 
 	  	AclfBranchResultRec rbra = mscase.getBranchResultSummary().get("0002->0003(1)");
   		assertTrue(rbra != null);
-	  	assertTrue(Math.abs(rbra.getMvaFlow()-75.91) < 0.01);
+	  	assertTrue(Math.abs(rbra.getMvaFlow()-76.535) < 0.01);
 /*	  	
 		IRemoteResult resultHandler = RemoteResultFactory
 				.createHandler(ContingencyAnaysisJob.class);
@@ -164,6 +164,6 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 				.toString());
 */
 		AclfBranchResultRec r = mscase.getBranchResultSummary().get("0001->0002(1)");
-	  	assertTrue(Math.abs(r.getMvaFlow() - 207.8) < 0.1);
+	  	assertTrue(Math.abs(r.getMvaFlow() - 207.96) < 0.1);
 	}
 }
