@@ -101,8 +101,6 @@ public class AclfOutFunc {
 	public static String loadFlowSummary(AclfNetwork net) {
 		StringBuffer str = new StringBuffer("");
 		try {
-			double baseKVA = net.getBaseKva();
-
 			str.append("\n                          Load Flow Summary\n");
 			str.append(AclfOutFunc.maxMismatchToString(net, "") + "\n");
 			if (net.getOriginalDataFormat() == OriginalDataFormat.CIM) {
@@ -297,8 +295,6 @@ public class AclfOutFunc {
 			throws Exception {
 		StringBuffer str = new StringBuffer("");
 
-		double baseKVA = net.getBaseKva();
-
 		str.append("\n\n");
 		str.append("                  PV Bus Limit Adjustment/Control\n\n");
 		str
@@ -321,9 +317,9 @@ public class AclfOutFunc {
 				str.append(Number2String.toStr("#####0.00", genBus.getGenResults(
 						UnitType.PU).getImaginary()));
 				str.append(Number2String.toStr("#####0.00", pv.getQLimit(
-						UnitType.PU, baseKVA).getMax()));
+						UnitType.PU).getMax()));
 				str.append(Number2String.toStr("#####0.00", pv.getQLimit(
-						UnitType.PU, baseKVA).getMin()));
+						UnitType.PU).getMin()));
 				str.append(Number2String.toStr(6, pv.isActive() ? "on" : "off")
 						+ "\n");
 			}
@@ -334,8 +330,6 @@ public class AclfOutFunc {
 	public static String pqBusLimitToString(AclfAdjNetwork net)
 			throws Exception {
 		StringBuffer str = new StringBuffer("");
-
-		double baseKVA = net.getBaseKva();
 
 		str.append("\n\n");
 		str.append("                  PQ Bus Limit Adjustment/Control\n\n");
@@ -356,7 +350,7 @@ public class AclfOutFunc {
 						UnitType.PU).getImaginary())
 						+ " ");
 				str.append(Number2String.toStr("####0.00", pq.getQSpecified(
-						UnitType.PU, baseKVA))
+						UnitType.PU))
 						+ " ");
 				str.append(Number2String.toStr("##0.0000", pq.getParentBus()
 						.getVoltageMag(UnitType.PU))
@@ -377,8 +371,6 @@ public class AclfOutFunc {
 	public static String remoteQBusToString(AclfAdjNetwork net)
 			throws Exception {
 		StringBuffer str = new StringBuffer("");
-
-		double baseKVA = net.getBaseKva();
 
 		str.append("\n\n");
 		str.append("                Remote Q Voltage Adjustment/Control\n\n");
@@ -405,15 +397,14 @@ public class AclfOutFunc {
 				str.append(Number2String.toStr("###0.0000",
 						re.getControlType() == RemoteQControlType.BUS_VOLTAGE ? re
 								.getRemoteBus().getVoltageMag(UnitType.PU) : re
-								.getMvarFlowCalculated(re.getRemoteBranch(),
-										UnitType.PU, baseKVA)));
+								.getMvarFlowCalculated(re.getRemoteBranch(), UnitType.PU)));
 				str.append(Number2String.toStr("###0.0000", re.getVSpecified(UnitType.PU)));
 				str.append(Number2String.toStr("#####0.00", genBus.getGenResults(
 						UnitType.PU).getImaginary()));
 				str.append(Number2String.toStr("#####0.00", re.getQLimit(
-						UnitType.PU, baseKVA).getMax()));
+						UnitType.PU).getMax()));
 				str.append(Number2String.toStr("#####0.00", re.getQLimit(
-						UnitType.PU, baseKVA).getMin()));
+						UnitType.PU).getMin()));
 				str.append(Number2String.toStr(6, re.isActive() ? "on" : "off")	+ "\n");
 			}
 		}
