@@ -117,8 +117,9 @@ public class CR_UserTestCases extends BaseTestSetup {
 	  	AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
   		Complex p = swing.getGenResults(UnitType.mW);
-  		assertTrue(Math.abs(p.getReal()-1841.530)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()-11.485)<0.01);	  	
+  		//System.out.println(p.getReal() + "  " + p.getImaginary());
+  		assertTrue(Math.abs(p.getReal()-1841.659)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()-11.714)<0.01);	  	
 	}
 	
 	@Test
@@ -140,9 +141,9 @@ public class CR_UserTestCases extends BaseTestSetup {
 	  	AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
   		Complex p = swing.getGenResults(UnitType.mW);
-  		System.out.println(p.getReal() + ", " + p.getImaginary());
-  		assertTrue(Math.abs(p.getReal()-1841.530)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()-11.485)<0.01);	  	
+  		//System.out.println(p.getReal() + ", " + p.getImaginary());
+  		assertTrue(Math.abs(p.getReal()-1841.665)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()-11.738)<0.01);	  	
 	}	
 }
 
