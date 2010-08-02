@@ -480,7 +480,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
           		tapv.setVSpecified(uKvPhase, UnitType.kV);
           		tapv.setTapStepSize(2*nPhase+1);
           		tapv.setControlOnFromSide(false);
-          		aclfNet.addTapControl(tapv, toNodeId);          		
+          		//aclfNet.addTapControl(tapv, toNodeId);          		
 			}
 		}
 		else if (dUAngle > 0.0) {
@@ -533,7 +533,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
           		ps.setPSpecified(pMwAngle, UnitType.mW, aclfNet.getBaseKva());
           		ps.setAngLimit(new LimitType(angMax, angMin));
           		ps.setControlOnFromSide(false);
-          		aclfNet.addPSXfrPControl(ps, branch.getId());          		
+          		//aclfNet.addPSXfrPControl(ps, branch.getId());          		
 			}
 		}
 		
