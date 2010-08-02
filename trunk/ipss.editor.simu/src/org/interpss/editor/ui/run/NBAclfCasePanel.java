@@ -50,10 +50,8 @@ import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.adj.FunctionLoad;
 import com.interpss.core.aclf.adj.PQBusLimit;
-import com.interpss.core.aclf.adj.PSXfrPControl;
 import com.interpss.core.aclf.adj.PVBusLimit;
 import com.interpss.core.aclf.adj.RemoteQBus;
-import com.interpss.core.aclf.adj.TapControl;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.IRegulationDevice;
@@ -998,32 +996,32 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private void xfrTapControlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xfrTapControlButtonActionPerformed
         String selected = (String)xfrTapControlComboBox.getSelectedItem();
-        if (selected.equals(RunActUtilFunc.AllControlDevices)) {
-        	IpssLogger.getLogger().info("Apply All Xfr Tap Controls");
-        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doTapVControl();
-        }
-        else {
-        	String id = new StringTokenizer(selected).nextToken();
-        	TapControl xfr = _simuCtx.getAclfAdjNet().getTapControl(id);
-        	xfr.performAdjust();
-        	IpssLogger.getLogger().info("Apply Xfr Tap Control: " + id);
-        }
+//        if (selected.equals(RunActUtilFunc.AllControlDevices)) {
+//        	IpssLogger.getLogger().info("Apply All Xfr Tap Controls");
+//        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doTapVControl();
+//        }
+//        else {
+//        	String id = new StringTokenizer(selected).nextToken();
+//        	TapControl xfr = _simuCtx.getAclfAdjNet().getTapControl(id);
+//        	xfr.performAdjust();
+//        	IpssLogger.getLogger().info("Apply Xfr Tap Control: " + id);
+//        }
         initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_xfrTapControlButtonActionPerformed
 
     private void psXfrPControlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psXfrPControlButtonActionPerformed
         String selected = (String)psXfrPControlComboBox.getSelectedItem();
-        if (selected.equals(RunActUtilFunc.AllControlDevices)) {
-        	IpssLogger.getLogger().info("Apply All PS Xfr PControls");
-        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doPSXfrPControl();
-        }
-        else {
-        	String id = new StringTokenizer(selected).nextToken();
-        	PSXfrPControl psXfr = _simuCtx.getAclfAdjNet().getPSXfrPControl(id);
-        	psXfr.performAdjust();
-        	IpssLogger.getLogger().info("Apply PS Xfr PControl: " + id);
-        }
+//        if (selected.equals(RunActUtilFunc.AllControlDevices)) {
+//        	IpssLogger.getLogger().info("Apply All PS Xfr PControls");
+//        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doPSXfrPControl();
+//        }
+//        else {
+//        	String id = new StringTokenizer(selected).nextToken();
+//        	PSXfrPControl psXfr = _simuCtx.getAclfAdjNet().getPSXfrPControl(id);
+//        	psXfr.performAdjust();
+//        	IpssLogger.getLogger().info("Apply PS Xfr PControl: " + id);
+//        }
         initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_psXfrPControlButtonActionPerformed
