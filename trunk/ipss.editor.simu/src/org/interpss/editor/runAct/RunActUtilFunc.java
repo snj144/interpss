@@ -133,7 +133,7 @@ public class RunActUtilFunc {
 		list.add(AllControlDevices);
 		for (int i = 0; i < adjNet.getTapControlList().size(); i++) {
 			TapControl xfr = (TapControl) adjNet.getTapControlList().get(i);
-			if (xfr.needAdjust(tolerance, adjNet.getBaseKva(), msg)) {
+			if (xfr.needAdjust(tolerance)) {
 				list.add(xfr.getId() + " at " + xfr.getAclfBranch().getName());
 			}
 		}
@@ -147,7 +147,7 @@ public class RunActUtilFunc {
 		for (int i = 0; i < adjNet.getPsXfrPControlList().size(); i++) {
 			PSXfrPControl psXfr = (PSXfrPControl) adjNet.getPsXfrPControlList()
 					.get(i);
-			if (psXfr.needAdjust(tolerance, adjNet.getBaseKva(), msg)) {
+			if (psXfr.needAdjust(tolerance)) {
 				list.add(psXfr.getId() + " at "
 						+ psXfr.getAclfBranch().getName());
 			}
