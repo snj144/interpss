@@ -540,7 +540,7 @@ public class IeeeCommonFormat_in {
           	}
           	else if (type == 4) {
 //              4 - Variable phase angle for MW control (phase shifter)
-          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(net, bra.getId(), AdjControlType.RANGE_CONTROL);
+          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(bra, AdjControlType.RANGE_CONTROL);
           		// TODO pSpec not defined
           		ps.setPSpecified(0.2);
           		ps.setAngLimit(new LimitType(Math.toRadians(maxTapAng), Math.toRadians(minTapAng)));

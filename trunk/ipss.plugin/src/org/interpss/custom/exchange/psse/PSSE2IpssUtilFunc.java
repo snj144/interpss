@@ -240,7 +240,7 @@ public class PSSE2IpssUtilFunc {
 					through the phase shifter between the limits VMAX and VMIN.
 	          		 */
 	          		IpssLogger.getLogger().info("PSXfr " + xfr.getFromAclfBus().getId() + "->" + xfr.getToAclfBus().getId() + " has active power control");
-	          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(adjNet, xfr.getId(), AdjControlType.RANGE_CONTROL);
+	          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(xfr, AdjControlType.RANGE_CONTROL);
 	          		ps.setAngLimit(new LimitType(Math.toRadians(xfr.getRmLimit().getMax()), 
 	          									Math.toRadians(xfr.getRmLimit().getMin())));
 	          		double baseMva = adjNet.getBaseKva() * 0.001;
