@@ -590,11 +590,11 @@ public class AclfFormDataMapperImpl {
 	}
 
 	private static boolean setPSXfrAdjBranchFormInfo(GBranchForm formBranch,
-			AclfBranch branch, AclfAdjNetwork net, IPSSMsgHub msg) {
+			AclfBranch branch, AclfAdjNetwork net, IPSSMsgHub msg) throws InterpssException {
 		AclfAdjBranchData adjData = formBranch.getAcscBranchData();
 		if (adjData.isHasPSXfrPControl()) {
 			PSXfrPControl psXfrControl = CoreObjectFactory.createPSXfrPControl(
-					net, branch.getId(), AdjControlType.POINT_CONTROL);
+					branch, AdjControlType.POINT_CONTROL);
 			psXfrControl.setPSpecified(adjData.getPcPSpec());
 			psXfrControl.setAngLimit(new LimitType(Math.toRadians(adjData.getPcAngMax()), 
 					Math.toRadians(adjData.getPcAngMin())));

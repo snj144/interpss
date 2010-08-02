@@ -529,7 +529,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 			psXfr.setToTurnRatio(ratioFactor/x, UnitType.PU);
 			
 			if (pMwAngle != 0.0) {
-          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(aclfNet, branch.getId(), AdjControlType.POINT_CONTROL);
+          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(branch, AdjControlType.POINT_CONTROL);
           		ps.setPSpecified(pMwAngle, UnitType.mW, aclfNet.getBaseKva());
           		ps.setAngLimit(new LimitType(angMax, angMin));
           		ps.setControlOnFromSide(false);
