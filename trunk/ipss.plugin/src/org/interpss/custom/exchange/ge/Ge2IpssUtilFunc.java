@@ -75,7 +75,7 @@ public class Ge2IpssUtilFunc {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean transferData(GeAclfNetwork net, IPSSMsgHub msg) {
+	public static boolean transferData(GeAclfNetwork net, IPSSMsgHub msg) throws InterpssException {
 		boolean dataError = false;
 		
 		setNetData(net);
@@ -87,11 +87,7 @@ public class Ge2IpssUtilFunc {
 			geBus.setZone(net.getZone(geBus.getGeZoneNo()));
 			geBus.setOwner(net.getOwner(geBus.getGeOwnerNo()));
 
-			try{
-				setBusLoadData(geBus, net.getBaseKva(), net);
-			} catch (InterpssException e) {
-				msg.sendErrorMsg(e.toString());
-			}
+			setBusLoadData(geBus, net.getBaseKva(), net);
 			
 			try {
 				if (!setBusGenData(geBus, net.getBaseKva(), net, msg))
@@ -358,7 +354,7 @@ public class Ge2IpssUtilFunc {
     	return !dataError;
 	}
 	
-	private static boolean setXfrData(GeAclfXformer geXfr, double baseKva, GeAclfNetwork net, IPSSMsgHub msg) {
+	private static boolean setXfrData(GeAclfXformer geXfr, double baseKva, GeAclfNetwork net, IPSSMsgHub msg) throws InterpssException {
 		boolean dataError = false;
 		
 		/*
@@ -408,8 +404,8 @@ public class Ge2IpssUtilFunc {
 		if (geXfr.getType() == 2 || geXfr.getType() == 12) {
 			// tap voltage control
 			String controlBusId = new Integer(geXfr.getAdjBusNumber()).toString();
-			final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(
-      				net, geXfr.getId(), controlBusId, AdjControlType.RANGE_CONTROL);
+			final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(geXfr,
+      				AdjControlType.RANGE_CONTROL, net, controlBusId);
       		tapv.setTurnRatioLimit(new LimitType(geXfr.getTapAngMax(),geXfr.getTapAngMin()));
       		tapv.setControlRange(new LimitType(geXfr.getVmax(), geXfr.getVmin()));
       		tapv.setVSpecified(1.0);

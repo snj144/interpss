@@ -42,6 +42,7 @@ import org.interpss.mapper.editor.AclfFormDataMapperImpl;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.ScGroundType;
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -86,7 +87,11 @@ public class DStabFormDataMapperImpl {
 
 		BaseFormDataMapperImpl.setBaseNetInfo((GNetForm) editNet.getGNetForm(),
 				dstabNet);
-		AclfFormDataMapperImpl.setAclfNetInfo(editNet, dstabNet, msg);
+		try {
+			AclfFormDataMapperImpl.setAclfNetInfo(editNet, dstabNet, msg);
+		} catch (InterpssException e) {
+			msg.sendErrorMsg(e.toString());
+		}
 
 		MachineDataImpl.SaturatedData = ((GNetForm) editNet.getGNetForm())
 				.getDStabNetData().isSaturatedMachData();

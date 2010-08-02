@@ -42,6 +42,7 @@ import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.ScGroundType;
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -90,7 +91,11 @@ public class AcscFormDataMapperImpl {
 		if (data.isHasAclfData()) {
 			// all buese/branches are added in the following setup process
 			acscNet.setLfDataLoaded(true);
-			AclfFormDataMapperImpl.setAclfNetInfo(editNet, acscNet, msg);
+			try {
+				AclfFormDataMapperImpl.setAclfNetInfo(editNet, acscNet, msg);
+			} catch (InterpssException e) {
+				msg.sendErrorMsg(e.toString());
+			}
 		} else {
 			acscNet.setLfDataLoaded(false);
 		}
