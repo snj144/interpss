@@ -207,7 +207,7 @@ public class PSSE2IpssUtilFunc {
 			          		tapv.setControlOnFromSide(true);
 			          		tapv.setMeteredOnFromSide(xfr.isControlOnFromSide());
 			          		tapv.setCompensateZ(xfr.getLoadDropCZ());
-			          		adjNet.addTapControl(tapv, xfr.getContBusId());   
+			          		//adjNet.addTapControl(tapv, xfr.getContBusId());   
 	          			} 
 	          			else if (xfr.isPSXfr()) {
 	          				// TODO
@@ -231,7 +231,7 @@ public class PSSE2IpssUtilFunc {
 	          		tapv.setMeteredOnFromSide(xfr.isControlOnFromSide());
 	          		tapv.setFlowFrom2To(true);
 	          		tapv.setCompensateZ(xfr.getLoadDropCZ());
-	          		adjNet.addTapControl(tapv, xfr.getContBusId());   
+	          		//adjNet.addTapControl(tapv, xfr.getContBusId());   
 	          	}
 	          	else if (xfr.getControlMode() == 3) {
 	          		// ±3 for active power flow control;
@@ -251,7 +251,7 @@ public class PSSE2IpssUtilFunc {
 	          		ps.setFlowFrom2To(true);
 	          		if (xfr.getControlMode() == -3)
 	          			ps.setStatus(false);
-          			adjNet.addPSXfrPControl(ps, xfr.getId());   
+          			//adjNet.addPSXfrPControl(ps, xfr.getId());   
 	          	}
 	          	else if (xfr.getControlMode() == 4) {
 	          		// ±4 for control of a dc line quantity.

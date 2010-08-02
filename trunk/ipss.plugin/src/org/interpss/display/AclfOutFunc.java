@@ -212,10 +212,10 @@ public class AclfOutFunc {
 			if (net.hasFunctionLoad())
 				str.append(aclfFuncLoadToString(net));
 
-			if (net.getTapControlList().size() > 0)
+			if (net.hasTapControl())
 				str.append(tapVControlToString(net));
 
-			if (net.getPsXfrPControlList().size() > 0)
+			if (net.hasPSXfrPControl())
 				str.append(psXfrPControlToString(net));
 		} catch (Exception emsg) {
 			str.append(emsg.toString());
@@ -467,48 +467,52 @@ public class AclfOutFunc {
 		str
 				.append("     ----------------- -------- -------- -------------- ----- ----- -----   -----  ------\n");
 
-		for (TapControl x : net.getTapControlList()) {
-			str.append(Number2String.toStr(5, " "));
-			str.append(Number2String.toStr(-17, x.getAclfBranch().getId())
-					+ " ");
-
-			if (x.getControlType() == XfrTapControlType.BUS_VOLTAGE) {
-				str.append(Number2String.toStr(-8, x.getVcBus().getId()) + " ");
-				str.append(Number2String.toStr("##0.0000", x.getVcBus()
-						.getVoltageMag(UnitType.PU))
+		for (Branch b : net.getBranchList()) {
+			AclfBranch branch = (AclfBranch)b;
+			if (branch.isTapControl()) {
+				TapControl x = (TapControl)branch.getFlowControl();
+				str.append(Number2String.toStr(5, " "));
+				str.append(Number2String.toStr(-17, x.getAclfBranch().getId())
 						+ " ");
-				if (x.getFlowControlType() == AdjControlType.POINT_CONTROL)
-					str.append(Number2String.toStr("##0.0000", x
-							.getVSpecified(UnitType.PU))
+
+				if (x.getControlType() == XfrTapControlType.BUS_VOLTAGE) {
+					str.append(Number2String.toStr(-8, x.getVcBus().getId()) + " ");
+					str.append(Number2String.toStr("##0.0000", x.getVcBus()
+							.getVoltageMag(UnitType.PU))
 							+ " ");
-				else
-					str.append(x.getControlRange() + " ");
-			} else {
-				str.append(Number2String.toStr(-8, " "));
-				str.append(Number2String.toStr("##0.0000", x
-						.getMvarFlowCalculated(UnitType.PU, baseKva))
-						+ " ");
-				if (x.getFlowControlType() == AdjControlType.POINT_CONTROL)
-					str.append("   "
-							+ Number2String.toStr("##0.0000", x
-									.getMvarSpecified(UnitType.PU, baseKva))
-							+ "    ");
-				else
-					str.append(x.getControlRange() + " ");
-			}
+					if (x.getFlowControlType() == AdjControlType.POINT_CONTROL)
+						str.append(Number2String.toStr("##0.0000", x
+								.getVSpecified(UnitType.PU))
+								+ " ");
+					else
+						str.append(x.getControlRange() + " ");
+				} else {
+					str.append(Number2String.toStr(-8, " "));
+					str.append(Number2String.toStr("##0.0000", x
+							.getMvarFlowCalculated(UnitType.PU, baseKva))
+							+ " ");
+					if (x.getFlowControlType() == AdjControlType.POINT_CONTROL)
+						str.append("   "
+								+ Number2String.toStr("##0.0000", x
+										.getMvarSpecified(UnitType.PU, baseKva))
+								+ "    ");
+					else
+						str.append(x.getControlRange() + " ");
+				}
 
-			str.append(Number2String.toStr("0.000",
-					(x.isControlOnFromSide() ? x.getAclfBranch()
-							.getFromTurnRatio() : x.getAclfBranch()
-							.getToTurnRatio()))
-					+ " ");
-			str.append(Number2String.toStr("0.000", x.getTurnRatioLimit().getMax())
-					+ " ");
-			str.append(Number2String.toStr("0.000", x.getTurnRatioLimit().getMin())
-					+ "   ");
-			str.append(Number2String.toStr("####0", x.getTapStepSize()) + "  ");
-			str.append(Number2String.toStr(6, x.isActive() ? "on" : "off")
-					+ "\n");
+				str.append(Number2String.toStr("0.000",
+						(x.isControlOnFromSide() ? x.getAclfBranch()
+								.getFromTurnRatio() : x.getAclfBranch()
+								.getToTurnRatio()))
+						+ " ");
+				str.append(Number2String.toStr("0.000", x.getTurnRatioLimit().getMax())
+						+ " ");
+				str.append(Number2String.toStr("0.000", x.getTurnRatioLimit().getMin())
+						+ "   ");
+				str.append(Number2String.toStr("####0", x.getTapStepSize()) + "  ");
+				str.append(Number2String.toStr(6, x.isActive() ? "on" : "off")
+						+ "\n");
+			}
 		}
 		return str.toString();
 	}
@@ -526,36 +530,40 @@ public class AclfOutFunc {
 		str
 				.append("     ----------------- -------- -------------- ----- ----- ----- ------\n");
 
-		for (PSXfrPControl x : net.getPsXfrPControlList()) {
-			str.append(Number2String.toStr(5, " "));
-			str.append(Number2String.toStr(-17, x.getAclfBranch().getId())
-					+ " ");
-			str.append(Number2String.toStr("##0.0000",
-					(x.isControlOnFromSide() ? x.getAclfBranch().powerFrom2To(
-							UnitType.PU, baseKVA).getReal() : x.getAclfBranch()
-							.powerTo2From(UnitType.PU, baseKVA).getReal()))
-					+ " ");
+		for (Branch b : net.getBranchList()) {
+			AclfBranch branch = (AclfBranch)b;
+			if (branch.isTapControl()) {
+				PSXfrPControl x = (PSXfrPControl)branch.getFlowControl();
+				str.append(Number2String.toStr(5, " "));
+				str.append(Number2String.toStr(-17, x.getAclfBranch().getId())
+						+ " ");
+				str.append(Number2String.toStr("##0.0000",
+						(x.isControlOnFromSide() ? x.getAclfBranch().powerFrom2To(
+								UnitType.PU, baseKVA).getReal() : x.getAclfBranch()
+								.powerTo2From(UnitType.PU, baseKVA).getReal()))
+						+ " ");
 
-			if (x.getFlowControlType() == AdjControlType.POINT_CONTROL)
-				str.append(Number2String.toStr("   " + "##0.0000", x
-						.getPSpecified(UnitType.PU, baseKVA))
-						+ "    ");
-			else
-				str.append(x.getControlRange() + " ");
+				if (x.getFlowControlType() == AdjControlType.POINT_CONTROL)
+					str.append(Number2String.toStr("   " + "##0.0000", x
+							.getPSpecified(UnitType.PU, baseKVA))
+							+ "    ");
+				else
+					str.append(x.getControlRange() + " ");
 
-			PSXfrAdapter psXfr = (PSXfrAdapter) x.getAclfBranch().getAdapter(
-					PSXfrAdapter.class);
-			str.append(Number2String.toStr("#0.00", psXfr
-					.getFromAngle(UnitType.Deg))
-					+ " ");
-			str.append(Number2String.toStr("#0.00", x.getAngLimit(UnitType.Deg)
-					.getMax())
-					+ " ");
-			str.append(Number2String.toStr("#0.00", x.getAngLimit(UnitType.Deg)
-					.getMin())
-					+ " ");
-			str.append(Number2String.toStr(6, x.isActive() ? "on" : "off")
-					+ "\n");
+				PSXfrAdapter psXfr = (PSXfrAdapter) x.getAclfBranch().getAdapter(
+						PSXfrAdapter.class);
+				str.append(Number2String.toStr("#0.00", psXfr
+						.getFromAngle(UnitType.Deg))
+						+ " ");
+				str.append(Number2String.toStr("#0.00", x.getAngLimit(UnitType.Deg)
+						.getMax())
+						+ " ");
+				str.append(Number2String.toStr("#0.00", x.getAngLimit(UnitType.Deg)
+						.getMin())
+						+ " ");
+				str.append(Number2String.toStr(6, x.isActive() ? "on" : "off")
+						+ "\n");
+			}
 		}
 		return str.toString();
 	}

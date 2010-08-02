@@ -525,7 +525,7 @@ public class IeeeCommonFormat_in {
           		tapv.setVSpecified(1.0);
           		tapv.setTapStepSize(stepSize);
           		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
-          		net.addTapControl(tapv, controlBusId);          		
+          		//net.addTapControl(tapv, controlBusId);          		
           	}
           	else if (type == 3) {
 //              3 - Variable tap (turns ratio) for MVAR control
@@ -536,7 +536,7 @@ public class IeeeCommonFormat_in {
           		tapv.setVSpecified(1.0);
           		tapv.setTapStepSize(stepSize);
           		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
-          		net.addTapControl(tapv, controlBusId);          		
+          		//net.addTapControl(tapv, controlBusId);          		
           	}
           	else if (type == 4) {
 //              4 - Variable phase angle for MW control (phase shifter)
@@ -545,7 +545,7 @@ public class IeeeCommonFormat_in {
           		ps.setPSpecified(0.2);
           		ps.setAngLimit(new LimitType(Math.toRadians(maxTapAng), Math.toRadians(minTapAng)));
           		ps.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
-          		net.addPSXfrPControl(ps, controlBusId);          		
+          		//net.addPSXfrPControl(ps, controlBusId);          		
           	}
       	}
     }

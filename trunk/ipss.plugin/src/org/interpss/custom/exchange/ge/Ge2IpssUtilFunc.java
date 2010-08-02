@@ -413,7 +413,7 @@ public class Ge2IpssUtilFunc {
       		// we use from side tap to control
       		tapv.setControlOnFromSide(true);
       		tapv.setMeteredOnFromSide(true);
-      		net.addTapControl(tapv, controlBusId);   
+      		//net.addTapControl(tapv, controlBusId);   
 		}
 		else if (geXfr.getType() == 4 || geXfr.getType() == 14) {
 			// ps-xfr angle power control
