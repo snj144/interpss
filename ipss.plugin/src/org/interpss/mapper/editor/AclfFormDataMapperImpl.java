@@ -99,7 +99,11 @@ public class AclfFormDataMapperImpl {
 				aclfNet);
 		// no extra aclf net info needed to map
 
-		setAclfNetInfo(editNet, aclfNet, msg);
+		try {
+			setAclfNetInfo(editNet, aclfNet, msg);
+		} catch (InterpssException e) {
+			msg.sendErrorMsg(e.toString());
+		}
 		// System.out.println(aclfNet.net2String());
 		return aclfNet;
 	}
@@ -115,7 +119,7 @@ public class AclfFormDataMapperImpl {
 	 *            a SessionMsg object
 	 */
 	public static void setAclfNetInfo(GFormContainer editNet,
-			AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
+			AclfAdjNetwork aclfNet, IPSSMsgHub msg) throws InterpssException {
 		IpssLogger.getLogger().info(
 				"AclfFormDataMapperImpl.setBaseNetInfo() called");
 
@@ -467,7 +471,7 @@ public class AclfFormDataMapperImpl {
 	}
 
 	private static boolean addAclfAdjBranchFormInfo(GBranchForm formBranch,
-			AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
+			AclfAdjNetwork aclfNet, IPSSMsgHub msg) throws InterpssException {
 		AclfBranch branch = (AclfBranch) aclfNet.getBranch(formBranch
 				.getFromId(), formBranch.getToId());
 		AclfBranchData data = formBranch.getAcscBranchData();
@@ -543,20 +547,20 @@ public class AclfFormDataMapperImpl {
 	}
 
 	private static boolean setXfrAdjBranchFormInfo(GBranchForm branchForm,
-			AclfBranch branch, AclfAdjNetwork net, IPSSMsgHub msg) {
+			AclfBranch branch, AclfAdjNetwork net, IPSSMsgHub msg) throws InterpssException{
 		AclfAdjBranchData adjData = branchForm.getAcscBranchData();
 		if (adjData.isHasTapVControl()) {
 			TapControl tapv = null;
 			if (adjData.getTapVControlType() == AclfAdjBranchData.TapControlType_Voltage) {
 				String vcBusId = NetUtilFunc.getBusIdFromDisplayNameId(adjData
 						.getVcBusId());
-				tapv = CoreObjectFactory.createTapVControlBusVoltage(net,
-						branch.getId(), vcBusId, AdjControlType.POINT_CONTROL);
+				tapv = CoreObjectFactory.createTapVControlBusVoltage(
+						branch, AdjControlType.POINT_CONTROL, net, vcBusId);
 				tapv.setVSpecified(adjData.getVcVSpec());
 				tapv.setVcBusOnFromSide(adjData.isVCBusOnFromSide());
 			} else {
-				tapv = CoreObjectFactory.createTapVControlMvarFlow(net, branch
-						.getId(), AdjControlType.POINT_CONTROL);
+				tapv = CoreObjectFactory.createTapVControlMvarFlow(
+						branch, AdjControlType.POINT_CONTROL);
 				tapv.setMvarSpecified(adjData.getMvarFlowSpec());
 				tapv.setMeteredOnFromSide(adjData.isMvarSpecOnFromSide());
 				tapv.setFlowFrom2To(adjData.isFlowFrom2To());

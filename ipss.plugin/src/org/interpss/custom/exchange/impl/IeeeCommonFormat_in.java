@@ -408,7 +408,7 @@ public class IeeeCommonFormat_in {
      *   =========== 
      */
 
-    private static void processBranchData(final String str, final AclfAdjNetwork net, final IPSSMsgHub msg) {
+    private static void processBranchData(final String str, final AclfAdjNetwork net, final IPSSMsgHub msg) throws InterpssException  {
     	// parse the input data line
     	final String[] strAry = getBranchDataFields(str);
 
@@ -518,7 +518,8 @@ public class IeeeCommonFormat_in {
         	
           	if (type == 2) {
 //                2 - Variable tap for voltage control (TCUL, LTC)
-          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(net, bra.getId(), controlBusId, AdjControlType.RANGE_CONTROL);
+          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(
+          				bra, AdjControlType.RANGE_CONTROL, net, controlBusId);
           		tapv.setTurnRatioLimit(new LimitType(maxTapAng, minTapAng));
           		// TODO: volt spec is not defined
           		tapv.setVSpecified(1.0);
@@ -528,7 +529,8 @@ public class IeeeCommonFormat_in {
           	}
           	else if (type == 3) {
 //              3 - Variable tap (turns ratio) for MVAR control
-          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(net, bra.getId(), AdjControlType.RANGE_CONTROL);
+          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(
+          				bra, AdjControlType.RANGE_CONTROL);
           		tapv.setTurnRatioLimit(new LimitType(maxVoltPQ, minVoltPQ));
           		// TODO: volt spec is not defined
           		tapv.setVSpecified(1.0);

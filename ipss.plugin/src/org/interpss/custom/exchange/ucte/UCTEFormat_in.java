@@ -33,6 +33,7 @@ import org.interpss.custom.exchange.IpssFileAdapterBase;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
@@ -407,7 +408,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
     /*
      * ##R section
      */
-    private static boolean processXfr2WRegulationRecord(String str, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
+    private static boolean processXfr2WRegulationRecord(String str, AclfAdjNetwork aclfNet, IPSSMsgHub msg) throws InterpssException {
 		IpssLogger.getLogger().info("Xfr 2W Reg Record: " + str);
 
 		String fromNodeId, toNodeId, orderCode, type;
@@ -471,8 +472,8 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 			if (uKvPhase > 0.0) {
 				// tap control of voltage at to node side
 //              2 - Variable tap for voltage control (TCUL, LTC)
-          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(aclfNet, branch.getId(), 
-          									toNodeId, AdjControlType.POINT_CONTROL);
+          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(
+          				branch,	AdjControlType.POINT_CONTROL, aclfNet, toNodeId);
           		double maxTap = ratioFactor*(1.0 + nPhase*dUPhase*0.01), 
           		       minTap = ratioFactor*(1.0 - nPhase*dUPhase*0.01);
          		tapv.setTurnRatioLimit(new LimitType(maxTap, minTap));

@@ -198,7 +198,7 @@ public class PSSE2IpssUtilFunc {
 		          			if (bus.isGenPV())
 		          				bus.setGenCode(AclfGenCode.GEN_PQ);
 		          			final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(
-			          				adjNet, xfr.getId(), xfr.getContBusId(), AdjControlType.RANGE_CONTROL);
+			          				xfr, AdjControlType.RANGE_CONTROL, adjNet, xfr.getContBusId());
 			          		tapv.setTurnRatioLimit(xfr.getRmLimit());
 			          		tapv.setControlRange(xfr.getVmLimit());
 			          		tapv.setVSpecified(1.0);
@@ -221,7 +221,8 @@ public class PSSE2IpssUtilFunc {
 					VMIN-VMAX.	        
 	          		 */
 	          		IpssLogger.getLogger().info("Xfr " + xfr.getFromAclfBus().getId() + "->" + xfr.getToAclfBus().getId() + " has reactive power flow control");
-	          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(adjNet, xfr.getId(), AdjControlType.RANGE_CONTROL);
+	          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(
+	          				xfr, AdjControlType.RANGE_CONTROL);
 	          		tapv.setTurnRatioLimit(xfr.getRmLimit());
 	          		tapv.setControlRange(xfr.getVmLimit());
 	          		tapv.setTapStepSize((xfr.getRmLimit().getMax()-xfr.getRmLimit().getMin())/xfr.getAdjSteps());
