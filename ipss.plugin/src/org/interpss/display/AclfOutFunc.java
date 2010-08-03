@@ -50,6 +50,8 @@ import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.loss.ActivePowerWalkDirection;
 import com.interpss.core.algorithm.sec.BranchRatingAdapter;
 import com.interpss.core.algorithm.sec.ViolationType;
+import com.interpss.core.common.IAclfBusVisitor;
+import com.interpss.core.common.IPVBusLimitVisitor;
 import com.interpss.core.datatype.Mismatch;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
@@ -99,7 +101,7 @@ public class AclfOutFunc {
 	 *   ==============
 	 */
 	public static String loadFlowSummary(AclfNetwork net) {
-		StringBuffer str = new StringBuffer("");
+		final StringBuffer str = new StringBuffer("");
 		try {
 			str.append("\n                          Load Flow Summary\n");
 			str.append(AclfOutFunc.maxMismatchToString(net, "") + "\n");
@@ -112,32 +114,58 @@ public class AclfOutFunc {
 				str.append("  ----------------------------------------------------------------------------\n");
 			}
 				 
-
-			for (Bus b : net.getBusList()) {
-				AclfBus bus = (AclfBus) b;
-				if (bus.isActive()) {
-					GenBusAdapter genBus = (GenBusAdapter) bus
-							.getAdapter(GenBusAdapter.class);
-					Complex busPQ = genBus.getGenResults(UnitType.PU);
-					busPQ = busPQ.subtract(genBus.getLoadResults(UnitType.PU));
-					if (bus.isCapacitor()) {
-						CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
-								.getAdapter(CapacitorBusAdapter.class);
-						busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
-								.getVoltageMag(), UnitType.PU)));
+			net.forEachAclfBus(new IAclfBusVisitor() {
+				public void visit(AclfBus bus) {
+					if (bus.isActive()) {
+						GenBusAdapter genBus = (GenBusAdapter) bus
+								.getAdapter(GenBusAdapter.class);
+						Complex busPQ = genBus.getGenResults(UnitType.PU);
+						busPQ = busPQ.subtract(genBus.getLoadResults(UnitType.PU));
+						if (bus.isCapacitor()) {
+							CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
+									.getAdapter(CapacitorBusAdapter.class);
+							busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
+									.getVoltageMag(), UnitType.PU)));
+						}
+						str.append("  ");
+						str.append(String.format("%-12s  ", getBusId(bus, bus.getNetwork().getOriginalDataFormat())));
+						str.append(String.format("%-17s ", bus.code2String()));
+						str.append(String.format("%10.5f   ", bus.getVoltageMag(UnitType.PU)));
+						str.append(String.format("%9.1f   ", bus.getVoltageAng(UnitType.Deg)));
+						str.append(String.format("%10.4f", busPQ.getReal()));
+						str.append(String.format("%10.4f", busPQ.getImaginary()));
+						if (bus.getNetwork().getOriginalDataFormat() == OriginalDataFormat.CIM) 
+							str.append(String.format("   %s", bus.getId()));
+						str.append("\n");
 					}
-					str.append("  ");
-					str.append(String.format("%-12s  ", getBusId(bus, net.getOriginalDataFormat())));
-					str.append(String.format("%-17s ", bus.code2String()));
-					str.append(String.format("%10.5f   ", bus.getVoltageMag(UnitType.PU)));
-					str.append(String.format("%9.1f   ", bus.getVoltageAng(UnitType.Deg)));
-					str.append(String.format("%10.4f", busPQ.getReal()));
-					str.append(String.format("%10.4f", busPQ.getImaginary()));
-					if (net.getOriginalDataFormat() == OriginalDataFormat.CIM) 
-						str.append(String.format("   %s", bus.getId()));
-					str.append("\n");
 				}
-			}
+			});
+			
+//			for (Bus b : net.getBusList()) {
+//				AclfBus bus = (AclfBus) b;
+//				if (bus.isActive()) {
+//					GenBusAdapter genBus = (GenBusAdapter) bus
+//							.getAdapter(GenBusAdapter.class);
+//					Complex busPQ = genBus.getGenResults(UnitType.PU);
+//					busPQ = busPQ.subtract(genBus.getLoadResults(UnitType.PU));
+//					if (bus.isCapacitor()) {
+//						CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
+//								.getAdapter(CapacitorBusAdapter.class);
+//						busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
+//								.getVoltageMag(), UnitType.PU)));
+//					}
+//					str.append("  ");
+//					str.append(String.format("%-12s  ", getBusId(bus, net.getOriginalDataFormat())));
+//					str.append(String.format("%-17s ", bus.code2String()));
+//					str.append(String.format("%10.5f   ", bus.getVoltageMag(UnitType.PU)));
+//					str.append(String.format("%9.1f   ", bus.getVoltageAng(UnitType.Deg)));
+//					str.append(String.format("%10.4f", busPQ.getReal()));
+//					str.append(String.format("%10.4f", busPQ.getImaginary()));
+//					if (net.getOriginalDataFormat() == OriginalDataFormat.CIM) 
+//						str.append(String.format("   %s", bus.getId()));
+//					str.append("\n");
+//				}
+//			}
 		} catch (Exception emsg) {
 			str.append(emsg.toString());
 		}
@@ -148,21 +176,31 @@ public class AclfOutFunc {
 	}
 
 	public static String loadLossAllocation(AclfNetwork net) {
-		StringBuffer str = new StringBuffer("");
-		double lossMW = net.totalLoss(UnitType.mVA).getReal();
-		double lossPU = net.totalLoss(UnitType.PU).getReal();
+		final StringBuffer str = new StringBuffer("");
+		final double lossMW = net.totalLoss(UnitType.mVA).getReal();
+		final double lossPU = net.totalLoss(UnitType.PU).getReal();
 
 		str.append("\n                          Load Loss Allocation\n");
 		str.append("\n                       Total Loss = " + Number2String.toStr("####0.00", lossMW) + " MW\n\n");
 		str.append("            BusID          LossAllocFactor         Allocated Loss(MW)\n");
 		str.append("  ------------------------------------------------------------------------\n");
-		for (Bus bus : net.getBusList()) {
-			AclfBus aclfBus = (AclfBus)bus;
-			if ( aclfBus.getLossPFactor(ActivePowerWalkDirection.SOURC2_LOAD, lossPU) > 0.0 && 
-					(aclfBus.isLoad() || aclfBus.isSwing())) { 
-				str.append(lossString(aclfBus, ActivePowerWalkDirection.SOURC2_LOAD, lossMW, lossPU));
+		
+		
+		net.forEachAclfBus(new IAclfBusVisitor() {
+			public void visit(AclfBus bus) {
+				if ( bus.getLossPFactor(ActivePowerWalkDirection.SOURC2_LOAD, lossPU) > 0.0 && 
+						(bus.isLoad() || bus.isSwing())) { 
+					str.append(lossString(bus, ActivePowerWalkDirection.SOURC2_LOAD, lossMW, lossPU));
+				}
 			}
-  		}		
+		});
+//		for (Bus bus : net.getBusList()) {
+//			AclfBus aclfBus = (AclfBus)bus;
+//			if ( aclfBus.getLossPFactor(ActivePowerWalkDirection.SOURC2_LOAD, lossPU) > 0.0 && 
+//					(aclfBus.isLoad() || aclfBus.isSwing())) { 
+//				str.append(lossString(aclfBus, ActivePowerWalkDirection.SOURC2_LOAD, lossMW, lossPU));
+//			}
+//  		}		
 		return str.toString();
 	}
 	
@@ -293,7 +331,7 @@ public class AclfOutFunc {
 
 	public static String pvBusLimitToString(AclfAdjNetwork net)
 			throws Exception {
-		StringBuffer str = new StringBuffer("");
+		final StringBuffer str = new StringBuffer("");
 
 		str.append("\n\n");
 		str.append("                  PV Bus Limit Adjustment/Control\n\n");
@@ -302,14 +340,13 @@ public class AclfOutFunc {
 		str
 				.append("     -------- -------- -------- -------- -------- -------- ------\n");
 
-		for (Bus b : net.getBusList()) {
-			AclfBus bus = (AclfBus)b;
-			if (bus.isPVBusLimit()) {
-				PVBusLimit pv = (PVBusLimit)bus.getBusControl();
+		net.forEachPVBusLimit(new IPVBusLimitVisitor() {
+			public void visit(PVBusLimit pv) {
 				GenBusAdapter genBus = (GenBusAdapter) pv.getParentBus().getAdapter(
 						GenBusAdapter.class);
 				str.append(Number2String.toStr(5, " "));
-				str.append(Number2String.toStr(-8, getBusId(pv.getParentBus(), net.getOriginalDataFormat())));
+				str.append(Number2String.toStr(-8, getBusId(pv.getParentBus(), 
+						pv.getParentBus().getNetwork().getOriginalDataFormat())));
 				str.append(Number2String.toStr("###0.0000", pv.getParentBus()
 						.getVoltageMag(UnitType.PU)));
 				str.append(Number2String.toStr("###0.0000", pv
@@ -323,7 +360,30 @@ public class AclfOutFunc {
 				str.append(Number2String.toStr(6, pv.isActive() ? "on" : "off")
 						+ "\n");
 			}
-		}
+		});
+		
+//		for (Bus b : net.getBusList()) {
+//			AclfBus bus = (AclfBus)b;
+//			if (bus.isPVBusLimit()) {
+//				PVBusLimit pv = (PVBusLimit)bus.getBusControl();
+//				GenBusAdapter genBus = (GenBusAdapter) pv.getParentBus().getAdapter(
+//						GenBusAdapter.class);
+//				str.append(Number2String.toStr(5, " "));
+//				str.append(Number2String.toStr(-8, getBusId(pv.getParentBus(), net.getOriginalDataFormat())));
+//				str.append(Number2String.toStr("###0.0000", pv.getParentBus()
+//						.getVoltageMag(UnitType.PU)));
+//				str.append(Number2String.toStr("###0.0000", pv
+//						.getVSpecified(UnitType.PU)));
+//				str.append(Number2String.toStr("#####0.00", genBus.getGenResults(
+//						UnitType.PU).getImaginary()));
+//				str.append(Number2String.toStr("#####0.00", pv.getQLimit(
+//						UnitType.PU).getMax()));
+//				str.append(Number2String.toStr("#####0.00", pv.getQLimit(
+//						UnitType.PU).getMin()));
+//				str.append(Number2String.toStr(6, pv.isActive() ? "on" : "off")
+//						+ "\n");
+//			}
+//		}
 		return str.toString();
 	}
 
