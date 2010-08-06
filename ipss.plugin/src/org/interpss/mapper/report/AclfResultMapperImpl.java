@@ -366,15 +366,15 @@ public class AclfResultMapperImpl {
 			if (branch.isTapControl()) {
 				PSXfrPControl psCtrl = (PSXfrPControl)branch.getFlowControl();
 				RptPSXfrPControlBean bean = new RptPSXfrPControlBean();
-				bean.setBranchId(psCtrl.getAclfBranch().getId());
+				bean.setBranchId(psCtrl.getParentBranch().getId());
 				bean.setPact(Number2String.toStr("##0.0000", (psCtrl
-						.isControlOnFromSide() ? psCtrl.getAclfBranch()
+						.isControlOnFromSide() ? psCtrl.getParentBranch()
 						.powerFrom2To(UnitType.PU, baseKva).getReal() : psCtrl
-						.getAclfBranch().powerTo2From(UnitType.PU, baseKva)
+						.getParentBranch().powerTo2From(UnitType.PU, baseKva)
 						.getReal())));
 				bean.setPspec(Number2String.toStr("##0.0000", psCtrl.getPSpecified(
 						UnitType.PU, baseKva)));
-				PSXfrAdapter psXfr = (PSXfrAdapter) psCtrl.getAclfBranch().getAdapter(
+				PSXfrAdapter psXfr = (PSXfrAdapter) psCtrl.getParentBranch().getAdapter(
 						PSXfrAdapter.class);
 				bean.setAngle(Number2String.toStr("#0.00", psXfr
 						.getFromAngle(UnitType.Deg)));
@@ -398,7 +398,7 @@ public class AclfResultMapperImpl {
 			if (branch.isTapControl()) {
 				TapControl tap = (TapControl)branch.getFlowControl();
 				RptTapVControlBean bean = new RptTapVControlBean();
-				bean.setBranchId(tap.getAclfBranch().getId());
+				bean.setBranchId(tap.getParentBranch().getId());
 				if (tap.getControlType() == XfrTapControlType.BUS_VOLTAGE) {
 					bean.setVcBusId(tap.getVcBus().getId());
 					bean.setActual(Number2String.toStr("##0.0000", tap.getVcBus()
@@ -413,8 +413,8 @@ public class AclfResultMapperImpl {
 							.getMvarSpecified(UnitType.PU, baseKva)));
 				}
 				bean.setTap(Number2String.toStr("0.000",
-						(tap.isControlOnFromSide() ? tap.getAclfBranch()
-								.getFromTurnRatio() : tap.getAclfBranch()
+						(tap.isControlOnFromSide() ? tap.getParentBranch()
+								.getFromTurnRatio() : tap.getParentBranch()
 								.getToTurnRatio())));
 				bean.setTapMax(Number2String.toStr("0.000", tap.getTurnRatioLimit()
 						.getMax()));
