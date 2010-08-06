@@ -532,7 +532,7 @@ public class AclfOutFunc {
 			if (branch.isTapControl()) {
 				TapControl x = (TapControl)branch.getFlowControl();
 				str.append(Number2String.toStr(5, " "));
-				str.append(Number2String.toStr(-17, x.getAclfBranch().getId())
+				str.append(Number2String.toStr(-17, x.getParentBranch().getId())
 						+ " ");
 
 				if (x.getControlType() == XfrTapControlType.BUS_VOLTAGE) {
@@ -561,8 +561,8 @@ public class AclfOutFunc {
 				}
 
 				str.append(Number2String.toStr("0.000",
-						(x.isControlOnFromSide() ? x.getAclfBranch()
-								.getFromTurnRatio() : x.getAclfBranch()
+						(x.isControlOnFromSide() ? x.getParentBranch()
+								.getFromTurnRatio() : x.getParentBranch()
 								.getToTurnRatio()))
 						+ " ");
 				str.append(Number2String.toStr("0.000", x.getTurnRatioLimit().getMax())
@@ -595,11 +595,11 @@ public class AclfOutFunc {
 			if (branch.isTapControl()) {
 				PSXfrPControl x = (PSXfrPControl)branch.getFlowControl();
 				str.append(Number2String.toStr(5, " "));
-				str.append(Number2String.toStr(-17, x.getAclfBranch().getId())
+				str.append(Number2String.toStr(-17, x.getParentBranch().getId())
 						+ " ");
 				str.append(Number2String.toStr("##0.0000",
-						(x.isControlOnFromSide() ? x.getAclfBranch().powerFrom2To(
-								UnitType.PU, baseKVA).getReal() : x.getAclfBranch()
+						(x.isControlOnFromSide() ? x.getParentBranch().powerFrom2To(
+								UnitType.PU, baseKVA).getReal() : x.getParentBranch()
 								.powerTo2From(UnitType.PU, baseKVA).getReal()))
 						+ " ");
 
@@ -610,7 +610,7 @@ public class AclfOutFunc {
 				else
 					str.append(x.getControlRange() + " ");
 
-				PSXfrAdapter psXfr = (PSXfrAdapter) x.getAclfBranch().getAdapter(
+				PSXfrAdapter psXfr = (PSXfrAdapter) x.getParentBranch().getAdapter(
 						PSXfrAdapter.class);
 				str.append(Number2String.toStr("#0.00", psXfr
 						.getFromAngle(UnitType.Deg))
