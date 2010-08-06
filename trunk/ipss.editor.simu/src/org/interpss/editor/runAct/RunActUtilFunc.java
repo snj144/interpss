@@ -138,7 +138,7 @@ public class RunActUtilFunc {
 			if (branch.isPSXfrPControl()) {
 				TapControl xfr = (TapControl)branch.getFlowControl();
 				if (xfr.needAdjust(tolerance)) {
-					list.add(xfr.getId() + " at " + xfr.getAclfBranch().getName());
+					list.add(xfr.getId() + " at " + xfr.getParentBranch().getName());
 				}
 			}
 		}
@@ -154,7 +154,7 @@ public class RunActUtilFunc {
 			if (branch.isPSXfrPControl()) {
 				PSXfrPControl psXfr = (PSXfrPControl)branch.getFlowControl();
 				if (psXfr.needAdjust(tolerance)) {
-					list.add(psXfr.getId() + " at "	+ psXfr.getAclfBranch().getName());
+					list.add(psXfr.getId() + " at "	+ psXfr.getParentBranch().getName());
 				}
 			}
 		}
