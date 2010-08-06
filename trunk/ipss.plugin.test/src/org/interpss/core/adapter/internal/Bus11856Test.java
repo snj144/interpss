@@ -44,26 +44,28 @@ public class Bus11856Test extends BaseTestSetup {
         long starttime = System.currentTimeMillis() ;
   		System.out.println("Start loading data ...");
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ipssdat");
-		SimuContext simuCtx = adapter.load("testData/ipssdata/BUS11856.ipssdat");
-  		System.out.println("End loading data ...");
-  		System.out.println("time for loading data : " + (System.currentTimeMillis() - starttime)*0.001);
-        
-		AclfNetwork net = simuCtx.getAclfNet();
-  		//System.out.println(net.net2String());
-  		assertTrue((net.getBusList().size() == 11856));
+//  		for(int i = 0; i < 10; i++) {
+  			SimuContext simuCtx = adapter.load("testData/ipssdata/BUS11856.ipssdat");
+  	  		System.out.println("End loading data ...");
+  	  		System.out.println("time for loading data : " + (System.currentTimeMillis() - starttime)*0.001);
+  	        
+  			AclfNetwork net = simuCtx.getAclfNet();
+  	  		//System.out.println(net.net2String());
+  	  		assertTrue((net.getBusList().size() == 11856));
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
-  		starttime = System.currentTimeMillis() ;
-  		assertTrue(algo.checkSwingBus());
-  		System.out.println("time for swing bus check : " + (System.currentTimeMillis() - starttime)*0.001);
+  		  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+  	  		starttime = System.currentTimeMillis() ;
+  	  		assertTrue(algo.checkSwingBus());
+  	  		System.out.println("time for swing bus check : " + (System.currentTimeMillis() - starttime)*0.001);
 	  	
-  		starttime = System.currentTimeMillis() ;
-	  	algo.setLfMethod(AclfMethod.PQ);
-	  	algo.loadflow();
-  		//System.out.println(net.net2String());
-  		System.out.println("time for loadflow calculation : " + (System.currentTimeMillis() - starttime)*0.001);
-	  	
-  		assertTrue(net.isLfConverged());		
-	}
+  			starttime = System.currentTimeMillis() ;
+  			algo.setLfMethod(AclfMethod.PQ);
+  			algo.loadflow();
+  			//	System.out.println(net.net2String());
+  			System.out.println("time for loadflow calculation : " + (System.currentTimeMillis() - starttime)*0.001);
+  			
+  			assertTrue(net.isLfConverged());		
+//  		}
+  	}
 }
 
