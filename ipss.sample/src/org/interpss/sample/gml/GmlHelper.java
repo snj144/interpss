@@ -121,7 +121,7 @@ public class GmlHelper {
 
 		// create a sub network from the original AclfNetwork object, based
 		// on the bus ids and branch ids in the graph object
-		return fromNet.createSubAclfAdjNet(busIdAry, branchIdAry);
+		return (AclfAdjNetwork)fromNet.createSubNet(busIdAry, branchIdAry);
 	}
 
 /*
