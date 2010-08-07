@@ -112,7 +112,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	
 	// contingency analysis
 	ContingencyControlFileCaseTest.class,
-	ContingencyXmlCaseTest.class,
+	//ContingencyXmlCaseTest.class,
 	
 	// cmd line 
 	AclfCmdRunTest.class,
