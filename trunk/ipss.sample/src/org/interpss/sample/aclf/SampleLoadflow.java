@@ -30,6 +30,7 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
 
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.PerformanceTimer;
@@ -103,11 +104,17 @@ public class SampleLoadflow {
 	  	//	  define a function load object, 
 	  	//	  p = p(0)*(a + b*v + (1.0-a-b)*v*v)
 	  	//	  q = q(0)*(a + b*v + (1.0-a-b)*v*v)
-  		FunctionLoad fload = CoreObjectFactory.createFunctionLoad(net, "Bus2");
+	  	AclfBus bus2 = net.getAclfBus("Bus2");
+  		try {
+	  	FunctionLoad fload = CoreObjectFactory.createFunctionLoad(bus2);
   		fload.getP().setA(0.3);
   		fload.getP().setB(0.5);
   		fload.getQ().setA(0.1);
   		fload.getQ().setB(0.6);
+  		} catch (InterpssException e) {
+  			e.printStackTrace();
+  			return;
+  		}
 	  	
 	  	// create the default loadflow algorithm
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
@@ -168,7 +175,7 @@ public class SampleLoadflow {
   		// adapt the bus object to a Load bus object
   		LoadBusAdapter loadBus = (LoadBusAdapter)bus2.getAdapter(LoadBusAdapter.class);
   		// set load to the bus
-  		loadBus.setLoad(new Complex(1.0, 0.8), UnitType.PU, baseKva);
+  		loadBus.setLoad(new Complex(1.0, 0.8), UnitType.PU);
   		net.addBus(bus2);
   		
   		// create an AclfBranch object
@@ -180,7 +187,7 @@ public class SampleLoadflow {
   		// adapte the branch object to a line branch object
 		LineAdapter lineBranch = (LineAdapter)branch.getAdapter(LineAdapter.class);
 		// set branch parameters
-  		lineBranch.setZ(new Complex(0.05, 0.1), UnitType.PU, 4000.0, baseKva, msg);
+  		lineBranch.setZ(new Complex(0.05, 0.1), UnitType.PU, 4000.0, msg);
   		// add the branch from Bus1 to Bus2
   		net.addBranch(branch, "Bus1", "Bus2");
 	  	
