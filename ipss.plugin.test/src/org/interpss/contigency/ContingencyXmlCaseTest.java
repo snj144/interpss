@@ -29,7 +29,7 @@ import com.interpss.simu.multicase.result.AclfBranchResultRec;
 import com.interpss.simu.multicase.result.AclfBusResultRec;
 
 public class ContingencyXmlCaseTest extends BaseTestSetup {
-	@Test
+	//@Test
 	public void simpleCaseTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
@@ -87,7 +87,7 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 */				
 	}
 	
-	@Test
+	//@Test
 	public void ieee14BusCaseTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/xml/contingency/IEEE-14Bus.ipss", simuCtx);
@@ -126,7 +126,8 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  	AclfBranchResultRec r = mscase.getBranchResultSummary().get("0001->0002(1)");
 	  	assertTrue(Math.abs(r.getMvaFlow() - 241.1) < 0.1);
 	}
-	@Test
+	
+	//@Test
 	public void ieee14BusRuleSetCaseTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/xml/contingency/IEEE-14Bus.ipss", simuCtx);
