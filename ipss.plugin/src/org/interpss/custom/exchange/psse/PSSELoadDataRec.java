@@ -102,7 +102,7 @@ public class PSSELoadDataRec {
 		load.setConstILoad(new Complex(this.ip/baseMva,this.iq/baseMva));
 		load.setConstZLoad(new Complex(this.yp/baseMva,this.yq/baseMva));
 
-		bus.getRegDeviceList().add(load);
+		//bus.getRegDeviceList().add(load);
 	}			
 
 	public String toString() {

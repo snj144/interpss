@@ -276,52 +276,52 @@ public class PSSE2IpssUtilFunc {
 	}
 	
 	private static void getBusData(BusData data, AclfBus bus, IPSSMsgHub msg) {
-		if (bus.getRegDeviceList().size() > 0) {
-			for( Object obj : bus.getRegDeviceList()) {
-				if (obj instanceof PSSEAclfLoad) {
-					PSSEAclfLoad load = (PSSEAclfLoad)obj;
-					data.loadPSum += load.getConstPLoad().getReal() + load.getConstILoad().getReal() +load.getConstZLoad().getReal(); 
-					data.loadQSum += load.getConstPLoad().getImaginary() + load.getConstILoad().getImaginary() +load.getConstZLoad().getImaginary(); 
-					data.constP_P += load.getConstPLoad().getReal(); 
-					data.constI_P += load.getConstILoad().getReal(); 
-					data.constP_Q += load.getConstPLoad().getImaginary(); 
-					data.constI_Q += load.getConstILoad().getImaginary();
-					if (load.getConstILoad().getReal() != 0.0 ||
-						load.getConstZLoad().getReal() != 0.0 ||
-						load.getConstILoad().getImaginary() != 0.0 ||
-						load.getConstILoad().getImaginary() != 0.0)
-						data.isFuncLoad = true;
-				}
-				else if (obj instanceof PSSEAclfGen) {
-					PSSEAclfGen gen = (PSSEAclfGen)obj;
-					if (gen.isActive()) {
-						data.genPSum += gen.getPGen();
-						data.genQSum += gen.getQGen();
-						if (data.vSpec == 0.0)
-							data.vSpec = gen.getVSpec();
-						else if (data.vSpec != gen.getVSpec()) {
-							msg.sendErrorMsg("Inconsistance Gen VSpec at Bus " + bus.getId() + " VSpec, genVSpec " + data.vSpec + ", " + gen.getVSpec());
-						}
-						
-						if (data.remoteBusId == null && !gen.getVControlBusId().equals("0"))
-							data.remoteBusId = gen.getVControlBusId();
-						else if (!gen.getVControlBusId().equals("0") && !data.remoteBusId.equals(gen.getVControlBusId())) {
-							msg.sendErrorMsg("Inconsistance Gen IREG at Bus " + bus.getId() + ", remoteBusId, vControlBusId " + data.remoteBusId + ", " + gen.getVControlBusId());
-						}
-						data.genQmax += gen.getQLimit().getMax();
-						data.genQmin += gen.getQLimit().getMin();
-					}
-				}
-				else if (obj instanceof PSSESwitchedShunt) {
-					PSSESwitchedShunt shunt = (PSSESwitchedShunt)obj;
-					// capacitor(shunt) bus cannot be a Swing or PV bus
-					data.binit += shunt.getBinit();
-					if (shunt.getMode() > 0) {
-						// TODO
-					}
-				}
-			}
-		}
+//		if (bus.getRegDeviceList().size() > 0) {
+//			for( Object obj : bus.getRegDeviceList()) {
+//				if (obj instanceof PSSEAclfLoad) {
+//					PSSEAclfLoad load = (PSSEAclfLoad)obj;
+//					data.loadPSum += load.getConstPLoad().getReal() + load.getConstILoad().getReal() +load.getConstZLoad().getReal(); 
+//					data.loadQSum += load.getConstPLoad().getImaginary() + load.getConstILoad().getImaginary() +load.getConstZLoad().getImaginary(); 
+//					data.constP_P += load.getConstPLoad().getReal(); 
+//					data.constI_P += load.getConstILoad().getReal(); 
+//					data.constP_Q += load.getConstPLoad().getImaginary(); 
+//					data.constI_Q += load.getConstILoad().getImaginary();
+//					if (load.getConstILoad().getReal() != 0.0 ||
+//						load.getConstZLoad().getReal() != 0.0 ||
+//						load.getConstILoad().getImaginary() != 0.0 ||
+//						load.getConstILoad().getImaginary() != 0.0)
+//						data.isFuncLoad = true;
+//				}
+//				else if (obj instanceof PSSEAclfGen) {
+//					PSSEAclfGen gen = (PSSEAclfGen)obj;
+//					if (gen.isActive()) {
+//						data.genPSum += gen.getPGen();
+//						data.genQSum += gen.getQGen();
+//						if (data.vSpec == 0.0)
+//							data.vSpec = gen.getVSpec();
+//						else if (data.vSpec != gen.getVSpec()) {
+//							msg.sendErrorMsg("Inconsistance Gen VSpec at Bus " + bus.getId() + " VSpec, genVSpec " + data.vSpec + ", " + gen.getVSpec());
+//						}
+//						
+//						if (data.remoteBusId == null && !gen.getVControlBusId().equals("0"))
+//							data.remoteBusId = gen.getVControlBusId();
+//						else if (!gen.getVControlBusId().equals("0") && !data.remoteBusId.equals(gen.getVControlBusId())) {
+//							msg.sendErrorMsg("Inconsistance Gen IREG at Bus " + bus.getId() + ", remoteBusId, vControlBusId " + data.remoteBusId + ", " + gen.getVControlBusId());
+//						}
+//						data.genQmax += gen.getQLimit().getMax();
+//						data.genQmin += gen.getQLimit().getMin();
+//					}
+//				}
+//				else if (obj instanceof PSSESwitchedShunt) {
+//					PSSESwitchedShunt shunt = (PSSESwitchedShunt)obj;
+//					// capacitor(shunt) bus cannot be a Swing or PV bus
+//					data.binit += shunt.getBinit();
+//					if (shunt.getMode() > 0) {
+//						// TODO
+//					}
+//				}
+//			}
+//		}
 	}
 	
 	/**
