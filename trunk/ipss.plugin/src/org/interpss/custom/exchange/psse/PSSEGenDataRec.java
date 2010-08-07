@@ -167,7 +167,7 @@ public class PSSEGenDataRec {
 		gen.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(this.o3, this.f3));
 		gen.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(this.o4, this.f4));
 		
-		bus.getRegDeviceList().add(gen);
+//		bus.getRegDeviceList().add(gen);
 	}			
 	
 	public String toString() {

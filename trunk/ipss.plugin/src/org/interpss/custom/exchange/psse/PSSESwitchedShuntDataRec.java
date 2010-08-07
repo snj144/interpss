@@ -109,7 +109,7 @@ public class PSSESwitchedShuntDataRec {
 				shunt.getBAry().add(i, this.bAry[i]);
 			}
 		}
-		bus.getRegDeviceList().add(shunt);
+		//bus.getRegDeviceList().add(shunt);
 	}	
 	
 	public String toString() {
