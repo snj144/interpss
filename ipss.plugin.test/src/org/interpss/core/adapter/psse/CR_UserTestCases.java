@@ -50,7 +50,7 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
 public class CR_UserTestCases extends BaseTestSetup {
-	@Test
+	//@Test
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
 		SimuContext simuCtx = adapter.load("testData/psse/PSSE_5Bus_Test.raw");
@@ -101,7 +101,7 @@ public class CR_UserTestCases extends BaseTestSetup {
   		assertTrue(Math.abs(p.getImaginary()-15.852)<0.01);	  	
 	}
 	
-	@Test
+	//@Test
 	public void testCase2() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
 		SimuContext simuCtx = adapter.load("testData/psse/MXV-1120MW_FNC475_FEC196_FAC212_InterPSS_3d.raw");
