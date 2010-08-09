@@ -117,7 +117,7 @@ public class AclfModelParser extends AbstractModelParser {
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);
 		busRec.setZoneNumber(1);
-		getBaseCase().getBusList().getBus().add(busRec);
+		getBaseCase().getBusList().getBus().add(AclfParserHelper.aclfBus(busRec));
 		return busRec;
 	}	
 	
@@ -166,7 +166,7 @@ public class AclfModelParser extends AbstractModelParser {
 	 */
 	
 	public void addAclfBaseBranch(BranchXmlType branch) {
-		getBaseCase().getBranchList().getBranch().add(branch);
+		getBaseCase().getBranchList().getBranch().add(AclfParserHelper.aclfBranch(branch));
 		this.objectCache.put(branch.getId(), branch);
 	}
 	
@@ -258,7 +258,7 @@ public class AclfModelParser extends AbstractModelParser {
 	}
 
 	private void intiBranchData(BaseBranchXmlType branch) {
-		getBaseCase().getBranchList().getBranch().add(branch);
+		getBaseCase().getBranchList().getBranch().add(AclfParserHelper.aclfBranch(branch));
 		branch.setOffLine(false);
 		branch.setAreaNumber(1);
 		branch.setZoneNumber(1);

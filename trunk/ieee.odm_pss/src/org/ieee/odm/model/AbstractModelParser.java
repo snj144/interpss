@@ -117,10 +117,14 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		this.pssStudyCase = elem.getValue();
 		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 		// cache the loaded bus and branch objects
-		for (BusXmlType bus : this.getBaseCase().getBusList().getBus())
-			this.objectCache.put(bus.getId(), bus);
-		for (BaseBranchXmlType branch : this.getBaseCase().getBranchList().getBranch())
-			this.objectCache.put(branch.getId(), branch);		
+		for (JAXBElement<BusXmlType> bus : this.getBaseCase().getBusList().getBus()) {
+			BusXmlType b = bus.getValue();
+			this.objectCache.put(b.getId(), b);
+		}
+		for (JAXBElement<BaseBranchXmlType> branch : this.getBaseCase().getBranchList().getBranch()) {
+			BaseBranchXmlType b = branch.getValue();
+			this.objectCache.put(b.getId(), b);
+		}
 	}
 
 	/**
@@ -219,11 +223,11 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		return (BusXmlType)this.getCachedObject(id);
 	}	
 
-	public boolean removeBus(String busId) {
-		Object bus = this.objectCache.get(busId);
-		this.removeCachedObject(busId);
-		return this.getBaseCase().getBusList().getBus().remove(bus); 
-	}
+//	public boolean removeBus(String busId) {
+//		Object bus = this.objectCache.get(busId);
+//		this.removeCachedObject(busId);
+//		return this.getBaseCase().getBusList().getBus().remove(bus); 
+//	}
 
 	/**
 	 * create a ref record with id
@@ -254,10 +258,10 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		return this.getBaseCase().getBranchList().getBranch().remove(branch); 
 	}
 
-	public boolean removeBranch(String fromId, String toId, String cirId) {
-		String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
-		return removeBranch(id);
-	}
+//	public boolean removeBranch(String fromId, String toId, String cirId) {
+//		String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
+//		return removeBranch(id);
+//	}
 	
 	/**
 	 * get the cashed branch record using fromId, toId and cirId
