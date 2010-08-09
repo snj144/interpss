@@ -32,10 +32,10 @@ import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.jaxb.JaxbParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.ExchangeAreaXmlType;
+import org.ieee.odm.schema.ExchangeZoneXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;
-import org.ieee.odm.schema.NetAreaXmlType;
-import org.ieee.odm.schema.NetZoneXmlType;
 
 public class NetDataRec {
 	static public class TitleRec {
@@ -150,7 +150,7 @@ public class NetDataRec {
 			
 			if (baseCaseNet.getAreaList() == null)
 				baseCaseNet.setAreaList(parser.getFactory().createNetworkXmlTypeAreaList());
-			NetAreaXmlType area = parser.getFactory().createNetAreaXmlType();
+			ExchangeAreaXmlType area = (ExchangeAreaXmlType)parser.getFactory().createNetAreaXmlType();
 			baseCaseNet.getAreaList().getArea().add(area);
 			area.setId(new Integer(this.arnum).toString());
 			area.setNumber(this.arnum);
@@ -190,7 +190,7 @@ public class NetDataRec {
 			
 			if (baseCaseNet.getLossZoneList() == null)
 				baseCaseNet.setLossZoneList(parser.getFactory().createNetworkXmlTypeLossZoneList());
-			NetZoneXmlType zone = parser.getFactory().createNetZoneXmlType(); 
+			ExchangeZoneXmlType zone = (ExchangeZoneXmlType)parser.getFactory().createNetZoneXmlType(); 
 			baseCaseNet.getLossZoneList().getLossZone().add(zone);
 			zone.setId(new Integer(this.zonum).toString());
 			zone.setNumber(this.zonum);

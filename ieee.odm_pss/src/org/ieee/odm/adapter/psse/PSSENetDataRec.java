@@ -8,10 +8,10 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.BaseRecordXmlType;
+import org.ieee.odm.schema.ExchangeAreaXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;
-import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.XformerZTableXmlType;
@@ -64,7 +64,7 @@ public class PSSENetDataRec {
 */
 		if (baseCaseNet.getAreaList() == null)
 			baseCaseNet.setAreaList(parser.getFactory().createNetworkXmlTypeAreaList());
-		NetAreaXmlType area = parser.getFactory().createNetAreaXmlType();
+		ExchangeAreaXmlType area = parser.getFactory().createExchangeAreaXmlType();
 		baseCaseNet.getAreaList().getArea().add(area);
 		area.setId(new Integer(i).toString());
 		area.setNumber(i);
@@ -72,7 +72,6 @@ public class PSSENetDataRec {
 
 		if (isw > 0) {
 			area.setSwingBusId(parser.createBusRef(AbstractModelParser.BusIdPreFix+isw));
-			
 			area.setDesiredExchangePower(AclfDataSetter.createActivePowerValue(pdes, ActivePowerUnitType.MW));
 			area.setExchangeErrTolerance(AclfDataSetter.createActivePowerValue(ptol, ActivePowerUnitType.MW));			
 		}

@@ -26,10 +26,12 @@ package org.ieee.odm.model.jaxb;
 
 import java.util.logging.Logger;
 
+import javax.xml.bind.JAXBElement;
+
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BaseRecordXmlType;
+import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchFaultXmlType;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusFaultXmlType;
@@ -60,6 +62,14 @@ import org.ieee.odm.schema.TurbineGovernorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 
 public class JaxbParserHelper extends BaseJaxbHelper {
+	public static JAXBElement<BaseBranchXmlType> branch(BaseBranchXmlType branch) {
+		 return getFactory().createBranch(branch);
+	}
+	
+	public static JAXBElement<BusXmlType> bus(BusXmlType bus) {
+		 return getFactory().createBus(bus);
+	}
+	
 	/**
 	 * consolidate bus genContributionList and loadContributionList to the equiv gen and load 
 	 * 
@@ -68,8 +78,8 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase(); 
 		boolean ok = true;
 
-		for (BusXmlType bus : baseCaseNet.getBusList().getBus()) {
-			BusRecordXmlType busRec = (BusRecordXmlType)bus;
+		for (JAXBElement<BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
+			BusRecordXmlType busRec = (BusRecordXmlType)bus.getValue();
 			LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData();
 			if (genData != null) {
 				if ( genData.getContributeGenList() != null && 

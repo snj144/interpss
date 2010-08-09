@@ -27,6 +27,7 @@ package org.ieee.odm.model;
 import java.text.DecimalFormat;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.BranchXmlType;
 
 public class ModelStringUtil {
@@ -218,11 +219,11 @@ public class ModelStringUtil {
 	 */
 	public static BranchXmlType casting(BranchXmlType from, String fromType, String toType) throws Exception {
 		AclfModelParser parser = new AclfModelParser();
-		parser.getAclfBaseCase().getBranchList().getBranch().add(from);
+		parser.getAclfBaseCase().getBranchList().getBranch().add(AclfParserHelper.aclfBranch(from));
 		String xfrStr = parser.toXmlDoc(true);
 		parser = new AclfModelParser(xfrStr.replaceFirst(
 				"xsi:type=\"" + fromType + "\"", 
 				"xsi:type=\"" + toType + "\""));
-		return (BranchXmlType)parser.getAclfBaseCase().getBranchList().getBranch().get(0);
+		return (BranchXmlType)parser.getAclfBaseCase().getBranchList().getBranch().get(0).getValue();
 	}	
 }

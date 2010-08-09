@@ -2,9 +2,12 @@ package org.ieee.odm.model.aclf;
 
 import java.util.logging.Logger;
 
+import javax.xml.bind.JAXBElement;
+
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
@@ -18,6 +21,14 @@ import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
 
 public class AclfParserHelper extends BaseJaxbHelper {
+	public static JAXBElement<BaseBranchXmlType> aclfBranch(BaseBranchXmlType branch) {
+		 return getFactory().createAclfBranch(branch);
+	}
+	
+	public static JAXBElement<BusXmlType> aclfBus(BusXmlType bus) {
+		 return getFactory().createAclfBus(bus);
+	}
+
 	/**
 	 * create a Contribution Load object
 	 * 
@@ -75,7 +86,8 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		LoadflowGenDataXmlType contribGen = getFactory().createLoadflowGenDataXmlType();
 		genData.getContributeGenList().getContributeGen().add(contribGen);
 		return contribGen;
-	}	
+	}
+	
 	/**
 	 * consolidate bus genContributionList and loadContributionList to the equiv gen and load 
 	 * 
@@ -84,8 +96,8 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase(); 
 		boolean ok = true;
 
-		for (BusXmlType bus : baseCaseNet.getBusList().getBus()) {
-			LoadflowBusXmlType busRec = (LoadflowBusXmlType)bus;
+		for (JAXBElement<BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
+			LoadflowBusXmlType busRec = (LoadflowBusXmlType)bus.getValue();
 			LoadflowBusXmlType.GenData genData = busRec.getGenData();
 			if (genData != null) {
 				if ( genData.getContributeGenList() != null && 

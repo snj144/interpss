@@ -140,7 +140,7 @@ public class JaxbODMModelParser extends AbstractModelParser {
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);
 		busRec.setZoneNumber(1);
-		getBaseCase().getBusList().getBus().add(busRec);
+		getBaseCase().getBusList().getBus().add(JaxbParserHelper.bus(busRec));
 		return busRec;
 	}	
 	
@@ -226,7 +226,7 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	 */
 	public BranchRecordXmlType createBranchRecord() {
 		BranchRecordXmlType branchRec = new BranchRecordXmlType();
-		getBaseCase().getBranchList().getBranch().add(branchRec);
+		getBaseCase().getBranchList().getBranch().add(JaxbParserHelper.branch(branchRec));
 		branchRec.setOffLine(false);
 		branchRec.setAreaNumber(1);
 		branchRec.setZoneNumber(1);
