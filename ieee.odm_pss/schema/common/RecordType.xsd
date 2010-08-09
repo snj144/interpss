@@ -8,6 +8,18 @@
 		<documentation>Copyright www.interpss.org 2008</documentation>
 	</annotation>
 
+	<!--
+		elements for defining busList 
+	 -->
+	<element name="bus" type="pss:BusXmlType" />
+	<element name="aclfBus" substitutionGroup="pss:bus"/>
+
+	<!-- 
+		elements for defining branchList 
+	 -->
+	<element name="branch" type="pss:BaseBranchXmlType" />
+	<element name="aclfBranch" substitutionGroup="pss:branch"/>
+
 	<complexType name="NetworkXmlType" abstract="true">
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
@@ -47,11 +59,6 @@
 			</extension>
 		</complexContent>
 	</complexType>
-	
-	<element name="bus" type="pss:BusXmlType" />
-	<element name="aclfBus" substitutionGroup="pss:bus"/>
-	<element name="branch" type="pss:BaseBranchXmlType" />
-	<element name="aclfBranch" substitutionGroup="pss:branch"/>
 
 	<simpleType name="AnalysisCategoryEnumType">
 		<restriction base="string">
