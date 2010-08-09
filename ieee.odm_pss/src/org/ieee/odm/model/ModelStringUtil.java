@@ -219,7 +219,7 @@ public class ModelStringUtil {
 	 */
 	public static BranchXmlType casting(BranchXmlType from, String fromType, String toType) throws Exception {
 		AclfModelParser parser = new AclfModelParser();
-		parser.getAclfBaseCase().getBranchList().getBranch().add(AclfParserHelper.aclfBranch(from));
+		parser.getAclfBaseCase().getBranchList().getBranch().add(AclfParserHelper.branch(from));
 		String xfrStr = parser.toXmlDoc(true);
 		parser = new AclfModelParser(xfrStr.replaceFirst(
 				"xsi:type=\"" + fromType + "\"", 
