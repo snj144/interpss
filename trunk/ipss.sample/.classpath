@@ -21,5 +21,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/swing/swing-layout-1.0.3.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/plugins/custom.plugin.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/plugins/IpssCustomController.jar"/>
+	<classpathentry kind="lib" path="lib/gml_schema.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
