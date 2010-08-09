@@ -176,7 +176,7 @@
 			<element name="busRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="turbineGovernorType" maxOccurs="1" minOccurs="1" type="pss:TurbineGovernorEnumType">
 			</element>
-			<element name="turbineGovernorModel" type="pss:TurbineGovernorModelListXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="turbineGovernorModel" type="pss:GovernorModelXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="tgId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
