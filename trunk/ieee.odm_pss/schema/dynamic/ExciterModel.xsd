@@ -14,14 +14,12 @@
 <!-- 
 		IEEE 1968 model set
  -->			
-
-	<complexType name="ExcIEEE1968Type1XmlType">
+	<complexType name="ExcIEEE1968BaseXmlType">
 		<complexContent>
 		<extension base="pss:ExciterModelXmlType">
 		<sequence>
 			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="KA" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TA" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="VRMAX" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="VRMIN" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="KE" type="double" maxOccurs="1" minOccurs="1"></element>
@@ -38,23 +36,20 @@
 		</complexContent>		
 	</complexType>
 
+	<complexType name="ExcIEEE1968Type1XmlType">
+		<complexContent>
+		<extension base="pss:ExcIEEE1968BaseXmlType">
+		<sequence>
+			<element name="TA" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+
 	<complexType name="ExcIEEEModified1968Type1XmlType">
 		<complexContent>
-		<extension base="pss:ExciterModelXmlType">
+		<extension base="pss:ExcIEEE1968BaseXmlType">
 		<sequence>
-			<element name="KA" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TA" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="VRMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="VRMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="KE" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TE" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="KF" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TF" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="EFDMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="E1" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="SE1" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="E2" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="SE2" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 		</extension>
@@ -88,10 +83,6 @@
 			<element name="KD" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="KE" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="VLR" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="E1" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="SE1" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="E2" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="SE2" type="double" maxOccurs="1" minOccurs="1"></element>
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -245,7 +236,7 @@
 			<element name="locatedBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="busRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="exciterType" maxOccurs="1" minOccurs="1" type="pss:ExciterEnumType">	</element>
-			<element name="exciterModel" type="pss:ExciterModelListXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="exciterModel" type="pss:ExciterModelXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="excId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>

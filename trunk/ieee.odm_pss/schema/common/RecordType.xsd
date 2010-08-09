@@ -18,14 +18,14 @@
 					<element name="busList" minOccurs="1" maxOccurs="1">
 						<complexType>
 							<sequence>
-								<element name="bus" type="pss:BusXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+								<element ref="pss:bus" maxOccurs="unbounded" minOccurs="0"/>
 							</sequence>
 						</complexType>
 					</element>
 					<element name="branchList" minOccurs="1" maxOccurs="1">
 						<complexType>
 							<sequence>
-								<element name="branch" type="pss:BaseBranchXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+								<element ref="pss:branch" maxOccurs="unbounded" minOccurs="0"></element>
 							</sequence>
 						</complexType>
 					</element>
@@ -48,6 +48,11 @@
 		</complexContent>
 	</complexType>
 	
+	<element name="bus" type="pss:BusXmlType" />
+	<element name="aclfBus" substitutionGroup="pss:bus"/>
+	<element name="branch" type="pss:BaseBranchXmlType" />
+	<element name="aclfBranch" substitutionGroup="pss:branch"/>
+
 	<simpleType name="AnalysisCategoryEnumType">
 		<restriction base="string">
 			<enumeration value="Loadflow"></enumeration>
@@ -110,21 +115,6 @@
 	
 	<complexType name="NetAreaXmlType">
 		<sequence>
-			<element name="swingBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="alternateSwingBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="desiredExchangePower" type="pss:ActivePowerXmlType" minOccurs="0"></element>
-			<element name="exchangeErrTolerance" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="totalExchangePower" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="exchangePower" maxOccurs="unbounded" minOccurs="0">
-				<complexType>
-					<sequence>
-						<element name="toArea" type="string" maxOccurs="1" minOccurs="0"></element>
-						<element name="exchangePower" type="pss:PowerXmlType" maxOccurs="1" minOccurs="1"></element>
-					</sequence>
-				</complexType>
-			</element>
-			<element name="measredOnFromSide" type="boolean" maxOccurs="1" minOccurs="0"></element>
-			<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="zoneList" maxOccurs="1" minOccurs="0">
 				<complexType>
 					<sequence>
@@ -139,9 +129,6 @@
 	</complexType>
 
 	<complexType name="NetZoneXmlType">
-		<sequence>
-			<element name="exchangePower" type="pss:PowerXmlType" minOccurs="0"></element>
-		</sequence>
 		<attribute name="id" type="string" use="optional"></attribute>
 		<attribute name="name" type="string" use="optional"></attribute>
 		<attribute name="number" type="int" use="optional"></attribute>
