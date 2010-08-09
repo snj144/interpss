@@ -24,12 +24,44 @@
 
 package org.ieee.odm.model;
 
+import javax.xml.bind.JAXBElement;
+
+import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BaseRecordXmlType;
+import org.ieee.odm.schema.BranchRecordXmlType;
+import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NameValuePairXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 
 public class BaseJaxbHelper {
+	/**
+	 * warp the branch object for substitutionGroup
+	 * 
+	 * @param branch
+	 * @return
+	 */
+	public static JAXBElement<BaseBranchXmlType> branch(BaseBranchXmlType branch) {
+		if (branch instanceof BranchRecordXmlType) 
+			return getFactory().createBranch(branch);
+		else
+			return getFactory().createAclfBranch(branch);
+	}
+	
+	/**
+	 * warp the bus object for substitutionGroup
+	 * 
+	 * @param bus
+	 * @return
+	 */
+	public static JAXBElement<BusXmlType> bus(BusXmlType bus) {
+		if (bus instanceof BusRecordXmlType) 
+			return getFactory().createBus(bus);
+		else
+			return getFactory().createAclfBus(bus);
+	}
+	
 	/**
 	 * add a name/value pair to the name/value pair List
 	 * 

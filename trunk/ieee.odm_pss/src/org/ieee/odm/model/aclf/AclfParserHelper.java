@@ -7,7 +7,6 @@ import javax.xml.bind.JAXBElement;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
@@ -21,14 +20,6 @@ import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
 
 public class AclfParserHelper extends BaseJaxbHelper {
-	public static JAXBElement<BaseBranchXmlType> aclfBranch(BaseBranchXmlType branch) {
-		 return getFactory().createAclfBranch(branch);
-	}
-	
-	public static JAXBElement<BusXmlType> aclfBus(BusXmlType bus) {
-		 return getFactory().createAclfBus(bus);
-	}
-
 	/**
 	 * create a Contribution Load object
 	 * 
