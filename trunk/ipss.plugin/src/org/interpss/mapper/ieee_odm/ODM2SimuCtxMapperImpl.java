@@ -24,6 +24,8 @@
 
 package org.interpss.mapper.ieee_odm;
 
+import javax.xml.bind.JAXBElement;
+
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
@@ -65,12 +67,13 @@ public class ODM2SimuCtxMapperImpl {
 			try {
 				simuCtx.setAclfAdjNet(ODM_Old_DataMapperImpl.mapNetworkData(xmlNet));
 
-				for (BusXmlType bus : xmlNet.getBusList().getBus()) {
-					LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus;
+				for (JAXBElement<BusXmlType> bus : xmlNet.getBusList().getBus()) {
+					LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
 					ODMAclfDataMapperImpl.mapBusData(busRec, simuCtx.getAclfAdjNet());
 				}
 
-				for (BaseBranchXmlType branch : xmlNet.getBranchList().getBranch()) { 
+				for (JAXBElement<BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
+					BaseBranchXmlType branch = b.getValue();
 					if (branch instanceof LineBranchXmlType) {
 						LineBranchXmlType branchRec = (LineBranchXmlType) branch;
 						ODMAclfDataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
@@ -128,13 +131,13 @@ public class ODM2SimuCtxMapperImpl {
 			try {
 				simuCtx.setAclfAdjNet(ODM_Old_DataMapperImpl.mapNetworkData(xmlNet));
 
-				for (BusXmlType bus : xmlNet.getBusList().getBus()) {
-					BusRecordXmlType busRec = (BusRecordXmlType) bus;
+				for (JAXBElement<BusXmlType> bus : xmlNet.getBusList().getBus()) {
+					BusRecordXmlType busRec = (BusRecordXmlType) bus.getValue();
 					ODM_Old_DataMapperImpl.mapBusData(busRec, simuCtx.getAclfAdjNet());
 				}
 
-				for (BaseBranchXmlType branch : xmlNet.getBranchList().getBranch()) { 
-					BranchRecordXmlType branchRec = (BranchRecordXmlType) branch;
+				for (JAXBElement<BaseBranchXmlType> branch : xmlNet.getBranchList().getBranch()) { 
+					BranchRecordXmlType branchRec = (BranchRecordXmlType) branch.getValue();
 					ODM_Old_DataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
 				}
 			} catch (Exception e) {
