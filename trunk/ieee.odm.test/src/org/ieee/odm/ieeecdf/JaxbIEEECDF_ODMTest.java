@@ -63,6 +63,8 @@ public class JaxbIEEECDF_ODMTest {
 		assertTrue(adapter.parseInputFile("testdata/ieee_format/Ieee14Bus.ieee"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
+		System.out.println(parser.toXmlDoc(false));
+		
 		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
 		assertTrue(baseCaseNet.getBusList().getBus().size() == 14);
 		assertTrue(baseCaseNet.getBranchList().getBranch().size() == 20);
@@ -148,7 +150,8 @@ public class JaxbIEEECDF_ODMTest {
 
 		parser.stdout();
 	}
-	@Test
+	
+	//@Test
 	public void testCase1() throws Exception {
 		final LogManager logMgr = LogManager.getLogManager();
 		Logger logger = Logger.getLogger("IEEE ODM Logger");
