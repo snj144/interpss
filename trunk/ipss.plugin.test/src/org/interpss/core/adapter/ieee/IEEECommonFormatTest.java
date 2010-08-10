@@ -136,25 +136,5 @@ public class IEEECommonFormatTest extends BaseTestSetup {
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.1348)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.8239)<0.0001);
 	}
-
-	public void xtestCase5() throws Exception{
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
-		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee300.ieee");
-
-		AclfNetwork net = simuCtx.getAclfNet();
-  		assertTrue((net.getBusList().size() == 300 && net.getBranchList().size() == 411));
-
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
-	  	algo.loadflow();
-  		//System.out.println(net.net2String());
-	  	
-  		assertTrue(net.isLfConverged());		
- 		AclfBus swingBus = (AclfBus)net.getBus("Bus69");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).re);
-		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).im);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.1348)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.8239)<0.0001);
-	}
 }
 
