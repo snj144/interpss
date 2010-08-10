@@ -141,8 +141,8 @@ public class GraphSimuUtilFunc {
 					 * branch.setSortNumber(0); comment out by Mike. Do not know
 					 * why we need this here.
 					 */
-					Complex from_pq = branch.powerFrom2To(UnitType.PU, baseKva);
-					Complex to_pq = branch.powerTo2From(UnitType.PU, baseKva);
+					Complex from_pq = branch.powerFrom2To(UnitType.PU);
+					Complex to_pq = branch.powerTo2From(UnitType.PU);
 					String from_p = Number2String.toStr("0.00", from_pq
 							.getReal());
 					String from_q = Number2String.toStr("0.00", from_pq
