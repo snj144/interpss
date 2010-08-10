@@ -178,21 +178,23 @@ public class ODMAclfDataMapperImpl {
   					// The remote bus to be adjusted is normally defined as a PV bus. It needs to
   					// be changed to PQ bus
   					String remoteId = (String)xmlEquivGenData.getRemoteVoltageControlBus().getIdRef();
-  					AclfBus remoteBus = adjNet.getAclfBus(remoteId);
-  					if (remoteBus != null) {
-  	  					if (remoteBus.isGenPV())
-  	  						remoteBus.setGenCode(AclfGenCode.GEN_PQ);
-  	  			  		final RemoteQBus reQBus = CoreObjectFactory.createRemoteQBus(aclfBus, 
-  	  			  				RemoteQControlType.BUS_VOLTAGE, adjNet, remoteId);
-  			  			final PQBusAdapter gen = (PQBusAdapter)aclfBus.getAdapter(PQBusAdapter.class);
-  			  			gen.setGen(new Complex(xmlEquivGenData.getPower().getRe(),
-  			  					               xmlEquivGenData.getPower().getIm()), 
-  			  					               ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()));
-  	  			  		reQBus.setQLimit(new LimitType(xmlEquivGenData.getQLimit().getMax(), 
-  														xmlEquivGenData.getQLimit().getMin()), 
-  										ODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()));						
-  	  			  		reQBus.setVSpecified(UnitType.vConversion(xmlEquivGenData.getDesiredVoltage().getValue(),
-  								aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU));					
+  					if (remoteId != null) {
+  						AclfBus remoteBus = adjNet.getAclfBus(remoteId);
+  	  					if (remoteBus != null) {
+  	  	  					if (remoteBus.isGenPV())
+  	  	  						remoteBus.setGenCode(AclfGenCode.GEN_PQ);
+  	  	  			  		final RemoteQBus reQBus = CoreObjectFactory.createRemoteQBus(aclfBus, 
+  	  	  			  				RemoteQControlType.BUS_VOLTAGE, adjNet, remoteId);
+  	  			  			final PQBusAdapter gen = (PQBusAdapter)aclfBus.getAdapter(PQBusAdapter.class);
+  	  			  			gen.setGen(new Complex(xmlEquivGenData.getPower().getRe(),
+  	  			  					               xmlEquivGenData.getPower().getIm()), 
+  	  			  					               ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()));
+  	  	  			  		reQBus.setQLimit(new LimitType(xmlEquivGenData.getQLimit().getMax(), 
+  	  														xmlEquivGenData.getQLimit().getMin()), 
+  	  										ODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()));						
+  	  	  			  		reQBus.setVSpecified(UnitType.vConversion(xmlEquivGenData.getDesiredVoltage().getValue(),
+  	  								aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU));					
+  	  					}
   					}
 				}
 			} else if (xmlEquivGenData.getCode() == LFGenCodeEnumType.SWING) {
@@ -390,7 +392,8 @@ public class ODMAclfDataMapperImpl {
 		if (xfrData.getToRatedVoltage() != null)
 			toRatedV = xfrData.getToRatedVoltage().getValue();
 
-		if (!xfrData.isDataOnSystemBase() &&
+		if (xfrData != null &&
+				!xfrData.isDataOnSystemBase() &&
 				xfrData.getRatedPower() != null && 
 				xfrData.getRatedPower().getValue() > 0.0) 
 			zratio = xfrData.getRatedPower().getUnit() == ApparentPowerUnitType.KVA?

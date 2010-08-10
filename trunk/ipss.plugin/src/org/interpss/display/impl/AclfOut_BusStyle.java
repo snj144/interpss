@@ -80,19 +80,15 @@ public class AclfOut_BusStyle {
 			AclfBranch bra = (AclfBranch) br;
 			if (bra.isActive()) {
 
-				AclfBus busj;
-				if (bus.equals(bra.getFromAclfBus()))
-					busj = bra.getToAclfBus();
-				else
-					busj = bra.getFromAclfBus();
+//				final AclfBus busj = bus.equals(bra.getFromAclfBus())?
+//					bra.getToAclfBus() : bra.getFromAclfBus();
 
 				Complex pq = new Complex(0.0, 0.0);
 				double amp = 0.0, fromRatio = 1.0, toRatio = 1.0, fromAng = 0.0, toAng = 0.0;
 				if (bra.isActive()) {
 					if (bus.equals(bra.getFromAclfBus())) {
-						pq = bra.powerFrom2To(UnitType.mVA, baseKVA);
-						amp = UnitType.iConversion(bra.current(
-								UnitType.PU, baseKVA), bra.getFromAclfBus().getBaseVoltage(),
+						pq = bra.powerFrom2To(UnitType.mVA);
+						amp = UnitType.iConversion(bra.current(UnitType.PU), bra.getFromAclfBus().getBaseVoltage(),
 								baseKVA, UnitType.PU, UnitType.Amp);
 						if (bra.isXfr() || bra.isPSXfr()) {
 							fromRatio = bra.getFromTurnRatio();
@@ -104,9 +100,8 @@ public class AclfOut_BusStyle {
 							}
 						}
 					} else {
-						pq = bra.powerTo2From(UnitType.mVA, baseKVA);
-						amp = UnitType.iConversion(bra.current(
-								UnitType.PU, baseKVA), bra.getToAclfBus().getBaseVoltage(),
+						pq = bra.powerTo2From(UnitType.mVA);
+						amp = UnitType.iConversion(bra.current(UnitType.PU), bra.getToAclfBus().getBaseVoltage(),
 								baseKVA, UnitType.PU, UnitType.Amp);
 						if (bra.isXfr() || bra.isPSXfr()) {
 							toRatio = bra.getFromTurnRatio();

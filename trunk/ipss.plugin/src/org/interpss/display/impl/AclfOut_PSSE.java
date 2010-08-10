@@ -128,8 +128,8 @@ public class AclfOut_PSSE {
 						AclfOutFunc.formatKV(toBus.getBaseVoltage()*0.001),
 						toBus.getArea().getNumber(), branch.getCircuitNumber());
 
-		Complex pq = onFromSide? branch.powerFrom2To(UnitType.mVar, baseKVA) :
-									branch.powerTo2From(UnitType.mVar, baseKVA);
+		Complex pq = onFromSide? branch.powerFrom2To(UnitType.mVar) :
+									branch.powerTo2From(UnitType.mVar);
 		double p = pq.getReal(), q = pq.getImaginary();
 		s += String.format("  %7.1f %7.1f", p, q);
 
@@ -272,8 +272,8 @@ BUS  10002 GZ-HLZ      220.00 CKT     MW     MVAR     MVA  %I 1.0445PU  -47.34  
 		else	
 			s += String.format("%7.3f ", vkv);
 
-		Complex pq = onFromSide? branch.powerFrom2To(UnitType.mVar, baseKVA) :
-						branch.powerTo2From(UnitType.mVar, baseKVA);
+		Complex pq = onFromSide? branch.powerFrom2To(UnitType.mVar) :
+						branch.powerTo2From(UnitType.mVar);
 		s += String.format("%-2s %7.1f %7.1f %7.1f ", branch.getCircuitNumber(), 
 					pq.getReal(), pq.getImaginary(), pq.abs());
 
@@ -297,7 +297,7 @@ BUS  10002 GZ-HLZ      220.00 CKT     MW     MVAR     MVA  %I 1.0445PU  -47.34  
 		else
 			s += String.format("                   ");
 			
-		Complex loss = branch.loss(UnitType.mVA, baseKVA);
+		Complex loss = branch.loss(UnitType.mVA);
 		s += String.format("%7.2f %7.2f   %2d %2s             %2d %2s\n", 
 					loss.getReal(), loss.getImaginary(),
 					branch.getArea().getNumber(), branch.getArea().getName(), 
