@@ -372,7 +372,7 @@ public class DclfOutFunc {
 			}			
 			
 			double f = algo.getAreaTransferFactor(fromBusId, toBusId, cirNumber);
-			double baseMva = bra.mvaFlow(UnitType.mVA, net.getBaseKva());
+			double baseMva = bra.mvaFlow(UnitType.mVA);
 			double newMva = baseMva + areaTransfer.getTransderAmountMW() * f;
 			double limitMva = bra.getRatingMva1() * areaTransfer.getDeratingFactor();
 			boolean v = newMva > limitMva;

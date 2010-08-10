@@ -160,9 +160,8 @@ public class AclfResultMapperImpl {
 					double amp = 0.0, fromRatio = 1.0, toRatio = 1.0;
 					if (bra.isActive()) {
 						if (bus.equals(bra.getFromAclfBus())) {
-							pq = bra.powerFrom2To(UnitType.mVA, baseKVA);
-							amp = UnitType.iConversion(bra.current(UnitType.PU,
-									baseKVA), bra.getFromAclfBus()
+							pq = bra.powerFrom2To(UnitType.mVA);
+							amp = UnitType.iConversion(bra.current(UnitType.PU), bra.getFromAclfBus()
 									.getBaseVoltage(), baseKVA, UnitType.PU,
 									UnitType.Amp);
 							if (bra.isXfr() || bra.isPSXfr()) {
@@ -170,9 +169,8 @@ public class AclfResultMapperImpl {
 								toRatio = bra.getToTurnRatio();
 							}
 						} else {
-							pq = bra.powerTo2From(UnitType.mVA, baseKVA);
-							amp = UnitType.iConversion(bra.current(UnitType.PU,
-									baseKVA), bra.getToAclfBus()
+							pq = bra.powerTo2From(UnitType.mVA);
+							amp = UnitType.iConversion(bra.current(UnitType.PU), bra.getToAclfBus()
 									.getBaseVoltage(), baseKVA, UnitType.PU,
 									UnitType.Amp);
 							if (bra.isXfr() || bra.isPSXfr()) {
@@ -369,8 +367,8 @@ public class AclfResultMapperImpl {
 				bean.setBranchId(psCtrl.getParentBranch().getId());
 				bean.setPact(Number2String.toStr("##0.0000", (psCtrl
 						.isControlOnFromSide() ? psCtrl.getParentBranch()
-						.powerFrom2To(UnitType.PU, baseKva).getReal() : psCtrl
-						.getParentBranch().powerTo2From(UnitType.PU, baseKva)
+						.powerFrom2To(UnitType.PU).getReal() : psCtrl
+						.getParentBranch().powerTo2From(UnitType.PU)
 						.getReal())));
 				bean.setPspec(Number2String.toStr("##0.0000", psCtrl.getPSpecified(
 						UnitType.PU, baseKva)));

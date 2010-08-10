@@ -300,12 +300,11 @@ public class AclfOutFunc {
 					if (adapter.isRatingViolated(ViolationType.BRANCH_THERMAL_MVA_RATING, net.getBaseKva())) {
 						str.append(Number2String.toStr(5, " "));
 						str.append(Number2String.toStr(-16, bra.getId()));
-						double mva = bra.powerFrom2To(UnitType.mVA,
-								net.getBaseKva()).abs();
+						double mva = bra.powerFrom2To(UnitType.mVA).abs();
 						String side = "From";
-						if (bra.powerFrom2To(UnitType.mVA, net.getBaseKva()).abs() < bra
-								.powerTo2From(UnitType.mVA, net.getBaseKva()).abs()) {
-							mva = bra.powerTo2From(UnitType.mVA, net.getBaseKva())
+						if (bra.powerFrom2To(UnitType.mVA).abs() < bra
+								.powerTo2From(UnitType.mVA).abs()) {
+							mva = bra.powerTo2From(UnitType.mVA)
 									.abs();
 							side = "To";
 						}
@@ -599,8 +598,8 @@ public class AclfOutFunc {
 						+ " ");
 				str.append(Number2String.toStr("##0.0000",
 						(x.isControlOnFromSide() ? x.getParentBranch().powerFrom2To(
-								UnitType.PU, baseKVA).getReal() : x.getParentBranch()
-								.powerTo2From(UnitType.PU, baseKVA).getReal()))
+								UnitType.PU).getReal() : x.getParentBranch()
+								.powerTo2From(UnitType.PU).getReal()))
 						+ " ");
 
 				if (x.getFlowControlType() == AdjControlType.POINT_CONTROL)
