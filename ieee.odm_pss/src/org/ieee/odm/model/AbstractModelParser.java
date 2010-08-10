@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Hashtable;
+import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -63,6 +64,11 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 *	property definition
 	 * 	=================== 
 	 */
+	private Logger logger = null;
+	public Logger getLogger() { 
+		if (this.logger == null) this.logger = Logger.getLogger("org.ieee.odm");
+		return this.logger; }
+	public void setLogger(Logger l) { this.logger = l; }
 	
 	// bus and branch object cache for fast lookup. 
 	protected Hashtable<String,IDRecordXmlType> objectCache = null;

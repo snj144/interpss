@@ -142,6 +142,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 						getLogger().fine("load tieline data");
 					}
 				} catch (final Exception e) {
+					parser.getLogger().severe(e.toString() + "\n" + str);
 					e.printStackTrace();
 				}
 			}
@@ -439,7 +440,9 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			//          	0 - Controlled bus is one of the terminals
 			//          	1 - Controlled bus is near the tap side
 			//          	2 - Controlled bus is near the impedance side (Z bus)
-			controlSide = new Integer(strAry[13]).intValue();
+			controlSide = 0;
+			if (!strAry[13].trim().equals(""))
+				controlSide = new Integer(strAry[13]).intValue();
 
 			//        	Columns 106-111 Step size [F]
 			stepSize = new Double(strAry[18]).doubleValue();
