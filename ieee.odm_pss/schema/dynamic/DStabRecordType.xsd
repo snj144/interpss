@@ -5,7 +5,7 @@
     <include schemaLocation="../common/DataType.xsd"></include>
     <include schemaLocation="../common/RecordType.xsd"></include>
 
-    <include schemaLocation="../loadflow/LFRecordType.xsd"></include>
+    <include schemaLocation="../shortcircuit/SCRecordType.xsd"></include>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
@@ -13,13 +13,13 @@
 <!-- 
 		Network object
  -->	
-	<complexType name="ShortCircuitNetXmlType">
+	<complexType name="DStabNetXmlType">
 		<annotation>
 			<documentation>
 			</documentation>
 		</annotation>
 		<complexContent>
-			<extension base="pss:LoadflowNetXmlType">
+			<extension base="pss:ShortCircuitNetXmlType">
 				<sequence>
 				</sequence>
 			</extension>
@@ -29,13 +29,13 @@
 	<!--  
 		Bus objects
  	-->	
-	<complexType name="ShortCircuitBusXmlType">
+	<complexType name="DStabBusXmlType">
 		<annotation>
 			<documentation>
 			</documentation>
 		</annotation>
 		<complexContent>
-			<extension base="pss:LoadflowBusXmlType">
+			<extension base="pss:ShortCircuitBusXmlType">
 				<sequence>
 				</sequence>
 			</extension>
@@ -46,45 +46,45 @@
 		Branch objects
  -->
 
-	<complexType name="LineShortCircuitXmlType">
+	<complexType name="LineDStabXmlType">
 		<complexContent>
-			<extension base="pss:LineBranchXmlType">
+			<extension base="pss:LineShortCircuitXmlType">
 				<sequence>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
 	
-	<complexType name="XfrShortCircuitXmlType">
+	<complexType name="XfrDStabXmlType">
 		<complexContent>
-			<extension base="pss:XfrBranchXmlType">
+			<extension base="pss:XfrShortCircuitXmlType">
 				<sequence>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>	
 
-	<complexType name="Xfr3WShortCircuitXmlType">
+	<complexType name="Xfr3WDStabXmlType">
 		<complexContent>
-			<extension base="pss:Xfr3WBranchXmlType">
+			<extension base="pss:Xfr3WShortCircuitXmlType">
 				<sequence>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>	
 
-	<complexType name="PSXfrShortCircuitXmlType">
+	<complexType name="PSXfrDStabXmlType">
 		<complexContent>
-			<extension base="pss:PSXfrBranchXmlType">
+			<extension base="pss:PSXfrShortCircuitXmlType">
 				<sequence>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>	
 
-	<complexType name="PSXfr3WShortCircuitXmlType">
+	<complexType name="PSXfr3WDStabXmlType">
 		<complexContent>
-			<extension base="pss:PSXfr3WBranchXmlType">
+			<extension base="pss:PSXfr3WShortCircuitXmlType">
 				<sequence>
 				</sequence>
 			</extension>
