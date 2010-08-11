@@ -233,9 +233,9 @@ public class AcscFormDataMapperImpl {
 
 	private static void setBusScZ(AcscBus bus, double baseKVA, double r1,
 			double x1, double r2, double x2, double r0, double x0, byte zUnit) {
-		bus.setZ(new Complex(r1, x1), SequenceCode.POSITIVE, zUnit, baseKVA);
-		bus.setZ(new Complex(r2, x2), SequenceCode.NEGATIVE, zUnit, baseKVA);
-		bus.setZ(new Complex(r0, x0), SequenceCode.ZERO, zUnit, baseKVA);
+		bus.setZ(new Complex(r1, x1), SequenceCode.POSITIVE, zUnit);
+		bus.setZ(new Complex(r2, x2), SequenceCode.NEGATIVE, zUnit);
+		bus.setZ(new Complex(r0, x0), SequenceCode.ZERO, zUnit);
 	}
 
 	private static void setBusScZg(AcscBus bus, double baseV, double baseKVA,
@@ -304,10 +304,9 @@ public class AcscFormDataMapperImpl {
 		AcscLineAdapter line = (AcscLineAdapter) branch
 				.getAdapter(AcscLineAdapter.class);
 		line.setZ0(new Complex(branchData.getZ0R(), branchData.getZ0X()),
-				UnitType.toUnit(branchData.getZ0Unit()), baseV, net
-						.getBaseKva(), msg);
+				UnitType.toUnit(branchData.getZ0Unit()), baseV, msg);
 		line.setHB0(branchData.getHalfShuntB0(), UnitType.toUnit(branchData
-				.getHalfShuntB0Unit()), baseV, net.getBaseKva());
+				.getHalfShuntB0Unit()), baseV);
 		return true;
 	}
 
@@ -319,20 +318,17 @@ public class AcscFormDataMapperImpl {
 		AcscXfrAdapter xfr = (AcscXfrAdapter) branch
 				.getAdapter(AcscXfrAdapter.class);
 		xfr.setZ0(new Complex(branchData.getZ0R(), branchData.getZ0X()),
-				UnitType.toUnit(branchData.getZ0Unit()), baseV, net
-						.getBaseKva(), msg);
+				UnitType.toUnit(branchData.getZ0Unit()), baseV, msg);
 
 		XfrConnectData connect = branchData.getFromXfrConnectData();
 		xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(
 				connect.getGrounding().getR(), connect.getGrounding().getX()),
-				UnitType.toUnit(connect.getGrounding().getUnit()), net
-						.getBaseKva());
+				UnitType.toUnit(connect.getGrounding().getUnit()));
 
 		connect = branchData.getToXfrConnectData();
 		xfr.setToConnectGroundZ(calXfrConnectCode(connect), new Complex(connect
 				.getGrounding().getR(), connect.getGrounding().getX()),
-				UnitType.toUnit(connect.getGrounding().getUnit()), net
-						.getBaseKva());
+				UnitType.toUnit(connect.getGrounding().getUnit()));
 
 		return true;
 	}
