@@ -13,12 +13,18 @@
 	 -->
 	<element name="bus" type="pss:BusXmlType" />
 	<element name="aclfBus" substitutionGroup="pss:bus"/>
+	<element name="acscBus" substitutionGroup="pss:bus"/>
+	<element name="dstabBus" substitutionGroup="pss:bus"/>
+	<element name="distBus" substitutionGroup="pss:bus"/>
 
 	<!-- 
 		elements for defining branchList 
 	 -->
 	<element name="branch" type="pss:BaseBranchXmlType" />
 	<element name="aclfBranch" substitutionGroup="pss:branch"/>
+	<element name="acscBranch" substitutionGroup="pss:branch"/>
+	<element name="dstabBranch" substitutionGroup="pss:branch"/>
+	<element name="distBranch" substitutionGroup="pss:branch"/>
 
 	<complexType name="NetworkXmlType" abstract="true">
 		<complexContent>
