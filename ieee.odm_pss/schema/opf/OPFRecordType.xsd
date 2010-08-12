@@ -10,4 +10,39 @@
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
 	</annotation>
+	
+<!-- 
+		Network object
+ -->	
+	<complexType name="OPFNetXmlType">
+		<annotation>
+			<documentation>
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="pss:LoadflowNetXmlType">
+				<sequence>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<!--  
+		Bus objects
+ 	-->	
+	<complexType name="OPFBusXmlType">
+		<annotation>
+			<documentation>
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="pss:LoadflowBusXmlType">
+			</extension>
+		</complexContent>
+	</complexType>
+	
+<!-- 
+		Branch objects
+ -->
+	
 </schema>
