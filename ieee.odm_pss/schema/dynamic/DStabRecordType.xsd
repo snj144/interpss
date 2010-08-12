@@ -6,6 +6,9 @@
     <include schemaLocation="../common/RecordType.xsd"></include>
 
     <include schemaLocation="../shortcircuit/SCRecordType.xsd"></include>
+    
+	<include schemaLocation="MachineModel.xsd"></include>
+	<include schemaLocation="DynamicLoadModel.xsd"></include>    
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
@@ -28,7 +31,7 @@
 	
 	<!--  
 		Bus objects
- 	-->	
+ 	-->
 	<complexType name="DStabBusXmlType">
 		<annotation>
 			<documentation>
@@ -37,6 +40,18 @@
 		<complexContent>
 			<extension base="pss:ShortCircuitBusXmlType">
 				<sequence>
+					<element name="generator" type="pss:GeneratorXmlType" minOccurs="1" maxOccurs="unbounded"></element>
+					<element name="dynamicLoad" minOccurs="0">
+						<complexType>
+							<sequence>
+								<element name="location" maxOccurs="1" minOccurs="1" type="pss:LoadCharacteristicLocationEnumType">
+								</element>
+								<element name="LoadXmlType" maxOccurs="1" minOccurs="1" type="pss:LoadCharacteristicTypeEnumType">
+								</element>
+								<element name="LoadModel" type="pss:DynamicLoadModelSelectionXmlType" maxOccurs="1" minOccurs="1"></element>
+							</sequence>
+						</complexType>
+					</element>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -50,6 +65,7 @@
 		<complexContent>
 			<extension base="pss:LineShortCircuitXmlType">
 				<sequence>
+					<element name="lineRelay" type="pss:DynamicLineRelayXmlType" maxOccurs="unbounded" minOccurs="0"/>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -59,6 +75,7 @@
 		<complexContent>
 			<extension base="pss:XfrShortCircuitXmlType">
 				<sequence>
+					<element name="lineRelay" type="pss:DynamicXfrRelayXmlType" maxOccurs="unbounded" minOccurs="0"/>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -77,6 +94,7 @@
 		<complexContent>
 			<extension base="pss:PSXfrShortCircuitXmlType">
 				<sequence>
+					<element name="lineRelay" type="pss:DynamicXfrRelayXmlType" maxOccurs="unbounded" minOccurs="0"/>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -89,5 +107,11 @@
 				</sequence>
 			</extension>
 		</complexContent>
+	</complexType>	
+
+	<complexType name="DynamicLineRelayXmlType">
+	</complexType>	
+
+	<complexType name="DynamicXfrRelayXmlType">
 	</complexType>	
 </schema>
