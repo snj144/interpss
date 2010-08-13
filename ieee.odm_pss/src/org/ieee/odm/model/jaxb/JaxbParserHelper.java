@@ -418,17 +418,17 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 	
 	public static GeneratorXmlType getGeneratorRecord(TransientSimulationXmlType tranSimu,
 			   String busId,String genId){		
-		for(GeneratorXmlType gen: tranSimu.getDynamicDataList().getBusDynDataList().getGeneratorDataList().getGenerator()){						
-			if(busId.equals(gen.getLocatedBus().getName())){
-				if(gen.getGenId()!=null){
-					if(genId.equals(gen.getGenId().getName())){
-						return gen;
-					}
-				}else{
-					return gen;
-				}			
-			}
-		}		
+//		for(GeneratorXmlType gen: tranSimu.getDynamicDataList().getBusDynDataList().getGeneratorDataList().getGenerator()){						
+//			if(busId.equals(gen.getLocatedBus().getName())){
+//				if(gen.getGenId()!=null){
+//					if(genId.equals(gen.getGenId().getName())){
+//						return gen;
+//					}
+//				}else{
+//					return gen;
+//				}			
+//			}
+//		}		
 		return null;		
 	}
 	
