@@ -10,6 +10,7 @@
 	<include schemaLocation="loadflow/LFRecordType.xsd"></include>
 	<include schemaLocation="shortcircuit/SCRecordType.xsd"></include>
 	<include schemaLocation="dynamic/DstabRecordType.xsd"></include>
+	<include schemaLocation="opf/OPFRecordType.xsd"></include>
 	
 	<include schemaLocation="Modification.xsd"></include>
 	<include schemaLocation="StudyScenario.xsd"></include>
@@ -17,6 +18,13 @@
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
 	</annotation>
+
+	<element name="baseCase" type="pss:NetworkXmlType"/>
+	<element name="aclfNet" substitutionGroup="pss:baseCase"/>
+	<element name="acscNet" substitutionGroup="pss:baseCase"/>
+	<element name="dstabNet" substitutionGroup="pss:baseCase"/>
+	<element name="distNet" substitutionGroup="pss:baseCase"/>
+	<element name="opfNet" substitutionGroup="pss:baseCase"/>
 
 	<element name="pssStudyCase" type="pss:StudyCaseXmlType"></element>
 	<complexType name="StudyCaseXmlType">
@@ -27,7 +35,7 @@
 					</element>
 					<element name="contentInfo" minOccurs="0" type="pss:ContentInfoXmlType">
 					</element>
-					<element name="baseCase" type="pss:NetworkXmlType" minOccurs="1" maxOccurs="1">
+					<element ref="pss:baseCase" minOccurs="1" maxOccurs="1">
 						<annotation>
 							<documentation>Base case power network data for power system simulation purpose</documentation>
 						</annotation>
