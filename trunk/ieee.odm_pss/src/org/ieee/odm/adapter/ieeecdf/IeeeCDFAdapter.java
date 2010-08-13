@@ -88,7 +88,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		AclfModelParser parser = new AclfModelParser();
 		parser.setLFTransInfo(OriginalDataFormatEnumType.IEEE_CDF);
 
-		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
+		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 		baseCaseNet.setId("Base_Case_from_IEEECDF_format");
 
 		String str = din.readLine();

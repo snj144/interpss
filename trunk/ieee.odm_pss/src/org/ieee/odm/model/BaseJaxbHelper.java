@@ -31,11 +31,35 @@ import org.ieee.odm.schema.BaseRecordXmlType;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.DStabNetXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NameValuePairXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
+import org.ieee.odm.schema.OPFNetworkXmlType;
 import org.ieee.odm.schema.ObjectFactory;
+import org.ieee.odm.schema.ShortCircuitNetXmlType;
 
 public class BaseJaxbHelper {
+	/**
+	 * warp the network object for substitutionGroup
+	 * 
+	 * @param net
+	 * @return
+	 */
+	public static JAXBElement<NetworkXmlType> network(NetworkXmlType net) {
+		if (net instanceof LoadflowNetXmlType) 
+			return getFactory().createAclfNet(net);
+		else if (net instanceof ShortCircuitNetXmlType) 
+			return getFactory().createAcscNet(net);
+		else if (net instanceof DStabNetXmlType) 
+			return getFactory().createDstabNet(net);
+		else if (net instanceof OPFNetworkXmlType) 
+			return getFactory().createOpfNet(net);
+		else
+			return getFactory().createBaseCase(net);
+	}
+	
 	/**
 	 * warp the branch object for substitutionGroup
 	 * 

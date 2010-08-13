@@ -67,7 +67,7 @@ public class PSSEV26NetRecord {
 	}
         
 	public static  void processAreaInterchangeData(final String str, AclfModelParser parser) {
-		final LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
+		final LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 
 		final String[] strAry = getAreaInterchangeDataFields(str);
 		

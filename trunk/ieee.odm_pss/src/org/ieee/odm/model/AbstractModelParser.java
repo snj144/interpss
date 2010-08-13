@@ -172,9 +172,9 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		info.setAdapterProviderName("www.interpss.org");
 		info.setAdapterProviderVersion("1.00");
 		
-		getStudyCase().getBaseCase().setAnalysisCategory(
+		getStudyCase().getBaseCase().getValue().setAnalysisCategory(
 				AnalysisCategoryEnumType.LOADFLOW);
-		getStudyCase().getBaseCase().setNetworkCategory(
+		getStudyCase().getBaseCase().getValue().setNetworkCategory(
 				NetworkCategoryEnumType.TRANSMISSION);		
 	}	
 	
@@ -186,13 +186,13 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	public StudyCaseXmlType getStudyCase() {
 		if (this.pssStudyCase == null) {
 			this.pssStudyCase = new StudyCaseXmlType();
-			this.pssStudyCase.setBaseCase(createBaseCase());
+			this.pssStudyCase.setBaseCase(BaseJaxbHelper.network(createBaseCase()));
 		}	
 		return this.pssStudyCase;
 	}
 
 	protected NetworkXmlType getBaseCase() {
-		return this.pssStudyCase.getBaseCase();
+		return this.pssStudyCase.getBaseCase().getValue();
 	}
 
 	/*
