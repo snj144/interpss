@@ -14,7 +14,7 @@
 <!-- 
 		Network object
  -->	
-	<complexType name="OPFNetXmlType">
+	<complexType name="OPFNetworkXmlType">
 		<annotation>
 			<documentation>
 			</documentation>
@@ -30,18 +30,23 @@
 	<!--  
 		Bus objects
  	-->	
-	<complexType name="OPFBusXmlType">
+	<complexType name="OPFGenBusXmlType">
 		<annotation>
-			<documentation>
-			</documentation>
+			<documentation></documentation>
 		</annotation>
 		<complexContent>
 			<extension base="pss:LoadflowBusXmlType">
+				<sequence>
+					<element name="coeffA" type="double" maxOccurs="1" minOccurs="1"></element>
+					<element name="coeffB" type="double" maxOccurs="1" minOccurs="1"></element>
+					<element name="capacityLimit" type="pss:ActivePowerLimitXmlType" maxOccurs="1" minOccurs="1"></element>
+					<element name="fixCost" type="double" maxOccurs="1" minOccurs="1"></element>
+				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
-	
-<!-- 
+
+	<!-- 
 		Branch objects
  -->
 	
