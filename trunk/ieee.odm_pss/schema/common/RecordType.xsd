@@ -16,6 +16,7 @@
 	<element name="acscBus" substitutionGroup="pss:bus"/>
 	<element name="dstabBus" substitutionGroup="pss:bus"/>
 	<element name="distBus" substitutionGroup="pss:bus"/>
+	<element name="opfGenBus" substitutionGroup="pss:bus"/>
 
 	<!-- 
 		elements for defining branchList 
