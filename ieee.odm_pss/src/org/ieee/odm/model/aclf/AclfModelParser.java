@@ -28,6 +28,7 @@ import java.io.InputStream;
 
 import org.apache.xmlbeans.XmlException;
 import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchXmlType;
@@ -83,7 +84,7 @@ public class AclfModelParser extends AbstractModelParser {
 	 * 
 	 * @return
 	 */
-	public LoadflowNetXmlType getAclfBaseCase() {
+	public LoadflowNetXmlType getAclfNet() {
 		return (LoadflowNetXmlType)getBaseCase();
 	}
 	
@@ -97,9 +98,9 @@ public class AclfModelParser extends AbstractModelParser {
 			
 			baseCase.setBusList(this.getFactory().createNetworkXmlTypeBusList());
 			baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
-			getStudyCase().setBaseCase(baseCase);
+			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 		}
-		return (LoadflowNetXmlType)getStudyCase().getBaseCase();
+		return (LoadflowNetXmlType)getStudyCase().getBaseCase().getValue();
 	}
 	
 	/*
@@ -367,10 +368,10 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @return
 	 */
 	public TielineXmlType createTieline() {
-		if (getAclfBaseCase().getTieLineList() == null)
-			getAclfBaseCase().setTieLineList(this.getFactory().createLoadflowNetXmlTypeTieLineList());
+		if (getAclfNet().getTieLineList() == null)
+			getAclfNet().setTieLineList(this.getFactory().createLoadflowNetXmlTypeTieLineList());
 		TielineXmlType tieLine = this.getFactory().createTielineXmlType();
-		getAclfBaseCase().getTieLineList().getTieline().add(tieLine);
+		getAclfNet().getTieLineList().getTieline().add(tieLine);
 		return tieLine;
 	}	
 	
@@ -394,10 +395,10 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @return
 	 */
 	public InterchangeXmlType createInterchange() {
-		if (getAclfBaseCase().getInterchangeList() == null)
-			getAclfBaseCase().setInterchangeList(this.getFactory().createLoadflowNetXmlTypeInterchangeList());
+		if (getAclfNet().getInterchangeList() == null)
+			getAclfNet().setInterchangeList(this.getFactory().createLoadflowNetXmlTypeInterchangeList());
 		InterchangeXmlType interchange = this.getFactory().createInterchangeXmlType();
-		getAclfBaseCase().getInterchangeList().getInterchange().add(interchange);
+		getAclfNet().getInterchangeList().getInterchange().add(interchange);
 		return interchange;
 	}	
 }

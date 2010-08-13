@@ -33,6 +33,7 @@ import java.io.InputStream;
 
 import org.apache.xmlbeans.XmlException;
 import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
@@ -97,9 +98,9 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	public NetworkXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
 			LoadflowNetXmlType baseCase = createAclfBaseCase();
-			getStudyCase().setBaseCase(baseCase);
+			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 		}
-		return (LoadflowNetXmlType)getStudyCase().getBaseCase();
+		return (LoadflowNetXmlType)getStudyCase().getBaseCase().getValue();
 	}
 	
 	private LoadflowNetXmlType createAclfBaseCase() {

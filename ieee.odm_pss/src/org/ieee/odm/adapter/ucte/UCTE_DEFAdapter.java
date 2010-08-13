@@ -104,7 +104,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		parser.setLFTransInfo(OriginalDataFormatEnumType.UCTE_DEF);
 
 		// BaseCase object, plus busRecList and BranchRecList are created 
-		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
+		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 		baseCaseNet.setId("Base_Case_from_UCTE_format");
 
     	// no base kva definition in UCTE format, so use 100 MVA
