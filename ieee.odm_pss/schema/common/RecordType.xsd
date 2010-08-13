@@ -71,6 +71,7 @@
 			<enumeration value="Loadflow"></enumeration>
 			<enumeration value="ShortCircuit"></enumeration>
 			<enumeration value="TransientStability"></enumeration>
+			<enumeration value="OPF"></enumeration>
 		</restriction>
 	</simpleType>
 
