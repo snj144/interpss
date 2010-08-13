@@ -59,10 +59,10 @@ public class ODM2SimuCtxMapperImpl {
 		boolean noError = true;
 		
 		// Map transmission and Loadflow
-		if (parser.getStudyCase().getBaseCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
-				&& parser.getStudyCase().getBaseCase().getAnalysisCategory() == AnalysisCategoryEnumType.LOADFLOW) {
+		if (parser.getAclfNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
+				&& parser.getAclfNet().getAnalysisCategory() == AnalysisCategoryEnumType.LOADFLOW) {
 
-			LoadflowNetXmlType xmlNet = parser.getAclfBaseCase();
+			LoadflowNetXmlType xmlNet = parser.getAclfNet();
 			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
 			try {
 				simuCtx.setAclfAdjNet(ODM_Old_DataMapperImpl.mapNetworkData(xmlNet));
@@ -123,8 +123,8 @@ public class ODM2SimuCtxMapperImpl {
 		//parser.stdout();
 		
 		// Map transmission and Loadflow
-		if (parser.getStudyCase().getBaseCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
-				&& parser.getStudyCase().getBaseCase().getAnalysisCategory() == AnalysisCategoryEnumType.LOADFLOW) {
+		if (parser.getAclfBaseCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
+				&& parser.getAclfBaseCase().getAnalysisCategory() == AnalysisCategoryEnumType.LOADFLOW) {
 
 			LoadflowNetXmlType xmlNet = parser.getAclfBaseCase();
 			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
