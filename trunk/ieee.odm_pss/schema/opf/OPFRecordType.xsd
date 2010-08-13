@@ -22,6 +22,7 @@
 		<complexContent>
 			<extension base="pss:LoadflowNetXmlType">
 				<sequence>
+					<element name="anglePenaltyFactor" type="double" maxOccurs="1" minOccurs="1"></element>
 				</sequence>
 			</extension>
 		</complexContent>
