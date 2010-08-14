@@ -70,7 +70,7 @@ public class DStabModelParser extends AclfModelParser {
 	 * 
 	 * @return
 	 */
-	public DStabNetXmlType getOpfNet() {
+	public DStabNetXmlType getDStabNet() {
 		return (DStabNetXmlType)getBaseCase();
 	}
 	
