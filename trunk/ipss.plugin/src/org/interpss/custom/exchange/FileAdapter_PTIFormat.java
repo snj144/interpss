@@ -35,7 +35,7 @@ import org.ieee.odm.adapter.v07.psse.v26.PSSEV26Adapter;
 import org.ieee.odm.adapter.v07.psse.v30.PSSEV30Adapter;
 import org.interpss.custom.exchange.impl.PSSEFormat_in;
 import org.interpss.custom.exchange.psse.PSSEDataRec;
-import org.interpss.mapper.IEEEODMMapper;
+import org.interpss.mapper.odm.IEEEODMMapper;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
