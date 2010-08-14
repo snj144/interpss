@@ -32,7 +32,7 @@ import org.ieee.odm.adapter.xbean.psse.v30.XBeanPSSEV30Adapter;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.mapper.IEEEODMMapper;
+import org.interpss.mapper.odm.IEEEODMMapper;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
