@@ -36,7 +36,6 @@ import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.interpss.mapper.odm.ODMXmlHelper;
-import org.interpss.mapper.odm.impl.ODMAclfDataMapperImpl;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
@@ -62,7 +61,7 @@ public class ODM2SimuCtxMapper {
 			LoadflowNetXmlType xmlNet = parser.getAclfBaseCase();
 			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
 			try {
-				simuCtx.setAclfAdjNet(ODMAclfDataMapperImpl.mapNetworkData(xmlNet));
+				simuCtx.setAclfAdjNet(ODMV07DataMapperImpl.mapNetworkData(xmlNet));
 
 				for (JAXBElement<BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					BusRecordXmlType busRec = (BusRecordXmlType) bus.getValue();
