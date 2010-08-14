@@ -28,7 +28,7 @@ import java.io.File;
 
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.interpss.custom.exchange.IpssFileAdapterBase;
-import org.interpss.mapper.IEEEODMMapper;
+import org.interpss.mapper.odm.IEEEODMMapper;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;

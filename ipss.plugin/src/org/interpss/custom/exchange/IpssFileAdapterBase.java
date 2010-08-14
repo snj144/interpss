@@ -29,7 +29,7 @@ import java.io.File;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.model.IODMModelParser;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.mapper.IEEEODMMapper;
+import org.interpss.mapper.odm.IEEEODMMapper;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
