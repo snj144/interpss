@@ -14,7 +14,7 @@
 <!-- 
 		Network object
  -->	
-	<complexType name="OPFNetworkXmlType">
+	<complexType name="OpfNetworkXmlType">
 		<annotation>
 			<documentation>
 			</documentation>
@@ -31,7 +31,7 @@
 	<!--  
 		Bus objects
  	-->	
-	<complexType name="OPFGenBusXmlType">
+	<complexType name="OpfGenBusXmlType">
 		<annotation>
 			<documentation></documentation>
 		</annotation>
