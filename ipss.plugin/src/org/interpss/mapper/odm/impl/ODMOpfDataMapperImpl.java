@@ -24,14 +24,25 @@
 
 package org.interpss.mapper.odm.impl;
 
+import javax.xml.bind.JAXBElement;
+
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
+import org.ieee.odm.schema.BaseBranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
-import org.ieee.odm.schema.OPFNetworkXmlType;
+import org.ieee.odm.schema.OpfGenBusXmlType;
+import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 
+import com.interpss.common.util.IpssLogger;
+import com.interpss.opf.OpfGenBus;
+import com.interpss.opf.OpfNetwork;
+import com.interpss.opf.OpfObjectFactory;
 import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuCtxType;
 
 
 public class ODMOpfDataMapperImpl {
@@ -47,12 +58,62 @@ public class ODMOpfDataMapperImpl {
 		
 		if (parser.getOpfNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
 				&& parser.getAclfNet().getAnalysisCategory() == AnalysisCategoryEnumType.OPF) {
-			OPFNetworkXmlType xmlNet = parser.getOpfNet();
-			noError = false;
+			OpfNetworkXmlType xmlNet = parser.getOpfNet();
+			simuCtx.setNetType(SimuCtxType.OPF_NET);
+			try {
+				OpfNetwork opfNet = mapNetworkData(xmlNet);
+				simuCtx.setOpfNet(opfNet);
+
+				for (JAXBElement<BusXmlType> bus : xmlNet.getBusList().getBus()) {
+					if (bus.getValue() instanceof OpfGenBusXmlType) {
+						OpfGenBusXmlType busRec = (OpfGenBusXmlType) bus.getValue();
+						mapGenBusData(busRec, opfNet);
+					} 
+					else {
+						LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
+						ODMAclfDataMapperImpl.mapBusData(busRec, opfNet);
+					}
+				}
+
+				for (JAXBElement<BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
+					ODMAclfDataMapperImpl.mapBranchData(b.getValue(), opfNet, simuCtx.getMsgHub());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				IpssLogger.getLogger().severe(e.toString());
+				noError = false;
+			}
+		} 
+		else {
+			IpssLogger.getLogger().severe( "Error: wrong Transmission NetworkType and/or ApplicationType");
+			return false;
 		}
 		
 		OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
 		simuCtx.getNetwork().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
 		return noError;
-	}	
+	}
+	
+	/**
+	 * Map a bus record
+	 * 
+	 * @param busRec
+	 * @param adjNet
+	 * @return
+	 * @throws Exception
+	 */
+	public static OpfGenBus mapGenBusData(OpfGenBusXmlType busRec, OpfNetwork net) throws Exception {
+		OpfGenBus aclfBus = OpfObjectFactory.createOpfGenBus(busRec.getId());
+		net.addBus(aclfBus);
+		ODMAclfDataMapperImpl.mapBaseBusData(busRec, aclfBus, net);
+		ODMAclfDataMapperImpl.setBusLoadflowData(busRec, aclfBus, net);
+		return aclfBus;
+	}
+	
+	private static OpfNetwork mapNetworkData(OpfNetworkXmlType xmlNet) throws Exception {
+		OpfNetwork opfNet = OpfObjectFactory.createOpfNetwork();
+		ODMAclfDataMapperImpl.mapNetworkData(opfNet, xmlNet);
+		opfNet.setAnglePenaltyFactor(xmlNet.getAnglePenaltyFactor());	
+		return opfNet;
+	}
 }
