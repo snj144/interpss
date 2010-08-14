@@ -36,7 +36,7 @@ import org.ieee.odm.adapter.v07.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.junit.Test;
 
-public class PSSEV30_SegmentTest { 
+public class XBeanPSSEV30_SegmentTest { 
 	@Test
 	public void testCase1() throws Exception {
 		final LogManager logMgr = LogManager.getLogManager();

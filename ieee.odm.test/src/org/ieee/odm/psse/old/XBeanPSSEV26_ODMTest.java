@@ -43,7 +43,7 @@ import org.ieee.odm.schema.LoadflowBranchDataXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.junit.Test;
 
-public class PSSEV26_ODMTest { 
+public class XBeanPSSEV26_ODMTest { 
 	@Test
 	public void testCase1() throws Exception {
 		final LogManager logMgr = LogManager.getLogManager();
