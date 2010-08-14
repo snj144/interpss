@@ -186,6 +186,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	public StudyCaseXmlType getStudyCase() {
 		if (this.pssStudyCase == null) {
 			this.pssStudyCase = new StudyCaseXmlType();
+			this.pssStudyCase.setSchemaVersion(ModelContansts.ODM_Schema_Version);
 			this.pssStudyCase.setBaseCase(BaseJaxbHelper.network(createBaseCase()));
 		}	
 		return this.pssStudyCase;
