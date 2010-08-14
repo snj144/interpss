@@ -58,7 +58,7 @@ public class PSSEV30_ODMTest {
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		//parser.stdout();		
 		
-		LoadflowNetXmlType net = parser.getAclfBaseCase();
+		LoadflowNetXmlType net = parser.getAclfNet();
 		assertTrue(net.getBasePower().getValue() == 100.0);
 
 /*

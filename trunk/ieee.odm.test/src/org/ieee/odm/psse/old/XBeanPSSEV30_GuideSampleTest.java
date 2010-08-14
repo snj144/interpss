@@ -37,7 +37,7 @@ import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.junit.Test;
 
-public class PSSEV30_GuideSampleTest { 
+public class XBeanPSSEV30_GuideSampleTest { 
 	@Test
 	public void testCase1() throws Exception {
 		final LogManager logMgr = LogManager.getLogManager();

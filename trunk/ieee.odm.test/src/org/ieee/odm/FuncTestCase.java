@@ -62,7 +62,7 @@ public class FuncTestCase {
 		      BranchListEnd;		
 		
 		AclfModelParser parser = new AclfModelParser(str);
-		XfrBranchXmlType xfr = (XfrBranchXmlType)parser.getAclfBaseCase().getBranchList().getBranch().get(0).getValue();
+		XfrBranchXmlType xfr = (XfrBranchXmlType)parser.getAclfNet().getBranchList().getBranch().get(0).getValue();
 		
 		PSXfrBranchXmlType psXfr = (PSXfrBranchXmlType)ModelStringUtil.casting(xfr, "XfrBranchXmlType", "PSXfrBranchXmlType");
 		assertTrue(psXfr.getId() != null);

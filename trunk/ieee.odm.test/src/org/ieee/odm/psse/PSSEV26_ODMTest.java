@@ -54,7 +54,7 @@ public class PSSEV26_ODMTest {
 		//System.out.println(adapter.getModel());
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
-		LoadflowNetXmlType net = parser.getAclfBaseCase();
+		LoadflowNetXmlType net = parser.getAclfNet();
 		assertTrue(net.getBasePower().getValue() == 100.0);
 		/*
         <bus id="No15021" number="15021" name="'PVERDE 1'" areaNumber="2" zoneNumber="4">
