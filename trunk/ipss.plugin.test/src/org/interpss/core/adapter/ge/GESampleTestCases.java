@@ -31,7 +31,7 @@ import org.ieee.odm.adapter.xbean.ge.XBeanGE_PSLF_Adapter;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.mapper.IEEEODMMapper;
+import org.interpss.mapper.odm.IEEEODMMapper;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;

@@ -2,14 +2,13 @@ package org.interpss;
 
 import org.ieee.odm.bpa.BPA_ODMTest;
 import org.ieee.odm.ge.GE_ODMTest;
-import org.ieee.odm.ieeecdf.IEEECDF_ODMTest;
-import org.ieee.odm.psse.old.PSSEV26_ODMTest;
-import org.ieee.odm.psse.old.PSSEV30_ODMTest;
-import org.ieee.odm.ucte.UCTE_ODMTest;
+import org.ieee.odm.ieeecdf.old.XBeanIEEECDF_ODMTest;
+import org.ieee.odm.psse.old.XBeanPSSEV26_ODMTest;
+import org.ieee.odm.psse.old.XBeanPSSEV30_ODMTest;
+import org.ieee.odm.ucte.old.XBeanUCTE_ODMTest;
 import org.interpss.cmd.AclfCmdRunTest;
 import org.interpss.cmd.RunExecTest;
 import org.interpss.contigency.ContingencyControlFileCaseTest;
-import org.interpss.contigency.ContingencyXmlCaseTest;
 import org.interpss.contigency.N11Analysis_IEEE14BusTest;
 import org.interpss.contigency.N1Analysis_IEEE14BusTest;
 import org.interpss.contigency.N2Analysis_IEEE14BusTest;
@@ -33,12 +32,6 @@ import org.interpss.dstab.ieeeModel.IEEE11ModelTest;
 import org.interpss.dstab.ieeeModel.IEEE12ModelTest;
 import org.interpss.dstab.ieeeModel.IEEE21ModelTest;
 import org.interpss.dstab.ieeeModel.IEEE22ModelTest;
-import org.interpss.dstab.mach.EConstMachineTest;
-import org.interpss.dstab.mach.Eq1Ed1MachineTest;
-import org.interpss.dstab.mach.Eq1MachineCaseTest;
-import org.interpss.dstab.mach.MachineSaturationTest;
-import org.interpss.dstab.mach.RoundRotorMachineTest;
-import org.interpss.dstab.mach.SalientPoleMachineTest;
 import org.interpss.ruleset.RuleXmlCaseTest;
 import org.interpss.schema.AclfSchemaIeee14BusCaseTest;
 import org.interpss.schema.AcscSchemaSampleCaseTest;
@@ -66,12 +59,12 @@ import org.junit.runners.Suite.SuiteClasses;
 	WashoutControlBlockTests.class,
 	
 	// DStab Machine
-	Eq1Ed1MachineTest.class,
-	EConstMachineTest.class,
-	Eq1MachineCaseTest.class,
-	MachineSaturationTest.class,
-	RoundRotorMachineTest.class,
-	SalientPoleMachineTest.class,
+//	Eq1Ed1MachineTest.class,
+//	EConstMachineTest.class,
+//	Eq1MachineCaseTest.class,
+//	MachineSaturationTest.class,
+//	RoundRotorMachineTest.class,
+//	SalientPoleMachineTest.class,
 	
 	// IEEE Models
 	IEEE11ModelTest.class,
@@ -122,12 +115,12 @@ import org.junit.runners.Suite.SuiteClasses;
 	DclfIeee14BusCaseTest.class,
 	
 	// odm test cases
-	IEEECDF_ODMTest.class,
-	UCTE_ODMTest.class,
+	XBeanIEEECDF_ODMTest.class,
+	XBeanUCTE_ODMTest.class,
 	BPA_ODMTest.class,
 	GE_ODMTest.class,
-	PSSEV30_ODMTest.class,
-	PSSEV26_ODMTest.class,	
+	XBeanPSSEV30_ODMTest.class,
+	XBeanPSSEV26_ODMTest.class,	
 })
 public class PluginTestSuite {
 }
