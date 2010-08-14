@@ -36,7 +36,7 @@ import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NameValuePairXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
-import org.ieee.odm.schema.OPFNetworkXmlType;
+import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
 
@@ -54,7 +54,7 @@ public class BaseJaxbHelper {
 			return getFactory().createAcscNet(net);
 		else if (net instanceof DStabNetXmlType) 
 			return getFactory().createDstabNet(net);
-		else if (net instanceof OPFNetworkXmlType) 
+		else if (net instanceof OpfNetworkXmlType) 
 			return getFactory().createOpfNet(net);
 		else
 			return getFactory().createBaseCase(net);
