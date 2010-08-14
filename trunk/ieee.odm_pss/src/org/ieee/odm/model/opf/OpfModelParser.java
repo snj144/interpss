@@ -30,7 +30,7 @@ import org.apache.xmlbeans.XmlException;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.NetworkXmlType;
-import org.ieee.odm.schema.OPFNetworkXmlType;
+import org.ieee.odm.schema.OpfNetworkXmlType;
 
 /**
  * A Xml parser for the IEEE DOM schema. 
@@ -70,8 +70,8 @@ public class OpfModelParser extends AclfModelParser {
 	 * 
 	 * @return
 	 */
-	public OPFNetworkXmlType getOpfNet() {
-		return (OPFNetworkXmlType)getBaseCase();
+	public OpfNetworkXmlType getOpfNet() {
+		return (OpfNetworkXmlType)getBaseCase();
 	}
 	
 	/**
@@ -80,11 +80,11 @@ public class OpfModelParser extends AclfModelParser {
 	@Override
 	public NetworkXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
-			OPFNetworkXmlType baseCase = this.getFactory().createOPFNetworkXmlType();
+			OpfNetworkXmlType baseCase = this.getFactory().createOPFNetworkXmlType();
 			baseCase.setBusList(this.getFactory().createNetworkXmlTypeBusList());
 			baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 		}
-		return (OPFNetworkXmlType)getStudyCase().getBaseCase().getValue();
+		return (OpfNetworkXmlType)getStudyCase().getBaseCase().getValue();
 	}
 }
