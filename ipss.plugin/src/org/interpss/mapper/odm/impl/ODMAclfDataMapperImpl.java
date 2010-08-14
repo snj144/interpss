@@ -24,9 +24,14 @@
 
 package org.interpss.mapper.odm.impl;
 
+import javax.xml.bind.JAXBElement;
+
 import org.apache.commons.math.complex.Complex;
+import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.CimRdfXmlType;
@@ -37,6 +42,8 @@ import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.NetworkCategoryEnumType;
+import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PowerXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
@@ -71,8 +78,65 @@ import com.interpss.core.aclf.adpter.XfrAdapter;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.CimRecord;
 import com.interpss.core.net.Zone;
+import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuCtxType;
 
 public class ODMAclfDataMapperImpl {
+	/**
+	 * transfer info stored in the parser object into simuCtx object
+	 * 
+	 * @param parser
+	 * @param simuCtx
+	 * @return
+	 */
+	public static boolean odm2SimuCtxMapping(AclfModelParser parser, SimuContext simuCtx) {
+		boolean noError = true;
+		
+		// Map transmission and Loadflow
+		if (parser.getAclfNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
+				&& parser.getAclfNet().getAnalysisCategory() == AnalysisCategoryEnumType.LOADFLOW) {
+
+			LoadflowNetXmlType xmlNet = parser.getAclfNet();
+			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
+			try {
+				simuCtx.setAclfAdjNet(ODMAclfDataMapperImpl.mapNetworkData(xmlNet));
+
+				for (JAXBElement<BusXmlType> bus : xmlNet.getBusList().getBus()) {
+					LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
+					ODMAclfDataMapperImpl.mapBusData(busRec, simuCtx.getAclfAdjNet());
+				}
+
+				for (JAXBElement<BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
+					BaseBranchXmlType branch = b.getValue();
+					if (branch instanceof LineBranchXmlType) {
+						LineBranchXmlType branchRec = (LineBranchXmlType) branch;
+						ODMAclfDataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
+					}
+					else if (branch instanceof XfrBranchXmlType) {
+						XfrBranchXmlType branchRec = (XfrBranchXmlType) branch;
+						ODMAclfDataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
+					}
+					else if (branch instanceof LineBranchXmlType) {
+						PSXfrBranchXmlType branchRec = (PSXfrBranchXmlType) branch;
+						ODMAclfDataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				IpssLogger.getLogger().severe(e.toString());
+				noError = false;
+			}
+		} else {
+			IpssLogger.getLogger().severe(
+							"Error: currently only Transmission NetworkType and Loadflow ApplicationType has been implemented");
+			return false;
+		}
+		
+		OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
+		simuCtx.getNetwork().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
+		return noError;
+	}
+	
 	/**
 	 * Map the network info only
 	 * 

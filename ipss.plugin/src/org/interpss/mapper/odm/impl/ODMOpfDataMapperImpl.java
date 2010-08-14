@@ -24,6 +24,35 @@
 
 package org.interpss.mapper.odm.impl;
 
+import org.ieee.odm.model.opf.OpfModelParser;
+import org.ieee.odm.schema.AnalysisCategoryEnumType;
+import org.ieee.odm.schema.NetworkCategoryEnumType;
+import org.ieee.odm.schema.OPFNetworkXmlType;
+import org.ieee.odm.schema.OriginalDataFormatEnumType;
+import org.interpss.mapper.odm.ODMXmlHelper;
+
+import com.interpss.simu.SimuContext;
+
 
 public class ODMOpfDataMapperImpl {
+	/**
+	 * transfer info stored in the parser object into simuCtx object
+	 * 
+	 * @param parser
+	 * @param simuCtx
+	 * @return
+	 */
+	public static boolean odm2SimuCtxMapping(OpfModelParser parser, SimuContext simuCtx) {
+		boolean noError = true;
+		
+		if (parser.getOpfNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
+				&& parser.getAclfNet().getAnalysisCategory() == AnalysisCategoryEnumType.OPF) {
+			OPFNetworkXmlType xmlNet = parser.getOpfNet();
+			noError = false;
+		}
+		
+		OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
+		simuCtx.getNetwork().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
+		return noError;
+	}	
 }
