@@ -24,5 +24,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ieee/ieee.odm_pss.schemas.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.opf_EMF"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
