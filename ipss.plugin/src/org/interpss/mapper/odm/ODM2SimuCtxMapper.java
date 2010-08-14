@@ -44,13 +44,14 @@ import org.ieee.odm.schema.OPFNetworkXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
+import org.interpss.mapper.odm.impl.ODMAclfDataMapperImpl;
 import org.interpss.mapper.odm.old.ODMV07DataMapperImpl;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class ODM2SimuCtxMapperImpl {
+public class ODM2SimuCtxMapper {
 	/**
 	 * transfer info stored in the parser object into simuCtx object
 	 * 

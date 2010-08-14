@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.mapper.odm;
+package org.interpss.mapper.odm.impl;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.schema.AngleXmlType;
@@ -44,6 +44,7 @@ import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YXmlType;
+import org.interpss.mapper.odm.ODMXmlHelper;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
