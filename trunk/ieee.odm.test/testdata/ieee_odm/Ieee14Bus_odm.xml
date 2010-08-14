@@ -9,7 +9,7 @@
     <adapterProviderName>www.interpss.org</adapterProviderName>
     <adapterProviderVersion>1.00</adapterProviderVersion>
   </contentInfo>
-  <baseCase xsi:type="LoadflowNetXmlType" id="Base_Case_from_IEEECDF_format">
+  <aclfNet xsi:type="LoadflowNetXmlType" id="Base_Case_from_IEEECDF_format">
     <nvPairList>
       <nvPair>
         <name>Date</name>
@@ -391,6 +391,6 @@
       </interchange>
     </interchangeList>
     <tieLineList/>
-  </baseCase>
+  </aclfNet>
   <scenarioList/>
 </pssStudyCase>
