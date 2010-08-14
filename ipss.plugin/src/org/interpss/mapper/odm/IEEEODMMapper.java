@@ -73,7 +73,7 @@ public class IEEEODMMapper extends AbstractMapper {
 			else if (fromObj instanceof JaxbODMModelParser) {
 				JaxbODMModelParser parser = (JaxbODMModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;
-				return org.interpss.mapper.odm.old.ODM2SimuCtxMapper.odm2SimuCtxMapping(parser, simuCtx);
+				return org.interpss.mapper.odm.v07.ODM2SimuCtxMapper.odm2SimuCtxMapping(parser, simuCtx);
 			}
 		} 
 		return true;
