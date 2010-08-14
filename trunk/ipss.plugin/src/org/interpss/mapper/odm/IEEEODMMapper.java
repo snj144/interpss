@@ -55,22 +55,22 @@ public class IEEEODMMapper extends AbstractMapper {
 			else if (fromObj instanceof JaxbODMModelParser) {
 				JaxbODMModelParser parser = (JaxbODMModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;
-				return org.interpss.mapper.odm.ODM2SimuCtxMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
+				return org.interpss.mapper.odm.ODM2SimuCtxMapper.odm2SimuCtxMapping(parser, simuCtx);
 			}
 			else if (fromObj instanceof AclfModelParser) {
 				AclfModelParser parser = (AclfModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;
-				return org.interpss.mapper.odm.ODM2SimuCtxMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
+				return org.interpss.mapper.odm.ODM2SimuCtxMapper.odm2SimuCtxMapping(parser, simuCtx);
 			}
 			else if (fromObj instanceof OpfModelParser) {
 				OpfModelParser parser = (OpfModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;
-				return org.interpss.mapper.odm.ODM2SimuCtxMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
+				return org.interpss.mapper.odm.ODM2SimuCtxMapper.odm2SimuCtxMapping(parser, simuCtx);
 			}
 			else if (fromObj instanceof DStabModelParser) {
 				DStabModelParser parser = (DStabModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;
-				return org.interpss.mapper.odm.ODM2SimuCtxMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
+				return org.interpss.mapper.odm.ODM2SimuCtxMapper.odm2SimuCtxMapping(parser, simuCtx);
 			}
 		} 
 		return true;
