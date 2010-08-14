@@ -24,6 +24,37 @@
 
 package org.interpss.mapper.odm.impl;
 
+import org.ieee.odm.model.dstab.DStabModelParser;
+import org.ieee.odm.schema.AnalysisCategoryEnumType;
+import org.ieee.odm.schema.DStabNetXmlType;
+import org.ieee.odm.schema.NetworkCategoryEnumType;
+import org.ieee.odm.schema.OriginalDataFormatEnumType;
+import org.interpss.mapper.odm.ODMXmlHelper;
+
+import com.interpss.simu.SimuContext;
+
 
 public class ODMDStabDataMapperImpl {
+
+	
+	/**
+	 * transfer info stored in the parser object into simuCtx object
+	 * 
+	 * @param parser
+	 * @param simuCtx
+	 * @return
+	 */
+	public static boolean odm2SimuCtxMapping(DStabModelParser parser, SimuContext simuCtx) {
+		boolean noError = true;
+		
+		if (parser.getDStabNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
+				&& parser.getAclfNet().getAnalysisCategory() == AnalysisCategoryEnumType.OPF) {
+			DStabNetXmlType xmlNet = parser.getDStabNet();
+			noError = false;
+		}
+		
+		OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
+		simuCtx.getNetwork().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
+		return noError;
+	}	
 }
