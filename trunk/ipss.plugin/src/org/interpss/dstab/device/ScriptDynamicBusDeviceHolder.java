@@ -78,11 +78,13 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 		super.initStates(abus, msg);
 
 		createDeviceObject();
-		if (device != null)
-			return device.initStates(abus, net, msg);
+		if (device != null) {
+			if (abus.getNetwork() == null)
+				abus.setNetwork(net);
+			return device.initStates(abus, msg);
+		}
 		else {
-			msg
-					.sendErrorMsg("ScriptDynamicBusDevice create error, device == null");
+			msg.sendErrorMsg("ScriptDynamicBusDevice create error, device == null");
 			return false;
 		}
 	}

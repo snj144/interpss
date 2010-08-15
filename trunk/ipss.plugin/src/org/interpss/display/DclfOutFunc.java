@@ -186,7 +186,7 @@ public class DclfOutFunc {
 	/**
 	 * Out put Dclf voltage angle results
 	 * 
-	 * @param net
+	 * @param aclfNet
 	 * @param algo
 	 * @return
 	 */
