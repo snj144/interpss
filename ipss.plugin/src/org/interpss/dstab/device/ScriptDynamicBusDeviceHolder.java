@@ -106,7 +106,7 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	 */
 	public boolean nextStep(double dt, DynamicSimuMethods method, Network net,
 			IPSSMsgHub msg) {
-		return device.nextStep(dt, method, net, msg);
+		return device.nextStep(dt, method, msg);
 	}
 
 	/**
