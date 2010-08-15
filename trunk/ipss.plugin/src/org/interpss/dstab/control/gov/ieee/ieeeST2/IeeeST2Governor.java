@@ -29,7 +29,6 @@ import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
-import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractGovernor;
@@ -115,7 +114,7 @@ public class IeeeST2Governor extends AbstractGovernor {
 	 *  @param msg the SessionMsg object
 	 */	
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, Machine mach, final Network net, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, Machine mach, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER) {
 			/*
 			 *     Step-1 : x(1) = x(0) + dx_dt(1) * dt

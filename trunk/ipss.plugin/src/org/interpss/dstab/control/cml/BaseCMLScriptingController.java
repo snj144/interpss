@@ -103,7 +103,8 @@ public abstract class BaseCMLScriptingController extends ControllerImpl implemen
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, Machine mach, final Network net, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, Machine mach, final IPSSMsgHub msg) {
+		Network net = mach.getDStabBus().getNetwork();
 		return anController.nextStep(dt, method, mach, net, msg);
 	}
 	
