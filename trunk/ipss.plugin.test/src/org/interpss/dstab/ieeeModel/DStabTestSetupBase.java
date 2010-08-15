@@ -27,6 +27,7 @@ package org.interpss.dstab.ieeeModel;
 import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.BaseTestSetup;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.IIpssGraphModel;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
@@ -50,7 +51,7 @@ import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
 
-public class DStabTestSetupBase {
+public class DStabTestSetupBase extends BaseTestSetup{
 	
 	protected IPSSMsgHub msg;
 
