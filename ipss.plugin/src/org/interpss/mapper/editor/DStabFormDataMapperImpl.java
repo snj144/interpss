@@ -37,7 +37,6 @@ import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
-import org.interpss.mapper.editor.AclfFormDataMapperImpl;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.ScGroundType;
@@ -265,7 +264,7 @@ public class DStabFormDataMapperImpl {
 			controller.setData(excData.getDataXmlStr(), controller
 					.getDataClass());
 			controller.setScripts(machData.getExcData().getScripts());
-			mach.setExciter(controller);
+			mach.getControllerList().add(controller);
 			IpssLogger.getLogger().info(
 					"Exciter info set to: " + excData.getDataXmlStr());
 			if (machData.getHasPss()) {
@@ -290,7 +289,7 @@ public class DStabFormDataMapperImpl {
 			controller.setScripts(govData.getScripts());
 			IpssLogger.getLogger().info(
 					"Governor info set to: " + govData.getDataXmlStr());
-			mach.setGovernor(controller);
+			mach.getControllerList().add(controller);
 		} else {
 			IpssLogger.getLogger().warning(
 					"Governor not found, machid: " + mach.getId());
@@ -310,7 +309,7 @@ public class DStabFormDataMapperImpl {
 			controller.setScripts(pssData.getScripts());
 			IpssLogger.getLogger().info(
 					"Stabilizer info set to: " + pssData.getDataXmlStr());
-			mach.setStabilizer(controller);
+			mach.getControllerList().add(controller);
 		} else {
 			IpssLogger.getLogger().warning(
 					"Stabilizer not found, machid: " + mach.getId());
