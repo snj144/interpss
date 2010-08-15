@@ -36,9 +36,9 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.bpa.xbean.BPAAdapter;
-import org.ieee.odm.adapter.xbean.XBeanIeeeCDFAdapter;
-import org.ieee.odm.adapter.xbean.XBeanUCTE_DEFAdapter;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
+import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
+import org.ieee.odm.model.IODMModelParser;
 
 public class Data2ODMXml {
 	private final static String InOptStr 	= "-in";
@@ -84,11 +84,11 @@ public class Data2ODMXml {
 			IODMPSSAdapter adapter = null;
 			if (Token_IEEECDF.equals(appParameters.getParamLowerCase(FmtOptStr))) {
 				logger.info("Input file is of format IEEE Common Data Format");
-				adapter = new XBeanIeeeCDFAdapter(logger);
+				adapter = new IeeeCDFAdapter(logger);
 			}
 			else if (Token_UCTE.equals(appParameters.getParamLowerCase(FmtOptStr))) {
 				logger.info("Input file is of format UCTE Data Format");
-				adapter = new XBeanUCTE_DEFAdapter(logger);
+				adapter = new UCTE_DEFAdapter(logger);
 			}
 			else if (Token_BPA.equals(appParameters.getParamLowerCase(FmtOptStr))) {
 				logger.info("Input file is of format BPA Format");
@@ -107,7 +107,7 @@ public class Data2ODMXml {
 			}
 			logger.info("File parsing time(ms): " + (new Date().getTime() - date.getTime()));
 			// convert the model to a XML document string
-			xmlStr = ((XBeanODMModelParser)adapter.getModel()).toXmlDoc(true);			
+			xmlStr = ((IODMModelParser)adapter.getModel()).toXmlDoc(true);			
 			
 			// output the XML document to the output file 
 			OutputStream out = new BufferedOutputStream(new FileOutputStream(outFile));

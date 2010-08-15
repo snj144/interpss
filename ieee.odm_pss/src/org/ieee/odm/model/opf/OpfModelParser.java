@@ -80,7 +80,7 @@ public class OpfModelParser extends AclfModelParser {
 	@Override
 	public NetworkXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
-			OpfNetworkXmlType baseCase = this.getFactory().createOPFNetworkXmlType();
+			OpfNetworkXmlType baseCase = this.getFactory().createOpfNetworkXmlType();
 			baseCase.setBusList(this.getFactory().createNetworkXmlTypeBusList());
 			baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
