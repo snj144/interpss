@@ -51,7 +51,7 @@ import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
-import com.interpss.dstab.util.DStabSimuDBRecord;
+import com.interpss.dstab.datatype.DStabSimuDBRecord;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 

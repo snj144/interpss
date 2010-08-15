@@ -37,9 +37,9 @@ import com.interpss.core.net.Bus;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
+import com.interpss.dstab.common.DStabOutSymbol;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineType;
-import com.interpss.dstab.util.DStabOutSymbol;
 
 public class DStabOutFunc {
 	public static String getStateTitleStr() {
