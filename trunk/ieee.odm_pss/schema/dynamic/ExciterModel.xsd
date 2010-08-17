@@ -230,6 +230,38 @@
 		</complexContent>		
 	</complexType>
 
+    <complexType name="ExcTSATTypeEXC34XmlType">
+		<complexContent>
+		<extension base="pss:ExciterModelXmlType">
+		<sequence>
+		    <element name="IVUEL" type="double" maxOccurs="1" minOccurs="1"></element>
+		    <element name="IVOEL" type="double" maxOccurs="1" minOccurs="1"></element>
+		    <element name="LVS" type="double" maxOccurs="1" minOccurs="1"></element>
+		    <element name="KA" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="TA" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="TB" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="TC" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="TC1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="TB1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="TF" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="KF" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VIMAX" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VIMIN" type="double" maxOccurs="1" minOccurs="1"></element>			
+			<element name="VAMAX" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VAMIN" type="double" maxOccurs="1" minOccurs="1"></element>	
+			<element name="VRMAX" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VRMIN" type="double" maxOccurs="1" minOccurs="1"></element>		
+			<element name="KC" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="KLR" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="ILR" type="double" maxOccurs="1" minOccurs="1"></element>			
+			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>			
+			<element name="RC" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="XC" type="double" maxOccurs="1" minOccurs="1"></element>			
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+	
 <!-- below not used -->	
 	<complexType name="ExciterXmlType">
 		<sequence>
@@ -251,6 +283,7 @@
 			<enumeration value="IEEEModified1968Type1"></enumeration>
 			<enumeration value="IEEE1981NewExcSystem"></enumeration>
 			<enumeration value="IEEETypeDC2"></enumeration>
+			<enumeration value="TSATTypeEXC34"></enumeration>			
 		</restriction>
 	</simpleType>
 
