@@ -3,8 +3,6 @@
       targetNamespace="http://www.ieee.org/odm/Schema/2008" 
       xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-	<include schemaLocation="common/DataType.xsd"></include>
-	<include schemaLocation="common/RecordType.xsd"></include>
 	<include schemaLocation="common/V7StyleRecordType.xsd"></include>
 	
 	<include schemaLocation="loadflow/LFRecordType.xsd"></include>
@@ -20,21 +18,45 @@
 	</annotation>
 
 	<element name="baseCase" type="pss:NetworkXmlType"/>
-	<element name="aclfNet" substitutionGroup="pss:baseCase"/>
-	<element name="acscNet" substitutionGroup="pss:baseCase"/>
-	<element name="dstabNet" substitutionGroup="pss:baseCase"/>
+	<element name="aclfNet" type="pss:LoadflowNetXmlType" substitutionGroup="pss:baseCase"/>
+	<element name="acscNet" type="pss:LoadflowNetXmlType" substitutionGroup="pss:baseCase"/>
+	<element name="dstabNet" type="pss:DStabNetXmlType" substitutionGroup="pss:baseCase"/>
 	<element name="distNet" substitutionGroup="pss:baseCase"/>
-	<element name="opfNet" substitutionGroup="pss:baseCase"/>
+	<element name="opfNet" type="pss:OpfNetworkXmlType" substitutionGroup="pss:baseCase"/>
+	
+	<!--
+		elements for defining busList 
+	 -->
+	<element name="bus" type="pss:BusXmlType" />
+	<element name="aclfBus" type="pss:LoadflowBusXmlType" substitutionGroup="pss:bus"/>
+	<element name="acscBus" type="pss:ShortCircuitBusXmlType" substitutionGroup="pss:bus"/>
+	<element name="dstabBus" type="pss:DStabBusXmlType" substitutionGroup="pss:bus"/>
+	<element name="distBus" substitutionGroup="pss:bus"/>
+	<element name="opfGenBus" type="pss:OpfGenBusXmlType" substitutionGroup="pss:bus"/>
+
+	<!-- 
+		elements for defining branchList 
+	 -->
+	<element name="branch" type="pss:BaseBranchXmlType" />
+	<element name="aclfLine" type="pss:LineBranchXmlType" substitutionGroup="pss:branch"/>
+	<element name="aclfXfr" type="pss:XfrBranchXmlType" substitutionGroup="pss:branch"/>
+	<element name="aclfPSXfr" type="pss:PSXfrBranchXmlType" substitutionGroup="pss:branch"/>
+	<element name="acscLine" type="pss:LineShortCircuitXmlType" substitutionGroup="pss:branch"/>
+	<element name="acscXfr"  type="pss:XfrShortCircuitXmlType" substitutionGroup="pss:branch"/>
+	<element name="acscPSXfr"  type="pss:PSXfrShortCircuitXmlType" substitutionGroup="pss:branch"/>
+	<element name="dstabLine" type="pss:LineDStabXmlType" substitutionGroup="pss:branch"/>
+	<element name="dstabXfr"  type="pss:XfrDStabXmlType" substitutionGroup="pss:branch"/>
+	<element name="dstabPSXfr"  type="pss:PSXfrDStabXmlType" substitutionGroup="pss:branch"/>
+	<element name="distBranch" substitutionGroup="pss:branch"/>
+	
 
 	<element name="pssStudyCase" type="pss:StudyCaseXmlType"></element>
 	<complexType name="StudyCaseXmlType">
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
-					<element name="schemaVersion" minOccurs="1" maxOccurs="1" type="pss:ODMSchemaVersionEnumType">
-					</element>
-					<element name="contentInfo" minOccurs="0" type="pss:ContentInfoXmlType">
-					</element>
+					<element name="schemaVersion" minOccurs="1" maxOccurs="1" type="pss:ODMSchemaVersionEnumType">					</element>
+					<element name="contentInfo" minOccurs="0" type="pss:ContentInfoXmlType">					</element>
 					<element ref="pss:baseCase" minOccurs="1" maxOccurs="1">
 						<annotation>
 							<documentation>Base case power network data for power system simulation purpose</documentation>
