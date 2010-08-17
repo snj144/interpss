@@ -9,12 +9,42 @@
 	<include schemaLocation="GovernorModel.xsd"></include>
 	<include schemaLocation="StabilizerModel.xsd"></include>
 	
+	<element name="machineModel" type="pss:MachineModelXmlType"/>
+	<element name="equiMachModel" type="pss:EquiMachineXmlType" substitutionGroup="pss:machineModel"/>
+	<element name="classicMachModel" type="pss:ClassicMachineXmlType" substitutionGroup="pss:machineModel"/>
+	<element name="transientMachModel" type="pss:TransientMachineXmlType" substitutionGroup="pss:machineModel"/>
+	<element name="subTransientMachModel" type="pss:SubTransientMachineXmlType" substitutionGroup="pss:machineModel"/>
+	
+	<element name="exciter" type="pss:ExciterModelXmlType"/>
+	<element name="excIEEE1992TypeAC1A" type="pss:ExcIEEE1992TypeAC1AXmlType"/>
+	<element name="excIEEE1981TypeAC2" type="pss:ExcIEEE1981TypeAC2XmlType"/>
+	<element name="excIEEE1981ST1" type="pss:ExcIEEE1981ST1XmlType"/>
+	<element name="excBPAFJ" type="pss:ExcBPAFJXmlType"/>
+	<element name="excIEEE1968Type1" type="pss:ExcIEEE1968Type1XmlType"/>
+	<element name="excIEEEModified1968Type1" type="pss:ExcIEEEModified1968Type1XmlType"/>
+	<element name="excIEEE1981NewExcSystem" type="pss:ExcIEEE1981NewExcSystemXmlType"/>
+	<element name="excIEEETypeDC2" type="pss:ExcIEEETypeDC2XmlType"/>
+	
+	<element name="governor" type="pss:GovernorModelXmlType"/>
+	<element name="govIEEE1981Type1" type="pss:GovIEEE1981Type1XmlType"/>
+	<element name="govIEEE1981Type2" type="pss:GovIEEE1981Type2XmlType"/>
+	<element name="govIEEE1981Type3" type="pss:GovIEEE1981Type3XmlType"/>
+	<element name="govHydro" type="pss:GovHydroXmlType"/>
+	<element name="govHydroTurbine" type="pss:GovHydroTurbineXmlType"/>
+	<element name="govHydroSteamGeneralModel" type="pss:GovHydroSteamGeneralModelXmlType"/>
+			
+	<element name="stabilizer" type="pss:StabilizerModelXmlType"/>
+	<element name="pssIEEE1981Type" type="pss:PssIEEE1981TypeXmlType"/>
+	<element name="pssIEEE1982Type2A" type="pss:PssIEEE1982Type2AXmlType"/>
+	<element name="pssIEE2ST" type="pss:PssIEE2STXmlType"/>
+	<element name="pssIEEEDualInput" type="pss:PssIEEEDualInputXmlType"/>
+	
+
 	<complexType name="GeneratorXmlType">
-		<sequence>
-			<element name="genId" type="pss:IDRecordXmlType" maxOccurs="1" minOccurs="0"></element>
+		<sequence>			<element name="genId" type="pss:IDRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="ownerName" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="machineModel" type="pss:MachineModelXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element ref="pss:machineModel" maxOccurs="1" minOccurs="1"></element>
 			<element name="pContributionPercent" type="double" maxOccurs="1" minOccurs="0"></element>
 			<element name="qContributionPercent" type="double" minOccurs="0"></element>
 		</sequence>
@@ -25,9 +55,9 @@
 			<element name="name" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="desc" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="basePower" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="exciter" minOccurs="0" type="pss:ExciterModelXmlType"></element>
-			<element name="governor" minOccurs="0" type="pss:GovernorModelXmlType"></element>
-			<element name="stabilizer" minOccurs="0" type="pss:StabilizerModelXmlType"></element>
+			<element ref="pss:exciter" minOccurs="0" ></element>
+			<element ref="pss:governor" minOccurs="0" ></element>
+			<element ref="pss:stabilizer" minOccurs="0"></element>
 		</sequence>
 	</complexType>
 
