@@ -14,7 +14,7 @@
 				<pss:generator>
 					<pss:genId id="AR1GEN1"></pss:genId>
 					<pss:ownerName>BUS1</pss:ownerName>
-					<pss:machineModel xsi:type="pss:TransientMachineXmlType">
+					<pss:transientMachModel xsi:type="pss:TransientMachineXmlType">
 						<pss:name>GEN1BUS1</pss:name>
 						<pss:desc>TwoAxisModel</pss:desc>
 						<pss:basePower unit="KW" value="900" />
@@ -57,7 +57,7 @@
 							<pss:RC>0</pss:RC>
 							<pss:XC>0</pss:XC>
 						</pss:exciter>
-					</pss:machineModel>
+					</pss:transientMachModel>
 				</pss:generator>
 			</pss:dstabBus>
 			<pss:dstabBus xsi:type="pss:DStabBusXmlType" id="Bus2"
