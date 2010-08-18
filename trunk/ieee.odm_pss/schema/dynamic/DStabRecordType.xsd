@@ -113,5 +113,47 @@
 	</complexType>	
 
 	<complexType name="DynamicXfrRelayXmlType">
-	</complexType>	
+	</complexType>
+	
+			<complexType name="TransientSimulationXmlType">
+		<sequence>
+			<element name="simulationSetting" maxOccurs="1" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="simulationMethod" maxOccurs="1" minOccurs="0">
+							<simpleType>
+								<restriction base="string">
+									<enumeration value="ModifiedEuler"></enumeration>
+									<enumeration value="RungerKutta"></enumeration>
+								</restriction>
+							</simpleType>
+						</element>
+						<element name="simlationTime" maxOccurs="1" minOccurs="0" type="pss:TimePeriodXmlType"></element>
+						<element name="simulationSteps" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="powerFlowInitialization" maxOccurs="1" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="powerFlowCase" type="string" maxOccurs="1" minOccurs="0"></element>
+						<element name="powerFlowMethod" maxOccurs="1" minOccurs="0">
+							<simpleType>
+								<restriction base="string">
+									<enumeration value="NR"></enumeration>
+									<enumeration value="PQ"></enumeration>
+									<enumeration value="GS"></enumeration>
+								</restriction>
+							</simpleType>
+						</element>
+						<element name="errTolerance" type="double" maxOccurs="1" minOccurs="0"></element>
+						<element name="maxInteration" type="double" maxOccurs="1" minOccurs="0"></element>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="outPutSetting" maxOccurs="1" minOccurs="0">
+			</element>
+		</sequence>
+	</complexType>
+		
 </schema>
