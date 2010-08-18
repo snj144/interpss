@@ -19,7 +19,7 @@
 
 	<element name="baseCase" type="pss:NetworkXmlType"/>
 	<element name="aclfNet" type="pss:LoadflowNetXmlType" substitutionGroup="pss:baseCase"/>
-	<element name="acscNet" type="pss:LoadflowNetXmlType" substitutionGroup="pss:baseCase"/>
+	<element name="acscNet" type="pss:ShortCircuitNetXmlType" substitutionGroup="pss:baseCase"/>
 	<element name="dstabNet" type="pss:DStabNetXmlType" substitutionGroup="pss:baseCase"/>
 	<element name="distNet" substitutionGroup="pss:baseCase"/>
 	<element name="opfNet" type="pss:OpfNetworkXmlType" substitutionGroup="pss:baseCase"/>
@@ -27,7 +27,6 @@
 	<!--
 		elements for defining busList 
 	 -->
-	<element name="bus" type="pss:BusXmlType" />
 	<element name="aclfBus" type="pss:LoadflowBusXmlType" substitutionGroup="pss:bus"/>
 	<element name="acscBus" type="pss:ShortCircuitBusXmlType" substitutionGroup="pss:bus"/>
 	<element name="dstabBus" type="pss:DStabBusXmlType" substitutionGroup="pss:bus"/>
@@ -37,7 +36,6 @@
 	<!-- 
 		elements for defining branchList 
 	 -->
-	<element name="branch" type="pss:BaseBranchXmlType" />
 	<element name="aclfLine" type="pss:LineBranchXmlType" substitutionGroup="pss:branch"/>
 	<element name="aclfXfr" type="pss:XfrBranchXmlType" substitutionGroup="pss:branch"/>
 	<element name="aclfPSXfr" type="pss:PSXfrBranchXmlType" substitutionGroup="pss:branch"/>
