@@ -337,5 +337,6 @@
                 <pss:cirId>1</pss:cirId>
             </pss:tieline>
 		</pss:tieLineList>
+		<pss:positiveSeqDataOnly>true</pss:positiveSeqDataOnly>
 	</pss:dstabNet>
 </pss:pssStudyCase>
