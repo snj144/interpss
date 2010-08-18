@@ -41,7 +41,7 @@
 	<element name="pssIEEEDualInput" type="pss:PssIEEEDualInputXmlType" substitutionGroup="pss:stabilizer"/>
 	
 
-	<complexType name="GeneratorXmlType">
+	<complexType name="DynamicGeneratorXmlType">
 		<sequence>			<element name="genId" type="pss:IDRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="ownerName" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
