@@ -40,7 +40,7 @@
 		<complexContent>
 			<extension base="pss:ShortCircuitBusXmlType">
 				<sequence>
-					<element name="generator" type="pss:GeneratorXmlType" minOccurs="1" maxOccurs="unbounded"></element>
+					<element name="machine" type="pss:DynamicGeneratorXmlType" minOccurs="1" maxOccurs="unbounded"></element>
 					<element name="dynamicLoad" minOccurs="0">
 						<complexType>
 							<sequence>
