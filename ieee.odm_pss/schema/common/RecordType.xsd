@@ -8,6 +8,9 @@
 		<documentation>Copyright www.interpss.org 2008</documentation>
 	</annotation>
 
+	<element name="bus" type="pss:BusXmlType" />
+	<element name="branch" type="pss:BaseBranchXmlType" />
+
 	<complexType name="NetworkXmlType" abstract="true">
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
