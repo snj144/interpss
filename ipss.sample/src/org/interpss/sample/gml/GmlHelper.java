@@ -24,20 +24,25 @@
 
 package org.interpss.sample.gml;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.graphdrawing.gml.EdgeType;
 import org.graphdrawing.gml.GraphType;
 import org.graphdrawing.gml.GraphmlType;
 import org.graphdrawing.gml.NodeType;
+import org.graphdrawing.gml.ObjectFactory;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.NetUtilFunc;
@@ -45,6 +50,8 @@ import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclf.adj.AclfAdjNetwork;
 
 public class GmlHelper {
+	private static final String Gml_NS = "org.graphdrawing.gml";
+	
 	/**
 	 * create GraphmlType object from the xml file
 	 * 
@@ -92,6 +99,20 @@ public class GmlHelper {
 	}
 	
 	/**
+	 * marshal the xml string, representing a graph object, to a graph object
+	 * 
+	 * @param gmlGraphString
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public static GraphType parseGraph(String gmlGraphString) throws Exception {
+		ByteArrayInputStream bStr = new ByteArrayInputStream(gmlGraphString.getBytes());
+		JAXBElement<GraphType> elem = (JAXBElement<GraphType>)createUnmarshaller().unmarshal(bStr);
+		return elem.getValue();
+	}
+	
+	/**
 	 * Based on the GraphType object, create a sub network from the fromNet
 	 * 
 	 * @param fromNet
@@ -123,6 +144,25 @@ public class GmlHelper {
 		// on the bus ids and branch ids in the graph object
 		return (AclfAdjNetwork)fromNet.createSubNet(busIdAry, branchIdAry);
 	}
+	
+	
+	/**
+	 * unmarshal the graph object to an xml string
+	 * 
+	 * @param graph
+	 * @return
+	 */
+	public static String toXmlString(GraphType graph) {
+		OutputStream ostream = new ByteArrayOutputStream();
+		try {
+			ObjectFactory factory = new ObjectFactory();
+			JAXBElement<GraphType> element = factory.createGraph(graph);
+			createMarshaller().marshal( element, ostream );
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ostream.toString();
+	}		
 
 /*
  * 	private area	
@@ -131,9 +171,19 @@ public class GmlHelper {
 	private static Unmarshaller unmarshaller = null;
 	private static Unmarshaller createUnmarshaller() throws JAXBException {
 		if (unmarshaller == null) {
-			JAXBContext jaxbContext = JAXBContext.newInstance("org.graphdrawing.gml");
+			JAXBContext jaxbContext = JAXBContext.newInstance(Gml_NS);
 			unmarshaller = jaxbContext.createUnmarshaller();
 		}
 		return unmarshaller;
 	}
+	
+	private static Marshaller marshaller = null;
+	private static Marshaller createMarshaller() throws JAXBException {
+		if (marshaller == null) {
+			JAXBContext jaxbContext	= JAXBContext.newInstance(Gml_NS);
+			marshaller = jaxbContext.createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		}
+		return marshaller;
+	}	
 }
