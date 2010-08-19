@@ -1,4 +1,4 @@
-package org.interpss.sample.grid;
+package org.interpss.sample.grid.sample;
 
 import org.gridgain.grid.Grid;
 import org.interpss.PluginSpringAppContext;

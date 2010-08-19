@@ -1,4 +1,4 @@
-package org.interpss.sample.grid.impl;
+package org.interpss.sample.grid.impl.single;
 
 import java.io.Serializable;
 

@@ -1,5 +1,5 @@
 
-package org.interpss.sample.grid.impl;
+package org.interpss.sample.grid.impl.single;
 
 import org.interpss.gridgain.job.AbstractGridGainJob;
 import org.interpss.gridgain.msg.RemoteMessageTable;

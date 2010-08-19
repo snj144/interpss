@@ -1,18 +1,20 @@
-package org.interpss.sample.grid;
+package org.interpss.sample.grid.sample;
 
 import org.gridgain.grid.Grid;
+import org.interpss.PluginSpringAppContext;
+import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.gridgain.GridRunner;
 import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.util.GridUtil;
 import org.interpss.sample.grid.impl.GridHelper;
-import org.interpss.sample.grid.impl.MyAclfSingleJobTaskImpl;
+import org.interpss.sample.grid.impl.single.MyAclfSingleJobTaskImpl;
 
-import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.msg.IPSSMsgHubImpl;
+import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.Constants;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.adj.AclfAdjNetwork;
-import com.interpss.simu.util.sample.SampleCases;
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.simu.SimuContext;
 
 /**
  * This example assumes that at least one remote Gridgain 2.1.1 agent is running in the LAN. A simple
@@ -21,12 +23,12 @@ import com.interpss.simu.util.sample.SampleCases;
  * local Java program and print out.  
  *
  */
-public class ExtendIpssGridImpl {
+public class GridUCTE2000WinterOffPeakCase {
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		IPSSMsgHub msg = new IPSSMsgHubImpl();
+		SpringAppContext.setAppContext(Constants.SpringConfigPath_Plugin);
 		
 		// init grid computing env
 		Grid grid = GridHelper.initGridEnv();
@@ -34,27 +36,24 @@ public class ExtendIpssGridImpl {
     		// randomly select a remote grid node 
 	    	MyAclfSingleJobTaskImpl.RemoteNodeId = GridUtil.getAnyRemoteNodeId();
 
-	    	// input data and create InterPSS Aclf net object
-    		AclfAdjNetwork adjNet = CoreObjectFactory.createAclfAdjNetwork();
-    		SampleCases.load_LF_5BusSystem(adjNet, msg);
-    		adjNet.setId("SampleNetId");
-    		
 	    	try {
+				IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
+				SimuContext simuCtx = adapter.load("testData/UCTE_2000_WinterOffPeak.ieee");
+				AclfNetwork adjNet = simuCtx.getAclfNet();
+	    		adjNet.setId("SampleNetId");
+	    		
 	    		// sent the adjNet object to a remote grid node for loadflow calculation
 	    		// the custom class MyAclfSingleJobTaskImpl will be used to perform the simulation
         		RemoteMessageTable result = new GridRunner(grid).executeTask(MyAclfSingleJobTaskImpl.class, adjNet, 0);
         		
         		// de-serialized the returning results
-        		adjNet = CoreObjectFactory.createAclfAdjNetwork(result.getSerializedAclfNet());
-        		
-        		// print out the user-defined returning result
-        		System.out.println("MyKey = " + result.get("MyKey").toString());
+        		adjNet = CoreObjectFactory.createAclfNetwork(result.getSerializedAclfNet());
+
+        		// output simulation results
+        		System.out.println(AclfOutFunc.loadFlowSummary(adjNet));
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
-
-    		// output simulaiton results
-    		System.out.println(AclfOutFunc.loadFlowSummary(adjNet));
     	}
 		
 		System.out.println("Stop InterPSS Grid env ...");
