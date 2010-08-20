@@ -8,7 +8,7 @@ import org.interpss.gridgain.GridRunner;
 import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.util.GridUtil;
 import org.interpss.sample.grid.impl.GridHelper;
-import org.interpss.sample.grid.impl.single.MyAclfSingleJobTaskImpl;
+import org.interpss.sample.grid.impl.single.CustomSingleLocalTask;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -34,7 +34,7 @@ public class GridUCTE2000WinterOffPeakCase {
 		Grid grid = GridHelper.initGridEnv();
     	if (grid != null) {
     		// randomly select a remote grid node 
-	    	MyAclfSingleJobTaskImpl.RemoteNodeId = GridUtil.getAnyRemoteNodeId();
+	    	CustomSingleLocalTask.RemoteNodeId = GridUtil.getAnyRemoteNodeId();
 
 	    	try {
 				IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
@@ -44,7 +44,7 @@ public class GridUCTE2000WinterOffPeakCase {
 	    		
 	    		// sent the adjNet object to a remote grid node for loadflow calculation
 	    		// the custom class MyAclfSingleJobTaskImpl will be used to perform the simulation
-        		RemoteMessageTable result = new GridRunner(grid).executeTask(MyAclfSingleJobTaskImpl.class, adjNet, 0);
+        		RemoteMessageTable result = new GridRunner(grid).executeTask(CustomSingleLocalTask.class, adjNet, 0);
         		
         		// de-serialized the returning results
         		adjNet = CoreObjectFactory.createAclfNetwork(result.getSerializedAclfNet());

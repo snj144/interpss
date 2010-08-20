@@ -11,7 +11,7 @@ import org.interpss.gridgain.GridRunner;
 import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.util.GridUtil;
 import org.interpss.sample.grid.impl.GridHelper;
-import org.interpss.sample.grid.impl.multi.MyAclfMultiJobTask;
+import org.interpss.sample.grid.impl.multi.CustomMultiLocalTask;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -66,7 +66,7 @@ public class IEEE14GmlGridImpl {
 		if (grid != null) {
 			long timeout = 0;
 			RemoteMessageTable[] resultAry = new GridRunner(grid)
-					.executeMultiJob(MyAclfMultiJobTask.class, mCaseContainer, timeout);
+					.executeMultiJob(CustomMultiLocalTask.class, mCaseContainer, timeout);
 		}
 		
 		GridUtil.stopDefaultGrid();		
