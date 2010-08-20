@@ -10,8 +10,8 @@ public class CustomSingleLocalTask extends AclfSingleJobTask {
 	
 	@Override
 	protected AbstractGridGainJob createJob(RemoteMessageTable remoteMsg) {
-		// plugin the custom class MyGridAclfJobImpl, where loadflow is actually 
-		// implemented
+		// plugin the custom class, where loadflow is actually 
+		// implemented and run on the remote node
 		return new CustomSingleRemoteJob(remoteMsg);
 	}	
 }
