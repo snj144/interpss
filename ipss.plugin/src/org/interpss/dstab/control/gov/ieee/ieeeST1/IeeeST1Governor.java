@@ -30,7 +30,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.DynamicSimuMethods;
+import com.interpss.dstab.DynamicSimuMethod;
 import com.interpss.dstab.controller.AbstractGovernor;
 import com.interpss.dstab.mach.Machine;
 
@@ -113,8 +113,8 @@ public class IeeeST1Governor extends AbstractGovernor {
 	 *  @param msg the SessionMsg object
 	 */	
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, Machine mach, final IPSSMsgHub msg) {
-		if (method == DynamicSimuMethods.MODIFIED_EULER) {
+	public boolean nextStep(final double dt, final DynamicSimuMethod method, Machine mach, final IPSSMsgHub msg) {
+		if (method == DynamicSimuMethod.MODIFIED_EULER) {
 			/*
 			 *     Step-1 : x(1) = x(0) + dx_dt(1) * dt
 			 *     Step-2 : x(2) = x(0) + 0.5 * (dx_dt(2) + dx_dt(1)) * dt
@@ -140,7 +140,7 @@ public class IeeeST1Governor extends AbstractGovernor {
 					stateX2 + ", " + stateX3 + ", " + stateX4);
 			return true;
 		}
-		else if (method == DynamicSimuMethods.RUNGE_KUTTA) {
+		else if (method == DynamicSimuMethod.RUNGE_KUTTA) {
 			// TODO: TBImpl
 			return false;
 		} else {

@@ -50,12 +50,7 @@ public class IEEEODMMapper extends AbstractMapper {
 	 */
 	public boolean mapping(Object fromObj, Object toObj, Class<?> klass) {
 		if (klass == SimuContext.class) {
-			if (fromObj instanceof AclfModelParser) {
-				AclfModelParser parser = (AclfModelParser) fromObj;
-				SimuContext simuCtx = (SimuContext) toObj;
-				return ODMAclfDataMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
-			}
-			else if (fromObj instanceof OpfModelParser) {
+			if (fromObj instanceof OpfModelParser) {
 				OpfModelParser parser = (OpfModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;
 				return ODMOpfDataMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
@@ -64,6 +59,11 @@ public class IEEEODMMapper extends AbstractMapper {
 				DStabModelParser parser = (DStabModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;
 				return ODMDStabDataMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
+			}
+			else if (fromObj instanceof AclfModelParser) {
+				AclfModelParser parser = (AclfModelParser) fromObj;
+				SimuContext simuCtx = (SimuContext) toObj;
+				return ODMAclfDataMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
 			}
 			else if (fromObj instanceof XBeanODMModelParser) {
 				XBeanODMModelParser parser = (XBeanODMModelParser) fromObj;

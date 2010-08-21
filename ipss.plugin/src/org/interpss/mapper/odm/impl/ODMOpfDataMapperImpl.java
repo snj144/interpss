@@ -64,7 +64,7 @@ public class ODMOpfDataMapperImpl {
 				OpfNetwork opfNet = mapNetworkData(xmlNet);
 				simuCtx.setOpfNet(opfNet);
 
-				for (JAXBElement<BusXmlType> bus : xmlNet.getBusList().getBus()) {
+				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					if (bus.getValue() instanceof OpfGenBusXmlType) {
 						OpfGenBusXmlType busRec = (OpfGenBusXmlType) bus.getValue();
 						mapGenBusData(busRec, opfNet);
@@ -75,7 +75,7 @@ public class ODMOpfDataMapperImpl {
 					}
 				}
 
-				for (JAXBElement<BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
+				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
 					ODMAclfDataMapperImpl.mapBranchData(b.getValue(), opfNet, simuCtx.getMsgHub());
 				}
 			} catch (Exception e) {

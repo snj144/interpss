@@ -34,7 +34,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.DynamicSimuMethods;
+import com.interpss.dstab.DynamicSimuMethod;
 import com.interpss.dstab.controller.annotate.AbstractAnnotateController;
 import com.interpss.dstab.controller.annotate.ICMLScriptingController;
 import com.interpss.dstab.mach.ControllerType;
@@ -103,7 +103,7 @@ public abstract class BaseCMLScriptingController extends ControllerImpl implemen
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, Machine mach, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethod method, Machine mach, final IPSSMsgHub msg) {
 		Network net = mach.getDStabBus().getNetwork();
 		return anController.nextStep(dt, method, mach, net, msg);
 	}

@@ -48,7 +48,7 @@ import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
-import com.interpss.dstab.DynamicSimuMethods;
+import com.interpss.dstab.DynamicSimuMethod;
 import com.interpss.dstab.StaticLoadModel;
 import com.interpss.dstab.devent.BranchOutageEvent;
 import com.interpss.dstab.devent.BranchOutageType;
@@ -76,8 +76,8 @@ public class Xml2DStabAlgorithmMapperImpl {
 		Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(dstabCase.getAclfAlgorithm(), algo
 				.getAclfAlgorithm(), msg);
 
-		algo.setSimuMethod(dstabCase.getSimuConfig().getSimuMethod() == SimuMethod.MODIFIED_EULER ? DynamicSimuMethods.MODIFIED_EULER
-						: DynamicSimuMethods.RUNGE_KUTTA);
+		algo.setSimuMethod(dstabCase.getSimuConfig().getSimuMethod() == SimuMethod.MODIFIED_EULER ? DynamicSimuMethod.MODIFIED_EULER
+						: DynamicSimuMethod.RUNGE_KUTTA);
 		algo.setTotalSimuTimeSec(dstabCase.getSimuConfig().getTotalSimuTimeSec());
 		algo.setSimuStepSec(dstabCase.getSimuConfig().getSimuStepSec());
 		algo.setDisableDynamicEvent(dstabCase.getDynamicEventData()
