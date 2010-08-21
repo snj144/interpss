@@ -63,12 +63,12 @@ public class ODM2SimuCtxMapper {
 			try {
 				simuCtx.setAclfAdjNet(ODMV07DataMapperImpl.mapNetworkData(xmlNet));
 
-				for (JAXBElement<BusXmlType> bus : xmlNet.getBusList().getBus()) {
+				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					BusRecordXmlType busRec = (BusRecordXmlType) bus.getValue();
 					ODMV07DataMapperImpl.mapBusData(busRec, simuCtx.getAclfAdjNet());
 				}
 
-				for (JAXBElement<BaseBranchXmlType> branch : xmlNet.getBranchList().getBranch()) { 
+				for (JAXBElement<? extends BaseBranchXmlType> branch : xmlNet.getBranchList().getBranch()) { 
 					BranchRecordXmlType branchRec = (BranchRecordXmlType) branch.getValue();
 					ODMV07DataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
 				}

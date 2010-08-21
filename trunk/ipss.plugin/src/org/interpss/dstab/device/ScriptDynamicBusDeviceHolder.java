@@ -36,7 +36,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.DynamicSimuMethods;
+import com.interpss.dstab.DynamicSimuMethod;
 import com.interpss.dstab.device.ScriptDynamicBusDevice;
 import com.interpss.dstab.device.ScriptLangType;
 import com.interpss.dstab.device.impl.ScriptDynamicBusDeviceImpl;
@@ -104,7 +104,7 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	 *            the MessageHub object
 	 * @return false if there is anything wrong
 	 */
-	public boolean nextStep(double dt, DynamicSimuMethods method, Network net,
+	public boolean nextStep(double dt, DynamicSimuMethod method, Network net,
 			IPSSMsgHub msg) {
 		return device.nextStep(dt, method, msg);
 	}

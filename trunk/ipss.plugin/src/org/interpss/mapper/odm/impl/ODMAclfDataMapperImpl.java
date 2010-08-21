@@ -105,12 +105,12 @@ public class ODMAclfDataMapperImpl {
 				ODMAclfDataMapperImpl.mapNetworkData(adjNet, xmlNet);
 				simuCtx.setAclfAdjNet(adjNet);
 
-				for (JAXBElement<BusXmlType> bus : xmlNet.getBusList().getBus()) {
+				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
 					ODMAclfDataMapperImpl.mapBusData(busRec, adjNet);
 				}
 
-				for (JAXBElement<BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
+				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
 					mapBranchData(b.getValue(), adjNet, simuCtx.getMsgHub());
 				}
 			} catch (Exception e) {
@@ -162,7 +162,8 @@ public class ODMAclfDataMapperImpl {
 	}
 	
 	public static void mapBaseBusData(BusXmlType busRec, Bus bus, Network net) throws Exception {
-		bus.setNumber(busRec.getNumber());
+		if (busRec.getNumber() != null)
+			bus.setNumber(busRec.getNumber());
 		bus.setName(busRec.getName() == null? "Bus" : busRec.getName());
 		bus.setDesc(busRec.getDesc() == null? "Bus Desc" : busRec.getDesc());
 		bus.setStatus(!busRec.isOffLine());

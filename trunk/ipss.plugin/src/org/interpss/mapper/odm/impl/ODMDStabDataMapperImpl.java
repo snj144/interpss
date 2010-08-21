@@ -30,8 +30,8 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
-import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
+import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.interpss.mapper.odm.ODMXmlHelper;
@@ -62,12 +62,12 @@ public class ODMDStabDataMapperImpl {
 				DStabilityNetwork dstabNet = mapNetworkData(xmlNet);
 				simuCtx.setDStabilityNet(dstabNet);
 
-				for (JAXBElement<BusXmlType> bus : xmlNet.getBusList().getBus()) {
-					DStabBusXmlType busRec = (DStabBusXmlType) bus.getValue();
-					ODMAclfDataMapperImpl.mapBusData(busRec, dstabNet);
+				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
+					//DStabBusXmlType busRec = (DStabBusXmlType) bus.getValue();
+					ODMAclfDataMapperImpl.mapBusData((LoadflowBusXmlType)bus.getValue(), dstabNet);
 				}
 
-				for (JAXBElement<BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
+				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
 					ODMAclfDataMapperImpl.mapBranchData(b.getValue(), dstabNet, simuCtx.getMsgHub());
 				}
 			} catch (Exception e) {
