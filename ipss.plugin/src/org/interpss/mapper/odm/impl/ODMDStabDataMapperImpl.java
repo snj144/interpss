@@ -30,13 +30,20 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
+import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
+import org.ieee.odm.schema.PSXfrBranchXmlType;
+import org.ieee.odm.schema.ShortCircuitBusXmlType;
+import org.ieee.odm.schema.XfrBranchXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 
 import com.interpss.common.util.IpssLogger;
+import com.interpss.dstab.DStabBranch;
+import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.simu.SimuContext;
@@ -63,12 +70,38 @@ public class ODMDStabDataMapperImpl {
 				simuCtx.setDStabilityNet(dstabNet);
 
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
-					//DStabBusXmlType busRec = (DStabBusXmlType) bus.getValue();
-					ODMAclfDataMapperImpl.mapBusData((LoadflowBusXmlType)bus.getValue(), dstabNet);
+					// for DStab, the bus could be aclfBus, acscBus or dstabBus
+					if (bus.getValue() instanceof LoadflowBusXmlType) {
+						LoadflowBusXmlType aclfBusXml = (LoadflowBusXmlType)bus.getValue();
+						DStabBus dstabBus = DStabObjectFactory.createDStabBus(aclfBusXml.getId(), dstabNet);
+						ODMNetDataMapperImpl.mapBaseBusData(aclfBusXml, dstabBus, dstabNet);
+						ODMAclfDataMapperImpl.setAclfBusData(aclfBusXml, dstabBus, dstabNet);
+						
+						if (bus.getValue() instanceof ShortCircuitBusXmlType) {
+							ShortCircuitBusXmlType acscBusXml = (ShortCircuitBusXmlType) bus.getValue();
+						}
+
+						if (bus.getValue() instanceof DStabBusXmlType) {
+							DStabBusXmlType dstabBusXml = (DStabBusXmlType) bus.getValue();
+						}
+					}
+					else {
+						IpssLogger.getLogger().severe( "Error: only aclfBus, acscBus and dstabBus could be used for DStab study");
+						noError = false;
+					}
 				}
 
-				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
-					ODMAclfDataMapperImpl.mapBranchData(b.getValue(), dstabNet, simuCtx.getMsgHub());
+				for (JAXBElement<? extends BaseBranchXmlType> branch : xmlNet.getBranchList().getBranch()) {
+					if (branch.getValue() instanceof LineBranchXmlType || 
+							branch.getValue() instanceof XfrBranchXmlType ||
+								branch.getValue() instanceof PSXfrBranchXmlType) {
+						DStabBranch dstabBranch = null;
+						ODMAclfDataMapperImpl.mapAclfBranchData(branch.getValue(), dstabBranch, dstabNet, simuCtx.getMsgHub());
+					}
+					else {
+						IpssLogger.getLogger().severe( "Error: only aclf<Branch>, acsc<Branch> and dstab<Branch> could be used for DStab study");
+						noError = false;
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -88,7 +121,7 @@ public class ODMDStabDataMapperImpl {
 	
 	private static DStabilityNetwork mapNetworkData(DStabNetXmlType xmlNet) throws Exception {
 		DStabilityNetwork dstabNet = DStabObjectFactory.createDStabilityNetwork();
-		ODMAclfDataMapperImpl.mapNetworkData(dstabNet, xmlNet);
+		ODMNetDataMapperImpl.mapNetworkData(dstabNet, xmlNet);
 		return dstabNet;
 	}	
 }
