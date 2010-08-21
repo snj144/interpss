@@ -48,7 +48,7 @@ public class FuncTestCase {
 	@Test
 	public void castingTestCase() throws Exception {
 		String str = BranchListHead +
-		      "<branch xsi:type=\"XfrBranchXmlType\" areaNumber=\"1\" zoneNumber=\"1\" circuitId=\"1\" id=\"Bus4_to_Bus7_cirId_1\">" +
+		      "<aclfXfr areaNumber=\"1\" zoneNumber=\"1\" circuitId=\"1\" id=\"Bus4_to_Bus7_cirId_1\">" +
 		      "  <fromBus idRef=\"Bus4\"/>" +
 		      "  <toBus idRef=\"Bus7\"/>" +
 		      "    <z re=\"0.0\" im=\"0.20912\" unit=\"PU\"/>" +
@@ -58,13 +58,13 @@ public class FuncTestCase {
 		      "      <fromRatedVoltage value=\"132.0\" unit=\"KV\"/>" +
 		      "      <toRatedVoltage value=\"35.0\" unit=\"KV\"/>" +
 		      "    </xfrInfo>" +
-		      "</branch>" + 
+		      "</aclfXfr>" + 
 		      BranchListEnd;		
 		
 		AclfModelParser parser = new AclfModelParser(str);
 		XfrBranchXmlType xfr = (XfrBranchXmlType)parser.getAclfNet().getBranchList().getBranch().get(0).getValue();
 		
-		PSXfrBranchXmlType psXfr = (PSXfrBranchXmlType)ModelStringUtil.casting(xfr, "XfrBranchXmlType", "PSXfrBranchXmlType");
+		PSXfrBranchXmlType psXfr = (PSXfrBranchXmlType)ModelStringUtil.casting(xfr, "aclfXfr", "aclfPSXfr");
 		assertTrue(psXfr.getId() != null);
 		assertTrue(psXfr.getFromBus() != null);
 		assertTrue(psXfr.getZ().getIm() == .20912);
