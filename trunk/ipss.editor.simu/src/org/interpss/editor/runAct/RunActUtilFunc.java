@@ -56,7 +56,7 @@ import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.IRegulationDevice;
 import com.interpss.dstab.DynamicSimuAlgorithm;
-import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
+import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;
 
 public class RunActUtilFunc {
 	public static String AllControlDevices = "All Control Devices";

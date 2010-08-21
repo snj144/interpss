@@ -38,7 +38,7 @@ import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.dstab.util.DStabSimuDBRecord;
+import com.interpss.dstab.datatype.DStabSimuDBRecord;
 
 public class SimuRecDBManager implements ISimuRecManager {
 	
