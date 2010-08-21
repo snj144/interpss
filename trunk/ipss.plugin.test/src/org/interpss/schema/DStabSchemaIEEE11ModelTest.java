@@ -40,7 +40,7 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
-import com.interpss.dstab.DynamicSimuMethods;
+import com.interpss.dstab.DynamicSimuMethod;
 import com.interpss.dstab.common.DStabOutSymbol;
 import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
@@ -88,7 +88,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 	  		if (caseCnt == 1) {
 			  	assertTrue(algo.getTotalSimuTimeSec() == 1.0);
 			  	assertTrue(algo.getSimuStepSec() == 0.002);
-			  	assertTrue(algo.getSimuMethod() == DynamicSimuMethods.MODIFIED_EULER);
+			  	assertTrue(algo.getSimuMethod() == DynamicSimuMethod.MODIFIED_EULER);
 			  	assertTrue(algo.getRefMachine() != null);
 			  	assertTrue(algo.getRefMachine().getId().equals("Mach@0003"));
 			  	assertTrue(algo.getDStabNet().getDEventList().size() == 0);
@@ -115,7 +115,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 	  		else if (caseCnt == 2) {
 			  	assertTrue(algo.getTotalSimuTimeSec() == 10.0);
 			  	assertTrue(algo.getSimuStepSec() == 0.002);
-			  	assertTrue(algo.getSimuMethod() == DynamicSimuMethods.MODIFIED_EULER);
+			  	assertTrue(algo.getSimuMethod() == DynamicSimuMethod.MODIFIED_EULER);
 			  	assertTrue(algo.getRefMachine() != null);
 			  	assertTrue(algo.getRefMachine().getId().equals("Mach@0003"));
 
