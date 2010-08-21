@@ -55,10 +55,10 @@ import com.interpss.dist.DistBus;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
+import com.interpss.dstab.common.DStabOutSymbol;
+import com.interpss.dstab.datatype.DStabSimuDBRecord;
 import com.interpss.dstab.device.ScriptDynamicBusDevice;
 import com.interpss.dstab.mach.Machine;
-import com.interpss.dstab.util.DStabOutSymbol;
-import com.interpss.dstab.util.DStabSimuDBRecord;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 

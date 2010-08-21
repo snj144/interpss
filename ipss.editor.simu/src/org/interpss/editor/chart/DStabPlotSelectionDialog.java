@@ -42,7 +42,7 @@ import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.dstab.util.DStabSimuDBRecord;
+import com.interpss.dstab.datatype.DStabSimuDBRecord;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxUtilFunc;
 

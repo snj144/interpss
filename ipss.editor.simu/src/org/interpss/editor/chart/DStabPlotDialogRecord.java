@@ -38,7 +38,7 @@ import com.interpss.common.rec.BaseSimuDBRecord;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
 import com.interpss.common.util.StringUtil;
-import com.interpss.dstab.util.DStabSimuDBRecord;
+import com.interpss.dstab.datatype.DStabSimuDBRecord;
 
 /**
  * Utility class for translate plot dialog selection strings to plot records
