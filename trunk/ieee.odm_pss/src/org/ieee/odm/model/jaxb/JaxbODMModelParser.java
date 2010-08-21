@@ -367,6 +367,7 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	 * @return
 	 */
 	public TransientSimulationXmlType getDefaultTransSimu(){
-		return JaxbTranStabSimuHelper.getTransientSimlation(getDefaultScenario());
+		//return JaxbTranStabSimuHelper.getTransientSimlation(getDefaultScenario());
+		return null;
 	}
 }
