@@ -38,6 +38,8 @@ import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfBranch;
 import com.interpss.opf.OpfGenBus;
 import com.interpss.opf.OpfNetwork;
 import com.interpss.opf.OpfObjectFactory;
@@ -71,12 +73,13 @@ public class ODMOpfDataMapperImpl {
 					} 
 					else {
 						LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
-						ODMAclfDataMapperImpl.mapBusData(busRec, opfNet);
+						ODMAclfDataMapperImpl.mapAclfBusData(busRec, opfNet);
 					}
 				}
 
 				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
-					ODMAclfDataMapperImpl.mapBranchData(b.getValue(), opfNet, simuCtx.getMsgHub());
+					AclfBranch aclfBranch = CoreObjectFactory.createAclfBranch();
+					ODMAclfDataMapperImpl.mapAclfBranchData(b.getValue(), aclfBranch, opfNet, simuCtx.getMsgHub());
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -105,14 +108,14 @@ public class ODMOpfDataMapperImpl {
 	public static OpfGenBus mapGenBusData(OpfGenBusXmlType busRec, OpfNetwork net) throws Exception {
 		OpfGenBus aclfBus = OpfObjectFactory.createOpfGenBus(busRec.getId());
 		net.addBus(aclfBus);
-		ODMAclfDataMapperImpl.mapBaseBusData(busRec, aclfBus, net);
-		ODMAclfDataMapperImpl.setBusLoadflowData(busRec, aclfBus, net);
+		ODMNetDataMapperImpl.mapBaseBusData(busRec, aclfBus, net);
+		ODMAclfDataMapperImpl.setAclfBusData(busRec, aclfBus, net);
 		return aclfBus;
 	}
 	
 	private static OpfNetwork mapNetworkData(OpfNetworkXmlType xmlNet) throws Exception {
 		OpfNetwork opfNet = OpfObjectFactory.createOpfNetwork();
-		ODMAclfDataMapperImpl.mapNetworkData(opfNet, xmlNet);
+		ODMNetDataMapperImpl.mapNetworkData(opfNet, xmlNet);
 		opfNet.setAnglePenaltyFactor(xmlNet.getAnglePenaltyFactor());	
 		return opfNet;
 	}
