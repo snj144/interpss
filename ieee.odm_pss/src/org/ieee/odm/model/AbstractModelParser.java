@@ -123,11 +123,11 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		this.pssStudyCase = elem.getValue();
 		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 		// cache the loaded bus and branch objects
-		for (JAXBElement<BusXmlType> bus : this.getBaseCase().getBusList().getBus()) {
+		for (JAXBElement<? extends BusXmlType> bus : this.getBaseCase().getBusList().getBus()) {
 			BusXmlType b = bus.getValue();
 			this.objectCache.put(b.getId(), b);
 		}
-		for (JAXBElement<BaseBranchXmlType> branch : this.getBaseCase().getBranchList().getBranch()) {
+		for (JAXBElement<? extends BaseBranchXmlType> branch : this.getBaseCase().getBranchList().getBranch()) {
 			BaseBranchXmlType b = branch.getValue();
 			this.objectCache.put(b.getId(), b);
 		}

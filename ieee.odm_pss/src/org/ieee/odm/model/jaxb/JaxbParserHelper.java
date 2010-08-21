@@ -69,7 +69,7 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase(); 
 		boolean ok = true;
 
-		for (JAXBElement<BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
+		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
 			BusRecordXmlType busRec = (BusRecordXmlType)bus.getValue();
 			LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData();
 			if (genData != null) {
@@ -346,73 +346,73 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 	
 	public static FaultXmlType getFaultRecord(TransientSimulationXmlType tranSimu,
 			FaultTypeEnumType faultType, String fbus,String tbus){
-		if(tranSimu.getDynamicDataList().getFaultList().getFault()!=null){			
-			for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFault()){				
-				if(faultType.equals(fault.getFaultType())){					
-					if(faultType.equals(FaultTypeEnumType.BUS_FAULT)){						
-						BusFaultXmlType busFault=fault.getBusFault();
-						if(fbus.equals(busFault.getFaultedBus().getName())&&
-								tbus.equals(busFault.getRemoteEndBus().getName())){							
-							return fault;							
-						}
-					}
-				}				
-			}		
-		   }
+//		if(tranSimu.getDynamicDataList().getFaultList().getFault()!=null){			
+//			for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFault()){				
+//				if(faultType.equals(fault.getFaultType())){					
+//					if(faultType.equals(FaultTypeEnumType.BUS_FAULT)){						
+//						BusFaultXmlType busFault=fault.getBusFault();
+//						if(fbus.equals(busFault.getFaultedBus().getName())&&
+//								tbus.equals(busFault.getRemoteEndBus().getName())){							
+//							return fault;							
+//						}
+//					}
+//				}				
+//			}		
+//		}
 		FaultXmlType fault = new FaultXmlType();
-		tranSimu.getDynamicDataList().getFaultList().getFault().add(fault);
+		//tranSimu.getDynamicDataList().getFaultList().getFault().add(fault);
 		return fault;
 	}		
 	
 	public static BusFaultXmlType getBusFaultRecord(TransientSimulationXmlType tranSimu,
 			String fbus,String tbus){
-		
-		for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFault()){
-			if(fault.getBusFault()!=null){
-				BusFaultXmlType busFault=fault.getBusFault();				
-				if(fbus.equals(busFault.getFaultedBus().getName())&& 
-						tbus.equals(busFault.getRemoteEndBus().getName()))					
-			         return busFault;
-			}else{
-				BusFaultXmlType busFault = new BusFaultXmlType();
-				fault.setBusFault(busFault);
-				return busFault;
-			}			
-		}
+//		
+//		for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFault()){
+//			if(fault.getBusFault()!=null){
+//				BusFaultXmlType busFault=fault.getBusFault();				
+//				if(fbus.equals(busFault.getFaultedBus().getName())&& 
+//						tbus.equals(busFault.getRemoteEndBus().getName()))					
+//			         return busFault;
+//			}else{
+//				BusFaultXmlType busFault = new BusFaultXmlType();
+//				fault.setBusFault(busFault);
+//				return busFault;
+//			}			
+//		}
 		return null;
 	}
 	
 	public static BranchFaultXmlType getBranchFaultRecord(TransientSimulationXmlType tranSimu,
 			String fbus,String tbus){		
-		for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFault()){
-			if(fault.getBranchFault()!=null){
-				BranchFaultXmlType braFault=fault.getBranchFault();				
-				if(fbus.equals(braFault.getFromBus().getName())&& tbus.equals(braFault.getToBus().getName()))
-			         return braFault;
-			}else{
-				BranchFaultXmlType branchFault = new BranchFaultXmlType();
-				fault.setBranchFault(branchFault);
-				return branchFault;
-			}			
-		}
+//		for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFault()){
+//			if(fault.getBranchFault()!=null){
+//				BranchFaultXmlType braFault=fault.getBranchFault();				
+//				if(fbus.equals(braFault.getFromBus().getName())&& tbus.equals(braFault.getToBus().getName()))
+//			         return braFault;
+//			}else{
+//				BranchFaultXmlType branchFault = new BranchFaultXmlType();
+//				fault.setBranchFault(branchFault);
+//				return branchFault;
+//			}			
+//		}
 		return null;
 	}
 	
 	public static DcLineFaultXmlType getDCFaultRecord(TransientSimulationXmlType tranSimu,
 			String fbus,String tbus){
-		for(FaultXmlType fault: tranSimu.getDynamicDataList().getFaultList().getFault()){
-			if(fault.getDcLineFault()!=null){				
-				DcLineFaultXmlType dcFault= fault.getDcLineFault();				
-				if(fbus.equals(dcFault.getFromACBus().getName())&&
-						tbus.equals(dcFault.getToACBus().getName())){					
-					return dcFault;
-				}else {	
-					DcLineFaultXmlType dcLineFault = new DcLineFaultXmlType();
-					fault.setDcLineFault(dcLineFault);
-					return dcLineFault;
-				}
-			}
-		}
+//		for(FaultXmlType fault: tranSimu.getDynamicDataList().getFaultList().getFault()){
+//			if(fault.getDcLineFault()!=null){				
+//				DcLineFaultXmlType dcFault= fault.getDcLineFault();				
+//				if(fbus.equals(dcFault.getFromACBus().getName())&&
+//						tbus.equals(dcFault.getToACBus().getName())){					
+//					return dcFault;
+//				}else {	
+//					DcLineFaultXmlType dcLineFault = new DcLineFaultXmlType();
+//					fault.setDcLineFault(dcLineFault);
+//					return dcLineFault;
+//				}
+//			}
+//		}
 		return null;
 	}
 	
@@ -434,49 +434,49 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 	
 	public static ExciterXmlType getExciterRecord(TransientSimulationXmlType tranSimu,
 			 String busId, String excId){
-		for(ExciterXmlType exc: tranSimu.getDynamicDataList().getBusDynDataList().getExciterDataList().getExciter()){
-			if(busId.equals(exc.getLocatedBus().getName())){
-				if(exc.getExcId()!=null){
-					if(excId.equals(exc.getExcId().getName())){
-						return exc;
-					}
-				}else{
-					return exc;
-				}
-			}			
-		}		
+//		for(ExciterXmlType exc: tranSimu.getDynamicDataList().getBusDynDataList().getExciterDataList().getExciter()){
+//			if(busId.equals(exc.getLocatedBus().getName())){
+//				if(exc.getExcId()!=null){
+//					if(excId.equals(exc.getExcId().getName())){
+//						return exc;
+//					}
+//				}else{
+//					return exc;
+//				}
+//			}			
+//		}		
 		return null;		
 	}
 	
 	public static TurbineGovernorXmlType getTGRecord(TransientSimulationXmlType tranSimu,
 			 String busId, String tgId){
-		for(TurbineGovernorXmlType tg: tranSimu.getDynamicDataList().getBusDynDataList().getTurbineGovernorDataList().getTurbineGovernor()){
-			if(busId.equals(tg.getLocatedBus().getName())){
-				if(tg.getTgId()!=null){
-					if(tgId.equals(tg.getTgId().getName())){
-						return tg;
-					}
-				}else{
-					return tg;
-				}
-			}			
-		}	
+//		for(TurbineGovernorXmlType tg: tranSimu.getDynamicDataList().getBusDynDataList().getTurbineGovernorDataList().getTurbineGovernor()){
+//			if(busId.equals(tg.getLocatedBus().getName())){
+//				if(tg.getTgId()!=null){
+//					if(tgId.equals(tg.getTgId().getName())){
+//						return tg;
+//					}
+//				}else{
+//					return tg;
+//				}
+//			}			
+//		}	
 		return null;		
 	}
 	
 	public static StabilizerXmlType getPSSRecord(TransientSimulationXmlType tranSimu,
 			 String busId, String macId){
-		for(StabilizerXmlType pss: tranSimu.getDynamicDataList().getBusDynDataList().getStabilizerDataList().getStabilizer()){
-			if(busId.equals(pss.getLocatedBus().getName())){
-				if(pss.getMachId()!=null){
-					if(macId.equals(pss.getMachId().getName())){
-						return pss;
-					}
-				}else{
-					return pss;
-				}
-			}			
-		}	
+//		for(StabilizerXmlType pss: tranSimu.getDynamicDataList().getBusDynDataList().getStabilizerDataList().getStabilizer()){
+//			if(busId.equals(pss.getLocatedBus().getName())){
+//				if(pss.getMachId()!=null){
+//					if(macId.equals(pss.getMachId().getName())){
+//						return pss;
+//					}
+//				}else{
+//					return pss;
+//				}
+//			}			
+//		}	
 		return null;		
 	}
 }
