@@ -95,7 +95,7 @@ public class ODMDStabDataMapperImpl {
 					if (branch.getValue() instanceof LineBranchXmlType || 
 							branch.getValue() instanceof XfrBranchXmlType ||
 								branch.getValue() instanceof PSXfrBranchXmlType) {
-						DStabBranch dstabBranch = null;
+						DStabBranch dstabBranch = DStabObjectFactory.createDStabBranch();
 						ODMAclfDataMapperImpl.mapAclfBranchData(branch.getValue(), dstabBranch, dstabNet, simuCtx.getMsgHub());
 					}
 					else {

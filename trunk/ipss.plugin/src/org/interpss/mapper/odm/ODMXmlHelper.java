@@ -38,7 +38,7 @@ import com.interpss.core.net.OriginalDataFormat;
 
 
 public class ODMXmlHelper {
-	static String PSSStudyCaseHead = "<PSSStudyCase xmlns=\"http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1\">";
+	static String PSSStudyCaseHead = "<PSSStudyCase xmlns=\"http://www.ieee.org/odm/Schema/2008\">";
 	static String PSSStudyCaseEnd = "</PSSStudyCase>";
 	
 	static String BusListHead = PSSStudyCaseHead + "<baseCase><busList>";
