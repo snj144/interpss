@@ -31,6 +31,7 @@ import org.ieee.odm.schema.CimRdfXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
@@ -100,7 +101,9 @@ public class ODMNetDataMapperImpl {
 	 * @throws InterpssException
 	 */
 	public static void mapBaseBranchRec(BranchXmlType branchRec, Branch branch, Network net) throws InterpssException {
-		branch.setCircuitNumber(branchRec.getCircuitId());
+		String cirId = branchRec.getCircuitId() != null ?
+				branchRec.getCircuitId() : Constants.Token_DefaultBranchCirNo;
+		branch.setCircuitNumber(cirId);
 		try {
 			BusXmlType fromBus = (BusXmlType)branchRec.getFromBus().getIdRef();
 			BusXmlType toBus = (BusXmlType)branchRec.getToBus().getIdRef();
