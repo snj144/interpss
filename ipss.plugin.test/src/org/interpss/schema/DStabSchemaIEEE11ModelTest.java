@@ -91,7 +91,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 			  	assertTrue(algo.getSimuMethod() == DynamicSimuMethod.MODIFIED_EULER);
 			  	assertTrue(algo.getRefMachine() != null);
 			  	assertTrue(algo.getRefMachine().getId().equals("Mach@0003"));
-			  	assertTrue(algo.getDStabNet().getDEventList().size() == 0);
+			  	assertTrue(algo.getDStabNet().getDynamicEventList().size() == 0);
 
 			  	LoadflowAlgorithm aclfAlgo = algo.getAclfAlgorithm();
 				aclfAlgo.loadflow();
@@ -122,8 +122,8 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 			  	assertTrue(algo.getDStabNet().getNetEqnIterationNoEvent() == 3);
 			  	assertTrue(algo.getDStabNet().getNetEqnIterationWithEvent() == 5);
 			  	
-			  	assertTrue(algo.getDStabNet().getDEventList().size() == 1);
-			  	DynamicEvent event = algo.getDStabNet().getDEventList().get(0);
+			  	assertTrue(algo.getDStabNet().getDynamicEventList().size() == 1);
+			  	DynamicEvent event = algo.getDStabNet().getDynamicEventList().get(0);
 			  	assertTrue(event.getType() == DynamicEventType.BUS_FAULT);
 			  	assertTrue(event.getStartTimeSec() == 1.0);
 			  	assertTrue(event.getDurationSec() == 0.1);
