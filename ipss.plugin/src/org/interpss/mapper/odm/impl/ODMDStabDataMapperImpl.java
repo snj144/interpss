@@ -30,14 +30,20 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
+import org.ieee.odm.schema.DynamicGeneratorXmlType;
+import org.ieee.odm.schema.EquiMachineXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
+import org.ieee.odm.schema.MachineModelXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
+import org.ieee.odm.schema.SubTransientMachineXmlType;
+import org.ieee.odm.schema.TransientMachineXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 
@@ -46,6 +52,9 @@ import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
+import com.interpss.dstab.mach.Eq1Ed1Machine;
+import com.interpss.dstab.mach.MachineType;
+import com.interpss.dstab.mach.RoundRotorMachine;
 import com.interpss.simu.SimuContext;
 
 
@@ -79,10 +88,12 @@ public class ODMDStabDataMapperImpl {
 						
 						if (bus.getValue() instanceof ShortCircuitBusXmlType) {
 							ShortCircuitBusXmlType acscBusXml = (ShortCircuitBusXmlType) bus.getValue();
+							ODMAcscDataMapperImpl.setAcdcBusData(acscBusXml, dstabBus);
 						}
 
 						if (bus.getValue() instanceof DStabBusXmlType) {
 							DStabBusXmlType dstabBusXml = (DStabBusXmlType) bus.getValue();
+							setDStabBusData(dstabBusXml, dstabBus);
 						}
 					}
 					else {
@@ -124,4 +135,70 @@ public class ODMDStabDataMapperImpl {
 		ODMNetDataMapperImpl.mapNetworkData(dstabNet, xmlNet);
 		return dstabNet;
 	}	
+	
+	private static void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus) {
+		DStabilityNetwork dstabNet = (DStabilityNetwork)dstabBus.getNetwork();
+		for (DynamicGeneratorXmlType m : dstabBusXml.getMachineList().getMachine()) {
+			MachineModelXmlType machXml = m.getMachineModel().getValue();
+			if (machXml instanceof EquiMachineXmlType) {
+				
+			}
+			else if (machXml instanceof ClassicMachineXmlType) {
+				
+			}
+			else if (machXml instanceof TransientMachineXmlType) {
+				// create a machine and connect to the bus "Gen"
+				Eq1Ed1Machine mach = (Eq1Ed1Machine)DStabObjectFactory.
+									createMachine("MachId", "MachName", MachineType.EQ1_ED1_MODEL, dstabNet, dstabBus.getId());
+				// set machine data
+				mach.setRating(100, "Mva", dstabNet.getBaseKva());
+				mach.setRatedVoltage(1000.0);
+				mach.setMultiFactors(dstabBus);
+				mach.setH(5.0);
+				mach.setD(0.01);
+				mach.setXd(1.1);
+				mach.setXl(0.14);
+				mach.setXq(1.08);
+				mach.setXd1(0.23);
+				mach.setXq1(0.23);
+				mach.setX0(0.1);
+				mach.setX2(0.2);
+				mach.setRa(0.003);
+				mach.setTd01(5.6);
+				mach.setTq01(1.5);
+				mach.setSliner(2.0);  // no saturation
+				mach.setS100(1.0);
+				mach.setS120(1.0);	
+			}
+			else if (machXml instanceof SubTransientMachineXmlType) {
+				// create a machine and connect to the bus "Gen"
+				RoundRotorMachine mach = (RoundRotorMachine)DStabObjectFactory.
+									createMachine("MachId", "MachName", MachineType.EQ11_ED11_ROUND_ROTOR, dstabNet, "Gen");
+				// set machine data
+				mach.setRating(100, "Mva", dstabNet.getBaseKva());
+				mach.setRatedVoltage(1000.0);
+				mach.setMultiFactors(dstabBus);
+				mach.setH(5.0);
+				mach.setD(0.01);
+				mach.setX0(0.1);
+				mach.setX2(0.2);
+				mach.setRa(0.003);
+				mach.setXl(0.14);
+				mach.setXd(1.1);
+				mach.setXq(1.08);
+				mach.setXd1(0.23);
+				mach.setTd01(5.6);
+				mach.setXq1(0.23);
+				mach.setTq01(1.5);
+				mach.setXd11(0.12);
+				mach.setTq011(0.05);
+				mach.setXq11(0.15);
+				mach.setTd011(0.03);
+				mach.setSliner(2.0);  // no saturation
+				mach.setS100(1.0);
+				mach.setS120(1.0);					
+			}
+		}
+	}
+
 }
