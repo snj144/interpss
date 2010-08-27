@@ -35,6 +35,8 @@ import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
+import org.ieee.odm.schema.Eq11MachineXmlType;
+import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
 import org.ieee.odm.schema.Eq1MachineXmlType;
 import org.ieee.odm.schema.EquiMachineXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
@@ -139,20 +141,28 @@ public class ODMDStabDataMapperImpl {
 	private static void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus) {
 		DStabilityNetwork dstabNet = (DStabilityNetwork)dstabBus.getNetwork();
 		for (DynamicGeneratorXmlType m : dstabBusXml.getMachineList().getMachine()) {
-			MachineModelXmlType machXml = m.getMachineModel().getValue();
-			if (machXml instanceof EquiMachineXmlType) {
+			MachineModelXmlType machXmlRec = m.getMachineModel().getValue();
+			if (machXmlRec instanceof EquiMachineXmlType) {
 				
 			}
-			else if (machXml instanceof ClassicMachineXmlType) {
+			else if (machXmlRec instanceof ClassicMachineXmlType) {
 				
 			}
-			else if (machXml instanceof Eq1MachineXmlType) {
-				// create a machine and connect to the bus "Gen"
+			else if (machXmlRec instanceof EquiMachineXmlType) {
+			}
+			else if (machXmlRec instanceof Eq1MachineXmlType) {
+			}
+			else if (machXmlRec instanceof Eq1Ed1MachineXmlType) {
+				Eq1Ed1MachineXmlType machXml = (Eq1Ed1MachineXmlType)machXmlRec;
+				// create a machine and connect to the bus
 				Eq1Ed1Machine mach = (Eq1Ed1Machine)DStabObjectFactory.
-									createMachine("MachId", "MachName", MachineType.EQ1_ED1_MODEL, dstabNet, dstabBus.getId());
+									createMachine("MachId", "MachName", MachineType.EQ1_ED1_MODEL, 
+									dstabNet, dstabBus.getId());
 				// set machine data
-				mach.setRating(100, "Mva", dstabNet.getBaseKva());
-				mach.setRatedVoltage(1000.0);
+				mach.setRating(machXml.getRatedPower().getValue(), "Mva", dstabNet.getBaseKva());
+				//mach.setRatedVoltage(machXml.getRatedVoltage().getValue(), "Kv");
+				// the multiply factor is calculated using machine ratedP and ratedV against system 
+				// base kva and bus base voltage
 				mach.setMultiFactors(dstabBus);
 				mach.setH(5.0);
 				mach.setD(0.01);
@@ -170,10 +180,12 @@ public class ODMDStabDataMapperImpl {
 				mach.setS100(1.0);
 				mach.setS120(1.0);	
 			}
-			else if (machXml instanceof Eq11Ed11MachineXmlType) {
+			else if (machXmlRec instanceof Eq11MachineXmlType) {
+			}
+			else if (machXmlRec instanceof Eq11Ed11MachineXmlType) {
 				// create a machine and connect to the bus "Gen"
 				RoundRotorMachine mach = (RoundRotorMachine)DStabObjectFactory.
-									createMachine("MachId", "MachName", MachineType.EQ11_ED11_ROUND_ROTOR, dstabNet, "Gen");
+									createMachine("MachId", "MachName", MachineType.EQ11_ED11_ROUND_ROTOR, dstabNet, dstabBus.getId());
 				// set machine data
 				mach.setRating(100, "Mva", dstabNet.getBaseKva());
 				mach.setRatedVoltage(1000.0);
@@ -200,5 +212,4 @@ public class ODMDStabDataMapperImpl {
 			}
 		}
 	}
-
 }

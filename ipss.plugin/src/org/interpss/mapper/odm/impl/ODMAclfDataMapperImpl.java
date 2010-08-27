@@ -294,13 +294,17 @@ public class ODMAclfDataMapperImpl {
 	}
 
 	private static void setLineBranchData(LineBranchXmlType braLine, AclfBranch aclfBra, 
-							AclfAdjNetwork adjNet, IPSSMsgHub msg) throws Exception {
+							AclfAdjNetwork adjNet, IPSSMsgHub msg) throws InterpssException {
 		YXmlType fromShuntY = null, toShuntY = null;
 		double baseKva = adjNet.getBaseKva();
 		
 		aclfBra.setBranchCode(AclfBranchCode.LINE);
 		//System.out.println(braXmlData.getLineData().getZ().getIm());
 		LineAdapter line = (LineAdapter) aclfBra.getAdapter(LineAdapter.class);
+		if (braLine.getZ() == null) {
+			throw new InterpssException("Line data error, Z == null, branch id: " + braLine.getId());
+		}
+		
 		line.setZ(new Complex(braLine.getZ().getRe(), braLine.getZ().getIm()), 
 					ODMXmlHelper.toUnit(braLine.getZ().getUnit()), 
 					aclfBra.getFromAclfBus().getBaseVoltage(), msg);
