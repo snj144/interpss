@@ -11,6 +11,19 @@
 			<element name="desc" type="string" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
+	
+	<complexType name="ExcSimpleTypeXmlType">
+		<complexContent>
+		<extension base="pss:ExciterModelXmlType">
+		<sequence>
+			<element name="T" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="K" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VRMAX" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VRMIN" type="double" maxOccurs="1" minOccurs="1"></element>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
 <!-- 
 		IEEE 1968 model set
  -->			

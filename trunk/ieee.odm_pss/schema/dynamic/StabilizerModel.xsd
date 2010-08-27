@@ -12,6 +12,22 @@
 		</sequence>
 	</complexType>
 
+	<complexType name="PssSimpleTypeXmlType">
+		<complexContent>
+		<extension base="pss:StabilizerModelXmlType">
+		<sequence>
+			<element name="K1" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="T4" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="VMAX" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VMIN" type="double" maxOccurs="1" minOccurs="1"></element>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+
 	<complexType name="PssIEEE1981TypeXmlType">
 		<complexContent>
 		<extension base="pss:StabilizerModelXmlType">
@@ -82,7 +98,8 @@
 			<element name="VSTMIN" type="string" maxOccurs="1" minOccurs="1"></element>
 		</sequence>
 		</extension>
-		</complexContent>		</complexType>
+		</complexContent>
+	</complexType>
 
 	<complexType name="PssIEE2STXmlType">
 		<complexContent>

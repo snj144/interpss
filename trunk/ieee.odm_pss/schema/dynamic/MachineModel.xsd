@@ -12,10 +12,15 @@
 	<element name="machineModel" type="pss:MachineModelXmlType"/>
 	<element name="equiMachModel" type="pss:EquiMachineXmlType" substitutionGroup="pss:machineModel"/>
 	<element name="classicMachModel" type="pss:ClassicMachineXmlType" substitutionGroup="pss:machineModel"/>
-	<element name="transientMachModel" type="pss:TransientMachineXmlType" substitutionGroup="pss:machineModel"/>
-	<element name="subTransientMachModel" type="pss:SubTransientMachineXmlType" substitutionGroup="pss:machineModel"/>
+	<element name="transientMachModel" type="pss:Eq1Ed1MachineXmlType" substitutionGroup="pss:machineModel"/>
+	<element name="eq1Ed1MachModel" type="pss:Eq1Ed1MachineXmlType" substitutionGroup="pss:machineModel"/>
+	<element name="eq1MachModel" type="pss:Eq1MachineXmlType" substitutionGroup="pss:machineModel"/>
+	<element name="subTransientMachModel" type="pss:Eq11Ed11MachineXmlType" substitutionGroup="pss:machineModel"/>
+	<element name="eq11Ed11MachModel" type="pss:Eq11Ed11MachineXmlType" substitutionGroup="pss:machineModel"/>
+	<element name="eq11MachModel" type="pss:Eq11MachineXmlType" substitutionGroup="pss:machineModel"/>
 	
 	<element name="exciter" type="pss:ExciterModelXmlType"/>
+	<element name="excSimpleType" type="pss:ExcSimpleTypeXmlType" substitutionGroup="pss:exciter"/>
 	<element name="excIEEE1992TypeAC1A" type="pss:ExcIEEE1992TypeAC1AXmlType" substitutionGroup="pss:exciter"/>
 	<element name="excIEEE1981TypeAC2" type="pss:ExcIEEE1981TypeAC2XmlType" substitutionGroup="pss:exciter"/>
 	<element name="excIEEE1981ST1" type="pss:ExcIEEE1981ST1XmlType" substitutionGroup="pss:exciter"/>
@@ -27,6 +32,7 @@
 	<element name="excTSATTypeEXC34" type="pss:ExcTSATTypeEXC34XmlType" substitutionGroup="pss:exciter"/>
 	
 	<element name="governor" type="pss:GovernorModelXmlType"/>
+	<element name="govSimpleType" type="pss:GovSimpleTypeXmlType" substitutionGroup="pss:governor"/>
 	<element name="govIEEE1981Type1" type="pss:GovIEEE1981Type1XmlType" substitutionGroup="pss:governor"/>
 	<element name="govIEEE1981Type2" type="pss:GovIEEE1981Type2XmlType" substitutionGroup="pss:governor"/>
 	<element name="govIEEE1981Type3" type="pss:GovIEEE1981Type3XmlType" substitutionGroup="pss:governor"/>
@@ -35,6 +41,7 @@
 	<element name="govHydroSteamGeneralModel" type="pss:GovHydroSteamGeneralModelXmlType" substitutionGroup="pss:governor"/>
 			
 	<element name="stabilizer" type="pss:StabilizerModelXmlType"/>
+	<element name="pssSimpleType" type="pss:PssSimpleTypeXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEEE1981Type" type="pss:PssIEEE1981TypeXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEEE1982Type2A" type="pss:PssIEEE1982Type2AXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEE2ST" type="pss:PssIEE2STXmlType" substitutionGroup="pss:stabilizer"/>
@@ -87,7 +94,26 @@
 		</complexContent>		
 	</complexType>
 
-	<complexType name="TransientMachineXmlType">
+	<complexType name="Eq1MachineXmlType">
+		<complexContent>
+		<extension base="pss:ClassicMachineXmlType">
+		<sequence>
+			<element name="ra" maxOccurs="1" minOccurs="1" type="double">			</element>
+			<element name="xd" maxOccurs="1" minOccurs="1" type="double">			</element>
+			<element name="xq" maxOccurs="1" minOccurs="1" type="double">			</element>
+			<element name="Tdo1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1">			</element>
+			<element name="xq1" maxOccurs="1" minOccurs="1" type="double">			</element>
+			<element name="E1" type="double" maxOccurs="1" minOccurs="1">			</element>
+			<element name="E2" type="double" maxOccurs="1" minOccurs="1">			</element>
+			<element name="SE1" type="double" maxOccurs="1" minOccurs="1">			</element>
+			<element name="SE2" type="double" maxOccurs="1" minOccurs="1">			</element>
+			<element name="AF" type="double" maxOccurs="1" minOccurs="0">			</element>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+
+	<complexType name="Eq1Ed1MachineXmlType">
 		<complexContent>
 		<extension base="pss:ClassicMachineXmlType">
 		<sequence>
@@ -107,9 +133,21 @@
 		</complexContent>		
 	</complexType>
 
-	<complexType name="SubTransientMachineXmlType">
+	<complexType name="Eq11MachineXmlType">
 		<complexContent>
-		<extension base="pss:TransientMachineXmlType">
+		<extension base="pss:Eq1MachineXmlType">
+		<sequence>
+			<element name="xr" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="xd11" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="Td011" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1">			</element>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+
+	<complexType name="Eq11Ed11MachineXmlType">
+		<complexContent>
+		<extension base="pss:Eq1Ed1MachineXmlType">
 		<sequence>
 			<element name="xr" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="xd11" type="double" maxOccurs="1" minOccurs="1"></element>
@@ -138,9 +176,9 @@
 			</element>
 			<element name="classicalModel" maxOccurs="1" minOccurs="0" type="pss:ClassicMachineXmlType">
 			</element>
-			<element name="transModel" maxOccurs="1" minOccurs="0" type="pss:TransientMachineXmlType">
+			<element name="transModel" maxOccurs="1" minOccurs="0" type="pss:Eq1Ed1MachineXmlType">
 			</element>
-			<element name="subTransientModel" maxOccurs="1" minOccurs="0" type="pss:SubTransientMachineXmlType">
+			<element name="subTransientModel" maxOccurs="1" minOccurs="0" type="pss:Eq11Ed11MachineXmlType">
 			</element>
 		</sequence>
 	</complexType>
@@ -151,9 +189,9 @@
 			</element>
 			<element name="classicalModel" maxOccurs="1" minOccurs="0" type="pss:ClassicMachineXmlType">
 			</element>
-			<element name="transModel" maxOccurs="1" minOccurs="0" type="pss:TransientMachineXmlType">
+			<element name="transModel" maxOccurs="1" minOccurs="0" type="pss:Eq1Ed1MachineXmlType">
 			</element>
-			<element name="subTransientModel" maxOccurs="1" minOccurs="0" type="pss:SubTransientMachineXmlType">
+			<element name="subTransientModel" maxOccurs="1" minOccurs="0" type="pss:Eq11Ed11MachineXmlType">
 			</element>
 		</choice>
 	</complexType>

@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBElement;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
@@ -40,7 +41,6 @@ import org.ieee.odm.schema.DcLineFaultXmlType;
 import org.ieee.odm.schema.ExciterXmlType;
 import org.ieee.odm.schema.FaultTypeEnumType;
 import org.ieee.odm.schema.FaultXmlType;
-import org.ieee.odm.schema.GeneratorXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBranchDataXmlType;
