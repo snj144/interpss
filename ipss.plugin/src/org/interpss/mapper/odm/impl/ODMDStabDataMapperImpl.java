@@ -34,6 +34,8 @@ import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
+import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
+import org.ieee.odm.schema.Eq1MachineXmlType;
 import org.ieee.odm.schema.EquiMachineXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
@@ -42,8 +44,6 @@ import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
-import org.ieee.odm.schema.SubTransientMachineXmlType;
-import org.ieee.odm.schema.TransientMachineXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 
@@ -146,7 +146,7 @@ public class ODMDStabDataMapperImpl {
 			else if (machXml instanceof ClassicMachineXmlType) {
 				
 			}
-			else if (machXml instanceof TransientMachineXmlType) {
+			else if (machXml instanceof Eq1MachineXmlType) {
 				// create a machine and connect to the bus "Gen"
 				Eq1Ed1Machine mach = (Eq1Ed1Machine)DStabObjectFactory.
 									createMachine("MachId", "MachName", MachineType.EQ1_ED1_MODEL, dstabNet, dstabBus.getId());
@@ -170,7 +170,7 @@ public class ODMDStabDataMapperImpl {
 				mach.setS100(1.0);
 				mach.setS120(1.0);	
 			}
-			else if (machXml instanceof SubTransientMachineXmlType) {
+			else if (machXml instanceof Eq11Ed11MachineXmlType) {
 				// create a machine and connect to the bus "Gen"
 				RoundRotorMachine mach = (RoundRotorMachine)DStabObjectFactory.
 									createMachine("MachId", "MachName", MachineType.EQ11_ED11_ROUND_ROTOR, dstabNet, "Gen");

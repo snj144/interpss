@@ -131,7 +131,7 @@ public class DStabFormDataMapperImpl {
 		ScriptDynamicBusDeviceHolder busDevice = new ScriptDynamicBusDeviceHolder();
 		dstabNet.addScriptDynamicBusDevice(busDevice, busId);
 		DStabBus dstabBus = dstabNet.getDStabBus(busId);
-		dstabBus.getDynamicBusDevices().add(busDevice); // bind bus and machine
+		dstabBus.getDynamicBusDeviceList().add(busDevice); // bind bus and machine
 													// together
 		busDevice.setDeviceType(DynamicBusDeviceType.SCRIPT_DYNAMIC_BUS_DEVICE);
 		busDevice.setId(Constants.Token_DBusDeviceId + busId);
@@ -247,7 +247,7 @@ public class DStabFormDataMapperImpl {
 				setGovernorInfo(machData.getGovData(), mach, msg);
 			}
 		}
-		dstabBus.getDynamicBusDevices().add(mach); // bind bus and machine together
+		dstabBus.getDynamicBusDeviceList().add(mach); // bind bus and machine together
 
 		IpssLogger.getLogger().fine(
 				"Machine info set to: " + machData.toString());
