@@ -24,20 +24,6 @@
 
 package org.ieee.odm.model.jaxb;
 
-import org.ieee.odm.schema.ExciterDataListXmlType;
-import org.ieee.odm.schema.ExciterXmlType;
-import org.ieee.odm.schema.FaultXmlType;
-import org.ieee.odm.schema.GeneratorXmlType;
-import org.ieee.odm.schema.LoadCharacteristicXmlType;
-import org.ieee.odm.schema.NegativeSequenceDataListXmlType;
-import org.ieee.odm.schema.PostiveSequenceDataListXmlType;
-import org.ieee.odm.schema.ScenarioXmlType;
-import org.ieee.odm.schema.StabilizerDataListXmlType;
-import org.ieee.odm.schema.StabilizerXmlType;
-import org.ieee.odm.schema.TransientSimulationXmlType;
-import org.ieee.odm.schema.TurbineGovernorDataListXmlType;
-import org.ieee.odm.schema.TurbineGovernorXmlType;
-import org.ieee.odm.schema.ZeroSequenceDataListXmlType;
 
 public class JaxbTranStabSimuHelper {
 //	public static TransientSimulationXmlType getTransientSimlation(ScenarioXmlType scenario){
