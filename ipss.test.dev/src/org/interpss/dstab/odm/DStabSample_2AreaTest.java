@@ -28,8 +28,8 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import org.ieee.odm.model.dstab.DStabModelParser;
+import org.interpss.BaseTestSetup;
 import org.interpss.display.AclfOutFunc;
-import org.interpss.dstab.BaseTestSetup;
 import org.interpss.mapper.odm.IEEEODMMapper;
 import org.junit.Test;
 

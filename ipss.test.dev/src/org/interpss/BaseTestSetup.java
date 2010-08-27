@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.dstab;
+package org.interpss;
 
 import java.util.logging.Level;
 
