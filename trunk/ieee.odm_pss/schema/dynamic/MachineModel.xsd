@@ -65,8 +65,9 @@
 		<sequence>
 			<element name="name" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="desc" type="string" maxOccurs="1" minOccurs="0"></element>
-			<element name="basePower" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></element>
-			
+			<element name="ratedPower" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="poles" type="int" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
 
@@ -96,38 +97,63 @@
 
 	<complexType name="Eq1MachineXmlType">
 		<complexContent>
-		<extension base="pss:ClassicMachineXmlType">
-		<sequence>
-			<element name="ra" maxOccurs="1" minOccurs="1" type="double">			</element>
-			<element name="xd" maxOccurs="1" minOccurs="1" type="double">			</element>
-			<element name="xq" maxOccurs="1" minOccurs="1" type="double">			</element>
-			<element name="Tdo1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1">			</element>
-			<element name="xq1" maxOccurs="1" minOccurs="1" type="double">			</element>
-			<element name="E1" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="E2" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="SE1" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="SE2" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="AF" type="double" maxOccurs="1" minOccurs="0">			</element>
-		</sequence>
-		</extension>
-		</complexContent>		
+			<extension base="pss:ClassicMachineXmlType">
+				<sequence>
+					<element name="xl" maxOccurs="1" minOccurs="0" type="double">
+					</element>
+					<element name="x0" maxOccurs="1" minOccurs="0" type="double">
+					</element>
+					<element name="x2" maxOccurs="1" minOccurs="0" type="double">
+					</element>
+					<element name="ra" maxOccurs="1" minOccurs="1" type="double">
+					</element>
+					<element name="xd" maxOccurs="1" minOccurs="1" type="double">
+					</element>
+					<element name="xq" maxOccurs="1" minOccurs="1" type="double">
+					</element>
+					<element name="Tdo1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1">
+					</element>
+					<choice>
+						<element name="seFmt1">
+							<complexType>
+								<sequence>
+					<element name="SE100" type="double" maxOccurs="1" minOccurs="1">
+					</element>
+					<element name="SE120" type="double" maxOccurs="1" minOccurs="1">
+					</element>
+					<element name="sliner" type="double" maxOccurs="1" minOccurs="0">
+					</element>
+								</sequence>
+							</complexType>
+						</element>
+						<element name="seFmt2">
+							<complexType>
+								<sequence>
+					<element name="E1" type="double" maxOccurs="1" minOccurs="1">
+					</element>
+					<element name="E2" type="double" maxOccurs="1" minOccurs="1">
+					</element>
+					<element name="SE1" type="double" maxOccurs="1" minOccurs="1">
+					</element>
+					<element name="SE2" type="double" maxOccurs="1" minOccurs="1">
+					</element>
+					<element name="AF" type="double" maxOccurs="1" minOccurs="0">
+					</element>
+								</sequence>
+							</complexType>
+						</element>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
 	</complexType>
 
 	<complexType name="Eq1Ed1MachineXmlType">
 		<complexContent>
-		<extension base="pss:ClassicMachineXmlType">
+		<extension base="pss:Eq1MachineXmlType">
 		<sequence>
-			<element name="ra" maxOccurs="1" minOccurs="1" type="double">			</element>
-			<element name="xd" maxOccurs="1" minOccurs="1" type="double">			</element>
-			<element name="xq" maxOccurs="1" minOccurs="1" type="double">			</element>
-			<element name="Tdo1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1">			</element>
 			<element name="xq1" maxOccurs="1" minOccurs="1" type="double">			</element>
 			<element name="Tq01" maxOccurs="1" minOccurs="1" type="pss:TimePeriodXmlType">			</element>
-			<element name="E1" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="E2" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="SE1" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="SE2" type="double" maxOccurs="1" minOccurs="1">			</element>
-			<element name="AF" type="double" maxOccurs="1" minOccurs="0">			</element>
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -137,7 +163,6 @@
 		<complexContent>
 		<extension base="pss:Eq1MachineXmlType">
 		<sequence>
-			<element name="xr" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="xd11" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="Td011" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1">			</element>
 		</sequence>
@@ -149,7 +174,6 @@
 		<complexContent>
 		<extension base="pss:Eq1Ed1MachineXmlType">
 		<sequence>
-			<element name="xr" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="xd11" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="Td011" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1">			</element>
 			<element name="xq11" type="double" maxOccurs="1" minOccurs="1">			</element>
