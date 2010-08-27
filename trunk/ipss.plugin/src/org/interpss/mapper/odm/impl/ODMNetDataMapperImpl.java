@@ -71,7 +71,7 @@ public class ODMNetDataMapperImpl {
 			bus.setNumber(busRec.getNumber());
 		bus.setName(busRec.getName() == null? "Bus" : busRec.getName());
 		bus.setDesc(busRec.getDesc() == null? "Bus Desc" : busRec.getDesc());
-		bus.setStatus(!busRec.isOffLine());
+		bus.setStatus(busRec.isOffLine() != null? !busRec.isOffLine() : true);
 		if (!bus.isActive()) {
 			IpssLogger.getLogger().info("Bus is not active, " + bus.getId());
 		}
@@ -84,10 +84,15 @@ public class ODMNetDataMapperImpl {
 		}
 		
 		bus.setDesc(busRec.getDesc());
-		Area area = CoreObjectFactory.createArea(busRec.getAreaNumber(), net);
-		bus.setArea(area);
-		Zone zone = CoreObjectFactory.createZone(busRec.getZoneNumber(), net);
-		bus.setZone(zone);
+		if (busRec.getAreaNumber() != null) {
+			Area area = CoreObjectFactory.createArea(busRec.getAreaNumber(), net);
+			bus.setArea(area);
+		}
+		
+		if (busRec.getZoneNumber() != null) {
+			Zone zone = CoreObjectFactory.createZone(busRec.getZoneNumber(), net);
+			bus.setZone(zone);
+		}
 		bus.setBaseVoltage(busRec.getBaseVoltage().getUnit()==VoltageUnitType.KV ?    // Base V unit [KV, Volt] 
 									busRec.getBaseVoltage().getValue()*1000.0	: busRec.getBaseVoltage().getValue());
 	}
@@ -114,7 +119,7 @@ public class ODMNetDataMapperImpl {
 
 		branch.setName(branchRec.getName() == null ? "" : branchRec.getName());
 		branch.setDesc(branchRec.getDesc() == null ? "" : branchRec.getDesc());
-		branch.setStatus(!branchRec.isOffLine());
+		branch.setStatus(branchRec.isOffLine() != null ? !branchRec.isOffLine() : true);
 		if (!branch.isActive()) {
 			IpssLogger.getLogger().info("Branch is not active, " + branch.getId());
 		}
