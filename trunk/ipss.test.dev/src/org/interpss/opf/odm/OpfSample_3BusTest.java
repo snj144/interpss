@@ -28,14 +28,31 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import org.ieee.odm.model.opf.OpfModelParser;
+import org.interpss.BaseTestSetup;
+import org.interpss.mapper.odm.IEEEODMMapper;
 import org.junit.Test;
 
-public class OpfSample_3BusTest { 
+import com.interpss.opf.OpfNetwork;
+import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuCtxType;
+import com.interpss.simu.SimuObjectFactory;
+
+public class OpfSample_3BusTest  extends BaseTestSetup { 
 	@Test
 	public void testCase() throws Exception {
 		File file = new File("testdata/ieee_odm/opf_3bus_test.xml");
 		OpfModelParser parser = new OpfModelParser(new FileInputStream(file));
-		System.out.println(parser.toXmlDoc(false));
+		//System.out.println(parser.toXmlDoc(false));
+		
+		IEEEODMMapper mapper = new IEEEODMMapper();
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.OPF_NET, msg);
+		if (!mapper.mapping(parser, simuCtx, SimuContext.class)) {
+  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
+  	  		return;
+		}	
+		
+		OpfNetwork opfNet = simuCtx.getOpfNet();
+		System.out.println(opfNet.net2String());
 	}
 }
 
