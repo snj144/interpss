@@ -15,22 +15,22 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for GovIEEE1981Type2XmlType complex type.
+ * <p>Java class for PssSimpleTypeXmlType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="GovIEEE1981Type2XmlType">
+ * &lt;complexType name="PssSimpleTypeXmlType">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.ieee.org/odm/Schema/2008}GovernorModelXmlType">
+ *     &lt;extension base="{http://www.ieee.org/odm/Schema/2008}StabilizerModelXmlType">
  *       &lt;sequence>
- *         &lt;element name="K" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="K1" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *         &lt;element name="T1" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
  *         &lt;element name="T2" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
  *         &lt;element name="T3" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
- *         &lt;element name="PMAX" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="PMIN" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="T4" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
+ *         &lt;element name="VMAX" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="VMIN" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -40,48 +40,48 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "GovIEEE1981Type2XmlType", propOrder = {
-    "k",
+@XmlType(name = "PssSimpleTypeXmlType", propOrder = {
+    "k1",
     "t1",
     "t2",
     "t3",
-    "pmax",
-    "pmin",
-    "t4"
+    "t4",
+    "vmax",
+    "vmin"
 })
-public class GovIEEE1981Type2XmlType
-    extends GovernorModelXmlType
+public class PssSimpleTypeXmlType
+    extends StabilizerModelXmlType
 {
 
-    @XmlElement(name = "K")
-    protected double k;
+    @XmlElement(name = "K1")
+    protected double k1;
     @XmlElement(name = "T1", required = true)
     protected TimePeriodXmlType t1;
     @XmlElement(name = "T2", required = true)
     protected TimePeriodXmlType t2;
     @XmlElement(name = "T3", required = true)
     protected TimePeriodXmlType t3;
-    @XmlElement(name = "PMAX", required = true)
-    protected String pmax;
-    @XmlElement(name = "PMIN", required = true)
-    protected String pmin;
     @XmlElement(name = "T4", required = true)
     protected TimePeriodXmlType t4;
+    @XmlElement(name = "VMAX")
+    protected double vmax;
+    @XmlElement(name = "VMIN")
+    protected double vmin;
 
     /**
-     * Gets the value of the k property.
+     * Gets the value of the k1 property.
      * 
      */
-    public double getK() {
-        return k;
+    public double getK1() {
+        return k1;
     }
 
     /**
-     * Sets the value of the k property.
+     * Sets the value of the k1 property.
      * 
      */
-    public void setK(double value) {
-        this.k = value;
+    public void setK1(double value) {
+        this.k1 = value;
     }
 
     /**
@@ -157,54 +157,6 @@ public class GovIEEE1981Type2XmlType
     }
 
     /**
-     * Gets the value of the pmax property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPMAX() {
-        return pmax;
-    }
-
-    /**
-     * Sets the value of the pmax property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPMAX(String value) {
-        this.pmax = value;
-    }
-
-    /**
-     * Gets the value of the pmin property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPMIN() {
-        return pmin;
-    }
-
-    /**
-     * Sets the value of the pmin property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPMIN(String value) {
-        this.pmin = value;
-    }
-
-    /**
      * Gets the value of the t4 property.
      * 
      * @return
@@ -226,6 +178,38 @@ public class GovIEEE1981Type2XmlType
      */
     public void setT4(TimePeriodXmlType value) {
         this.t4 = value;
+    }
+
+    /**
+     * Gets the value of the vmax property.
+     * 
+     */
+    public double getVMAX() {
+        return vmax;
+    }
+
+    /**
+     * Sets the value of the vmax property.
+     * 
+     */
+    public void setVMAX(double value) {
+        this.vmax = value;
+    }
+
+    /**
+     * Gets the value of the vmin property.
+     * 
+     */
+    public double getVMIN() {
+        return vmin;
+    }
+
+    /**
+     * Sets the value of the vmin property.
+     * 
+     */
+    public void setVMIN(double value) {
+        this.vmin = value;
     }
 
 }
