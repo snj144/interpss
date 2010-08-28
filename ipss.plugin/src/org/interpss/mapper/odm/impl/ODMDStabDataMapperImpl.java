@@ -201,7 +201,7 @@ public class ODMDStabDataMapperImpl {
 				mach.setXd(machXml.getXd());
 				mach.setXq(machXml.getXq());
 				mach.setXd1(machXml.getXd1());
-				mach.setTd01(machXml.getTdo1().getValue());
+				mach.setTd01(machXml.getTd01().getValue());
 				mach.setXq1(machXml.getXq1());
 				mach.setTq01(machXml.getTq01().getValue());
 				mach.setXd11(machXml.getXd11());
@@ -210,8 +210,8 @@ public class ODMDStabDataMapperImpl {
 				mach.setTd011(machXml.getTd011().getValue());
 				if (machXml.getSeFmt1() != null) {
 					mach.setSliner(machXml.getSeFmt1().getSliner());
-					mach.setSe100(machXml.getSeFmt1().getSE100());
-					mach.setSe120(machXml.getSeFmt1().getSE120());					
+					mach.setSe100(machXml.getSeFmt1().getSe100());
+					mach.setSe120(machXml.getSeFmt1().getSe120());					
 				}
 				else if (machXml.getSeFmt2() != null) {
 					
