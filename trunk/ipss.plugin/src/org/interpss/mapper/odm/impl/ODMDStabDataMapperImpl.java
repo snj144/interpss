@@ -49,6 +49,7 @@ import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 
+import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
@@ -159,7 +160,7 @@ public class ODMDStabDataMapperImpl {
 									createMachine("MachId", "MachName", MachineType.EQ1_ED1_MODEL, 
 									dstabNet, dstabBus.getId());
 				// set machine data
-				mach.setRating(machXml.getRatedPower().getValue(), "Mva", dstabNet.getBaseKva());
+				mach.setRating(machXml.getRatedPower().getValue(), UnitType.mVA, dstabNet.getBaseKva());
 				//mach.setRatedVoltage(machXml.getRatedVoltage().getValue(), "Kv");
 				// the multiply factor is calculated using machine ratedP and ratedV against system 
 				// base kva and bus base voltage
@@ -177,38 +178,44 @@ public class ODMDStabDataMapperImpl {
 				mach.setTd01(5.6);
 				mach.setTq01(1.5);
 				mach.setSliner(2.0);  // no saturation
-				mach.setS100(1.0);
-				mach.setS120(1.0);	
+				mach.setSe100(1.0);
+				mach.setSe120(1.0);	
 			}
 			else if (machXmlRec instanceof Eq11MachineXmlType) {
 			}
 			else if (machXmlRec instanceof Eq11Ed11MachineXmlType) {
+				Eq11Ed11MachineXmlType machXml = (Eq11Ed11MachineXmlType)machXmlRec;
 				// create a machine and connect to the bus "Gen"
 				RoundRotorMachine mach = (RoundRotorMachine)DStabObjectFactory.
 									createMachine("MachId", "MachName", MachineType.EQ11_ED11_ROUND_ROTOR, dstabNet, dstabBus.getId());
 				// set machine data
-				mach.setRating(100, "Mva", dstabNet.getBaseKva());
+				mach.setRating(100, UnitType.mVA, dstabNet.getBaseKva());
 				mach.setRatedVoltage(1000.0);
 				mach.setMultiFactors(dstabBus);
-				mach.setH(5.0);
-				mach.setD(0.01);
-				mach.setX0(0.1);
-				mach.setX2(0.2);
-				mach.setRa(0.003);
-				mach.setXl(0.14);
-				mach.setXd(1.1);
-				mach.setXq(1.08);
-				mach.setXd1(0.23);
-				mach.setTd01(5.6);
-				mach.setXq1(0.23);
-				mach.setTq01(1.5);
-				mach.setXd11(0.12);
-				mach.setTq011(0.05);
-				mach.setXq11(0.15);
-				mach.setTd011(0.03);
-				mach.setSliner(2.0);  // no saturation
-				mach.setS100(1.0);
-				mach.setS120(1.0);					
+				mach.setH(machXml.getH());
+				mach.setD(machXml.getD());
+				mach.setX0(machXml.getX0());
+				mach.setX2(machXml.getX2());
+				mach.setRa(machXml.getRa());
+				mach.setXl(machXml.getXl());
+				mach.setXd(machXml.getXd());
+				mach.setXq(machXml.getXq());
+				mach.setXd1(machXml.getXd1());
+				mach.setTd01(machXml.getTdo1().getValue());
+				mach.setXq1(machXml.getXq1());
+				mach.setTq01(machXml.getTq01().getValue());
+				mach.setXd11(machXml.getXd11());
+				mach.setTq011(machXml.getTq011().getValue());
+				mach.setXq11(machXml.getXq11());
+				mach.setTd011(machXml.getTd011().getValue());
+				if (machXml.getSeFmt1() != null) {
+					mach.setSliner(machXml.getSeFmt1().getSliner());
+					mach.setSe100(machXml.getSeFmt1().getSE100());
+					mach.setSe120(machXml.getSeFmt1().getSE120());					
+				}
+				else if (machXml.getSeFmt2() != null) {
+					
+				}
 			}
 		}
 	}
