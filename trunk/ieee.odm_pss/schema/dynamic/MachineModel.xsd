@@ -105,13 +105,13 @@
 					<element name="ra" maxOccurs="1" minOccurs="1" type="double"/>
 					<element name="xd" maxOccurs="1" minOccurs="1" type="double"/>
 					<element name="xq" maxOccurs="1" minOccurs="1" type="double"/>
-					<element name="Tdo1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"/>
+					<element name="Td01" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"/>
 					<choice>
 						<element name="seFmt1">
 							<complexType>
 								<sequence>
-									<element name="SE100" type="double" maxOccurs="1" minOccurs="1"/>
-									<element name="SE120" type="double" maxOccurs="1" minOccurs="1"/>
+									<element name="se100" type="double" maxOccurs="1" minOccurs="1"/>
+									<element name="se120" type="double" maxOccurs="1" minOccurs="1"/>
 									<element name="sliner" type="double" maxOccurs="1" minOccurs="0"/>
 								</sequence>
 							</complexType>
@@ -119,11 +119,11 @@
 						<element name="seFmt2">
 							<complexType>
 								<sequence>
-									<element name="E1" type="double" maxOccurs="1" minOccurs="1"/>
-									<element name="E2" type="double" maxOccurs="1" minOccurs="1"/>
-									<element name="SE1" type="double" maxOccurs="1" minOccurs="1"/>
-									<element name="SE2" type="double" maxOccurs="1" minOccurs="1"/>
-									<element name="AF" type="double" maxOccurs="1" minOccurs="0"/>
+									<element name="e1" type="double" maxOccurs="1" minOccurs="1"/>
+									<element name="e2" type="double" maxOccurs="1" minOccurs="1"/>
+									<element name="se1" type="double" maxOccurs="1" minOccurs="1"/>
+									<element name="se2" type="double" maxOccurs="1" minOccurs="1"/>
+									<element name="af" type="double" maxOccurs="1" minOccurs="0"/>
 								</sequence>
 							</complexType>
 						</element>
