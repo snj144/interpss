@@ -180,7 +180,7 @@ public class DStabFormDataMapperImpl {
 			mach = DStabObjectFactory.createMachine(Constants.Token_MachId
 					+ busId, machData.getName(),
 					getMachType(machData.getType()), dstabNet, busId);
-			mach.setRating(machData.getRating(), "Mva", dstabNet.getBaseKva());
+			mach.setRating(machData.getRating(), UnitType.mVA, dstabNet.getBaseKva());
 			mach.setRatedVoltage(machData.getRatedVolt());
 			mach.setMultiFactors(dstabBus);
 			mach.setH(machData.getInertia());
@@ -213,8 +213,8 @@ public class DStabFormDataMapperImpl {
 				m.setXd(machData.getXd());
 				m.setXq(machData.getXq());
 				m.setSliner(machData.getSliner());
-				m.setS100(machData.getS100());
-				m.setS120(machData.getS120());
+				m.setSe100(machData.getS100());
+				m.setSe120(machData.getS120());
 
 				Eq1Machine mEq1 = (Eq1Machine) mach;
 				mEq1.setXd1(machData.getXd1());
