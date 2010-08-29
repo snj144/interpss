@@ -220,7 +220,7 @@ public class DStabOutFunc {
 			return "      Eq1 Model";
 		else if (mach.getMachType() == MachineType.EQ1_ED1_MODEL)
 			return "  Eq1 Ed1 Model";
-		else if (mach.getMachType() == MachineType.EQ11_ED11_SALIENT_POLE)
+		else if (mach.getMachType() == MachineType.EQ11_SALIENT_POLE)
 			return "E11 SalinetPole";
 		else if (mach.getMachType() == MachineType.EQ11_ED11_ROUND_ROTOR)
 			return " E11 RoundRotor";
