@@ -492,8 +492,7 @@
 	</simpleType>
 
 	<complexType name="MvaRatingXmlType">
-		<sequence>
-			<element name="ratingAry" type="double" maxOccurs="unbounded" minOccurs="0"></element>
+		<sequence>
 		</sequence>
 		<attribute name="rating1" type="double" use="required"></attribute>
 		<attribute name="rating2" type="double" use="optional"></attribute>
