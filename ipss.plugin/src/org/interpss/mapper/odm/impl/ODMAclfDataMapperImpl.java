@@ -279,7 +279,7 @@ public class ODMAclfDataMapperImpl {
 		}		
 	}
 	
-	private static void setAclfBranchData(BranchXmlType branchRec, AclfBranch aclfBranch, AclfAdjNetwork adjNet) throws InterpssException {
+	private static void setAclfBranchData(BranchXmlType branchRec, AclfBranch aclfBranch, AclfAdjNetwork adjNet) throws Exception {
 		ODMNetDataMapperImpl.mapBaseBranchRec(branchRec, aclfBranch, adjNet);		
 		if (branchRec.getRatingLimit() != null && branchRec.getRatingLimit().getMva() != null) {
 			double factor = 1.0;
@@ -288,8 +288,12 @@ public class ODMAclfDataMapperImpl {
 			else if (branchRec.getRatingLimit().getMva().getUnit() == ApparentPowerUnitType.KVA)
 				factor = 0.001;
 			aclfBranch.setRatingMva1(branchRec.getRatingLimit().getMva().getRating1() * factor);
-			aclfBranch.setRatingMva2(branchRec.getRatingLimit().getMva().getRating2() * factor);
-			aclfBranch.setRatingMva3(branchRec.getRatingLimit().getMva().getRating3() * factor);
+			if (branchRec.getRatingLimit().getMva().getRating2() != null)
+				aclfBranch.setRatingMva2(branchRec.getRatingLimit().getMva().getRating2() * factor);
+			if (branchRec.getRatingLimit().getMva().getRating3() != null)
+				aclfBranch.setRatingMva3(branchRec.getRatingLimit().getMva().getRating3() * factor);
+			//if (branchRec.getRatingLimit().getMva().getRating4())
+			//	aclfBranch.setRatingMva4(branchRec.getRatingLimit().getMva().getRating3() * factor);
 		}
 	}
 
