@@ -224,7 +224,7 @@ public class DStabFormDataMapperImpl {
 					Eq1Ed1Machine mEq1Ed1 = (Eq1Ed1Machine) mach;
 					mEq1Ed1.setXq1(machData.getXq1());
 					mEq1Ed1.setTq01(machData.getTq01());
-				} else if (mach.getMachType() == MachineType.EQ11_ED11_SALIENT_POLE
+				} else if (mach.getMachType() == MachineType.EQ11_SALIENT_POLE
 						|| mach.getMachType() == MachineType.EQ11_ED11_ROUND_ROTOR) {
 					SalientPoleMachine mPole = (SalientPoleMachine) mach;
 					mPole.setXd11(machData.getXd11());
@@ -325,7 +325,7 @@ public class DStabFormDataMapperImpl {
 		else if (mtype.equals(DStabMachData.MachType_Eq1Ed1))
 			return MachineType.EQ1_ED1_MODEL;
 		else if (mtype.equals(DStabMachData.MachType_SalientPole))
-			return MachineType.EQ11_ED11_SALIENT_POLE;
+			return MachineType.EQ11_SALIENT_POLE;
 		else if (mtype.equals(DStabMachData.MachType_RoundRotor))
 			return MachineType.EQ11_ED11_ROUND_ROTOR;
 		else {
