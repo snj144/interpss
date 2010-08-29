@@ -89,11 +89,17 @@ public class ODMOpfDataMapperImpl {
 		} 
 		else {
 			IpssLogger.getLogger().severe( "Error: wrong Transmission NetworkType and/or ApplicationType");
-			return false;
+			noError = false;
 		}
 		
-		OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
-		simuCtx.getNetwork().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
+		if (parser.getStudyCase().getContentInfo() != null) {
+			OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
+			simuCtx.getNetwork().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
+		} 
+		else {
+			IpssLogger.getLogger().severe( "Error: StudyCase.ContentInfo were not entered");
+			noError = false;
+		}
 		return noError;
 	}
 	
