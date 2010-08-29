@@ -270,7 +270,7 @@ public class JaxbDataSetter extends BaseDataSetter {
 	public static void setBranchRatingLimitData(BranchRatingLimitXmlType branchLimit, 
 			double[] mvarAry, ApparentPowerUnitType mvarUnit) {
 		setBranchRatingLimitData(branchLimit, mvarAry[0], mvarAry[1], mvarAry[2], mvarUnit);
-		MvaRatingXmlType mvaRating = branchLimit.getMva();
+//		MvaRatingXmlType mvaRating = branchLimit.getMva();
 //		for (double x : mvarAry)
 //			if (x > 0.0) {
 //				mvaRating.getRatingAry().add(x);
