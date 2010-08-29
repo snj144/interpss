@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< .mine
-<pss:pssStudyCase id="OPF_3BUS_TEST" xmlns:pss="http://www.ieee.org/odm/Schema/2008" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../schema/StudyCase.xsd ">
-=======
 <pss:pssStudyCase id="OPF_3BUS_TEST" 
     xmlns:pss="http://www.ieee.org/odm/Schema/2008" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/schema/StudyCase.xsd ">
->>>>>>> .r3731
   <pss:schemaVersion>V0.8</pss:schemaVersion>
   <pss:opfNet id="SampleOPFBaseCase">
     <pss:networkCategory>Transmission</pss:networkCategory>
@@ -39,20 +35,26 @@
       <pss:aclfLine xsi:type="pss:LineBranchXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="bus1_to_bus2_cirId_1">
       	<pss:fromBus idRef="Bus1"></pss:fromBus>
       	<pss:toBus idRef="Bus2"></pss:toBus>
-        <pss:ratingLimit mva="0.55" unit="PU"></pss:ratingLimit>
         <pss:z unit="PU" im="0.2" re="0"></pss:z>
+      	<pss:ratingLimit>
+      		<pss:mva rating1="0.55" unit="PU"/>
+      	</pss:ratingLimit>
         </pss:aclfLine>
       <pss:aclfLine areaNumber="1" circuitId="1" id="bus1_to_bus3_cirId_1" zoneNumber="1">
       	<pss:fromBus idRef="Bus1"></pss:fromBus>
       	<pss:toBus idRef="Bus3"></pss:toBus>
       	<pss:z unit="PU" im="0.4" re="0"></pss:z>
-      	<pss:ratingLimit mva="0.55" unit="PU"></pss:ratingLimit>
+      	<pss:ratingLimit>
+      		<pss:mva rating1="0.55" unit="PU"/>
+      	</pss:ratingLimit>
       </pss:aclfLine>
       <pss:aclfLine areaNumber="1" circuitId="1" id="bus2_to_bus3_cirId_1" zoneNumber="1">
       	<pss:fromBus idRef="Bus2"></pss:fromBus>
       	<pss:toBus idRef="Bus3"></pss:toBus>
       	<pss:z unit="PU" im="0.25" re="0"></pss:z>
-      	<pss:ratingLimit mva="0.55" unit="PU"></pss:ratingLimit>
+      	<pss:ratingLimit>
+      		<pss:mva rating1="0.55" unit="PU"/>
+      	</pss:ratingLimit>
       </pss:aclfLine>
     </pss:branchList>
     <pss:anglePenaltyFactor>1</pss:anglePenaltyFactor>
