@@ -1,4 +1,4 @@
-package com.interpss.opf.odm;
+package org.interpss.opf.odm;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileInputStream;
