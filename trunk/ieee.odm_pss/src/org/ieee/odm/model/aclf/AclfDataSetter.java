@@ -320,10 +320,10 @@ public class AclfDataSetter extends BaseDataSetter {
 			double[] mvarAry, ApparentPowerUnitType mvarUnit) {
 		setBranchRatingLimitData(branchLimit, mvarAry[0], mvarAry[1], mvarAry[2], mvarUnit);
 		MvaRatingXmlType mvaRating = branchLimit.getMva();
-		for (double x : mvarAry)
-			if (x > 0.0) {
-				mvaRating.getRatingAry().add(x);
-			}
+//		for (double x : mvarAry)
+//			if (x > 0.0) {
+//				mvaRating.getRatingAry().add(x);
+//			}
 	}
 	/**
 	 * add a RatingLimitData object to the branchData object, then set value(curLimit, curUnit) 
