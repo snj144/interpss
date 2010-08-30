@@ -10,22 +10,23 @@ package org.ieee.odm.schema;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for BranchRatingLimitXmlType complex type.
+ * <p>Java class for GroundingXmlType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="BranchRatingLimitXmlType">
+ * &lt;complexType name="GroundingXmlType">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="mva" type="{http://www.ieee.org/odm/Schema/2008}MvaRatingXmlType" minOccurs="0"/>
- *         &lt;element name="current" type="{http://www.ieee.org/odm/Schema/2008}CurrentXmlType" minOccurs="0"/>
+ *         &lt;element name="groundZ" type="{http://www.ieee.org/odm/Schema/2008}ZXmlType" minOccurs="0"/>
  *       &lt;/sequence>
+ *       &lt;attribute name="connection" use="required" type="{http://www.ieee.org/odm/Schema/2008}GroundingEnumType" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -34,61 +35,61 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "BranchRatingLimitXmlType", propOrder = {
-    "mva",
-    "current"
+@XmlType(name = "GroundingXmlType", propOrder = {
+    "groundZ"
 })
-public class BranchRatingLimitXmlType {
+public class GroundingXmlType {
 
-    protected MvaRatingXmlType mva;
-    protected CurrentXmlType current;
+    protected ZXmlType groundZ;
+    @XmlAttribute(required = true)
+    protected GroundingEnumType connection;
 
     /**
-     * Gets the value of the mva property.
+     * Gets the value of the groundZ property.
      * 
      * @return
      *     possible object is
-     *     {@link MvaRatingXmlType }
+     *     {@link ZXmlType }
      *     
      */
-    public MvaRatingXmlType getMva() {
-        return mva;
+    public ZXmlType getGroundZ() {
+        return groundZ;
     }
 
     /**
-     * Sets the value of the mva property.
+     * Sets the value of the groundZ property.
      * 
      * @param value
      *     allowed object is
-     *     {@link MvaRatingXmlType }
+     *     {@link ZXmlType }
      *     
      */
-    public void setMva(MvaRatingXmlType value) {
-        this.mva = value;
+    public void setGroundZ(ZXmlType value) {
+        this.groundZ = value;
     }
 
     /**
-     * Gets the value of the current property.
+     * Gets the value of the connection property.
      * 
      * @return
      *     possible object is
-     *     {@link CurrentXmlType }
+     *     {@link GroundingEnumType }
      *     
      */
-    public CurrentXmlType getCurrent() {
-        return current;
+    public GroundingEnumType getConnection() {
+        return connection;
     }
 
     /**
-     * Sets the value of the current property.
+     * Sets the value of the connection property.
      * 
      * @param value
      *     allowed object is
-     *     {@link CurrentXmlType }
+     *     {@link GroundingEnumType }
      *     
      */
-    public void setCurrent(CurrentXmlType value) {
-        this.current = value;
+    public void setConnection(GroundingEnumType value) {
+        this.connection = value;
     }
 
 }

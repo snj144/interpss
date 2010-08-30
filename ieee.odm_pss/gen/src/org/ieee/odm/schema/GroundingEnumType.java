@@ -13,36 +13,33 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 /**
- * <p>Java class for LFGenCodeEnumType.
+ * <p>Java class for GroundingEnumType.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="LFGenCodeEnumType">
+ * &lt;simpleType name="GroundingEnumType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="PQ"/>
- *     &lt;enumeration value="PV"/>
- *     &lt;enumeration value="Swing"/>
- *     &lt;enumeration value="NoneGen"/>
- *     &lt;enumeration value="OFF"/>
+ *     &lt;enumeration value="Ungrounded"/>
+ *     &lt;enumeration value="SolidGrounded"/>
+ *     &lt;enumeration value="ZGrounded"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
 @XmlEnum
-public enum LFGenCodeEnumType {
+public enum GroundingEnumType {
 
-    PQ("PQ"),
-    PV("PV"),
-    @XmlEnumValue("Swing")
-    SWING("Swing"),
-    @XmlEnumValue("NoneGen")
-    NONE_GEN("NoneGen"),
-    OFF("OFF");
+    @XmlEnumValue("Ungrounded")
+    UNGROUNDED("Ungrounded"),
+    @XmlEnumValue("SolidGrounded")
+    SOLID_GROUNDED("SolidGrounded"),
+    @XmlEnumValue("ZGrounded")
+    Z_GROUNDED("ZGrounded");
     private final String value;
 
-    LFGenCodeEnumType(String v) {
+    GroundingEnumType(String v) {
         value = v;
     }
 
@@ -50,8 +47,8 @@ public enum LFGenCodeEnumType {
         return value;
     }
 
-    public static LFGenCodeEnumType fromValue(String v) {
-        for (LFGenCodeEnumType c: LFGenCodeEnumType.values()) {
+    public static GroundingEnumType fromValue(String v) {
+        for (GroundingEnumType c: GroundingEnumType.values()) {
             if (c.value.equals(v)) {
                 return c;
             }
