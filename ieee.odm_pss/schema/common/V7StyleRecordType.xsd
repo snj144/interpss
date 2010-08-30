@@ -303,7 +303,7 @@
 						<element name="potiveZ" type="pss:ZXmlType" minOccurs="1"></element>
 						<element name="negativeZ" type="pss:ZXmlType" minOccurs="0"></element>
 						<element name="zeroZ" type="pss:ZXmlType" minOccurs="0"></element>
-						<element name="grounding" type="pss:GroundConnectionXmlType" minOccurs="0"></element>
+						<element name="grounding" type="pss:GroundingXmlType" minOccurs="0"></element>
 					</sequence>
 				</complexType>
 			</element>

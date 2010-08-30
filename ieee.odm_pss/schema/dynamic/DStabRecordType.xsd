@@ -24,6 +24,7 @@
 		<complexContent>
 			<extension base="pss:ShortCircuitNetXmlType">
 				<sequence>
+					<element name="saturatedMachineParameter" type="boolean" minOccurs="1"></element>
 				</sequence>
 			</extension>
 		</complexContent>
