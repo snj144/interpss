@@ -58,12 +58,19 @@ public class MachDataHelper {
 		this.ratedVoltage = ratedV;
 	}
 	
+	/**
+	 * Create machine model and added to the parent DStab bus
+	 * 
+	 * @param machXmlRec machine ODM xml record
+	 * @param machId machine Id, has to be unique for retrieval by id
+	 * @return
+	 */
 	public Machine createMachine(MachineModelXmlType machXmlRec, String machId) {
 		if (machXmlRec instanceof ClassicMachineXmlType) {
-			
+			// TODO
 		}
 		else if (machXmlRec instanceof EquiMachineXmlType) {
-			
+			// TODO
 		}
 		else if (machXmlRec instanceof Eq1MachineXmlType) {
 			Eq1MachineXmlType machXml = (Eq1MachineXmlType)machXmlRec;

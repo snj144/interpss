@@ -92,8 +92,7 @@ public class DStabFormDataMapperImpl {
 			msg.sendErrorMsg(e.toString());
 		}
 
-		MachineDataImpl.SaturatedData = ((GNetForm) editNet.getGNetForm())
-				.getDStabNetData().isSaturatedMachData();
+		dstabNet.setSaturatedMachineParameter(((GNetForm) editNet.getGNetForm()).getDStabNetData().isSaturatedMachData());
 
 		List busList = editNet.getBusFormList();
 		for (int i = 0; i < busList.size(); i++) {

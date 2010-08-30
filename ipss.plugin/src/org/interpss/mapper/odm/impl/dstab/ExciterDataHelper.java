@@ -31,23 +31,26 @@ import org.interpss.dstab.control.exc.simple.SimpleExciter;
 
 import com.interpss.dstab.mach.Machine;
 
-
-
 public class ExciterDataHelper {
 	private Machine mach = null;
 	
 	public ExciterDataHelper(Machine mach) {
 		this.mach = mach;
 	}
-	
+
+	/**
+	 * create the exc model and add to its parent machine object
+	 * 
+	 * @param excXmlRec ODM exciter model record
+	 */
 	public void createExciter(ExciterModelXmlType excXmlRec) {
 		if (excXmlRec instanceof ExcSimpleTypeXmlType) {
 			ExcSimpleTypeXmlType excXml = (ExcSimpleTypeXmlType)excXmlRec;
 			SimpleExciter exc = ExciterObjectFactory.createSimpleExciter(mach.getId()+"_Exc", excXml.getName(), mach);
-			exc.getData().setKa(excXml.getK());
-			exc.getData().setTa(excXml.getT().getValue());
-			exc.getData().setVrmax(excXml.getVRMAX());
-			exc.getData().setVrmin(excXml.getVRMIN());
+			exc.getData().setKa(excXml.getKa());
+			exc.getData().setTa(excXml.getTa().getValue());
+			exc.getData().setVrmax(excXml.getVrmax());
+			exc.getData().setVrmin(excXml.getVrmin());
 		}
 	}
 }

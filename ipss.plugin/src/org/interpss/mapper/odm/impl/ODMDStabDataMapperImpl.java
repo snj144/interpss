@@ -27,7 +27,6 @@ package org.interpss.mapper.odm.impl;
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.model.dstab.DStabModelParser;
-import org.ieee.odm.schema.ActivePowerXmlType;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
@@ -35,6 +34,7 @@ import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.ExciterModelXmlType;
+import org.ieee.odm.schema.GovernorModelXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.MachineModelXmlType;
@@ -42,11 +42,13 @@ import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
-import org.ieee.odm.schema.VoltageXmlType;
+import org.ieee.odm.schema.StabilizerModelXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 import org.interpss.mapper.odm.impl.dstab.ExciterDataHelper;
+import org.interpss.mapper.odm.impl.dstab.GovernorDataHelper;
 import org.interpss.mapper.odm.impl.dstab.MachDataHelper;
+import org.interpss.mapper.odm.impl.dstab.StabilizerDataHelper;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.DStabBranch;
@@ -56,10 +58,7 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
 
-
 public class ODMDStabDataMapperImpl {
-
-	
 	/**
 	 * transfer info stored in the parser object into simuCtx object
 	 * 
@@ -132,31 +131,35 @@ public class ODMDStabDataMapperImpl {
 	private static DStabilityNetwork mapNetworkData(DStabNetXmlType xmlNet) throws Exception {
 		DStabilityNetwork dstabNet = DStabObjectFactory.createDStabilityNetwork();
 		ODMNetDataMapperImpl.mapNetworkData(dstabNet, xmlNet);
+		dstabNet.setSaturatedMachineParameter(xmlNet.isSaturatedMachineParameter());
 		return dstabNet;
 	}	
 	
 	private static void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus) {
 		int cnt = 0;
 		for (DynamicGeneratorXmlType dyGen : dstabBusXml.getMachineList().getMachine()) {
-			ActivePowerXmlType ratedP = dyGen.getRatedPower();
-			VoltageXmlType ratedV = dyGen.getRatedVoltage();
-
+			// create the model model and added to the parent bus object
 			MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
 			String machId = dstabBus.getId() + "mach" + ++cnt;
-			Machine mach = new MachDataHelper(dstabBus, ratedP, ratedV)
+			Machine mach = new MachDataHelper(dstabBus, dyGen.getRatedPower(), dyGen.getRatedVoltage())
 					.createMachine(machXmlRec, machId);
 			
 			if (dyGen.getExciter() != null) {
+				// create the exc model and add to the parent machine object
 				ExciterModelXmlType excXml = dyGen.getExciter().getValue();
 				new ExciterDataHelper(mach).createExciter(excXml);
 				
 				if (dyGen.getStabilizer() != null) {
-					
+					// create the pss model and add to the parent machine object
+					StabilizerModelXmlType pssXml = dyGen.getStabilizer().getValue();
+					new StabilizerDataHelper(mach).createStabilizer(pssXml);
 				}
 			}
 
 			if (dyGen.getGovernor() != null) {
-				
+				// create the pss model and add to the parent machine object
+				GovernorModelXmlType govXml = dyGen.getGovernor().getValue();
+				new GovernorDataHelper(mach).createGovernor(govXml);
 			}
 		}
 	}
