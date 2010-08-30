@@ -24,9 +24,30 @@
 
 package org.interpss.mapper.odm.impl.dstab;
 
+import org.ieee.odm.schema.ExcSimpleTypeXmlType;
+import org.ieee.odm.schema.ExciterModelXmlType;
+import org.interpss.dstab.control.exc.ExciterObjectFactory;
+import org.interpss.dstab.control.exc.simple.SimpleExciter;
+
+import com.interpss.dstab.mach.Machine;
+
 
 
 public class ExciterDataHelper {
-	public ExciterDataHelper() {
+	private Machine mach = null;
+	
+	public ExciterDataHelper(Machine mach) {
+		this.mach = mach;
+	}
+	
+	public void createExciter(ExciterModelXmlType excXmlRec) {
+		if (excXmlRec instanceof ExcSimpleTypeXmlType) {
+			ExcSimpleTypeXmlType excXml = (ExcSimpleTypeXmlType)excXmlRec;
+			SimpleExciter exc = ExciterObjectFactory.createSimpleExciter(mach.getId()+"_Exc", excXml.getName(), mach);
+			exc.getData().setKa(excXml.getK());
+			exc.getData().setTa(excXml.getT().getValue());
+			exc.getData().setVrmax(excXml.getVRMAX());
+			exc.getData().setVrmin(excXml.getVRMIN());
+		}
 	}
 }
