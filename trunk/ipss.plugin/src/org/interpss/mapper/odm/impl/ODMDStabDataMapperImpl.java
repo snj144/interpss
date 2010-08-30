@@ -31,15 +31,10 @@ import org.ieee.odm.schema.ActivePowerXmlType;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
-import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
-import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
-import org.ieee.odm.schema.Eq11MachineXmlType;
-import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
-import org.ieee.odm.schema.Eq1MachineXmlType;
-import org.ieee.odm.schema.EquiMachineXmlType;
+import org.ieee.odm.schema.ExciterModelXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.MachineModelXmlType;
@@ -50,6 +45,7 @@ import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
+import org.interpss.mapper.odm.impl.dstab.ExciterDataHelper;
 import org.interpss.mapper.odm.impl.dstab.MachDataHelper;
 
 import com.interpss.common.util.IpssLogger;
@@ -57,11 +53,7 @@ import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.dstab.mach.Eq1Ed1Machine;
-import com.interpss.dstab.mach.Eq1Machine;
-import com.interpss.dstab.mach.MachineType;
-import com.interpss.dstab.mach.RoundRotorMachine;
-import com.interpss.dstab.mach.SalientPoleMachine;
+import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
 
 
@@ -148,13 +140,15 @@ public class ODMDStabDataMapperImpl {
 		for (DynamicGeneratorXmlType dyGen : dstabBusXml.getMachineList().getMachine()) {
 			ActivePowerXmlType ratedP = dyGen.getRatedPower();
 			VoltageXmlType ratedV = dyGen.getRatedVoltage();
-			MachDataHelper machHelper = new MachDataHelper(dstabBus, ratedP, ratedV);
 
 			MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
 			String machId = dstabBus.getId() + "mach" + ++cnt;
-			machHelper.createMachine(machXmlRec, machId);
+			Machine mach = new MachDataHelper(dstabBus, ratedP, ratedV)
+					.createMachine(machXmlRec, machId);
 			
 			if (dyGen.getExciter() != null) {
+				ExciterModelXmlType excXml = dyGen.getExciter().getValue();
+				new ExciterDataHelper(mach).createExciter(excXml);
 				
 				if (dyGen.getStabilizer() != null) {
 					
