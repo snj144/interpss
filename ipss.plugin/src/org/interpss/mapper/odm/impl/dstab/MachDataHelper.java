@@ -40,6 +40,7 @@ import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.mach.Eq1Ed1Machine;
 import com.interpss.dstab.mach.Eq1Machine;
+import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineType;
 import com.interpss.dstab.mach.RoundRotorMachine;
 import com.interpss.dstab.mach.SalientPoleMachine;
@@ -57,7 +58,7 @@ public class MachDataHelper {
 		this.ratedVoltage = ratedV;
 	}
 	
-	public void createMachine(MachineModelXmlType machXmlRec, String machId) {
+	public Machine createMachine(MachineModelXmlType machXmlRec, String machId) {
 		if (machXmlRec instanceof ClassicMachineXmlType) {
 			
 		}
@@ -71,6 +72,7 @@ public class MachDataHelper {
 								createMachine(machId, machXml.getName(), MachineType.EQ1_MODEL, 
 								(DStabilityNetwork)this.dstabBus.getNetwork(), dstabBus.getId());
 			setEq1Data(mach, machXml);
+			return mach;
 		}
 		else if (machXmlRec instanceof Eq1Ed1MachineXmlType) {
 			Eq1Ed1MachineXmlType machXml = (Eq1Ed1MachineXmlType)machXmlRec;
@@ -79,6 +81,7 @@ public class MachDataHelper {
 								createMachine(machId, machXml.getName(), MachineType.EQ1_ED1_MODEL, 
 								(DStabilityNetwork)this.dstabBus.getNetwork(), dstabBus.getId());
 			setEq1Ed1Data(mach, machXml);
+			return mach;
 		}
 		else if (machXmlRec instanceof Eq11MachineXmlType) {
 			Eq11MachineXmlType machXml = (Eq11MachineXmlType)machXmlRec;
@@ -87,6 +90,7 @@ public class MachDataHelper {
 								createMachine(machId, machXml.getName(), MachineType.EQ11_SALIENT_POLE, 
 								(DStabilityNetwork)this.dstabBus.getNetwork(), dstabBus.getId());
 			setEq11Data(mach, machXml);
+			return mach;
 		}
 		else if (machXmlRec instanceof Eq11Ed11MachineXmlType) {
 			Eq11Ed11MachineXmlType machXml = (Eq11Ed11MachineXmlType)machXmlRec;
@@ -95,7 +99,10 @@ public class MachDataHelper {
 								createMachine(machId, machXml.getName(), MachineType.EQ11_ED11_ROUND_ROTOR, 
 								(DStabilityNetwork)this.dstabBus.getNetwork(), dstabBus.getId());
 			setEq11Eq11Data(mach, machXml);
+			return mach;
 		}
+		
+		return null;
 	}
 	
 	private void setEq1Data(Eq1Machine mach, Eq1MachineXmlType machXml) {
