@@ -11,25 +11,31 @@
     <pss:busList>
     	<pss:dstabBus id="Bus1" name="AR1GEN1" scCode="Contributing">
     		<pss:baseVoltage unit="KV" value="230"></pss:baseVoltage>
-    		<pss:generator>
+    		<pss:machineList>
+    		<pss:machine>
+    			<pss:grounding connection="Ungrounded"></pss:grounding>
     			<pss:classicMachModel>
     				<pss:name>mach</pss:name>
     				<pss:H>0.0</pss:H>
     				<pss:D>0.0</pss:D>
     				<pss:xd1>0.0</pss:xd1>
     			</pss:classicMachModel>
-    		</pss:generator>
+    		</pss:machine>
+    		</pss:machineList>
     	</pss:dstabBus>
     	<pss:dstabBus scCode="Non-contributing" id="Bus2">
     		<pss:baseVoltage unit="PU" value="0.0" />
-    		<pss:generator>
+    		<pss:machineList>
+    		<pss:machine>
+    			<pss:grounding connection="Ungrounded"></pss:grounding>
     			<pss:classicMachModel>
     				<pss:name>mach</pss:name>
     				<pss:H>0.0</pss:H>
     				<pss:D>0.0</pss:D>
     				<pss:xd1>0.0</pss:xd1>
     			</pss:classicMachModel>
-    		</pss:generator>
+    		</pss:machine>
+    		</pss:machineList>
     	</pss:dstabBus>
     </pss:busList>
     <pss:branchList>
@@ -37,16 +43,18 @@
       	<pss:fromBus idRef="Bus1"></pss:fromBus>
       	<pss:toBus idRef="Bus2"></pss:toBus>
       </pss:dstabLine>
-      <pss:dstabXfr xsi:type="pss:XfrDStabXmlType" areaNumber="1" zoneNumber="1" circuitId="1" 
+      <pss:dstabXfr areaNumber="1" zoneNumber="1" circuitId="1" 
                         id="Bus10_to_Bus12_cirId_1">
       	<pss:fromBus idRef="Bus1"></pss:fromBus>
       	<pss:toBus idRef="Bus2"></pss:toBus>
       </pss:dstabXfr>
-      <pss:dstabPSXfr xsi:type="pss:PSXfrDStabXmlType" areaNumber="1" zoneNumber="1" circuitId="1" 
+      <pss:dstabPSXfr areaNumber="1" zoneNumber="1" circuitId="1" 
                          id="Bus10_to_Bus13_cirId_1">
       	<pss:fromBus idRef="Bus1"></pss:fromBus>
       	<pss:toBus idRef="Bus2"></pss:toBus>
       </pss:dstabPSXfr>
     </pss:branchList>
+    <pss:positiveSeqDataOnly>true</pss:positiveSeqDataOnly>
+    <pss:saturatedMachineParameter>true</pss:saturatedMachineParameter>
   </pss:dstabNet>
 </pss:pssStudyCase>
