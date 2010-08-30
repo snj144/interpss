@@ -24,9 +24,35 @@
 
 package org.interpss.mapper.odm.impl.dstab;
 
+import org.ieee.odm.schema.GovSimpleTypeXmlType;
+import org.ieee.odm.schema.GovernorModelXmlType;
+import org.interpss.dstab.control.gov.GovernorObjectFactory;
+import org.interpss.dstab.control.gov.simple.SimpleGovernor;
+
+import com.interpss.dstab.mach.Machine;
+
 
 
 public class GovernorDataHelper {
-	public GovernorDataHelper() {
+	private Machine mach = null;
+
+	public GovernorDataHelper(Machine mach) {
+		this.mach = mach;
+	}
+	
+	/**
+	 * create the gov model and add to its parent machine object
+	 * 
+	 * @param govXmlRec ODM governor model record
+	 */
+	public void createGovernor(GovernorModelXmlType govXmlRec) {
+		if (govXmlRec instanceof GovSimpleTypeXmlType) {
+			GovSimpleTypeXmlType govXml = (GovSimpleTypeXmlType)govXmlRec;
+			SimpleGovernor gov = GovernorObjectFactory.createSimpleGovernor(mach.getId()+"_Gov", govXml.getName(), mach);
+			gov.getData().setK(govXml.getK());
+			gov.getData().setT1(govXml.getT1().getValue());
+			gov.getData().setPmax(govXml.getPmax());
+			gov.getData().setPmin(govXml.getPmin());
+		}
 	}
 }

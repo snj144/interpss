@@ -24,9 +24,38 @@
 
 package org.interpss.mapper.odm.impl.dstab;
 
+import org.ieee.odm.schema.PssSimpleTypeXmlType;
+import org.ieee.odm.schema.StabilizerModelXmlType;
+import org.interpss.dstab.control.pss.StabilizerObjectFactory;
+import org.interpss.dstab.control.pss.simple.SimpleStabilizer;
+
+import com.interpss.dstab.mach.Machine;
+
 
 
 public class StabilizerDataHelper {
-	public StabilizerDataHelper() {
+	private Machine mach = null;
+	
+	public StabilizerDataHelper(Machine mach) {
+		this.mach = mach;
+	}
+	
+	/**
+	 * create the pss model and add to its parent machine object
+	 * 
+	 * @param pssXmlRec ODM stabilizer model record
+	 */
+	public void createStabilizer(StabilizerModelXmlType pssXmlRec) {
+		if (pssXmlRec instanceof PssSimpleTypeXmlType) {
+			PssSimpleTypeXmlType pssXml = (PssSimpleTypeXmlType)pssXmlRec;
+			SimpleStabilizer pss = StabilizerObjectFactory.createSimpleStabilizer(mach.getId()+"_Pss", pssXml.getName(), mach);
+			pss.getData().setKs(pssXml.getKs());
+			pss.getData().setT1(pssXml.getT1().getValue());
+			pss.getData().setT2(pssXml.getT2().getValue());
+			pss.getData().setT3(pssXml.getT3().getValue());
+			pss.getData().setT4(pssXml.getT4().getValue());
+			pss.getData().setVsmax(pssXml.getVsmax());
+			pss.getData().setVsmin(pssXml.getVsmin());
+		}
 	}
 }
