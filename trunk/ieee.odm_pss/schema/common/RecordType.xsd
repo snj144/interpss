@@ -18,10 +18,11 @@
 					<element name="networkCategory" minOccurs="1" maxOccurs="1" type="pss:NetworkCategoryEnumType"></element>
 					<element name="analysisCategory" type="pss:AnalysisCategoryEnumType" maxOccurs="1"></element>
 					<element name="basePower" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"></element>
+					<element name="frequency" type="pss:FrequencyXmlType" minOccurs="0"></element>
 					<element name="busList" minOccurs="1" maxOccurs="1">
 						<complexType>
 							<sequence>
-								<element ref="pss:bus" maxOccurs="unbounded" minOccurs="0"/>
+								<element ref="pss:bus" maxOccurs="unbounded" minOccurs="0" />
 							</sequence>
 						</complexType>
 					</element>

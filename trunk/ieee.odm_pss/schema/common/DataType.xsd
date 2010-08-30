@@ -329,16 +329,16 @@
 
 	<complexType name="XformerConnectionXmlType">
 		<sequence>
-			<element name="grounding" type="pss:GroundConnectionXmlType" minOccurs="0"></element>
+			<element name="grounding" type="pss:GroundingXmlType" minOccurs="0"></element>
 		</sequence>
 		<attribute name="connection" type="pss:XformrtConnectionEnumType" use="required"></attribute>
 	</complexType>
 
-	<complexType name="GroundConnectionXmlType">
+	<complexType name="GroundingXmlType">
 		<sequence>
 			<element name="groundZ" type="pss:ZXmlType" minOccurs="0"></element>
 		</sequence>
-		<attribute name="connection" type="pss:GroundConnectionEnumType" use="required"></attribute>
+		<attribute name="connection" type="pss:GroundingEnumType" use="required"></attribute>
 	</complexType>
 	
 	<simpleType name="ShortCircuitBusEnumType">
@@ -442,7 +442,7 @@
 		</restriction>
 	</simpleType>
 
-	<simpleType name="GroundConnectionEnumType">
+	<simpleType name="GroundingEnumType">
 		<restriction base="string">
 			<enumeration value="Ungrounded"></enumeration>
 			<enumeration value="SolidGrounded"></enumeration>
