@@ -27,6 +27,7 @@ package org.interpss.mapper.odm.impl;
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.model.dstab.DStabModelParser;
+import org.ieee.odm.schema.ActivePowerXmlType;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
@@ -46,6 +47,7 @@ import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
+import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 import org.interpss.mapper.odm.impl.dstab.MachDataHelper;
@@ -142,50 +144,25 @@ public class ODMDStabDataMapperImpl {
 	}	
 	
 	private static void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus) {
-		DStabilityNetwork dstabNet = (DStabilityNetwork)dstabBus.getNetwork();
-		MachDataHelper machHelper = new MachDataHelper(dstabBus);
 		int cnt = 0;
-		for (DynamicGeneratorXmlType m : dstabBusXml.getMachineList().getMachine()) {
-			MachineModelXmlType machXmlRec = m.getMachineModel().getValue();
+		for (DynamicGeneratorXmlType dyGen : dstabBusXml.getMachineList().getMachine()) {
+			ActivePowerXmlType ratedP = dyGen.getRatedPower();
+			VoltageXmlType ratedV = dyGen.getRatedVoltage();
+			MachDataHelper machHelper = new MachDataHelper(dstabBus, ratedP, ratedV);
+
+			MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
 			String machId = dstabBus.getId() + "mach" + ++cnt;
-			if (machXmlRec instanceof EquiMachineXmlType) {
+			machHelper.createMachine(machXmlRec, machId);
+			
+			if (dyGen.getExciter() != null) {
 				
+				if (dyGen.getStabilizer() != null) {
+					
+				}
 			}
-			else if (machXmlRec instanceof ClassicMachineXmlType) {
+
+			if (dyGen.getGovernor() != null) {
 				
-			}
-			else if (machXmlRec instanceof EquiMachineXmlType) {
-			}
-			else if (machXmlRec instanceof Eq1MachineXmlType) {
-				Eq1MachineXmlType machXml = (Eq1MachineXmlType)machXmlRec;
-				// create a machine and connect to the bus
-				Eq1Machine mach = (Eq1Ed1Machine)DStabObjectFactory.
-									createMachine(machId, machXml.getName(), MachineType.EQ1_MODEL, 
-									dstabNet, dstabBus.getId());
-				machHelper.setEq1Data(mach, machXml);
-			}
-			else if (machXmlRec instanceof Eq1Ed1MachineXmlType) {
-				Eq1Ed1MachineXmlType machXml = (Eq1Ed1MachineXmlType)machXmlRec;
-				// create a machine and connect to the bus
-				Eq1Ed1Machine mach = (Eq1Ed1Machine)DStabObjectFactory.
-									createMachine(machId, machXml.getName(), MachineType.EQ1_ED1_MODEL, 
-									dstabNet, dstabBus.getId());
-				machHelper.setEq1Ed1Data(mach, machXml);
-			}
-			else if (machXmlRec instanceof Eq11MachineXmlType) {
-				Eq11MachineXmlType machXml = (Eq11MachineXmlType)machXmlRec;
-				// create a machine and connect to the bus
-				SalientPoleMachine mach = (SalientPoleMachine)DStabObjectFactory.
-									createMachine(machId, machXml.getName(), MachineType.EQ11_SALIENT_POLE, 
-									dstabNet, dstabBus.getId());
-				machHelper.setEq11Data(mach, machXml);
-			}
-			else if (machXmlRec instanceof Eq11Ed11MachineXmlType) {
-				Eq11Ed11MachineXmlType machXml = (Eq11Ed11MachineXmlType)machXmlRec;
-				// create a machine and connect to the bus "Gen"
-				RoundRotorMachine mach = (RoundRotorMachine)DStabObjectFactory.
-									createMachine(machId, machXml.getName(), MachineType.EQ11_ED11_ROUND_ROTOR, dstabNet, dstabBus.getId());
-				machHelper.setEq11Eq11Data(mach, machXml);
 			}
 		}
 	}
