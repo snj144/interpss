@@ -20,15 +20,15 @@
     	</pss:aclfBus>
     </pss:busList>
     <pss:branchList>
-      <pss:aclfLine xsi:type="pss:LineBranchXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Branch1">
+      <pss:aclfLine areaNumber="1" zoneNumber="1" circuitId="1" id="Branch1">
       	<pss:fromBus idRef="Bus1"></pss:fromBus>
       	<pss:toBus idRef="Bus2"></pss:toBus>
       </pss:aclfLine>
-      <pss:aclfXfr xsi:type="pss:XfrBranchXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Branch2">
+      <pss:aclfXfr areaNumber="1" zoneNumber="1" circuitId="1" id="Branch2">
       	<pss:fromBus idRef="Bus1"></pss:fromBus>
       	<pss:toBus idRef="Bus2"></pss:toBus>
       </pss:aclfXfr>
-      <pss:aclfPSXfr xsi:type="pss:PSXfrBranchXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Branch3">
+      <pss:aclfPSXfr areaNumber="1" zoneNumber="1" circuitId="1" id="Branch3">
       	<pss:fromBus idRef="Bus1"></pss:fromBus>
       	<pss:toBus idRef="Bus2"></pss:toBus>
       </pss:aclfPSXfr>
