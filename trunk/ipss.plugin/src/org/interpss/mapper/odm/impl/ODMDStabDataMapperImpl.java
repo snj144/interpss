@@ -36,14 +36,20 @@ import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.ExciterModelXmlType;
 import org.ieee.odm.schema.GovernorModelXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
+import org.ieee.odm.schema.LineDStabXmlType;
+import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.MachineModelXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
+import org.ieee.odm.schema.PSXfrDStabXmlType;
+import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.StabilizerModelXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
+import org.ieee.odm.schema.XfrDStabXmlType;
+import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 import org.interpss.mapper.odm.impl.dstab.ExciterDataHelper;
 import org.interpss.mapper.odm.impl.dstab.GovernorDataHelper;
@@ -71,24 +77,34 @@ public class ODMDStabDataMapperImpl {
 		
 		if (parser.getDStabNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
 				&& parser.getAclfNet().getAnalysisCategory() == AnalysisCategoryEnumType.TRANSIENT_STABILITY) {
+			// get the base net xml record from the parser object
 			DStabNetXmlType xmlNet = parser.getDStabNet();
 			try {
+				// create a DStabilityNetwork object and map the net info 
 				DStabilityNetwork dstabNet = mapNetworkData(xmlNet);
 				simuCtx.setDStabilityNet(dstabNet);
 
+				// map the bus info
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					// for DStab, the bus could be aclfBus, acscBus or dstabBus
+					// inheritance relationship aclfBus <- acscBus <- dstabBus
 					if (bus.getValue() instanceof LoadflowBusXmlType) {
 						LoadflowBusXmlType aclfBusXml = (LoadflowBusXmlType)bus.getValue();
 						DStabBus dstabBus = DStabObjectFactory.createDStabBus(aclfBusXml.getId(), dstabNet);
+						
+						// base the base bus info part
 						ODMNetDataMapperImpl.mapBaseBusData(aclfBusXml, dstabBus, dstabNet);
+						
+						// map the Aclf info part
 						ODMAclfDataMapperImpl.setAclfBusData(aclfBusXml, dstabBus, dstabNet);
 						
+						// if the record includes Acsc info, do the mapping
 						if (bus.getValue() instanceof ShortCircuitBusXmlType) {
 							ShortCircuitBusXmlType acscBusXml = (ShortCircuitBusXmlType) bus.getValue();
 							ODMAcscDataMapperImpl.setAcdcBusData(acscBusXml, dstabBus);
 						}
 
+						// if the record includes DStab info, do the mapping
 						if (bus.getValue() instanceof DStabBusXmlType) {
 							DStabBusXmlType dstabBusXml = (DStabBusXmlType) bus.getValue();
 							setDStabBusData(dstabBusXml, dstabBus);
@@ -100,12 +116,27 @@ public class ODMDStabDataMapperImpl {
 					}
 				}
 
+				// map the branch info
 				for (JAXBElement<? extends BaseBranchXmlType> branch : xmlNet.getBranchList().getBranch()) {
+					// for DStab, the branch could be (LineBranchXmlType, ...), (LineShortCircuitXmlType ...) or (LineDStabXmlType ... )
+					// inheritance relationship (LineBranchXmlType, ...) <- (LineShortCircuitXmlType ...) <- (LineDStabXmlType ... )
 					if (branch.getValue() instanceof LineBranchXmlType || 
 							branch.getValue() instanceof XfrBranchXmlType ||
 								branch.getValue() instanceof PSXfrBranchXmlType) {
 						DStabBranch dstabBranch = DStabObjectFactory.createDStabBranch();
 						ODMAclfDataMapperImpl.mapAclfBranchData(branch.getValue(), dstabBranch, dstabNet, simuCtx.getMsgHub());
+
+						if (branch.getValue() instanceof LineShortCircuitXmlType || 
+								branch.getValue() instanceof XfrShortCircuitXmlType ||
+									branch.getValue() instanceof PSXfrShortCircuitXmlType) {
+							// TODO
+						}
+
+						if (branch.getValue() instanceof LineDStabXmlType || 
+								branch.getValue() instanceof XfrDStabXmlType ||
+									branch.getValue() instanceof PSXfrDStabXmlType) {
+							// TODO
+						}
 					}
 					else {
 						IpssLogger.getLogger().severe( "Error: only aclf<Branch>, acsc<Branch> and dstab<Branch> could be used for DStab study");
@@ -113,7 +144,7 @@ public class ODMDStabDataMapperImpl {
 					}
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 				IpssLogger.getLogger().severe(e.toString());
 				noError = false;
 			}
@@ -130,7 +161,7 @@ public class ODMDStabDataMapperImpl {
 	
 	private static DStabilityNetwork mapNetworkData(DStabNetXmlType xmlNet) throws Exception {
 		DStabilityNetwork dstabNet = DStabObjectFactory.createDStabilityNetwork();
-		ODMNetDataMapperImpl.mapNetworkData(dstabNet, xmlNet);
+		ODMAcscDataMapperImpl.mapNetworkData(dstabNet, xmlNet);
 		dstabNet.setSaturatedMachineParameter(xmlNet.isSaturatedMachineParameter());
 		return dstabNet;
 	}	
@@ -138,7 +169,7 @@ public class ODMDStabDataMapperImpl {
 	private static void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus) {
 		int cnt = 0;
 		for (DynamicGeneratorXmlType dyGen : dstabBusXml.getMachineList().getMachine()) {
-			// create the model model and added to the parent bus object
+			// create the machine model and added to the parent bus object
 			MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
 			String machId = dstabBus.getId() + "mach" + ++cnt;
 			Machine mach = new MachDataHelper(dstabBus, dyGen.getRatedPower(), dyGen.getRatedVoltage())
@@ -157,7 +188,7 @@ public class ODMDStabDataMapperImpl {
 			}
 
 			if (dyGen.getGovernor() != null) {
-				// create the pss model and add to the parent machine object
+				// create the gov model and add to the parent machine object
 				GovernorModelXmlType govXml = dyGen.getGovernor().getValue();
 				new GovernorDataHelper(mach).createGovernor(govXml);
 			}

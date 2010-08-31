@@ -103,6 +103,13 @@ public class ODMOpfDataMapperImpl {
 		return noError;
 	}
 	
+	private static OpfNetwork mapNetworkData(OpfNetworkXmlType xmlNet) throws Exception {
+		OpfNetwork opfNet = OpfObjectFactory.createOpfNetwork();
+		ODMNetDataMapperImpl.mapNetworkData(opfNet, xmlNet);
+		opfNet.setAnglePenaltyFactor(xmlNet.getAnglePenaltyFactor());	
+		return opfNet;
+	}
+
 	/**
 	 * Map a bus record
 	 * 
@@ -117,12 +124,5 @@ public class ODMOpfDataMapperImpl {
 		ODMNetDataMapperImpl.mapBaseBusData(busRec, aclfBus, net);
 		ODMAclfDataMapperImpl.setAclfBusData(busRec, aclfBus, net);
 		return aclfBus;
-	}
-	
-	private static OpfNetwork mapNetworkData(OpfNetworkXmlType xmlNet) throws Exception {
-		OpfNetwork opfNet = OpfObjectFactory.createOpfNetwork();
-		ODMNetDataMapperImpl.mapNetworkData(opfNet, xmlNet);
-		opfNet.setAnglePenaltyFactor(xmlNet.getAnglePenaltyFactor());	
-		return opfNet;
 	}
 }
