@@ -25,11 +25,24 @@
 package org.interpss.mapper.odm.impl;
 
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
+import org.ieee.odm.schema.ShortCircuitNetXmlType;
 
 import com.interpss.core.acsc.AcscBus;
+import com.interpss.core.acsc.AcscNetwork;
 
 
 public class ODMAcscDataMapperImpl {
+	/**
+	 * Map the network info only
+	 * 
+	 * @param xmlNet
+	 * @return
+	 */
+	public static void mapNetworkData(AcscNetwork net, ShortCircuitNetXmlType xmlNet) {
+		ODMAclfDataMapperImpl.mapNetworkData(net, xmlNet);
+		net.setPositiveSeqDataOnly(xmlNet.isPositiveSeqDataOnly());
+	}	
+
 	public static void setAcdcBusData(ShortCircuitBusXmlType acscBusXml, AcscBus acscBus) {
 		//if (dstabBusXml.getMachine());
 	}

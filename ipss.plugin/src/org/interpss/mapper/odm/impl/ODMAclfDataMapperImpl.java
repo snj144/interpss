@@ -95,7 +95,7 @@ public class ODMAclfDataMapperImpl {
 			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
 			try {
 				AclfAdjNetwork adjNet = CoreObjectFactory.createAclfAdjNetwork();
-				ODMNetDataMapperImpl.mapNetworkData(adjNet, xmlNet);
+				mapNetworkData(adjNet, xmlNet);
 				simuCtx.setAclfAdjNet(adjNet);
 
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
@@ -121,6 +121,16 @@ public class ODMAclfDataMapperImpl {
 		OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
 		simuCtx.getNetwork().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
 		return noError;
+	}
+	
+	/**
+	 * Map the network info only
+	 * 
+	 * @param xmlNet
+	 * @return
+	 */
+	public static void mapNetworkData(AclfAdjNetwork net, LoadflowNetXmlType xmlNet) {
+		ODMNetDataMapperImpl.mapNetworkData(net, xmlNet);
 	}
 	
 	/**
