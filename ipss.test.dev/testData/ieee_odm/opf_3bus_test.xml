@@ -32,7 +32,7 @@
     	</pss:opfGenBus>
     </pss:busList>
     <pss:branchList>
-      <pss:aclfLine xsi:type="pss:LineBranchXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="bus1_to_bus2_cirId_1">
+      <pss:aclfLine areaNumber="1" zoneNumber="1" circuitId="1" id="bus1_to_bus2_cirId_1">
       	<pss:fromBus idRef="Bus1"></pss:fromBus>
       	<pss:toBus idRef="Bus2"></pss:toBus>
         <pss:z unit="PU" im="0.2" re="0"></pss:z>
