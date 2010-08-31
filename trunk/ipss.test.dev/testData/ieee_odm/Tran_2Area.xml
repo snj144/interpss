@@ -29,20 +29,21 @@
 					<pss:machine>
 						<pss:genId id="AR1BUS1GEN1"></pss:genId>
 						<pss:ownerName>BUS1</pss:ownerName>
+						<pss:ratedPower unit="MW" value="900" />
+						<pss:grounding connection="Ungrounded"></pss:grounding>
 						<pss:transientMachModel>
-							<pss:ratedPower unit="MW" value="900" />
 							<pss:H>4</pss:H>
 							<pss:D>0</pss:D>
 							<pss:xd1>0.3</pss:xd1>
 							<pss:ra>0.0025</pss:ra>
 							<pss:xd>1.8</pss:xd>
 							<pss:xq>1.7</pss:xq>
-							<pss:Tdo1 unit="Sec" value="8.0"/>
+							<pss:Td01 unit="Sec" value="8.0"/>
 							<pss:seFmt2>
-								<pss:E1>0.2</pss:E1>
-								<pss:E2>0.9</pss:E2>
-								<pss:SE1>6.5</pss:SE1>
-								<pss:SE2>5</pss:SE2>
+								<pss:e1>0.2</pss:e1>
+								<pss:e2>0.9</pss:e2>
+								<pss:se1>6.5</pss:se1>
+								<pss:se2>5</pss:se2>
 							</pss:seFmt2>
 							<pss:xq1>0.3</pss:xq1>
 							<pss:Tq01 unit="Sec" value="0.4"/>
@@ -90,20 +91,21 @@
 					<pss:machine>
 						<pss:genId id="AR1BUS2GEN1"></pss:genId>
 						<pss:ownerName>BUS2</pss:ownerName>
+						<pss:ratedPower unit="MW" value="900" />
+						<pss:grounding connection="Ungrounded"></pss:grounding>
 						<pss:transientMachModel>
-							<pss:ratedPower unit="MW" value="900" />
 							<pss:H>4</pss:H>
 							<pss:D>0</pss:D>
 							<pss:xd1>0.3</pss:xd1>
 							<pss:ra>0.0025</pss:ra>
 							<pss:xd>1.8</pss:xd>
 							<pss:xq>1.7</pss:xq>
-							<pss:Tdo1 unit="Sec" value="8.0"></pss:Tdo1>
+							<pss:Td01 unit="Sec" value="8.0"/>
 							<pss:seFmt2>
-								<pss:E1>0.2</pss:E1>
-								<pss:E2>0.9</pss:E2>
-								<pss:SE1>6.5</pss:SE1>
-								<pss:SE2>5</pss:SE2>
+							<pss:e1>0.2</pss:e1>
+							<pss:e2>0.9</pss:e2>
+							<pss:se1>6.5</pss:se1>
+							<pss:se2>5</pss:se2>
 							</pss:seFmt2>
 							<pss:xq1>0.3</pss:xq1>
 							<pss:Tq01 unit="Sec" value="0.4"></pss:Tq01>
@@ -151,20 +153,21 @@
 					<pss:machine>
 						<pss:genId id="AR2BUS3GEN1"></pss:genId>
 						<pss:ownerName>BUS3</pss:ownerName>
+						<pss:ratedPower unit="MW" value="900" />
+						<pss:grounding connection="Ungrounded"></pss:grounding>
 						<pss:transientMachModel>
-							<pss:ratedPower unit="MW" value="900" />
 							<pss:H>4</pss:H>
 							<pss:D>0</pss:D>
 							<pss:xd1>0.3</pss:xd1>
 							<pss:ra>0.0025</pss:ra>
 							<pss:xd>1.8</pss:xd>
 							<pss:xq>1.7</pss:xq>
-							<pss:Tdo1 unit="Sec" value="8.0"></pss:Tdo1>
+							<pss:Td01 unit="Sec" value="8.0"/>
 							<pss:seFmt2>
-								<pss:E1>0.2</pss:E1>
-								<pss:E2>0.9</pss:E2>
-								<pss:SE1>6.5</pss:SE1>
-								<pss:SE2>5</pss:SE2>
+							<pss:e1>0.2</pss:e1>
+							<pss:e2>0.9</pss:e2>
+							<pss:se1>6.5</pss:se1>
+							<pss:se2>5</pss:se2>
 							</pss:seFmt2>
 							<pss:xq1>0.3</pss:xq1>
 							<pss:Tq01 unit="Sec" value="0.4"></pss:Tq01>
@@ -212,20 +215,21 @@
 				<pss:machine>
 					<pss:genId id="AR2BUS4GEN1"></pss:genId>
 					<pss:ownerName>BUS4</pss:ownerName>
+					<pss:ratedPower unit="MW" value="900" />
+					<pss:grounding connection="Ungrounded"></pss:grounding>
 					<pss:transientMachModel>
-						<pss:ratedPower unit="MW" value="900" />
 						<pss:H>4</pss:H>
 						<pss:D>0</pss:D>
 						<pss:xd1>0.3</pss:xd1>
 						<pss:ra>0.0025</pss:ra>
 						<pss:xd>1.8</pss:xd>
 						<pss:xq>1.7</pss:xq>
-						<pss:Tdo1 unit="Sec" value="8.0"></pss:Tdo1>
+						<pss:Td01 unit="Sec" value="8.0"/>
 						<pss:seFmt2>
-							<pss:E1>0.2</pss:E1>
-							<pss:E2>0.9</pss:E2>
-							<pss:SE1>6.5</pss:SE1>
-							<pss:SE2>5</pss:SE2>
+							<pss:e1>0.2</pss:e1>
+							<pss:e2>0.9</pss:e2>
+							<pss:se1>6.5</pss:se1>
+							<pss:se2>5</pss:se2>
 						</pss:seFmt2>
 						<pss:xq1>0.3</pss:xq1>
 						<pss:Tq01 unit="Sec" value="0.4"></pss:Tq01>
@@ -361,5 +365,6 @@
 			</pss:tieline>
 		</pss:tieLineList>
 		<pss:positiveSeqDataOnly>true</pss:positiveSeqDataOnly>
+		<pss:saturatedMachineParameter>true</pss:saturatedMachineParameter>
 	</pss:dstabNet>
 </pss:pssStudyCase>
