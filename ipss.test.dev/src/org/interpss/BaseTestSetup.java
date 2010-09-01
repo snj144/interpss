@@ -24,7 +24,11 @@
 
 package org.interpss;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.logging.Level;
+
+import org.junit.Test;
 
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.IIpssGraphModel;
