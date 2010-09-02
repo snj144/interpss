@@ -34,7 +34,8 @@ public class OpfSample_3BusTest {
 	@Test
 	public void testCase() throws Exception {
 		File file = new File("testdata/ieee_odm/opf_3bus_test.xml");
-		OpfModelParser parser = new OpfModelParser(new FileInputStream(file));
+		OpfModelParser parser = new OpfModelParser();
+		parser.parse(new FileInputStream(file));
 		System.out.println(parser.toXmlDoc(false));
 	}
 }
