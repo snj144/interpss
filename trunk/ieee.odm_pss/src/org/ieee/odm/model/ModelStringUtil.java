@@ -223,7 +223,8 @@ public class ModelStringUtil {
 		String xfrStr = parser.toXmlDoc(true)
 				.replaceAll("<"+fromType, "<"+toType)
 				.replace("</"+fromType, "</"+toType);
-		parser = new AclfModelParser(xfrStr);
+		parser = new AclfModelParser();
+		parser.parse(xfrStr);
 		return (BranchXmlType)parser.getAclfNet().getBranchList().getBranch().get(0).getValue();
 	}	
 }
