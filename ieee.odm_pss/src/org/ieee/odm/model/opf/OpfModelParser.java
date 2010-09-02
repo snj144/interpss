@@ -43,9 +43,9 @@ public class OpfModelParser extends AclfModelParser {
 	 * @param xmlString
 	 * @throws XmlException
 	 */
-	public OpfModelParser(String xmlString) throws Exception {
-		super(xmlString);
-	}
+//	public OpfModelParser(String xmlString) throws Exception {
+//		super(xmlString);
+//	}
 	
 	/**
 	 * Constructor using an Xml string
@@ -53,9 +53,9 @@ public class OpfModelParser extends AclfModelParser {
 	 * @param in
 	 * @throws Exception
 	 */
-	public OpfModelParser(InputStream in) throws Exception {
-		super(in);
-	}
+//	public OpfModelParser(InputStream in) throws Exception {
+//		super(in);
+//	}
 	
 	/**
 	 * Default Constructor 

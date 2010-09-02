@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.aclf.AclfDataSetter;
@@ -142,7 +143,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 						getLogger().fine("load tieline data");
 					}
 				} catch (final Exception e) {
-					parser.getLogger().severe(e.toString() + "\n" + str);
+					ODMLogger.getLogger().severe(e.toString() + "\n" + str);
 					e.printStackTrace();
 				}
 			}

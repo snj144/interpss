@@ -24,9 +24,6 @@
 
 package org.ieee.odm.model.aclf;
 
-import java.io.InputStream;
-
-import org.apache.xmlbeans.XmlException;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.ModelStringUtil;
@@ -57,9 +54,9 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @param xmlString
 	 * @throws XmlException
 	 */
-	public AclfModelParser(String xmlString) throws Exception {
-		super(xmlString);
-	}
+//	public AclfModelParser(String xmlString) throws Exception {
+//		super(xmlString);
+//	}
 	
 	/**
 	 * Constructor using an Xml string
@@ -67,9 +64,9 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @param in
 	 * @throws Exception
 	 */
-	public AclfModelParser(InputStream in) throws Exception {
-		super(in);
-	}
+//	public AclfModelParser(InputStream in) throws Exception {
+//		super(in);
+//	}
 	
 	/**
 	 * Default Constructor 

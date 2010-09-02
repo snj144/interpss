@@ -43,9 +43,9 @@ public class DStabModelParser extends AclfModelParser {
 	 * @param xmlString
 	 * @throws XmlException
 	 */
-	public DStabModelParser(String xmlString) throws Exception {
-		super(xmlString);
-	}
+//	public DStabModelParser(String xmlString) throws Exception {
+//		super(xmlString);
+//	}
 	
 	/**
 	 * Constructor using an Xml string
@@ -53,9 +53,9 @@ public class DStabModelParser extends AclfModelParser {
 	 * @param in
 	 * @throws Exception
 	 */
-	public DStabModelParser(InputStream in) throws Exception {
-		super(in);
-	}
+//	public DStabModelParser(InputStream in) throws Exception {
+//		super(in);
+//	}
 	
 	/**
 	 * Default Constructor 

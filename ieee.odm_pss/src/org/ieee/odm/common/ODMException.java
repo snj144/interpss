@@ -1,7 +1,7 @@
 /*
- * @(#)IODMModelParser.java   
+ * @(#)ODMException.java   
  *
- * Copyright (C) 2006-2008 www.interpss.org
+ * Copyright (C) 2006 www.interpss.com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -15,19 +15,19 @@
  *
  * @Author Mike Zhou
  * @Version 1.0
- * @Date 02/01/2008
+ * @Date 09/15/2010
  * 
  *   Revision History
  *   ================
  *
  */
 
-package org.ieee.odm.model;
+package org.ieee.odm.common;
 
-/**
- * A Xml parser for the IEEE DOM schema. 
- */
+public class ODMException extends Exception {
+	private static final long serialVersionUID = 1;
 
-public interface IODMModelParser {
-	String toXmlDoc(boolean addXsi);
+	public ODMException(String msg) {
+		super(msg);
+	}
 }

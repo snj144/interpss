@@ -57,9 +57,9 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	 * @param xmlFile
 	 * @throws Exception
 	 */
-	public JaxbODMModelParser(File xmlFile) throws Exception {
-		super(xmlFile);
-	}
+//	public JaxbODMModelParser(File xmlFile) throws Exception {
+//		super(xmlFile);
+//	}
 
 	/**
 	 * Constructor using an Xml string
@@ -67,9 +67,9 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	 * @param xmlString
 	 * @throws XmlException
 	 */
-	public JaxbODMModelParser(String xmlString) throws Exception {
-		super(xmlString);
-	}
+//	public JaxbODMModelParser(String xmlString) throws Exception {
+//		super(xmlString);
+//	}
 	
 	/**
 	 * Constructor using an Xml string
@@ -77,9 +77,9 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	 * @param in
 	 * @throws Exception
 	 */
-	public JaxbODMModelParser(InputStream in) throws Exception {
-		super(in);
-	}
+//	public JaxbODMModelParser(InputStream in) throws Exception {
+//		super(in);
+//	}
 
 	/**
 	 * Default Constructor 
