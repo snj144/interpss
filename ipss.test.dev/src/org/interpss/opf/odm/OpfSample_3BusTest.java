@@ -27,6 +27,7 @@ package org.interpss.opf.odm;
 import java.io.File;
 import java.io.FileInputStream;
 
+import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.interpss.BaseTestSetup;
 import org.interpss.mapper.odm.IEEEODMMapper;
@@ -41,18 +42,20 @@ public class OpfSample_3BusTest  extends BaseTestSetup {
 	@Test
 	public void testCase() throws Exception {
 		File file = new File("testdata/ieee_odm/opf_3bus_test.xml");
-		OpfModelParser parser = new OpfModelParser(new FileInputStream(file));
-		//System.out.println(parser.toXmlDoc(false));
-		
-		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.OPF_NET, msg);
-		if (!mapper.mapping(parser, simuCtx, SimuContext.class)) {
-  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
-  	  		return;
-		}	
-		
-		OpfNetwork opfNet = simuCtx.getOpfNet();
-		System.out.println(opfNet.net2String());
+		OpfModelParser parser = ODMObjectFactory.createOpfModelParser();
+		if (parser.parse(new FileInputStream(file))) {
+			//System.out.println(parser.toXmlDoc(false));
+			
+			IEEEODMMapper mapper = new IEEEODMMapper();
+			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.OPF_NET, msg);
+			if (!mapper.mapping(parser, simuCtx, SimuContext.class)) {
+	  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
+	  	  		return;
+			}	
+			
+			OpfNetwork opfNet = simuCtx.getOpfNet();
+			System.out.println(opfNet.net2String());
+		}
 	}
 }
 

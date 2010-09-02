@@ -27,6 +27,7 @@ package org.interpss.dstab.odm;
 import java.io.File;
 import java.io.FileInputStream;
 
+import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.interpss.BaseTestSetup;
 import org.interpss.display.AclfOutFunc;
@@ -44,23 +45,25 @@ public class DStabSample_2AreaTest extends BaseTestSetup {
 	@Test
 	public void testCase() throws Exception {
 		File file = new File("testdata/ieee_odm/Tran_2Area.xml");
-		DStabModelParser parser = new DStabModelParser(new FileInputStream(file));
-		//System.out.println(parser.toXmlDoc(false));
-		
-		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
-		if (!mapper.mapping(parser, simuCtx, SimuContext.class)) {
-  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
-  	  		return;
-		}	
-		
-		DStabilityNetwork dstabNet = simuCtx.getDStabilityNet();
-		System.out.println(dstabNet.net2String());
+		DStabModelParser parser = ODMObjectFactory.createDStabModelParser();
+		if (parser.parse(new FileInputStream(file))) {
+			//System.out.println(parser.toXmlDoc(false));
+			
+			IEEEODMMapper mapper = new IEEEODMMapper();
+			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+			if (!mapper.mapping(parser, simuCtx, SimuContext.class)) {
+	  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
+	  	  		return;
+			}	
+			
+			DStabilityNetwork dstabNet = simuCtx.getDStabilityNet();
+			System.out.println(dstabNet.net2String());
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, msg);
-	  	algo.loadflow();
-	  	
-	  	System.out.println(AclfOutFunc.loadFlowSummary(dstabNet));
+			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, msg);
+		  	algo.loadflow();
+		  	
+		  	System.out.println(AclfOutFunc.loadFlowSummary(dstabNet));
+		}
 	}
 }
 
