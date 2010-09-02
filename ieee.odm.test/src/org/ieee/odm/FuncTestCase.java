@@ -28,7 +28,8 @@ public class FuncTestCase {
 	@Test
 	public void removeObjectTestCase() throws Exception {
 		InputStream in = new BufferedInputStream(new FileInputStream("testdata/ieee_odm/Ieee14Bus_odm.xml"));
-		JaxbODMModelParser parser = new JaxbODMModelParser(in);
+		JaxbODMModelParser parser = new JaxbODMModelParser();
+		parser.parse(in);
 		
 		assertTrue(parser.getAclfBaseCase().getBranchList().getBranch().size() == 20);
 		assertTrue(parser.getAclfBaseCase().getBusList().getBus().size() == 14);
@@ -61,13 +62,15 @@ public class FuncTestCase {
 		      "</aclfXfr>" + 
 		      BranchListEnd;		
 		
-		AclfModelParser parser = new AclfModelParser(str);
-		XfrBranchXmlType xfr = (XfrBranchXmlType)parser.getAclfNet().getBranchList().getBranch().get(0).getValue();
-		
-		PSXfrBranchXmlType psXfr = (PSXfrBranchXmlType)ModelStringUtil.casting(xfr, "aclfXfr", "aclfPSXfr");
-		assertTrue(psXfr.getId() != null);
-		assertTrue(psXfr.getFromBus() != null);
-		assertTrue(psXfr.getZ().getIm() == .20912);
+		AclfModelParser parser = ODMObjectFactory.createAclfModelParser();
+		if (parser.parse(str)) {
+			XfrBranchXmlType xfr = (XfrBranchXmlType)parser.getAclfNet().getBranchList().getBranch().get(0).getValue();
+			
+			PSXfrBranchXmlType psXfr = (PSXfrBranchXmlType)ModelStringUtil.casting(xfr, "aclfXfr", "aclfPSXfr");
+			assertTrue(psXfr.getId() != null);
+			assertTrue(psXfr.getFromBus() != null);
+			assertTrue(psXfr.getZ().getIm() == .20912);
+		}
 	}
 	
 	@Test
@@ -80,7 +83,8 @@ public class FuncTestCase {
 			"</baseCase>" +
 			PSSStudyCaseEnd;
 		
-		JaxbODMModelParser parser = new JaxbODMModelParser(str);
+		JaxbODMModelParser parser = new JaxbODMModelParser();
+		parser.parse(str);
 		assertTrue(parser.getAclfBaseCase().getBasePower().getValue() == 100.0);
 		assertTrue(parser.getAclfBaseCase().getId() != null);
 		
@@ -96,7 +100,8 @@ public class FuncTestCase {
 		"</bus>" +
 		BusListEnd;
 
-		parser = new JaxbODMModelParser(str);
+		parser = new JaxbODMModelParser();
+		parser.parse(str);
 		LoadflowBusXmlType bus = (LoadflowBusXmlType)parser.getAclfBaseCase().getBusList().getBus().get(0).getValue();
 		assertTrue(bus.getId() != null);
 		assertTrue(bus.getBaseVoltage().getValue() == 132.0);
@@ -111,7 +116,8 @@ public class FuncTestCase {
 		"</branch>" +
 		BranchListEnd;
 
-		parser = new JaxbODMModelParser(str);
+		parser = new JaxbODMModelParser();
+		parser.parse(str);
 		assertTrue(parser.getAclfBaseCase().getBranchList().getBranch().get(0).getValue().getId() != null);
 		assertTrue(parser.getAclfBaseCase().getBranchList().getBranch().get(0).getValue().getFromBus() != null);
 		assertTrue(((LineBranchXmlType)(parser.getAclfBaseCase().getBranchList().getBranch().get(0)).getValue()).getZ().getRe() == .01938);
@@ -127,7 +133,8 @@ public class FuncTestCase {
 			"</baseCase>" +
 			PSSStudyCaseEnd;
 		
-		JaxbODMModelParser parser = new JaxbODMModelParser(str);
+		JaxbODMModelParser parser = new JaxbODMModelParser();
+		parser.parse(str);
 		assertTrue(parser.getAclfBaseCase().getBasePower().getValue() == 100.0);
 		assertTrue(parser.getAclfBaseCase().getId() != null);
 		
@@ -145,7 +152,8 @@ public class FuncTestCase {
 		"</bus>" +
 		BusListEnd;
 
-		parser = new JaxbODMModelParser(str);
+		parser = new JaxbODMModelParser();
+		parser.parse(str);
 		assertTrue(parser.getAclfBaseCase().getBusList().getBus().get(0).getValue().getId() != null);
 		assertTrue(parser.getAclfBaseCase().getBusList().getBus().get(0).getValue().getBaseVoltage().getValue() == 132.0);
 		
@@ -162,7 +170,8 @@ public class FuncTestCase {
 		"</branch>" +
 		BranchListEnd;
 
-		parser = new JaxbODMModelParser(str);
+		parser = new JaxbODMModelParser();
+		parser.parse(str);
 		assertTrue(parser.getAclfBaseCase().getBranchList().getBranch().get(0).getValue().getId() != null);
 		assertTrue(parser.getAclfBaseCase().getBranchList().getBranch().get(0).getValue().getFromBus() != null);
 //		assertTrue(xml.getPSSStudyCase().getBaseCase().getBranchList().getBranchArray(0).getLoadflowDataArray(0).getZ().getRe() == .01938);
@@ -171,7 +180,8 @@ public class FuncTestCase {
 	@Test
 	public void parseODM1_TestCase() throws Exception {
 		InputStream in = new BufferedInputStream(new FileInputStream("testdata/ieee_odm/Ieee14Bus_odm.xml"));
-		JaxbODMModelParser parser = new JaxbODMModelParser(in);
+		JaxbODMModelParser parser = new JaxbODMModelParser();
+		parser.parse(in);
 		
 		assertTrue(parser.getAclfBaseCase().getBasePower().getValue() == 100.0);
 		
