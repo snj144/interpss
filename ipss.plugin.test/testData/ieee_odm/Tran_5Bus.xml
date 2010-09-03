@@ -8,8 +8,9 @@
   <pss:dstabNet id="idvalue1">
     <pss:networkCategory>Transmission</pss:networkCategory>
     <pss:analysisCategory>TransientStability</pss:analysisCategory>
-    <pss:basePower unit="MVA" value="100"/>
-    <pss:busList>
+    <pss:basePower unit="MVA" value="100"/><pss:frequency unit="Hz"
+    	value="50" />
+  	<pss:busList>
     	<pss:dstabBus scCode="Contributing" id="Bus-1" offLine="false"
     		areaNumber="1" zoneNumber="1">
     		<pss:baseVoltage unit="KV" value="138" ></pss:baseVoltage>
@@ -64,6 +65,40 @@
     	</pss:dstabBus>
 
     </pss:busList>
-    <pss:branchList></pss:branchList>
+    <pss:branchList>
+    	<pss:dstabLine id="Bus2-Bus1" circuitId="1" offLine="false">
+    		<pss:fromBus idRef="Bus2"></pss:fromBus>
+    		<pss:toBus idRef="Bus1"></pss:toBus>
+    		<pss:z im="0.25" unit="PU" re="0.04" /><pss:fromShuntY
+    			im="0.25" unit="PU" /><pss:toShuntY im="0.25" unit="PU" />
+    	</pss:dstabLine>
+    	<pss:dstabLine id="Bus3-Bus1" circuitId="1" offLine="false">
+    		<pss:fromBus idRef="Bus3"></pss:fromBus>
+    		<pss:toBus idRef="Bus1"></pss:toBus>
+    		<pss:z im="0.35" unit="PU" re="0.1" /><pss:fromShuntY
+    			im="0" unit="PU" /><pss:toShuntY im="0" unit="PU" />
+    	</pss:dstabLine>
+    	<pss:dstabLine id="Bus2-Bus3" circuitId="1" offLine="false">
+    		<pss:fromBus idRef="Bus2"></pss:fromBus>
+    		<pss:toBus idRef="Bus3"></pss:toBus>
+    		<pss:z im="0.3" unit="PU" re="0.08" /><pss:fromShuntY
+    			im="0.25" unit="PU" /><pss:toShuntY im="0.25" unit="PU" />
+    	</pss:dstabLine>
+    	<pss:dstabXfr id="Bus4-Bus2">
+    		<pss:fromBus idRef="Bus4"></pss:fromBus>
+    		<pss:toBus idRef="Bus2"></pss:toBus>
+    		<pss:z im="0.016" unit="PU" re="0.0" /><pss:fromTurnRatio
+    			unit="PU" value="1.0" /><pss:toTurnRatio unit="PU"
+    			value="1.05" />
+    	</pss:dstabXfr>
+    	<pss:dstabXfr id="Bus5-Bus3">
+    		<pss:fromBus idRef="Bus5"></pss:fromBus>
+    		<pss:toBus idRef="Bus3"></pss:toBus>
+    		<pss:z im="0.03" unit="PU" re="0.0" /><pss:fromTurnRatio
+    			unit="PU" value="1.0" /><pss:toTurnRatio unit="PU"
+    			value="1.05" />
+    	</pss:dstabXfr>
+    </pss:branchList>
+    <pss:hasLoadflowData>true</pss:hasLoadflowData>
   </pss:dstabNet>
 </pss:pssStudyCase>
