@@ -93,7 +93,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 			JAXBElement<StudyCaseXmlType> elem = (JAXBElement<StudyCaseXmlType>)createUnmarshaller().unmarshal(xmlFile);
 			this.pssStudyCase = elem.getValue();
 			return true;
-		} catch (JAXBException e) { return false;}
+		} catch (JAXBException e) { e.printStackTrace(); return false;}
 	}
 
 	/**
@@ -108,7 +108,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 			JAXBElement<StudyCaseXmlType> elem = (JAXBElement<StudyCaseXmlType>)createUnmarshaller().unmarshal(bStr);
 			this.pssStudyCase = elem.getValue();
 			return true;
-		} catch (JAXBException e) { return false;}
+		} catch (JAXBException e) { e.printStackTrace(); return false;}
 	}
 	
 	/**
@@ -121,7 +121,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		try {
 			JAXBElement<StudyCaseXmlType> elem = (JAXBElement<StudyCaseXmlType>)createUnmarshaller().unmarshal(in);
 			this.pssStudyCase = elem.getValue();
-		} catch (JAXBException e) {return false;}
+		} catch (JAXBException e) { e.printStackTrace(); return false;}
 		// cache the loaded bus and branch objects
 		for (JAXBElement<? extends BusXmlType> bus : this.getBaseCase().getBusList().getBus()) {
 			BusXmlType b = bus.getValue();
