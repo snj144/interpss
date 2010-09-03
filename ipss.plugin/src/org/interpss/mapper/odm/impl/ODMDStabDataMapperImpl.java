@@ -144,8 +144,8 @@ public class ODMDStabDataMapperImpl {
 					}
 				}
 			} catch (Exception e) {
-				//e.printStackTrace();
 				IpssLogger.getLogger().severe(e.toString());
+				e.printStackTrace();
 				noError = false;
 			}
 		} 
@@ -168,30 +168,31 @@ public class ODMDStabDataMapperImpl {
 	
 	private static void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus) {
 		int cnt = 0;
-		for (DynamicGeneratorXmlType dyGen : dstabBusXml.getMachineList().getMachine()) {
-			// create the machine model and added to the parent bus object
-			MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
-			String machId = dstabBus.getId() + "mach" + ++cnt;
-			Machine mach = new MachDataHelper(dstabBus, dyGen.getRatedPower(), dyGen.getRatedVoltage())
-					.createMachine(machXmlRec, machId);
-			
-			if (dyGen.getExciter() != null) {
-				// create the exc model and add to the parent machine object
-				ExciterModelXmlType excXml = dyGen.getExciter().getValue();
-				new ExciterDataHelper(mach).createExciter(excXml);
+		if (dstabBusXml.getMachineList() != null)
+			for (DynamicGeneratorXmlType dyGen : dstabBusXml.getMachineList().getMachine()) {
+				// create the machine model and added to the parent bus object
+				MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
+				String machId = dstabBus.getId() + "mach" + ++cnt;
+				Machine mach = new MachDataHelper(dstabBus, dyGen.getRatedPower(), dyGen.getRatedVoltage())
+						.createMachine(machXmlRec, machId);
 				
-				if (dyGen.getStabilizer() != null) {
-					// create the pss model and add to the parent machine object
-					StabilizerModelXmlType pssXml = dyGen.getStabilizer().getValue();
-					new StabilizerDataHelper(mach).createStabilizer(pssXml);
+				if (dyGen.getExciter() != null) {
+					// create the exc model and add to the parent machine object
+					ExciterModelXmlType excXml = dyGen.getExciter().getValue();
+					new ExciterDataHelper(mach).createExciter(excXml);
+					
+					if (dyGen.getStabilizer() != null) {
+						// create the pss model and add to the parent machine object
+						StabilizerModelXmlType pssXml = dyGen.getStabilizer().getValue();
+						new StabilizerDataHelper(mach).createStabilizer(pssXml);
+					}
+				}
+
+				if (dyGen.getGovernor() != null) {
+					// create the gov model and add to the parent machine object
+					GovernorModelXmlType govXml = dyGen.getGovernor().getValue();
+					new GovernorDataHelper(mach).createGovernor(govXml);
 				}
 			}
-
-			if (dyGen.getGovernor() != null) {
-				// create the gov model and add to the parent machine object
-				GovernorModelXmlType govXml = dyGen.getGovernor().getValue();
-				new GovernorDataHelper(mach).createGovernor(govXml);
-			}
-		}
 	}
 }

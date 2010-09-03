@@ -182,6 +182,8 @@ public class ODMAclfDataMapperImpl {
 					pvBus.setGenP(xmlEquivGenData.getPower().getRe(),
 								ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()));
 					vXml = xmlEquivGenData.getDesiredVoltage();
+					if (vXml == null)
+						throw new InterpssException("For Gen PV bus, equivGenData.desiredVoltage has to be defined, busId: " + aclfBus.getId());
 					vpu = UnitType.vConversion(vXml.getValue(),
 							aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
 					pvBus.setVoltMag(vpu, UnitType.PU);
@@ -389,21 +391,23 @@ public class ODMAclfDataMapperImpl {
 		double tapratio = 1.0;
 		
 		TransformerInfoXmlType xfrData = xfrBranch.getXfrInfo();
-		if (xfrData.getFromRatedVoltage() != null)
-			fromRatedV = xfrData.getFromRatedVoltage().getValue();
-		if (xfrData.getToRatedVoltage() != null)
-			toRatedV = xfrData.getToRatedVoltage().getValue();
+		if (xfrData != null) {
+			if (xfrData.getFromRatedVoltage() != null)
+				fromRatedV = xfrData.getFromRatedVoltage().getValue();
+			if (xfrData.getToRatedVoltage() != null)
+				toRatedV = xfrData.getToRatedVoltage().getValue();
 
-		if (xfrData != null &&
-				!xfrData.isDataOnSystemBase() &&
-				xfrData.getRatedPower() != null && 
-				xfrData.getRatedPower().getValue() > 0.0) 
-			zratio = xfrData.getRatedPower().getUnit() == ApparentPowerUnitType.KVA?
-					adjNet.getBaseKva() / xfrData.getRatedPower().getValue() :
-						0.001 * adjNet.getBaseKva() / xfrData.getRatedPower().getValue();
+			if (xfrData != null &&
+					!xfrData.isDataOnSystemBase() &&
+					xfrData.getRatedPower() != null && 
+					xfrData.getRatedPower().getValue() > 0.0) 
+				zratio = xfrData.getRatedPower().getUnit() == ApparentPowerUnitType.KVA?
+						adjNet.getBaseKva() / xfrData.getRatedPower().getValue() :
+							0.001 * adjNet.getBaseKva() / xfrData.getRatedPower().getValue();
 
-		if (!xfrData.isDataOnSystemBase())
-			tapratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
+			if (!xfrData.isDataOnSystemBase())
+				tapratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
+		}
 		
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		XfrAdapter xfr = (XfrAdapter) aclfBra.getAdapter(XfrAdapter.class);

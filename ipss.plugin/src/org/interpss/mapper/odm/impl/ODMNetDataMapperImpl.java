@@ -123,9 +123,14 @@ public class ODMNetDataMapperImpl {
 		if (!branch.isActive()) {
 			IpssLogger.getLogger().info("Branch is not active, " + branch.getId());
 		}
-		Area area = CoreObjectFactory.createArea(branchRec.getAreaNumber(), net);
-		branch.setArea(area);
-		Zone zone = CoreObjectFactory.createZone(branchRec.getZoneNumber(), net);
-		branch.setZone(zone);
+		if (branchRec.getAreaNumber() != null) {
+			Area area = CoreObjectFactory.createArea(branchRec.getAreaNumber(), net);
+			branch.setArea(area);
+		}
+
+		if (branchRec.getZoneNumber() != null) {
+			Zone zone = CoreObjectFactory.createZone(branchRec.getZoneNumber(), net);
+			branch.setZone(zone);
+		}
 	}
 }
