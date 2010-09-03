@@ -113,7 +113,7 @@
 								<sequence>
 									<element name="se100" type="double" maxOccurs="1" minOccurs="1"/>
 									<element name="se120" type="double" maxOccurs="1" minOccurs="1"/>
-									<element name="sliner" type="double" maxOccurs="1" minOccurs="0"/>
+									<element name="sliner" type="double" maxOccurs="1" minOccurs="1"/>
 								</sequence>
 							</complexType>
 						</element>
@@ -124,7 +124,7 @@
 									<element name="e2" type="double" maxOccurs="1" minOccurs="1"/>
 									<element name="se1" type="double" maxOccurs="1" minOccurs="1"/>
 									<element name="se2" type="double" maxOccurs="1" minOccurs="1"/>
-									<element name="af" type="double" maxOccurs="1" minOccurs="0"/>
+									<element name="af" type="double" maxOccurs="1" minOccurs="1"/>
 								</sequence>
 							</complexType>
 						</element>
