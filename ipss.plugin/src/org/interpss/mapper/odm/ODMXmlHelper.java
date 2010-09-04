@@ -27,6 +27,7 @@ package org.interpss.mapper.odm;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.GroundingEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
@@ -34,6 +35,7 @@ import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
 import com.interpss.common.datatype.UnitType;
+import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.net.OriginalDataFormat;
 
 
@@ -153,6 +155,21 @@ public class ODMXmlHelper {
 		return UnitType.Rad;
 	}
 
+	/**
+	 * Convert GroundingEnumType (ODM) to BusGroundCode (Interpss)
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public static BusGroundCode toBusGroundCode(GroundingEnumType type) {
+		if (type == GroundingEnumType.Z_GROUNDED) 
+			return BusGroundCode.ZGROUNDED;
+		else if (type == GroundingEnumType.SOLID_GROUNDED)
+			return BusGroundCode.SOLID_GROUNDED;
+		else	
+			return BusGroundCode.UNGROUNDED;
+	}	
+	
 	/**
 	 * map the ODM data format to InterPSS format
 	 * 
