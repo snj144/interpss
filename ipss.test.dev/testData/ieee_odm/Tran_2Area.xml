@@ -30,7 +30,6 @@
 						<pss:genId id="AR1BUS1GEN1"></pss:genId>
 						<pss:ownerName>BUS1</pss:ownerName>
 						<pss:ratedPower unit="MW" value="900" />
-						<pss:grounding connection="Ungrounded"></pss:grounding>
 						<pss:transientMachModel>
 							<pss:H>4</pss:H>
 							<pss:D>0</pss:D>
@@ -73,6 +72,7 @@
 							<pss:RC>0</pss:RC>
 							<pss:XC>0</pss:XC>
 						</pss:excTSATTypeEXC34>
+						<pss:grounding connection="Ungrounded"></pss:grounding>
 					</pss:machine>
 				</pss:machineList>
 			</pss:dstabBus>
@@ -92,7 +92,6 @@
 						<pss:genId id="AR1BUS2GEN1"></pss:genId>
 						<pss:ownerName>BUS2</pss:ownerName>
 						<pss:ratedPower unit="MW" value="900" />
-						<pss:grounding connection="Ungrounded"></pss:grounding>
 						<pss:transientMachModel>
 							<pss:H>4</pss:H>
 							<pss:D>0</pss:D>
@@ -135,6 +134,7 @@
 							<pss:RC>0</pss:RC>
 							<pss:XC>0</pss:XC>
 						</pss:excTSATTypeEXC34>
+						<pss:grounding connection="Ungrounded"></pss:grounding>
 					</pss:machine>
 				</pss:machineList>
 			</pss:dstabBus>
@@ -154,7 +154,6 @@
 						<pss:genId id="AR2BUS3GEN1"></pss:genId>
 						<pss:ownerName>BUS3</pss:ownerName>
 						<pss:ratedPower unit="MW" value="900" />
-						<pss:grounding connection="Ungrounded"></pss:grounding>
 						<pss:transientMachModel>
 							<pss:H>4</pss:H>
 							<pss:D>0</pss:D>
@@ -197,6 +196,7 @@
 							<pss:RC>0</pss:RC>
 							<pss:XC>0</pss:XC>
 						</pss:excTSATTypeEXC34>
+						<pss:grounding connection="Ungrounded"></pss:grounding>
 					</pss:machine>
 				</pss:machineList>
 			</pss:dstabBus>
@@ -216,7 +216,6 @@
 					<pss:genId id="AR2BUS4GEN1"></pss:genId>
 					<pss:ownerName>BUS4</pss:ownerName>
 					<pss:ratedPower unit="MW" value="900" />
-					<pss:grounding connection="Ungrounded"></pss:grounding>
 					<pss:transientMachModel>
 						<pss:H>4</pss:H>
 						<pss:D>0</pss:D>
@@ -259,6 +258,7 @@
 						<pss:RC>0</pss:RC>
 						<pss:XC>0</pss:XC>
 					</pss:excTSATTypeEXC34>
+					<pss:grounding connection="Ungrounded"></pss:grounding>
 				</pss:machine>
 				</pss:machineList>
 			</pss:dstabBus>

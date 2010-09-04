@@ -47,12 +47,14 @@
 					<pss:machine>
 						<pss:ratedPower unit="MW" value="600"></pss:ratedPower>
 						<pss:ratedVoltage unit="KV" value="1" />
-						<pss:grounding connection="Ungrounded"></pss:grounding>
 						<pss:eq1MachModel>
 							<pss:poles>2</pss:poles>
 							<pss:H>3</pss:H>
 							<pss:D>4</pss:D>
 							<pss:xd1>0.35</pss:xd1>
+							<pss:xl>0.01</pss:xl>
+							<pss:x0>0.05</pss:x0>
+							<pss:x2>0.05</pss:x2>
 							<pss:ra>0.011</pss:ra>
 							<pss:xd>1.05</pss:xd>
 							<pss:xq>0.7</pss:xq>
@@ -63,6 +65,29 @@
 								<pss:sliner>0.7</pss:sliner>
 							</pss:seFmt1>
 						</pss:eq1MachModel>
+						<pss:excSimpleType>
+							<pss:Ka>10.0</pss:Ka>
+							<pss:Ta unit="Sec" value="0.05" />
+							<pss:Vrmax>10.0</pss:Vrmax>
+							<pss:Vrmin>0.0</pss:Vrmin>
+						</pss:excSimpleType>
+						<pss:govSimpleType>
+							<pss:name>pss:name</pss:name>
+							<pss:K>10.0</pss:K>
+							<pss:T1 unit="Sec" value="0.5" />
+							<pss:Pmax>1.5</pss:Pmax>
+							<pss:Pmin>0.0</pss:Pmin>
+						</pss:govSimpleType>
+						<pss:pssSimpleType>
+							<pss:Ks>10.0</pss:Ks>
+							<pss:T1 unit="Sec" value="0.05" />
+							<pss:T2 unit="Sec" value="0.5" />
+							<pss:T3 unit="Sec" value="0.05" />
+							<pss:T4 unit="Sec" value="0.25" />
+							<pss:Vsmax>0.2</pss:Vsmax>
+							<pss:Vsmin>-0.2</pss:Vsmin>
+						</pss:pssSimpleType>
+						<pss:grounding connection="Ungrounded"></pss:grounding>
 					</pss:machine>
 				</pss:machineList>
 			</pss:dstabBus>
@@ -73,6 +98,18 @@
 						<pss:desiredVoltage unit="PU" value="1.05" /><pss:desiredAngle unit="DEG" value="0.0" />
 					</pss:equivGen>
 				</pss:genData>
+				<pss:machineList>
+					<pss:machine>
+						<pss:equiMachModel>
+							<pss:equivSource>
+								<pss:scMva3Phase>10000.00</pss:scMva3Phase>
+								<pss:xOverR3Phase>20</pss:xOverR3Phase>
+								<pss:scMva1Phase>5000</pss:scMva1Phase>
+								<pss:xOverR1Phase>20</pss:xOverR1Phase>
+							</pss:equivSource>
+						</pss:equiMachModel>
+					</pss:machine>
+				</pss:machineList>
 			</pss:dstabBus>
 		</pss:busList>
 		<pss:branchList>
@@ -103,6 +140,10 @@
 				<pss:z im="0.016" unit="PU" re="0.0" />
 				<pss:fromTurnRatio unit="PU" value="1.0" />
 				<pss:toTurnRatio unit="PU" value="1.05" />
+				<pss:fromSideConnection connection="Wye">
+					<pss:grounding connection="Ungrounded"></pss:grounding>
+				</pss:fromSideConnection>
+				<pss:toSideConnection connection="Delta"/>
 			</pss:dstabXfr>
 			<pss:dstabXfr id="Bus5-Bus3">
 				<pss:fromBus idRef="Bus-5"></pss:fromBus>
@@ -110,6 +151,10 @@
 				<pss:z im="0.03" unit="PU" re="0.0" />
 				<pss:fromTurnRatio unit="PU" value="1.0" />
 				<pss:toTurnRatio unit="PU" value="1.05" />
+				<pss:fromSideConnection connection="Wye">
+					<pss:grounding connection="Ungrounded"></pss:grounding>
+				</pss:fromSideConnection>
+				<pss:toSideConnection connection="Delta"/>
 			</pss:dstabXfr>
 		</pss:branchList>
 		<pss:hasLoadflowData>true</pss:hasLoadflowData>
