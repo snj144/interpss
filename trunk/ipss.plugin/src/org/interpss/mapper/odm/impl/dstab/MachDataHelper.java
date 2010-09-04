@@ -71,9 +71,10 @@ public class MachDataHelper {
 	 * @return
 	 */
 	public Machine createMachine(MachineModelXmlType machXmlRec, String machId)  throws InterpssException {
+		// make source considering the inheritance relationship
 		if (machXmlRec instanceof Eq11Ed11MachineXmlType) {
 			Eq11Ed11MachineXmlType machXml = (Eq11Ed11MachineXmlType)machXmlRec;
-			// create a machine and connect to the bus "Gen"
+			// create a machine and connect to the bus 
 			RoundRotorMachine mach = (RoundRotorMachine)DStabObjectFactory.
 								createMachine(machId, machXml.getName(), MachineType.EQ11_ED11_ROUND_ROTOR, 
 								(DStabilityNetwork)this.dstabBus.getNetwork(), dstabBus.getId());
@@ -120,17 +121,7 @@ public class MachDataHelper {
 			EquiMachineXmlType machXml = (EquiMachineXmlType)machXmlRec;
 			Complex z1 = new Complex(0.0, 0.0);
 			Complex z0 = new Complex(0.0, 0.0);
-			if ( machXml.getEquivSource() != null) {
-				EquiMachineXmlType.EquivSource source = machXml.getEquivSource(); 
-				if (source.getScMva3Phase() > 0.0 && source.getXOverR3Phase() > 0.0)
-					z1 = CoreUtilFunc.calUitilityZ1PU(source.getScMva3Phase() * 1000,
-							source.getXOverR3Phase(), this.dstabBus.getNetwork().getBaseKva());
-				if (source.getXOverR1Phase() != null && source.getXOverR1Phase() != null 
-						&& source.getXOverR1Phase() > 0.0 && source.getXOverR1Phase() > 0.0)
-					z0 = CoreUtilFunc.calUitilityZ0PU(source.getScMva1Phase() * 1000,
-							source.getXOverR1Phase(), this.dstabBus.getNetwork().getBaseKva(), z1);
-			}
-			
+			calSourceZ1Z0(machXml, z1, z0);
 			return DStabObjectFactory.createInfiniteMachine(machId, machXml.getName(), 
 					z1, z0, (DStabilityNetwork)this.dstabBus.getNetwork(), this.dstabBus.getId());
 		}
@@ -209,5 +200,22 @@ public class MachDataHelper {
 		mach.setTq011(machXml.getTq011().getValue());
 		mach.setXq11(machXml.getXd11());
 		mach.setTq011(machXml.getTd011().getValue());
+	}
+	
+	private void calSourceZ1Z0(EquiMachineXmlType machXml, Complex z1, Complex z0) {
+		if ( machXml.getEquivSource() != null) {
+			EquiMachineXmlType.EquivSource source = machXml.getEquivSource(); 
+			if (source.getScMva3Phase() > 0.0 && source.getXOverR3Phase() > 0.0)
+				z1 = CoreUtilFunc.calUitilityZ1PU(source.getScMva3Phase() * 1000,
+						source.getXOverR3Phase(), this.dstabBus.getNetwork().getBaseKva());
+			if (source.getXOverR1Phase() != null && source.getXOverR1Phase() != null 
+					&& source.getXOverR1Phase() > 0.0 && source.getXOverR1Phase() > 0.0)
+				z0 = CoreUtilFunc.calUitilityZ0PU(source.getScMva1Phase() * 1000,
+						source.getXOverR1Phase(), this.dstabBus.getNetwork().getBaseKva(), z1);
+		}
+		else if (machXml.getEquivGen() != null) {
+			// TODO
+		}
+		
 	}
 }

@@ -29,6 +29,7 @@ import org.ieee.odm.schema.GovernorModelXmlType;
 import org.interpss.dstab.control.gov.GovernorObjectFactory;
 import org.interpss.dstab.control.gov.simple.SimpleGovernor;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.dstab.mach.Machine;
 
 
@@ -45,7 +46,7 @@ public class GovernorDataHelper {
 	 * 
 	 * @param govXmlRec ODM governor model record
 	 */
-	public void createGovernor(GovernorModelXmlType govXmlRec) {
+	public void createGovernor(GovernorModelXmlType govXmlRec) throws InterpssException  {
 		if (govXmlRec instanceof GovSimpleTypeXmlType) {
 			GovSimpleTypeXmlType govXml = (GovSimpleTypeXmlType)govXmlRec;
 			SimpleGovernor gov = GovernorObjectFactory.createSimpleGovernor(mach.getId()+"_Gov", govXml.getName(), mach);
@@ -54,5 +55,9 @@ public class GovernorDataHelper {
 			gov.getData().setPmax(govXml.getPmax());
 			gov.getData().setPmin(govXml.getPmin());
 		}
+		else {
+			throw new InterpssException("Governor type invalid or not implemented, type " + govXmlRec.getClass().getSimpleName());
+		}
+		
 	}
 }
