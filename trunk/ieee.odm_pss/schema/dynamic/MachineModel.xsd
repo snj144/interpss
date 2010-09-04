@@ -53,13 +53,13 @@
 			<element name="genId" type="pss:IDRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="ownerName" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="ratedPower" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="grounding" type="pss:GroundingXmlType" minOccurs="1" maxOccurs="1"></element>
+			<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element ref="pss:machineModel" maxOccurs="1" minOccurs="1"></element>
 			<element ref="pss:exciter" minOccurs="0"></element>
 			<element ref="pss:governor" minOccurs="0"></element>
 			<element ref="pss:stabilizer" minOccurs="0"></element>
-			<element name="pContributionPercent" type="double" maxOccurs="1" minOccurs="0"></element>
+            <element name="grounding" type="pss:GroundingXmlType" minOccurs="0" maxOccurs="1"></element>
+            <element name="pContributionPercent" type="double" maxOccurs="1" minOccurs="0"></element>
 			<element name="qContributionPercent" type="double" minOccurs="0"></element>
 		</sequence>
 	</complexType>
@@ -74,14 +74,30 @@
 
 	<complexType name="EquiMachineXmlType">
 		<complexContent>
-		<extension base="pss:MachineModelXmlType">
-		<sequence>
-			<element name="equiPgen" type="double" maxOccurs="1" minOccurs="0">	</element>
-			<element name="pGenUnit" maxOccurs="1" minOccurs="0" type="pss:ApparentPowerUnitType"></element>
-			<element name="DCLineBus" type="boolean" maxOccurs="1" minOccurs="0"></element>
-		</sequence>
-		</extension>
-		</complexContent>		
+			<extension base="pss:MachineModelXmlType">
+				<choice>
+					<element name="equivSource" minOccurs="0">
+						<complexType>
+							<sequence>
+								<element name="scMva3Phase" type="double" minOccurs="1"></element>
+								<element name="xOverR3Phase" type="double" minOccurs="1"></element>
+								<element name="scMva1Phase" type="double" minOccurs="0"></element>
+								<element name="xOverR1Phase" type="double" minOccurs="0"></element>
+							</sequence>
+						</complexType>
+					</element>
+					<element name="equivGen" minOccurs="0">
+						<complexType>
+							<sequence>
+								<element name="equiPgen" type="double" maxOccurs="1" minOccurs="0"></element>
+								<element name="pGenUnit" maxOccurs="1" minOccurs="0" type="pss:ApparentPowerUnitType"></element>
+								<element name="DCLineBus" type="boolean" maxOccurs="1" minOccurs="0"></element>
+							</sequence>
+						</complexType>
+					</element>
+				</choice>
+			</extension>
+		</complexContent>
 	</complexType>
 
 	<complexType name="ClassicMachineXmlType">
@@ -124,7 +140,7 @@
 									<element name="e2" type="double" maxOccurs="1" minOccurs="1"/>
 									<element name="se1" type="double" maxOccurs="1" minOccurs="1"/>
 									<element name="se2" type="double" maxOccurs="1" minOccurs="1"/>
-									<element name="af" type="double" maxOccurs="1" minOccurs="1"/>
+									<element name="af" type="double" maxOccurs="1" minOccurs="0"/>
 								</sequence>
 							</complexType>
 						</element>

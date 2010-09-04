@@ -17,7 +17,7 @@
 		<extension base="pss:ExciterModelXmlType">
 		<sequence>
 			<element name="Ka" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="Ta" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="Ta" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="Vrmax" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="Vrmin" type="double" maxOccurs="1" minOccurs="1"></element>
 		</sequence>
