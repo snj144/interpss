@@ -25,20 +25,33 @@
 package org.interpss.mapper.odm.impl;
 
 import org.apache.commons.math.complex.Complex;
+import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.GroundingEnumType;
 import org.ieee.odm.schema.GroundingXmlType;
+import org.ieee.odm.schema.LineShortCircuitXmlType;
+import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusEnumType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
+import org.ieee.odm.schema.XformerConnectionXmlType;
+import org.ieee.odm.schema.XformrtConnectionEnumType;
+import org.ieee.odm.schema.XfrShortCircuitXmlType;
+import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
+import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
+import com.interpss.core.acsc.AcscLineAdapter;
 import com.interpss.core.acsc.AcscNetwork;
+import com.interpss.core.acsc.AcscXfrAdapter;
 import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;
+import com.interpss.core.acsc.XfrConnectCode;
 
 
 public class ODMAcscDataMapperImpl {
@@ -59,7 +72,7 @@ public class ODMAcscDataMapperImpl {
 	 * @param acscBusXml
 	 * @param acscBus
 	 */
-	public static void setAcdcBusData(ShortCircuitBusXmlType acscBusXml, AcscBus acscBus) throws InterpssException {
+	public static void setAcscBusData(ShortCircuitBusXmlType acscBusXml, AcscBus acscBus) throws InterpssException {
 		if (acscBusXml.getScCode() == ShortCircuitBusEnumType.CONTRIBUTING) {
 			setContributeBusFormInfo(acscBusXml, acscBus);
 		} else { // non-contributing
@@ -75,7 +88,6 @@ public class ODMAcscDataMapperImpl {
 		acscBus.getGrounding().setCode(BusGroundCode.UNGROUNDED);
 		acscBus.getGrounding().setZ(Constants.LargeBusZ);
 	}
-	
 	
 	private static void setContributeBusFormInfo(ShortCircuitBusXmlType busData, AcscBus acscBus) {
 		acscBus.setScCode(BusScCode.CONTRIBUTE);
@@ -103,4 +115,79 @@ public class ODMAcscDataMapperImpl {
 		bus.getGrounding().setCode(ODMXmlHelper.toBusGroundCode(g.getConnection()));
 		bus.getGrounding().setZ(new Complex(z.getRe(), z.getIm()), zgUnit, baseV, baseKVA);
 	}
+	
+	/**
+	 * 
+	 * 
+	 * @param acscBraXml
+	 * @param acscBra
+	 * @param net
+	 * @param msg
+	 * @return
+	 */
+	public static void setAcscBranchData(BranchXmlType acscBraXml,
+			AcscBranch acscBra, IPSSMsgHub msg) {
+
+		if (acscBraXml instanceof LineShortCircuitXmlType) { // line branch
+			setAcscLineFormInfo((LineShortCircuitXmlType)acscBraXml, acscBra, msg);
+		} 
+		else if ( acscBraXml instanceof XfrShortCircuitXmlType ||
+				acscBraXml instanceof PSXfrShortCircuitXmlType) { // psxfr branch
+			setAcscXfrFormInfo((XfrShortCircuitXmlType)acscBraXml, acscBra, msg);
+		}
+	}
+	
+	private static void setAcscLineFormInfo(LineShortCircuitXmlType braXml,	AcscBranch acscBra, IPSSMsgHub msg) {
+		double baseV = acscBra.getFromAclfBus().getBaseVoltage();
+		AcscLineAdapter line = (AcscLineAdapter) acscBra.getAdapter(AcscLineAdapter.class);
+		ZXmlType z0 = braXml.getZ0();
+		if (z0 != null)
+			line.setZ0(new Complex(z0.getRe(), z0.getIm()),	ODMXmlHelper.toUnit(z0.getUnit()), baseV, msg);
+		YXmlType y0 = braXml.getY0Shunt();
+		if (y0 != null)
+			line.setHB0(0.5*y0.getIm(), ODMXmlHelper.toUnit(y0.getUnit()), baseV);
+	}
+
+	private static void setAcscXfrFormInfo(XfrShortCircuitXmlType branchData,
+								AcscBranch branch, IPSSMsgHub msg) {
+		double baseV = branch.getFromAclfBus().getBaseVoltage() > branch
+				.getToAclfBus().getBaseVoltage() ? branch.getFromAclfBus()
+				.getBaseVoltage() : branch.getToAclfBus().getBaseVoltage();
+		AcscXfrAdapter xfr = (AcscXfrAdapter) branch.getAdapter(AcscXfrAdapter.class);
+		ZXmlType z0 = branchData.getZ0();
+		if (z0 != null)
+			xfr.setZ0(new Complex(z0.getRe(), z0.getIm()), ODMXmlHelper.toUnit(z0.getUnit()), baseV, msg);
+
+		XformerConnectionXmlType connect = branchData.getFromSideConnection();
+		if (connect != null && connect.getGrounding() != null) {
+			ZXmlType z = connect.getGrounding().getGroundZ();
+			if (z != null) 
+				xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(z.getRe(), z.getIm()),
+						ODMXmlHelper.toUnit(z.getUnit()));
+		}
+
+		connect = branchData.getToSideConnection();
+		if (connect != null && connect.getGrounding() != null) {
+			ZXmlType z = connect.getGrounding().getGroundZ();
+			if (z != null) 
+				xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(z.getRe(), z.getIm()),
+						ODMXmlHelper.toUnit(z.getUnit()));
+		}
+	}
+	
+	private static XfrConnectCode calXfrConnectCode(XformerConnectionXmlType connect) {
+		// connectCode : [Delta | Wye]
+		// groundCode : [SolidGrounded | ZGrounded | Ungrounded ]
+		if (connect.getConnection() == XformrtConnectionEnumType.DELTA)
+			return XfrConnectCode.DELTA;
+		else {  // Wye connection
+			if (connect.getGrounding().getConnection() == GroundingEnumType.SOLID_GROUNDED)
+				return XfrConnectCode.WYE_SOLID_GROUNDED;
+			else if (connect.getGrounding().getConnection() == GroundingEnumType.Z_GROUNDED)
+				return XfrConnectCode.WYE_ZGROUNDED;
+			else 
+				return XfrConnectCode.WYE_UNGROUNDED;
+		}
+	}
+	
 }
