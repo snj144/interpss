@@ -37,6 +37,7 @@ import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
@@ -81,7 +82,7 @@ public class ODMOpfDataMapperImpl {
 					AclfBranch aclfBranch = CoreObjectFactory.createAclfBranch();
 					ODMAclfDataMapperImpl.mapAclfBranchData(b.getValue(), aclfBranch, opfNet, simuCtx.getMsgHub());
 				}
-			} catch (Exception e) {
+			} catch (InterpssException e) {
 				e.printStackTrace();
 				IpssLogger.getLogger().severe(e.toString());
 				noError = false;
@@ -103,7 +104,7 @@ public class ODMOpfDataMapperImpl {
 		return noError;
 	}
 	
-	private static OpfNetwork mapNetworkData(OpfNetworkXmlType xmlNet) throws Exception {
+	private static OpfNetwork mapNetworkData(OpfNetworkXmlType xmlNet) throws InterpssException {
 		OpfNetwork opfNet = OpfObjectFactory.createOpfNetwork();
 		ODMNetDataMapperImpl.mapNetworkData(opfNet, xmlNet);
 		opfNet.setAnglePenaltyFactor(xmlNet.getAnglePenaltyFactor());	
@@ -118,7 +119,7 @@ public class ODMOpfDataMapperImpl {
 	 * @return
 	 * @throws Exception
 	 */
-	public static OpfGenBus mapGenBusData(OpfGenBusXmlType busRec, OpfNetwork net) throws Exception {
+	public static OpfGenBus mapGenBusData(OpfGenBusXmlType busRec, OpfNetwork net) throws InterpssException {
 		OpfGenBus aclfBus = OpfObjectFactory.createOpfGenBus(busRec.getId());
 		net.addBus(aclfBus);
 		ODMNetDataMapperImpl.mapBaseBusData(busRec, aclfBus, net);

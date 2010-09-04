@@ -146,7 +146,7 @@ public class ODMDStabDataMapperImpl {
 						noError = false;
 					}
 				}
-			} catch (Exception e) {
+			} catch (InterpssException e) {
 				IpssLogger.getLogger().severe(e.toString());
 				e.printStackTrace();
 				noError = false;
@@ -162,7 +162,7 @@ public class ODMDStabDataMapperImpl {
 		return noError;
 	}
 	
-	private static DStabilityNetwork mapNetworkData(DStabNetXmlType xmlNet) throws Exception {
+	private static DStabilityNetwork mapNetworkData(DStabNetXmlType xmlNet) throws InterpssException {
 		DStabilityNetwork dstabNet = DStabObjectFactory.createDStabilityNetwork();
 		ODMAcscDataMapperImpl.mapNetworkData(dstabNet, xmlNet);
 		dstabNet.setSaturatedMachineParameter(xmlNet.isSaturatedMachineParameter());
