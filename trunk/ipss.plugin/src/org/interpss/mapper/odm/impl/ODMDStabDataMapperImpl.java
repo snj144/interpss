@@ -56,6 +56,7 @@ import org.interpss.mapper.odm.impl.dstab.GovernorDataHelper;
 import org.interpss.mapper.odm.impl.dstab.MachDataHelper;
 import org.interpss.mapper.odm.impl.dstab.StabilizerDataHelper;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
@@ -166,7 +167,7 @@ public class ODMDStabDataMapperImpl {
 		return dstabNet;
 	}	
 	
-	private static void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus) {
+	private static void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus)  throws InterpssException {
 		int cnt = 0;
 		if (dstabBusXml.getMachineList() != null)
 			for (DynamicGeneratorXmlType dyGen : dstabBusXml.getMachineList().getMachine()) {
@@ -174,7 +175,7 @@ public class ODMDStabDataMapperImpl {
 				MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
 				String machId = dstabBus.getId() + "mach" + ++cnt;
 				Machine mach = new MachDataHelper(dstabBus, dyGen.getRatedPower(), dyGen.getRatedVoltage())
-						.createMachine(machXmlRec, machId);
+									.createMachine(machXmlRec, machId);
 				
 				if (dyGen.getExciter() != null) {
 					// create the exc model and add to the parent machine object
