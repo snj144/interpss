@@ -24,6 +24,8 @@
 
 package org.interpss.dstab.odm;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.FileInputStream;
 
@@ -34,6 +36,7 @@ import org.interpss.display.AclfOutFunc;
 import org.interpss.mapper.odm.IEEEODMMapper;
 import org.junit.Test;
 
+import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
@@ -47,7 +50,7 @@ public class DStab_Ipss5BusTest extends BaseTestSetup {
 		File file = new File("testdata/ieee_odm/Tran_5bus.xml");
 		DStabModelParser parser = ODMObjectFactory.createDStabModelParser();
 		if (parser.parse(new FileInputStream(file))) {
-			System.out.println(parser.toXmlDoc(false));
+			//System.out.println(parser.toXmlDoc(false));
 			
 			IEEEODMMapper mapper = new IEEEODMMapper();
 			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
@@ -57,12 +60,15 @@ public class DStab_Ipss5BusTest extends BaseTestSetup {
 			}	
 			
 			DStabilityNetwork dstabNet = simuCtx.getDStabilityNet();
-			System.out.println(dstabNet.net2String());
+			//System.out.println(dstabNet.net2String());
 
+			// perform loadflow and test the results
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, msg);
 		  	algo.loadflow();
 		  	
-		  	System.out.println(AclfOutFunc.loadFlowSummary(dstabNet));
+		  	//System.out.println(AclfOutFunc.loadFlowSummary(dstabNet));
+		    assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageMag() - 0.86011) < 0.0001);
+		    assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageAng(UnitType.Deg) + 4.8) < 0.1);
 		}
 	}
 }
