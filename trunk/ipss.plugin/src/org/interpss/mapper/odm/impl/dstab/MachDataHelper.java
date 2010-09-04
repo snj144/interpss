@@ -24,6 +24,7 @@
 
 package org.interpss.mapper.odm.impl.dstab;
 
+import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.schema.ActivePowerXmlType;
 import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
@@ -37,6 +38,7 @@ import org.interpss.mapper.odm.ODMXmlHelper;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
+import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
@@ -106,13 +108,34 @@ public class MachDataHelper {
 			return mach;
 		}
 		else if (machXmlRec instanceof ClassicMachineXmlType) {
-			// TODO
+			ClassicMachineXmlType machXml = (ClassicMachineXmlType)machXmlRec;
+			// create a machine and connect to the bus
+			EConstMachine mach = (EConstMachine)DStabObjectFactory.
+								createMachine(machId, machXml.getName(), MachineType.ECONSTANT, 
+								(DStabilityNetwork)this.dstabBus.getNetwork(), dstabBus.getId());
+			setClassicData(mach, machXml);
+			return mach;
 		}
 		else if (machXmlRec instanceof EquiMachineXmlType) {
-			// TODO
+			EquiMachineXmlType machXml = (EquiMachineXmlType)machXmlRec;
+			Complex z1 = new Complex(0.0, 0.0);
+			Complex z0 = new Complex(0.0, 0.0);
+			if ( machXml.getEquivSource() != null) {
+				EquiMachineXmlType.EquivSource source = machXml.getEquivSource(); 
+				if (source.getScMva3Phase() > 0.0 && source.getXOverR3Phase() > 0.0)
+					z1 = CoreUtilFunc.calUitilityZ1PU(source.getScMva3Phase() * 1000,
+							source.getXOverR3Phase(), this.dstabBus.getNetwork().getBaseKva());
+				if (source.getXOverR1Phase() != null && source.getXOverR1Phase() != null 
+						&& source.getXOverR1Phase() > 0.0 && source.getXOverR1Phase() > 0.0)
+					z0 = CoreUtilFunc.calUitilityZ0PU(source.getScMva1Phase() * 1000,
+							source.getXOverR1Phase(), this.dstabBus.getNetwork().getBaseKva(), z1);
+			}
+			
+			return DStabObjectFactory.createInfiniteMachine(machId, machXml.getName(), 
+					z1, z0, (DStabilityNetwork)this.dstabBus.getNetwork(), this.dstabBus.getId());
 		}
 		
-		return null;
+		throw new InterpssException("Error : Wrong mach model type, bus id: " + this.dstabBus.getId());
 	}
 	
 	private void setClassicData(EConstMachine mach, ClassicMachineXmlType machXml) throws InterpssException {

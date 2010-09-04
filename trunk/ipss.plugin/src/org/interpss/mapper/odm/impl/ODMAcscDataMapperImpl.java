@@ -117,22 +117,20 @@ public class ODMAcscDataMapperImpl {
 	}
 	
 	/**
-	 * 
+	 * Set SC branch info only
 	 * 
 	 * @param acscBraXml
 	 * @param acscBra
-	 * @param net
 	 * @param msg
 	 * @return
 	 */
-	public static void setAcscBranchData(BranchXmlType acscBraXml,
-			AcscBranch acscBra, IPSSMsgHub msg) {
+	public static void setAcscBranchData(BranchXmlType acscBraXml, AcscBranch acscBra, IPSSMsgHub msg) {
 
 		if (acscBraXml instanceof LineShortCircuitXmlType) { // line branch
 			setAcscLineFormInfo((LineShortCircuitXmlType)acscBraXml, acscBra, msg);
 		} 
 		else if ( acscBraXml instanceof XfrShortCircuitXmlType ||
-				acscBraXml instanceof PSXfrShortCircuitXmlType) { // psxfr branch
+				acscBraXml instanceof PSXfrShortCircuitXmlType) { // xfr or psxfr branch
 			setAcscXfrFormInfo((XfrShortCircuitXmlType)acscBraXml, acscBra, msg);
 		}
 	}
@@ -148,17 +146,17 @@ public class ODMAcscDataMapperImpl {
 			line.setHB0(0.5*y0.getIm(), ODMXmlHelper.toUnit(y0.getUnit()), baseV);
 	}
 
-	private static void setAcscXfrFormInfo(XfrShortCircuitXmlType branchData,
-								AcscBranch branch, IPSSMsgHub msg) {
-		double baseV = branch.getFromAclfBus().getBaseVoltage() > branch
-				.getToAclfBus().getBaseVoltage() ? branch.getFromAclfBus()
-				.getBaseVoltage() : branch.getToAclfBus().getBaseVoltage();
-		AcscXfrAdapter xfr = (AcscXfrAdapter) branch.getAdapter(AcscXfrAdapter.class);
-		ZXmlType z0 = branchData.getZ0();
+	// for SC, Xfr and PSXfr behave the same
+	private static void setAcscXfrFormInfo(XfrShortCircuitXmlType braXml, AcscBranch acscBra, IPSSMsgHub msg) {
+		double baseV = acscBra.getFromAclfBus().getBaseVoltage() > acscBra
+				.getToAclfBus().getBaseVoltage() ? acscBra.getFromAclfBus()
+				.getBaseVoltage() : acscBra.getToAclfBus().getBaseVoltage();
+		AcscXfrAdapter xfr = (AcscXfrAdapter) acscBra.getAdapter(AcscXfrAdapter.class);
+		ZXmlType z0 = braXml.getZ0();
 		if (z0 != null)
 			xfr.setZ0(new Complex(z0.getRe(), z0.getIm()), ODMXmlHelper.toUnit(z0.getUnit()), baseV, msg);
 
-		XformerConnectionXmlType connect = branchData.getFromSideConnection();
+		XformerConnectionXmlType connect = braXml.getFromSideConnection();
 		if (connect != null && connect.getGrounding() != null) {
 			ZXmlType z = connect.getGrounding().getGroundZ();
 			if (z != null) 
@@ -166,7 +164,7 @@ public class ODMAcscDataMapperImpl {
 						ODMXmlHelper.toUnit(z.getUnit()));
 		}
 
-		connect = branchData.getToSideConnection();
+		connect = braXml.getToSideConnection();
 		if (connect != null && connect.getGrounding() != null) {
 			ZXmlType z = connect.getGrounding().getGroundZ();
 			if (z != null) 
@@ -189,5 +187,4 @@ public class ODMAcscDataMapperImpl {
 				return XfrConnectCode.WYE_UNGROUNDED;
 		}
 	}
-	
 }
