@@ -29,6 +29,7 @@ import org.ieee.odm.schema.StabilizerModelXmlType;
 import org.interpss.dstab.control.pss.StabilizerObjectFactory;
 import org.interpss.dstab.control.pss.simple.SimpleStabilizer;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.dstab.mach.Machine;
 
 
@@ -45,7 +46,7 @@ public class StabilizerDataHelper {
 	 * 
 	 * @param pssXmlRec ODM stabilizer model record
 	 */
-	public void createStabilizer(StabilizerModelXmlType pssXmlRec) {
+	public void createStabilizer(StabilizerModelXmlType pssXmlRec) throws InterpssException {
 		if (pssXmlRec instanceof PssSimpleTypeXmlType) {
 			PssSimpleTypeXmlType pssXml = (PssSimpleTypeXmlType)pssXmlRec;
 			SimpleStabilizer pss = StabilizerObjectFactory.createSimpleStabilizer(mach.getId()+"_Pss", pssXml.getName(), mach);
@@ -57,5 +58,9 @@ public class StabilizerDataHelper {
 			pss.getData().setVsmax(pssXml.getVsmax());
 			pss.getData().setVsmin(pssXml.getVsmin());
 		}
+		else {
+			throw new InterpssException("Stabilizer type invalid or not implemented, type " + pssXmlRec.getClass().getSimpleName());
+		}
+		
 	}
 }

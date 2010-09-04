@@ -29,6 +29,7 @@ import org.ieee.odm.schema.ExciterModelXmlType;
 import org.interpss.dstab.control.exc.ExciterObjectFactory;
 import org.interpss.dstab.control.exc.simple.SimpleExciter;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.dstab.mach.Machine;
 
 public class ExciterDataHelper {
@@ -43,7 +44,7 @@ public class ExciterDataHelper {
 	 * 
 	 * @param excXmlRec ODM exciter model record
 	 */
-	public void createExciter(ExciterModelXmlType excXmlRec) {
+	public void createExciter(ExciterModelXmlType excXmlRec) throws InterpssException {
 		if (excXmlRec instanceof ExcSimpleTypeXmlType) {
 			ExcSimpleTypeXmlType excXml = (ExcSimpleTypeXmlType)excXmlRec;
 			SimpleExciter exc = ExciterObjectFactory.createSimpleExciter(mach.getId()+"_Exc", excXml.getName(), mach);
@@ -51,6 +52,9 @@ public class ExciterDataHelper {
 			exc.getData().setTa(excXml.getTa().getValue());
 			exc.getData().setVrmax(excXml.getVrmax());
 			exc.getData().setVrmin(excXml.getVrmin());
+		}
+		else {
+			throw new InterpssException("Exciter type invalid or not implemented, type " + excXmlRec.getClass().getSimpleName());
 		}
 	}
 }
