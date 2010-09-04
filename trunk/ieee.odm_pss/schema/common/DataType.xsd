@@ -271,7 +271,6 @@
 	<!--
 		<complexType name="PercentXmlType"> <sequence> <element name="value" type="double" maxOccurs="1" minOccurs="1"> </element> <element name="unit" maxOccurs="1" minOccurs="1"> <simpleType> <restriction
 		base="string"> <enumeration value="percent"></enumeration> </restriction> </simpleType> </element> </sequence> </complexType>
-	-->
 	<complexType name="LineZeroSeqXmlType">
 		<sequence>
 			<element name="zLine" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
@@ -280,6 +279,7 @@
 			<element name="yToSide" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
+	-->
 
 	<complexType name="TransformerZeroSeqXmlType">
 		<sequence>
