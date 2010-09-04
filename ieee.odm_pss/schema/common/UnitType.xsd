@@ -79,8 +79,8 @@
 
 	<simpleType name="TimePeriodUnitType">
 		<restriction base="string">
-			<enumeration value="PU"></enumeration>
 			<enumeration value="Sec"></enumeration>
+			<enumeration value="PU"></enumeration>
 			<enumeration value="Min"></enumeration>
 			<enumeration value="Hour"></enumeration>
 			<enumeration value="Cycle"></enumeration>
