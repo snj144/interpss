@@ -35,9 +35,12 @@ import org.ieee.odm.schema.MachineModelXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 
+import com.interpss.common.datatype.UnitType;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
+import com.interpss.dstab.mach.EConstMachine;
 import com.interpss.dstab.mach.Eq1Ed1Machine;
 import com.interpss.dstab.mach.Eq1Machine;
 import com.interpss.dstab.mach.Machine;
@@ -65,29 +68,14 @@ public class MachDataHelper {
 	 * @param machId machine Id, has to be unique for retrieval by id
 	 * @return
 	 */
-	public Machine createMachine(MachineModelXmlType machXmlRec, String machId) {
-		if (machXmlRec instanceof ClassicMachineXmlType) {
-			// TODO
-		}
-		else if (machXmlRec instanceof EquiMachineXmlType) {
-			// TODO
-		}
-		else if (machXmlRec instanceof Eq1MachineXmlType) {
-			Eq1MachineXmlType machXml = (Eq1MachineXmlType)machXmlRec;
-			// create a machine and connect to the bus
-			Eq1Machine mach = (Eq1Ed1Machine)DStabObjectFactory.
-								createMachine(machId, machXml.getName(), MachineType.EQ1_MODEL, 
+	public Machine createMachine(MachineModelXmlType machXmlRec, String machId)  throws InterpssException {
+		if (machXmlRec instanceof Eq11Ed11MachineXmlType) {
+			Eq11Ed11MachineXmlType machXml = (Eq11Ed11MachineXmlType)machXmlRec;
+			// create a machine and connect to the bus "Gen"
+			RoundRotorMachine mach = (RoundRotorMachine)DStabObjectFactory.
+								createMachine(machId, machXml.getName(), MachineType.EQ11_ED11_ROUND_ROTOR, 
 								(DStabilityNetwork)this.dstabBus.getNetwork(), dstabBus.getId());
-			setEq1Data(mach, machXml);
-			return mach;
-		}
-		else if (machXmlRec instanceof Eq1Ed1MachineXmlType) {
-			Eq1Ed1MachineXmlType machXml = (Eq1Ed1MachineXmlType)machXmlRec;
-			// create a machine and connect to the bus
-			Eq1Ed1Machine mach = (Eq1Ed1Machine)DStabObjectFactory.
-								createMachine(machId, machXml.getName(), MachineType.EQ1_ED1_MODEL, 
-								(DStabilityNetwork)this.dstabBus.getNetwork(), dstabBus.getId());
-			setEq1Ed1Data(mach, machXml);
+			setEq11Eq11Data(mach, machXml);
 			return mach;
 		}
 		else if (machXmlRec instanceof Eq11MachineXmlType) {
@@ -99,35 +87,76 @@ public class MachDataHelper {
 			setEq11Data(mach, machXml);
 			return mach;
 		}
-		else if (machXmlRec instanceof Eq11Ed11MachineXmlType) {
-			Eq11Ed11MachineXmlType machXml = (Eq11Ed11MachineXmlType)machXmlRec;
-			// create a machine and connect to the bus "Gen"
-			RoundRotorMachine mach = (RoundRotorMachine)DStabObjectFactory.
-								createMachine(machId, machXml.getName(), MachineType.EQ11_ED11_ROUND_ROTOR, 
+		else if (machXmlRec instanceof Eq1Ed1MachineXmlType) {
+			Eq1Ed1MachineXmlType machXml = (Eq1Ed1MachineXmlType)machXmlRec;
+			// create a machine and connect to the bus
+			Eq1Ed1Machine mach = (Eq1Ed1Machine)DStabObjectFactory.
+								createMachine(machId, machXml.getName(), MachineType.EQ1_ED1_MODEL, 
 								(DStabilityNetwork)this.dstabBus.getNetwork(), dstabBus.getId());
-			setEq11Eq11Data(mach, machXml);
+			setEq1Ed1Data(mach, machXml);
 			return mach;
+		}
+		else if (machXmlRec instanceof Eq1MachineXmlType) {
+			Eq1MachineXmlType machXml = (Eq1MachineXmlType)machXmlRec;
+			// create a machine and connect to the bus
+			Eq1Machine mach = (Eq1Machine)DStabObjectFactory.
+								createMachine(machId, machXml.getName(), MachineType.EQ1_MODEL, 
+								(DStabilityNetwork)this.dstabBus.getNetwork(), dstabBus.getId());
+			setEq1Data(mach, machXml);
+			return mach;
+		}
+		else if (machXmlRec instanceof ClassicMachineXmlType) {
+			// TODO
+		}
+		else if (machXmlRec instanceof EquiMachineXmlType) {
+			// TODO
 		}
 		
 		return null;
 	}
 	
-	private void setEq1Data(Eq1Machine mach, Eq1MachineXmlType machXml) {
+	private void setClassicData(EConstMachine mach, ClassicMachineXmlType machXml) throws InterpssException {
 		// set machine data
-		mach.setRating(this.ratedPower.getValue(), ODMXmlHelper.toUnit(this.ratedPower.getUnit()), dstabBus.getNetwork().getBaseKva());
-		mach.setRatedVoltage(this.ratedVoltage.getValue(), ODMXmlHelper.toUnit(this.ratedVoltage.getUnit()));
+		if (this.ratedPower != null)
+			mach.setRating(this.ratedPower.getValue(), ODMXmlHelper.toUnit(this.ratedPower.getUnit()), dstabBus.getNetwork().getBaseKva());
+		else
+			throw new InterpssException("ratedPower is required, bus Id: " + mach.getDStabBus().getId());
+		if (this.ratedVoltage != null)
+			mach.setRatedVoltage(this.ratedVoltage.getValue(), ODMXmlHelper.toUnit(this.ratedVoltage.getUnit()));
+		else
+			mach.setRatedVoltage(dstabBus.getBaseVoltage(), UnitType.Volt);
 		// the multiply factor is calculated using machine ratedP and ratedV against system 
 		// base kva and bus base voltage
 		mach.setMultiFactors(dstabBus);
+		mach.setPoles(machXml.getPoles());
 		mach.setH(machXml.getH());
 		mach.setD(machXml.getD());
-		mach.setX0(machXml.getX0());
-		mach.setX2(machXml.getX2());
+		mach.setXd1(machXml.getXd1());
+	}
+	
+	private void setEq1Data(Eq1Machine mach, Eq1MachineXmlType machXml) throws InterpssException {
+		// set machine data
+		if (this.ratedPower != null)
+			mach.setRating(this.ratedPower.getValue(), ODMXmlHelper.toUnit(this.ratedPower.getUnit()), dstabBus.getNetwork().getBaseKva());
+		else
+			throw new InterpssException("ratedPower is required, bus Id: " + mach.getDStabBus().getId());
+		if (this.ratedVoltage != null)
+			mach.setRatedVoltage(this.ratedVoltage.getValue(), ODMXmlHelper.toUnit(this.ratedVoltage.getUnit()));
+		else
+			mach.setRatedVoltage(dstabBus.getBaseVoltage(), UnitType.Volt);
+		// the multiply factor is calculated using machine ratedP and ratedV against system 
+		// base kva and bus base voltage
+		mach.setMultiFactors(dstabBus);
+		mach.setPoles(machXml.getPoles());
+		mach.setH(machXml.getH());
+		mach.setD(machXml.getD());
+		mach.setXd1(machXml.getXd1());
+		mach.setX0(machXml.getX0() == null ? 0.0 : machXml.getX0());
+		mach.setX2(machXml.getX2() == null ? 0.0 : machXml.getX2());
 		mach.setRa(machXml.getRa());
-		mach.setXl(machXml.getXl());
+		mach.setXl(machXml.getXl() == null ? 0.0 : machXml.getXl());
 		mach.setXd(machXml.getXd());
 		mach.setXq(machXml.getXq());
-		mach.setXd1(machXml.getXd1());
 		mach.setTd01(machXml.getTd01().getValue());
 		if (machXml.getSeFmt1() != null) {
 			mach.setSliner(machXml.getSeFmt1().getSliner());
@@ -139,19 +168,19 @@ public class MachDataHelper {
 		}
 	}
 	
-	private void setEq1Ed1Data(Eq1Ed1Machine mach, Eq1Ed1MachineXmlType machXml) {
+	private void setEq1Ed1Data(Eq1Ed1Machine mach, Eq1Ed1MachineXmlType machXml)  throws InterpssException {
 		setEq1Data(mach, machXml);
 		mach.setXq1(machXml.getXq1());
 		mach.setTq01(machXml.getTq01().getValue());
 	}
 	
-	private void setEq11Data(SalientPoleMachine mach, Eq11MachineXmlType machXml) {
+	private void setEq11Data(SalientPoleMachine mach, Eq11MachineXmlType machXml)  throws InterpssException {
 		setEq1Data(mach, machXml);
 		mach.setXd11(machXml.getXd11());
 		mach.setTd011(machXml.getTd011().getValue());
 	}
 	
-	private void setEq11Eq11Data(RoundRotorMachine mach, Eq11Ed11MachineXmlType machXml) {
+	private void setEq11Eq11Data(RoundRotorMachine mach, Eq11Ed11MachineXmlType machXml) throws InterpssException {
 		setEq1Ed1Data(mach, machXml);
 		mach.setXq11(machXml.getXq11());
 		mach.setTq011(machXml.getTq011().getValue());
