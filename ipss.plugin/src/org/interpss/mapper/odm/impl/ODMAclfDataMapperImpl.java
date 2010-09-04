@@ -100,7 +100,7 @@ public class ODMAclfDataMapperImpl {
 
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
-					ODMAclfDataMapperImpl.mapAclfBusData(busRec, adjNet);
+					mapAclfBusData(busRec, adjNet);
 				}
 
 				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
