@@ -53,8 +53,7 @@
 			<element name="genId" type="pss:IDRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="ownerName" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="ratedPower" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element ref="pss:machineModel" maxOccurs="1" minOccurs="1"></element>
+			<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>			<element ref="pss:machineModel" maxOccurs="1" minOccurs="1"></element>
 			<element ref="pss:exciter" minOccurs="0"></element>
 			<element ref="pss:governor" minOccurs="0"></element>
 			<element ref="pss:stabilizer" minOccurs="0"></element>
