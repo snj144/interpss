@@ -29,6 +29,7 @@ import javax.xml.bind.JAXBElement;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
+import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
@@ -102,7 +103,7 @@ public class ODMDStabDataMapperImpl {
 						// if the record includes Acsc info, do the mapping
 						if (bus.getValue() instanceof ShortCircuitBusXmlType) {
 							ShortCircuitBusXmlType acscBusXml = (ShortCircuitBusXmlType) bus.getValue();
-							ODMAcscDataMapperImpl.setAcdcBusData(acscBusXml, dstabBus);
+							ODMAcscDataMapperImpl.setAcscBusData(acscBusXml, dstabBus);
 						}
 
 						// if the record includes DStab info, do the mapping
@@ -130,13 +131,14 @@ public class ODMDStabDataMapperImpl {
 						if (branch.getValue() instanceof LineShortCircuitXmlType || 
 								branch.getValue() instanceof XfrShortCircuitXmlType ||
 									branch.getValue() instanceof PSXfrShortCircuitXmlType) {
-							// TODO
+							BranchXmlType acscBraXml = (BranchXmlType)branch.getValue(); 
+							ODMAcscDataMapperImpl.setAcscBranchData(acscBraXml, dstabBranch, simuCtx.getMsgHub());
 						}
 
 						if (branch.getValue() instanceof LineDStabXmlType || 
 								branch.getValue() instanceof XfrDStabXmlType ||
 									branch.getValue() instanceof PSXfrDStabXmlType) {
-							// TODO
+							// current no DStab branch info are defined
 						}
 					}
 					else {
