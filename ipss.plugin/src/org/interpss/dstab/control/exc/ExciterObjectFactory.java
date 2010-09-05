@@ -24,6 +24,7 @@
 
 package org.interpss.dstab.control.exc;
 
+import org.interpss.dstab.control.exc.ieee.y1968.type1.Ieee1968Type1Exciter;
 import org.interpss.dstab.control.exc.simple.SimpleExciter;
 
 import com.interpss.dstab.mach.Machine;
@@ -31,6 +32,11 @@ import com.interpss.dstab.mach.Machine;
 public class ExciterObjectFactory {
 	public static SimpleExciter createSimpleExciter(String id, String name, Machine machine) {
 		SimpleExciter exc = new SimpleExciter(id, name, "InterPSS");
+		exc.setMachine(machine); 
+		return exc;
+  	}
+	public static Ieee1968Type1Exciter createIeee1968Type1Exciter(String id, String name, Machine machine) {
+		Ieee1968Type1Exciter exc = new Ieee1968Type1Exciter(id, name, "InterPSS");
 		exc.setMachine(machine); 
 		return exc;
   	}
