@@ -24,9 +24,11 @@
 
 package org.interpss.mapper.odm.impl.dstab;
 
+import org.ieee.odm.schema.ExcIEEE1968Type1XmlType;
 import org.ieee.odm.schema.ExcSimpleTypeXmlType;
 import org.ieee.odm.schema.ExciterModelXmlType;
 import org.interpss.dstab.control.exc.ExciterObjectFactory;
+import org.interpss.dstab.control.exc.ieee.y1968.type1.Ieee1968Type1Exciter;
 import org.interpss.dstab.control.exc.simple.SimpleExciter;
 
 import com.interpss.common.exp.InterpssException;
@@ -53,7 +55,26 @@ public class ExciterDataHelper {
 			exc.getData().setVrmax(excXml.getVrmax());
 			exc.getData().setVrmin(excXml.getVrmin());
 		}
-		else {
+		else if (excXmlRec instanceof ExcIEEE1968Type1XmlType){
+			ExcIEEE1968Type1XmlType excXml =(ExcIEEE1968Type1XmlType) excXmlRec;
+			Ieee1968Type1Exciter exc=ExciterObjectFactory.createIeee1968Type1Exciter(mach.getId()+"_Exc", excXml.getName(), mach);			
+			exc.getData().setTa(excXml.getTA().getValue());
+			exc.getData().setKa(excXml.getKA());
+			exc.getData().setTe(excXml.getTE().getValue());
+			exc.getData().setKe(excXml.getKE());
+			exc.getData().setKf(excXml.getKF());			
+			exc.getData().setTf(excXml.getTF().getValue());
+			exc.getData().setE1(excXml.getE1());
+			exc.getData().setSeE1(excXml.getSE1());
+			exc.getData().setE2(excXml.getE2());
+			exc.getData().setSeE2(excXml.getSE2());
+			exc.getData().setVrmax(excXml.getVRMAX());
+			exc.getData().setVrmin(excXml.getVRMIN());			
+			
+		}
+			
+			
+		{
 			throw new InterpssException("Exciter type invalid or not implemented, type " + excXmlRec.getClass().getSimpleName());
 		}
 	}
