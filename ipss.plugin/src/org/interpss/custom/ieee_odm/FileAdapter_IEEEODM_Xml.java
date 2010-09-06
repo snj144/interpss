@@ -53,7 +53,8 @@ public class FileAdapter_IEEEODM_Xml extends IpssFileAdapterBase {
 	@Override
 	public void load(final SimuContext simuCtx, final String filepath) throws Exception{
 		final File xmlFile = new File(filepath);
-		XBeanODMModelParser parser = new XBeanODMModelParser(xmlFile);
+		XBeanODMModelParser parser = new XBeanODMModelParser();
+		parser.parse(xmlFile);
 		IEEEODMMapper mapper = new IEEEODMMapper();
 		if (mapper.mapping(parser, simuCtx, SimuContext.class)) {
   	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
