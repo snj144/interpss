@@ -116,6 +116,8 @@
 	</complexType>
 	
 		<complexType name="ExcIEEE1968Type4XmlType">
+		<complexContent>
+		<extension base="pss:ExciterModelXmlType">
 		<sequence>
 			<element name="TRH" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 		    <element name="KV" type="double" maxOccurs="1" minOccurs="1"></element>
@@ -129,7 +131,9 @@
 			<element name="SE1" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="E2" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="SE2" type="double" maxOccurs="1" minOccurs="1"></element>			
-		</sequence>		
+		</sequence>
+		</extension>
+		</complexContent>		
 	</complexType>
 
 <!-- 

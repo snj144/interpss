@@ -30,6 +30,12 @@
 	<element name="excIEEE1981NewExcSystem" type="pss:ExcIEEE1981NewExcSystemXmlType" substitutionGroup="pss:exciter"/>
 	<element name="excIEEETypeDC2" type="pss:ExcIEEETypeDC2XmlType" substitutionGroup="pss:exciter"/>
 	<element name="excTSATTypeEXC34" type="pss:ExcTSATTypeEXC34XmlType" substitutionGroup="pss:exciter"/>
+	<element name="excIEEE1968Type1S" type="pss:ExcIEEE1968Type1SXmlType" substitutionGroup="pss:exciter"/>
+	<element name="excIEEE1968Type2" type="pss:ExcIEEE1968Type2XmlType" substitutionGroup="pss:exciter"/>
+	<element name="excIEEE1968Type4" type="pss:ExcIEEE1968Type4XmlType" substitutionGroup="pss:exciter"/>
+	<element name="excIEEE1968Type3" type="pss:ExcIEEE1968Type3XmlType" substitutionGroup="pss:exciter"/>
+	
+	
 	
 	<element name="governor" type="pss:GovernorModelXmlType"/>
 	<element name="govSimpleType" type="pss:GovSimpleTypeXmlType" substitutionGroup="pss:governor"/>
@@ -39,11 +45,17 @@
 	<element name="govHydro" type="pss:GovHydroXmlType" substitutionGroup="pss:governor"/>
 	<element name="govHydroTurbine" type="pss:GovHydroTurbineXmlType" substitutionGroup="pss:governor"/>
 	<element name="govHydroSteamGeneralModel" type="pss:GovHydroSteamGeneralModelXmlType" substitutionGroup="pss:governor"/>
+	
+	<element name="govSteamNR" type="pss:GovSteamNRXmlType" substitutionGroup="pss:governor"/>
+	<element name="govSteamTCSR" type="pss:GovSteamTCSRXmlType" substitutionGroup="pss:governor"/>
+	<element name="govSteamTDSR" type="pss:GovSteamTDSRXmlType" substitutionGroup="pss:governor"/>
+	
 			
 	<element name="stabilizer" type="pss:StabilizerModelXmlType"/>
 	<element name="pssSimpleType" type="pss:PssSimpleTypeXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEEE1981Type" type="pss:PssIEEE1981TypeXmlType" substitutionGroup="pss:stabilizer"/>
-	<element name="pssIEEE1982Type2A" type="pss:PssIEEE1982Type2AXmlType" substitutionGroup="pss:stabilizer"/>
+	<element name="pssIEEE1992Type2A" type="pss:PssIEEE1992Type2AXmlType" substitutionGroup="pss:stabilizer"/>
+	<element name="pssIEEEType1A" type="pss:PssIeeePss1AXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEE2ST" type="pss:PssIEE2STXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEEEDualInput" type="pss:PssIEEEDualInputXmlType" substitutionGroup="pss:stabilizer"/>
 	
