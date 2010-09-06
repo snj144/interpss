@@ -24,10 +24,19 @@
 
 package org.ieee.odm.model;
 
+import java.io.File;
+import java.io.InputStream;
+
 /**
  * A Xml parser for the IEEE DOM schema. 
  */
 
 public interface IODMModelParser {
+	boolean parse(File xmlFile);
+	
+	boolean parse(String xmlString);
+	
+	boolean parse(InputStream in);
+	
 	String toXmlDoc(boolean addXsi);
 }
