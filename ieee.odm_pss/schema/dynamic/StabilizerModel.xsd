@@ -67,7 +67,7 @@
 		</restriction>
 	</simpleType>
 
-	<complexType name="PssIEEE1982Type2AXmlType">
+	<complexType name="PssIEEE1992Type2AXmlType">
 		<complexContent>
 		<extension base="pss:StabilizerModelXmlType">
 		<sequence>
@@ -132,6 +132,26 @@
 		</extension>
 		</complexContent>		
 	</complexType>
+	
+	<complexType name="PssIeeePss1AXmlType">
+		<complexContent>
+		<extension base="pss:StabilizerModelXmlType">
+		<sequence>			
+			<element name="KS" type="double" maxOccurs="1" minOccurs="1"></element>			
+			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="T4" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="T5" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="T6" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>			
+			<element name="VSTMAX" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VSTMIN" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="A1" type="double" maxOccurs="1" minOccurs="0"></element>
+			<element name="A2" type="double" maxOccurs="1" minOccurs="0"></element>			
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
 
 	<complexType name="PssIEEEDualInputXmlType">
 		<complexContent>
@@ -183,7 +203,9 @@
 		<choice>
 			<element name="IEEE1981Type" maxOccurs="1" minOccurs="0" type="pss:PssIEEE1981TypeXmlType">
 			</element>
-			<element name="IEEE1982Type2A" maxOccurs="1" minOccurs="0" type="pss:PssIEEE1982Type2AXmlType">
+			<element name="IEEE1992Type2A" maxOccurs="1" minOccurs="0" type="pss:PssIEEE1992Type2AXmlType">
+			</element>
+			<element name="IEEEPSS1A" maxOccurs="1" minOccurs="0" type="pss:PssIeeePss1AXmlType">
 			</element>
 			<element name="IEE2ST" maxOccurs="1" minOccurs="0" type="pss:PssIEE2STXmlType">
 			</element>
