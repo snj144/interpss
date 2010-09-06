@@ -24,7 +24,6 @@
 		<complexContent>
 			<extension base="pss:NetworkXmlType">
 				<sequence>
-					<element name="hasLoadflowData" type="boolean" minOccurs="0"></element>
 					<element name="interchangeList" minOccurs="0">
 						<complexType>
 							<sequence>

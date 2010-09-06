@@ -21,6 +21,7 @@
 		<complexContent>
 			<extension base="pss:LoadflowNetXmlType">
 				<sequence>
+					<element name="hasLoadflowData" type="boolean"></element>
 					<element name="positiveSeqDataOnly" type="boolean"></element>
 				</sequence>
 			</extension>
