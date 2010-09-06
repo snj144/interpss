@@ -7,6 +7,10 @@ import org.ieee.odm.model.opf.OpfModelParser;
 public class ODMObjectFactory {
 	public static AclfModelParser createAclfModelParser() {
 		AclfModelParser parser = new AclfModelParser();
+//		ProxyFactory pf = new ProxyFactory();
+//		pf.setTarget(parser);
+//		pf.addAdvice(new ODMThrowableAdvice());
+//		return (AclfModelParser)pf.getProxy();		
 		return parser;
 	}
 

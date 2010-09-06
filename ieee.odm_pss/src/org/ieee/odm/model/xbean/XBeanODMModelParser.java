@@ -68,11 +68,17 @@ public class XBeanODMModelParser implements IODMModelParser {
 	 * @param xmlFile
 	 * @throws Exception
 	 */
-	public XBeanODMModelParser(File xmlFile) throws Exception {
-		this.doc = PSSStudyCaseDocument.Factory.parse(xmlFile);
-		this.objectCache = new Hashtable<String, IDRecordXmlType>();
-		if (!doc.validate()) 
-			throw new Exception("Error: input XML document is invalid, file: " + xmlFile.getName());
+	public boolean parse(File xmlFile) {
+		try {
+			this.doc = PSSStudyCaseDocument.Factory.parse(xmlFile);
+			this.objectCache = new Hashtable<String, IDRecordXmlType>();
+			if (!doc.validate()) 
+				throw new Exception("Error: input XML document is invalid, file: " + xmlFile.getName());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -81,9 +87,15 @@ public class XBeanODMModelParser implements IODMModelParser {
 	 * @param xmlString
 	 * @throws XmlException
 	 */
-	public XBeanODMModelParser(String xmlString) throws XmlException {
-		this.doc = PSSStudyCaseDocument.Factory.parse(xmlString);
-		this.objectCache = new Hashtable<String, IDRecordXmlType>();
+	public boolean parse(String xmlString) {
+		try {
+			this.doc = PSSStudyCaseDocument.Factory.parse(xmlString);
+			this.objectCache = new Hashtable<String, IDRecordXmlType>();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -92,9 +104,15 @@ public class XBeanODMModelParser implements IODMModelParser {
 	 * @param in
 	 * @throws Exception
 	 */
-	public XBeanODMModelParser(InputStream in) throws Exception {
-		this.doc = PSSStudyCaseDocument.Factory.parse(in);
-		this.objectCache = new Hashtable<String, IDRecordXmlType>();
+	public boolean parse(InputStream in) {
+		try {
+			this.doc = PSSStudyCaseDocument.Factory.parse(in);
+			this.objectCache = new Hashtable<String, IDRecordXmlType>();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	/**
