@@ -29,6 +29,7 @@
 	 -->
 	<element name="aclfBus" type="pss:LoadflowBusXmlType" substitutionGroup="pss:bus"/>
 	<element name="acscBus" type="pss:ShortCircuitBusXmlType" substitutionGroup="pss:bus"/>
+	<element name="acscNoLFBus" type="pss:ScSimpleBusXmlType" substitutionGroup="pss:bus"/>
 	<element name="dstabBus" type="pss:DStabBusXmlType" substitutionGroup="pss:bus"/>
 	<element name="distBus" substitutionGroup="pss:bus"/>
 	<element name="opfGenBus" type="pss:OpfGenBusXmlType" substitutionGroup="pss:bus"/>
