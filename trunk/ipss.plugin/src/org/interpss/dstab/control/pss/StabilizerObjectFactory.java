@@ -24,6 +24,8 @@
 
 package org.interpss.dstab.control.pss;
 
+import org.interpss.dstab.control.pss.ieee.y1992.pss1a.Ieee1992PSS1AStabilizer;
+import org.interpss.dstab.control.pss.ieee.y1992.pss2a.Ieee1992PSS2AStabilizer;
 import org.interpss.dstab.control.pss.simple.SimpleStabilizer;
 
 import com.interpss.dstab.mach.Machine;
@@ -34,4 +36,15 @@ public class StabilizerObjectFactory {
 		pss.setMachine(machine); 
 		return pss;
   	}
+	public static Ieee1992PSS1AStabilizer createIeee1992PSS1AStabilizer(String id, String name, Machine machine) {
+		Ieee1992PSS1AStabilizer pss = new Ieee1992PSS1AStabilizer(id, name, "InterPSS");
+		pss.setMachine(machine); 
+		return pss;
+  	}
+	public static Ieee1992PSS2AStabilizer createIeee1992PSS2AStabilizer(String id, String name, Machine machine) {
+		Ieee1992PSS2AStabilizer pss = new Ieee1992PSS2AStabilizer(id, name, "InterPSS");
+		pss.setMachine(machine); 
+		return pss;
+  	}
+	
 }

@@ -169,15 +169,14 @@
 		<complexContent>
 		<extension base="pss:GovernorModelXmlType">
 		<sequence>
-			<element name="R" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TG" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TP" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TD" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="K" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="PMAX" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="PMIN" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="TWhalf" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="Uo" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="Uc" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="D4" type="double" maxOccurs="1" minOccurs="1"></element>
+			
 		</sequence>
 		</extension>
 		</complexContent>		

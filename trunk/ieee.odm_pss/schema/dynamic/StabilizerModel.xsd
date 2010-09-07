@@ -77,8 +77,8 @@
 			<element name="secondInputSignal" maxOccurs="1" minOccurs="1" type="pss:StabilizerInputSignalEnumType">
 			</element>
 			<element name="secondRemoteBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="M" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="N" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="M" type="int" maxOccurs="1" minOccurs="1"></element>
+			<element name="N" type="int" maxOccurs="1" minOccurs="1"></element>
 			<element name="TW1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="TW2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="T6" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
@@ -94,8 +94,8 @@
 			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="T4" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="VSTMAX" type="string" maxOccurs="1" minOccurs="1"></element>
-			<element name="VSTMIN" type="string" maxOccurs="1" minOccurs="1"></element>
+			<element name="VSTMAX" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="VSTMIN" type="double" maxOccurs="1" minOccurs="1"></element>
 		</sequence>
 		</extension>
 		</complexContent>
