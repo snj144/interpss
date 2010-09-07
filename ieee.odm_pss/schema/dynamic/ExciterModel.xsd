@@ -71,7 +71,7 @@
 	
 	<complexType name="ExcIEEE1968Type1SXmlType">
 		<complexContent>
-		<extension base="pss:ExciterModelXmlType">
+		<extension base="pss:ExcSimpleTypeXmlType">
 		<sequence>
 			<element name="KP" type="double" maxOccurs="1" minOccurs="1"></element>	
 		    <element name="KF" type="double" maxOccurs="1" minOccurs="1"></element>
@@ -83,7 +83,7 @@
 	
 	<complexType name="ExcIEEE1968Type2XmlType">
 		<complexContent>
-		<extension base="pss:ExciterModelXmlType">
+		<extension base="pss:ExcSimpleTypeXmlType">
 		<sequence>
 		    <element name="KE" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="TE" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
@@ -101,7 +101,7 @@
 	
 		<complexType name="ExcIEEE1968Type3XmlType">
 		<complexContent>
-		<extension base="pss:ExciterModelXmlType">
+		<extension base="pss:ExcSimpleTypeXmlType">
 		<sequence>
 		    <element name="KE" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="TE" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
@@ -117,7 +117,7 @@
 	
 		<complexType name="ExcIEEE1968Type4XmlType">
 		<complexContent>
-		<extension base="pss:ExciterModelXmlType">
+		<extension base="pss:ExcSimpleTypeXmlType">
 		<sequence>
 			<element name="TRH" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 		    <element name="KV" type="double" maxOccurs="1" minOccurs="1"></element>
@@ -142,7 +142,7 @@
  
 	<complexType name="ExcIEEE1981TypeAC2XmlType">
 		<complexContent>
-		<extension base="pss:ExciterModelXmlType">
+		<extension base="pss:ExcSimpleTypeXmlType">
 		<sequence>
 			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="TB" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
@@ -166,7 +166,7 @@
 
 	<complexType name="ExcIEEE1981ST1XmlType">
 		<complexContent>
-		<extension base="pss:ExciterModelXmlType">
+		<extension base="pss:ExcSimpleTypeXmlType">
 		<sequence>
 			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="VIMAX" type="double" maxOccurs="1" minOccurs="1"></element>
@@ -183,7 +183,7 @@
  
 	<complexType name="ExcIEEE1981NewExcSystemXmlType">
 		<complexContent>
-		<extension base="pss:ExciterModelXmlType">
+		<extension base="pss:ExcSimpleTypeXmlType">
 		<sequence>
 			<element name="Rc" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="Xc" type="double" maxOccurs="1" minOccurs="1"></element>
@@ -224,7 +224,7 @@
  
 	<complexType name="ExcIEEE1992TypeAC1AXmlType">
 		<complexContent>
-		<extension base="pss:ExciterModelXmlType">
+		<extension base="pss:ExcSimpleTypeXmlType">
 		<sequence>
 			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="TB" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
@@ -251,7 +251,7 @@
 
 	<complexType name="ExcBPAFJXmlType">
 		<complexContent>
-		<extension base="pss:ExciterModelXmlType">
+		<extension base="pss:ExcSimpleTypeXmlType">
 		<sequence>
 			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="EFDMAX" type="double" maxOccurs="1" minOccurs="1"></element>
@@ -268,7 +268,7 @@
 
 	<complexType name="ExcIEEETypeDC2XmlType">
 		<complexContent>
-		<extension base="pss:ExciterModelXmlType">
+		<extension base="pss:ExcSimpleTypeXmlType">
 		<sequence>
 			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="TB" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
@@ -288,7 +288,7 @@
 
     <complexType name="ExcTSATTypeEXC34XmlType">
 		<complexContent>
-		<extension base="pss:ExciterModelXmlType">
+		<extension base="pss:ExcSimpleTypeXmlType">
 		<sequence>
 		    <element name="IVUEL" type="double" maxOccurs="1" minOccurs="1"></element>
 		    <element name="IVOEL" type="double" maxOccurs="1" minOccurs="1"></element>

@@ -24,9 +24,13 @@
 
 package org.interpss.mapper.odm.impl.dstab;
 
+import org.ieee.odm.schema.PssIEEE1992Type2AXmlType;
+import org.ieee.odm.schema.PssIeeePss1AXmlType;
 import org.ieee.odm.schema.PssSimpleTypeXmlType;
 import org.ieee.odm.schema.StabilizerModelXmlType;
 import org.interpss.dstab.control.pss.StabilizerObjectFactory;
+import org.interpss.dstab.control.pss.ieee.y1992.pss1a.Ieee1992PSS1AStabilizer;
+import org.interpss.dstab.control.pss.ieee.y1992.pss2a.Ieee1992PSS2AStabilizer;
 import org.interpss.dstab.control.pss.simple.SimpleStabilizer;
 
 import com.interpss.common.exp.InterpssException;
@@ -57,6 +61,43 @@ public class StabilizerDataHelper {
 			pss.getData().setT4(pssXml.getT4().getValue());
 			pss.getData().setVsmax(pssXml.getVsmax());
 			pss.getData().setVsmin(pssXml.getVsmin());
+		}
+		else if (pssXmlRec instanceof PssIEEE1992Type2AXmlType) {
+			PssIEEE1992Type2AXmlType pssXml = (PssIEEE1992Type2AXmlType)pssXmlRec;
+			Ieee1992PSS2AStabilizer pss = StabilizerObjectFactory.createIeee1992PSS2AStabilizer(mach.getId()+"_Pss", pssXml.getName(), mach);
+			pss.getData().setKs1(pssXml.getKS1());			
+			pss.getData().setT1(pssXml.getT1().getValue());
+			pss.getData().setT2(pssXml.getT2().getValue());
+			pss.getData().setT3(pssXml.getT3().getValue());
+			pss.getData().setT4(pssXml.getT4().getValue());
+			pss.getData().setT6(pssXml.getT1().getValue());
+			pss.getData().setT7(pssXml.getT2().getValue());
+			pss.getData().setT8(pssXml.getT3().getValue());
+			pss.getData().setT9(pssXml.getT4().getValue());
+			pss.getData().setN(pssXml.getN());
+			pss.getData().setM(pssXml.getM());			
+			pss.getData().setVstmax(pssXml.getVSTMAX());
+			pss.getData().setVstmin(pssXml.getVSTMIN());
+			pss.getData().setKs2(pssXml.getKS2());	
+			pss.getData().setKs3(pssXml.getKS3());	
+			pss.getData().setTw1(pssXml.getTW1().getValue());
+			pss.getData().setTw2(pssXml.getTW2().getValue());
+			pss.getData().setTw3(pssXml.getTW3().getValue());
+			pss.getData().setTw4(pssXml.getTW4().getValue());
+		}
+		else if (pssXmlRec instanceof PssIeeePss1AXmlType) {
+			PssIeeePss1AXmlType pssXml = (PssIeeePss1AXmlType)pssXmlRec;
+			Ieee1992PSS1AStabilizer pss = StabilizerObjectFactory.createIeee1992PSS1AStabilizer(mach.getId()+"_Pss", pssXml.getName(), mach);
+			pss.getData().setKs(pssXml.getKS());			
+			pss.getData().setT1(pssXml.getT1().getValue());
+			pss.getData().setT2(pssXml.getT2().getValue());
+			pss.getData().setT3(pssXml.getT3().getValue());
+			pss.getData().setT4(pssXml.getT4().getValue());
+			pss.getData().setT6(pssXml.getT1().getValue());			
+			pss.getData().setVstmax(pssXml.getVSTMAX());
+			pss.getData().setVstmin(pssXml.getVSTMIN());
+			pss.getData().setA1(pssXml.getA1());	
+			pss.getData().setA2(pssXml.getA2());				
 		}
 		else {
 			throw new InterpssException("Stabilizer type invalid or not implemented, type " + pssXmlRec.getClass().getSimpleName());

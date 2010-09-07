@@ -24,6 +24,12 @@
 
 package org.interpss.dstab.control.gov;
 
+import org.interpss.dstab.control.gov.ieee.hturbine.IeeeHTurbineGovernor;
+import org.interpss.dstab.control.gov.ieee.ieeeST1.IeeeST1Governor;
+import org.interpss.dstab.control.gov.ieee.ieeeST2.IeeeST2Governor;
+import org.interpss.dstab.control.gov.ieee.steamNR.IeeeSteamNRGovernor;
+import org.interpss.dstab.control.gov.ieee.steamTCSR.IeeeSteamTCSRGovernor;
+import org.interpss.dstab.control.gov.ieee.steamTDSR.IeeeSteamTDSRGovernor;
 import org.interpss.dstab.control.gov.simple.SimpleGovernor;
 
 import com.interpss.dstab.mach.Machine;
@@ -31,6 +37,36 @@ import com.interpss.dstab.mach.Machine;
 public class GovernorObjectFactory {
 	public static SimpleGovernor createSimpleGovernor(String id, String name, Machine machine) {
 		SimpleGovernor gov = new SimpleGovernor(id, name, "InterPSS");
+		gov.setMachine(machine); 
+		return gov;
+  	}
+	public static IeeeHTurbineGovernor createIeeeHTurbineGovernor(String id, String name, Machine machine) {
+		IeeeHTurbineGovernor gov = new IeeeHTurbineGovernor(id, name, "InterPSS");
+		gov.setMachine(machine); 
+		return gov;
+  	}
+	public static IeeeST1Governor createIeeeST1Governor(String id, String name, Machine machine) {
+		IeeeST1Governor gov = new IeeeST1Governor(id, name, "InterPSS");
+		gov.setMachine(machine); 
+		return gov;
+  	}
+	public static IeeeST2Governor createIeeeST2Governor(String id, String name, Machine machine) {
+		IeeeST2Governor gov = new IeeeST2Governor(id, name, "InterPSS");
+		gov.setMachine(machine); 
+		return gov;
+  	}
+	public static IeeeSteamNRGovernor createIeeeSteamNRGovernor(String id, String name, Machine machine) {
+		IeeeSteamNRGovernor gov = new IeeeSteamNRGovernor(id, name, "InterPSS");
+		gov.setMachine(machine); 
+		return gov;
+  	}
+	public static IeeeSteamTCSRGovernor createIeeeSteamTCSRGovernor(String id, String name, Machine machine) {
+		IeeeSteamTCSRGovernor gov = new IeeeSteamTCSRGovernor(id, name, "InterPSS");
+		gov.setMachine(machine); 
+		return gov;
+  	}
+	public static IeeeSteamTDSRGovernor createIeeeSteamTDSRGovernor(String id, String name, Machine machine) {
+		IeeeSteamTDSRGovernor gov = new IeeeSteamTDSRGovernor(id, name, "InterPSS");
 		gov.setMachine(machine); 
 		return gov;
   	}
