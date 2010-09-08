@@ -11,11 +11,11 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.bpa.BPAAdapter;
-import org.ieee.odm.adapter.ieeecdf.JaxbIeeeCDFAdapter;
+import org.ieee.odm.adapter.bpa.xbean.BPAAdapter;
+import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
-import org.ieee.odm.model.ODMModelParser;
-import org.interpss.mapper.IEEEODMMapper;
+import org.ieee.odm.model.aclf.AclfModelParser;
+import org.interpss.mapper.odm.IEEEODMMapper;
 
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -28,7 +28,7 @@ public class DataConverter {
 	   private final static String Token_IEEECDF 	= "ieeecdf";
 	   private final static String Token_PSSE 	= "psse";
 	   private final static String Token_BPA 	= "bpa";
-	   public org.ieee.odm.model.ODMModelParser parser;
+	   public org.ieee.odm.model.aclf.AclfModelParser parser;
 	  
 	   
 	   
@@ -93,7 +93,8 @@ public class DataConverter {
 		// 2. Convert intermediary XML file to InterPSS model
 		try{
 			InputStream in = new BufferedInputStream(new FileInputStream("intermediary.xml"));
-			this.parser = new ODMModelParser(in);
+			this.parser = new AclfModelParser();
+			parser.parse(in);
 			//IEEEODMMapper mapper = new IEEEODMMapper();
 			mapper = new IEEEODMMapper();
 			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
@@ -106,7 +107,8 @@ public class DataConverter {
 		}
 		return net;
 	}
-   public ODMModelParser getParser(){
+   
+   public AclfModelParser getParser(){
 	   return this.parser;
    }
 

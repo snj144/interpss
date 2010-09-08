@@ -2,18 +2,15 @@ package org.interpss.vstab.data;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
+import org.apache.commons.math.linear.ArrayRealVector;
+import org.apache.commons.math.linear.RealVector;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.odm.model.ODMModelParser;
-import org.interpss.vstab.data.DataReader;
-import org.apache.commons.math.linear.*;
+import org.ieee.odm.model.aclf.AclfModelParser;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.common.IAclfBusVisitor;
 
 public class LoadDataReader extends DataReader {
 
@@ -36,13 +33,13 @@ public class LoadDataReader extends DataReader {
 		readLoadFromNet();
 		
 	}
-	public LoadDataReader(ODMModelParser parser){
+	public LoadDataReader(AclfModelParser parser){
 		super(parser);
 		readLoadFromODM();
 	}
 	private void readLoadFromODM(){
 		
-		this.baseCaseNetwork=this.jODMParser.getBaseCase();
+		this.baseCaseNetwork=this.jODMParser.getAclfBaseCase();
 		busArray=baseCaseNetwork.getBusList().getBusArray();
 		
 		this.hmPLoad0=new HashMap<Integer,Double>(busArray.length);

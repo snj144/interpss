@@ -1,6 +1,8 @@
 package org.interpss.vstab;
 
-import org.apache.commons.math.linear.*;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.linear.RealMatrix;
+import org.interpss.vstab.core.MatrixCalc;
 public class Test {
 
 	/**
