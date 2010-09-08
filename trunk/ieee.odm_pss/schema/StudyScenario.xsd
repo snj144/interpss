@@ -57,12 +57,12 @@
 		<ns:sequence>
 			<ns:element name="faultType" minOccurs="1" type="pss:AcscFaultDataType"></ns:element>
 			<ns:element name="faultCategory" minOccurs="1" type="pss:AcscFaultCategoryDataType"></ns:element>
-			<ns:element name="busBranchId" type="ns:string" minOccurs="1"></ns:element>
-			<ns:element name="zLG" type="pss:ComplexXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="zLL" type="pss:ComplexXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="busBranchId" type="pss:IDRecordXmlType" minOccurs="1"></ns:element>
+			<ns:element name="zLG" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="zLL" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 			<ns:element name="distance" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
 			<ns:element name="branchReclosure" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="reclosureTime" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
+			<ns:element name="reclosureTime" type="pss:TimePeriodXmlType" minOccurs="0" maxOccurs="1"></ns:element>
 		</ns:sequence>
 	</ns:complexType>	
 	
