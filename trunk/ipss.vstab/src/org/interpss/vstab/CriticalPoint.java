@@ -7,24 +7,22 @@ import java.util.List;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
-
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.vstab.algorithm.EquivLoadAlgorithm;
+import org.interpss.vstab.core.MatrixCalc;
 import org.interpss.vstab.data.GenDataReader;
 import org.interpss.vstab.genDispatch.GenDispatch;
+import org.interpss.vstab.loadIncease.LoadIncease;
 
-import com.interpss.common.SpringAppContext;
-import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.JacobianMatrixType;
 import com.interpss.core.net.Bus;
-import com.interpss.core.sparse.SparseEqnMatrix2x2;
 
 
 public class CriticalPoint {
 	protected AclfNetwork net=null;
 	protected List<Integer> loadBusList=null;
-	protected ODMModelParser parser=null;
+	protected AclfModelParser parser=null;
 	protected RealMatrix jacobi=null;
 	protected RealMatrix Jcr=null;
 	protected RealVector dirP=null;

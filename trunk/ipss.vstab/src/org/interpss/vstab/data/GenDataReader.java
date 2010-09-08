@@ -7,8 +7,7 @@ import java.util.List;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType.Enum;
-import org.ieee.odm.model.ODMModelParser;
-import org.interpss.vstab.data.DataReader;
+import org.ieee.odm.model.aclf.AclfModelParser;
 
 public class GenDataReader extends DataReader {
 //	private ODMModelParser parser;
@@ -80,10 +79,10 @@ public class GenDataReader extends DataReader {
 		return this.genP0;
 	}
 	@Override
-	public void setODMParser(ODMModelParser parser){
+	public void setODMParser(AclfModelParser parser){
 		this.parser=parser;
 	}
-	public GenDataReader(ODMModelParser parser){
+	public GenDataReader(AclfModelParser parser){
 		super(parser);
 	}
 	
