@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math-2.1.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf_2.5.0.v200906151043.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.common_2.5.0.v200906151043.jar"/>
