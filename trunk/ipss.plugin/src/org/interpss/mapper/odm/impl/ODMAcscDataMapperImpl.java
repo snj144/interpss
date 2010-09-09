@@ -24,17 +24,35 @@
 
 package org.interpss.mapper.odm.impl;
 
+import javax.xml.bind.JAXBElement;
+
 import org.apache.commons.math.complex.Complex;
+import org.ieee.odm.model.acsc.AcscModelParser;
+import org.ieee.odm.model.dstab.DStabModelParser;
+import org.ieee.odm.schema.AnalysisCategoryEnumType;
+import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.DStabBusXmlType;
+import org.ieee.odm.schema.DStabNetXmlType;
 import org.ieee.odm.schema.GroundingEnumType;
 import org.ieee.odm.schema.GroundingXmlType;
+import org.ieee.odm.schema.LineBranchXmlType;
+import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
+import org.ieee.odm.schema.LoadflowBusXmlType;
+import org.ieee.odm.schema.NetworkCategoryEnumType;
+import org.ieee.odm.schema.OriginalDataFormatEnumType;
+import org.ieee.odm.schema.PSXfrBranchXmlType;
+import org.ieee.odm.schema.PSXfrDStabXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusEnumType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
 import org.ieee.odm.schema.XformerConnectionXmlType;
 import org.ieee.odm.schema.XformrtConnectionEnumType;
+import org.ieee.odm.schema.XfrBranchXmlType;
+import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZXmlType;
@@ -43,8 +61,12 @@ import org.interpss.mapper.odm.ODMXmlHelper;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
+import com.interpss.core.acsc.AcscFactory;
 import com.interpss.core.acsc.AcscLineAdapter;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.AcscXfrAdapter;
@@ -52,9 +74,109 @@ import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;
 import com.interpss.core.acsc.XfrConnectCode;
+import com.interpss.dstab.DStabBranch;
+import com.interpss.dstab.DStabBus;
+import com.interpss.dstab.DStabObjectFactory;
+import com.interpss.dstab.DStabilityNetwork;
+import com.interpss.simu.SimuContext;
 
 
 public class ODMAcscDataMapperImpl {
+	/**
+	 * transfer info stored in the parser object into simuCtx object
+	 * 
+	 * @param parser
+	 * @param simuCtx
+	 * @return
+	 */
+	public static boolean odm2SimuCtxMapping(AcscModelParser parser, SimuContext simuCtx) {
+		boolean noError = true;
+		
+		if (parser.getAcscNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
+				&& parser.getAclfNet().getAnalysisCategory() == AnalysisCategoryEnumType.SHORT_CIRCUIT) {
+			// get the base net xml record from the parser object
+			ShortCircuitNetXmlType xmlNet = parser.getAcscNet();
+			try {
+				// create a AcscNetwork object and map the net info 
+				AcscNetwork acscNet = CoreObjectFactory.createAcscNetwork();
+				mapNetworkData(acscNet,xmlNet);
+				simuCtx.setAcscFaultNet(acscNet);
+
+				// map the bus info
+				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
+					// for short circuit, the bus could be aclfBus ,acscBus or acscNoLFBus 
+					// inheritance relationship aclfBus <- acscBus. acscNoLFBus is independent
+					if (bus.getValue() instanceof LoadflowBusXmlType) {
+						LoadflowBusXmlType aclfBusXml = (LoadflowBusXmlType)bus.getValue();
+						AcscBus acscBus = com.interpss.core.acsc.AcscFactory.eINSTANCE.createAcscBus();					
+												
+						// map the base bus info part
+						ODMNetDataMapperImpl.mapBaseBusData(aclfBusXml, acscBus, acscNet);
+						
+						// map the Aclf info part						
+						ODMAclfDataMapperImpl.setAclfBusData(aclfBusXml, acscBus, acscNet);
+						
+						// if the record includes Acsc info, do the mapping
+						if (bus.getValue() instanceof ShortCircuitBusXmlType) {
+							ShortCircuitBusXmlType acscBusXml = (ShortCircuitBusXmlType) bus.getValue();
+							ODMAcscDataMapperImpl.setAcscBusData(acscBusXml, acscBus);
+						}
+
+						// if the record includes DStab info, do the mapping
+						
+					} else if (bus.getValue() instanceof ScSimpleBusXmlType){
+						
+					}
+					else {
+						IpssLogger.getLogger().severe( "Error: only aclfBus, acscBus and dstabBus could be used for DStab study");
+						noError = false;
+					}
+				}
+
+				// map the branch info
+				for (JAXBElement<? extends BaseBranchXmlType> branch : xmlNet.getBranchList().getBranch()) {
+					// for DStab, the branch could be (LineBranchXmlType, ...), (LineShortCircuitXmlType ...) or (LineDStabXmlType ... )
+					// inheritance relationship (LineBranchXmlType, ...) <- (LineShortCircuitXmlType ...) <- (LineDStabXmlType ... )
+					if (branch.getValue() instanceof LineBranchXmlType || 
+							branch.getValue() instanceof XfrBranchXmlType ||
+								branch.getValue() instanceof PSXfrBranchXmlType) {
+						DStabBranch dstabBranch = DStabObjectFactory.createDStabBranch();
+						ODMAclfDataMapperImpl.mapAclfBranchData(branch.getValue(), dstabBranch, dstabNet, simuCtx.getMsgHub());
+
+						if (branch.getValue() instanceof LineShortCircuitXmlType || 
+								branch.getValue() instanceof XfrShortCircuitXmlType ||
+									branch.getValue() instanceof PSXfrShortCircuitXmlType) {
+							BranchXmlType acscBraXml = (BranchXmlType)branch.getValue(); 
+							ODMAcscDataMapperImpl.setAcscBranchData(acscBraXml, dstabBranch, simuCtx.getMsgHub());
+						}
+
+						if (branch.getValue() instanceof LineDStabXmlType || 
+								branch.getValue() instanceof XfrDStabXmlType ||
+									branch.getValue() instanceof PSXfrDStabXmlType) {
+							// current no DStab branch info are defined
+						}
+					}
+					else {
+						IpssLogger.getLogger().severe( "Error: only aclf<Branch>, acsc<Branch> and dstab<Branch> could be used for DStab study");
+						noError = false;
+					}
+				}
+			} catch (InterpssException e) {
+				IpssLogger.getLogger().severe(e.toString());
+				e.printStackTrace();
+				noError = false;
+			}
+		} 
+		else {
+			IpssLogger.getLogger().severe( "Error: wrong Transmission NetworkType and/or ApplicationType");
+			return false;
+		}
+		
+		OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
+		simuCtx.getNetwork().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
+		return noError;
+	}
+	
 	/**
 	 * Map the network info only
 	 * 
@@ -63,7 +185,7 @@ public class ODMAcscDataMapperImpl {
 	 */
 	public static void mapNetworkData(AcscNetwork net, ShortCircuitNetXmlType xmlNet) {
 		ODMAclfDataMapperImpl.mapNetworkData(net, xmlNet);
-		net.setPositiveSeqDataOnly(xmlNet.isPositiveSeqDataOnly());
+		net.setPositiveSeqDataOnly(xmlNet.isPositiveSeqDataOnly());		
 	}	
 
 	/**
