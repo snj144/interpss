@@ -89,8 +89,7 @@ public class ODMAcscDataMapperImpl {
 
 				// map the bus info
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
-					// for short circuit, the bus could be aclfBus ,acscBus or acscNoLFBus 
-					// inheritance relationship aclfBus <- acscBus. acscNoLFBus is independent
+					// for short circuit, the bus could be acscBus or acscNoLFBus 
 					AcscBus acscBus = com.interpss.core.acsc.AcscFactory.eINSTANCE.createAcscBus();					
 					if (bus.getValue() instanceof ShortCircuitBusXmlType) {
 						// lf info included
