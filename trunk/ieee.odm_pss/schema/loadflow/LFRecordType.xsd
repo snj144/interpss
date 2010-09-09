@@ -178,6 +178,19 @@
 			</element>
 			<element name="shuntCompensatorData" minOccurs="0" type="pss:ShuntCompensatorDataXmlType"> </element>
 			<element name="shuntY" minOccurs="0" maxOccurs="1" type="pss:YXmlType"></element>
+					<element name="svcData" minOccurs="0">
+						<complexType>
+							<sequence>
+								<element name="svcList" minOccurs="0">
+									<complexType>
+										<sequence>
+											<element name="svc" type="pss:StaticVarCompensatorXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+										</sequence>
+									</complexType>
+								</element>
+							</sequence>
+						</complexType>
+					</element>
 			<element name="powerInjection" type="pss:PowerXmlType" minOccurs="0" maxOccurs="1"></element>
 		</sequence>
 			</extension>
