@@ -32,32 +32,32 @@ public class UserCaseArneTest extends BaseTestSetup {
 	private AclfNetwork createTestNet() {
 		AclfNetwork net = CoreObjectFactory.createAclfAdjNetwork();
 		
-		AclfBus bus1 = CoreObjectFactory.createAclfBus("Bus1");
+		AclfBus bus1 = CoreObjectFactory.createAclfBus("Bus1", net);
         bus1.setBaseVoltage(1.0, UnitType.Volt);
         bus1.setId("Bus1");
         bus1.setGenCode(AclfGenCode.SWING);
-        net.addBus(bus1);
+        //net.addBus(bus1);
 
-        AclfBus bus2 = CoreObjectFactory.createAclfBus("Bus2");
+        AclfBus bus2 = CoreObjectFactory.createAclfBus("Bus2", net);
         bus2.setBaseVoltage(1.0, UnitType.Volt);
         bus2.setId("Bus2");
         bus2.setLoadCode(AclfLoadCode.CONST_P);
         bus2.setLoadP(10);
-        net.addBus(bus2);
+        //net.addBus(bus2);
 
-        AclfBus bus3 = CoreObjectFactory.createAclfBus("Bus3");
+        AclfBus bus3 = CoreObjectFactory.createAclfBus("Bus3", net);
         bus3.setBaseVoltage(1.0, UnitType.Volt);
         bus3.setId("Bus3");
         bus3.setLoadCode(AclfLoadCode.CONST_P);
         bus3.setLoadP(10);
-        net.addBus(bus3);
+        //net.addBus(bus3);
 
-        AclfBus bus4 = CoreObjectFactory.createAclfBus("Bus4");
+        AclfBus bus4 = CoreObjectFactory.createAclfBus("Bus4", net);
         bus4.setBaseVoltage(1.0, UnitType.Volt);
         bus4.setId("Bus4");
         bus4.setLoadCode(AclfLoadCode.CONST_P);
         bus4.setLoadP(20.0);
-        net.addBus(bus4);
+        //net.addBus(bus4);
 
         AclfBranch branch1 = CoreObjectFactory.createAclfBranch();
         branch1.setBranchCode(AclfBranchCode.LINE);

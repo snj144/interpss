@@ -158,7 +158,7 @@ public class DistFormDataMapperImpl {
 	 * @return the DistBus object
 	 */
 	private static DistBus addBusForm2Net(GBusForm form, DistNetwork distNet) {
-		DistBus bus = DistObjectFactory.createDistBus();
+		DistBus bus = DistObjectFactory.createDistBus(form.getId(), distNet);
 		DistBusData busData = form.getDistBusData();
 
 		BaseFormDataMapperImpl.setBaseBusInfo(form, bus, distNet);
@@ -223,7 +223,7 @@ public class DistFormDataMapperImpl {
 						new Complex(1.0, 0.0));
 			}
 		}
-		distNet.addBus(bus);
+		//distNet.addBus(bus);
 		return bus;
 	}
 

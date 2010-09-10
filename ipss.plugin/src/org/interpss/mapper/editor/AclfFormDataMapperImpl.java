@@ -190,11 +190,11 @@ public class AclfFormDataMapperImpl {
 					(DStabilityNetwork) net);
 		else {
 			if (net instanceof AcscNetwork) {
-				bus = CoreObjectFactory.createAcscBus(form.getId());
+				bus = CoreObjectFactory.createAcscBus(form.getId(), net);
 			} else {
-				bus = CoreObjectFactory.createAclfBus(form.getId());
+				bus = CoreObjectFactory.createAclfBus(form.getId(), net);
 			}
-			net.addBus(bus);
+			//net.addBus(bus);
 		}
 
 		BaseFormDataMapperImpl.setBaseBusInfo(form, bus, net);

@@ -144,8 +144,8 @@ public class AcscFormDataMapperImpl {
 	}
 
 	private static boolean setAddBusForm2Net(GBusForm form, AcscNetwork acscNet) {
-		AcscBus bus = CoreObjectFactory.createAcscBus(form.getId());
-		acscNet.addBus(bus);
+		AcscBus bus = CoreObjectFactory.createAcscBus(form.getId(), acscNet);
+		//acscNet.addBus(bus);
 
 		BaseFormDataMapperImpl.setBaseBusInfo(form, bus, acscNet);
 		return setBusInfo(form, bus, acscNet);

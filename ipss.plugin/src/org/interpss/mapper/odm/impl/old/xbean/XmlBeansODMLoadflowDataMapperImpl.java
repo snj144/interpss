@@ -98,8 +98,8 @@ public class XmlBeansODMLoadflowDataMapperImpl {
 	 * @throws Exception
 	 */
 	public static AclfBus mapBusData(BusRecordXmlType busRec, AclfAdjNetwork adjNet) throws Exception {
-		AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId());
-		adjNet.addBus(aclfBus);
+		AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), adjNet);
+		//adjNet.addBus(aclfBus);
 		aclfBus.setNumber(busRec.getNumber());
 		aclfBus.setName(busRec.getName() == null? "Aclf Bus" : busRec.getName());
 		aclfBus.setDesc(busRec.getDesc() == null? "Aclf Bus" : busRec.getDesc());
