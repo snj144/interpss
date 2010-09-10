@@ -88,8 +88,7 @@ public class ODMAclfDataMapperImpl {
 	public static boolean odm2SimuCtxMapping(AclfModelParser parser, SimuContext simuCtx) {
 		boolean noError = true;
 		
-		if (parser.getAclfNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
-				&& parser.getAclfNet().getAnalysisCategory() == AnalysisCategoryEnumType.LOADFLOW) {
+		if (parser.getAclfNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION ) {
 
 			LoadflowNetXmlType xmlNet = parser.getAclfNet();
 			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
@@ -114,7 +113,7 @@ public class ODMAclfDataMapperImpl {
 			}
 		} else {
 			IpssLogger.getLogger().severe(
-							"Error: currently only Transmission NetworkType and Loadflow ApplicationType has been implemented");
+							"Error: currently only Transmission NetworkType has been implemented");
 			return false;
 		}
 		

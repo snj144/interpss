@@ -76,7 +76,7 @@ public class ODMAcscDataMapperImpl {
 	 */
 	public static boolean odm2SimuCtxMapping(AcscModelParser parser, SimuContext simuCtx) {
 		boolean noError = true;
-		
+
 		if (parser.getAcscNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
 				&& parser.getAclfNet().getAnalysisCategory() == AnalysisCategoryEnumType.SHORT_CIRCUIT) {
 			// get the base net xml record from the parser object
@@ -118,7 +118,7 @@ public class ODMAcscDataMapperImpl {
 				for (JAXBElement<? extends BaseBranchXmlType> branch : xmlNet.getBranchList().getBranch()) {
 					if (branch.getValue() instanceof LineShortCircuitXmlType || 
 							branch.getValue() instanceof XfrShortCircuitXmlType ||
-								branch.getValue() instanceof PSXfrShortCircuitXmlType) {
+							branch.getValue() instanceof PSXfrShortCircuitXmlType) {
 						AcscBranch acscBranch = CoreObjectFactory.createAcscBranch();
 						BranchXmlType acscBraXml = (BranchXmlType)branch.getValue();
 						// the branch is added into acscNet in the mapAclfBranchData() method
@@ -140,12 +140,12 @@ public class ODMAcscDataMapperImpl {
 			IpssLogger.getLogger().severe( "Error: wrong Transmission NetworkType and/or ApplicationType");
 			return false;
 		}
-		
+
 		OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
 		simuCtx.getNetwork().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
 		return noError;
 	}
-	
+
 	/**
 	 * Map the network info only
 	 * 
@@ -170,7 +170,7 @@ public class ODMAcscDataMapperImpl {
 			setNonContributeBusFormInfo(acscBus);
 		} 
 	}
-	
+
 	public static void setAcscBusNoLFData(ScSimpleBusXmlType acscBusXml, AcscBus acscBus) throws InterpssException {
 		if (acscBusXml.getScCode() == ShortCircuitBusEnumType.CONTRIBUTING) {
 			setContributeBusNoLFInfo(acscBusXml, acscBus);
@@ -187,7 +187,7 @@ public class ODMAcscDataMapperImpl {
 		acscBus.getGrounding().setCode(BusGroundCode.UNGROUNDED);
 		acscBus.getGrounding().setZ(Constants.LargeBusZ);
 	}
-	
+
 	private static void setContributeBusInfo(ShortCircuitBusXmlType busData, AcscBus acscBus) {
 		acscBus.setScCode(BusScCode.CONTRIBUTE);
 		if (busData.getScGenData() != null) {
@@ -199,7 +199,7 @@ public class ODMAcscDataMapperImpl {
 					busData.getScGenData().getGrounding());
 		}
 	}
-	
+
 	private static void setContributeBusNoLFInfo(ScSimpleBusXmlType busData, AcscBus acscBus) {
 		acscBus.setScCode(BusScCode.CONTRIBUTE);
 		if (busData.getScGenData() != null) {
@@ -207,8 +207,11 @@ public class ODMAcscDataMapperImpl {
 					busData.getScGenData().getPotiveZ(),
 					busData.getScGenData().getNegativeZ(),
 					busData.getScGenData().getZeroZ());
-			setBusScZg(acscBus, acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), 
-					busData.getScGenData().getGrounding());
+			if(busData.getScGenData().getGrounding() != null){
+				setBusScZg(acscBus, acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), 
+						busData.getScGenData().getGrounding());
+			}
+
 		}
 	}
 
@@ -222,11 +225,13 @@ public class ODMAcscDataMapperImpl {
 
 	private static void setBusScZg(AcscBus bus, double baseV, double baseKVA, GroundingXmlType g) {
 		ZXmlType z = g.getGroundZ();
-		byte zgUnit = ODMXmlHelper.toUnit(z.getUnit());
 		bus.getGrounding().setCode(ODMXmlHelper.toBusGroundCode(g.getConnection()));
-		bus.getGrounding().setZ(new Complex(z.getRe(), z.getIm()), zgUnit, baseV, baseKVA);
+		if(z != null){
+			byte zgUnit = ODMXmlHelper.toUnit(z.getUnit());			
+			bus.getGrounding().setZ(new Complex(z.getRe(), z.getIm()), zgUnit, baseV, baseKVA);
+		}
 	}
-	
+
 	/**
 	 * Set SC branch info only
 	 * 
@@ -245,7 +250,7 @@ public class ODMAcscDataMapperImpl {
 			setAcscXfrFormInfo((XfrShortCircuitXmlType)acscBraXml, acscBra, msg);
 		}
 	}
-	
+
 	private static void setAcscLineFormInfo(LineShortCircuitXmlType braXml,	AcscBranch acscBra, IPSSMsgHub msg) {
 		double baseV = acscBra.getFromAclfBus().getBaseVoltage();
 		AcscLineAdapter line = (AcscLineAdapter) acscBra.getAdapter(AcscLineAdapter.class);
@@ -260,30 +265,30 @@ public class ODMAcscDataMapperImpl {
 	// for SC, Xfr and PSXfr behave the same
 	private static void setAcscXfrFormInfo(XfrShortCircuitXmlType braXml, AcscBranch acscBra, IPSSMsgHub msg) {
 		double baseV = acscBra.getFromAclfBus().getBaseVoltage() > acscBra
-				.getToAclfBus().getBaseVoltage() ? acscBra.getFromAclfBus()
+		.getToAclfBus().getBaseVoltage() ? acscBra.getFromAclfBus()
 				.getBaseVoltage() : acscBra.getToAclfBus().getBaseVoltage();
-		AcscXfrAdapter xfr = (AcscXfrAdapter) acscBra.getAdapter(AcscXfrAdapter.class);
-		ZXmlType z0 = braXml.getZ0();
-		if (z0 != null)
-			xfr.setZ0(new Complex(z0.getRe(), z0.getIm()), ODMXmlHelper.toUnit(z0.getUnit()), baseV, msg);
+				AcscXfrAdapter xfr = (AcscXfrAdapter) acscBra.getAdapter(AcscXfrAdapter.class);
+				ZXmlType z0 = braXml.getZ0();
+				if (z0 != null)
+					xfr.setZ0(new Complex(z0.getRe(), z0.getIm()), ODMXmlHelper.toUnit(z0.getUnit()), baseV, msg);
 
-		XformerConnectionXmlType connect = braXml.getFromSideConnection();
-		if (connect != null && connect.getGrounding() != null) {
-			ZXmlType z = connect.getGrounding().getGroundZ();
-			if (z != null) 
-				xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(z.getRe(), z.getIm()),
-						ODMXmlHelper.toUnit(z.getUnit()));
-		}
+				XformerConnectionXmlType connect = braXml.getFromSideConnection();
+				if (connect != null && connect.getGrounding() != null) {
+					ZXmlType z = connect.getGrounding().getGroundZ();
+					if (z != null) 
+						xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(z.getRe(), z.getIm()),
+								ODMXmlHelper.toUnit(z.getUnit()));
+				}
 
-		connect = braXml.getToSideConnection();
-		if (connect != null && connect.getGrounding() != null) {
-			ZXmlType z = connect.getGrounding().getGroundZ();
-			if (z != null) 
-				xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(z.getRe(), z.getIm()),
-						ODMXmlHelper.toUnit(z.getUnit()));
-		}
+				connect = braXml.getToSideConnection();
+				if (connect != null && connect.getGrounding() != null) {
+					ZXmlType z = connect.getGrounding().getGroundZ();
+					if (z != null) 
+						xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(z.getRe(), z.getIm()),
+								ODMXmlHelper.toUnit(z.getUnit()));
+				}
 	}
-	
+
 	private static XfrConnectCode calXfrConnectCode(XformerConnectionXmlType connect) {
 		// connectCode : [Delta | Wye]
 		// groundCode : [SolidGrounded | ZGrounded | Ungrounded ]
