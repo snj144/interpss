@@ -150,7 +150,7 @@ public class SampleLoadflow {
 		net.setBaseKva(baseKva);
 	  	
 		// create a AclfBus object
-  		AclfBus bus1 = CoreObjectFactory.createAclfBus("Bus1");
+  		AclfBus bus1 = CoreObjectFactory.createAclfBus("Bus1", net);
   		// set bus name and description attributes
   		bus1.setAttributes("Bus 1", "");
   		// set bus base voltage 
@@ -163,9 +163,9 @@ public class SampleLoadflow {
   		swingBus.setVoltMag(1.0, UnitType.PU);
   		swingBus.setVoltAng(0.0, UnitType.Deg);
   		// add the bus into the network
-  		net.addBus(bus1);
+  		//net.addBus(bus1);
   		
-  		AclfBus bus2 = CoreObjectFactory.createAclfBus("Bus2");
+  		AclfBus bus2 = CoreObjectFactory.createAclfBus("Bus2", net);
   		bus2.setAttributes("Bus 2", "");
   		bus2.setBaseVoltage(4000.0);
   		// set the bus to a non-generator bus
@@ -176,7 +176,7 @@ public class SampleLoadflow {
   		LoadBusAdapter loadBus = (LoadBusAdapter)bus2.getAdapter(LoadBusAdapter.class);
   		// set load to the bus
   		loadBus.setLoad(new Complex(1.0, 0.8), UnitType.PU);
-  		net.addBus(bus2);
+  		//net.addBus(bus2);
   		
   		// create an AclfBranch object
   		AclfBranch branch = CoreObjectFactory.createAclfBranch();
