@@ -90,7 +90,9 @@ public class ODMAcscDataMapperImpl {
 				// map the bus info
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					// for short circuit, the bus could be acscBus or acscNoLFBus 
-					AcscBus acscBus = com.interpss.core.acsc.AcscFactory.eINSTANCE.createAcscBus();					
+					AcscBus acscBus = CoreObjectFactory.createAcscBus(bus.getValue().getId());		
+					// add the acscBus object into acscNet and build bus <-> net relationship
+					acscNet.addBus(acscBus);
 					if (bus.getValue() instanceof ShortCircuitBusXmlType) {
 						// lf info included
 						ShortCircuitBusXmlType acscBusXml = (ShortCircuitBusXmlType) bus.getValue();
@@ -118,9 +120,10 @@ public class ODMAcscDataMapperImpl {
 							branch.getValue() instanceof XfrShortCircuitXmlType ||
 								branch.getValue() instanceof PSXfrShortCircuitXmlType) {
 						AcscBranch acscBranch = CoreObjectFactory.createAcscBranch();
-						BranchXmlType acscBraXml = (BranchXmlType)branch.getValue(); 
-						ODMAcscDataMapperImpl.setAcscBranchData(acscBraXml, acscBranch, simuCtx.getMsgHub());
+						BranchXmlType acscBraXml = (BranchXmlType)branch.getValue();
+						// the branch is added into acscNet in the mapAclfBranchData() method
 						ODMAclfDataMapperImpl.mapAclfBranchData(branch.getValue(), acscBranch, acscNet, simuCtx.getMsgHub());
+						ODMAcscDataMapperImpl.setAcscBranchData(acscBraXml, acscBranch, simuCtx.getMsgHub());
 					}
 					else {
 						IpssLogger.getLogger().severe( "Error: only acsc<Branch> could be used for SC study");
