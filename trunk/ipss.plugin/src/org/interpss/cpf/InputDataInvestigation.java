@@ -21,7 +21,7 @@ public class InputDataInvestigation {
 		/*	
 		2.About Swing bus,Qmax,Qmin,Vmax,Vmin,and Loss participation coefficient(gamma) are needed to be added.
 		*/
-			AclfBus bus = CoreObjectFactory.createAclfBus("MyBus");
+			AclfBus bus = CoreObjectFactory.createAclfBus("MyBus", null);
 			LimitType limit = new LimitType(999.0, -999.0);
 			bus.setQLimit(limit);
 			limit = new LimitType(1.10, 0.90);

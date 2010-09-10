@@ -166,8 +166,8 @@ public class IpssInternalFormat_in {
 			}
       	}
 
-      	final AclfBus bus = CoreObjectFactory.createAclfBus(id);
-      	net.addBus(bus);
+      	final AclfBus bus = CoreObjectFactory.createAclfBus(id, net);
+      	//net.addBus(bus);
     	bus.setBaseVoltage(vBase, UnitType.Volt);
     	bus.setVoltage(vAct, ang);
     	if ( ( pg != 0.0 ) || ( qg != 0.0 ) ) {
@@ -213,8 +213,8 @@ public class IpssInternalFormat_in {
 			}
       	}
 
-      	final AclfBus bus = CoreObjectFactory.createAclfBus(id);
-    	net.addBus(bus);
+      	final AclfBus bus = CoreObjectFactory.createAclfBus(id, net);
+    	//net.addBus(bus);
      	bus.setBaseVoltage(vBase, UnitType.Volt);
      	bus.setVoltage(vAct, ang);
      	if ( ( pg != 0.0 ) || ( qg != 0.0 ) ) {

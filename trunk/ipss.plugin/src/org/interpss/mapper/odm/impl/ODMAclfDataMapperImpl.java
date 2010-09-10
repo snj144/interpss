@@ -142,8 +142,8 @@ public class ODMAclfDataMapperImpl {
 	 * @throws Exception
 	 */
 	public static AclfBus mapAclfBusData(LoadflowBusXmlType busRec, AclfAdjNetwork adjNet) throws InterpssException {
-		AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId());
-		adjNet.addBus(aclfBus);
+		AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), adjNet);
+		//adjNet.addBus(aclfBus);
 		ODMNetDataMapperImpl.mapBaseBusData(busRec, aclfBus, adjNet);
 		setAclfBusData(busRec, aclfBus, adjNet);
 		return aclfBus;
