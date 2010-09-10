@@ -62,16 +62,16 @@ public class IEEEODMMapper extends AbstractMapper {
 				SimuContext simuCtx = (SimuContext) toObj;
 				return ODMDStabDataMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
 			}
-			else if (fromObj instanceof AclfModelParser) {
-				AclfModelParser parser = (AclfModelParser) fromObj;
-				SimuContext simuCtx = (SimuContext) toObj;
-				return ODMAclfDataMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
-			}
 			else if (fromObj instanceof AcscModelParser) {
 				AcscModelParser parser = (AcscModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;
 				return ODMAcscDataMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
 			}
+			else if (fromObj instanceof AclfModelParser) {
+				AclfModelParser parser = (AclfModelParser) fromObj;
+				SimuContext simuCtx = (SimuContext) toObj;
+				return ODMAclfDataMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
+			}			
 			else if (fromObj instanceof XBeanODMModelParser) {
 				XBeanODMModelParser parser = (XBeanODMModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;

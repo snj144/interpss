@@ -1,7 +1,9 @@
 package org.interpss.acsc.odm;
 
+import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileInputStream;
+
 
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.acsc.AcscModelParser;
@@ -9,6 +11,7 @@ import org.interpss.BaseTestSetup;
 import org.interpss.mapper.odm.IEEEODMMapper;
 import org.junit.Test;
 
+import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -29,8 +32,13 @@ public class Acsc_5BusTest extends BaseTestSetup {
 	  	  		return;
 			}	
 			
-			AcscNetwork acscNet = simuCtx.getAcscFaultNet();
-			//System.out.println(dstabNet.net2String());
+			AcscNetwork acscNet = simuCtx.getAcscNet();
+			System.out.println(acscNet.net2String());			
+					
+			AcscBus acscBus4=acscNet.getAcscBus("Bus-4");
+			assertTrue(Math.abs(acscBus4.getZ2().getImaginary()-0.02)<=0);
+			assertTrue(Math.abs(acscBus4.getZ1().getImaginary()-0.02)<=0);
+			assertTrue(acscBus4.getGrounding().getCode().getName().equals("SOLID_GROUNDED"));
 
 			// perform loadflow and test the results
 			/*LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, msg);
