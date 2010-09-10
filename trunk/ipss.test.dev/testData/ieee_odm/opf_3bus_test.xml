@@ -11,6 +11,9 @@
     <pss:busList>
     	<pss:opfGenBus id="Bus1" name="Bus-1">
     		<pss:baseVoltage unit="KV" value="10"></pss:baseVoltage>
+    		<pss:loadData>
+    			<pss:equivLoad code="CONST_P" id="Bus1_load">
+    				<pss:constPLoad im="0.0" unit="MVA" re="132.66" /></pss:equivLoad></pss:loadData>
     		<pss:coeffA>10.694</pss:coeffA>
     		<pss:coeffB>0.00463</pss:coeffB>
     		<pss:capacityLimit max="2" min="0.2" unit="PU" />
