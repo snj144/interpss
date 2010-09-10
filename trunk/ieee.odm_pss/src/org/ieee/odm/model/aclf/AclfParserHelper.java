@@ -17,6 +17,9 @@ import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
+import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
+import org.ieee.odm.schema.ShuntCompensatorXmlType;
+import org.ieee.odm.schema.StaticVarCompensatorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 
 public class AclfParserHelper extends BaseJaxbHelper {
@@ -220,5 +223,41 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		
 		return ok;
 	}
+	
+	/**
+	 * create a SVC object
+	 * 
+	 */
+	public static StaticVarCompensatorXmlType createSVC(LoadflowBusXmlType bus) {
+		if (bus.getSvcData() == null) {
+			//LoadflowBusDataXmlType.
+			LoadflowBusXmlType.SvcData data = getFactory().createLoadflowBusXmlTypeSvcData();
+			bus.setSvcData(data);
+		}
+		if (bus.getSvcData().getSvcList() == null) {
+			bus.getSvcData().setSvcList(getFactory().createLoadflowBusXmlTypeSvcDataSvcList());
+			
+		}		
+		StaticVarCompensatorXmlType svc = getFactory().createStaticVarCompensatorXmlType();
+		
+		bus.getSvcData().getSvcList().getSvc().add(svc);
+		return svc;
+	}
 
+	/**
+	 * create a ShuntCompensatorXmlType object
+	 * 
+	 */
+	public static ShuntCompensatorXmlType createShuntCompensator(LoadflowBusXmlType bus) {
+		if (bus.getShuntCompensatorData() == null) {
+			ShuntCompensatorDataXmlType data = getFactory().createShuntCompensatorDataXmlType(); 
+			bus.setShuntCompensatorData(data);
+		}
+		if (bus.getShuntCompensatorData().getShuntCompensatorList() == null) {
+			bus.getShuntCompensatorData().setShuntCompensatorList(getFactory().createShuntCompensatorDataXmlTypeShuntCompensatorList());
+		}
+		ShuntCompensatorXmlType compensator = getFactory().createShuntCompensatorXmlType();
+		bus.getShuntCompensatorData().getShuntCompensatorList().getShunCompensator().add(compensator);
+		return compensator; 
+	}
 }
