@@ -10,16 +10,17 @@ package org.ieee.odm.schema;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for BaseAlgorithmXmlType complex type.
+ * <p>Java class for BaseAnalysisTypeXmlType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="BaseAlgorithmXmlType">
+ * &lt;complexType name="BaseAnalysisTypeXmlType">
  *   &lt;complexContent>
  *     &lt;extension base="{http://www.ieee.org/odm/Schema/2008}BaseRecordXmlType">
  *     &lt;/extension>
@@ -30,8 +31,13 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "BaseAlgorithmXmlType")
-public abstract class BaseAlgorithmXmlType
+@XmlType(name = "BaseAnalysisTypeXmlType")
+@XmlSeeAlso({
+    TransientSimulationXmlType.class,
+    AcscFaultXmlType.class,
+    AclfAlgorithmXmlType.class
+})
+public abstract class BaseAnalysisTypeXmlType
     extends BaseRecordXmlType
 {
 

@@ -12,6 +12,11 @@
 	<include schemaLocation="Modification.xsd"></include>
 
 	<element name="algorithm" type="pss:BaseAlgorithmXmlType"/>
+	
+	<element name="analysisType" type="pss:BaseAnalysisTypeXmlType"/>
+	<element name="aclfAnalysis" type="pss:AclfAlgorithmXmlType" substitutionGroup="pss:analysisType"/>
+	<element name="acscAnalysis" type="pss:AcscFaultXmlType" substitutionGroup="pss:analysisType"/>
+	<element name="dStabAnalysis" type="pss:TransientSimulationXmlType" substitutionGroup="pss:analysisType"/>
 
 	<complexType name="ScenarioXmlType">
 		<annotation>
@@ -23,20 +28,29 @@
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
 					<element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType"></element>
-					<element name="modifcation" type="pss:ModifyRecordXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element ref="pss:algorithm" maxOccurs="1" minOccurs="1"></element>
+					<element name="modifcation" type="pss:ModifyRecordXmlType" minOccurs="0" maxOccurs="1"></element>					
+					<element name="analysisType" minOccurs="1" maxOccurs="1" type="pss:BaseAnalysisTypeXmlType" ></element>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
 	
-	<ns:complexType name="BaseAlgorithmXmlType" abstract="true">
+	
+	<ns:complexType name="BaseAnalysisTypeXmlType" abstract="true">
 		<ns:complexContent>
 			<ns:extension base="pss:BaseRecordXmlType"></ns:extension>
 		</ns:complexContent>
 	</ns:complexType>	
 	
+	<ns:complexType name="BaseAlgorithmXmlType" abstract="true">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseRecordXmlType"></ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+	
 	<ns:complexType name="AclfAlgorithmXmlType">
+		<ns:complexContent>
+		<ns:extension base="pss:BaseAnalysisTypeXmlType">
 		<ns:sequence>
 			<ns:element name="lfMethod" minOccurs="1" maxOccurs="1">
 				<ns:simpleType>
@@ -50,10 +64,15 @@
 			<ns:element name="maxIterations" type="ns:int" minOccurs="1" maxOccurs="1">	</ns:element>
 			<ns:element name="tolerance" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"> </ns:element>			<ns:element name="initBusVoltage" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>			<ns:element name="accFactor" type="ns:double" maxOccurs="1"	minOccurs="0"></ns:element>
 			<ns:element name="nonDivergent" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
+		
 		</ns:sequence>
+		</ns:extension>
+		</ns:complexContent>
 	</ns:complexType>	
 	
 	<ns:complexType name="AcscFaultXmlType">
+	<ns:complexContent>
+	<ns:extension base="pss:BaseAnalysisTypeXmlType">
 		<ns:sequence>
 			<ns:element name="faultType" minOccurs="1" type="pss:AcscFaultDataType"></ns:element>
 			<ns:element name="faultCategory" minOccurs="1" type="pss:AcscFaultCategoryDataType"></ns:element>
@@ -64,6 +83,8 @@
 			<ns:element name="branchReclosure" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
 			<ns:element name="reclosureTime" type="pss:TimePeriodXmlType" minOccurs="0" maxOccurs="1"></ns:element>
 		</ns:sequence>
+		</ns:extension>
+	</ns:complexContent>
 	</ns:complexType>	
 	
     <ns:simpleType name="AcscFaultDataType">
@@ -87,7 +108,9 @@
     	</ns:restriction>
     </ns:simpleType>
     
-			<complexType name="TransientSimulationXmlType">
+	<complexType name="TransientSimulationXmlType">
+		<ns:complexContent>
+		<ns:extension base="pss:BaseAnalysisTypeXmlType">
 		<sequence>
 			<element name="simulationSetting" maxOccurs="1" minOccurs="0">
 				<complexType>
@@ -108,5 +131,7 @@
 			<element name="aclfInitialization" maxOccurs="1" minOccurs="0" type="pss:AclfAlgorithmXmlType">
 			</element>
 		</sequence>
+		</ns:extension>
+		</ns:complexContent>	
 	</complexType>
 </schema>
