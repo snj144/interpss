@@ -26,23 +26,24 @@ import quadprogj.QuadProgJ;
 
 public class DCOPFImpl implements DCOPF {
 	// network
-	private OpfNetwork net;
+	private OpfNetwork net=null;
 	// attributes of network
 
-	private int numOfBus;
-	private int numOfGen;
-	private int numOfBranch;
+	private int numOfBus=0;
+	private int numOfGen=0;
+	private int numOfBranch=0;
 	private RealMatrix B; // BUS Admittance
 	
     // OPF result
-	private double[] optimX;
-	private double[] optimGen;
-    private double[] busAngle;
+	private double[] optimX=null;
+	private double[] optimGen=null;
+    private double[] busAngle=null;
 	
 
 	// attributes for DC-OPF;
-	private double anglePenCoeff;
-	private double minTVC;// minTVC = SUM (Ai*PGi + Bi*PGi^2)
+    public final static double DEFAULT_AnglePenCoff=1;
+	private double anglePenCoeff=DEFAULT_AnglePenCoff;
+	private double minTVC=0;// minTVC = SUM (Ai*PGi + Bi*PGi^2)
 	private Array2DRowRealMatrix U; // cost matrix composed by coefficient 2*bi
 	private Array2DRowRealMatrix angleDiffWeight; // angel difference weight
 													// matrix
@@ -64,22 +65,29 @@ public class DCOPFImpl implements DCOPF {
 	
 	// used for store the bus and bus index relationship
 	private Hashtable<String,Integer> busIndexTable;
+	
+	// QuadProgJ 
+	QuadProgJ qpj= null;
 
 	// used for transform apache matrix to colt;
 	private Apache2ColtAdapter Apache2Colt=new Apache2ColtAdapter();
 	
 
-	public DCOPFImpl(OpfNetwork opfNet ,double anglePenaltyCoeff) {
+	public DCOPFImpl(OpfNetwork opfNet) {
 		this.setNetwork(opfNet);
-		this.setAnglePenaltyCoeff(anglePenaltyCoeff);
-		solveDCOPF();
+		this.setAnglePenaltyCoeff(opfNet.getAnglePenaltyFactor());
+//		solveDCOPF();
 
 	}
     // constructor for creating A new instance of DCOPF
 	public DCOPFImpl() {
 		
 	}
-    public void initialize(){
+    protected void initialize(){
+    	if(this.net==null) {
+    		System.out.println("Error: no OpfNetwork data is inputed yet, please check the data file and make sure load it first");
+  	  		return;
+    	}
     	this.numOfBranch=this.net.getNoBranch();
 		this.numOfBus=this.net.getNoBus();
 		this.numOfGen=this.getNumOfGen();
@@ -91,7 +99,8 @@ public class DCOPFImpl implements DCOPF {
 		formCiq();
 		formBiq();
     }
-	public void solveDCOPF() {
+    @Override
+	public void runDCOPF() {
 	
 		initialize();
 		System.out.println("G:"+Apache2Colt.trans(G));
@@ -101,7 +110,7 @@ public class DCOPFImpl implements DCOPF {
 		System.out.println("Ciq:"+Apache2Colt.trans(Ciq));
 		System.out.println("biq:"+Apache2Colt.trans(biq));
 		//Apache2Colt is temporally used to change matrix format from a Apache to a Colt ;
-		QuadProgJ qpj = new QuadProgJ(Apache2Colt.trans(G),
+		qpj = new QuadProgJ(Apache2Colt.trans(G),
 				Apache2Colt.trans(A),
 				Apache2Colt.trans(Ceq),
 				Apache2Colt.trans(beq),
@@ -205,7 +214,7 @@ public class DCOPFImpl implements DCOPF {
 		System.out.println(this.numOfGen);
 	}
 
-	public AclfNetwork getNetwork() {
+	public OpfNetwork getNetwork() {
 		return this.net;
 	}
 
@@ -317,7 +326,7 @@ public class DCOPFImpl implements DCOPF {
 				this.numOfBus, this.numOfBus + this.numOfGen - 1);
 		Ceq = new Array2DRowRealMatrix(this.numOfBus + this.numOfGen - 1,
 				this.numOfBus);
-		AclfNetwork net = this.getNetwork();
+		OpfNetwork net = this.getNetwork();
 		Array2DRowRealMatrix genBusAdjacent = new Array2DRowRealMatrix(
 				this.numOfBus, this.numOfGen);
 		Array2DRowRealMatrix BrTranspose = new Array2DRowRealMatrix(
@@ -326,7 +335,7 @@ public class DCOPFImpl implements DCOPF {
 
 		int genCount = 0;
 		for (Bus b : net.getBusList()) {
-			AclfBus busi = (AclfBus) b;
+			
 			// set the elements in genBusAdjacent matrix to ONE if there is a
 			// generator ;
 			/*
@@ -334,8 +343,8 @@ public class DCOPFImpl implements DCOPF {
 			 * not suitable for a case with multi-generators connected to one
 			 * bus;
 			 */
-			if (busi.isGen()) {
-				genBusAdjacent.setEntry(this.getBusIndex(busi.getId()), genCount, 1);
+			if (net.isOpfGenBus(b)) {
+				genBusAdjacent.setEntry(this.getBusIndex(b.getId()), genCount, 1);
 				genCount++;
 			}
 		}
@@ -430,8 +439,8 @@ public class DCOPFImpl implements DCOPF {
 		formGenInequConstraint();
 		this.biq.set(0, this.getBt());
 		this.biq.set(this.numOfBranch, this.getBt());
-		this.biq.set(this.numOfBranch * 2, this.getbPL());
-		this.biq.set(this.numOfGen + this.numOfBranch * 2, this.getbPU());
+		this.biq.set(this.numOfBranch * 2, this.getBGenPmin());
+		this.biq.set(this.numOfGen + this.numOfBranch * 2, this.getBGenPmax());
 
 	}
 
@@ -439,11 +448,11 @@ public class DCOPFImpl implements DCOPF {
 		return this.bt;
 	}
 
-	private ArrayRealVector getbPL() {
+	private ArrayRealVector getBGenPmin() {
 		return this.b_Pmin;
 	}
 
-	private ArrayRealVector getbPU() {
+	private ArrayRealVector getBGenPmax() {
 		return this.b_Pmax;
 	}
 
@@ -554,15 +563,58 @@ public class DCOPFImpl implements DCOPF {
 		return swingBusIndex;
 	}
 
-	public Hashtable<String, Integer> getBusIndexTable(){
+	private Hashtable<String, Integer> getBusIndexTable(){
 		return this.busIndexTable;
 	}
 	
     private int getNumOfGen(){
+    	if(this.numOfGen==0) countNumofGen();
+        return this.numOfGen;
+    }
+    private void setNumofGen(int _numOfGen) {
+    	this.numOfGen=_numOfGen;
+    }
+    private void countNumofGen() {
     	int numOfGen=0;
     	for(Bus b:this.getNetwork().getBusList()){
-    		if(((AclfBus)b).isGen()) numOfGen++;
+    		if(this.net.isOpfGenBus(b)) numOfGen++;
     	}
-    	return numOfGen;
+    	setNumofGen(numOfGen);
     }
+	@Override
+	public double[] getAllMultipliers() {
+		
+		return qpj.getAllMultipliers();
+	}
+	@Override
+	public double[] getBindingInequMultipliers() {
+		return qpj.getBindingIneqMultipliers();
+	}
+	@Override
+	public double[] getEquMultipliers() {
+		return qpj.getEqMultipliers();
+	}
+	@Override
+	public double[] getInequMultipliers() {
+		return qpj.getIneqMultipiers();
+	}
+	@Override
+	public double getMinF() {
+				return qpj.getMinF();
+	}
+	@Override
+	public void loadOpfNetData(OpfNetwork opfNet) {
+		this.setNetwork(opfNet);
+		
+	}
+	@Override
+	public void printInputData() {
+		qpj.printInputData();
+		
+	}
+	@Override
+	public void printOutputSolution() {
+		qpj.printOutputSolution();
+		
+	}
 }
