@@ -26,7 +26,7 @@ public class Acsc_5BusTest extends BaseTestSetup {
 			//System.out.println(parser.toXmlDoc(false));
 			
 			IEEEODMMapper mapper = new IEEEODMMapper();
-			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_FAULT_NET, msg);
+			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_NET, msg);
 			if (!mapper.mapping(parser, simuCtx, SimuContext.class)) {
 	  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 	  	  		return;
