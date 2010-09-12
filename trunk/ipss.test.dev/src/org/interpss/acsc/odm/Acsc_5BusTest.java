@@ -11,6 +11,7 @@ import org.interpss.BaseTestSetup;
 import org.interpss.mapper.odm.IEEEODMMapper;
 import org.junit.Test;
 
+import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.simu.SimuContext;
@@ -36,13 +37,24 @@ public class Acsc_5BusTest extends BaseTestSetup {
 			System.out.println(acscNet.net2String());			
 					
 			AcscBus acscBus4=acscNet.getAcscBus("Bus-4");
+			assertTrue(acscBus4.getScCode().equals("Contributing"));
+			assertTrue(Math.abs(acscBus4.getBaseVoltage()-1)<=0);
 			assertTrue(Math.abs(acscBus4.getZ2().getImaginary()-0.02)<=0);
-			assertTrue(Math.abs(acscBus4.getZ1().getImaginary()-0.02)<=0);
-			assertTrue(acscBus4.getGrounding().getCode().getName().equals("SOLID_GROUNDED"));
+			assertTrue(Math.abs(acscBus4.getZ1().getImaginary()-0.02)<=0);			
+			assertTrue(acscBus4.getGrounding().getCode().getName().equals("SolidGrounded"));
+			
+			AcscBranch bra23 =acscNet.getAcscBranch("Bus2-Bus3");
+			assertTrue(Math.abs(bra23.getZ().getImaginary()-0.3)<=0);
+			assertTrue(Math.abs(bra23.getZ0().getImaginary()-0.75)<=0);
+			
+			AcscBranch xfr42 = acscNet.getAcscBranch("Bus4-Bus2");
+			assertTrue(Math.abs(xfr42.getZ().getImaginary()-0.015)<=0);
+			assertTrue(Math.abs(xfr42.getFromTurnRatio()-1)<=0);
+			assertTrue(xfr42.getXfrFromConnectCode().getName().equals("Wye"));
+			
+			
 
-			// perform loadflow and test the results
-			/*LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, msg);
-		  	algo.loadflow();*/
+			
 		  	
 		  	//System.out.println(AclfOutFunc.loadFlowSummary(dstabNet));
 		    /*assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageMag() - 0.86011) < 0.0001);

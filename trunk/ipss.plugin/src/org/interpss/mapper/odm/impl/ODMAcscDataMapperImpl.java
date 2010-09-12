@@ -273,20 +273,28 @@ public class ODMAcscDataMapperImpl {
 					xfr.setZ0(new Complex(z0.getRe(), z0.getIm()), ODMXmlHelper.toUnit(z0.getUnit()), baseV, msg);
 
 				XformerConnectionXmlType connect = braXml.getFromSideConnection();
-				if (connect != null && connect.getGrounding() != null) {
-					ZXmlType z = connect.getGrounding().getGroundZ();
-					if (z != null) 
-						xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(z.getRe(), z.getIm()),
-								ODMXmlHelper.toUnit(z.getUnit()));
-				}
+				if(connect != null){
+					XfrConnectCode conCode=calXfrConnectCode(connect);
+					acscBra.setXfrFromConnectCode(conCode);
+					if(connect.getGrounding() != null){
+						ZXmlType z = connect.getGrounding().getGroundZ();
+						if (z != null) 
+							xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(z.getRe(), z.getIm()),
+									ODMXmlHelper.toUnit(z.getUnit()));
+					}
+				}				
 
 				connect = braXml.getToSideConnection();
-				if (connect != null && connect.getGrounding() != null) {
-					ZXmlType z = connect.getGrounding().getGroundZ();
-					if (z != null) 
-						xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(z.getRe(), z.getIm()),
-								ODMXmlHelper.toUnit(z.getUnit()));
-				}
+				if(connect != null){
+					XfrConnectCode conCode=calXfrConnectCode(connect);
+					acscBra.setXfrToConnectCode(conCode);
+					if(connect.getGrounding() != null){
+						ZXmlType z = connect.getGrounding().getGroundZ();
+						if (z != null) 
+							xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(z.getRe(), z.getIm()),
+									ODMXmlHelper.toUnit(z.getUnit()));
+					}
+				}	
 	}
 
 	private static XfrConnectCode calXfrConnectCode(XformerConnectionXmlType connect) {

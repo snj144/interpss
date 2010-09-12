@@ -27,7 +27,7 @@
 			</pss:acscNoLFBus>
 			<pss:acscNoLFBus scCode="Contributing" id="Bus-4"
 				areaNumber="1" zoneNumber="1" offLine="false">
-				<pss:baseVoltage unit="KV" value="1" />
+				<pss:baseVoltage unit="KV" value="1" ></pss:baseVoltage>
 				<pss:scGenData>
 					<pss:potiveZ im="0.02" unit="PU" re="0" />
 					<pss:negativeZ im="0.02" unit="PU" />
