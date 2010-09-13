@@ -374,7 +374,7 @@ public class PSSEXfrDataRec {
 	       	bra.setMvaRating2_3(this.sbase2_3);
 	       	bra.setMvaRating3_1(this.sbase3_1);
 
-	       	bra.create2WBranches(adjNet);
+	       	bra.create2WBranches();
 	       	XfrAdapter fromXfr = (XfrAdapter)bra.getFromBranch().getAdapter(XfrAdapter.class);
 	    	if (this.cm == 1) {
 	    		fromXfr.setFromShuntY(new Complex(this.mag1, this.mag2), UnitType.PU);
