@@ -98,7 +98,8 @@
   	<pss:scenario id="Acsc_Bus1_Fault">
   		<pss:analysisCategory>ShortCircuit</pss:analysisCategory>
   		<pss:analysisType>
-  			<pss:acscAnalysis>
+  			<pss:acscAnalysis name="Bus fault at Bus-1">
+  				<pss:desc>Bus fault at Bus-1</pss:desc>
   				<pss:faultType>BusFault</pss:faultType>
   				<pss:faultCategory>Fault_3P</pss:faultCategory>
   				<pss:busBranchId idRef="Bus-1"></pss:busBranchId>
