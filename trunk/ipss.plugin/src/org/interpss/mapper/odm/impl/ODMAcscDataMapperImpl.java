@@ -338,7 +338,7 @@ public class ODMAcscDataMapperImpl {
 		AcscFaultXmlType scFaultXml = faultAnalysisXml.getAcscAnalysis();
 		if(scFaultXml.getFaultType()== org.ieee.odm.schema.AcscFaultDataType.BUS_FAULT){			
 			String faultBusName=scFaultXml.getBusBranchId().getName();
-			String faultBusId=scFaultXml.getBusBranchId().getId();
+			String faultBusId=scFaultXml.getBusBranchId().getIdRef().toString();
 			AcscBusFault acscBusFault = CoreObjectFactory.createAcscBusFault(faultBusId);
 			AcscBus bus = acscNet.getAcscBus(faultBusId);
 			double baseV=bus.getBaseVoltage();
