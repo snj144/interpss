@@ -24,12 +24,12 @@
 
 package org.interpss.mapper.odm.impl;
 
-import javax.naming.spi.ObjectFactory;
 import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.model.acsc.AcscModelParser;
 import org.ieee.odm.schema.AcscFaultCategoryDataType;
+import org.ieee.odm.schema.AcscFaultDataType;
 import org.ieee.odm.schema.AcscFaultXmlType;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.AnalysisTypeXmlType;
@@ -54,7 +54,6 @@ import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
-import org.interpss.schema.AcscFaultDataType;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
@@ -71,9 +70,10 @@ import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;
 import com.interpss.core.acsc.SimpleFaultCode;
+import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.acsc.XfrConnectCode;
 import com.interpss.simu.SimuContext;
-import com.interpss.core.acsc.SimpleFaultNetwork;
+import com.interpss.simu.SimuCtxType;
 
 public class ODMAcscDataMapperImpl {
 	/**
@@ -91,30 +91,32 @@ public class ODMAcscDataMapperImpl {
 			// get the base net xml record from the parser object
 			ShortCircuitNetXmlType xmlNet = parser.getAcscNet();
 			try {
-				// create a AcscNetwork object and map the net info 
-				AcscNetwork acscNet = CoreObjectFactory.createAcscNetwork();
-				mapNetworkData(acscNet,xmlNet);
-				simuCtx.setAcscNet(acscNet);
+				// create a AcscFaultNetwork object and map the net info 
+				SimpleFaultNetwork acscFaultNet =  CoreObjectFactory.createSimpleFaultNetwork();						
+				simuCtx.setAcscFaultNet(acscFaultNet);
+				simuCtx.setNetType(SimuCtxType.ACSC_FAULT_NET);
+
+				mapNetworkData(acscFaultNet,xmlNet);
 
 				// map the bus info
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					// for short circuit, the bus could be acscBus or acscNoLFBus 
-					AcscBus acscBus = CoreObjectFactory.createAcscBus(bus.getValue().getId(), acscNet);		
+					AcscBus acscBus = CoreObjectFactory.createAcscBus(bus.getValue().getId(), acscFaultNet);		
 					// add the acscBus object into acscNet and build bus <-> net relationship
 					//acscNet.addBus(acscBus);
 					if (bus.getValue() instanceof ShortCircuitBusXmlType) {
 						// lf info included
 						ShortCircuitBusXmlType acscBusXml = (ShortCircuitBusXmlType) bus.getValue();
 						// map the base bus info part
-						ODMNetDataMapperImpl.mapBaseBusData(acscBusXml, acscBus, acscNet);
+						ODMNetDataMapperImpl.mapBaseBusData(acscBusXml, acscBus, acscFaultNet);
 						// map the Aclf info part						
-						ODMAclfDataMapperImpl.setAclfBusData(acscBusXml, acscBus, acscNet);
+						ODMAclfDataMapperImpl.setAclfBusData(acscBusXml, acscBus, acscFaultNet);
 						ODMAcscDataMapperImpl.setAcscBusData(acscBusXml, acscBus);
 					} else if (bus.getValue() instanceof ScSimpleBusXmlType){
 						// no loadflow info included
 						ScSimpleBusXmlType acscBusXml = (ScSimpleBusXmlType) bus.getValue();
 						// map the base bus info part
-						ODMNetDataMapperImpl.mapBaseBusData(acscBusXml, acscBus, acscNet);
+						ODMNetDataMapperImpl.mapBaseBusData(acscBusXml, acscBus, acscFaultNet);
 						ODMAcscDataMapperImpl.setAcscBusNoLFData(acscBusXml, acscBus);
 					}
 					else {
@@ -131,7 +133,7 @@ public class ODMAcscDataMapperImpl {
 						AcscBranch acscBranch = CoreObjectFactory.createAcscBranch();
 						BranchXmlType acscBraXml = (BranchXmlType)branch.getValue();
 						// the branch is added into acscNet in the mapAclfBranchData() method
-						ODMAclfDataMapperImpl.mapAclfBranchData(branch.getValue(), acscBranch, acscNet, simuCtx.getMsgHub());
+						ODMAclfDataMapperImpl.mapAclfBranchData(branch.getValue(), acscBranch, acscFaultNet, simuCtx.getMsgHub());
 						ODMAcscDataMapperImpl.setAcscBranchData(acscBraXml, acscBranch, simuCtx.getMsgHub());
 					}
 					else {
@@ -139,15 +141,13 @@ public class ODMAcscDataMapperImpl {
 						noError = false;
 					}
 				}		
+				
 				// map the fault network information
 				if(parser.getStudyCase().getScenarioList()!=null){
 					for (ScenarioXmlType scenario : parser.getStudyCase().getScenarioList().getScenario()) {
-						SimpleFaultNetwork acscFaultNet =  CoreObjectFactory.createSimpleFaultNetwork();						
-						mapAcscFaultNetwork(scenario, acscFaultNet, acscNet);
+						mapAcscFaultNetwork(scenario, acscFaultNet);
 					}
 				}
-				
-				
 			} catch (InterpssException e) {
 				IpssLogger.getLogger().severe(e.toString());
 				e.printStackTrace();
@@ -160,7 +160,7 @@ public class ODMAcscDataMapperImpl {
 		}
 
 		OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
-		simuCtx.getNetwork().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
+		simuCtx.getAcscFaultNet().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
 		return noError;
 	}
 
@@ -330,17 +330,17 @@ public class ODMAcscDataMapperImpl {
 		}
 	}
 	
-	private static void mapAcscFaultNetwork( ScenarioXmlType faultXml, 
-			SimpleFaultNetwork acscFaultNet	,AcscNetwork acscNet){
-		
+	private static void mapAcscFaultNetwork( ScenarioXmlType faultXml,	SimpleFaultNetwork acscFaultNet){
 		//acscFaultNet.set.setAnalysisCategory(AnalysisCategoryEnumType.SHORT_CIRCUIT);
 		AnalysisTypeXmlType faultAnalysisXml= faultXml.getAnalysisType();		
 		AcscFaultXmlType scFaultXml = faultAnalysisXml.getAcscAnalysis();
-		if(scFaultXml.getFaultType()== org.ieee.odm.schema.AcscFaultDataType.BUS_FAULT){			
-			String faultBusName=scFaultXml.getBusBranchId().getName();
-			String faultBusId=scFaultXml.getBusBranchId().getIdRef().toString();
+		
+		String idStr = scFaultXml.getName() != null? scFaultXml.getName() : scFaultXml.getDesc(); 
+		
+		if(scFaultXml.getFaultType()== AcscFaultDataType.BUS_FAULT){			
+			String faultBusId=((BusXmlType)scFaultXml.getBusBranchId().getIdRef()).getId();
 			AcscBusFault acscBusFault = CoreObjectFactory.createAcscBusFault(faultBusId);
-			AcscBus bus = acscNet.getAcscBus(faultBusId);
+			AcscBus bus = acscFaultNet.getAcscBus(faultBusId);
 			double baseV=bus.getBaseVoltage();
 			double baseKVA= bus.getNetwork().getBaseKva();
 			// set fault type
@@ -364,8 +364,9 @@ public class ODMAcscDataMapperImpl {
 			if(zLL!=null){
 				acscBusFault.setZLLFault(new Complex(zLL.getRe(), zLL.getIm()), 
 						ODMXmlHelper.toUnit(zLL.getUnit()), baseV, baseKVA);
-			}			
-			acscFaultNet.addBusFault(faultBusName, faultBusId, acscBusFault);
+			}	
+			
+			acscFaultNet.addBusFault(faultBusId, idStr, acscBusFault);
 			// set pre fault bus voltage type-- load flow, fixed or Mfactor%
 			PreFaultBusVoltageType preFaultV = scFaultXml.getPreFaultBusVoltage();
 			if(preFaultV.equals(PreFaultBusVoltageType.LOADFLOW)){
@@ -378,6 +379,9 @@ public class ODMAcscDataMapperImpl {
 				
 				
 			}
+		}
+		else if(scFaultXml.getFaultType()== AcscFaultDataType.BRANCH_FAULT){
+			
 		}
 		
 	}

@@ -28,7 +28,6 @@ import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BaseBranchXmlType;
