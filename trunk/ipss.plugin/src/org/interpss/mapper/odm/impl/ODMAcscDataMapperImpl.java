@@ -381,6 +381,7 @@ public class ODMAcscDataMapperImpl {
 			}
 		}
 		else if(scFaultXml.getFaultType()== AcscFaultDataType.BRANCH_FAULT){
+			String faultBranchId=((BaseBranchXmlType)scFaultXml.getBusBranchId().getIdRef()).getId();
 			
 		}
 		
