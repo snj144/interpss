@@ -13,10 +13,6 @@
 
 	<element name="algorithm" type="pss:BaseAlgorithmXmlType"/>
 	
-	<element name="analysisType" type="pss:BaseAnalysisTypeXmlType"/>
-	<element name="aclfAnalysis" type="pss:AclfAlgorithmXmlType" substitutionGroup="pss:analysisType"/>
-	<element name="acscAnalysis" type="pss:AcscFaultXmlType" substitutionGroup="pss:analysisType"/>
-	<element name="dStabAnalysis" type="pss:TransientSimulationXmlType" substitutionGroup="pss:analysisType"/>
 
 	<complexType name="ScenarioXmlType">
 		<annotation>
@@ -29,12 +25,23 @@
 				<sequence>
 					<element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType"></element>
 					<element name="modifcation" type="pss:ModifyRecordXmlType" minOccurs="0" maxOccurs="1"></element>					
-					<element name="analysisType" minOccurs="1" maxOccurs="1" type="pss:BaseAnalysisTypeXmlType" ></element>
+					<element name="analysisType" minOccurs="1" maxOccurs="1" type="pss:AnalysisTypeXmlType" ></element>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
-	
+
+	<ns:complexType name="AnalysisTypeXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseRecordXmlType">
+				<sequence>
+					<element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="pss:AclfAlgorithmXmlType"></element>
+					<element name="acscAnalysis" minOccurs="0" maxOccurs="1" type="pss:AcscFaultXmlType"></element>
+					<element name="dStabAnalysis" minOccurs="0" maxOccurs="1" type="pss:TransientSimulationXmlType"></element>
+				</sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
 	
 	<ns:complexType name="BaseAnalysisTypeXmlType" abstract="true">
 		<ns:complexContent>
@@ -82,7 +89,8 @@
 			<ns:element name="distance" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
 			<ns:element name="branchReclosure" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
 			<ns:element name="reclosureTime" type="pss:TimePeriodXmlType" minOccurs="0" maxOccurs="1"></ns:element>
-		</ns:sequence>
+			<ns:element name="preFaultBusVoltage" minOccurs="0" maxOccurs="1" type="pss:preFaultBusVoltageType"></ns:element>
+			</ns:sequence>
 		</ns:extension>
 	</ns:complexContent>
 	</ns:complexType>	
@@ -134,4 +142,12 @@
 		</ns:extension>
 		</ns:complexContent>	
 	</complexType>
+
+	<simpleType name="preFaultBusVoltageType">
+		<restriction base="string">
+			<enumeration value="Loadflow"></enumeration>
+			<enumeration value="Fixed"></enumeration>
+			<enumeration value="MFactorInPercentage"></enumeration>
+		</restriction>
+	</simpleType>
 </schema>

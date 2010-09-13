@@ -13,30 +13,33 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 /**
- * <p>Java class for AdjustmentModeEnumType.
+ * <p>Java class for preFaultBusVoltageType.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="AdjustmentModeEnumType">
+ * &lt;simpleType name="preFaultBusVoltageType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="ValueAdjustment"/>
- *     &lt;enumeration value="RangeAdjustment"/>
+ *     &lt;enumeration value="Loadflow"/>
+ *     &lt;enumeration value="Fixed"/>
+ *     &lt;enumeration value="MFactorInPercentage"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
 @XmlEnum
-public enum AdjustmentModeEnumType {
+public enum PreFaultBusVoltageType {
 
-    @XmlEnumValue("ValueAdjustment")
-    VALUE_ADJUSTMENT("ValueAdjustment"),
-    @XmlEnumValue("RangeAdjustment")
-    RANGE_ADJUSTMENT("RangeAdjustment");
+    @XmlEnumValue("Loadflow")
+    LOADFLOW("Loadflow"),
+    @XmlEnumValue("Fixed")
+    FIXED("Fixed"),
+    @XmlEnumValue("MFactorInPercentage")
+    M_FACTOR_IN_PERCENTAGE("MFactorInPercentage");
     private final String value;
 
-    AdjustmentModeEnumType(String v) {
+    PreFaultBusVoltageType(String v) {
         value = v;
     }
 
@@ -44,8 +47,8 @@ public enum AdjustmentModeEnumType {
         return value;
     }
 
-    public static AdjustmentModeEnumType fromValue(String v) {
-        for (AdjustmentModeEnumType c: AdjustmentModeEnumType.values()) {
+    public static PreFaultBusVoltageType fromValue(String v) {
+        for (PreFaultBusVoltageType c: PreFaultBusVoltageType.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

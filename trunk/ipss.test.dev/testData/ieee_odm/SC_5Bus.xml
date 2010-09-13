@@ -71,14 +71,12 @@
 				<pss:toBus idRef="Bus-2"></pss:toBus>
 				<pss:z im="0.015" unit="PU" re="0.0" />
 				<pss:fromTurnRatio unit="PU" value="1.0" />
-				<pss:toTurnRatio unit="PU" value="1.0" />
+				<pss:toTurnRatio unit="PU" value="1.0" /><pss:z0
+					im="0.003" unit="PU" />
 				<pss:fromSideConnection connection="Wye">
 					<pss:grounding connection="Ungrounded"></pss:grounding>
 				</pss:fromSideConnection>
 				<pss:toSideConnection connection="Delta"></pss:toSideConnection>
-				<pss:xfrZeroSeq>
-					<pss:conectionLocation>BetweenBus1nBus2</pss:conectionLocation>
-				</pss:xfrZeroSeq>
 			</pss:acscXfr>
 			<pss:acscXfr id="Bus5-Bus3">
 				<pss:fromBus idRef="Bus-5"></pss:fromBus>
@@ -86,16 +84,26 @@
 				<pss:z im="0.03" unit="PU" re="0.0" />
 				<pss:fromTurnRatio unit="PU" value="1.0" />
 				<pss:toTurnRatio unit="PU" value="1.0"></pss:toTurnRatio>
+				<pss:z0 im="0.03" unit="PU" />
 				<pss:fromSideConnection connection="Wye">
 					<pss:grounding connection="Ungrounded"></pss:grounding>
 				</pss:fromSideConnection>
 				<pss:toSideConnection connection="Delta" />
-				<pss:xfrZeroSeq>
-					<pss:conectionLocation>BetweenBus1nBus2</pss:conectionLocation>
-				</pss:xfrZeroSeq>
 			</pss:acscXfr>
 		</pss:branchList>
 		<pss:hasLoadflowData>false</pss:hasLoadflowData>
 		<pss:positiveSeqDataOnly>false</pss:positiveSeqDataOnly>
 	</pss:acscNet>
+	<pss:scenarioList>
+  	<pss:scenario id="Acsc_Bus1_Fault">
+  		<pss:analysisCategory>ShortCircuit</pss:analysisCategory>
+  		<pss:analysisType>
+  			<pss:acscAnalysis>
+  				<pss:faultType>BusFault</pss:faultType>
+  				<pss:faultCategory>Fault_3P</pss:faultCategory>
+  				<pss:busBranchId id="Bus1"></pss:busBranchId>
+  				<pss:zLG im="0.0" unit="PU" re="0.0" />
+  				<pss:preFaultBusVoltage>Fixed</pss:preFaultBusVoltage>
+  			</pss:acscAnalysis></pss:analysisType>
+  	</pss:scenario></pss:scenarioList>
 </pss:pssStudyCase>

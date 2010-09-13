@@ -36,21 +36,22 @@ public class Acsc_5BusTest extends BaseTestSetup {
 			AcscNetwork acscNet = simuCtx.getAcscNet();
 			System.out.println(acscNet.net2String());			
 					
-			AcscBus acscBus4=acscNet.getAcscBus("Bus-4");
-			assertTrue(acscBus4.getScCode().equals("Contributing"));
-			assertTrue(Math.abs(acscBus4.getBaseVoltage()-1)<=0);
+			AcscBus acscBus4=acscNet.getAcscBus("Bus-4");			
+			assertTrue(acscBus4.getScCode().getName().equals("Contribute"));			
+			assertTrue(Math.abs(acscBus4.getBaseVoltage()-1000)<=0);
 			assertTrue(Math.abs(acscBus4.getZ2().getImaginary()-0.02)<=0);
 			assertTrue(Math.abs(acscBus4.getZ1().getImaginary()-0.02)<=0);			
 			assertTrue(acscBus4.getGrounding().getCode().getName().equals("SolidGrounded"));
 			
-			AcscBranch bra23 =acscNet.getAcscBranch("Bus2-Bus3");
+			AcscBranch bra23 =acscNet.getAcscBranch("Bus-2->Bus-3(1)");
 			assertTrue(Math.abs(bra23.getZ().getImaginary()-0.3)<=0);
 			assertTrue(Math.abs(bra23.getZ0().getImaginary()-0.75)<=0);
 			
-			AcscBranch xfr42 = acscNet.getAcscBranch("Bus4-Bus2");
+			AcscBranch xfr42 = acscNet.getAcscBranch("Bus-4->Bus-2(1)");
 			assertTrue(Math.abs(xfr42.getZ().getImaginary()-0.015)<=0);
-			assertTrue(Math.abs(xfr42.getFromTurnRatio()-1)<=0);
-			assertTrue(xfr42.getXfrFromConnectCode().getName().equals("Wye"));
+			assertTrue(Math.abs(xfr42.getFromTurnRatio()-1)<=0);			
+			assertTrue(xfr42.getXfrFromConnectCode().getName().equals("WyeUngrounded"));
+			assertTrue(Math.abs(xfr42.getZ0().getImaginary()-0.003)<=0);
 			
 			
 

@@ -24,11 +24,15 @@
 
 package org.interpss.mapper.odm.impl;
 
+import javax.naming.spi.ObjectFactory;
 import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.model.acsc.AcscModelParser;
+import org.ieee.odm.schema.AcscFaultCategoryDataType;
+import org.ieee.odm.schema.AcscFaultXmlType;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
+import org.ieee.odm.schema.AnalysisTypeXmlType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
@@ -38,7 +42,9 @@ import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
+import org.ieee.odm.schema.PreFaultBusVoltageType;
 import org.ieee.odm.schema.ScSimpleBusXmlType;
+import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.ShortCircuitBusEnumType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
@@ -48,6 +54,7 @@ import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
+import org.interpss.schema.AcscFaultDataType;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
@@ -56,15 +63,17 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
+import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.AcscLineAdapter;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.AcscXfrAdapter;
 import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;
+import com.interpss.core.acsc.SimpleFaultCode;
 import com.interpss.core.acsc.XfrConnectCode;
 import com.interpss.simu.SimuContext;
-
+import com.interpss.core.acsc.SimpleFaultNetwork;
 
 public class ODMAcscDataMapperImpl {
 	/**
@@ -129,7 +138,16 @@ public class ODMAcscDataMapperImpl {
 						IpssLogger.getLogger().severe( "Error: only acsc<Branch> could be used for SC study");
 						noError = false;
 					}
+				}		
+				// map the fault network information
+				if(parser.getStudyCase().getScenarioList()!=null){
+					for (ScenarioXmlType scenario : parser.getStudyCase().getScenarioList().getScenario()) {
+						SimpleFaultNetwork acscFaultNet =  CoreObjectFactory.createSimpleFaultNetwork();						
+						mapAcscFaultNetwork(scenario, acscFaultNet, acscNet);
+					}
 				}
+				
+				
 			} catch (InterpssException e) {
 				IpssLogger.getLogger().severe(e.toString());
 				e.printStackTrace();
@@ -310,5 +328,57 @@ public class ODMAcscDataMapperImpl {
 			else 
 				return XfrConnectCode.WYE_UNGROUNDED;
 		}
+	}
+	
+	private static void mapAcscFaultNetwork( ScenarioXmlType faultXml, 
+			SimpleFaultNetwork acscFaultNet	,AcscNetwork acscNet){
+		
+		//acscFaultNet.set.setAnalysisCategory(AnalysisCategoryEnumType.SHORT_CIRCUIT);
+		AnalysisTypeXmlType faultAnalysisXml= faultXml.getAnalysisType();		
+		AcscFaultXmlType scFaultXml = faultAnalysisXml.getAcscAnalysis();
+		if(scFaultXml.getFaultType()== org.ieee.odm.schema.AcscFaultDataType.BUS_FAULT){			
+			String faultBusName=scFaultXml.getBusBranchId().getName();
+			String faultBusId=scFaultXml.getBusBranchId().getId();
+			AcscBusFault acscBusFault = CoreObjectFactory.createAcscBusFault(faultBusId);
+			AcscBus bus = acscNet.getAcscBus(faultBusId);
+			double baseV=bus.getBaseVoltage();
+			double baseKVA= bus.getNetwork().getBaseKva();
+			// set fault type
+			AcscFaultCategoryDataType faultCate = scFaultXml.getFaultCategory();
+			if(faultCate.equals(AcscFaultCategoryDataType.FAULT_3_P)){
+				acscBusFault.setFaultCode(SimpleFaultCode.GROUND_3P);
+			}else if (faultCate.equals(AcscFaultCategoryDataType.FAULT_LG)){
+				acscBusFault.setFaultCode(SimpleFaultCode.GROUND_LG);
+			}else if (faultCate.equals(AcscFaultCategoryDataType.FAULT_LL)){
+				acscBusFault.setFaultCode(SimpleFaultCode.GROUND_LL);
+			}else if (faultCate.equals(AcscFaultCategoryDataType.FAULT_LLG)){
+				acscBusFault.setFaultCode(SimpleFaultCode.GROUND_LLG);
+			}
+			// set zLG and zLL
+			ZXmlType zLG= scFaultXml.getZLG();
+			ZXmlType zLL= scFaultXml.getZLL();			
+			if(zLG!=null){
+				acscBusFault.setZLGFault(new Complex(zLG.getRe(), zLG.getIm()), 
+						ODMXmlHelper.toUnit(zLG.getUnit()), baseV, baseKVA);
+			}
+			if(zLL!=null){
+				acscBusFault.setZLLFault(new Complex(zLL.getRe(), zLL.getIm()), 
+						ODMXmlHelper.toUnit(zLL.getUnit()), baseV, baseKVA);
+			}			
+			acscFaultNet.addBusFault(faultBusName, faultBusId, acscBusFault);
+			// set pre fault bus voltage type-- load flow, fixed or Mfactor%
+			PreFaultBusVoltageType preFaultV = scFaultXml.getPreFaultBusVoltage();
+			if(preFaultV.equals(PreFaultBusVoltageType.LOADFLOW)){
+				
+				
+			}else if (preFaultV.equals(PreFaultBusVoltageType.FIXED)){
+				
+				
+			}else if (preFaultV.equals(PreFaultBusVoltageType.M_FACTOR_IN_PERCENTAGE)){
+				
+				
+			}
+		}
+		
 	}
 }
