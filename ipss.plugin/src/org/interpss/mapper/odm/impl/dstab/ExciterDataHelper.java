@@ -137,8 +137,7 @@ public class ExciterDataHelper {
 			exc.getData().setKf(excXml.getKF());			
 			exc.getData().setTf(excXml.getTF().getValue());	
 								
-		}
-		{
+		}else {	
 			throw new InterpssException("Exciter type invalid or not implemented, type " + excXmlRec.getClass().getSimpleName());
 		}
 	}
