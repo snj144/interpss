@@ -61,6 +61,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBranch;
+import com.interpss.core.acsc.AcscBranchFault;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.AcscLineAdapter;
@@ -382,6 +383,50 @@ public class ODMAcscDataMapperImpl {
 		}
 		else if(scFaultXml.getFaultType()== AcscFaultDataType.BRANCH_FAULT){
 			String faultBranchId=((BaseBranchXmlType)scFaultXml.getBusBranchId().getIdRef()).getId();
+			AcscBranchFault acscBraFault = CoreObjectFactory.createAcscBranchFault(faultBranchId);
+			AcscBranch acscBra = acscFaultNet.getAcscBranch(faultBranchId);
+			double baseV = acscBra.getFromAclfBus().getBaseVoltage();
+			double baseKVA= acscBra.getNetwork().getBaseKva();
+			// set fault type
+			AcscFaultCategoryDataType faultCate = scFaultXml.getFaultCategory();
+			if(faultCate.equals(AcscFaultCategoryDataType.FAULT_3_P)){
+				acscBraFault.setFaultCode(SimpleFaultCode.GROUND_3P);
+			}else if (faultCate.equals(AcscFaultCategoryDataType.FAULT_LG)){
+				acscBraFault.setFaultCode(SimpleFaultCode.GROUND_LG);
+			}else if (faultCate.equals(AcscFaultCategoryDataType.FAULT_LL)){
+				acscBraFault.setFaultCode(SimpleFaultCode.GROUND_LL);
+			}else if (faultCate.equals(AcscFaultCategoryDataType.FAULT_LLG)){
+				acscBraFault.setFaultCode(SimpleFaultCode.GROUND_LLG);
+			}
+			// set zLG and zLL
+			ZXmlType zLG= scFaultXml.getZLG();
+			ZXmlType zLL= scFaultXml.getZLL();			
+			if(zLG!=null){
+				acscBraFault.setZLGFault(new Complex(zLG.getRe(), zLG.getIm()), 
+						ODMXmlHelper.toUnit(zLG.getUnit()), baseV, baseKVA);
+			}
+			if(zLL!=null){
+				acscBraFault.setZLLFault(new Complex(zLL.getRe(), zLL.getIm()), 
+						ODMXmlHelper.toUnit(zLL.getUnit()), baseV, baseKVA);
+			}
+			// set fault distance
+			double faultDis = scFaultXml.getDistance();
+			acscBraFault.setDistance(faultDis);			
+			
+			acscFaultNet.addBusFault(faultBranchId, idStr, acscBraFault);
+			
+			// set pre fault bus voltage type-- load flow, fixed or Mfactor%
+			PreFaultBusVoltageType preFaultV = scFaultXml.getPreFaultBusVoltage();
+			if(preFaultV.equals(PreFaultBusVoltageType.LOADFLOW)){
+				
+				
+			}else if (preFaultV.equals(PreFaultBusVoltageType.FIXED)){
+				
+				
+			}else if (preFaultV.equals(PreFaultBusVoltageType.M_FACTOR_IN_PERCENTAGE)){
+				
+				
+			}
 			
 		}
 		
