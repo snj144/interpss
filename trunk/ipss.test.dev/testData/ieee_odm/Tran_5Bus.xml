@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
-	Notes:
-	   9/15/10 - set all bus voltage to 1.0/0 deg, roll back the changes
- -->
-<pss:pssStudyCase id="idvalue0" xmlns:pss="http://www.ieee.org/odm/Schema/2008" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/schema/StudyCase.xsd ">
+	<!--
+		Notes: 9/15/10 - set all bus voltage to 1.0/0 deg, roll back the
+		changes
+	-->
+<pss:pssStudyCase id="idvalue0"
+	xmlns:pss="http://www.ieee.org/odm/Schema/2008" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/schema/StudyCase.xsd ">
 	<pss:schemaVersion>V0.8</pss:schemaVersion>
 	<pss:contentInfo>
 		<pss:originalDataFormat>InterPSS</pss:originalDataFormat>
@@ -15,46 +17,47 @@
 		<pss:basePower unit="MVA" value="100" />
 		<pss:frequency unit="Hz" value="50" />
 		<pss:busList>
-			<pss:dstabBus scCode="Non-contributing" id="Bus-1" offLine="false" areaNumber="1" zoneNumber="1">
+			<pss:dstabBus scCode="Non-contributing" id="Bus-1"
+				offLine="false" areaNumber="1" zoneNumber="1">
 				<pss:baseVoltage unit="KV" value="138"></pss:baseVoltage>
-				<pss:voltage unit="PU" value="1.0" /><pss:angle
-					unit="DEG" value="0.0" />
+				<pss:voltage unit="PU" value="1.0" />
+				<pss:angle unit="DEG" value="0.0" />
 				<pss:loadData>
 					<pss:equivLoad code="CONST_P" id="Load-1">
 						<pss:constPLoad im="0.8" unit="PU" re="1.6" />
 					</pss:equivLoad>
 				</pss:loadData>
 			</pss:dstabBus>
-			<pss:dstabBus scCode="Non-contributing" id="Bus-2" areaNumber="1" offLine="false" zoneNumber="1">
-				<pss:baseVoltage unit="KV" value="138" /><pss:voltage
-					unit="PU" value="1.0" />
-				<pss:angle
-					unit="DEG" value="0" />
+			<pss:dstabBus scCode="Non-contributing" id="Bus-2"
+				areaNumber="1" offLine="false" zoneNumber="1">
+				<pss:baseVoltage unit="KV" value="138" />
+				<pss:voltage unit="PU" value="1.0" />
+				<pss:angle unit="DEG" value="0" />
 				<pss:loadData>
 					<pss:equivLoad code="CONST_P" id="Load-2">
 						<pss:constPLoad im="1.0" unit="PU" re="2.0" />
 					</pss:equivLoad>
 				</pss:loadData>
 			</pss:dstabBus>
-			<pss:dstabBus scCode="Non-contributing" id="Bus-3" areaNumber="1" offLine="false" zoneNumber="1">
-				<pss:baseVoltage unit="KV" value="138" /><pss:voltage
-					unit="PU" value="1.0" ></pss:voltage>
-				<pss:angle
-					unit="DEG" value="0" />
+			<pss:dstabBus scCode="Non-contributing" id="Bus-3"
+				areaNumber="1" offLine="false" zoneNumber="1">
+				<pss:baseVoltage unit="KV" value="138" />
+				<pss:voltage unit="PU" value="1.0"></pss:voltage>
+				<pss:angle unit="DEG" value="0" />
 				<pss:loadData>
 					<pss:equivLoad code="CONST_P" id="Load-3">
 						<pss:constPLoad im="1.3" unit="PU" re="3.7" />
 					</pss:equivLoad>
 				</pss:loadData>
 			</pss:dstabBus>
-			<pss:dstabBus scCode="Contributing" id="Bus-4" areaNumber="1" zoneNumber="1" offLine="false">
-				<pss:baseVoltage unit="KV" value="1" /><pss:voltage
-					unit="PU" value="1.0" />
-				<pss:angle
-					unit="DEG" value="0" />
+			<pss:dstabBus scCode="Contributing" id="Bus-4"
+				areaNumber="1" zoneNumber="1" offLine="false">
+				<pss:baseVoltage unit="KV" value="1" />
+				<pss:voltage unit="PU" value="1.0" />
+				<pss:angle unit="DEG" value="0" />
 				<pss:genData>
 					<pss:equivGen code="PV" id="Bus4-Gen1">
-						<pss:power im="0.0" unit="PU" re="5.0"/>
+						<pss:power im="0.0" unit="PU" re="5.0" />
 						<pss:desiredVoltage unit="PU" value="1.05" />
 					</pss:equivGen>
 				</pss:genData>
@@ -106,14 +109,15 @@
 					</pss:machine>
 				</pss:machineList>
 			</pss:dstabBus>
-			<pss:dstabBus scCode="Contributing" id="Bus-5" offLine="false" areaNumber="1" zoneNumber="1">
-				<pss:baseVoltage unit="KV" value="4" /><pss:voltage
-					unit="PU" value="1.0" />
-				<pss:angle
-					unit="DEG" value="0" />
+			<pss:dstabBus scCode="Contributing" id="Bus-5" offLine="false"
+				areaNumber="1" zoneNumber="1">
+				<pss:baseVoltage unit="KV" value="4" />
+				<pss:voltage unit="PU" value="1.0" />
+				<pss:angle unit="DEG" value="0" />
 				<pss:genData>
 					<pss:equivGen code="Swing" id="Bus5-Gen1">
-						<pss:desiredVoltage unit="PU" value="1.05" /><pss:desiredAngle unit="DEG" value="0.0" />
+						<pss:desiredVoltage unit="PU" value="1.05" />
+						<pss:desiredAngle unit="DEG" value="0.0" />
 					</pss:equivGen>
 				</pss:genData>
 				<pss:machineList>
@@ -134,8 +138,8 @@
 			<pss:dstabLine id="Bus2-Bus1" circuitId="1" offLine="false">
 				<pss:fromBus idRef="Bus-2"></pss:fromBus>
 				<pss:toBus idRef="Bus-1"></pss:toBus>
-				<pss:z im="0.25" unit="PU" re="0.04" /><pss:totalShuntY
-					im="0.5" unit="PU" />
+				<pss:z im="0.25" unit="PU" re="0.04" />
+				<pss:totalShuntY im="0.5" unit="PU" />
 			</pss:dstabLine>
 			<pss:dstabLine id="Bus3-Bus1" circuitId="1" offLine="false">
 				<pss:fromBus idRef="Bus-3"></pss:fromBus>
@@ -147,19 +151,19 @@
 			<pss:dstabLine id="Bus2-Bus3" circuitId="1" offLine="false">
 				<pss:fromBus idRef="Bus-2"></pss:fromBus>
 				<pss:toBus idRef="Bus-3"></pss:toBus>
-				<pss:z im="0.3" unit="PU" re="0.08" /><pss:totalShuntY
-					im="0.5" unit="PU" />
+				<pss:z im="0.3" unit="PU" re="0.08" />
+				<pss:totalShuntY im="0.5" unit="PU" />
 			</pss:dstabLine>
 			<pss:dstabXfr id="Bus4-Bus2">
 				<pss:fromBus idRef="Bus-4"></pss:fromBus>
 				<pss:toBus idRef="Bus-2"></pss:toBus>
-				<pss:z im="0.016" unit="PU"/>
+				<pss:z im="0.016" unit="PU" />
 				<pss:fromTurnRatio unit="PU" value="1.0" />
 				<pss:toTurnRatio unit="PU" value="1.05" />
 				<pss:fromSideConnection connection="Wye">
 					<pss:grounding connection="Ungrounded"></pss:grounding>
 				</pss:fromSideConnection>
-				<pss:toSideConnection connection="Delta"/>
+				<pss:toSideConnection connection="Delta" />
 			</pss:dstabXfr>
 			<pss:dstabXfr id="Bus5-Bus3">
 				<pss:fromBus idRef="Bus-5"></pss:fromBus>
@@ -170,11 +174,53 @@
 				<pss:fromSideConnection connection="Wye">
 					<pss:grounding connection="Ungrounded"></pss:grounding>
 				</pss:fromSideConnection>
-				<pss:toSideConnection connection="Delta"/>
+				<pss:toSideConnection connection="Delta" />
 			</pss:dstabXfr>
 		</pss:branchList>
 		<pss:hasLoadflowData>true</pss:hasLoadflowData>
 		<pss:positiveSeqDataOnly>false</pss:positiveSeqDataOnly>
 		<pss:saturatedMachineParameter>false</pss:saturatedMachineParameter>
 	</pss:dstabNet>
+	<pss:scenarioList>
+		<pss:scenario id="fault_at_bus-1">
+			<pss:analysisCategory>TransientStability</pss:analysisCategory>
+			<pss:analysisType>
+				<pss:dStabAnalysis>
+					<pss:simulationSetting>
+						<pss:method>ModifiedEuler</pss:method>
+						<pss:totalTime unit="Sec" value="10"></pss:totalTime>
+						<pss:step unit="Sec" value="0.01" />
+						<pss:disableDynEvents>false</pss:disableDynEvents>
+						<pss:absMachineAngle>true</pss:absMachineAngle>
+						<pss:netEqnIterationNoEvent>3</pss:netEqnIterationNoEvent>
+						<pss:netEqnIterationWithEvent>5</pss:netEqnIterationWithEvent>
+						<pss:outPutVariableFilter>
+							true
+  					</pss:outPutVariableFilter>
+						<pss:outPutResultScripting>false</pss:outPutResultScripting>
+						<pss:staticLoadModel>
+							<pss:type>Constant_Z</pss:type>
+						</pss:staticLoadModel>
+					</pss:simulationSetting>
+					<pss:aclfInitialization>
+						<pss:lfMethod>PQ</pss:lfMethod>
+						<pss:maxIterations>20</pss:maxIterations>
+						<pss:tolerance unit="PU" value="0.0001" />
+						<pss:initBusVoltage>true</pss:initBusVoltage>
+					</pss:aclfInitialization>
+					<pss:dynamicEventList>
+						<pss:danamicEvent id="Fault at Bus-1">
+							<pss:eventType>Bus-Fault</pss:eventType>
+							<pss:faultBus idRef="Bus-1"></pss:faultBus>
+							<pss:permanentFault>true</pss:permanentFault>
+							<pss:startTime unit="Sec" value="0.0" />
+							<pss:duration unit="Sec" value="0.1"></pss:duration>
+							<pss:faultType>Fault_3P</pss:faultType>
+							<pss:faultLG im="0.0" unit="OHM" re="0.0" />
+						</pss:danamicEvent>
+					</pss:dynamicEventList>
+				</pss:dStabAnalysis>
+			</pss:analysisType>
+		</pss:scenario>
+	</pss:scenarioList>
 </pss:pssStudyCase>
