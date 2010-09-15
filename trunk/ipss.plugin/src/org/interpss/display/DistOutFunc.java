@@ -27,8 +27,8 @@ package org.interpss.display;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.net.Bus;
 import com.interpss.dist.DistBus;
-import com.interpss.dist.DistBusAdapter;
 import com.interpss.dist.DistNetwork;
+import com.interpss.dist.adpter.DistBusAdapter;
 
 public class DistOutFunc {
 	public static String lfSummary(DistNetwork distNet, IPSSMsgHub msg) {
