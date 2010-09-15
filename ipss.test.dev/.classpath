@@ -22,5 +22,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_editor.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_jgraph.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/custom/custom.plugin.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.vstab"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
