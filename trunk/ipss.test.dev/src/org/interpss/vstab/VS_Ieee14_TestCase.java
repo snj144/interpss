@@ -4,6 +4,7 @@ import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.interpss.BaseTestSetup;
 import org.interpss.mapper.odm.IEEEODMMapper;
+import org.interpss.vstab.impl.EigenAnalysisImpl;
 import org.junit.Test;
 
 import com.interpss.common.util.IpssLogger;
@@ -26,6 +27,9 @@ public class VS_Ieee14_TestCase extends BaseTestSetup {
 		AclfNetwork net = simuCtx.getAclfNet();
   		//System.out.println(net.net2String());
 		
-		// Tony - add your VStab analysis and test here
+		// VStab analysis and test
+		EigenAnalysis ea=new EigenAnalysisImpl(net);
+		ea.runEigenStrAnalysis();
+		System.out.print(ea.getESAResult().getMinEigenValue());
 	}
 }
