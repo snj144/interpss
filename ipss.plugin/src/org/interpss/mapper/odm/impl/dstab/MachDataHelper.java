@@ -119,9 +119,8 @@ public class MachDataHelper {
 		}
 		else if (machXmlRec instanceof EquiMachineXmlType) {
 			EquiMachineXmlType machXml = (EquiMachineXmlType)machXmlRec;
-			Complex z1 = new Complex(0.0, 0.0);
-			Complex z0 = new Complex(0.0, 0.0);
-			calSourceZ1Z0(machXml, z1, z0);
+			Complex z1 = calSourceZ1(machXml);;
+			Complex z0 = calSourceZ0(machXml, z1);;
 			return DStabObjectFactory.createInfiniteMachine(machId, machXml.getName(), 
 					z1, z0, (DStabilityNetwork)this.dstabBus.getNetwork(), this.dstabBus.getId());
 		}
@@ -202,20 +201,31 @@ public class MachDataHelper {
 		mach.setTq011(machXml.getTd011().getValue());
 	}
 	
-	private void calSourceZ1Z0(EquiMachineXmlType machXml, Complex z1, Complex z0) {
+	private Complex calSourceZ1(EquiMachineXmlType machXml) {
 		if ( machXml.getEquivSource() != null) {
 			EquiMachineXmlType.EquivSource source = machXml.getEquivSource(); 
 			if (source.getScMva3Phase() > 0.0 && source.getXOverR3Phase() > 0.0)
-				z1 = CoreUtilFunc.calUitilityZ1PU(source.getScMva3Phase() * 1000,
+				return CoreUtilFunc.calUitilityZ1PU(source.getScMva3Phase() * 1000,
 						source.getXOverR3Phase(), this.dstabBus.getNetwork().getBaseKva());
-			if (source.getXOverR1Phase() != null && source.getXOverR1Phase() != null 
-					&& source.getXOverR1Phase() > 0.0 && source.getXOverR1Phase() > 0.0)
-				z0 = CoreUtilFunc.calUitilityZ0PU(source.getScMva1Phase() * 1000,
-						source.getXOverR1Phase(), this.dstabBus.getNetwork().getBaseKva(), z1);
 		}
 		else if (machXml.getEquivGen() != null) {
 			// TODO
 		}
-		
+		return new Complex(0.0,0.0);
+	}
+	
+	private Complex calSourceZ0(EquiMachineXmlType machXml, Complex z1) {
+		if ( machXml.getEquivSource() != null) {
+			EquiMachineXmlType.EquivSource source = machXml.getEquivSource(); 
+			if (source.getXOverR1Phase() != null && source.getXOverR1Phase() != null 
+					&& source.getXOverR1Phase() > 0.0 && source.getXOverR1Phase() > 0.0) {
+				return CoreUtilFunc.calUitilityZ0PU(source.getScMva1Phase() * 1000,
+						source.getXOverR1Phase(), this.dstabBus.getNetwork().getBaseKva(), z1);
+			}
+		}
+		else if (machXml.getEquivGen() != null) {
+			// TODO
+		}
+		return new Complex(0.0,0.0);
 	}
 }
