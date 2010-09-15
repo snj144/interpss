@@ -25,7 +25,6 @@
 package org.interpss.dstab.odm;
 
 import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.io.FileInputStream;
 
@@ -39,7 +38,10 @@ import org.junit.Test;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
+import com.interpss.dstab.common.IDStabBusVisitor;
+import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -60,15 +62,24 @@ public class DStab_Ipss5BusTest extends BaseTestSetup {
 			}	
 			
 			DStabilityNetwork dstabNet = simuCtx.getDStabilityNet();
+			dstabNet.forEachDStabBus(new IDStabBusVisitor() {
+				public void visit(DStabBus bus) {
+					if (bus.getMachine() != null) {
+						Machine mach = bus.getMachine();
+						// transfer SC3PMva ... info to mach data
+						mach.setBusAcscInfo(bus);			
+					}					
+				}
+			});
 
 			// perform loadflow and test the results
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, msg);
 		  	algo.loadflow();
-			System.out.println(dstabNet.net2String());
+			//System.out.println(dstabNet.net2String());
 		  	
-		  	System.out.println(AclfOutFunc.loadFlowSummary(dstabNet));
-		    //assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageMag() - 0.86011) < 0.0001);
-		    //assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageAng(UnitType.Deg) + 4.8) < 0.1);
+		  	//System.out.println(AclfOutFunc.loadFlowSummary(dstabNet));
+		    assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageMag() - 0.86011) < 0.0001);
+		    assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageAng(UnitType.Deg) + 4.8) < 0.1);
 		}
 	}
 }
