@@ -1,19 +1,13 @@
 package org.interpss.vstab;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.EigenDecomposition;
-import org.apache.commons.math.linear.EigenDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.util.MathUtils;
 
-import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.JacobianMatrixType;
 import com.interpss.core.net.Bus;
-import com.interpss.core.sparse.SparseEqnDouble;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
 /*
  * still some problem for this conversation ,
@@ -22,17 +16,15 @@ import com.interpss.core.sparse.SparseEqnMatrix2x2;
  */
 public class JacobiMatrixCalculator {
 
-	protected static IPSSMsgHub msg;
-	protected AclfNetwork _net=null;
+	protected  IPSSMsgHub msg;
+	protected  AclfNetwork _net=null;
 	protected  RealMatrix fullJacobi=null;
 	protected  RealMatrix subJQV=null;
 
 
-	public JacobiMatrixCalculator() {
-		
-	}
-	public JacobiMatrixCalculator(AclfNetwork net) {
+	public JacobiMatrixCalculator(AclfNetwork net, IPSSMsgHub msg) {
 		this._net=net;
+		this.msg = msg;
 	}
 	/**
 	 * 

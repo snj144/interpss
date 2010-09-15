@@ -9,6 +9,7 @@ import org.interpss.vstab.ESAResult;
 import org.interpss.vstab.EigenAnalysis;
 import org.interpss.vstab.JacobiMatrixCalculator;
 
+import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfNetwork;
 
 public class EigenAnalysisImpl implements EigenAnalysis {
@@ -22,12 +23,13 @@ public class EigenAnalysisImpl implements EigenAnalysis {
     private RealMatrix eigVectors=null;
 	protected RealVector rightMinEigenVector;
 	protected RealVector leftMinEigenVector;
-    protected JacobiMatrixCalculator jacobiCalc=new JacobiMatrixCalculator();
+    protected JacobiMatrixCalculator jacobiCalc = null;
     
 
 
-    public EigenAnalysisImpl(AclfNetwork net){
+    public EigenAnalysisImpl(AclfNetwork net, IPSSMsgHub msg){
     	this._net=net;
+        this.jacobiCalc= new JacobiMatrixCalculator(net, msg);
     }
 
 	@Override
