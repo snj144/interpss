@@ -60,11 +60,11 @@ public class DStab_Ipss5BusTest extends BaseTestSetup {
 			}	
 			
 			DStabilityNetwork dstabNet = simuCtx.getDStabilityNet();
-			System.out.println(dstabNet.net2String());
 
 			// perform loadflow and test the results
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, msg);
 		  	algo.loadflow();
+			System.out.println(dstabNet.net2String());
 		  	
 		  	System.out.println(AclfOutFunc.loadFlowSummary(dstabNet));
 		    //assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageMag() - 0.86011) < 0.0001);
