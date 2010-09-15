@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Notes:
+	   9/15/10 - set all bus voltage to 1.0/0 deg, roll back the changes
+ -->
 <pss:pssStudyCase id="idvalue0" xmlns:pss="http://www.ieee.org/odm/Schema/2008" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/schema/StudyCase.xsd ">
 	<pss:schemaVersion>V0.8</pss:schemaVersion>
 	<pss:contentInfo>
@@ -13,8 +17,8 @@
 		<pss:busList>
 			<pss:dstabBus scCode="Non-contributing" id="Bus-1" offLine="false" areaNumber="1" zoneNumber="1">
 				<pss:baseVoltage unit="KV" value="138"></pss:baseVoltage>
-				<pss:voltage unit="PU" value="0.86" /><pss:angle
-					unit="DEG" value="-4.8" />
+				<pss:voltage unit="PU" value="1.0" /><pss:angle
+					unit="DEG" value="0.0" />
 				<pss:loadData>
 					<pss:equivLoad code="CONST_P" id="Load-1">
 						<pss:constPLoad im="0.8" unit="PU" re="1.6" />
@@ -23,9 +27,9 @@
 			</pss:dstabBus>
 			<pss:dstabBus scCode="Non-contributing" id="Bus-2" areaNumber="1" offLine="false" zoneNumber="1">
 				<pss:baseVoltage unit="KV" value="138" /><pss:voltage
-					unit="PU" value="1.076" />
+					unit="PU" value="1.0" />
 				<pss:angle
-					unit="DEG" value="17.9" />
+					unit="DEG" value="0" />
 				<pss:loadData>
 					<pss:equivLoad code="CONST_P" id="Load-2">
 						<pss:constPLoad im="1.0" unit="PU" re="2.0" />
@@ -34,9 +38,9 @@
 			</pss:dstabBus>
 			<pss:dstabBus scCode="Non-contributing" id="Bus-3" areaNumber="1" offLine="false" zoneNumber="1">
 				<pss:baseVoltage unit="KV" value="138" /><pss:voltage
-					unit="PU" value="1.036" ></pss:voltage>
+					unit="PU" value="1.0" ></pss:voltage>
 				<pss:angle
-					unit="DEG" value="-4.3" />
+					unit="DEG" value="0" />
 				<pss:loadData>
 					<pss:equivLoad code="CONST_P" id="Load-3">
 						<pss:constPLoad im="1.3" unit="PU" re="3.7" />
@@ -45,9 +49,9 @@
 			</pss:dstabBus>
 			<pss:dstabBus scCode="Contributing" id="Bus-4" areaNumber="1" zoneNumber="1" offLine="false">
 				<pss:baseVoltage unit="KV" value="1" /><pss:voltage
-					unit="PU" value="1.05" />
+					unit="PU" value="1.0" />
 				<pss:angle
-					unit="DEG" value="22.2" />
+					unit="DEG" value="0" />
 				<pss:genData>
 					<pss:equivGen code="PV" id="Bus4-Gen1">
 						<pss:power im="0.0" unit="PU" re="5.0"/>
@@ -104,7 +108,7 @@
 			</pss:dstabBus>
 			<pss:dstabBus scCode="Contributing" id="Bus-5" offLine="false" areaNumber="1" zoneNumber="1">
 				<pss:baseVoltage unit="KV" value="4" /><pss:voltage
-					unit="PU" value="1.05" />
+					unit="PU" value="1.0" />
 				<pss:angle
 					unit="DEG" value="0" />
 				<pss:genData>
