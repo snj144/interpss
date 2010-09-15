@@ -175,7 +175,7 @@ public class ODMDStabDataMapperImpl {
 			for (DynamicGeneratorXmlType dyGen : dstabBusXml.getMachineList().getMachine()) {
 				// create the machine model and added to the parent bus object
 				MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
-				String machId = dstabBus.getId() + "mach" + ++cnt;
+				String machId = dstabBus.getId() + "-mach" + ++cnt;
 				Machine mach = new MachDataHelper(dstabBus, dyGen.getRatedPower(), dyGen.getRatedVoltage())
 									.createMachine(machXmlRec, machId);
 				
