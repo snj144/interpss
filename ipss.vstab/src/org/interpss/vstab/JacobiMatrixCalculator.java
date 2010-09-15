@@ -1,10 +1,17 @@
 package org.interpss.vstab;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.linear.EigenDecomposition;
+import org.apache.commons.math.linear.EigenDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.RealVector;
+import org.apache.commons.math.util.MathUtils;
+
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Matrix_xy;
+import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.JacobianMatrixType;
 import com.interpss.core.net.Bus;
 import com.interpss.core.sparse.SparseEqnDouble;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
@@ -13,43 +20,32 @@ import com.interpss.core.sparse.SparseEqnMatrix2x2;
  * cau'z the dimension and index of complex matrix is not so clear 
  *
  */
-public class SparseEqnMatrix2RealMatrix {
+public class JacobiMatrixCalculator {
+
+	protected static IPSSMsgHub msg;
+	protected AclfNetwork _net=null;
+	protected  RealMatrix fullJacobi=null;
+	protected  RealMatrix subJQV=null;
+
+
+	public JacobiMatrixCalculator() {
+		
+	}
+	public JacobiMatrixCalculator(AclfNetwork net) {
+		this._net=net;
+	}
 	/**
 	 * 
 	 * @param net
-	 * @param objSparseDoubleMatrix
-	 * @return
+	 *
 	 */
-	public static RealMatrix SparseEqnDouble2Matrix(AclfNetwork net,SparseEqnDouble objSparseDoubleMatrix){
-	int i=0;
-	int j=0;
-	int m=objSparseDoubleMatrix.getDimension();
-	RealMatrix B1=new Array2DRowRealMatrix(m,m);
-    for(Bus bi:net.getBusList()){
-    	AclfBus acbusi=(AclfBus)bi;
-    	
-    	if(!acbusi.isSwing()){
-    		
-    	 for(Bus bj:net.getBusList()){
-    		AclfBus acbusj=(AclfBus)bj;
-    		if(!acbusj.isSwing()){
-//    			int col=bj.getSortNumber();
-    			B1.setEntry(i, j,net.formB1Matrix(SpringAppContext.getIpssMsgHub()).getAij(i, j) );
-    			
-    			j++;
-    		}	
-    	}
-    	i++;
-     }
-    }
-    return B1;
-	}
 	
-	static RealMatrix getJacobiMatrix (AclfNetwork net,SparseEqnMatrix2x2 S,int returnType){
-
+	private  void transSparse2RealFmt (AclfNetwork net){
+		
+		SparseEqnMatrix2x2 S=net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE, msg);   
 		 // get sortIndex
-		int[] sortNumberToMatrixIndex = new int[net.getNoBus()+1];
-		int[] sortPQNumberToMatrixIndex = new int[net.getNoBus()+1];
+	   int[] sortNumberToMatrixIndex = new int[net.getNoBus()+1];
+	   int[] sortPQNumberToMatrixIndex = new int[net.getNoBus()+1];
 		 // get the number of non-swing buses and PQ buses
        int n = 0;  //record  for non-swing ,that is both PV and PQ 
        int m = 0;  // record only for PQ 
@@ -69,8 +65,8 @@ public class SparseEqnMatrix2RealMatrix {
     RealMatrix H = new Array2DRowRealMatrix(n,n);
     RealMatrix N = new Array2DRowRealMatrix(n,m);
     RealMatrix K = new Array2DRowRealMatrix(m,n);
-    RealMatrix L=  new Array2DRowRealMatrix(m,m);
-    RealMatrix Jnr =new Array2DRowRealMatrix (n+m,n+m);   // Jacobi matrix in classical format.   
+    subJQV=  new Array2DRowRealMatrix(m,m);
+    fullJacobi =new Array2DRowRealMatrix (n+m,n+m);   // Jacobi matrix in classical format.   
     //int index=0;  index for Matrix rows 
       
   for (Bus busi : net.getBusList()) {
@@ -110,7 +106,7 @@ public class SparseEqnMatrix2RealMatrix {
                          if(!aclfBusi.isGenPV() ){
            	             	 K.setEntry(mPQ,n1,dQdVang);  // m*n-1
 	                             if(!aclfBusj.isGenPV()){
-	                                L.setEntry(mPQ,nPQ,dQdVmag);//m*m
+	                                subJQV.setEntry(mPQ,nPQ,dQdVmag);//m*m
 	                               } 
 	                        }
                    }// end of if-busj
@@ -121,15 +117,24 @@ public class SparseEqnMatrix2RealMatrix {
    
 		 }  //end of for busi
 
-	   Jnr.setSubMatrix(H.getData(), 0, 0);
-	   Jnr.setSubMatrix(N.getData(),0,n);
-	   Jnr.setSubMatrix(K.getData(),n,0);
-	   Jnr.setSubMatrix(L.getData(),n,n);
-	   if (returnType==1) return L;// return the L sub-matrix for the study of Q-V relationship
-	   
-	   else return Jnr.scalarMultiply(-1); 
-	   // the sign of sparseMatrix is opposite to usual, so here  its sign is changed by default .
+	   fullJacobi.setSubMatrix(H.getData(), 0, 0);
+	   fullJacobi.setSubMatrix(N.getData(),0,n);
+	   fullJacobi.setSubMatrix(K.getData(),n,0);
+	   fullJacobi.setSubMatrix(subJQV.getData(),n,n);
 	 
 	 }//end this method
+	public RealMatrix getFullJacobiRealFmt(AclfNetwork net){
+		transSparse2RealFmt(net);
+	 // the sign of sparseMatrix is opposite to usual, so here  its sign is changed by default .
+		return fullJacobi.scalarMultiply(-1);
+	}
+	
+	public  RealMatrix getSubJQVMatrix(AclfNetwork net){
+		transSparse2RealFmt(net);
+		return this.subJQV;
+			
+	}
+
+	
 	
 }
