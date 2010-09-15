@@ -28,7 +28,7 @@ public class VS_Ieee14_TestCase extends BaseTestSetup {
   		//System.out.println(net.net2String());
 		
 		// VStab analysis and test
-		EigenAnalysis ea=new EigenAnalysisImpl(net);
+		EigenAnalysis ea=new EigenAnalysisImpl(net, msg);
 		ea.runEigenStrAnalysis();
 		System.out.print(ea.getESAResult().getMinEigenValue());
 	}
