@@ -11,24 +11,32 @@
 		<pss:basePower unit="MVA" value="100" />
 		<pss:frequency unit="Hz" value="50" />
 		<pss:busList>
-			<pss:dstabBus scCode="Contributing" id="Bus-1" offLine="false" areaNumber="1" zoneNumber="1">
+			<pss:dstabBus scCode="Non-contributing" id="Bus-1" offLine="false" areaNumber="1" zoneNumber="1">
 				<pss:baseVoltage unit="KV" value="138"></pss:baseVoltage>
+				<pss:voltage unit="PU" value="0.86" /><pss:angle
+					unit="DEG" value="-4.8" />
 				<pss:loadData>
 					<pss:equivLoad code="CONST_P" id="Load-1">
 						<pss:constPLoad im="0.8" unit="PU" re="1.6" />
 					</pss:equivLoad>
 				</pss:loadData>
 			</pss:dstabBus>
-			<pss:dstabBus scCode="Contributing" id="Bus-2" areaNumber="1" offLine="false" zoneNumber="1">
-				<pss:baseVoltage unit="KV" value="138" />
+			<pss:dstabBus scCode="Non-contributing" id="Bus-2" areaNumber="1" offLine="false" zoneNumber="1">
+				<pss:baseVoltage unit="KV" value="138" /><pss:voltage
+					unit="PU" value="1.076" />
+				<pss:angle
+					unit="DEG" value="17.9" />
 				<pss:loadData>
 					<pss:equivLoad code="CONST_P" id="Load-2">
 						<pss:constPLoad im="1.0" unit="PU" re="2.0" />
 					</pss:equivLoad>
 				</pss:loadData>
 			</pss:dstabBus>
-			<pss:dstabBus scCode="Contributing" id="Bus-3" areaNumber="1" offLine="false" zoneNumber="1">
-				<pss:baseVoltage unit="KV" value="138" />
+			<pss:dstabBus scCode="Non-contributing" id="Bus-3" areaNumber="1" offLine="false" zoneNumber="1">
+				<pss:baseVoltage unit="KV" value="138" /><pss:voltage
+					unit="PU" value="1.036" ></pss:voltage>
+				<pss:angle
+					unit="DEG" value="-4.3" />
 				<pss:loadData>
 					<pss:equivLoad code="CONST_P" id="Load-3">
 						<pss:constPLoad im="1.3" unit="PU" re="3.7" />
@@ -36,7 +44,10 @@
 				</pss:loadData>
 			</pss:dstabBus>
 			<pss:dstabBus scCode="Contributing" id="Bus-4" areaNumber="1" zoneNumber="1" offLine="false">
-				<pss:baseVoltage unit="KV" value="1" />
+				<pss:baseVoltage unit="KV" value="1" /><pss:voltage
+					unit="PU" value="1.05" />
+				<pss:angle
+					unit="DEG" value="22.2" />
 				<pss:genData>
 					<pss:equivGen code="PV" id="Bus4-Gen1">
 						<pss:power im="0.0" unit="PU" re="5.0"/>
@@ -92,7 +103,10 @@
 				</pss:machineList>
 			</pss:dstabBus>
 			<pss:dstabBus scCode="Contributing" id="Bus-5" offLine="false" areaNumber="1" zoneNumber="1">
-				<pss:baseVoltage unit="KV" value="4" />
+				<pss:baseVoltage unit="KV" value="4" /><pss:voltage
+					unit="PU" value="1.05" />
+				<pss:angle
+					unit="DEG" value="0" />
 				<pss:genData>
 					<pss:equivGen code="Swing" id="Bus5-Gen1">
 						<pss:desiredVoltage unit="PU" value="1.05" /><pss:desiredAngle unit="DEG" value="0.0" />
@@ -116,9 +130,8 @@
 			<pss:dstabLine id="Bus2-Bus1" circuitId="1" offLine="false">
 				<pss:fromBus idRef="Bus-2"></pss:fromBus>
 				<pss:toBus idRef="Bus-1"></pss:toBus>
-				<pss:z im="0.25" unit="PU" re="0.04" />
-				<pss:fromShuntY im="0.25" unit="PU" />
-				<pss:toShuntY im="0.25" unit="PU" />
+				<pss:z im="0.25" unit="PU" re="0.04" /><pss:totalShuntY
+					im="0.5" unit="PU" />
 			</pss:dstabLine>
 			<pss:dstabLine id="Bus3-Bus1" circuitId="1" offLine="false">
 				<pss:fromBus idRef="Bus-3"></pss:fromBus>
@@ -130,14 +143,13 @@
 			<pss:dstabLine id="Bus2-Bus3" circuitId="1" offLine="false">
 				<pss:fromBus idRef="Bus-2"></pss:fromBus>
 				<pss:toBus idRef="Bus-3"></pss:toBus>
-				<pss:z im="0.3" unit="PU" re="0.08" />
-				<pss:fromShuntY im="0.25" unit="PU" />
-				<pss:toShuntY im="0.25" unit="PU" />
+				<pss:z im="0.3" unit="PU" re="0.08" /><pss:totalShuntY
+					im="0.5" unit="PU" />
 			</pss:dstabLine>
 			<pss:dstabXfr id="Bus4-Bus2">
 				<pss:fromBus idRef="Bus-4"></pss:fromBus>
 				<pss:toBus idRef="Bus-2"></pss:toBus>
-				<pss:z im="0.016" unit="PU" re="0.0" />
+				<pss:z im="0.016" unit="PU"/>
 				<pss:fromTurnRatio unit="PU" value="1.0" />
 				<pss:toTurnRatio unit="PU" value="1.05" />
 				<pss:fromSideConnection connection="Wye">
