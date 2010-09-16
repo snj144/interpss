@@ -71,12 +71,18 @@ public class DStab_Ipss5BusTest extends BaseTestSetup {
 					}					
 				}
 			});
+			
+			System.out.println(dstabNet.net2String());
 
 			// perform loadflow and test the results
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, msg);
 		  	algo.loadflow();
-			//System.out.println(dstabNet.net2String());
 		  	
+			System.out.println(dstabNet.net2String());			
+		  	
+			// perform dynamic simulation
+			simuCtx.getDynSimuAlgorithm().performSimulation();
+			
 		  	//System.out.println(AclfOutFunc.loadFlowSummary(dstabNet));
 		    assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageMag() - 0.86011) < 0.0001);
 		    assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageAng(UnitType.Deg) + 4.8) < 0.1);
