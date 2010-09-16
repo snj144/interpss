@@ -46,6 +46,7 @@ import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PSXfrDStabXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
+import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.StabilizerModelXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
@@ -55,6 +56,7 @@ import org.interpss.mapper.odm.ODMXmlHelper;
 import org.interpss.mapper.odm.impl.dstab.ExciterDataHelper;
 import org.interpss.mapper.odm.impl.dstab.GovernorDataHelper;
 import org.interpss.mapper.odm.impl.dstab.MachDataHelper;
+import org.interpss.mapper.odm.impl.dstab.ScenarioHelper;
 import org.interpss.mapper.odm.impl.dstab.StabilizerDataHelper;
 
 import com.interpss.common.exp.InterpssException;
@@ -63,6 +65,8 @@ import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
+import com.interpss.dstab.DstabFactory;
+import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
 
@@ -85,6 +89,9 @@ public class ODMDStabDataMapperImpl {
 				// create a DStabilityNetwork object and map the net info 
 				DStabilityNetwork dstabNet = mapNetworkData(xmlNet);
 				simuCtx.setDStabilityNet(dstabNet);
+				
+				DstabFactory dFact = DstabFactory.eINSTANCE;
+				DynamicSimuAlgorithm algo =dFact.createDynamicSimuAlgorithm();
 
 				// map the bus info
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
@@ -144,6 +151,14 @@ public class ODMDStabDataMapperImpl {
 					else {
 						IpssLogger.getLogger().severe( "Error: only aclf<Branch>, acsc<Branch> and dstab<Branch> could be used for DStab study");
 						noError = false;
+					}
+				}
+				// map the dynamic simulation settings information
+				if(parser.getStudyCase().getScenarioList()!=null){
+					for (ScenarioXmlType scenario : parser.getStudyCase().getScenarioList().getScenario()) {
+						new ScenarioHelper(dstabNet,algo).
+						mapDstabFaultScenario(scenario);
+							
 					}
 				}
 			} catch (InterpssException e) {

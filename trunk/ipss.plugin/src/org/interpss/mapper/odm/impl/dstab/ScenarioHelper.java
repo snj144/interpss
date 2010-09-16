@@ -3,6 +3,8 @@ package org.interpss.mapper.odm.impl.dstab;
 import org.ieee.odm.schema.AclfAlgorithmXmlType;
 import org.ieee.odm.schema.AnalysisTypeXmlType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
+import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DanamicEventType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.ScenarioXmlType;
@@ -15,8 +17,11 @@ import org.ieee.odm.schema.TransientSimulationXmlType.SimulationSetting;
 import org.interpss.mapper.odm.impl.AcscScenarioHelper;
 
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.acsc.AcscBranchFault;
+import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.DynamicSimuMethod;
@@ -25,6 +30,7 @@ import com.interpss.dstab.devent.BranchOutageEvent;
 import com.interpss.dstab.devent.BusDynamicEvent;
 import com.interpss.dstab.devent.DeventFactory;
 import com.interpss.dstab.devent.DynamicEvent;
+import com.interpss.dstab.devent.DynamicEventType;
 
 
 
@@ -50,8 +56,8 @@ public class ScenarioHelper {
 		mapGeneralSettings(settings,algo);
 		AclfAlgorithmXmlType lfInit = dstabFaultXml.getAclfInitialization();
 		mapAclfInitialization (lfInit);		
-		for (DanamicEventType event : dstabFaultXml.getDynamicEventList().getDanamicEvent()) {			
-			mapDynamicEvent ( event, dstabNet,faultXml);
+		for (DanamicEventType eventXml : dstabFaultXml.getDynamicEventList().getDanamicEvent()) {			
+			mapDynamicEvent ( eventXml, dstabNet,faultXml);
 		}		
 	}
 	private void mapGeneralSettings(SimulationSetting settings, DynamicSimuAlgorithm algo){
@@ -66,14 +72,14 @@ public class ScenarioHelper {
 		TimePeriodXmlType tolTime = settings.getTotalTime();		
 		double tolTimeInSec = convertTimeUnit2Sec(tolTime,this.dstabNet.getFrequency());
 		algo.setTotalSimuTimeSec(tolTimeInSec);
-		// map time set,  unit is sec
+		// map time setp,  unit is sec
 		TimePeriodXmlType stepTime = settings.getStep();		
-		double stepTimeInSec = convertTimeUnit2Sec(tolTime,this.dstabNet.getFrequency());
+		double stepTimeInSec = convertTimeUnit2Sec(stepTime,this.dstabNet.getFrequency());
 		algo.setSimuStepSec(stepTimeInSec);
 		
 		algo.setDisableDynamicEvent(settings.isDisableDynEvents());	
 		
-		if(settings.isAbsMachineAngle()){
+		if(!settings.isAbsMachineAngle()){
 			String refMachId=((DynamicGeneratorXmlType)settings.getRefMachine().getIdRef()).getGenId().getId();
 			//Machine mach = 
 			//algo.setRefMachine(mach);			
@@ -118,48 +124,67 @@ public class ScenarioHelper {
 		ApparentPowerXmlType tol = lfInit.getTolerance();
 		lfAlgo.setTolerance(tol.getValue());
 		lfAlgo.setInitBusVoltage(lfInit.isInitBusVoltage());
-		
-		lfAlgo.setGsAccFactor(lfInit.getAccFactor());
-		lfAlgo.setNonDivergent(lfInit.isNonDivergent());
+		if(lfInit.getAccFactor()!=null){
+			lfAlgo.setGsAccFactor(lfInit.getAccFactor());
+		}
+		if(lfInit.isNonDivergent()!=null){
+			lfAlgo.setNonDivergent(lfInit.isNonDivergent());
+		}		
 		// set load flow initialization in the dstab analysis
 		algo.setAclfAlgorithm(lfAlgo);
 		
 	}
 	
-	public void mapDynamicEvent (DanamicEventType event, DStabilityNetwork dstabNet,
+	public void mapDynamicEvent (DanamicEventType eventXml, DStabilityNetwork dstabNet,
 			ScenarioXmlType faultXml){
 		
 		String eventId = faultXml.getId();
-		String faultType = event.getFault().getFaultType().toString();
+		String faultType = eventXml.getFault().getFaultType().toString();
 		DeventFactory dEventFact = DeventFactory.eINSTANCE; 		
 		// create a new event
 		DynamicEvent dEvent= dEventFact.createDynamicEvent();
+		
+		new AcscScenarioHelper(dstabNet)
+		.mapAcscFaultNetwork(faultXml);
+		
 		// specify the type of this dEvent
-		if(faultType.equals("BusFault")){
+		if(faultType.equals("BUS_FAULT")){
+			
 			BusDynamicEvent busEvent = dEventFact.createBusDynamicEvent();
 			busEvent.setId(eventId);
+			dEvent.setType(DynamicEventType.BUS_FAULT);
 			dEvent.setBusDynamicEvent(busEvent);
-		}else if (faultType.equals("BranchFault")){
+			String faultBusId=((BusXmlType)eventXml.getFault().getBusBranchId().getIdRef()).getId();
+			AcscBusFault acscBusFault = dstabNet.getFault(faultBusId);
+			dEvent.setBusFault(acscBusFault);
+			
+		}else if (faultType.equals("BRANCH_FAULT")){
 			BranchDynamicEvent braEvent =dEventFact.createBranchDynamicEvent();
 			braEvent.setId(eventId);
+			dEvent.setType(DynamicEventType.BRANCH_FAULT);
 			dEvent.setBranchDynamicEvent(braEvent);
-		}else if (faultType.equals("BranchOutage")){
+			String faultBraId=((BranchXmlType)eventXml.getFault().getBusBranchId().getIdRef()).getId();
+			//DStabBranchFault dstabBranch =;			
+			//dEvent.setBranchFault(dstabBranch);
+			
+		}else if (faultType.equals("BRANCH_OUTAGE")){
 			BranchOutageEvent braOutEvent = dEventFact.createBranchOutageEvent();
 			braOutEvent.setId(eventId);
+			dEvent.setType(DynamicEventType.BRANCH_OUTAGE);
 			//(TODO: lack setBranchOutageEvent method)
 		}
-		// set the fault data under this event
+	
+		dEvent.setPermanent(eventXml.isPermanentFault());
+		TimePeriodXmlType startTime = eventXml.getStartTime();
+		double startTimeInSec= convertTimeUnit2Sec(startTime,this.dstabNet.getFrequency());
+		dEvent.setStartTimeSec(startTimeInSec);
+		double durationTimeInSec = convertTimeUnit2Sec(eventXml.getDuration(),
+				this.dstabNet.getFrequency());
+		dEvent.setDurationSec(durationTimeInSec);
 		
-		// ??????????I have some confusing here: should I use this method to map
-		new AcscScenarioHelper(dstabNet)
-			.mapAcscFaultNetwork(faultXml);	
+		dstabNet.addDynamicEvent(dEvent, eventId, algo.getMsgHub());
 		
-		//?????????? Or should I use the following:
-		//AcscBusFault acscBusFault = CoreObjectFactory.createAcscBusFault(faultBusId);
-		//dEvent.setBusFault(acscBusFault);
-		
-		// add the event to dynamic simu algo
-		algo.setDisableDynamicEvent(true);		
+				
 		
 	}
 	
@@ -170,7 +195,7 @@ public class ScenarioHelper {
 			val=val*60;
 		}else if(unit.equals("Hour")){
 			val=val*60*60;
-		}if(unit.equals("Cycle")){
+		}else if(unit.equals("Cycle")){
 			val=1/frequency*val;
 		}
 		return val;
