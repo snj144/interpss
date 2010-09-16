@@ -209,16 +209,18 @@
 						<pss:initBusVoltage>true</pss:initBusVoltage>
 					</pss:aclfInitialization>
 					<pss:dynamicEventList>
-						<pss:danamicEvent id="Fault at Bus-1">
-							<pss:eventType>Bus-Fault</pss:eventType>
-							<pss:faultBus idRef="Bus-1"></pss:faultBus>
-							<pss:permanentFault>true</pss:permanentFault>
-							<pss:startTime unit="Sec" value="0.0" />
-							<pss:duration unit="Sec" value="0.1"></pss:duration>
-							<pss:faultType>Fault_3P</pss:faultType>
-							<pss:faultLG im="0.0" unit="OHM" re="0.0" />
-						</pss:danamicEvent>
-					</pss:dynamicEventList>
+  					<pss:danamicEvent>
+  						<pss:fault>
+  							<pss:faultType>BusFault</pss:faultType>
+  							<pss:faultCategory>Fault_3P</pss:faultCategory>
+  							<pss:busBranchId idRef="Bus-1"></pss:busBranchId>
+  							<pss:zLG im="0.0" unit="PU" re="0.0" ></pss:zLG>
+  						</pss:fault>
+  						<pss:permanentFault>true</pss:permanentFault>
+  						<pss:startTime unit="Sec" value="0.0" />
+  						<pss:duration unit="Sec" value="0.1" />
+  					</pss:danamicEvent>
+  				</pss:dynamicEventList>
 				</pss:dStabAnalysis>
 			</pss:analysisType>
 		</pss:scenario>
