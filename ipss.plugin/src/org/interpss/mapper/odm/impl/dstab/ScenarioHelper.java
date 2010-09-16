@@ -32,7 +32,10 @@ public class ScenarioHelper {
 		this.dstabNet = dstabNet;
 		this.algo = algo;		
 	}
-	double frequency =dstabNet.getFrequency();
+	
+	//double frequency =dstabNet.getFrequency(); this will cause problem, since at the
+	//                                           initial point dstabNet = null
+	
 	public void mapDstabFaultScenario(ScenarioXmlType faultXml){
 		AnalysisTypeXmlType faultAnalysisXml= faultXml.getAnalysisType();
 		TransientSimulationXmlType dstabFaultXml = faultAnalysisXml.getDStabAnalysis();		
@@ -56,11 +59,11 @@ public class ScenarioHelper {
 		}
 		// map total time, unit is sec
 		TimePeriodXmlType tolTime = settings.getTotalTime();		
-		double tolTimeInSec = convertTimeUnit2Sec(tolTime,frequency);
+		double tolTimeInSec = convertTimeUnit2Sec(tolTime,this.dstabNet.getFrequency());
 		algo.setTotalSimuTimeSec(tolTimeInSec);
 		// map time set,  unit is sec
 		TimePeriodXmlType stepTime = settings.getStep();		
-		double stepTimeInSec = convertTimeUnit2Sec(tolTime,frequency);
+		double stepTimeInSec = convertTimeUnit2Sec(tolTime,this.dstabNet.getFrequency());
 		algo.setSimuStepSec(stepTimeInSec);
 		
 		algo.setDisableDynamicEvent(settings.isDisableDynEvents());	
