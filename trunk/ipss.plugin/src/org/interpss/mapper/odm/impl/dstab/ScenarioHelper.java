@@ -1,42 +1,25 @@
 package org.interpss.mapper.odm.impl.dstab;
 
-import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.schema.AclfAlgorithmXmlType;
-import org.ieee.odm.schema.AcscFaultCategoryDataType;
-import org.ieee.odm.schema.AcscFaultDataType;
-import org.ieee.odm.schema.AcscFaultXmlType;
 import org.ieee.odm.schema.AnalysisTypeXmlType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
-import org.ieee.odm.schema.BaseBranchXmlType;
-import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DanamicEventType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
-import org.ieee.odm.schema.EventTypeType;
-import org.ieee.odm.schema.PreFaultBusVoltageType;
 import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.StaticLoadModelCatType;
 import org.ieee.odm.schema.StaticLoadModelType;
 import org.ieee.odm.schema.TimePeriodUnitType;
 import org.ieee.odm.schema.TimePeriodXmlType;
 import org.ieee.odm.schema.TransientSimulationXmlType;
-import org.ieee.odm.schema.ZXmlType;
 import org.ieee.odm.schema.TransientSimulationXmlType.SimulationSetting;
-import org.interpss.mapper.odm.ODMXmlHelper;
 import org.interpss.mapper.odm.impl.AcscScenarioHelper;
 
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.acsc.AcscBranch;
-import com.interpss.core.acsc.AcscBranchFault;
-import com.interpss.core.acsc.AcscBus;
-import com.interpss.core.acsc.AcscBusFault;
-import com.interpss.core.acsc.SimpleFaultCode;
-import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
-import com.interpss.dstab.mach.Machine;
+import com.interpss.dstab.DynamicSimuMethod;
 
 
 
@@ -67,9 +50,9 @@ public class ScenarioHelper {
 		// map numerical iteration method
 		String method =  settings.getMethod();
 		if(method.equals("ModifiedEuler")){
-			algo.setSimuMethod(DynamicSimuMethods);
+			algo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
 		}else if (method.equals("RungerKutta")){
-			algo.setSimuMethod(DynamicSimuMethods)
+			algo.setSimuMethod(DynamicSimuMethod.RUNGE_KUTTA);
 		}
 		// map total time, unit is sec
 		TimePeriodXmlType tolTime = settings.getTotalTime();		
@@ -137,7 +120,8 @@ public class ScenarioHelper {
 	
 	public void mapDynamicEvent (DanamicEventType event, DStabilityNetwork dstabNet,
 			ScenarioXmlType faultXml){
-		AcscScenarioHelper.mapAcscFaultNetwork(faultXml);	
+		new AcscScenarioHelper(dstabNet)
+			.mapAcscFaultNetwork(faultXml);	
 				
 		
 	}
