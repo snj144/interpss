@@ -20,13 +20,18 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.DynamicSimuMethod;
+import com.interpss.dstab.devent.BranchDynamicEvent;
+import com.interpss.dstab.devent.BranchOutageEvent;
+import com.interpss.dstab.devent.BusDynamicEvent;
+import com.interpss.dstab.devent.DeventFactory;
+import com.interpss.dstab.devent.DynamicEvent;
 
 
 
 public class ScenarioHelper {
 	
 	private DStabilityNetwork dstabNet = null;
-	private DynamicSimuAlgorithm algo = null;
+	private DynamicSimuAlgorithm algo = null;	
 	
 	public ScenarioHelper(DStabilityNetwork dstabNet,DynamicSimuAlgorithm algo) {
 		this.dstabNet = dstabNet;
@@ -123,9 +128,38 @@ public class ScenarioHelper {
 	
 	public void mapDynamicEvent (DanamicEventType event, DStabilityNetwork dstabNet,
 			ScenarioXmlType faultXml){
+		
+		String eventId = faultXml.getId();
+		String faultType = event.getFault().getFaultType().toString();
+		DeventFactory dEventFact = DeventFactory.eINSTANCE; 		
+		// create a new event
+		DynamicEvent dEvent= dEventFact.createDynamicEvent();
+		// specify the type of this dEvent
+		if(faultType.equals("BusFault")){
+			BusDynamicEvent busEvent = dEventFact.createBusDynamicEvent();
+			busEvent.setId(eventId);
+			dEvent.setBusDynamicEvent(busEvent);
+		}else if (faultType.equals("BranchFault")){
+			BranchDynamicEvent braEvent =dEventFact.createBranchDynamicEvent();
+			braEvent.setId(eventId);
+			dEvent.setBranchDynamicEvent(braEvent);
+		}else if (faultType.equals("BranchOutage")){
+			BranchOutageEvent braOutEvent = dEventFact.createBranchOutageEvent();
+			braOutEvent.setId(eventId);
+			//(TODO: lack setBranchOutageEvent method)
+		}
+		// set the fault data under this event
+		
+		// ??????????I have some confusing here: should I use this method to map
 		new AcscScenarioHelper(dstabNet)
 			.mapAcscFaultNetwork(faultXml);	
-				
+		
+		//?????????? Or should I use the following:
+		//AcscBusFault acscBusFault = CoreObjectFactory.createAcscBusFault(faultBusId);
+		//dEvent.setBusFault(acscBusFault);
+		
+		// add the event to dynamic simu algo
+		algo.setDisableDynamicEvent(true);		
 		
 	}
 	
