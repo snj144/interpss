@@ -25,12 +25,14 @@ import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.DynamicSimuMethod;
+import com.interpss.dstab.StaticLoadModel;
 import com.interpss.dstab.devent.BranchDynamicEvent;
 import com.interpss.dstab.devent.BranchOutageEvent;
 import com.interpss.dstab.devent.BusDynamicEvent;
 import com.interpss.dstab.devent.DeventFactory;
 import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
+import com.interpss.dstab.mach.Machine;
 
 
 
@@ -72,7 +74,7 @@ public class ScenarioHelper {
 		TimePeriodXmlType tolTime = settings.getTotalTime();		
 		double tolTimeInSec = convertTimeUnit2Sec(tolTime,this.dstabNet.getFrequency());
 		algo.setTotalSimuTimeSec(tolTimeInSec);
-		// map time setp,  unit is sec
+		// map time step,  unit is sec
 		TimePeriodXmlType stepTime = settings.getStep();		
 		double stepTimeInSec = convertTimeUnit2Sec(stepTime,this.dstabNet.getFrequency());
 		algo.setSimuStepSec(stepTimeInSec);
@@ -81,17 +83,17 @@ public class ScenarioHelper {
 		
 		if(!settings.isAbsMachineAngle()){
 			String refMachId=((DynamicGeneratorXmlType)settings.getRefMachine().getIdRef()).getGenId().getId();
-			//Machine mach = 
-			//algo.setRefMachine(mach);			
+			Machine mach = dstabNet.getMachine(refMachId); 
+			algo.setRefMachine(mach);			
 		} 
 		//set net equn interation
 		int intNoEvent = settings.getNetEqnIterationNoEvent();
 		int intWEvent = settings.getNetEqnIterationWithEvent();
 		if(intNoEvent != 0){
-			
+			dstabNet.setNetEqnIterationNoEvent(intNoEvent);
 		}
         if(intWEvent != 0){
-			
+		    dstabNet.setNetEqnIterationWithEvent(intWEvent);	
 		}
         // 
         algo.setOutputFiltered(settings.isOutPutVariableFilter());
@@ -99,13 +101,15 @@ public class ScenarioHelper {
         StaticLoadModelType statLoad = settings.getStaticLoadModel();
         StaticLoadModelCatType loadType = statLoad.getType();
         if(loadType.equals("Constant_Z")){
-        	
+        	dstabNet.setStaticLoadModel(StaticLoadModel.CONST_Z);
         }else {
-        	
+        	// set switch vol and dead zone for constant-P static load
+        	dstabNet.setStaticLoadModel(StaticLoadModel.CONST_P);
+        	dstabNet.setStaticLoadSwitchDeadZone(settings.getStaticLoadModel()
+        			.getConstantP().getDeadZone());
+        	dstabNet.setStaticLoadSwitchVolt(settings.getStaticLoadModel()
+        			.getConstantP().getSwitchVolt());
         }
-        // set switch vol and dead zone for constant-P static load
-        
-        
 	}
 	
 	private void mapAclfInitialization (AclfAlgorithmXmlType lfInit){
@@ -182,9 +186,7 @@ public class ScenarioHelper {
 				this.dstabNet.getFrequency());
 		dEvent.setDurationSec(durationTimeInSec);
 		
-		dstabNet.addDynamicEvent(dEvent, eventId, algo.getMsgHub());
-		
-				
+		dstabNet.addDynamicEvent(dEvent, eventId, algo.getMsgHub());				
 		
 	}
 	
