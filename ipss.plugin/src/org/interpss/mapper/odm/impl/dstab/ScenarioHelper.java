@@ -100,15 +100,18 @@ public class ScenarioHelper {
         
         StaticLoadModelType statLoad = settings.getStaticLoadModel();
         StaticLoadModelCatType loadType = statLoad.getType();
-        if(loadType.equals("Constant_Z")){
+        if(loadType.toString().equals("CONSTANT_Z")){
         	dstabNet.setStaticLoadModel(StaticLoadModel.CONST_Z);
         }else {
         	// set switch vol and dead zone for constant-P static load
         	dstabNet.setStaticLoadModel(StaticLoadModel.CONST_P);
-        	dstabNet.setStaticLoadSwitchDeadZone(settings.getStaticLoadModel()
-        			.getConstantP().getDeadZone());
-        	dstabNet.setStaticLoadSwitchVolt(settings.getStaticLoadModel()
-        			.getConstantP().getSwitchVolt());
+        	double deadZone =settings.getStaticLoadModel()
+			.getConstantP().getDeadZone();
+        	double switchVolt =settings.getStaticLoadModel()
+			.getConstantP().getSwitchVolt();        	
+        	 
+        	dstabNet.setStaticLoadSwitchDeadZone(deadZone);
+        	dstabNet.setStaticLoadSwitchVolt(switchVolt);
         }
 	}
 	
