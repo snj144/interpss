@@ -61,6 +61,8 @@ import org.interpss.mapper.odm.impl.dstab.StabilizerDataHelper;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
@@ -90,9 +92,11 @@ public class ODMDStabDataMapperImpl {
 				DStabilityNetwork dstabNet = mapNetworkData(xmlNet);
 				simuCtx.setDStabilityNet(dstabNet);
 				
-				DstabFactory dFact = DstabFactory.eINSTANCE;
-				DynamicSimuAlgorithm algo =dFact.createDynamicSimuAlgorithm();
-
+				
+				DynamicSimuAlgorithm dstabAlgo =DStabObjectFactory.createDynamicSimuAlgorithm(dstabNet,simuCtx.getMsgHub() );
+				LoadflowAlgorithm lfAlgo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, dstabAlgo.getMsgHub());
+				simuCtx.setDynSimuAlgorithm(dstabAlgo);
+				simuCtx.setLoadflowAlgorithm(lfAlgo);
 				// map the bus info
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					// for DStab, the bus could be aclfBus, acscBus or dstabBus
@@ -156,7 +160,7 @@ public class ODMDStabDataMapperImpl {
 				// map the dynamic simulation settings information
 				if(parser.getStudyCase().getScenarioList()!=null){
 					for (ScenarioXmlType scenario : parser.getStudyCase().getScenarioList().getScenario()) {
-						new ScenarioHelper(dstabNet,algo).
+						new ScenarioHelper(dstabNet,dstabAlgo).
 						mapDstabFaultScenario(scenario);
 							
 					}
