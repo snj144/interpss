@@ -47,7 +47,7 @@ import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.TielineXmlType;
-import org.ieee.odm.schema.TransientSimulationXmlType;
+import org.ieee.odm.schema.DStabilitySimulationXmlType;
 
 public class JaxbODMModelParser extends AbstractModelParser {
 	
@@ -366,7 +366,7 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	 *  
 	 * @return
 	 */
-	public TransientSimulationXmlType getDefaultTransSimu(){
+	public DStabilitySimulationXmlType getDefaultTransSimu(){
 		//return JaxbTranStabSimuHelper.getTransientSimlation(getDefaultScenario());
 		return null;
 	}
