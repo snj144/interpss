@@ -47,12 +47,12 @@ import com.interpss.dstab.mach.Machine;
 
 
 
-public class ScenarioHelper {
+public class DStabScenarioHelper {
 	
 	private DStabilityNetwork dstabNet = null;
 	private DynamicSimuAlgorithm algo = null;	
 	
-	public ScenarioHelper(DStabilityNetwork dstabNet,DynamicSimuAlgorithm algo) {
+	public DStabScenarioHelper(DStabilityNetwork dstabNet,DynamicSimuAlgorithm algo) {
 		this.dstabNet = dstabNet;
 		this.algo = algo;		
 	}
