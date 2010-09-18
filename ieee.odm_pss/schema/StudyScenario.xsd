@@ -10,6 +10,20 @@
 
 	<include schemaLocation="Modification.xsd"></include>
 
+	<complexType name="StudyScenarioXmlType">
+		<sequence>
+			<element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType"></element>
+			<element name="defaultAclfAlgo" type="pss:AclfAlgorithmXmlType" minOccurs="0"></element>
+			<element name="scenarioList" maxOccurs="1" minOccurs="1">
+				<complexType>
+					<sequence>
+						<element name="scenario" type="pss:ScenarioXmlType" maxOccurs="unbounded" minOccurs="1"></element>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
 	<complexType name="ScenarioXmlType">
 		<annotation>
 			<documentation>
@@ -224,6 +238,4 @@
 		</sequence>
 		<attribute name="id" type="string"></attribute>
 	</complexType>
-
-    <element name="fault" type="string"></element>
 </schema>
