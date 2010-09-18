@@ -24,6 +24,8 @@
 
 package org.interpss.dstab.odm;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.FileInputStream;
 
@@ -33,6 +35,7 @@ import org.interpss.BaseTestSetup;
 import org.interpss.mapper.odm.IEEEODMMapper;
 import org.junit.Test;
 
+import com.interpss.common.datatype.UnitType;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
@@ -74,17 +77,14 @@ public class DStab_Ipss5BusTest extends BaseTestSetup {
 			lfAlgo.loadflow();
 					
 			
-			if(dstabAlgo.initialization()){
-				dstabAlgo.performSimulation();
-
-			}
-			
-			System.out.println(dstabNet.net2String());			
-
-
 			//System.out.println(AclfOutFunc.loadFlowSummary(dstabNet));
-			//assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageMag() - 0.86011) < 0.0001);
-			//assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageAng(UnitType.Deg) + 4.8) < 0.1);
+			assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageMag() - 0.86011) < 0.0001);
+			assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageAng(UnitType.Deg) + 4.8) < 0.1);
+
+			if (dstabAlgo.initialization()) {
+				System.out.println("Running DStab simulation ...");
+				dstabAlgo.performSimulation();
+			}			
 		}
 	}
 }
