@@ -34,6 +34,7 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.CurrentXmlType;
+import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.GXmlType;
 import org.ieee.odm.schema.LimitXmlType;
 import org.ieee.odm.schema.PowerXmlType;
@@ -46,7 +47,6 @@ import org.ieee.odm.schema.TapXmlType;
 import org.ieee.odm.schema.TimePeriodUnitType;
 import org.ieee.odm.schema.TimePeriodXmlType;
 import org.ieee.odm.schema.TurnRatioLimitXmlType;
-import org.ieee.odm.schema.TurnRatioUnitType;
 import org.ieee.odm.schema.TurnRatioXmlType;
 import org.ieee.odm.schema.VoltageLimitXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
@@ -210,7 +210,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 		TapLimitXmlType limit = getFactory().createTapLimitXmlType();
 		limit.setMax(max);
 		limit.setMin(min);
-		limit.setUnit(TurnRatioUnitType.PU);
+		limit.setUnit(FactorUnitType.PU);
 		return limit;
 	}
 
@@ -218,7 +218,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 		TurnRatioLimitXmlType limit = getFactory().createTurnRatioLimitXmlType();
 		limit.setMax(max);
 		limit.setMin(min);
-		limit.setUnit(TurnRatioUnitType.PU);
+		limit.setUnit(FactorUnitType.PU);
 		return limit;
 	}
 
@@ -363,7 +363,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	public static TapXmlType createTapPU(double p) {
 		TapXmlType tap = getFactory().createTapXmlType();
 		tap.setValue(p);
-    	tap.setUnit(TurnRatioUnitType.PU);
+    	tap.setUnit(FactorUnitType.PU);
     	return tap;
 	}
 	
@@ -376,7 +376,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	public static TurnRatioXmlType createTurnRatioPU(double p) {
 		TurnRatioXmlType r = getFactory().createTurnRatioXmlType();
 		r.setValue(p);
-    	r.setUnit(TurnRatioUnitType.PU);
+    	r.setUnit(FactorUnitType.PU);
     	return r;
 	}	
 }

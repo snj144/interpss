@@ -41,6 +41,7 @@ import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.CurrentUnitType;
+import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
@@ -55,7 +56,6 @@ import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
 import org.ieee.odm.schema.TapAdjustmentEnumType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
-import org.ieee.odm.schema.TurnRatioUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
@@ -526,7 +526,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
           		       minTap = ratioFactor*(-nPhase*dUPhase);
 
           		tapAdj.setTapLimit(AclfDataSetter.createTapLimit(maxTap, minTap));
-				tapAdj.getTapLimit().setUnit(TurnRatioUnitType.PERCENT);
+				tapAdj.getTapLimit().setUnit(FactorUnitType.PERCENT);
           		tapAdj.setTapAdjStepSize(dUPhase);
           		tapAdj.setTapAdjOnFromSide(false);
           		

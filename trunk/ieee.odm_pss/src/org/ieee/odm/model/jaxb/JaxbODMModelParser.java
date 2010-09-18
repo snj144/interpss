@@ -28,10 +28,6 @@ package org.ieee.odm.model.jaxb;
  * A Xml parser for the IEEE DOM schema. 
  */
 
-import java.io.File;
-import java.io.InputStream;
-
-import org.apache.xmlbeans.XmlException;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.ModelStringUtil;
@@ -40,6 +36,7 @@ import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
+import org.ieee.odm.schema.DStabilitySimulationXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
@@ -47,7 +44,6 @@ import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.TielineXmlType;
-import org.ieee.odm.schema.DStabilitySimulationXmlType;
 
 public class JaxbODMModelParser extends AbstractModelParser {
 	
@@ -358,7 +354,7 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	 * @return
 	 */
 	public ScenarioXmlType getDefaultScenario() {
-		return getStudyCase().getScenarioList().getScenario().get(0);
+		return getStudyCase().getStudyScenario().getScenarioList().getScenario().get(0);
 	}
 
 	/**
