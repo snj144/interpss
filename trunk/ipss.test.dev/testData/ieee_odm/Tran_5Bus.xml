@@ -182,9 +182,9 @@
 		<pss:saturatedMachineParameter>false</pss:saturatedMachineParameter>
 	</pss:dstabNet>
 	<pss:scenarioList>
+		<pss:analysisCategory>TransientStability</pss:analysisCategory>
 		<pss:scenario id="fault_at_bus-1">
-			<pss:analysisCategory>TransientStability</pss:analysisCategory>
-			<pss:analysisType>
+			<pss:simuAlgo>
 				<pss:dStabAnalysis>
 					<pss:simulationSetting>
 						<pss:method>ModifiedEuler</pss:method>
@@ -194,9 +194,7 @@
 						<pss:absMachineAngle>true</pss:absMachineAngle>
 						<pss:netEqnIterationNoEvent>3</pss:netEqnIterationNoEvent>
 						<pss:netEqnIterationWithEvent>5</pss:netEqnIterationWithEvent>
-						<pss:outPutVariableFilter>
-							true
-  					</pss:outPutVariableFilter>
+						<pss:outPutVariableFilter>true</pss:outPutVariableFilter>
 						<pss:outPutResultScripting>false</pss:outPutResultScripting>
 						<pss:staticLoadModel>
 							<pss:type>Constant_Z</pss:type>
@@ -209,20 +207,20 @@
 						<pss:initBusVoltage>true</pss:initBusVoltage>
 					</pss:aclfInitialization>
 					<pss:dynamicEventList>
-  					<pss:danamicEvent>
+  					<pss:dynamicEvent>
   						<pss:fault>
   							<pss:faultType>BusFault</pss:faultType>
-  							<pss:faultCategory>Fault_3P</pss:faultCategory>
+  							<pss:faultCategory>Fault3Phase</pss:faultCategory>
   							<pss:busBranchId idRef="Bus-1"></pss:busBranchId>
   							<pss:zLG im="0.0" unit="PU" re="0.0" ></pss:zLG>
   						</pss:fault>
   						<pss:permanentFault>false</pss:permanentFault>
   						<pss:startTime unit="Sec" value="0.0" ></pss:startTime>
   						<pss:duration unit="Sec" value="0.1" />
-  					</pss:danamicEvent>
+  					</pss:dynamicEvent>
   				</pss:dynamicEventList>
 				</pss:dStabAnalysis>
-			</pss:analysisType>
+			</pss:simuAlgo>
 		</pss:scenario>
 	</pss:scenarioList>
 </pss:pssStudyCase>
