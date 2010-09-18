@@ -94,17 +94,23 @@
 		<pss:hasLoadflowData>false</pss:hasLoadflowData>
 		<pss:positiveSeqDataOnly>false</pss:positiveSeqDataOnly>
 	</pss:acscNet>
-	<pss:scenarioList>
-  	<pss:scenario id="Acsc_Bus1_Fault">
-  		<pss:analysisCategory>ShortCircuit</pss:analysisCategory>
-  		<pss:analysisType>
-  			<pss:acscAnalysis name="Bus fault at Bus-1">
-  				<pss:desc>Bus fault at Bus-1</pss:desc>
-  				<pss:faultType>BusFault</pss:faultType>
-  				<pss:faultCategory>Fault_3P</pss:faultCategory>
-  				<pss:busBranchId idRef="Bus-1"></pss:busBranchId>
-  				<pss:zLG im="0.0" unit="PU" re="0.0" />
-  				<pss:preFaultBusVoltage>Fixed</pss:preFaultBusVoltage>
-  			</pss:acscAnalysis></pss:analysisType>
-  	</pss:scenario></pss:scenarioList>
+	<pss:ipssStudyScenario id="Acsc_Bus1_Fault_StudyCase">
+		<pss:analysisCategory>ShortCircuit</pss:analysisCategory>
+		<pss:scenarioList>
+			<pss:scenario id="Acsc_Bus1_Fault">
+				<pss:simuAlgo>
+					<pss:acscAnalysis name="Bus fault at Bus-1">
+						<pss:desc>Bus fault at Bus-1</pss:desc>
+						<pss:fault>
+							<pss:faultType>BusFault</pss:faultType>
+							<pss:faultCategory>Fault3Phase</pss:faultCategory>
+							<pss:busBranchId idRef="Bus-1"></pss:busBranchId>
+							<pss:zLG im="0.0" unit="PU" re="0.0" />
+						</pss:fault>
+						<pss:preFaultBusVoltage>Fixed</pss:preFaultBusVoltage>
+					</pss:acscAnalysis>
+				</pss:simuAlgo>
+			</pss:scenario>
+		</pss:scenarioList>
+	</pss:ipssStudyScenario>
 </pss:pssStudyCase>
