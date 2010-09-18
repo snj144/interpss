@@ -56,7 +56,7 @@ import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.StabilizerXmlType;
 import org.ieee.odm.schema.StaticVarCompensatorXmlType;
-import org.ieee.odm.schema.TransientSimulationXmlType;
+import org.ieee.odm.schema.DStabilitySimulationXmlType;
 import org.ieee.odm.schema.TurbineGovernorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 
@@ -344,7 +344,7 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 	}
 	
 	
-	public static FaultXmlType getFaultRecord(TransientSimulationXmlType tranSimu,
+	public static FaultXmlType getFaultRecord(DStabilitySimulationXmlType tranSimu,
 			FaultTypeEnumType faultType, String fbus,String tbus){
 //		if(tranSimu.getDynamicDataList().getFaultList().getFault()!=null){			
 //			for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFault()){				
@@ -364,7 +364,7 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 		return fault;
 	}		
 	
-	public static BusFaultXmlType getBusFaultRecord(TransientSimulationXmlType tranSimu,
+	public static BusFaultXmlType getBusFaultRecord(DStabilitySimulationXmlType tranSimu,
 			String fbus,String tbus){
 //		
 //		for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFault()){
@@ -382,7 +382,7 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 		return null;
 	}
 	
-	public static BranchFaultXmlType getBranchFaultRecord(TransientSimulationXmlType tranSimu,
+	public static BranchFaultXmlType getBranchFaultRecord(DStabilitySimulationXmlType tranSimu,
 			String fbus,String tbus){		
 //		for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFault()){
 //			if(fault.getBranchFault()!=null){
@@ -398,7 +398,7 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 		return null;
 	}
 	
-	public static DcLineFaultXmlType getDCFaultRecord(TransientSimulationXmlType tranSimu,
+	public static DcLineFaultXmlType getDCFaultRecord(DStabilitySimulationXmlType tranSimu,
 			String fbus,String tbus){
 //		for(FaultXmlType fault: tranSimu.getDynamicDataList().getFaultList().getFault()){
 //			if(fault.getDcLineFault()!=null){				
@@ -416,7 +416,7 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 		return null;
 	}
 	
-	public static GeneratorXmlType getGeneratorRecord(TransientSimulationXmlType tranSimu,
+	public static GeneratorXmlType getGeneratorRecord(DStabilitySimulationXmlType tranSimu,
 			   String busId,String genId){		
 //		for(GeneratorXmlType gen: tranSimu.getDynamicDataList().getBusDynDataList().getGeneratorDataList().getGenerator()){						
 //			if(busId.equals(gen.getLocatedBus().getName())){
@@ -432,7 +432,7 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 		return null;		
 	}
 	
-	public static ExciterXmlType getExciterRecord(TransientSimulationXmlType tranSimu,
+	public static ExciterXmlType getExciterRecord(DStabilitySimulationXmlType tranSimu,
 			 String busId, String excId){
 //		for(ExciterXmlType exc: tranSimu.getDynamicDataList().getBusDynDataList().getExciterDataList().getExciter()){
 //			if(busId.equals(exc.getLocatedBus().getName())){
@@ -448,7 +448,7 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 		return null;		
 	}
 	
-	public static TurbineGovernorXmlType getTGRecord(TransientSimulationXmlType tranSimu,
+	public static TurbineGovernorXmlType getTGRecord(DStabilitySimulationXmlType tranSimu,
 			 String busId, String tgId){
 //		for(TurbineGovernorXmlType tg: tranSimu.getDynamicDataList().getBusDynDataList().getTurbineGovernorDataList().getTurbineGovernor()){
 //			if(busId.equals(tg.getLocatedBus().getName())){
@@ -464,7 +464,7 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 		return null;		
 	}
 	
-	public static StabilizerXmlType getPSSRecord(TransientSimulationXmlType tranSimu,
+	public static StabilizerXmlType getPSSRecord(DStabilitySimulationXmlType tranSimu,
 			 String busId, String macId){
 //		for(StabilizerXmlType pss: tranSimu.getDynamicDataList().getBusDynDataList().getStabilizerDataList().getStabilizer()){
 //			if(busId.equals(pss.getLocatedBus().getName())){
