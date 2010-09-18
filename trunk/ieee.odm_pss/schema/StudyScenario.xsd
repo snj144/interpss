@@ -9,18 +9,30 @@
 	<include schemaLocation="opf/OPFRecordType.xsd"></include>
 	<include schemaLocation="Modification.xsd"></include>
 
+	<!-- 
+		elements for defining study scenario 
+	 -->
+	<element name="emptyStudyScenario" type="pss:IDRecordXmlType" />
+	<element name="ipssStudyScenario" type="pss:StudyScenarioXmlType" substitutionGroup="pss:emptyStudyScenario"/>
+
+
 	<complexType name="StudyScenarioXmlType">
-		<sequence>
-			<element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType"></element>
-			<element name="defaultAclfAlgo" type="pss:AclfAlgorithmXmlType" minOccurs="0"></element>
-			<element name="scenarioList" maxOccurs="1" minOccurs="1">
-				<complexType>
-					<sequence>
-						<element name="scenario" type="pss:ScenarioXmlType" maxOccurs="unbounded" minOccurs="1"></element>
-					</sequence>
-				</complexType>
-			</element>
-		</sequence>
+		<complexContent>
+			<extension base="pss:IDRecordXmlType">
+				<sequence>
+					<element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType"></element>
+					<ns:element name="gridRunOption" minOccurs="0" maxOccurs="1" type="pss:GridComputingXmlType"></ns:element>
+					<element name="defaultAclfAlgo" type="pss:AclfAlgorithmXmlType" minOccurs="0"></element>
+					<element name="scenarioList" maxOccurs="1" minOccurs="1">
+						<complexType>
+							<sequence>
+								<element name="scenario" type="pss:ScenarioXmlType" maxOccurs="unbounded" minOccurs="1"></element>
+							</sequence>
+						</complexType>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
 	</complexType>
 
 	<complexType name="ScenarioXmlType">
@@ -61,6 +73,42 @@
 			<ns:extension base="pss:BaseRecordXmlType"></ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
+	
+	<ns:complexType name="GridComputingXmlType">
+		<ns:sequence>
+			<ns:element name="enableGridRun" type="ns:boolean" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="remoteJobCreation" type="ns:boolean" minOccurs="0"></ns:element>
+			<ns:element name="timeout" type="ns:long" minOccurs="0" maxOccurs="1">
+				<ns:annotation>
+					<ns:documentation>timeout in milliseconds</ns:documentation>
+				</ns:annotation></ns:element>
+			<ns:element name="remoteNodeDebug" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
+            <ns:element name="remoteNodeName" type="ns:string" minOccurs="0"></ns:element>
+            <ns:element name="aclfOption" minOccurs="0">
+				<ns:complexType>
+					<ns:sequence>
+						<ns:element name="returnStudyCase" minOccurs="1">
+							<ns:annotation>
+								<ns:documentation>
+									If true, only return the Aclf network object from the remote grid node to the master node when LF diverger, or there is limit violation.
+								</ns:documentation>
+							</ns:annotation>
+							<ns:simpleType>
+								<ns:restriction base="ns:string">
+									<ns:enumeration value="AllStudyCase"></ns:enumeration>
+									<ns:enumeration value="DivergedCase"></ns:enumeration>
+									<ns:enumeration value="NoReturn"></ns:enumeration>
+								</ns:restriction>
+							</ns:simpleType>
+						</ns:element>
+						<ns:element name="calculateViolation" type="ns:boolean" minOccurs="0"></ns:element>
+						<ns:element name="busVoltagePULimit" type="pss:LimitXmlType" minOccurs="0"></ns:element>
+					</ns:sequence>
+				</ns:complexType>
+			</ns:element>
+		</ns:sequence>
+	</ns:complexType>
+	
 
 <!-- 
 	Aclf Study Scenario

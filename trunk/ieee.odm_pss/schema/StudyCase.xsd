@@ -48,7 +48,6 @@
 	<element name="dstabPSXfr"  type="pss:PSXfrDStabXmlType" substitutionGroup="pss:branch"/>
 	<element name="distBranch" substitutionGroup="pss:branch"/>
 	
-
 	<element name="pssStudyCase" type="pss:StudyCaseXmlType"></element>
 	<complexType name="StudyCaseXmlType">
 		<complexContent>
@@ -71,11 +70,10 @@
 							</sequence>
 						</complexType>
 					</element>
-					<element name="studyScenario" minOccurs="0" maxOccurs="1" type="pss:StudyScenarioXmlType">
+					<element ref="pss:emptyStudyScenario" minOccurs="0" maxOccurs="1">
 						<annotation>
 							<documentation>A study case might include a list of study scenarios, for example, Loadflow study, SC study ...</documentation>
-						</annotation>
-					</element>
+						</annotation>					</element>
 				</sequence>
 			</extension>
 		</complexContent>
