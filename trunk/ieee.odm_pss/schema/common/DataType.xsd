@@ -312,10 +312,23 @@
 			<element name="bKL2pu" type="double" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
-
+	
+	<complexType name="AcscFaultXmlType">
+		<sequence>
+			<element name="faultType" minOccurs="1" type="pss:AcscFaultTypeEnumType"/>
+			<element name="faultCategory" minOccurs="1" type="pss:AcscFaultCategoryEnumType"/>
+			<element name="busBranchId" type="pss:IDRefRecordXmlType" minOccurs="1"/>
+			<element name="zLG" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"/>
+			<element name="zLL" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"/>
+			<element name="distance" type="double" maxOccurs="1" minOccurs="0"/>
+			<element name="branchReclosure" type="boolean" maxOccurs="1" minOccurs="0"/>
+			<element name="reclosureTime" type="pss:TimePeriodXmlType" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>	
+<!-- not used anymore
 	<complexType name="FaultXmlType">
 		<sequence>
-			<element name="faultType" maxOccurs="1" minOccurs="1" type="pss:FaultTypeEnumType"></element>
+			<element name="faultType" maxOccurs="1" minOccurs="1" type="pss:AcscFaultTypeEnumType"></element>
 			<choice>
 				<element name="branchFault" maxOccurs="1" minOccurs="0" type="pss:BranchFaultXmlType"></element>
 				<element name="busFault" maxOccurs="1" minOccurs="0" type="pss:BusFaultXmlType"></element>
@@ -326,7 +339,7 @@
 			</choice>
 		</sequence>
 	</complexType>
-
+ -->
 	<complexType name="XformerConnectionXmlType">
 		<sequence>
 			<element name="grounding" type="pss:GroundingXmlType" minOccurs="0"></element>
@@ -355,7 +368,7 @@
 		</restriction>
 	</simpleType>
 
-	<simpleType name="FaultCategoryEnumType">
+	<simpleType name="AcscFaultCategoryEnumType">
 		<restriction base="string">
 			<enumeration value="Fault3Phase"></enumeration>
 			<enumeration value="LineToLine"></enumeration>
@@ -364,20 +377,17 @@
 		</restriction>
 	</simpleType>
 
-	<simpleType name="FaultTypeEnumType">
+	<simpleType name="AcscFaultTypeEnumType">
 		<restriction base="string">
 			<enumeration value="BusFault"></enumeration>
 			<enumeration value="BranchFault"></enumeration>
 			<enumeration value="BranchOutage"></enumeration>
-			<enumeration value="LoadChange"></enumeration>
-			<enumeration value="GenChange"></enumeration>
-			<enumeration value="DcLineFault"></enumeration>
 		</restriction>
 	</simpleType>
 
 	<complexType name="BranchFaultXmlType">
 		<sequence>
-			<element name="faultCategory" type="pss:FaultCategoryEnumType" maxOccurs="1" minOccurs="1"></element>
+			<element name="faultCategory" type="pss:AcscFaultCategoryEnumType" maxOccurs="1" minOccurs="1"></element>
 			<element name="fromBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="toBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="faultedCirId" type="string" maxOccurs="unbounded" minOccurs="0"></element>
@@ -395,7 +405,7 @@
 
 	<complexType name="BusFaultXmlType">
 		<sequence>
-			<element name="faultCategory" type="pss:FaultCategoryEnumType" maxOccurs="1" minOccurs="1"></element>
+			<element name="faultCategory" type="pss:AcscFaultCategoryEnumType" maxOccurs="1" minOccurs="1"></element>
 			<element name="faultedBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="faultedBusRatedV" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="remoteEndBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
@@ -411,7 +421,7 @@
 
 	<complexType name="BranchOutageXmlType">
 		<sequence>
-			<element name="faultCategory" type="pss:FaultCategoryEnumType" maxOccurs="1" minOccurs="0"></element>
+			<element name="faultCategory" type="pss:AcscFaultCategoryEnumType" maxOccurs="1" minOccurs="0"></element>
 			<element name="fromBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="toBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="cirId" type="string" minOccurs="0" maxOccurs="unbounded"></element>
@@ -539,6 +549,17 @@
 				<attribute name="unit" type="pss:AngleUnitType" use="required"></attribute>
 			</extension>
 		</complexContent>
+	</complexType>
+
+	<complexType name="ChangeFactorXmlType">
+		<sequence>
+			<element name="factor" type="double" minOccurs="1" maxOccurs="1"/>
+			<element name="unit" type="pss:FactorUnitType" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>PU or Percent</documentation>
+				</annotation>
+			</element>
+		</sequence>
 	</complexType>
 
 	<simpleType name="LFGenCodeEnumType">

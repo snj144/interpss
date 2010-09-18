@@ -139,5 +139,22 @@
 			<enumeration value="FromSide"></enumeration>
 			<enumeration value="ToSide"></enumeration>
 		</restriction>
+	</simpleType>
+
+	<simpleType name="DynamicEventEnumType">
+		<restriction base="string">
+			<enumeration value="Fault"/>
+			<enumeration value="LoadChange"/>
+			<enumeration value="SetPointChange"/>
+			<enumeration value="None"/>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="MachineControllerEnumType">
+		<restriction base="string">
+			<enumeration value="Exciter"/>
+			<enumeration value="Governor"/>
+			<enumeration value="Stabilizer"/>
+		</restriction>
 	</simpleType>		
 </schema>

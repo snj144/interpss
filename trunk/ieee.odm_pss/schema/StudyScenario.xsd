@@ -7,7 +7,6 @@
 	<include schemaLocation="shortcircuit/SCRecordType.xsd"></include>
 	<include schemaLocation="dynamic/DstabRecordType.xsd"></include>
 	<include schemaLocation="opf/OPFRecordType.xsd"></include>
-
 	<include schemaLocation="Modification.xsd"></include>
 
 	<complexType name="StudyScenarioXmlType">
@@ -44,14 +43,11 @@
 	</complexType>
 
 	<ns:complexType name="SimulationAlgorithmXmlType">
-				<choice>
-					<element name="aclfAnalysis" minOccurs="0" maxOccurs="1"
-						type="pss:AclfAlgorithmXmlType"></element>
-					<element name="acscAnalysis" minOccurs="0" maxOccurs="1"
-						type="pss:AcscFaultAnalysisXmlType"></element>
-					<element name="dStabAnalysis" minOccurs="0" maxOccurs="1"
-						type="pss:DStabilitySimulationXmlType"></element>
-				</choice>
+		<choice>
+			<element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="pss:AclfAlgorithmXmlType"></element>
+			<element name="acscAnalysis" minOccurs="0" maxOccurs="1" type="pss:AcscFaultAnalysisXmlType"></element>
+			<element name="dStabAnalysis" minOccurs="0" maxOccurs="1" type="pss:DStabilitySimulationXmlType"></element>
+		</choice>
 	</ns:complexType>
 
 	<ns:complexType name="BaseAnalysisTypeXmlType" abstract="true">
@@ -66,6 +62,9 @@
 		</ns:complexContent>
 	</ns:complexType>
 
+<!-- 
+	Aclf Study Scenario
+ -->
 	<ns:complexType name="AclfAlgorithmXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
@@ -79,25 +78,22 @@
 							</ns:restriction>
 						</ns:simpleType>
 					</ns:element>
-					<ns:element name="maxIterations" type="ns:int"
-						minOccurs="1" maxOccurs="1">
-					</ns:element>
-					<ns:element name="tolerance" type="pss:ApparentPowerXmlType"
-						minOccurs="1" maxOccurs="1">
-					</ns:element>					<ns:element name="initBusVoltage" type="ns:boolean"						minOccurs="0" maxOccurs="1"></ns:element>					<ns:element name="accFactor" type="ns:double" maxOccurs="1"						minOccurs="0"></ns:element>
-					<ns:element name="nonDivergent" type="ns:boolean"
-						maxOccurs="1" minOccurs="0"></ns:element>
-
+					<ns:element name="maxIterations" type="ns:int" minOccurs="1" maxOccurs="1"/>
+					<ns:element name="tolerance" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"/>					<ns:element name="initBusVoltage" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>					<ns:element name="accFactor" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:element name="nonDivergent" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
 
+<!-- 
+	Acsc Study Scenario
+ -->
 	<ns:complexType name="AcscFaultAnalysisXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
-					<ns:element name="fault" minOccurs="1" type="pss:FaultRecordXmlType"></ns:element>
+					<ns:element name="fault" minOccurs="1" type="pss:AcscFaultXmlType"></ns:element>
 					<ns:element name="preFaultBusVoltage" minOccurs="0"
 						maxOccurs="1" type="pss:PreFaultBusVoltageEnumType"></ns:element>
 				</ns:sequence>
@@ -105,137 +101,119 @@
 		</ns:complexContent>
 	</ns:complexType>
 
-	<ns:complexType name="FaultRecordXmlType">
-				<ns:sequence>
-					<ns:element name="faultType" minOccurs="1"
-						type="pss:FaultTypeEnumType"></ns:element>
-					<ns:element name="faultCategory" minOccurs="1"
-						type="pss:FaultCategoryEnumType"></ns:element>
-					<ns:element name="busBranchId" type="pss:IDRefRecordXmlType" minOccurs="1"></ns:element>
-					<ns:element name="zLG" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="zLL" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="distance" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="branchReclosure" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="reclosureTime" type="pss:TimePeriodXmlType" minOccurs="0" maxOccurs="1"></ns:element>
-				</ns:sequence>
-	</ns:complexType>
-<!-- defined in DataType.xsd 
-	<ns:simpleType name="FaultTypeEnumType">
-		<ns:restriction base="ns:string">
-			<ns:enumeration value="BusFault"></ns:enumeration>
-			<ns:enumeration value="BranchFault"></ns:enumeration>
-			<ns:enumeration value="BranchOutage"></ns:enumeration>
-		</ns:restriction>
-	</ns:simpleType>
-
-	<ns:simpleType name="FaultCategoryEnumType">
-		<ns:restriction base="ns:string">
-			<ns:enumeration value="Fault_3P"></ns:enumeration>
-			<ns:enumeration value="Fault_LG"></ns:enumeration>
-			<ns:enumeration value="Fault_LL"></ns:enumeration>
-			<ns:enumeration value="Fault_LLG"></ns:enumeration>
-			<ns:enumeration value="Fault_ALL"></ns:enumeration>
-			<ns:enumeration value="Outage_3Phase"></ns:enumeration>
-			<ns:enumeration value="Outage_1Phase"></ns:enumeration>
-			<ns:enumeration value="Outage_2Phase"></ns:enumeration>
-		</ns:restriction>
-	</ns:simpleType>
+<!-- 
+	DStab Study Scenario
  -->
 	<complexType name="DStabilitySimulationXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<sequence>
-					<element name="simulationSetting" maxOccurs="1"
-						minOccurs="1">
-						<complexType>
-							<sequence>
-								<element name="method" maxOccurs="1"
-									minOccurs="0">
-									<simpleType>
-										<restriction base="string">
-											<enumeration
-												value="ModifiedEuler">
-											</enumeration>
-											<enumeration
-												value="RungerKutta">
-											</enumeration>
-										</restriction>
-									</simpleType>
-								</element>
-								<element name="totalTime" maxOccurs="1"
-									minOccurs="0" type="pss:TimePeriodXmlType">
-								</element>
-								<element name="step"
-									type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0">
-								</element>
-								<element name="disableDynEvents"
-									type="boolean" maxOccurs="1" minOccurs="0">
-								</element>
-								<element name="absMachineAngle"
-									type="boolean" maxOccurs="1" minOccurs="0">
-								</element>
-								<element name="refMachine"
-									type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0">
-								</element>
-								<element name="netEqnIterationNoEvent"
-									type="int" maxOccurs="1" minOccurs="0">
-								</element>
-								<element name="netEqnIterationWithEvent"
-									type="int" maxOccurs="1" minOccurs="0">
-								</element>
-								<element name="outPutVariableFilter"
-									type="boolean" maxOccurs="1" minOccurs="0">
-								</element>
-								<element name="outPutResultScripting"
-									type="boolean" maxOccurs="1" minOccurs="0">
-								</element>
-								<element name="staticLoadModel"
-									type="pss:StaticLoadModelXmlType" maxOccurs="1" minOccurs="0">
-								</element>
-
-							</sequence>
-						</complexType>
-					</element>
-					<element name="aclfInitialization" maxOccurs="1"
-						minOccurs="1" type="pss:AclfAlgorithmXmlType">
-					</element>
+					<element name="simulationSetting" maxOccurs="1" minOccurs="1" type="pss:DStabSimuSettingXmlType"/>
+					<element name="aclfInitialization" maxOccurs="1" minOccurs="1" type="pss:AclfAlgorithmXmlType"/>
 					<element name="dynamicEventList" maxOccurs="1" minOccurs="1">
 						<complexType>
 							<sequence>
-								<element name="dynamicEvent" type="pss:DynamicEventXmlType" maxOccurs="unbounded"></element>
+								<element name="disableDynEvents" type="boolean" maxOccurs="1" minOccurs="0"></element>
+								<element name="dynamicEvent" type="pss:DynamicEventXmlType" maxOccurs="unbounded" minOccurs="0"></element>
 							</sequence>
-						</complexType></element>
+						</complexType>
+					</element>
 				</sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</complexType>
 
-	<complexType name="StaticLoadModelXmlType">
+	<complexType name="DStabSimuSettingXmlType">
 		<sequence>
-			<element name="type" type="pss:StaticLoadModelEnumType"
-				maxOccurs="1" minOccurs="1">
+			<element name="method" maxOccurs="1" minOccurs="0">
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="ModifiedEuler">
+						</enumeration>
+						<enumeration value="RungerKutta">
+						</enumeration>
+					</restriction>
+				</simpleType>
 			</element>
-			<element name="constantZ" type="boolean" maxOccurs="1"
-				minOccurs="0">
+			<element name="totalTime" maxOccurs="1" minOccurs="0" type="pss:TimePeriodXmlType"/>
+			<element name="step" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"/>
+			<element name="absMachineAngle" type="boolean" maxOccurs="1" minOccurs="0"/>
+			<element name="refMachine" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"/>
+			<ns:element name="netEqnSolveConfig" minOccurs="0">
+				<ns:complexType>
+					<ns:sequence>
+						<ns:element name="netEqnItrNoEvent" type="ns:int" minOccurs="0" maxOccurs="1"></ns:element>
+						<ns:element name="netEqnItrWithEvent" type="ns:int" minOccurs="0" maxOccurs="1"></ns:element>
+					</ns:sequence>
+				</ns:complexType>
+			</ns:element>
+			<element name="staticLoadModel" type="pss:StaticLoadModelXmlType" maxOccurs="1" minOccurs="0">
 			</element>
-			<element name="constantP" maxOccurs="1" minOccurs="0"
-				type="pss:ConstantPSettingXmlType"></element>
 		</sequence>
 	</complexType>
 
-	<complexType name="ConstantPSettingXmlType">
-		<sequence>
-			<element name="switchVolt" type="double" maxOccurs="1" minOccurs="0"></element>
-			<element name="deadZone" type="double" maxOccurs="1" minOccurs="0"></element>
-		</sequence>
+	<complexType name="StaticLoadModelXmlType">
+		<ns:sequence>
+			<ns:element name="staticLoadType" minOccurs="1" maxOccurs="1">
+				<ns:simpleType>
+					<ns:restriction base="ns:string">
+						<ns:enumeration value="CONST_Z"></ns:enumeration>
+						<ns:enumeration value="CONST_P"></ns:enumeration>
+					</ns:restriction>
+				</ns:simpleType>
+			</ns:element>
+			<ns:element name="switchVolt" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
+			<ns:element name="switchDeadZone" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
+		</ns:sequence>
 	</complexType>
 
 	<complexType name="DynamicEventXmlType">
 		<sequence>
-            <element name="fault" maxOccurs="1" minOccurs="1" type="pss:FaultRecordXmlType"></element>			<element name="permanentFault" type="boolean" maxOccurs="1"	minOccurs="1"/>
-			<element name="startTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"/>
-			<element name="duration" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"/>
+			<ns:element name="startTime" type="pss:TimePeriodXmlType" minOccurs="1"></ns:element>
+			<ns:element name="duration" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="permanentFault" type="boolean" maxOccurs="1" minOccurs="0"></ns:element>
+			<choice>
+				<ns:element name="fault" type="pss:AcscFaultXmlType" maxOccurs="1" minOccurs="0"/>
+				<ns:element name="loadChangeData" minOccurs="0" maxOccurs="1" type="pss:DStabLoadChangeXmlType"/>
+				<ns:element name="setPointChangeData" minOccurs="0" type="pss:DStabSetPointChangeXmlType"/>
+			</choice>
 		</sequence>
 		<attribute name="id" type="string"></attribute>
+		<attribute name="eventType" type="pss:DynamicEventEnumType"/>
 	</complexType>
+
+	<ns:complexType name="DStabLoadChangeXmlType">
+		<ns:sequence>
+			<ns:element name="busId" type="ns:string" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="loadChangeType" minOccurs="1" maxOccurs="1">
+				<ns:simpleType>
+					<ns:restriction base="ns:string">
+						<ns:enumeration value="LowFrequency"></ns:enumeration>
+						<ns:enumeration value="LowVoltage"></ns:enumeration>
+						<ns:enumeration value="FixedTime"></ns:enumeration>
+					</ns:restriction>
+				</ns:simpleType>
+			</ns:element>
+			<ns:element name="changeFactor" type="pss:ChangeFactorXmlType" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="threshhold" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
+			<ns:element name="delayTime" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+	<ns:complexType name="DStabSetPointChangeXmlType">
+		<ns:sequence>
+			<ns:element name="machId" type="ns:string" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="controllerType" minOccurs="1" maxOccurs="1" type="pss:MachineControllerEnumType">
+			</ns:element>
+			<ns:element name="changeValue" type="ns:double" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="valueChangeType" minOccurs="1" maxOccurs="1">
+				<ns:simpleType>
+					<ns:restriction base="ns:string">
+						<ns:enumeration value="Absolute"></ns:enumeration>
+						<ns:enumeration value="Delta"></ns:enumeration>
+					</ns:restriction>
+				</ns:simpleType>
+			</ns:element>
+		</ns:sequence>
+	</ns:complexType>
 </schema>
