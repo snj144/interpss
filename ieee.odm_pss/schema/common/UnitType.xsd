@@ -34,10 +34,15 @@
 		</restriction>
 	</simpleType>
 
-	<simpleType name="TurnRatioUnitType">
+	<simpleType name="FactorUnitType">
 		<restriction base="string">
 			<enumeration value="PU"></enumeration>
 			<enumeration value="Percent"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="TurnRatioUnitType">
+		<restriction base="Q1:FactorUnitType">
 		</restriction>
 	</simpleType>
 
