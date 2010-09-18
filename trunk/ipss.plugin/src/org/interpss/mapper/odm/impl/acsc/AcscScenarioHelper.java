@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.mapper.odm.impl;
+package org.interpss.mapper.odm.impl.acsc;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.schema.AcscFaultCategoryDataType;
