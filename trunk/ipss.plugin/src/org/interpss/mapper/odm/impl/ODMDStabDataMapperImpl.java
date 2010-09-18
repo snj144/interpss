@@ -56,7 +56,7 @@ import org.interpss.mapper.odm.ODMXmlHelper;
 import org.interpss.mapper.odm.impl.dstab.ExciterDataHelper;
 import org.interpss.mapper.odm.impl.dstab.GovernorDataHelper;
 import org.interpss.mapper.odm.impl.dstab.MachDataHelper;
-import org.interpss.mapper.odm.impl.dstab.ScenarioHelper;
+import org.interpss.mapper.odm.impl.dstab.DStabScenarioHelper;
 import org.interpss.mapper.odm.impl.dstab.StabilizerDataHelper;
 
 import com.interpss.common.exp.InterpssException;
@@ -160,7 +160,7 @@ public class ODMDStabDataMapperImpl {
 				// map the dynamic simulation settings information
 				if(parser.getStudyCase().getScenarioList()!=null){
 					for (ScenarioXmlType scenario : parser.getStudyCase().getScenarioList().getScenario()) {
-						new ScenarioHelper(dstabNet,dstabAlgo).
+						new DStabScenarioHelper(dstabNet,dstabAlgo).
 						mapDstabFaultScenario(scenario);
 							
 					}
