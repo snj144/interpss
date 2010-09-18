@@ -77,8 +77,9 @@
 						</annotation>
 						<complexType>
 							<sequence>
-								<element name="scenario" type="pss:ScenarioXmlType" maxOccurs="unbounded" minOccurs="0"></element>
-							</sequence>
+								<element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType"></element>
+                                <element name="defaultAclfAlgo" type="pss:AclfAlgorithmXmlType" minOccurs="0"></element>
+                                <element name="scenario" type="pss:ScenarioXmlType" maxOccurs="unbounded" minOccurs="0"></element>							</sequence>
 						</complexType>
 					</element>
 				</sequence>
