@@ -28,8 +28,10 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBElement;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultTypeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.odm.model.BaseJaxbHelper;
+import org.ieee.odm.schema.AcscFaultXmlType;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchFaultXmlType;
@@ -37,10 +39,9 @@ import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusFaultXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.DStabilitySimulationXmlType;
 import org.ieee.odm.schema.DcLineFaultXmlType;
 import org.ieee.odm.schema.ExciterXmlType;
-import org.ieee.odm.schema.FaultTypeEnumType;
-import org.ieee.odm.schema.FaultXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBranchDataXmlType;
@@ -56,7 +57,6 @@ import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.StabilizerXmlType;
 import org.ieee.odm.schema.StaticVarCompensatorXmlType;
-import org.ieee.odm.schema.DStabilitySimulationXmlType;
 import org.ieee.odm.schema.TurbineGovernorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 
@@ -344,7 +344,7 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 	}
 	
 	
-	public static FaultXmlType getFaultRecord(DStabilitySimulationXmlType tranSimu,
+	public static AcscFaultXmlType getFaultRecord(DStabilitySimulationXmlType tranSimu,
 			FaultTypeEnumType faultType, String fbus,String tbus){
 //		if(tranSimu.getDynamicDataList().getFaultList().getFault()!=null){			
 //			for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFault()){				
@@ -359,9 +359,9 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 //				}				
 //			}		
 //		}
-		FaultXmlType fault = new FaultXmlType();
+		//FaultXmlType fault = new AcscFaultXmlType();
 		//tranSimu.getDynamicDataList().getFaultList().getFault().add(fault);
-		return fault;
+		return null;
 	}		
 	
 	public static BusFaultXmlType getBusFaultRecord(DStabilitySimulationXmlType tranSimu,

@@ -43,6 +43,7 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
+import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LFBranchCodeEnumType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
@@ -57,7 +58,6 @@ import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
 import org.ieee.odm.schema.TapAdjustmentEnumType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
-import org.ieee.odm.schema.TurnRatioUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
@@ -539,7 +539,7 @@ public class UCTE_DEFAdapterOld extends AbstractODMAdapter {
           		       minTap = ratioFactor*(-nPhase*dUPhase);
 
           		tapAdj.setTapLimit(JaxbDataSetter.createTapLimit(maxTap, minTap));
-				tapAdj.getTapLimit().setUnit(TurnRatioUnitType.PERCENT);
+				tapAdj.getTapLimit().setUnit(FactorUnitType.PERCENT);
           		tapAdj.setTapAdjStepSize(dUPhase);
           		tapAdj.setTapAdjOnFromSide(false);
           		
