@@ -71,16 +71,10 @@
 							</sequence>
 						</complexType>
 					</element>
-					<element name="scenarioList" minOccurs="0" maxOccurs="1">
+					<element name="studyScenario" minOccurs="0" maxOccurs="1" type="pss:StudyScenarioXmlType">
 						<annotation>
 							<documentation>A study case might include a list of study scenarios, for example, Loadflow study, SC study ...</documentation>
-						</annotation>
-						<complexType>
-							<sequence>
-								<element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType"></element>
-                                <element name="defaultAclfAlgo" type="pss:AclfAlgorithmXmlType" minOccurs="0"></element>
-                                <element name="scenario" type="pss:ScenarioXmlType" maxOccurs="unbounded" minOccurs="0"></element>							</sequence>
-						</complexType>
+						</annotation>
 					</element>
 				</sequence>
 			</extension>
