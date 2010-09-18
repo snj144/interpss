@@ -19,7 +19,7 @@ import org.ieee.odm.schema.TimePeriodXmlType;
 import org.ieee.odm.schema.TransientSimulationXmlType;
 import org.ieee.odm.schema.ZXmlType;
 import org.ieee.odm.schema.TransientSimulationXmlType.SimulationSetting;
-import org.interpss.mapper.odm.impl.AcscScenarioHelper;
+import org.interpss.mapper.odm.impl.acsc.AcscScenarioHelper;
 
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBranch;
