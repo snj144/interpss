@@ -43,6 +43,7 @@ import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ScenarioXmlType;
+import org.ieee.odm.schema.StudyScenarioXmlType;
 import org.ieee.odm.schema.TielineXmlType;
 
 public class JaxbODMModelParser extends AbstractModelParser {
@@ -354,7 +355,8 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	 * @return
 	 */
 	public ScenarioXmlType getDefaultScenario() {
-		return getStudyCase().getStudyScenario().getScenarioList().getScenario().get(0);
+		return ((StudyScenarioXmlType)getStudyCase().getEmptyStudyScenario().getValue())
+					.getScenarioList().getScenario().get(0);
 	}
 
 	/**
