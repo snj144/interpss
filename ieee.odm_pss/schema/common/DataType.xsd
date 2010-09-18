@@ -634,4 +634,20 @@
 			<element name="switch" type="pss:CimSwitchXmlType" maxOccurs="unbounded" minOccurs="0"></element>
 		</sequence>
 	</complexType>
+	
+	<simpleType name="StaticLoadModelEnumType">
+		<restriction base="string">
+			<enumeration value="Constant_Z"></enumeration>
+			<enumeration value="Constant_P"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="PreFaultBusVoltageEnumType">
+		<restriction base="string">
+			<enumeration value="Loadflow"></enumeration>
+			<enumeration value="Fixed"></enumeration>
+			<enumeration value="MFactorInPercentage"></enumeration>
+		</restriction>
+	</simpleType>
+	
 </schema>
