@@ -13,7 +13,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * @Author Mike Zhou
+ * @Author Mike Zhou, Stephen Hau
  * @Version 1.0
  * @Date 02/15/2008
  * 
@@ -36,6 +36,7 @@ import org.ieee.odm.schema.DStabNetXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.ExciterModelXmlType;
 import org.ieee.odm.schema.GovernorModelXmlType;
+import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
@@ -46,17 +47,16 @@ import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PSXfrDStabXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
-import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.StabilizerModelXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
+import org.interpss.mapper.odm.impl.dstab.DStabScenarioHelper;
 import org.interpss.mapper.odm.impl.dstab.ExciterDataHelper;
 import org.interpss.mapper.odm.impl.dstab.GovernorDataHelper;
 import org.interpss.mapper.odm.impl.dstab.MachDataHelper;
-import org.interpss.mapper.odm.impl.dstab.DStabScenarioHelper;
 import org.interpss.mapper.odm.impl.dstab.StabilizerDataHelper;
 
 import com.interpss.common.exp.InterpssException;
@@ -67,7 +67,6 @@ import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.dstab.DstabFactory;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
@@ -92,11 +91,12 @@ public class ODMDStabDataMapperImpl {
 				DStabilityNetwork dstabNet = mapNetworkData(xmlNet);
 				simuCtx.setDStabilityNet(dstabNet);
 				
-				
 				DynamicSimuAlgorithm dstabAlgo =DStabObjectFactory.createDynamicSimuAlgorithm(dstabNet,simuCtx.getMsgHub() );
-				LoadflowAlgorithm lfAlgo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, dstabAlgo.getMsgHub());
 				simuCtx.setDynSimuAlgorithm(dstabAlgo);
+
+				LoadflowAlgorithm lfAlgo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, dstabAlgo.getMsgHub());
 				simuCtx.setLoadflowAlgorithm(lfAlgo);
+
 				// map the bus info
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					// for DStab, the bus could be aclfBus, acscBus or dstabBus
@@ -157,13 +157,12 @@ public class ODMDStabDataMapperImpl {
 						noError = false;
 					}
 				}
+				
 				// map the dynamic simulation settings information
-				if(parser.getStudyCase().getScenarioList()!=null){
-					for (ScenarioXmlType scenario : parser.getStudyCase().getScenarioList().getScenario()) {
-						new DStabScenarioHelper(dstabNet,dstabAlgo).
-						mapDstabFaultScenario(scenario);
-							
-					}
+				if(parser.getStudyCase().getStudyScenario() !=null){
+					IpssStudyScenarioXmlType s = (IpssStudyScenarioXmlType)parser.getStudyCase().getStudyScenario().getValue();
+					new DStabScenarioHelper(dstabNet,dstabAlgo).
+								mapOneFaultScenario(s);
 				}
 			} catch (InterpssException e) {
 				IpssLogger.getLogger().severe(e.toString());

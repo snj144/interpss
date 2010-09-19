@@ -2,68 +2,52 @@ package org.interpss.mapper.odm.impl.dstab;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.schema.AclfAlgorithmXmlType;
-import org.ieee.odm.schema.AcscFaultCategoryDataType;
 import org.ieee.odm.schema.AcscFaultXmlType;
-import org.ieee.odm.schema.AnalysisTypeXmlType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.BaseBranchXmlType;
-import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
-import org.ieee.odm.schema.DanamicEventType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.ScenarioXmlType;
-import org.ieee.odm.schema.StaticLoadModelCatType;
-import org.ieee.odm.schema.StaticLoadModelType;
+import org.ieee.odm.schema.StudyScenarioXmlType;
 import org.ieee.odm.schema.TimePeriodUnitType;
 import org.ieee.odm.schema.TimePeriodXmlType;
-import org.ieee.odm.schema.TransientSimulationXmlType;
+import org.ieee.odm.schema.DStabilitySimulationXmlType;
 import org.ieee.odm.schema.ZXmlType;
-import org.ieee.odm.schema.TransientSimulationXmlType.SimulationSetting;
-import org.interpss.mapper.odm.impl.acsc.AcscScenarioHelper;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.acsc.AcscBranch;
-import com.interpss.core.acsc.AcscBranchFault;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultCode;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.net.Branch;
-import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.DynamicSimuMethod;
 import com.interpss.dstab.StaticLoadModel;
-import com.interpss.dstab.devent.BranchDynamicEvent;
 import com.interpss.dstab.devent.BranchOutageEvent;
-import com.interpss.dstab.devent.BusDynamicEvent;
 import com.interpss.dstab.devent.DStabBranchFault;
-import com.interpss.dstab.devent.DeventFactory;
 import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.mach.Machine;
-
-
 
 public class DStabScenarioHelper {
 	
 	private DStabilityNetwork dstabNet = null;
 	private DynamicSimuAlgorithm algo = null;	
 	
-	public DStabScenarioHelper(DStabilityNetwork dstabNet,DynamicSimuAlgorithm algo) {
+	public DStabScenarioHelper(DStabilityNetwork dstabNet, DynamicSimuAlgorithm algo) {
 		this.dstabNet = dstabNet;
 		this.algo = algo;		
 	}
 	
-	//double frequency =dstabNet.getFrequency(); this will cause problem, since at the
-	//                                           initial point dstabNet = null
-	
-	public void mapDstabFaultScenario(ScenarioXmlType faultXml){
-		AnalysisTypeXmlType faultAnalysisXml= faultXml.getAnalysisType();
-		TransientSimulationXmlType dstabFaultXml = faultAnalysisXml.getDStabAnalysis();		
-		String idStr = dstabFaultXml.getName() != null? dstabFaultXml.getName() : dstabFaultXml.getDesc(); 
+	public void mapOneFaultScenario( StudyScenarioXmlType faultXml) throws InterpssException {
+		AnalysisTypeXmlType analysisType = faultXml.getAnalysisType();
+		DStabilitySimulationXmlType dstabFaultXml = faultAnalysisXml.getDStabAnalysis();		
+		
+		//String idStr = dstabFaultXml.getName() != null? dstabFaultXml.getName() : dstabFaultXml.getDesc(); 
 		
 		SimulationSetting settings = dstabFaultXml.getSimulationSetting();
 		mapGeneralSettings(settings,algo);

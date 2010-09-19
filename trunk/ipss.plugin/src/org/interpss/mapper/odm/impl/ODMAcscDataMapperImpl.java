@@ -34,12 +34,12 @@ import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.GroundingEnumType;
 import org.ieee.odm.schema.GroundingXmlType;
+import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ScSimpleBusXmlType;
-import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.ShortCircuitBusEnumType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
@@ -141,11 +141,10 @@ public class ODMAcscDataMapperImpl {
 				}		
 				
 				// map the fault network information
-				if(parser.getStudyCase().getScenarioList()!=null){
-					for (ScenarioXmlType scenario : parser.getStudyCase().getScenarioList().getScenario()) {
-						new AcscScenarioHelper(acscFaultNet).
-							mapAcscFaultNetwork(scenario);
-					}
+				if(parser.getStudyCase().getStudyScenario()!=null){
+					IpssStudyScenarioXmlType s = (IpssStudyScenarioXmlType)parser.getStudyCase().getStudyScenario().getValue();
+					new AcscScenarioHelper(acscFaultNet).
+								mapOneFaultScenario(s);
 				}
 			} catch (InterpssException e) {
 				IpssLogger.getLogger().severe(e.toString());
