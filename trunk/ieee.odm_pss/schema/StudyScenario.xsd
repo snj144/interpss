@@ -12,15 +12,24 @@
 	<!-- 
 		elements for defining study scenario 
 	 -->
-	<element name="emptyStudyScenario" type="pss:IDRecordXmlType" />
-	<element name="ipssStudyScenario" type="pss:StudyScenarioXmlType" substitutionGroup="pss:emptyStudyScenario"/>
+	<element name="studyScenario" type="pss:StudyScenarioXmlType" />
+	<element name="ipssStudyScenario" type="pss:IpssStudyScenarioXmlType" substitutionGroup="pss:studyScenario"/>
 
 
-	<complexType name="StudyScenarioXmlType">
+	<complexType name="StudyScenarioXmlType" abstract="true">
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
 					<element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="IpssStudyScenarioXmlType">
+		<complexContent>
+			<extension base="pss:StudyScenarioXmlType">
+				<sequence>
 					<ns:element name="gridRunOption" minOccurs="0" maxOccurs="1" type="pss:GridComputingXmlType"></ns:element>
 					<element name="defaultAclfAlgo" type="pss:AclfAlgorithmXmlType" minOccurs="0"></element>
 					<element name="scenarioList" maxOccurs="1" minOccurs="1">
