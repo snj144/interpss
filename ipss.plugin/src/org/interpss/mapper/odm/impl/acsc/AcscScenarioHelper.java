@@ -25,18 +25,19 @@
 package org.interpss.mapper.odm.impl.acsc;
 
 import org.apache.commons.math.complex.Complex;
-import org.ieee.odm.schema.AcscFaultCategoryDataType;
-import org.ieee.odm.schema.AcscFaultDataType;
-import org.ieee.odm.schema.AcscFaultXmlType;
-import org.ieee.odm.schema.AnalysisTypeXmlType;
+import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
+import org.ieee.odm.schema.AcscFaultCategoryEnumType;
+import org.ieee.odm.schema.AcscFaultTypeEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
-import org.ieee.odm.schema.DanamicEventType;
-import org.ieee.odm.schema.PreFaultBusVoltageType;
+import org.ieee.odm.schema.IpssStudyScenarioXmlType;
+import org.ieee.odm.schema.PreFaultBusVoltageEnumType;
 import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.ZXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
+import org.ieee.odm.schema.AcscFaultXmlType;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBranchFault;
@@ -52,69 +53,78 @@ public class AcscScenarioHelper {
 		this.acscFaultNet = acscFaultNet;
 	}
 
-	public void mapAcscFaultNetwork( ScenarioXmlType faultXml){
-		AnalysisTypeXmlType faultAnalysisXml=null;
-		AcscFaultXmlType scFaultXml=null;
-
-		if(faultXml.getAnalysisCategory().toString().equals("SHORT_CIRCUIT")){
-			faultAnalysisXml= faultXml.getAnalysisType();		
-			scFaultXml = faultAnalysisXml.getAcscAnalysis();
-			mapFault(scFaultXml);
-		}else if (faultXml.getAnalysisCategory().toString().equals("TRANSIENT_STABILITY")){
-			faultAnalysisXml= faultXml.getAnalysisType();
-			for (DanamicEventType event : faultAnalysisXml.getDStabAnalysis().
-					getDynamicEventList().getDanamicEvent()	){
-				scFaultXml = event.getFault();
-				mapFault(scFaultXml);
-			}			
+	/**
+	 * This method assumes there is only one acsc analysis scenario defined
+	 * 
+	 * @param faultXml
+	 */
+	public void mapOneFaultScenario( IpssStudyScenarioXmlType sScenarioXml) throws InterpssException {
+		if(sScenarioXml.getAnalysisCategory().toString().equals("SHORT_CIRCUIT") &&
+				sScenarioXml.getScenarioList().getScenario() != null &&
+				sScenarioXml.getScenarioList().getScenario().size() == 1){
+			// first we check if acsc analysis type, scenario is defined and only one scenario 
+			// is defined
+			ScenarioXmlType scenario = sScenarioXml.getScenarioList().getScenario().get(0);
+			if (scenario.getSimuAlgo() != null && scenario.getSimuAlgo().getAcscAnalysis() != null)
+				// then we check if simuAlgo and acscAnalysis info if defined
+				mapFault(scenario.getSimuAlgo().getAcscAnalysis());
+			else
+				throw new InterpssException("Acsc Scenario mapping error: data not defined properly");
+		}
+		else {
+			throw new InterpssException("Acsc StudyScenario mapping error: data not defined properly");
 		}
 	}
 
-	private void mapFault(AcscFaultXmlType scFaultXml){
-		String idStr = scFaultXml.getName() != null? scFaultXml.getName() : scFaultXml.getDesc(); 
+	private void mapFault(AcscFaultAnalysisXmlType scAnalysisXml) throws InterpssException {
+		String idStr = scAnalysisXml.getName() != null? scAnalysisXml.getName() : scAnalysisXml.getDesc(); 
 
-		if(scFaultXml.getFaultType()== AcscFaultDataType.BUS_FAULT){			
-			String faultBusId=((BusXmlType)scFaultXml.getBusBranchId().getIdRef()).getId();
+		if (scAnalysisXml.getFault() == null)
+			throw new InterpssException("acscAnalysis.fault not defined");
+		
+		AcscFaultXmlType faultXml = scAnalysisXml.getFault();
+		if(faultXml.getFaultType() == AcscFaultTypeEnumType.BUS_FAULT){			
+			String faultBusId=((BusXmlType)faultXml.getBusBranchId().getIdRef()).getId();
 			AcscBusFault acscBusFault = CoreObjectFactory.createAcscBusFault(faultBusId);
 			AcscBus bus = acscFaultNet.getAcscBus(faultBusId);
 			double baseV=bus.getBaseVoltage();
 			double baseKVA= bus.getNetwork().getBaseKva();
 
-			setFaultInfo(scFaultXml, acscBusFault, baseV, baseKVA);
+			setFaultInfo(faultXml, acscBusFault, baseV, baseKVA);
 
 			acscFaultNet.addBusFault(faultBusId, idStr, acscBusFault);
 
-			processPreFaultInfo(scFaultXml);
+			processPreFaultInfo(scAnalysisXml);
 		}
-		else if(scFaultXml.getFaultType()== AcscFaultDataType.BRANCH_FAULT){
-			String faultBranchId=((BaseBranchXmlType)scFaultXml.getBusBranchId().getIdRef()).getId();
+		else if(faultXml.getFaultType()== AcscFaultTypeEnumType.BRANCH_FAULT){
+			String faultBranchId=((BaseBranchXmlType)faultXml.getBusBranchId().getIdRef()).getId();
 			AcscBranchFault acscBraFault = CoreObjectFactory.createAcscBranchFault(faultBranchId);
 			AcscBranch acscBra = acscFaultNet.getAcscBranch(faultBranchId);
 			double baseV = acscBra.getFromAclfBus().getBaseVoltage();
 			double baseKVA= acscBra.getNetwork().getBaseKva();
 
 			// AcscBranchFault is a subclass of AcscBusFault
-			setFaultInfo(scFaultXml, acscBraFault, baseV, baseKVA);
+			setFaultInfo(faultXml, acscBraFault, baseV, baseKVA);
 			// set fault distance
-			double faultDis = scFaultXml.getDistance();
+			double faultDis = faultXml.getDistance();
 			acscBraFault.setDistance(faultDis);			
 
 			acscFaultNet.addBranchFault(faultBranchId, idStr, acscBraFault);
 
-			processPreFaultInfo(scFaultXml);
+			processPreFaultInfo(scAnalysisXml);
 		}
 
 	}
 	private void setFaultInfo(AcscFaultXmlType scFaultXml, AcscBusFault acscBusFault, double baseV, double baseKVA) {
 		// set fault type
-		AcscFaultCategoryDataType faultCate = scFaultXml.getFaultCategory();
-		if(faultCate.equals(AcscFaultCategoryDataType.FAULT_3_P)){
+		AcscFaultCategoryEnumType faultCate = scFaultXml.getFaultCategory();
+		if(faultCate.equals(AcscFaultCategoryEnumType.FAULT_3_PHASE)){
 			acscBusFault.setFaultCode(SimpleFaultCode.GROUND_3P);
-		}else if (faultCate.equals(AcscFaultCategoryDataType.FAULT_LG)){
+		}else if (faultCate.equals(AcscFaultCategoryEnumType.LINE_TO_GROUND)){
 			acscBusFault.setFaultCode(SimpleFaultCode.GROUND_LG);
-		}else if (faultCate.equals(AcscFaultCategoryDataType.FAULT_LL)){
+		}else if (faultCate.equals(AcscFaultCategoryEnumType.LINE_TO_LINE)){
 			acscBusFault.setFaultCode(SimpleFaultCode.GROUND_LL);
-		}else if (faultCate.equals(AcscFaultCategoryDataType.FAULT_LLG)){
+		}else if (faultCate.equals(AcscFaultCategoryEnumType.LINE_LINE_TO_GROUND)){
 			acscBusFault.setFaultCode(SimpleFaultCode.GROUND_LLG);
 		}
 		// set zLG and zLL
@@ -130,17 +140,17 @@ public class AcscScenarioHelper {
 		}	
 	}
 
-	private void processPreFaultInfo(AcscFaultXmlType scFaultXml) {
+	private void processPreFaultInfo(AcscFaultAnalysisXmlType scFaultXml) {
 		// set pre fault bus voltage type-- load flow, fixed or Mfactor%
-		PreFaultBusVoltageType preFaultV = scFaultXml.getPreFaultBusVoltage();
+		PreFaultBusVoltageEnumType preFaultV = scFaultXml.getPreFaultBusVoltage();
 		if(preFaultV !=null){
-			if(preFaultV.equals(PreFaultBusVoltageType.LOADFLOW)){
+			if(preFaultV.equals(PreFaultBusVoltageEnumType.LOADFLOW)){
 				//(TODO:)
 
-			}else if (preFaultV.equals(PreFaultBusVoltageType.FIXED)){
+			}else if (preFaultV.equals(PreFaultBusVoltageEnumType.FIXED)){
 				//(TODO:)
 
-			}else if (preFaultV.equals(PreFaultBusVoltageType.M_FACTOR_IN_PERCENTAGE)){
+			}else if (preFaultV.equals(PreFaultBusVoltageEnumType.M_FACTOR_IN_PERCENTAGE)){
 				//(TODO:)
 
 			}
