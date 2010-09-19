@@ -36,11 +36,13 @@ import com.interpss.dstab.mach.Machine;
 public class DStabScenarioHelper {
 	
 	private DStabilityNetwork dstabNet = null;
-	private DynamicSimuAlgorithm algo = null;	
+	private DynamicSimuAlgorithm dstabAlgo = null;	
+	private LoadflowAlgorithm aclfAlgo = null;	
 	
-	public DStabScenarioHelper(DStabilityNetwork dstabNet, DynamicSimuAlgorithm algo) {
+	public DStabScenarioHelper(DStabilityNetwork dstabNet, DynamicSimuAlgorithm algo, LoadflowAlgorithm aclfAlgo) {
 		this.dstabNet = dstabNet;
-		this.algo = algo;		
+		this.dstabAlgo = algo;	
+		this.aclfAlgo = aclfAlgo;
 	}
 	
 	public void mapOneFaultScenario( StudyScenarioXmlType faultXml) throws InterpssException {
@@ -50,7 +52,7 @@ public class DStabScenarioHelper {
 		//String idStr = dstabFaultXml.getName() != null? dstabFaultXml.getName() : dstabFaultXml.getDesc(); 
 		
 		SimulationSetting settings = dstabFaultXml.getSimulationSetting();
-		mapGeneralSettings(settings,algo);
+		mapGeneralSettings(settings,dstabAlgo);
 		AclfAlgorithmXmlType lfInit = dstabFaultXml.getAclfInitialization();
 		mapAclfInitialization (lfInit);		
 		for (DanamicEventType eventXml : dstabFaultXml.getDynamicEventList().getDanamicEvent()) {			
@@ -111,7 +113,7 @@ public class DStabScenarioHelper {
 	}
 	
 	private void mapAclfInitialization (AclfAlgorithmXmlType lfInit){
-		LoadflowAlgorithm lfAlgo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, algo.getMsgHub());
+		LoadflowAlgorithm lfAlgo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, dstabAlgo.getMsgHub());
 		
 		// set lf method
 		String lfMethod = lfInit.getLfMethod();
@@ -134,7 +136,7 @@ public class DStabScenarioHelper {
 			lfAlgo.setNonDivergent(lfInit.isNonDivergent());
 		}		
 		// set load flow initialization in the dstab analysis
-		algo.setAclfAlgorithm(lfAlgo);
+		dstabAlgo.setAclfAlgorithm(lfAlgo);
 		
 	}
 	
@@ -168,7 +170,7 @@ public class DStabScenarioHelper {
 		// specify the type of this dEvent
 		if(faultType.equals("BUS_FAULT")){
 			dEvent = DStabObjectFactory.createDEvent(eventId, eventName, 
-					DynamicEventType.BUS_FAULT, dstabNet, algo.getMsgHub());			
+					DynamicEventType.BUS_FAULT, dstabNet, dstabAlgo.getMsgHub());			
 			
 			String faultBusId=((BusXmlType)fault.getBusBranchId().getIdRef()).getId();
 			DStabBus faultBus = dstabNet.getDStabBus(faultBusId);
@@ -186,7 +188,7 @@ public class DStabScenarioHelper {
 			
 		}else if (faultType.equals("BRANCH_FAULT")){
 			dEvent = DStabObjectFactory.createDEvent(eventId, eventName, 
-					DynamicEventType.BRANCH_FAULT, dstabNet, algo.getMsgHub());			
+					DynamicEventType.BRANCH_FAULT, dstabNet, dstabAlgo.getMsgHub());			
 			
 			String faultBranchId=((BaseBranchXmlType)fault.getBusBranchId().getIdRef()).getId();
 			Branch bra = dstabNet.getBranch(faultBranchId);
