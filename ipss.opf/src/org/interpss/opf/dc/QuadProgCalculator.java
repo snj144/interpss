@@ -58,7 +58,7 @@ public class QuadProgCalculator {
 	private Hashtable<String,Integer> busIndexTable;
 	
 	// QuadProgJ 
-	QuadProgJ qpj= null;
+	protected QuadProgJ qpj= null;
 
 	// used for transform apache matrix to colt;
 	private Apache2ColtAdapter Apache2Colt=new Apache2ColtAdapter();
@@ -81,7 +81,7 @@ public class QuadProgCalculator {
 			formBiq();
 	    }
 	    
-		public void runDCOPF() {
+		public void solveQP() {
 		
 			initialize();
 			System.out.println("G:"+Apache2Colt.trans(G));
@@ -100,40 +100,12 @@ public class QuadProgCalculator {
 			
 			// NOTE FOR THE SOLUTION STRUCTURE x* = qpj.getMinX()
 		    // x* = (p_{G1}...p_{GI}, delta_2...delta_K) for fixed demand
-			this.optimX=qpj.getMinX();
-			saveOPFResult();
-			
+			optimX=qpj.getMinX();
 		}
-	    private void saveOPFResult() {
-	    	this.busAngle=new double[this.numOfBus-1];
-	    	this.minTVC=0;
-			for(int k=this.numOfGen;k<this.numOfGen+this.numOfBus-1;k++){
-				this.busAngle[k-this.numOfGen]=getOptimX()[k]; // voltAngle in radians
-			}
-			int genIndex=0;
-			for(Bus b:this.net.getBusList()){
-				if(net.isOpfGenBus(b)){
-					((AclfBus) b).setGenP(getOptimX()[genIndex]);
-					genIndex++;
-				}
-			}
-			int nonSwingBusIndex=0;
-			for(Bus b:this.net.getBusList()){
-				AclfBus acbus=(AclfBus) b;
-				if(!acbus.isSwing()){
-					acbus.setVoltageAng(this.busAngle[nonSwingBusIndex]);
-					nonSwingBusIndex++;
-				}
-			}
-			
-	       this.net.forEachOpfGenBus(new IOpfGenBusVisitor(){
-	    	   public void visit(OpfGenBus opfgen) {
-					minTVC+=opfgen.getCoeffA()*opfgen.getGenP()
-					+opfgen.getCoeffB()*Math.pow(opfgen.getGenP(), 2);		
-				}	
-		   });
+	    protected QuadProgJ getQuadProgJ(){
+	    	return this.qpj;
 	    }
-	    
+		
 	    public Array2DRowRealMatrix getG(){
 	    	return this.G;
 	    }
@@ -522,7 +494,7 @@ public class QuadProgCalculator {
 		private Hashtable<String, Integer> getBusIndexTable(){
 			return this.busIndexTable;
 		}
-	    private double[] getOptimX(){
+	    public double[] getOptimX(){
 	    	return this.optimX;
 	    }
 	    private int getNumOfGen(){
