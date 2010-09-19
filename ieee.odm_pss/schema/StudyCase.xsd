@@ -70,7 +70,7 @@
 							</sequence>
 						</complexType>
 					</element>
-					<element ref="pss:emptyStudyScenario" minOccurs="0" maxOccurs="1">
+					<element ref="pss:studyScenario" minOccurs="0" maxOccurs="1">
 						<annotation>
 							<documentation>A study case might include a list of study scenarios, for example, Loadflow study, SC study ...</documentation>
 						</annotation>					</element>
