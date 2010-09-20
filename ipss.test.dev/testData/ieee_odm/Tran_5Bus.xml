@@ -199,7 +199,7 @@
 							<pss:tolerance unit="PU" value="0.0001" />
 							<pss:initBusVoltage>true</pss:initBusVoltage>
 						</pss:aclfInitialization>
-						<pss:dynamicEventList>
+						<pss:dynamicEvents>
 							<pss:disableDynEvents>false</pss:disableDynEvents>
 							<pss:dynamicEvent eventType="Fault">
 								<pss:startTime unit="Sec" value="0.0"></pss:startTime>
@@ -212,7 +212,7 @@
 									<pss:zLG im="0.0" unit="PU" re="0.0"></pss:zLG>
 								</pss:fault>
 							</pss:dynamicEvent>
-						</pss:dynamicEventList>
+						</pss:dynamicEvents>
 					</pss:dStabAnalysis>
 				</pss:simuAlgo>
 			</pss:scenario>
