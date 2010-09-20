@@ -38,12 +38,12 @@ import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
 import org.ieee.odm.schema.DStabilitySimulationXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
+import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ScenarioXmlType;
-import org.ieee.odm.schema.StudyScenarioXmlType;
 import org.ieee.odm.schema.TielineXmlType;
 
 public class JaxbODMModelParser extends AbstractModelParser {
@@ -355,7 +355,7 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	 * @return
 	 */
 	public ScenarioXmlType getDefaultScenario() {
-		return ((StudyScenarioXmlType)getStudyCase().getEmptyStudyScenario().getValue())
+		return ((IpssStudyScenarioXmlType)getStudyCase().getStudyScenario().getValue())
 					.getScenarioList().getScenario().get(0);
 	}
 
