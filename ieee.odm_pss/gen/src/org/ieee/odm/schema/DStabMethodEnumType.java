@@ -13,36 +13,30 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 /**
- * <p>Java class for LFGenCodeEnumType.
+ * <p>Java class for DStabMethodEnumType.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="LFGenCodeEnumType">
+ * &lt;simpleType name="DStabMethodEnumType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="PQ"/>
- *     &lt;enumeration value="PV"/>
- *     &lt;enumeration value="Swing"/>
- *     &lt;enumeration value="NoneGen"/>
- *     &lt;enumeration value="OFF"/>
+ *     &lt;enumeration value="ModifiedEuler"/>
+ *     &lt;enumeration value="RungerKutta"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
 @XmlEnum
-public enum LFGenCodeEnumType {
+public enum DStabMethodEnumType {
 
-    PQ("PQ"),
-    PV("PV"),
-    @XmlEnumValue("Swing")
-    SWING("Swing"),
-    @XmlEnumValue("NoneGen")
-    NONE_GEN("NoneGen"),
-    OFF("OFF");
+    @XmlEnumValue("ModifiedEuler")
+    MODIFIED_EULER("ModifiedEuler"),
+    @XmlEnumValue("RungerKutta")
+    RUNGER_KUTTA("RungerKutta");
     private final String value;
 
-    LFGenCodeEnumType(String v) {
+    DStabMethodEnumType(String v) {
         value = v;
     }
 
@@ -50,8 +44,8 @@ public enum LFGenCodeEnumType {
         return value;
     }
 
-    public static LFGenCodeEnumType fromValue(String v) {
-        for (LFGenCodeEnumType c: LFGenCodeEnumType.values()) {
+    public static DStabMethodEnumType fromValue(String v) {
+        for (DStabMethodEnumType c: DStabMethodEnumType.values()) {
             if (c.value.equals(v)) {
                 return c;
             }
