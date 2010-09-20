@@ -12,33 +12,31 @@ import javax.xml.bind.annotation.XmlEnum;
 
 
 /**
- * <p>Java class for VoltageUnitType.
+ * <p>Java class for StaticLoadEnumType.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="VoltageUnitType">
+ * &lt;simpleType name="StaticLoadEnumType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="PU"/>
- *     &lt;enumeration value="VOLT"/>
- *     &lt;enumeration value="KV"/>
+ *     &lt;enumeration value="CONST_Z"/>
+ *     &lt;enumeration value="CONST_P"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
 @XmlEnum
-public enum VoltageUnitType {
+public enum StaticLoadEnumType {
 
-    PU,
-    VOLT,
-    KV;
+    CONST_Z,
+    CONST_P;
 
     public String value() {
         return name();
     }
 
-    public static VoltageUnitType fromValue(String v) {
+    public static StaticLoadEnumType fromValue(String v) {
         return valueOf(v);
     }
 

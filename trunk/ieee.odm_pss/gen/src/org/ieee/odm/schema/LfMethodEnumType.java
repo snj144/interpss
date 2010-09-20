@@ -12,33 +12,33 @@ import javax.xml.bind.annotation.XmlEnum;
 
 
 /**
- * <p>Java class for VoltageUnitType.
+ * <p>Java class for LfMethodEnumType.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="VoltageUnitType">
+ * &lt;simpleType name="LfMethodEnumType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="PU"/>
- *     &lt;enumeration value="VOLT"/>
- *     &lt;enumeration value="KV"/>
+ *     &lt;enumeration value="NR"/>
+ *     &lt;enumeration value="PQ"/>
+ *     &lt;enumeration value="GS"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
 @XmlEnum
-public enum VoltageUnitType {
+public enum LfMethodEnumType {
 
-    PU,
-    VOLT,
-    KV;
+    NR,
+    PQ,
+    GS;
 
     public String value() {
         return name();
     }
 
-    public static VoltageUnitType fromValue(String v) {
+    public static LfMethodEnumType fromValue(String v) {
         return valueOf(v);
     }
 
