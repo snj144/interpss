@@ -67,20 +67,8 @@
 		<choice>
 			<element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="pss:AclfAlgorithmXmlType"></element>
 			<element name="acscAnalysis" minOccurs="0" maxOccurs="1" type="pss:AcscFaultAnalysisXmlType"></element>
-			<element name="dStabAnalysis" minOccurs="0" maxOccurs="1" type="pss:DStabilitySimulationXmlType"></element>
+			<element name="dStabAnalysis" minOccurs="0" maxOccurs="1" type="pss:DStabSimulationXmlType"></element>
 		</choice>
-	</ns:complexType>
-
-	<ns:complexType name="BaseAnalysisTypeXmlType" abstract="true">
-		<ns:complexContent>
-			<ns:extension base="pss:BaseRecordXmlType"></ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-
-	<ns:complexType name="BaseAlgorithmXmlType" abstract="true">
-		<ns:complexContent>
-			<ns:extension base="pss:BaseRecordXmlType"></ns:extension>
-		</ns:complexContent>
 	</ns:complexType>
 	
 	<ns:complexType name="GridComputingXmlType">
@@ -118,6 +106,17 @@
 		</ns:sequence>
 	</ns:complexType>
 	
+	<ns:complexType name="BaseAnalysisTypeXmlType" abstract="true">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseRecordXmlType"></ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="BaseAlgorithmXmlType" abstract="true">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseRecordXmlType"></ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
 
 <!-- 
 	Aclf Study Scenario
@@ -126,8 +125,7 @@
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
-					<ns:element name="lfMethod" minOccurs="1" maxOccurs="1" type="pss:LfMethodEnumType">
-					</ns:element>
+					<ns:element name="lfMethod" minOccurs="1" maxOccurs="1" type="pss:LfMethodEnumType">					</ns:element>
 					<ns:element name="maxIterations" type="ns:int" minOccurs="1" maxOccurs="1"/>
 					<ns:element name="tolerance" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"/>					<ns:element name="initBusVoltage" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>					<ns:element name="accFactor" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
 					<ns:element name="nonDivergent" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
@@ -162,7 +160,7 @@
 <!-- 
 	DStab Study Scenario
  -->
-	<complexType name="DStabilitySimulationXmlType">
+	<complexType name="DStabSimulationXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<sequence>
@@ -212,8 +210,7 @@
 
 	<complexType name="StaticLoadModelXmlType">
 		<ns:sequence>
-			<ns:element name="staticLoadType" minOccurs="1" maxOccurs="1" type="pss:StaticLoadEnumType">
-			</ns:element>
+			<ns:element name="staticLoadType" minOccurs="1" maxOccurs="1" type="pss:StaticLoadEnumType">			</ns:element>
 			<ns:element name="switchVolt" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
 			<ns:element name="switchDeadZone" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
 		</ns:sequence>
@@ -225,7 +222,6 @@
 			<ns:enumeration value="CONST_P"></ns:enumeration>
 		</ns:restriction>
 	</ns:simpleType>
-
 
 	<complexType name="DynamicEventXmlType">
 		<sequence>
@@ -239,26 +235,27 @@
 			</choice>
 		</sequence>
 		<attribute name="id" type="string"></attribute>
+		<attribute name="name" type="string"></attribute>
 		<attribute name="eventType" type="pss:DynamicEventEnumType"/>
 	</complexType>
 
 	<ns:complexType name="DStabLoadChangeXmlType">
 		<ns:sequence>
 			<ns:element name="busId" type="ns:string" minOccurs="1" maxOccurs="1"></ns:element>
-			<ns:element name="loadChangeType" minOccurs="1" maxOccurs="1">
-				<ns:simpleType>
-					<ns:restriction base="ns:string">
-						<ns:enumeration value="LowFrequency"></ns:enumeration>
-						<ns:enumeration value="LowVoltage"></ns:enumeration>
-						<ns:enumeration value="FixedTime"></ns:enumeration>
-					</ns:restriction>
-				</ns:simpleType>
-			</ns:element>
+			<ns:element name="loadChangeType" minOccurs="1" maxOccurs="1" type="pss:DStabLoadChangeEnumType">			</ns:element>
 			<ns:element name="changeFactor" type="pss:ChangeFactorXmlType" minOccurs="1" maxOccurs="1"></ns:element>
 			<ns:element name="threshhold" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
 			<ns:element name="delayTime" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
+
+	<ns:simpleType name="DStabLoadChangeEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="LowFrequency"></ns:enumeration>
+			<ns:enumeration value="LowVoltage"></ns:enumeration>
+			<ns:enumeration value="FixedTime"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
 
 	<ns:complexType name="DStabSetPointChangeXmlType">
 		<ns:sequence>
@@ -266,14 +263,14 @@
 			<ns:element name="controllerType" minOccurs="1" maxOccurs="1" type="pss:MachineControllerEnumType">
 			</ns:element>
 			<ns:element name="changeValue" type="ns:double" minOccurs="1" maxOccurs="1"></ns:element>
-			<ns:element name="valueChangeType" minOccurs="1" maxOccurs="1">
-				<ns:simpleType>
-					<ns:restriction base="ns:string">
-						<ns:enumeration value="Absolute"></ns:enumeration>
-						<ns:enumeration value="Delta"></ns:enumeration>
-					</ns:restriction>
-				</ns:simpleType>
-			</ns:element>
+			<ns:element name="valueChangeType" minOccurs="1" maxOccurs="1" type="pss:SetPointChangeEnumType">			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
+
+	<ns:simpleType name="SetPointChangeEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="Absolute"></ns:enumeration>
+			<ns:enumeration value="Delta"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>	
 </schema>
