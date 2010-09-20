@@ -13,30 +13,30 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 /**
- * <p>Java class for TapAdjustmentEnumType.
+ * <p>Java class for SetPointChangeEnumType.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="TapAdjustmentEnumType">
+ * &lt;simpleType name="SetPointChangeEnumType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="Voltage"/>
- *     &lt;enumeration value="MVarFlow"/>
+ *     &lt;enumeration value="Absolute"/>
+ *     &lt;enumeration value="Delta"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
 @XmlEnum
-public enum TapAdjustmentEnumType {
+public enum SetPointChangeEnumType {
 
-    @XmlEnumValue("Voltage")
-    VOLTAGE("Voltage"),
-    @XmlEnumValue("MVarFlow")
-    M_VAR_FLOW("MVarFlow");
+    @XmlEnumValue("Absolute")
+    ABSOLUTE("Absolute"),
+    @XmlEnumValue("Delta")
+    DELTA("Delta");
     private final String value;
 
-    TapAdjustmentEnumType(String v) {
+    SetPointChangeEnumType(String v) {
         value = v;
     }
 
@@ -44,8 +44,8 @@ public enum TapAdjustmentEnumType {
         return value;
     }
 
-    public static TapAdjustmentEnumType fromValue(String v) {
-        for (TapAdjustmentEnumType c: TapAdjustmentEnumType.values()) {
+    public static SetPointChangeEnumType fromValue(String v) {
+        for (SetPointChangeEnumType c: SetPointChangeEnumType.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

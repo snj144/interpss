@@ -13,30 +13,33 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 /**
- * <p>Java class for TapAdjustmentEnumType.
+ * <p>Java class for DStabLoadChangeEnumType.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="TapAdjustmentEnumType">
+ * &lt;simpleType name="DStabLoadChangeEnumType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="Voltage"/>
- *     &lt;enumeration value="MVarFlow"/>
+ *     &lt;enumeration value="LowFrequency"/>
+ *     &lt;enumeration value="LowVoltage"/>
+ *     &lt;enumeration value="FixedTime"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
 @XmlEnum
-public enum TapAdjustmentEnumType {
+public enum DStabLoadChangeEnumType {
 
-    @XmlEnumValue("Voltage")
-    VOLTAGE("Voltage"),
-    @XmlEnumValue("MVarFlow")
-    M_VAR_FLOW("MVarFlow");
+    @XmlEnumValue("LowFrequency")
+    LOW_FREQUENCY("LowFrequency"),
+    @XmlEnumValue("LowVoltage")
+    LOW_VOLTAGE("LowVoltage"),
+    @XmlEnumValue("FixedTime")
+    FIXED_TIME("FixedTime");
     private final String value;
 
-    TapAdjustmentEnumType(String v) {
+    DStabLoadChangeEnumType(String v) {
         value = v;
     }
 
@@ -44,8 +47,8 @@ public enum TapAdjustmentEnumType {
         return value;
     }
 
-    public static TapAdjustmentEnumType fromValue(String v) {
-        for (TapAdjustmentEnumType c: TapAdjustmentEnumType.values()) {
+    public static DStabLoadChangeEnumType fromValue(String v) {
+        for (DStabLoadChangeEnumType c: DStabLoadChangeEnumType.values()) {
             if (c.value.equals(v)) {
                 return c;
             }
