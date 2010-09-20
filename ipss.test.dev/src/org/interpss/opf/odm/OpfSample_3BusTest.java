@@ -31,6 +31,8 @@ import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.interpss.BaseTestSetup;
 import org.interpss.mapper.odm.IEEEODMMapper;
+import org.interpss.opf.dc.OpfQuadProgAlgorithm;
+import org.interpss.opf.dc.OpfQuadProgAlgorithmImpl;
 import org.junit.Test;
 
 import com.interpss.opf.OpfNetwork;
@@ -54,7 +56,11 @@ public class OpfSample_3BusTest  extends BaseTestSetup {
 			}	
 			
 			OpfNetwork opfNet = simuCtx.getOpfNet();
-			System.out.println(opfNet.net2String());
+//			System.out.println(opfNet.net2String());
+			OpfQuadProgAlgorithm opfAlgo=new OpfQuadProgAlgorithmImpl(opfNet,msg);
+			opfAlgo.runDCOPF();
+			
+			
 		}
 	}
 }
