@@ -181,7 +181,7 @@
 				<pss:simuAlgo>
 					<pss:dStabAnalysis>
 						<pss:simulationSetting>
-							<pss:method>ModifiedEuler</pss:method>
+							<pss:dstabMethod>ModifiedEuler</pss:dstabMethod>
 							<pss:totalTime unit="Sec" value="10"></pss:totalTime>
 							<pss:step unit="Sec" value="0.01" />
 							<pss:absMachineAngle>true</pss:absMachineAngle>
