@@ -201,7 +201,7 @@
 						</pss:aclfInitialization>
 						<pss:dynamicEvents>
 							<pss:disableDynEvents>false</pss:disableDynEvents>
-							<pss:dynamicEvent eventType="Fault">
+							<pss:dynamicEvent id="Fault@Bus-1" name="3PhaseGroudFault" eventType="Fault">
 								<pss:startTime unit="Sec" value="0.0"></pss:startTime>
 								<pss:duration unit="Sec" value="0.1" />
 								<pss:permanentFault>false</pss:permanentFault>
