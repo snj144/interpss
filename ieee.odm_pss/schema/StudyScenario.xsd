@@ -126,14 +126,7 @@
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
-					<ns:element name="lfMethod" minOccurs="1" maxOccurs="1">
-						<ns:simpleType>
-							<ns:restriction base="ns:string">
-								<ns:enumeration value="NR"></ns:enumeration>
-								<ns:enumeration value="PQ"></ns:enumeration>
-								<ns:enumeration value="GS"></ns:enumeration>
-							</ns:restriction>
-						</ns:simpleType>
+					<ns:element name="lfMethod" minOccurs="1" maxOccurs="1" type="pss:LfMethodEnumType">
 					</ns:element>
 					<ns:element name="maxIterations" type="ns:int" minOccurs="1" maxOccurs="1"/>
 					<ns:element name="tolerance" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"/>					<ns:element name="initBusVoltage" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>					<ns:element name="accFactor" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
@@ -143,6 +136,14 @@
 		</ns:complexContent>
 	</ns:complexType>
 
+	<ns:simpleType name="LfMethodEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="NR"></ns:enumeration>
+			<ns:enumeration value="PQ"></ns:enumeration>
+			<ns:enumeration value="GS"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
+	
 <!-- 
 	Acsc Study Scenario
  -->
@@ -167,7 +168,7 @@
 				<sequence>
 					<element name="simulationSetting" maxOccurs="1" minOccurs="1" type="pss:DStabSimuSettingXmlType"/>
 					<element name="aclfInitialization" maxOccurs="1" minOccurs="1" type="pss:AclfAlgorithmXmlType"/>
-					<element name="dynamicEventList" maxOccurs="1" minOccurs="1">
+					<element name="dynamicEvents" maxOccurs="1" minOccurs="1">
 						<complexType>
 							<sequence>
 								<element name="disableDynEvents" type="boolean" maxOccurs="1" minOccurs="0"></element>
@@ -182,18 +183,10 @@
 
 	<complexType name="DStabSimuSettingXmlType">
 		<sequence>
-			<element name="method" maxOccurs="1" minOccurs="0">
-				<simpleType>
-					<restriction base="string">
-						<enumeration value="ModifiedEuler">
-						</enumeration>
-						<enumeration value="RungerKutta">
-						</enumeration>
-					</restriction>
-				</simpleType>
+			<element name="dstabMethod" maxOccurs="1" minOccurs="1" type="pss:DStabMethodEnumType">
 			</element>
-			<element name="totalTime" maxOccurs="1" minOccurs="0" type="pss:TimePeriodXmlType"/>
-			<element name="step" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"/>
+			<element name="totalTime" maxOccurs="1" minOccurs="1" type="pss:TimePeriodXmlType"/>
+			<element name="step" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"/>
 			<element name="absMachineAngle" type="boolean" maxOccurs="1" minOccurs="0"/>
 			<element name="refMachine" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"/>
 			<ns:element name="netEqnSolveConfig" minOccurs="0">
@@ -204,25 +197,35 @@
 					</ns:sequence>
 				</ns:complexType>
 			</ns:element>
-			<element name="staticLoadModel" type="pss:StaticLoadModelXmlType" maxOccurs="1" minOccurs="0">
+			<element name="staticLoadModel" type="pss:StaticLoadModelXmlType" maxOccurs="1" minOccurs="1">
 			</element>
 		</sequence>
 	</complexType>
 
+	<simpleType name="DStabMethodEnumType">
+		<restriction base="string">
+			<enumeration value="ModifiedEuler"></enumeration>
+			<enumeration value="RungerKutta"></enumeration>
+		</restriction>
+	</simpleType>
+
+
 	<complexType name="StaticLoadModelXmlType">
 		<ns:sequence>
-			<ns:element name="staticLoadType" minOccurs="1" maxOccurs="1">
-				<ns:simpleType>
-					<ns:restriction base="ns:string">
-						<ns:enumeration value="CONST_Z"></ns:enumeration>
-						<ns:enumeration value="CONST_P"></ns:enumeration>
-					</ns:restriction>
-				</ns:simpleType>
+			<ns:element name="staticLoadType" minOccurs="1" maxOccurs="1" type="pss:StaticLoadEnumType">
 			</ns:element>
 			<ns:element name="switchVolt" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
 			<ns:element name="switchDeadZone" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
 		</ns:sequence>
 	</complexType>
+
+	<ns:simpleType name="StaticLoadEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="CONST_Z"></ns:enumeration>
+			<ns:enumeration value="CONST_P"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
+
 
 	<complexType name="DynamicEventXmlType">
 		<sequence>
