@@ -28,6 +28,7 @@ import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
 import org.ieee.odm.schema.AcscFaultCategoryEnumType;
 import org.ieee.odm.schema.AcscFaultTypeEnumType;
+import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
@@ -59,7 +60,7 @@ public class AcscScenarioHelper {
 	 * @param faultXml
 	 */
 	public void mapOneFaultScenario( IpssStudyScenarioXmlType sScenarioXml) throws InterpssException {
-		if(sScenarioXml.getAnalysisCategory().toString().equals("SHORT_CIRCUIT") &&
+		if(sScenarioXml.getAnalysisCategory() == AnalysisCategoryEnumType.SHORT_CIRCUIT &&
 				sScenarioXml.getScenarioList().getScenario() != null &&
 				sScenarioXml.getScenarioList().getScenario().size() == 1){
 			// first we check if acsc analysis type, scenario is defined and only one scenario 

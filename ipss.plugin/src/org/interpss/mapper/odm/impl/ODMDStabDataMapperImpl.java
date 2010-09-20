@@ -95,7 +95,7 @@ public class ODMDStabDataMapperImpl {
 				simuCtx.setDynSimuAlgorithm(dstabAlgo);
 
 				LoadflowAlgorithm lfAlgo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, dstabAlgo.getMsgHub());
-				simuCtx.setLoadflowAlgorithm(lfAlgo);
+				dstabAlgo.setAclfAlgorithm(lfAlgo);
 
 				// map the bus info
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {

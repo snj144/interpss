@@ -3,15 +3,22 @@ package org.interpss.mapper.odm.impl.dstab;
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.schema.AclfAlgorithmXmlType;
 import org.ieee.odm.schema.AcscFaultXmlType;
+import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.DStabMethodEnumType;
+import org.ieee.odm.schema.DStabSimuSettingXmlType;
+import org.ieee.odm.schema.DStabilitySimulationXmlType;
+import org.ieee.odm.schema.DynamicEventXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
+import org.ieee.odm.schema.IpssStudyScenarioXmlType;
+import org.ieee.odm.schema.LfMethodEnumType;
 import org.ieee.odm.schema.ScenarioXmlType;
-import org.ieee.odm.schema.StudyScenarioXmlType;
+import org.ieee.odm.schema.StaticLoadEnumType;
+import org.ieee.odm.schema.StaticLoadModelXmlType;
 import org.ieee.odm.schema.TimePeriodUnitType;
 import org.ieee.odm.schema.TimePeriodXmlType;
-import org.ieee.odm.schema.DStabilitySimulationXmlType;
 import org.ieee.odm.schema.ZXmlType;
 
 import com.interpss.common.exp.InterpssException;
@@ -37,115 +44,140 @@ public class DStabScenarioHelper {
 	
 	private DStabilityNetwork dstabNet = null;
 	private DynamicSimuAlgorithm dstabAlgo = null;	
-	private LoadflowAlgorithm aclfAlgo = null;	
-	
-	public DStabScenarioHelper(DStabilityNetwork dstabNet, DynamicSimuAlgorithm algo, LoadflowAlgorithm aclfAlgo) {
+	public DStabScenarioHelper(DStabilityNetwork dstabNet, DynamicSimuAlgorithm algo) {
 		this.dstabNet = dstabNet;
 		this.dstabAlgo = algo;	
-		this.aclfAlgo = aclfAlgo;
 	}
 	
-	public void mapOneFaultScenario( StudyScenarioXmlType faultXml) throws InterpssException {
-		AnalysisTypeXmlType analysisType = faultXml.getAnalysisType();
-		DStabilitySimulationXmlType dstabFaultXml = faultAnalysisXml.getDStabAnalysis();		
+	public void mapOneFaultScenario( IpssStudyScenarioXmlType sScenarioXml) throws InterpssException {
+		if(sScenarioXml.getAnalysisCategory() == AnalysisCategoryEnumType.TRANSIENT_STABILITY &&
+				sScenarioXml.getScenarioList().getScenario() != null &&
+				sScenarioXml.getScenarioList().getScenario().size() == 1){
+			// first we check if dstab analysis type, scenario is defined and only one scenario 
+			// is defined
+			ScenarioXmlType scenario = sScenarioXml.getScenarioList().getScenario().get(0);
+			if (scenario.getSimuAlgo() != null && scenario.getSimuAlgo().getDStabAnalysis() != null)
+				// then we check if simuAlgo and dstabAnalysis info if defined
+				mapDStabSimuAlgo(scenario.getSimuAlgo().getDStabAnalysis());
+			else
+				throw new InterpssException("Acsc Scenario mapping error: data not defined properly");
+		}
+		else {
+			throw new InterpssException("Acsc StudyScenario mapping error: data not defined properly");
+		}
+	}
+	
+	private void mapDStabSimuAlgo(DStabilitySimulationXmlType dstabSimuXml) {
+		DStabSimuSettingXmlType settings = dstabSimuXml.getSimulationSetting();
+		mapGeneralSettings(settings);
 		
-		//String idStr = dstabFaultXml.getName() != null? dstabFaultXml.getName() : dstabFaultXml.getDesc(); 
-		
-		SimulationSetting settings = dstabFaultXml.getSimulationSetting();
-		mapGeneralSettings(settings,dstabAlgo);
-		AclfAlgorithmXmlType lfInit = dstabFaultXml.getAclfInitialization();
+		AclfAlgorithmXmlType lfInit = dstabSimuXml.getAclfInitialization();
 		mapAclfInitialization (lfInit);		
-		for (DanamicEventType eventXml : dstabFaultXml.getDynamicEventList().getDanamicEvent()) {			
-			mapDynamicEvent ( eventXml, dstabNet,faultXml);
+		
+		dstabAlgo.setDisableDynamicEvent(dstabSimuXml.getDynamicEvents().isDisableDynEvents());
+		for (DynamicEventXmlType eventXml : dstabSimuXml.getDynamicEvents().getDynamicEvent()) {			
+			mapDynamicEvent( eventXml);
 		}		
 	}
-	private void mapGeneralSettings(SimulationSetting settings, DynamicSimuAlgorithm algo){
+
+	
+	private void mapGeneralSettings(DStabSimuSettingXmlType settings){
 		// map numerical iteration method
-		String method =  settings.getMethod();
-		if(method.equals("ModifiedEuler")){
-			algo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
-		}else if (method.equals("RungerKutta")){
-			algo.setSimuMethod(DynamicSimuMethod.RUNGE_KUTTA);
+		DStabMethodEnumType method =  settings.getDstabMethod();
+		if(method == DStabMethodEnumType.RUNGER_KUTTA){
+			dstabAlgo.setSimuMethod(DynamicSimuMethod.RUNGE_KUTTA);
 		}
+		else {
+			dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
+		}
+		
 		// map total time, unit is sec
 		TimePeriodXmlType tolTime = settings.getTotalTime();		
 		double tolTimeInSec = convertTimeUnit2Sec(tolTime,this.dstabNet.getFrequency());
-		algo.setTotalSimuTimeSec(tolTimeInSec);
+		dstabAlgo.setTotalSimuTimeSec(tolTimeInSec);
+		
 		// map time step,  unit is sec
 		TimePeriodXmlType stepTime = settings.getStep();		
 		double stepTimeInSec = convertTimeUnit2Sec(stepTime,this.dstabNet.getFrequency());
-		algo.setSimuStepSec(stepTimeInSec);
+		dstabAlgo.setSimuStepSec(stepTimeInSec);
 		
-		algo.setDisableDynamicEvent(settings.isDisableDynEvents());	
+		if (settings.isAbsMachineAngle() != null) {
+			if(!settings.isAbsMachineAngle()){
+				String refMachId=((DynamicGeneratorXmlType)settings.getRefMachine().getIdRef()).getGenId().getId();
+				Machine mach = dstabNet.getMachine(refMachId); 
+				dstabAlgo.setRefMachine(mach);			
+			} 
+		}
+
+		// TODO set refMach
 		
-		if(!settings.isAbsMachineAngle()){
-			String refMachId=((DynamicGeneratorXmlType)settings.getRefMachine().getIdRef()).getGenId().getId();
-			Machine mach = dstabNet.getMachine(refMachId); 
-			algo.setRefMachine(mach);			
-		} 
 		//set net equn interation
-		int intNoEvent = settings.getNetEqnIterationNoEvent();
-		int intWEvent = settings.getNetEqnIterationWithEvent();
-		if(intNoEvent != 0){
-			dstabNet.setNetEqnIterationNoEvent(intNoEvent);
+		if (settings.getNetEqnSolveConfig() != null) {
+			int intNoEvent = settings.getNetEqnSolveConfig().getNetEqnItrNoEvent();
+			int intWEvent = settings.getNetEqnSolveConfig().getNetEqnItrWithEvent();
+			if(intNoEvent != 0){
+				dstabNet.setNetEqnIterationNoEvent(intNoEvent);
+			}
+	        if(intWEvent != 0){
+			    dstabNet.setNetEqnIterationWithEvent(intWEvent);	
+			}
 		}
-        if(intWEvent != 0){
-		    dstabNet.setNetEqnIterationWithEvent(intWEvent);	
-		}
-        // 
-        algo.setOutputFiltered(settings.isOutPutVariableFilter());
         
-        StaticLoadModelType statLoad = settings.getStaticLoadModel();
-        StaticLoadModelCatType loadType = statLoad.getType();
-        if(loadType.toString().equals("CONSTANT_Z")){
+        StaticLoadModelXmlType statLoad = settings.getStaticLoadModel();
+        if(statLoad.getStaticLoadType() == StaticLoadEnumType.CONST_Z){
         	dstabNet.setStaticLoadModel(StaticLoadModel.CONST_Z);
-        }else {
+        }
+        else {
         	// set switch vol and dead zone for constant-P static load
         	dstabNet.setStaticLoadModel(StaticLoadModel.CONST_P);
-        	double deadZone =settings.getStaticLoadModel()
-			.getConstantP().getDeadZone();
-        	double switchVolt =settings.getStaticLoadModel()
-			.getConstantP().getSwitchVolt();        	
-        	 
-        	dstabNet.setStaticLoadSwitchDeadZone(deadZone);
-        	dstabNet.setStaticLoadSwitchVolt(switchVolt);
+        
+        	if (settings.getStaticLoadModel().getSwitchDeadZone() != null) {
+        		double deadZone = settings.getStaticLoadModel().getSwitchDeadZone();
+            	dstabNet.setStaticLoadSwitchDeadZone(deadZone);
+        	}
+
+        	if (settings.getStaticLoadModel().getSwitchVolt() != null)  {
+            	double switchVolt = settings.getStaticLoadModel().getSwitchVolt();        	
+            	dstabNet.setStaticLoadSwitchVolt(switchVolt);
+        	}
         }
 	}
 	
 	private void mapAclfInitialization (AclfAlgorithmXmlType lfInit){
-		LoadflowAlgorithm lfAlgo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, dstabAlgo.getMsgHub());
+		LoadflowAlgorithm aclfAlgo = this.dstabAlgo.getAclfAlgorithm();	
 		
 		// set lf method
-		String lfMethod = lfInit.getLfMethod();
-		if(lfMethod.equals("NR")){
-			lfAlgo.setLfMethod(AclfMethod.NR);			
-		}else if(lfMethod.equals("PQ")){
-			lfAlgo.setLfMethod(AclfMethod.PQ);			
-		}else if(lfMethod.equals("GS")){
-			lfAlgo.setLfMethod(AclfMethod.GS);			
+		LfMethodEnumType lfMethod = lfInit.getLfMethod();
+		if(lfMethod == LfMethodEnumType.PQ){
+			aclfAlgo.setLfMethod(AclfMethod.PQ);			
+		}else if(lfMethod == LfMethodEnumType.GS){
+			aclfAlgo.setLfMethod(AclfMethod.GS);			
 		}
+		else 
+			aclfAlgo.setLfMethod(AclfMethod.NR);			
+
 		int maxInt =lfInit.getMaxIterations();
-		lfAlgo.setMaxIterations(maxInt);
+		aclfAlgo.setMaxIterations(maxInt);
 		ApparentPowerXmlType tol = lfInit.getTolerance();
-		lfAlgo.setTolerance(tol.getValue());
-		lfAlgo.setInitBusVoltage(lfInit.isInitBusVoltage());
-		if(lfInit.getAccFactor()!=null){
-			lfAlgo.setGsAccFactor(lfInit.getAccFactor());
-		}
-		if(lfInit.isNonDivergent()!=null){
-			lfAlgo.setNonDivergent(lfInit.isNonDivergent());
-		}		
-		// set load flow initialization in the dstab analysis
-		dstabAlgo.setAclfAlgorithm(lfAlgo);
+		aclfAlgo.setTolerance(tol.getValue());
+		aclfAlgo.setInitBusVoltage(lfInit.isInitBusVoltage());
 		
+		if(lfInit.getAccFactor()!=null){
+			aclfAlgo.setGsAccFactor(lfInit.getAccFactor());
+		}
+		
+		if(lfInit.isNonDivergent()!=null){
+			aclfAlgo.setNonDivergent(lfInit.isNonDivergent());
+		}	
+		
+		// set load flow initialization in the dstab analysis
+		dstabAlgo.setAclfAlgorithm(aclfAlgo);
 	}
 	
-	public void mapDynamicEvent (DanamicEventType eventXml, DStabilityNetwork dstabNet,
-			ScenarioXmlType faultXml){
-		
+	public void mapDynamicEvent (DynamicEventXmlType eventXml){
 		AcscFaultXmlType fault=eventXml.getFault();
-		String eventId = faultXml.getId();
-		String eventName = faultXml.getName();
+		String eventId = eventXml.getId();
+		//String eventName = eventXml.getName();
 		String faultType = fault.getFaultType().toString();
 		String faultCate = fault.getFaultCategory().toString();
 		ZXmlType zLG = fault.getZLG();
