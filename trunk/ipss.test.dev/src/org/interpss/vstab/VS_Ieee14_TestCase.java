@@ -25,7 +25,7 @@ public class VS_Ieee14_TestCase extends BaseTestSetup {
   	  		simuCtx.setName("IEEE14");
 		}		
 		AclfNetwork net = simuCtx.getAclfNet();
-  		//System.out.println(net.net2String());
+//  		System.out.println(net.net2String());
 		
 		// VStab analysis and test
 		EigenAnalysis ea=new EigenAnalysisImpl(net, msg);
