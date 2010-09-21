@@ -406,7 +406,7 @@ public class QuadProgCalculator {
 			// get the constraint data from network file ;
 		    for (Bus bus:this.net.getBusList()) {
 		    	  if(net.isOpfGenBus(bus)){
-		    		OpfGenBus genOPF=net.toOpfGenBus(bus);	    		  
+		    		OpfGenBus genOPF=net.toOpfGenBus(bus);	
 		    		b_Pmin.setEntry(i, genOPF.getCapacityLimit().getMin());
 		  			b_Pmax.setEntry(i, -genOPF.getCapacityLimit().getMax());
 		  			i++;
