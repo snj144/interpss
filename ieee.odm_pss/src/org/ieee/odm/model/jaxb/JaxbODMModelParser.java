@@ -36,7 +36,7 @@ import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
-import org.ieee.odm.schema.DStabilitySimulationXmlType;
+import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -364,7 +364,7 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	 *  
 	 * @return
 	 */
-	public DStabilitySimulationXmlType getDefaultTransSimu(){
+	public DStabSimulationXmlType getDefaultTransSimu(){
 		//return JaxbTranStabSimuHelper.getTransientSimlation(getDefaultScenario());
 		return null;
 	}
