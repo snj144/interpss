@@ -30,6 +30,7 @@
       	<pss:toBus idRef="Bus2"></pss:toBus>
       </pss:acscPSXfr>
     </pss:branchList>
+    <pss:hasLoadflowData>true</pss:hasLoadflowData>
     <pss:positiveSeqDataOnly>true</pss:positiveSeqDataOnly>
   </pss:acscNet>
 </pss:pssStudyCase>
