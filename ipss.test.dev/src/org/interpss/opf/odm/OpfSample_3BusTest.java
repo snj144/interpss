@@ -31,6 +31,7 @@ import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.interpss.BaseTestSetup;
 import org.interpss.mapper.odm.IEEEODMMapper;
+import org.interpss.opf.dc.OpfOutFunc;
 import org.interpss.opf.dc.OpfQuadProgAlgorithm;
 import org.interpss.opf.dc.OpfQuadProgAlgorithmImpl;
 import org.junit.Test;
@@ -43,7 +44,7 @@ import com.interpss.simu.SimuObjectFactory;
 public class OpfSample_3BusTest  extends BaseTestSetup { 
 	@Test
 	public void testCase() throws Exception {
-		File file = new File("testdata/ieee_odm/opf_3bus_test.xml");
+		File file = new File("testdata/opf/opf_3bus_test.xml");
 		OpfModelParser parser = ODMObjectFactory.createOpfModelParser();
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
@@ -56,10 +57,10 @@ public class OpfSample_3BusTest  extends BaseTestSetup {
 			}	
 			
 			OpfNetwork opfNet = simuCtx.getOpfNet();
-//			System.out.println(opfNet.net2String());
+			System.out.println(opfNet.net2String());
 			OpfQuadProgAlgorithm opfAlgo=new OpfQuadProgAlgorithmImpl(opfNet,msg);
 			opfAlgo.runDCOPF();
-			
+			System.out.print(OpfOutFunc.opfResultSummary(opfNet));
 			
 		}
 	}
