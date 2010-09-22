@@ -59,8 +59,8 @@ public class OpfSample_3BusTest  extends BaseTestSetup {
 			OpfNetwork opfNet = simuCtx.getOpfNet();
 			System.out.println(opfNet.net2String());
 
-			OpfQuadProgAlgorithm opfAlgo=new OpfQuadProgAlgorithmImpl(opfNet,msg);
-			opfAlgo.runDCOPF();
+			OpfQuadProgAlgorithm opfAlgo=new OpfQuadProgAlgorithmImpl();
+			opfAlgo.runDCOPF(opfNet);
 			
 			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
 		}
