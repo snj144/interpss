@@ -37,6 +37,7 @@ import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 
+import com.interpss.common.datatype.LimitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
@@ -120,10 +121,21 @@ public class ODMOpfDataMapperImpl {
 	 * @throws Exception
 	 */
 	public static OpfGenBus mapGenBusData(OpfGenBusXmlType busRec, OpfNetwork net) throws InterpssException {
-		OpfGenBus aclfBus = OpfObjectFactory.createOpfGenBus(busRec.getId());
-		net.addBus(aclfBus);
-		ODMNetDataMapperImpl.mapBaseBusData(busRec, aclfBus, net);
-		ODMAclfDataMapperImpl.setAclfBusData(busRec, aclfBus, net);
-		return aclfBus;
+		OpfGenBus opfGenBus = OpfObjectFactory.createOpfGenBus(busRec.getId());
+		net.addBus(opfGenBus);
+		ODMNetDataMapperImpl.mapBaseBusData(busRec, opfGenBus, net);
+		ODMAclfDataMapperImpl.setAclfBusData(busRec, opfGenBus, net);
+		
+		/*
+    		<pss:coeffA>37.8896</pss:coeffA>
+    		<pss:coeffB>0.01433</pss:coeffB>
+    		<pss:capacityLimit max="0.2" min="0.05" unit="PU"></pss:capacityLimit>
+    		<pss:fixedCost>118.821</pss:fixedCost>  
+    	*/
+		opfGenBus.setCoeffA(busRec.getCoeffA());
+		opfGenBus.setCoeffB(busRec.getCoeffB());
+		opfGenBus.setFixedCost(busRec.getFixedCost());
+		opfGenBus.setCapacityLimit(new LimitType(busRec.getCapacityLimit().getMax(), busRec.getCapacityLimit().getMin()));
+		return opfGenBus;
 	}
 }
