@@ -85,13 +85,12 @@ public class QuadProgCalculator {
 		
 			initialize();
 			
-//			comment out by Mike
-//			System.out.println("G:"+Apache2Colt.trans(G));
-//			System.out.println("A:"+Apache2Colt.trans(A));
-//			System.out.println("ceq:"+Apache2Colt.trans(Ceq));
-//			System.out.println("beq:"+Apache2Colt.trans(beq));
-//			System.out.println("Ciq:"+Apache2Colt.trans(Ciq));
-//			System.out.println("biq:"+Apache2Colt.trans(biq));
+			System.out.println("G:"+Apache2Colt.trans(G));
+			System.out.println("A:"+Apache2Colt.trans(A));
+			System.out.println("ceq:"+Apache2Colt.trans(Ceq));
+			System.out.println("beq:"+Apache2Colt.trans(beq));
+			System.out.println("Ciq:"+Apache2Colt.trans(Ciq));
+			System.out.println("biq:"+Apache2Colt.trans(biq));
 			
 			//Apache2Colt is temporally used to change matrix format from a Apache to a Colt ;
 			qpj = new QuadProgJ(Apache2Colt.trans(G),
