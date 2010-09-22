@@ -15,7 +15,6 @@ import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 import com.interpss.opf.OpfGenBus;
 import com.interpss.opf.OpfNetwork;
-import com.interpss.opf.common.IOpfGenBusVisitor;
 
 public class QuadProgCalculator {
 	// network
