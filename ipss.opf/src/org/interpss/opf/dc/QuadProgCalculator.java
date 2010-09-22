@@ -85,6 +85,7 @@ public class QuadProgCalculator {
 		
 			initialize();
 			
+//			comment out by Mike
 //			System.out.println("G:"+Apache2Colt.trans(G));
 //			System.out.println("A:"+Apache2Colt.trans(A));
 //			System.out.println("ceq:"+Apache2Colt.trans(Ceq));
