@@ -8,11 +8,12 @@ public class OpfOutFunc {
 	public static String opfResultSummary(OpfNetwork opfnet) {
 		 double minTVC=0;
 		 double minTotalCost=0;
-		 final StringBuffer str = new StringBuffer("");
+		 final StringBuffer str = new StringBuffer("\n\n");
 		 str.append("           ---DCOPF SOLUTION RESULT SUMMARY---            \n");
 		 str.append("----------------------------------------------------\n");
 		 str.append("busID    isOpfGen     optimGen(PU)   optimAngle(DEG) \n");
 		 str.append("----------------------------------------------------\n");
+		 
 		 for(Bus b:opfnet.getBusList()) {
 			 str.append(b.getId());
 			 if(opfnet.isOpfGenBus(b)){
@@ -27,13 +28,10 @@ public class OpfOutFunc {
 			 str.append(String.format("%17.2f",((OpfGenBus)b).getVoltageAng()));	
 			 str.append("\n");
 		 }
+		 
 		 str.append("----------------------------------------------------\n\n");
 		 str.append(String.format("Minimun Total Variable Cost: %6.3f",minTVC)+"\n");
 		 str.append(String.format("Minimun Total Cost: %6.3f",minTotalCost)+"\n");
 		 return str.toString();
 	}
-//	public static String opfSolutionSummary(OpfQuadProgAlgorithm opfAlgo) {
-//		
-//	}
-
 }
