@@ -27,19 +27,15 @@ public class QuadProgCalculator {
 	
     // OPF result
 	private double[] optimX=null;
-    private double[] busAngle=null;
 	
-
 	// attributes for DC-OPF;
     public final static double DEFAULT_AnglePenCoff=1;
 	private double anglePenCoeff=DEFAULT_AnglePenCoff;
-	private double minTVC=0;// minTVC = SUM (Ai*PGi + Bi*PGi^2)
 	private Array2DRowRealMatrix U; // cost matrix composed by coefficient 2*bi
 	private Array2DRowRealMatrix angleDiffWeight; // angel difference weight
 													// matrix
 	private Array2DRowRealMatrix Wrr; // reduced angle difference weight matrix
 										// ;
-
 	// Input for QuadProgJ
 	private Array2DRowRealMatrix G; // G={U 0;0 Wrr}
 	private ArrayRealVector A; //
@@ -48,18 +44,18 @@ public class QuadProgCalculator {
 	private Array2DRowRealMatrix Ciq;
 	private ArrayRealVector biq;
 
-	// used for create inequality constraint
+	// used for creating inequality constraint
 	private ArrayRealVector bt;
 	private ArrayRealVector b_Pmin;
 	private ArrayRealVector b_Pmax;
 	
-	// used for store the bus and bus index relationship
+	// used for storing the bus and bus index relationship
 	private Hashtable<String,Integer> busIndexTable;
 	
 	// QuadProgJ 
 	protected QuadProgJ qpj= null;
 
-	// used for transform apache matrix to colt;
+	// used for transforming Apache matrix to Colt format;
 	private Apache2ColtAdapter Apache2Colt=new Apache2ColtAdapter();
 	
 	
@@ -84,12 +80,12 @@ public class QuadProgCalculator {
 		
 			initialize();
 			
-			System.out.println("G:"+Apache2Colt.trans(G));
-			System.out.println("A:"+Apache2Colt.trans(A));
-			System.out.println("ceq:"+Apache2Colt.trans(Ceq));
-			System.out.println("beq:"+Apache2Colt.trans(beq));
-			System.out.println("Ciq:"+Apache2Colt.trans(Ciq));
-			System.out.println("biq:"+Apache2Colt.trans(biq));
+//			System.out.println("G:"+Apache2Colt.trans(G));
+//			System.out.println("A:"+Apache2Colt.trans(A));
+//			System.out.println("ceq:"+Apache2Colt.trans(Ceq));
+//			System.out.println("beq:"+Apache2Colt.trans(beq));
+//			System.out.println("Ciq:"+Apache2Colt.trans(Ciq));
+//			System.out.println("biq:"+Apache2Colt.trans(biq));
 			
 			//Apache2Colt is temporally used to change matrix format from a Apache to a Colt ;
 			qpj = new QuadProgJ(Apache2Colt.trans(G),
@@ -140,7 +136,6 @@ public class QuadProgCalculator {
 			this.numOfBus=this.net.getNoBus();
 			this.numOfBranch=this.net.getNoBranch();
 			this.numOfGen=this.getNumOfGen();
-			System.out.println("Number of Gen: " + this.numOfGen);
 		}
 
 		public OpfNetwork getNetwork() {
@@ -389,11 +384,12 @@ public class QuadProgCalculator {
 			// bt corresponds to line thermal inequality constraints
 			this.bt = new ArrayRealVector(this.numOfBranch); 
 			double ratingMva1 = 0;
+			double baseMVA=this.net.getBaseKva()*0.001;
 			int braIndex = 0;
 			// form the bt;
 			for (Branch bra : this.getNetwork().getBranchList()) {
 				AclfBranch acBranch = (AclfBranch) bra;
-				ratingMva1 = acBranch.getRatingMva1();
+				ratingMva1 = acBranch.getRatingMva1()/baseMVA;
 				bt.setEntry(braIndex, -ratingMva1);
 				braIndex++;
 			}
@@ -404,12 +400,13 @@ public class QuadProgCalculator {
 			this.b_Pmin = new ArrayRealVector(this.numOfGen); // b_Pmin corresponds to generators' lower active power limit
 			this.b_Pmax = new ArrayRealVector(this.numOfGen); // b_Pmax corresponds to generators' upper active power limit
 	        int i=0;
+	        double baseMVA=this.net.getBaseKva()*0.001;
 			// get the constraint data from network file ;
 		    for (Bus bus:this.net.getBusList()) {
 		    	  if(net.isOpfGenBus(bus)){
 		    		OpfGenBus genOPF=net.toOpfGenBus(bus);	
-		    		b_Pmin.setEntry(i, genOPF.getCapacityLimit().getMin());
-		  			b_Pmax.setEntry(i, -genOPF.getCapacityLimit().getMax());
+		    		b_Pmin.setEntry(i, genOPF.getCapacityLimit().getMin()/baseMVA); //saved in inequal constraint vector in PU unit
+		  			b_Pmax.setEntry(i, -genOPF.getCapacityLimit().getMax()/baseMVA);
 		  			i++;
 		    	  }
 				
