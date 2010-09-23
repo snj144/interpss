@@ -1,4 +1,34 @@
+/*
+ * @(#)QuadProgCalculator.java   
+ *
+ * Copyright (C) 2006-2010 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Tony Huang, Mike Zhou
+ * @Version 1.0
+ * @Date 09/15/2010
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
+
 package org.interpss.opf.dc;
+
+/**
+ * This is an implementation of DC-OPF using the Quad Programming optimization algorithm.
+ * It depends on the OpfNetworkHelper class to feed Opf net info into the algorithm.
+ * 
+ */
 
 import org.interpss.opf.dc.util.Apache2ColtAdapter;
 
