@@ -26,7 +26,6 @@ package org.interpss.mapper.odm.impl;
 
 import javax.xml.bind.JAXBElement;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.impl.ActivePowerUnitTypeImpl;
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
@@ -142,7 +141,9 @@ public class ODMOpfDataMapperImpl {
 		    opfGenBus.setCapacityLimit(new LimitType(busRec.getCapacityLimit().getMax()*factor, 
 				              busRec.getCapacityLimit().getMin()*factor));
 		}
-		else opfGenBus.setCapacityLimit(new LimitType(busRec.getCapacityLimit().getMax(), busRec.getCapacityLimit().getMin()));
+		else {   //the default unit is MVA
+			opfGenBus.setCapacityLimit(new LimitType(busRec.getCapacityLimit().getMax(), busRec.getCapacityLimit().getMin()));
+		}
 		return opfGenBus;
 	}
 }
