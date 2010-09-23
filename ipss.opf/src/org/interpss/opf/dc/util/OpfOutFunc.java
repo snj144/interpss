@@ -11,7 +11,7 @@ public class OpfOutFunc {
 		 final StringBuffer str = new StringBuffer("\n\n");
 		 str.append("           ---DCOPF SOLUTION RESULT SUMMARY---            \n");
 		 str.append("----------------------------------------------------\n");
-		 str.append("busID    isOpfGen     optimGen(PU)   optimAngle(DEG) \n");
+		 str.append("busID    isOpfGen     optimGen(PU)   optimAngle(RAD) \n");
 		 str.append("----------------------------------------------------\n");
 		 
 		 for(Bus b:opfnet.getBusList()) {
