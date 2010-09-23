@@ -1,7 +1,5 @@
 package org.interpss.opf.dc;
 
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.ArrayRealVector;
 import org.interpss.opf.dc.util.Apache2ColtAdapter;
 
 import quadprogj.QuadProgJ;
@@ -23,14 +21,6 @@ public class QuadProgCalculator {
 		OpfNetworkHelper helper = new OpfNetworkHelper(net);
 		helper.formBusIndexTable();
 		
-		ArrayRealVector A = helper.formA();
-		Array2DRowRealMatrix G = helper.formG();
-		Array2DRowRealMatrix Ceq = helper.formCeq();
-		ArrayRealVector beq = helper.formBeq();
-		Array2DRowRealMatrix Ciq = helper.formCiq();
-		ArrayRealVector biq = helper.formBiq();			
-			
-			
 //			System.out.println("G:"+Apache2Colt.trans(G));
 //			System.out.println("A:"+Apache2Colt.trans(A));
 //			System.out.println("ceq:"+Apache2Colt.trans(Ceq));
@@ -38,19 +28,20 @@ public class QuadProgCalculator {
 //			System.out.println("Ciq:"+Apache2Colt.trans(Ciq));
 //			System.out.println("biq:"+Apache2Colt.trans(biq));
 			
-			//Apache2Colt is temporally used to change matrix format from a Apache to a Colt ;
-			 Apache2ColtAdapter Apache2Colt = new Apache2ColtAdapter();
-			 QuadProgJ qpj = new QuadProgJ(Apache2Colt.trans(G),
-					Apache2Colt.trans(A),
-					Apache2Colt.trans(Ceq),
-					Apache2Colt.trans(beq),
-					Apache2Colt.trans(Ciq),
-					Apache2Colt.trans(biq));
-			
-			// NOTE FOR THE SOLUTION STRUCTURE x* = qpj.getMinX()
-		    // x* = (p_{G1}...p_{GI}, delta_2...delta_K) for fixed demand
-			optimX=qpj.getMinX();
-		}
+		//Apache2Colt is temporally used to change matrix format from a Apache to a Colt ;
+		 Apache2ColtAdapter Apache2Colt = new Apache2ColtAdapter();
+		 QuadProgJ qpj = new QuadProgJ(
+				Apache2Colt.trans(helper.formG()),
+				Apache2Colt.trans(helper.formA()),
+				Apache2Colt.trans(helper.formCeq()),
+				Apache2Colt.trans(helper.formBeq()),
+				Apache2Colt.trans(helper.formCiq()),
+				Apache2Colt.trans(helper.formBiq()));
+		
+		// NOTE FOR THE SOLUTION STRUCTURE x* = qpj.getMinX()
+	    // x* = (p_{G1}...p_{GI}, delta_2...delta_K) for fixed demand
+		optimX=qpj.getMinX();
+	}
 	
 	private void saveOPFResult(OpfNetwork net) {
 			double[] busAngle=null;
@@ -76,8 +67,4 @@ public class QuadProgCalculator {
 				}
 			}
 	  }
-
-		public double[] getOptimX(){
-	    	return this.optimX;
-	    }
 }
