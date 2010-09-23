@@ -19,7 +19,7 @@ public class OpfOutFunc {
 			 if(opfnet.isOpfGenBus(b)){
 				 OpfGenBus opfBus=(OpfGenBus) b;
 				 
-				 str.append(String.format("%10s","Ture"));
+				 str.append(String.format("%10s","True"));
 				 str.append(String.format("%14.3f",opfBus.getGenP()));
 				 minTVC+=opfBus.getCoeffA()*opfBus.getGenP()+opfBus.getCoeffB()*Math.pow(opfBus.getGenP(), 2);
 				 minTotalCost=minTVC+opfBus.getFixedCost();	

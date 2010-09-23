@@ -36,6 +36,8 @@ import org.interpss.opf.dc.OpfQuadProgAlgorithm;
 import org.interpss.opf.dc.OpfQuadProgAlgorithmImpl;
 import org.junit.Test;
 
+import com.interpss.core.aclf.AclfBranch;
+import com.interpss.opf.OpfGenBus;
 import com.interpss.opf.OpfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -57,8 +59,6 @@ public class OpfSample_3BusTest  extends BaseTestSetup {
 			}	
 			
 			OpfNetwork opfNet = simuCtx.getOpfNet();
-			System.out.println(opfNet.net2String());
-
 			OpfQuadProgAlgorithm opfAlgo=new OpfQuadProgAlgorithmImpl();
 			opfAlgo.runDCOPF(opfNet);
 			
