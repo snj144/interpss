@@ -1,6 +1,4 @@
-package org.interpss.opf.dc;
-
-import java.util.List;
+package org.interpss.opf.dc.util;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.ArrayRealVector;
