@@ -1,4 +1,4 @@
-package org.interpss.opf.dc;
+package org.interpss.opf.dc.util;
 
 import com.interpss.core.net.Bus;
 import com.interpss.opf.OpfGenBus;
