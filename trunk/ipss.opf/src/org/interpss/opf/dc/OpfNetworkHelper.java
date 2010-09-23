@@ -18,10 +18,12 @@ public class OpfNetworkHelper {
 	// used for storing the bus and bus index relationship
 	private Hashtable<String,Integer> busIndexTable;
 
+	
 	public OpfNetworkHelper(OpfNetwork opfNet) {
 		this.opfNet = opfNet;
 	}
 	
+	// cost matrix composed by coefficient 2*bi	
 	public Array2DRowRealMatrix formU() {
 		int numOfGen = opfNet.getNoOfGen();
 			Array2DRowRealMatrix U = new Array2DRowRealMatrix(numOfGen, numOfGen);
@@ -40,78 +42,80 @@ public class OpfNetworkHelper {
 			return U;
 		}
 
-		private Array2DRowRealMatrix formAngleDiffWeightMatrix(OpfNetwork net) {
-			int i = 0;
-			int j = 0;
-			double ADWij = 0;
-			double ADWii = 0;
-			int numOfBus = net.getNoActiveBus();
-			Array2DRowRealMatrix angleDiffWeight = new Array2DRowRealMatrix(numOfBus, numOfBus);
+	// angel difference weight matrix	
+	private Array2DRowRealMatrix formAngleDiffWeightMatrix() {
+		int i = 0;
+		int j = 0;
+		double ADWij = 0;
+		double ADWii = 0;
+		int numOfBus = opfNet.getNoActiveBus();
+		Array2DRowRealMatrix angleDiffWeight = new Array2DRowRealMatrix(numOfBus, numOfBus);
 
-			for (Bus b : net.getBusList()) {
-				Bus busi = b;
-				ADWij = 0;
-				ADWii = 0;
-				i = this.getBusIndex(b.getId());
-				for (Branch bra : busi.getFromBranchList()) {
-					Bus busj = bra.getToBus();
-					j = this.getBusIndex(busj.getId());
-					ADWij = -1;
-					ADWii++;
-					angleDiffWeight.setEntry(i, j, ADWij);
-					angleDiffWeight.setEntry(j, i, ADWij);
+		for (Bus b : opfNet.getBusList()) {
+			Bus busi = b;
+			ADWij = 0;
+			ADWii = 0;
+			i = this.getBusIndex(b.getId());
+			for (Branch bra : busi.getFromBranchList()) {
+				Bus busj = bra.getToBus();
+				j = this.getBusIndex(busj.getId());
+				ADWij = -1;
+				ADWii++;
+				angleDiffWeight.setEntry(i, j, ADWij);
+				angleDiffWeight.setEntry(j, i, ADWij);
 
-				}
-				angleDiffWeight.setEntry(i, i, busi.getBranchList().size());
 			}
-			
-			return angleDiffWeight=(Array2DRowRealMatrix)angleDiffWeight.scalarMultiply(2*net.getAnglePenaltyFactor());
+			angleDiffWeight.setEntry(i, i, busi.getBranchList().size());
 		}
 		
-		private Array2DRowRealMatrix formReducedADWMatrix(OpfNetwork net) {
-			Array2DRowRealMatrix angleDiffWeight = formAngleDiffWeightMatrix(net);
-			int[] selectedRows = new int[angleDiffWeight.getRowDimension() - 1];
-			try {
-				selectedRows = this.getNonSwingBusRows();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			Array2DRowRealMatrix Wrr = (Array2DRowRealMatrix) angleDiffWeight.getSubMatrix(
-					selectedRows, selectedRows);
-			return Wrr;
+		return angleDiffWeight=(Array2DRowRealMatrix)angleDiffWeight.scalarMultiply(2*opfNet.getAnglePenaltyFactor());
+	}
+		
+	// reduced angle difference weight matrix
+	private Array2DRowRealMatrix formReducedADWMatrix() {
+		Array2DRowRealMatrix angleDiffWeight = formAngleDiffWeightMatrix();
+		int[] selectedRows = new int[angleDiffWeight.getRowDimension() - 1];
+		try {
+			selectedRows = this.getNonSwingBusRows();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		public Array2DRowRealMatrix formG() {
-			formReducedADWMatrix(opfNet);
-			RealMatrix U_matrix = formU();;
-			RealMatrix Wrr_matrix = formReducedADWMatrix(opfNet);
-			int Grows = U_matrix.getRowDimension() + Wrr_matrix.getRowDimension();
-			int Gcols = Grows;
-			
-			Array2DRowRealMatrix G = new Array2DRowRealMatrix(Grows, Gcols);
-			G.setSubMatrix(U_matrix.getData(), 0, 0);
-			G.setSubMatrix(Wrr_matrix.getData(), U_matrix.getRowDimension(),
-					U_matrix.getColumnDimension());
-			return G;
-		}
+		Array2DRowRealMatrix Wrr = (Array2DRowRealMatrix) angleDiffWeight.getSubMatrix(
+				selectedRows, selectedRows);
+		return Wrr;
+	}
+
+	// G={U 0;0 Wrr}
+	public Array2DRowRealMatrix formG() {
+		RealMatrix U_matrix = formU();;
+		RealMatrix Wrr_matrix = formReducedADWMatrix();
+		int Grows = U_matrix.getRowDimension() + Wrr_matrix.getRowDimension();
+		int Gcols = Grows;
+		
+		Array2DRowRealMatrix G = new Array2DRowRealMatrix(Grows, Gcols);
+		G.setSubMatrix(U_matrix.getData(), 0, 0);
+		G.setSubMatrix(Wrr_matrix.getData(), U_matrix.getRowDimension(),
+				U_matrix.getColumnDimension());
+		return G;
+	}
 
 		public ArrayRealVector formA() {
 			int numOfGen = opfNet.getNoOfGen(),
 				numOfBus = opfNet.getNoActiveBus();
 			ArrayRealVector A = new ArrayRealVector(numOfGen + numOfBus - 1);
-			A.set(0, getGenCoeffAVector(opfNet));
+			A.set(0, getGenCoeffAVector());
 			return A;
 		}
 		
-		private ArrayRealVector getGenCoeffAVector(OpfNetwork net){
-			int numOfGen=net.getNoOfGen();
+		private ArrayRealVector getGenCoeffAVector(){
+			int numOfGen=opfNet.getNoOfGen();
 			ArrayRealVector genFixCostVector =new ArrayRealVector(numOfGen);
 	        int i=0;
 			// get the constraint data from network file ;
-		      for (Bus bus:net.getBusList()) {
-		    	  if(net.isOpfGenBus(bus)){
-		    		  OpfGenBus genOPF= net.toOpfGenBus(bus);
+		      for (Bus bus:opfNet.getBusList()) {
+		    	  if(opfNet.isOpfGenBus(bus)){
+		    		  OpfGenBus genOPF= opfNet.toOpfGenBus(bus);
 		    		  genFixCostVector.setEntry(i, genOPF.getCoeffA());
 		  			i++;
 		    	  }
@@ -243,7 +247,8 @@ public class OpfNetworkHelper {
 			return biq;
 		}
 
-		private ArrayRealVector formBranchMvaConstraint() {
+	// used for creating inequality constraint
+	private ArrayRealVector formBranchMvaConstraint() {
 	    	int numOfBranch=opfNet.getNoActiveBranch();
 			// bt corresponds to line thermal inequality constraints
 			ArrayRealVector bt = new ArrayRealVector(numOfBranch); 
@@ -258,7 +263,7 @@ public class OpfNetworkHelper {
 				braIndex++;
 			}
 			return bt;
-		}
+	}
 
 		private ArrayRealVector formGenInequConstraintPmax() {
 			int numOfGen=opfNet.getNoOfGen();			
