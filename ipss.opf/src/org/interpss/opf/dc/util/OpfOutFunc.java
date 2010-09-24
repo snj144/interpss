@@ -6,8 +6,6 @@ import com.interpss.opf.OpfNetwork;
 
 public class OpfOutFunc {
 	public static String opfResultSummary(OpfNetwork opfnet) {
-		 double minTVC=0;
-		 double minTotalCost=0;
 		 final StringBuffer str = new StringBuffer("\n\n");
 		 str.append("           ---DCOPF SOLUTION RESULT SUMMARY---            \n");
 		 str.append("----------------------------------------------------\n");
@@ -21,8 +19,8 @@ public class OpfOutFunc {
 				 
 				 str.append(String.format("%10s","True"));
 				 str.append(String.format("%14.3f",opfBus.getGenP()));
-				 minTVC+=opfBus.getCoeffA()*opfBus.getGenP()+opfBus.getCoeffB()*Math.pow(opfBus.getGenP(), 2);
-				 minTotalCost=minTVC+opfBus.getFixedCost();	
+				 //minTVC+=opfBus.getCoeffA()*opfBus.getGenP()+opfBus.getCoeffB()*Math.pow(opfBus.getGenP(), 2);
+				 //minTotalCost=minTVC+opfBus.getFixedCost();	
 			 }
 			 else str.append(String.format("%10s","False"));
 			 str.append(String.format("%17.2f",((OpfGenBus)b).getVoltageAng()));	
@@ -30,8 +28,10 @@ public class OpfOutFunc {
 		 }
 		 
 		 str.append("----------------------------------------------------\n\n");
-		 str.append(String.format("Minimun Total Variable Cost: %6.3f",minTVC)+"\n");
-		 str.append(String.format("Minimun Total Cost: %6.3f",minTotalCost)+"\n");
+		 str.append(String.format("Minimun Total Variable Cost: %6.3f", 
+				 opfnet.getMinTotalVariableCost())+"\n");
+		 str.append(String.format("Minimun Total Cost: %6.3f",
+				 opfnet.getMinTotalVariableCost()+opfnet.getTotalFixedCost())+"\n");
 		 return str.toString();
 	}
 }
