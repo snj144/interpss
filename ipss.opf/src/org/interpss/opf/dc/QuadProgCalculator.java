@@ -76,11 +76,14 @@ public class QuadProgCalculator {
 	private void saveOPFResult(OpfNetwork net) {
 			double[] busAngle=null;
 
+			// extract the angle value
 			busAngle=new double[net.getNoActiveBus()-1];
 			int noOfGen = net.getNoOfGen();
 			for(int k=noOfGen;k<noOfGen+net.getNoActiveBus()-1;k++){
 				busAngle[k-noOfGen]=this.optimX[k]; // voltAngle in radians
 			}
+			
+			// set gen P to opfNet bus object
 			int genIndex=0;
 			for(Bus b:net.getBusList()){
 				if(net.isOpfGenBus(b)){
@@ -88,6 +91,8 @@ public class QuadProgCalculator {
 					genIndex++;
 				}
 			}
+
+			// set bus angle to opfNet bus object
 			int nonSwingBusIndex=0;
 			for(Bus b: net.getBusList()){
 				AclfBus acbus=(AclfBus) b;
