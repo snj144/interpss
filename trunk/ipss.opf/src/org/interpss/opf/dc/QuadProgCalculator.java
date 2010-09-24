@@ -49,7 +49,7 @@ public class QuadProgCalculator {
 	
 	private void solveQP(OpfNetwork net) {
 		OpfNetworkHelper helper = new OpfNetworkHelper(net);
-		helper.formBusIndexTable();
+		//helper.formBusIndexTable(); called in the construct
 		
 //			System.out.println("G:"+Apache2Colt.trans(G));
 //			System.out.println("A:"+Apache2Colt.trans(A));
