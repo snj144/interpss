@@ -29,8 +29,6 @@ package org.interpss.opf.dc;
  * to feed into the QuafProgCalculator for DC-OPF calculation
  */
 
-import java.util.Hashtable;
-
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.RealMatrix;
@@ -48,12 +46,22 @@ public class OpfNetworkHelper {
 		// 10000=1/0.0001 ,namely set the line Xij minimum to be 0.0001;
 	
 	private OpfNetwork opfNet = null;
-	// used for storing the bus and bus index relationship
-	private Hashtable<String,Integer> busIndexTable;
-
 	
 	public OpfNetworkHelper(OpfNetwork opfNet) {
 		this.opfNet = opfNet;
+		this.formBusIndexTable();
+	}
+
+	/**
+	 * Form bus index, bus sortNumber field is used for bus index. This
+	 * method has to be called at the first before calling any method of
+	 * this help class
+	 */
+	private void formBusIndexTable() {
+		int cnt = 0;
+		for (Bus b : opfNet.getBusList()) {
+			b.setSortNumber(cnt++);
+		}
 	}
 	
 	// cost matrix composed by coefficient 2*bi	
@@ -84,10 +92,10 @@ public class OpfNetworkHelper {
 		for (Bus busi : opfNet.getBusList()) {
 			double ADWij = 0;
 			double ADWii = 0;
-			int i = this.getBusIndex(busi.getId());
+			int i = busi.getSortNumber();
 			for (Branch bra : busi.getFromBranchList()) {
 				Bus busj = bra.getToBus();
-				int j = this.getBusIndex(busj.getId());
+				int j = busj.getSortNumber();
 				ADWij = -1;
 				ADWii++;
 				angleDiffWeight.setEntry(i, j, ADWij);
@@ -163,7 +171,7 @@ public class OpfNetworkHelper {
 			 * bus;
 			 */
 			if (opfNet.isOpfGenBus(b)) {
-				genBusAdjacent.setEntry(this.getBusIndex(b.getId()), genCount, 1);
+				genBusAdjacent.setEntry(b.getSortNumber(), genCount, 1);
 				genCount++;
 			}
 		}
@@ -179,7 +187,7 @@ public class OpfNetworkHelper {
 		ArrayRealVector beq = new ArrayRealVector(opfNet.getNoActiveBus());
 		for (Bus b : opfNet.getBusList()) {
 			AclfBus acbus = (AclfBus) b;
-			int busIndex = this.getBusIndex(acbus.getId());
+			int busIndex = acbus.getSortNumber();
 			if (acbus.isLoad()) {
 				beq.setEntry(busIndex, acbus.getLoadP());
 			}
@@ -206,12 +214,12 @@ public class OpfNetworkHelper {
 
 			// create branch-bus connected or adjacent matrix;
 			if (!((AclfBus) bra.getFromBus()).isSwing()) {
-				int fromBusIndex = this.getBusIndex(bra.getFromBus().getId());
+				int fromBusIndex = bra.getFromBus().getSortNumber();
 				fromBusIndex=(fromBusIndex<this.getSwingBusIndex())?fromBusIndex:fromBusIndex-1; // insure nonswing bus;
 				braBusAdjacent.setEntry(braIndex, fromBusIndex, 1);
 			}
 			if (!((AclfBus) bra.getToBus()).isSwing()) {
-				int toBusIndex = this.getBusIndex(bra.getToBus().getId());
+				int toBusIndex = bra.getToBus().getSortNumber();
 				toBusIndex=(toBusIndex<this.getSwingBusIndex())?toBusIndex:toBusIndex-1; 
 				braBusAdjacent.setEntry(braIndex, toBusIndex, -1);
 			}
@@ -276,6 +284,14 @@ public class OpfNetworkHelper {
 	}
 
 	private ArrayRealVector formGenInequConstraintPmax() {
+	    return formGenInequConstraint(true);
+	}
+
+	private ArrayRealVector formGenInequConstraintPmin() {
+	    return formGenInequConstraint(false);
+	}
+
+	private ArrayRealVector formGenInequConstraint(boolean isMax) {
 		int numOfGen=opfNet.getNoOfGen();			
 		// including b_Pmin, b_Pmax;
 		ArrayRealVector b_Pmax = new ArrayRealVector(numOfGen); // b_Pmax corresponds to generators' upper active power limit
@@ -285,30 +301,14 @@ public class OpfNetworkHelper {
 	    for (Bus bus:opfNet.getBusList()) {
 	    	  if(opfNet.isOpfGenBus(bus)){
 	    		OpfGenBus genOPF=opfNet.toOpfGenBus(bus);	
-	  			b_Pmax.setEntry(i, -genOPF.getCapacityLimit().getMax()/baseMVA);
+	  			b_Pmax.setEntry(i, isMax?
+	  					-genOPF.getCapacityLimit().getMax()/baseMVA :
+	  					genOPF.getCapacityLimit().getMin()/baseMVA);
 	  			i++;
 	    	  }
 			
 		}
 	    return b_Pmax;
-	}
-
-	private ArrayRealVector formGenInequConstraintPmin() {
-		int numOfGen=opfNet.getNoOfGen();			
-		// including b_Pmin, b_Pmax;
-		ArrayRealVector b_Pmin = new ArrayRealVector(numOfGen); // b_Pmin corresponds to generators' lower active power limit
-        int i=0;
-        double baseMVA=opfNet.getBaseKva()*0.001;
-		// get the constraint data from network file ;
-	    for (Bus bus:opfNet.getBusList()) {
-	    	  if(opfNet.isOpfGenBus(bus)){
-	    		OpfGenBus genOPF=opfNet.toOpfGenBus(bus);	
-	    		b_Pmin.setEntry(i, genOPF.getCapacityLimit().getMin()/baseMVA); //saved in inequal constraint vector in PU unit
-	  			i++;
-	    	  }
-			
-		}
-	    return b_Pmin;
 	}
 		
 	private Array2DRowRealMatrix getReducedBusAdmittance() {
@@ -319,15 +319,12 @@ public class OpfNetworkHelper {
 		// here B1 formed by InterPSS itself is under consideration to be reused
 		// ;
 
-		Array2DRowRealMatrix busAdmReduced = new Array2DRowRealMatrix(
-				numOfBus - 1, numOfBus); // reduced bus admittance
-													// matrix
 		Array2DRowRealMatrix tempBusAdm = new Array2DRowRealMatrix(
 				numOfBus, numOfBus);
 
 		for (Bus b : opfNet.getBusList()) {
 			AclfBus busi = (AclfBus) b;
-			int i = this.getBusIndex(busi.getId());
+			int i = busi.getSortNumber();
 			double Bij = 0;
 			double Bii = 0;
 
@@ -335,7 +332,7 @@ public class OpfNetworkHelper {
 				Bus busj = bra.getToBus().equals(busi) ? bra.getFromBus() : bra
 						.getToBus();
 				AclfBranch aclfBranch = (AclfBranch) bra;
-				int j = this.getBusIndex(busj.getId());
+				int j = busj.getSortNumber();
 				Bij = 1.0 / aclfBranch.getZ().getImaginary();// aclfBranch.b1ft();
 				tempBusAdm.setEntry(i, j, -Bij);
 				Bii += Bij;
@@ -343,6 +340,8 @@ public class OpfNetworkHelper {
 			tempBusAdm.setEntry(i, i, Bii);
 		}
 
+		Array2DRowRealMatrix busAdmReduced = new Array2DRowRealMatrix(
+				numOfBus - 1, numOfBus); // reduced bus admittance matrix
 		int[] selectedRows = this.getNonSwingBusRows();
 		for (int index = 0; index < selectedRows.length; index++) {
 			busAdmReduced.setRow(index, tempBusAdm.getRow(selectedRows[index]));
@@ -366,30 +365,14 @@ public class OpfNetworkHelper {
 		return NonSwingBusRows;
 	}
 
-	public void formBusIndexTable() {
-		this.busIndexTable=new Hashtable<String, Integer>(opfNet.getNoBus()*2);
-		for (int busIndex = 0; busIndex < opfNet.getNoBus(); busIndex++) {
-			Bus b = opfNet.getBusList().get(busIndex);
-			this.busIndexTable.put(b.getId(), busIndex);
-		}
-	}
-		
-	private int getBusIndex(String busId){
-		return getBusIndexTable().get(busId);
-	}
-		
 	private int getSwingBusIndex(){
-			int swingBusIndex=0;
-			for(Bus b:opfNet.getBusList()){
-				if(((AclfBus)b).isSwing()){
-					swingBusIndex=getBusIndexTable().get(b.getId());
-					break;
-				}
+		// assume there is one swing bus in the system
+		for(Bus b : opfNet.getBusList()){
+			if(((AclfBus)b).isSwing()){
+				return b.getSortNumber();
 			}
-			return swingBusIndex;
-	}
-
-	private Hashtable<String, Integer> getBusIndexTable(){
-			return this.busIndexTable;
+		}
+		IpssLogger.getLogger().severe("No swing bus found in the system");
+		return 0;
 	}
 }
