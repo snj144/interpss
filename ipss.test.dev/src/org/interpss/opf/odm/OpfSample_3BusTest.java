@@ -24,6 +24,8 @@
 
 package org.interpss.opf.odm;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.FileInputStream;
 
@@ -56,12 +58,19 @@ public class OpfSample_3BusTest  extends BaseTestSetup {
 			}	
 			
 			OpfNetwork opfNet = simuCtx.getOpfNet();
-			System.out.println(opfNet.net2String());
+//			System.out.println(opfNet.net2String());
 
 			QuadProgCalculator opfAlgo=new QuadProgCalculator();
 			opfAlgo.runDCOPF(opfNet);
 			
 			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
+			
+/*
+Minimun Total Variable Cost: 26.215
+Minimun Total Cost: 506.106
+ */
+		  	assertTrue(Math.abs(opfNet.getMinTotalVariableCost() - 26.215) < 0.01);			
+		  	assertTrue(Math.abs(opfNet.getTotalFixedCost() - (506.106-26.215)) < 0.01);			
 		}
 	}
 }
