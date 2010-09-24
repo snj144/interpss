@@ -44,6 +44,9 @@ import com.interpss.opf.OpfGenBus;
 import com.interpss.opf.OpfNetwork;
 
 public class OpfNetworkHelper {
+	public final static double DEFAULT_BIJ = 10000; 
+		// 10000=1/0.0001 ,namely set the line Xij minimum to be 0.0001;
+	
 	private OpfNetwork opfNet = null;
 	// used for storing the bus and bus index relationship
 	private Hashtable<String,Integer> busIndexTable;
@@ -75,21 +78,16 @@ public class OpfNetworkHelper {
 
 	// angel difference weight matrix	
 	private Array2DRowRealMatrix formAngleDiffWeightMatrix() {
-		int i = 0;
-		int j = 0;
-		double ADWij = 0;
-		double ADWii = 0;
 		int numOfBus = opfNet.getNoActiveBus();
 		Array2DRowRealMatrix angleDiffWeight = new Array2DRowRealMatrix(numOfBus, numOfBus);
 
-		for (Bus b : opfNet.getBusList()) {
-			Bus busi = b;
-			ADWij = 0;
-			ADWii = 0;
-			i = this.getBusIndex(b.getId());
+		for (Bus busi : opfNet.getBusList()) {
+			double ADWij = 0;
+			double ADWii = 0;
+			int i = this.getBusIndex(busi.getId());
 			for (Branch bra : busi.getFromBranchList()) {
 				Bus busj = bra.getToBus();
-				j = this.getBusIndex(busj.getId());
+				int j = this.getBusIndex(busj.getId());
 				ADWij = -1;
 				ADWii++;
 				angleDiffWeight.setEntry(i, j, ADWij);
@@ -99,36 +97,31 @@ public class OpfNetworkHelper {
 			angleDiffWeight.setEntry(i, i, busi.getBranchList().size());
 		}
 		
-		return angleDiffWeight=(Array2DRowRealMatrix)angleDiffWeight.scalarMultiply(2*opfNet.getAnglePenaltyFactor());
+		return angleDiffWeight=(Array2DRowRealMatrix)angleDiffWeight
+					.scalarMultiply(2*opfNet.getAnglePenaltyFactor());
 	}
 		
 	// reduced angle difference weight matrix
 	private Array2DRowRealMatrix formReducedADWMatrix() {
 		Array2DRowRealMatrix angleDiffWeight = formAngleDiffWeightMatrix();
-		int[] selectedRows = new int[angleDiffWeight.getRowDimension() - 1];
 		try {
-			selectedRows = this.getNonSwingBusRows();
+			int[] selectedRows = this.getNonSwingBusRows();
+			return (Array2DRowRealMatrix) angleDiffWeight.getSubMatrix(selectedRows, selectedRows);
 		} catch (Exception e) {
 			e.printStackTrace();
 			IpssLogger.getLogger().severe(e.toString());
 		}
-
-		Array2DRowRealMatrix Wrr = (Array2DRowRealMatrix) angleDiffWeight.getSubMatrix(
-				selectedRows, selectedRows);
-		return Wrr;
+		return null;
 	}
 
 	// G={U 0;0 Wrr}
 	public Array2DRowRealMatrix formG() {
 		RealMatrix U_matrix = formU();;
 		RealMatrix Wrr_matrix = formReducedADWMatrix();
-		int Grows = U_matrix.getRowDimension() + Wrr_matrix.getRowDimension();
-		int Gcols = Grows;
-		
-		Array2DRowRealMatrix G = new Array2DRowRealMatrix(Grows, Gcols);
+		int gcnt = U_matrix.getRowDimension() + Wrr_matrix.getRowDimension();
+		Array2DRowRealMatrix G = new Array2DRowRealMatrix(gcnt, gcnt);
 		G.setSubMatrix(U_matrix.getData(), 0, 0);
-		G.setSubMatrix(Wrr_matrix.getData(), U_matrix.getRowDimension(),
-				U_matrix.getColumnDimension());
+		G.setSubMatrix(Wrr_matrix.getData(), U_matrix.getRowDimension(), U_matrix.getColumnDimension());
 		return G;
 	}
 
@@ -145,30 +138,23 @@ public class OpfNetworkHelper {
 		ArrayRealVector genFixCostVector =new ArrayRealVector(numOfGen);
         int i=0;
 		// get the constraint data from network file ;
-	      for (Bus bus:opfNet.getBusList()) {
-	    	  if(opfNet.isOpfGenBus(bus)){
-	    		  OpfGenBus genOPF= opfNet.toOpfGenBus(bus);
-	    		  genFixCostVector.setEntry(i, genOPF.getCoeffA());
+	    for (Bus bus:opfNet.getBusList()) {
+	    	if(opfNet.isOpfGenBus(bus)){
+	    		OpfGenBus genOPF= opfNet.toOpfGenBus(bus);
+	    		genFixCostVector.setEntry(i, genOPF.getCoeffA());
 	  			i++;
-	    	  }
-	       }
+	    	}
+	    }
 		return genFixCostVector;
 	}
 		
 	public Array2DRowRealMatrix formCeq() {
 		int numOfBus=opfNet.getNoActiveBus();
 		int numOfGen=opfNet.getNoOfGen();			
-		Array2DRowRealMatrix CeqTranspose = new Array2DRowRealMatrix(
-				numOfBus, numOfBus + numOfGen - 1);
-		Array2DRowRealMatrix Ceq = new Array2DRowRealMatrix(numOfBus + numOfGen - 1, numOfBus);
-		Array2DRowRealMatrix genBusAdjacent = new Array2DRowRealMatrix(	numOfBus, numOfGen);
-		Array2DRowRealMatrix BrTranspose = new Array2DRowRealMatrix(
-				numOfBus, numOfBus - 1); // reduced bus admittance
-													// matrix
 
+		Array2DRowRealMatrix genBusAdjacent = new Array2DRowRealMatrix(	numOfBus, numOfGen);
 		int genCount = 0;
 		for (Bus b : opfNet.getBusList()) {
-			
 			// set the elements in genBusAdjacent matrix to ONE if there is a
 			// generator ;
 			/*
@@ -181,21 +167,19 @@ public class OpfNetworkHelper {
 				genCount++;
 			}
 		}
-		BrTranspose = (Array2DRowRealMatrix) this.getReducedBusAdmittance()
-				.transpose();
+		Array2DRowRealMatrix BrTranspose = (Array2DRowRealMatrix) this.getReducedBusAdmittance().transpose();
 
+		Array2DRowRealMatrix CeqTranspose = new Array2DRowRealMatrix(numOfBus, numOfBus + numOfGen - 1);
 		CeqTranspose.setSubMatrix(genBusAdjacent.getData(), 0, 0); // Ceq'={genBusAdjacent,BrTranspose}
 		CeqTranspose.setSubMatrix(BrTranspose.scalarMultiply(-1).getData(), 0, numOfGen);
-		Ceq = (Array2DRowRealMatrix) CeqTranspose.transpose();
-		return Ceq;
+		return (Array2DRowRealMatrix) CeqTranspose.transpose();
 	}
 
 	public ArrayRealVector formBeq() {
 		ArrayRealVector beq = new ArrayRealVector(opfNet.getNoActiveBus());
-		int busIndex = 0;
 		for (Bus b : opfNet.getBusList()) {
 			AclfBus acbus = (AclfBus) b;
-			busIndex = this.getBusIndex(acbus.getId());
+			int busIndex = this.getBusIndex(acbus.getId());
 			if (acbus.isLoad()) {
 				beq.setEntry(busIndex, acbus.getLoadP());
 			}
@@ -207,21 +191,12 @@ public class OpfNetworkHelper {
     	int numOfBranch=opfNet.getNoActiveBranch();
 		int numOfBus=opfNet.getNoActiveBus();
 		int numOfGen=opfNet.getNoOfGen();
-		Array2DRowRealMatrix braAdmDiag = new Array2DRowRealMatrix(
-				numOfBranch, numOfBranch);
-		Array2DRowRealMatrix braBusAdjacent = new Array2DRowRealMatrix(
-				numOfBranch, numOfBus - 1);
-		Array2DRowRealMatrix eyeGenP = new Array2DRowRealMatrix(numOfGen, numOfGen);
-		Array2DRowRealMatrix CiqTranspose = new Array2DRowRealMatrix(
-				numOfBranch * 2 + numOfGen * 2, numOfGen + numOfBus - 1);
 
-		final double DEFAULT_BIJ = 10000; // 10000=1/0.0001 ,namely set the
-											// line Xij minimum to be 0.0001;
 		double bij = DEFAULT_BIJ;
+		
 		int braIndex = 0;
-		int fromBusIndex = 0;
-		int toBusIndex = 0;
-
+		Array2DRowRealMatrix braAdmDiag = new Array2DRowRealMatrix(numOfBranch, numOfBranch);
+		Array2DRowRealMatrix braBusAdjacent = new Array2DRowRealMatrix(numOfBranch, numOfBus - 1);
 		for (Branch bra : opfNet.getBranchList()) {
 			AclfBranch aclfBra = (AclfBranch) bra;
 			// create branch admittance matrix
@@ -231,19 +206,20 @@ public class OpfNetworkHelper {
 
 			// create branch-bus connected or adjacent matrix;
 			if (!((AclfBus) bra.getFromBus()).isSwing()) {
-				fromBusIndex = this.getBusIndex(bra.getFromBus().getId());
+				int fromBusIndex = this.getBusIndex(bra.getFromBus().getId());
 				fromBusIndex=(fromBusIndex<this.getSwingBusIndex())?fromBusIndex:fromBusIndex-1; // insure nonswing bus;
 				braBusAdjacent.setEntry(braIndex, fromBusIndex, 1);
 			}
 			if (!((AclfBus) bra.getToBus()).isSwing()) {
-				toBusIndex = this.getBusIndex(bra.getToBus().getId());
+				int toBusIndex = this.getBusIndex(bra.getToBus().getId());
 				toBusIndex=(toBusIndex<this.getSwingBusIndex())?toBusIndex:toBusIndex-1; 
 				braBusAdjacent.setEntry(braIndex, toBusIndex, -1);
 			}
 			braIndex++;
-
 		}
+
 		int genIndex = 0;
+		Array2DRowRealMatrix eyeGenP = new Array2DRowRealMatrix(numOfGen, numOfGen);
 		for (Bus bus : opfNet.getBusList()) {
 			if (opfNet.isOpfGenBus(bus)) {
 				eyeGenP.setEntry(genIndex, genIndex, 1);
@@ -256,21 +232,25 @@ public class OpfNetworkHelper {
 		//      eyeGenP,Op;
 		//      -eyeGenP,-Op}
 
+		Array2DRowRealMatrix CiqTranspose = new Array2DRowRealMatrix(
+				numOfBranch * 2 + numOfGen * 2, numOfGen + numOfBus - 1);
 		CiqTranspose.setSubMatrix(DAr.scalarMultiply(-1).getData(), 0, numOfGen);
 		CiqTranspose.setSubMatrix(DAr.getData(), numOfBranch, numOfGen);
 		CiqTranspose.setSubMatrix(eyeGenP.getData(), 2 * numOfBranch, 0);
 		CiqTranspose.setSubMatrix(eyeGenP.scalarMultiply(-1).getData(), 2* numOfBranch + numOfGen, 0);
-		// Ciq=CiqTranspose'
+					// Ciq=CiqTranspose'
 		return (Array2DRowRealMatrix) CiqTranspose.transpose();
 	}
 
 	public ArrayRealVector formBiq() {
     	int numOfBranch=opfNet.getNoActiveBranch();
 		int numOfGen=opfNet.getNoOfGen();			
-		ArrayRealVector biq = new ArrayRealVector(numOfBranch * 2 + numOfGen * 2);
+		
 		ArrayRealVector bt = formBranchMvaConstraint();
 		ArrayRealVector b_Pmax = formGenInequConstraintPmax();
 		ArrayRealVector b_Pmin = formGenInequConstraintPmin();
+
+		ArrayRealVector biq = new ArrayRealVector(numOfBranch * 2 + numOfGen * 2);
 		biq.set(0, bt);
 		biq.set(numOfBranch, bt);
 		biq.set(numOfBranch * 2, b_Pmin);
@@ -283,13 +263,12 @@ public class OpfNetworkHelper {
     	int numOfBranch=opfNet.getNoActiveBranch();
 		// bt corresponds to line thermal inequality constraints
 		ArrayRealVector bt = new ArrayRealVector(numOfBranch); 
-		double ratingMva1 = 0;
 		double baseMVA=opfNet.getBaseKva()*0.001;
 		int braIndex = 0;
 		// form the bt;
 		for (Branch bra : opfNet.getBranchList()) {
 			AclfBranch acBranch = (AclfBranch) bra;
-			ratingMva1 = acBranch.getRatingMva1()/baseMVA;
+			double ratingMva1 = acBranch.getRatingMva1()/baseMVA;
 			bt.setEntry(braIndex, -ratingMva1);
 			braIndex++;
 		}
