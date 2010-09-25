@@ -15,7 +15,6 @@
 	<element name="studyScenario" type="pss:StudyScenarioXmlType" />
 	<element name="ipssStudyScenario" type="pss:IpssStudyScenarioXmlType" substitutionGroup="pss:studyScenario"/>
 
-
 	<complexType name="StudyScenarioXmlType" abstract="true">
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
@@ -27,7 +26,15 @@
 	</complexType>
 
 	<complexType name="IpssStudyScenarioXmlType">
-		<complexContent>
+        <annotation>
+        	<documentation>
+Key concepts:
+- Acsc Fault : defined using Fault Type (BusFault, BranchFault, BranchOutage) and Fault Category (3P, LG, LL, LLG)
+- Dynamic Event : defined using Dynamic Event Type (Fault, LoadChange, SetPointChange). Dynamic Event Fault is then 
+               defined using Acsc Fault.
+</documentation>
+        </annotation>
+        <complexContent>
 			<extension base="pss:StudyScenarioXmlType">
 				<sequence>
 					<ns:element name="gridRunOption" minOccurs="0" maxOccurs="1" type="pss:GridComputingXmlType"></ns:element>
@@ -234,7 +241,10 @@ than one SetPointChange dynamic events</documentation>
 	</ns:simpleType>
 
 	<complexType name="DynamicEventXmlType">
-		<sequence>
+        <annotation>
+        	<documentation></documentation>
+        </annotation>
+        <sequence>
 			<ns:element name="startTime" type="pss:TimePeriodXmlType" minOccurs="1"></ns:element>
 			<ns:element name="duration" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 			<ns:element name="permanentFault" type="boolean" maxOccurs="1" minOccurs="0"></ns:element>
