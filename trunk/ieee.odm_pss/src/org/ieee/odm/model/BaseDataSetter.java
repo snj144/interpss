@@ -133,6 +133,22 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	}
 
 	/**
+	 * convert the time oboject to unit sec
+	 */
+	public static double convertTime2Sec(TimePeriodXmlType timeXml, double frequency){
+		Double val = timeXml.getValue();
+		TimePeriodUnitType unit= timeXml.getUnit();
+		if(unit == TimePeriodUnitType.MIN){
+			val=val*60;
+		}else if(unit == TimePeriodUnitType.HOUR){
+			val=val*60*60;
+		}else if(unit == TimePeriodUnitType.CYCLE){
+			val=1/frequency*val;
+		}
+		return val;
+	}
+	
+	/**
 	 * set value (max, min) to the limit object
 	 * 
 	 * @param limit
