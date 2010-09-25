@@ -374,6 +374,9 @@
 			<enumeration value="LineToLine"></enumeration>
 			<enumeration value="LineToGround"></enumeration>
 			<enumeration value="LineLineToGround"></enumeration>
+			<enumeration value="Outage_3Phase"></enumeration>
+			<enumeration value="Outage_1Phase"></enumeration>
+			<enumeration value="Outage_2Phase"></enumeration>			
 		</restriction>
 	</simpleType>
 
@@ -666,8 +669,7 @@
 	<simpleType name="PreFaultBusVoltageEnumType">
 		<restriction base="string">
 			<enumeration value="Loadflow"></enumeration>
-			<enumeration value="Fixed"></enumeration>
-			<enumeration value="MFactorInPercentage"></enumeration>
+			<enumeration value="UnitVolt"></enumeration>
 		</restriction>
 	</simpleType>
 	

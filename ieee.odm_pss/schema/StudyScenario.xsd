@@ -152,6 +152,11 @@
 					<ns:element name="fault" minOccurs="1" type="pss:AcscFaultXmlType"></ns:element>
 					<ns:element name="preFaultBusVoltage" minOccurs="0"
 						maxOccurs="1" type="pss:PreFaultBusVoltageEnumType"></ns:element>
+					<ns:element name="multiFactor" type="ns:double" minOccurs="0" maxOccurs="1">
+						<ns:annotation>
+							<ns:documentation>bus voltage multi-factor in percent</ns:documentation>
+						</ns:annotation>
+					</ns:element>						
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -168,7 +173,12 @@
 					<element name="aclfInitialization" maxOccurs="1" minOccurs="1" type="pss:AclfAlgorithmXmlType"/>
 					<element name="dynamicEvents" maxOccurs="1" minOccurs="1">
 						<complexType>
-							<sequence>
+                            <annotation>
+                            	<documentation>when disableDynEvents = true, SetPointChange events might be added. All other dynamic events are ignore. 
+When study SetPointChange dynamic evetns, you must disableDynEvents = true. There should be not be more
+than one SetPointChange dynamic events</documentation>
+                            </annotation>
+                            <sequence>
 								<element name="disableDynEvents" type="boolean" maxOccurs="1" minOccurs="0"></element>
 								<element name="dynamicEvent" type="pss:DynamicEventXmlType" maxOccurs="unbounded" minOccurs="0"></element>
 							</sequence>
