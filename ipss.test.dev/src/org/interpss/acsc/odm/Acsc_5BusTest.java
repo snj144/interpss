@@ -12,10 +12,7 @@ import org.interpss.mapper.odm.IEEEODMMapper;
 import org.junit.Test;
 
 import com.interpss.common.util.TestUtilFunc;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBusFault;
-import com.interpss.core.acsc.SimpleFaultNetwork;
-import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -41,9 +38,7 @@ public class Acsc_5BusTest extends BaseTestSetup {
 			//assertTrue(busFault.getFaultType().equals(SimpleFaultType.BUS_FAULT));
 			//assertTrue(Math.abs(busFault.getZLGFault().getImaginary()-0)==0);
 			
-			SimpleFaultNetwork faultNet = simuCtx.getAcscFaultNet();
-			SimpleFaultAlgorithm acscAnalysis = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, msg);
-			acscAnalysis.calculateBusFault(busFault);
+			simuCtx.getSimpleFaultAlgorithm().calculateBusFault(busFault);
 			//System.out.println(AcscOutFunc.faultResult2String(faultNet));
 			
 	  		//System.out.println(busFault.toString(
