@@ -66,12 +66,14 @@ import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;
 import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.acsc.XfrConnectCode;
+import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
 public class ODMAcscDataMapperImpl {
 	/**
-	 * transfer info stored in the parser object into simuCtx object
+	 * transfer info stored in the parser object into simuCtx object. It creates a SimpleFaultNetwork object
+	 * and a SimpleFaultAlgorithm object, and transfer the info into the objects 
 	 * 
 	 * @param parser
 	 * @param simuCtx
@@ -94,6 +96,10 @@ public class ODMAcscDataMapperImpl {
 				SimpleFaultNetwork acscFaultNet =  CoreObjectFactory.createSimpleFaultNetwork();						
 				simuCtx.setAcscFaultNet(acscFaultNet);
 
+				SimpleFaultAlgorithm acscAlgo = CoreObjectFactory.createSimpleFaultAlgorithm(acscFaultNet, 
+											simuCtx.getMsgHub());
+				simuCtx.setSimpleFaultAlgorithm(acscAlgo);
+				
 				mapNetworkData(acscFaultNet,xmlNet);
 
 				// map the bus info
@@ -143,7 +149,7 @@ public class ODMAcscDataMapperImpl {
 				// map the fault network information
 				if(parser.getStudyCase().getStudyScenario()!=null){
 					IpssStudyScenarioXmlType s = (IpssStudyScenarioXmlType)parser.getStudyCase().getStudyScenario().getValue();
-					new AcscScenarioHelper(acscFaultNet).
+					new AcscScenarioHelper(acscFaultNet, acscAlgo).
 								mapOneFaultScenario(s);
 				}
 			} catch (InterpssException e) {

@@ -138,14 +138,12 @@ public class Xml2DStabAlgorithmMapperImpl {
 					dstabData.getDynamicEventData().getEventList().getEventArray(0).getEventType() == DynamicEventDataType.SET_POINT_CHANGE) {
 				SetPointChangeData scdata = dstabData.getDynamicEventData().getEventList().getEventArray(0).getSetPointChangeData();
 				if (scdata != null) {
-					IpssLogger.getLogger().info(
-							"Dynamic Event Type: SetPointChange");
+					IpssLogger.getLogger().info("Dynamic Event Type: SetPointChange");
 					String machId = scdata.getMachId();
 					Machine mach = getMachine(dstabNet, machId);
 					if (mach == null)
 						return false;
-					IpssLogger.getLogger().info(
-							"SetPointChange mach id : " + mach.getId());
+					IpssLogger.getLogger().info("SetPointChange mach id : " + mach.getId());
 
 					DynamicEvent event = DStabObjectFactory.createDEvent(
 							Constants.Token_SetPointChangeId + machId,
@@ -154,10 +152,8 @@ public class Xml2DStabAlgorithmMapperImpl {
 					event.setStartTimeSec(0.0);
 					event.setDurationSec(dstabData.getSimuConfig()
 							.getTotalSimuTimeSec());
-					SetPointChangeEvent eSetPoint = DStabObjectFactory
-							.createSetPointChangeEvent(machId, dstabNet);
-					eSetPoint
-							.setControllerType(scdata.getControllerType() == MachineControllerDataType.EXCITER ? ControllerType.EXCITER
+					SetPointChangeEvent eSetPoint = DStabObjectFactory.createSetPointChangeEvent(machId, dstabNet);
+					eSetPoint.setControllerType(scdata.getControllerType() == MachineControllerDataType.EXCITER ? ControllerType.EXCITER
 									: scdata.getControllerType() == MachineControllerDataType.GOVERNOR ? ControllerType.GOVERNOR
 											: ControllerType.STABILIZER);
 					eSetPoint.setChangeValue(scdata.getChangeValue());
@@ -166,19 +162,15 @@ public class Xml2DStabAlgorithmMapperImpl {
 				}
 			}
 		} else {
-			for (DynamicEventData.EventList.Event eventData : dstabData
-					.getDynamicEventData().getEventList().getEventArray()) {
+			for (DynamicEventData.EventList.Event eventData : dstabData.getDynamicEventData().getEventList().getEventArray()) {
 				// make sure that event name is not "" or NewEventName
 				IpssLogger.getLogger().info("Event Data: " + eventData);
 				// create event name
-				String name = "EventAt_" + eventData.getStartTimeSec()
-						+ eventData.getEventType();
+				String name = "EventAt_" + eventData.getStartTimeSec() + eventData.getEventType();
 				// map event type
-				DynamicEventType deType = getDEventType(eventData
-						.getEventType(), eventData.getFault().getFaultType());
+				DynamicEventType deType = getDEventType(eventData.getEventType(), eventData.getFault().getFaultType());
 				// create the DStabEvent
-				DynamicEvent event = DStabObjectFactory.createDEvent(eventData
-						.getRecName(), name, deType, dstabNet, msg);
+				DynamicEvent event = DStabObjectFactory.createDEvent(eventData.getRecName(), name, deType, dstabNet, msg);
 				if (event == null) {
 					SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
 							"Error to create DynamicEvent",

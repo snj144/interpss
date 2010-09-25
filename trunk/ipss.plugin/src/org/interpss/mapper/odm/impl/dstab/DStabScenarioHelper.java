@@ -1,34 +1,71 @@
+/*
+ * @(#)DStabScenarioHelper.java   
+ *
+ * Copyright (C) 2008-2010 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Stephen Hau, Mike Zhou
+ * @Version 1.0
+ * @Date 09/15/2010
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
+/*
+Key concepts:
+	- Acsc Fault : defined using Fault Type (BusFault, BranchFault, BranchOutage) and Fault Category (3P, LG, LL, LLG)
+	- Dynamic Event : defined using Dynamic Event Type (Fault, LoadChange, SetPointChange). Dynamic Event Fault is then 
+               defined using Acsc Fault.
+*/
+
 package org.interpss.mapper.odm.impl.dstab;
 
-import org.apache.commons.math.complex.Complex;
+import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.schema.AclfAlgorithmXmlType;
+import org.ieee.odm.schema.AcscFaultTypeEnumType;
 import org.ieee.odm.schema.AcscFaultXmlType;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
-import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.DStabLoadChangeEnumType;
+import org.ieee.odm.schema.DStabLoadChangeXmlType;
 import org.ieee.odm.schema.DStabMethodEnumType;
+import org.ieee.odm.schema.DStabSetPointChangeXmlType;
 import org.ieee.odm.schema.DStabSimuSettingXmlType;
-import org.ieee.odm.schema.DStabilitySimulationXmlType;
+import org.ieee.odm.schema.DStabSimulationXmlType;
+import org.ieee.odm.schema.DynamicEventEnumType;
 import org.ieee.odm.schema.DynamicEventXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
+import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
-import org.ieee.odm.schema.LfMethodEnumType;
+import org.ieee.odm.schema.MachineControllerEnumType;
 import org.ieee.odm.schema.ScenarioXmlType;
+import org.ieee.odm.schema.SetPointChangeEnumType;
 import org.ieee.odm.schema.StaticLoadEnumType;
 import org.ieee.odm.schema.StaticLoadModelXmlType;
 import org.ieee.odm.schema.TimePeriodUnitType;
 import org.ieee.odm.schema.TimePeriodXmlType;
-import org.ieee.odm.schema.ZXmlType;
+import org.interpss.mapper.odm.impl.aclf.AclfScenarioHelper;
+import org.interpss.mapper.odm.impl.acsc.AcscScenarioHelper;
 
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
+import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.acsc.AcscBranch;
+import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscBusFault;
-import com.interpss.core.acsc.SimpleFaultCode;
-import com.interpss.core.algorithm.AclfMethod;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.net.Branch;
-import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
@@ -38,15 +75,22 @@ import com.interpss.dstab.devent.BranchOutageEvent;
 import com.interpss.dstab.devent.DStabBranchFault;
 import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
+import com.interpss.dstab.devent.LoadChangeEvent;
+import com.interpss.dstab.devent.LoadChangeEventType;
+import com.interpss.dstab.devent.SetPointChangeEvent;
+import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.mach.Machine;
 
 public class DStabScenarioHelper {
 	
 	private DStabilityNetwork dstabNet = null;
 	private DynamicSimuAlgorithm dstabAlgo = null;	
-	public DStabScenarioHelper(DStabilityNetwork dstabNet, DynamicSimuAlgorithm algo) {
+	private IPSSMsgHub msg = null;
+	
+	public DStabScenarioHelper(DStabilityNetwork dstabNet, DynamicSimuAlgorithm algo, IPSSMsgHub msg) {
 		this.dstabNet = dstabNet;
-		this.dstabAlgo = algo;	
+		this.dstabAlgo = algo;
+		this.msg = msg;
 	}
 	
 	public void mapOneFaultScenario( IpssStudyScenarioXmlType sScenarioXml) throws InterpssException {
@@ -60,27 +104,256 @@ public class DStabScenarioHelper {
 				// then we check if simuAlgo and dstabAnalysis info if defined
 				mapDStabSimuAlgo(scenario.getSimuAlgo().getDStabAnalysis());
 			else
-				throw new InterpssException("Acsc Scenario mapping error: data not defined properly");
+				throw new InterpssException("DStab Scenario mapping error: data not defined properly");
 		}
 		else {
-			throw new InterpssException("Acsc StudyScenario mapping error: data not defined properly");
+			throw new InterpssException("DStab StudyScenario mapping error: data not defined properly");
 		}
 	}
 	
-	private void mapDStabSimuAlgo(DStabilitySimulationXmlType dstabSimuXml) {
+	private void mapDStabSimuAlgo(DStabSimulationXmlType dstabSimuXml) throws InterpssException {
+		// map the simulation setting part
 		DStabSimuSettingXmlType settings = dstabSimuXml.getSimulationSetting();
 		mapGeneralSettings(settings);
 		
+		// map the LF algo part
 		AclfAlgorithmXmlType lfInit = dstabSimuXml.getAclfInitialization();
-		mapAclfInitialization (lfInit);		
+		new AclfScenarioHelper(this.dstabAlgo.getAclfAlgorithm())
+				.mapAclfAlgorithm(lfInit);		
 		
+		// map the dynamic event part
 		dstabAlgo.setDisableDynamicEvent(dstabSimuXml.getDynamicEvents().isDisableDynEvents());
-		for (DynamicEventXmlType eventXml : dstabSimuXml.getDynamicEvents().getDynamicEvent()) {			
-			mapDynamicEvent( eventXml);
-		}		
+		if (dstabAlgo.isDisableDynamicEvent()) {
+			/*
+			when disableDynEvents = true, SetPointChange events might be added. All other dynamic events are ignore. 
+			When study SetPointChange dynamic evetns, you must disableDynEvents = true.
+			 */
+			if (dstabSimuXml.getDynamicEvents() != null && 
+					dstabSimuXml.getDynamicEvents().getDynamicEvent().size() == 1) {
+				DynamicEventXmlType eventXml = dstabSimuXml.getDynamicEvents().getDynamicEvent().get(0);
+				if ( eventXml.getEventType() == DynamicEventEnumType.SET_POINT_CHANGE) {
+					DStabSetPointChangeXmlType spcEventXml = eventXml.getSetPointChangeData();
+					if (spcEventXml != null) {
+						setSetPointChangeDynEvent(spcEventXml, settings);						
+					}
+				}
+			}
+		}
+		else {
+			/*
+			 * In this clss file
+			 * 
+			 *    eventObj - InterPSS DynamicEvent object
+			 *    eventXml - ODM DynamicEvent xml record 
+			 */
+			for (DynamicEventXmlType eventXml : dstabSimuXml.getDynamicEvents().getDynamicEvent()) {			
+				// create event name
+				String name = eventXml.getName();
+				if (name == null) 
+					name = "EventAt_" + eventXml.getStartTime().getValue() + "[" +
+					       eventXml.getStartTime().getUnit() + "]->" + eventXml.getEventType();
+				if (eventXml.getId() == null)
+					eventXml.setId(name);
+				
+				// map event type
+				DynamicEventType deType = getDynamicEventType(eventXml.getEventType(), eventXml.getFault().getFaultType());
+
+				// create the DStabEvent
+				DynamicEvent eventObj = DStabObjectFactory.createDEvent(eventXml.getId(), name, deType, dstabNet, msg);
+			
+				setDynamicEventData(eventObj, eventXml);		
+			}		
+		}
+	}
+	
+	/**
+	 * Transfer data stored in the ODM record eventXml to the Ipss Dynamic Event object eventObj
+	 * 
+	 * @param eventObj
+	 * @param eventXml
+	 * @throws InterpssException
+	 */
+	private void setDynamicEventData(DynamicEvent eventObj,
+					DynamicEventXmlType eventXml) throws InterpssException {
+		IpssLogger.getLogger().info("Dynamic Event Type: " + eventXml.getEventType().toString());
+
+		if (eventXml.getEventType() == DynamicEventEnumType.LOAD_CHANGE) {
+			initLoadChange(eventObj, eventXml, this.dstabAlgo.getTotalSimuTimeSec());
+		}
+
+		double startTime = BaseDataSetter.convertTime2Sec(eventXml.getStartTime(), this.dstabNet.getFrequency());
+		eventObj.setStartTimeSec(startTime);
+		eventObj.setPermanent(eventXml.isPermanentFault());
+		if (eventObj.isPermanent()) {
+			eventObj.setDurationSec(this.dstabAlgo.getTotalSimuTimeSec());
+		} else {
+			double duration = BaseDataSetter.convertTime2Sec(eventXml.getDuration(), this.dstabNet.getFrequency());
+			eventObj.setDurationSec(duration);
+		}
+
+		// SetPointChange has been already processed
+		if (eventXml.getEventType() == DynamicEventEnumType.LOAD_CHANGE) {
+			setLoadChangeData(eventObj, eventXml);
+		} 
+		else if (eventXml.getEventType() == DynamicEventEnumType.FAULT) {
+			AcscFaultXmlType faultXml = eventXml.getFault();
+			if (eventXml.getFault().getFaultType() == AcscFaultTypeEnumType.BRANCH_OUTAGE) {
+				eventObj.setType(DynamicEventType.BRANCH_OUTAGE);
+				String faultBranchId=((BaseBranchXmlType)faultXml.getBusBranchId().getIdRef()).getId();
+				BranchOutageEvent bOutageEvent = DStabObjectFactory.createBranchOutageEvent(faultBranchId, dstabNet);
+				bOutageEvent.setOutageType(AcscScenarioHelper.getBranchOutageType(faultXml.getFaultCategory()));
+				eventObj.setBranchDynamicEvent(bOutageEvent);
+			} 
+			else if (eventXml.getFault().getFaultType() == AcscFaultTypeEnumType.BUS_FAULT) {
+				eventObj.setType(DynamicEventType.BUS_FAULT);
+				String faultBusId =((BusXmlType)faultXml.getBusBranchId().getIdRef()).getId();
+				AcscBusFault busFault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId+faultBusId);
+				AcscBus bus = this.dstabNet.getAcscBus(faultBusId);
+				busFault.setFaultBus(bus);
+				
+				double baseV=bus.getBaseVoltage();
+				double baseKVA= bus.getNetwork().getBaseKva();				
+				AcscScenarioHelper.setBusFaultInfo(faultXml, busFault, baseV, baseKVA);
+				
+				eventObj.setBusFault(busFault);
+			} 
+			else if (eventXml.getFault().getFaultType() == AcscFaultTypeEnumType.BRANCH_FAULT) {
+				eventObj.setType(DynamicEventType.BRANCH_FAULT);
+				DStabBranchFault fault = createDStabBranchFault(faultXml);
+				eventObj.setBranchFault(fault);
+				if (fault.isReclosure()) {
+					String name = "EventAt_" + eventXml.getStartTime()	+ eventXml.getEventType();
+					DynamicEvent reclosureEvent = DStabObjectFactory.createDEvent(eventObj.getId() + "-Reclosure", name,
+							DynamicEventType.BRANCH_RECLOSURE, dstabNet, msg);
+					reclosureEvent.setStartTimeSec(fault.getReclosureTime());
+					reclosureEvent.setDurationSec(this.dstabAlgo.getTotalSimuTimeSec());
+					reclosureEvent.setPermanent(true);
+					reclosureEvent.setBranchFault(createDStabBranchFault(faultXml));
+				}
+			}
+		}
+	}
+	
+	private DStabBranchFault createDStabBranchFault(AcscFaultXmlType faultXml) throws InterpssException {
+		String faultBranchId=((BaseBranchXmlType)faultXml.getBusBranchId().getIdRef()).getId();
+		DStabBranchFault branchFault = DStabObjectFactory.createDStabBranchFault(Constants.Token_BranchFaultId + faultBranchId);
+		
+		AcscBranch branch = this.dstabNet.getAcscBranch(faultBranchId);
+		double baseV = branch.getFromAclfBus().getBaseVoltage();
+		double baseKVA= branch.getNetwork().getBaseKva();			
+		AcscScenarioHelper.setBranchFaultInfo(faultXml, branchFault, baseV, baseKVA);
+
+		branchFault.setReclosure(faultXml.isBranchReclosure());
+		branchFault.setReclosureTime(BaseDataSetter.convertTime2Sec(faultXml.getReclosureTime(), this.dstabNet.getFrequency()));
+		return branchFault;
+	}	
+
+	/**
+	 * Transfer ODM schema dynamic event type to InterPSS dynamic event type 
+	 * 
+	 * @param eventTypeXml
+	 * @param faultType
+	 * @return
+	 * @throws InterpssException
+	 */
+	private DynamicEventType getDynamicEventType(DynamicEventEnumType eventTypeXml,
+			AcscFaultTypeEnumType faultType) throws InterpssException {
+		if (eventTypeXml == DynamicEventEnumType.FAULT) {
+			if (faultType == AcscFaultTypeEnumType.BUS_FAULT)
+				return DynamicEventType.BUS_FAULT;
+			else if (faultType == AcscFaultTypeEnumType.BRANCH_FAULT)
+				return DynamicEventType.BRANCH_FAULT;
+			else if (faultType == AcscFaultTypeEnumType.BRANCH_OUTAGE)
+				return DynamicEventType.BRANCH_OUTAGE;
+
+		} else {
+			if (eventTypeXml == DynamicEventEnumType.LOAD_CHANGE)
+				return DynamicEventType.LOAD_CHANGE;
+			else if (eventTypeXml == DynamicEventEnumType.SET_POINT_CHANGE)
+				return DynamicEventType.SET_POINT_CHANGE;
+		}
+		throw new InterpssException(
+				"Programming error, eventDataType: " + eventTypeXml);
+	}	
+
+	/*
+	 *   Load change functions
+	 *   =====================
+	 */
+	private void initLoadChange(DynamicEvent eventObj, DynamicEventXmlType eventXml, double toltalSimuTime) {
+		// for LoadChange
+		// LowFreq and LowVolt startTime will set by system
+		// FixedTime startTime = threshhold
+		// always permanent
+		eventObj.setPermanent(true);
+		eventXml.setDuration(BaseDataSetter.createTimePeriodValue(0.0, TimePeriodUnitType.SEC));
+		if (eventXml.getLoadChangeData().getLoadChangeType() == DStabLoadChangeEnumType.FIXED_TIME)
+			eventXml.setStartTime(BaseDataSetter.createTimePeriodValue(eventXml.getLoadChangeData().getThreshhold(), TimePeriodUnitType.SEC));
+		else
+			eventXml.setStartTime(BaseDataSetter.createTimePeriodValue(toltalSimuTime, TimePeriodUnitType.SEC));
 	}
 
+	private void setLoadChangeData(DynamicEvent eventObj, DynamicEventXmlType eventXml) {
+		eventObj.setType(DynamicEventType.LOAD_CHANGE);
+		DStabLoadChangeXmlType ldata = eventXml.getLoadChangeData();
+		LoadChangeEvent eLoad = DStabObjectFactory.createLoadChangeEvent(
+				ldata.getBusId(), dstabNet);
+		eLoad.setType(ldata.getLoadChangeType() == 
+			DStabLoadChangeEnumType.LOW_FREQUENCY ? LoadChangeEventType.LOW_FREQUENCY
+				: (ldata.getLoadChangeType() == DStabLoadChangeEnumType.LOW_VOLTAGE) ? LoadChangeEventType.LOW_VOLTAGE
+								: LoadChangeEventType.FIXED_TIME);
+		if (ldata.getChangeFactor() != null && ldata.getChangeFactor().getFactor() != 0.0) {
+			double f = 1.0;
+			if (ldata.getChangeFactor().getUnit() == FactorUnitType.PERCENT)
+				f = 0.01;
+			eLoad.setChangeFactor(ldata.getChangeFactor().getFactor()*f);
+		}
+		if (ldata.getThreshhold() != null && ldata.getThreshhold() != 0.0)
+			eLoad.setThreshhold(ldata.getThreshhold());
+		if (ldata.getDelayTime() != null && ldata.getDelayTime() != 0.0)
+			eLoad.setDelaySec(ldata.getDelayTime());
+		eventObj.setBusDynamicEvent(eLoad);
+	}
 	
+	/*
+	 *   Set point change functions
+	 *   ==========================
+	 */
+	private void setSetPointChangeDynEvent(DStabSetPointChangeXmlType spcEventXml, DStabSimuSettingXmlType settings) throws InterpssException {
+		// find the machine from the dtabNet using the machId
+		IpssLogger.getLogger().info("Dynamic Event Type: SetPointChange");
+		String machId = spcEventXml.getMachId();
+		Machine mach = this.dstabNet.getMachine(machId);
+		if (mach == null)
+			throw new InterpssException("Machine for Set Point Change not found");
+		IpssLogger.getLogger().info("SetPointChange mach id : " + mach.getId());
+
+		// create a dynamic event of type SetPointChange. The event is added into the net during the event creation
+		DynamicEvent eventObj = DStabObjectFactory.createDEvent(
+				Constants.Token_SetPointChangeId + machId,
+				"SetPointChange", DynamicEventType.SET_POINT_CHANGE,
+				dstabNet, msg);
+		
+		// set event starting and duration info
+		eventObj.setStartTimeSec(0.0);
+		eventObj.setDurationSec(this.dstabAlgo.getTotalSimuTimeSec());
+		
+		// create a SetPointChange event object and set the dynamic event object 
+		SetPointChangeEvent eSetPoint = DStabObjectFactory.createSetPointChangeEvent(machId, dstabNet);
+		eventObj.setBusDynamicEvent(eSetPoint);		
+
+		eSetPoint.setControllerType(
+				spcEventXml.getControllerType() == MachineControllerEnumType.EXCITER ? ControllerType.EXCITER
+						: spcEventXml.getControllerType() == MachineControllerEnumType.GOVERNOR ? ControllerType.GOVERNOR
+								: ControllerType.STABILIZER);
+		eSetPoint.setChangeValue(spcEventXml.getChangeValue());
+		eSetPoint.setAbusoluteChange(spcEventXml.getValueChangeType() == SetPointChangeEnumType.ABSOLUTE);
+	}
+	
+	/*
+	 *   Simulation setting functions
+	 *   ============================
+	 */	
 	private void mapGeneralSettings(DStabSimuSettingXmlType settings){
 		// map numerical iteration method
 		DStabMethodEnumType method =  settings.getDstabMethod();
@@ -93,12 +366,12 @@ public class DStabScenarioHelper {
 		
 		// map total time, unit is sec
 		TimePeriodXmlType tolTime = settings.getTotalTime();		
-		double tolTimeInSec = convertTimeUnit2Sec(tolTime,this.dstabNet.getFrequency());
+		double tolTimeInSec = BaseDataSetter.convertTime2Sec(tolTime, this.dstabNet.getFrequency());
 		dstabAlgo.setTotalSimuTimeSec(tolTimeInSec);
 		
 		// map time step,  unit is sec
 		TimePeriodXmlType stepTime = settings.getStep();		
-		double stepTimeInSec = convertTimeUnit2Sec(stepTime,this.dstabNet.getFrequency());
+		double stepTimeInSec = BaseDataSetter.convertTime2Sec(stepTime,this.dstabNet.getFrequency());
 		dstabAlgo.setSimuStepSec(stepTimeInSec);
 		
 		if (settings.isAbsMachineAngle() != null) {
@@ -142,142 +415,4 @@ public class DStabScenarioHelper {
         	}
         }
 	}
-	
-	private void mapAclfInitialization (AclfAlgorithmXmlType lfInit){
-		LoadflowAlgorithm aclfAlgo = this.dstabAlgo.getAclfAlgorithm();	
-		
-		// set lf method
-		LfMethodEnumType lfMethod = lfInit.getLfMethod();
-		if(lfMethod == LfMethodEnumType.PQ){
-			aclfAlgo.setLfMethod(AclfMethod.PQ);			
-		}else if(lfMethod == LfMethodEnumType.GS){
-			aclfAlgo.setLfMethod(AclfMethod.GS);			
-		}
-		else 
-			aclfAlgo.setLfMethod(AclfMethod.NR);			
-
-		int maxInt =lfInit.getMaxIterations();
-		aclfAlgo.setMaxIterations(maxInt);
-		ApparentPowerXmlType tol = lfInit.getTolerance();
-		aclfAlgo.setTolerance(tol.getValue());
-		aclfAlgo.setInitBusVoltage(lfInit.isInitBusVoltage());
-		
-		if(lfInit.getAccFactor()!=null){
-			aclfAlgo.setGsAccFactor(lfInit.getAccFactor());
-		}
-		
-		if(lfInit.isNonDivergent()!=null){
-			aclfAlgo.setNonDivergent(lfInit.isNonDivergent());
-		}	
-		
-		// set load flow initialization in the dstab analysis
-		dstabAlgo.setAclfAlgorithm(aclfAlgo);
-	}
-	
-	public void mapDynamicEvent (DynamicEventXmlType eventXml){
-		AcscFaultXmlType fault=eventXml.getFault();
-		String eventId = eventXml.getId();
-		//String eventName = eventXml.getName();
-		String faultType = fault.getFaultType().toString();
-		String faultCate = fault.getFaultCategory().toString();
-		ZXmlType zLG = fault.getZLG();
-		ZXmlType zLL = fault.getZLL();
-		SimpleFaultCode faultCode =null;
-		if(faultCate.equals("FAULT_3_P")){
-			faultCode=SimpleFaultCode.GROUND_3P;
-		}else if (faultCate.equals("FAULT_LG")){
-			faultCode=SimpleFaultCode.GROUND_LG;
-		}else if (faultCate.equals("FAULT_LL")){
-			faultCode=SimpleFaultCode.GROUND_LL;
-		}else if (faultCate.equals("FAULT_LLG")){
-			faultCode=SimpleFaultCode.GROUND_LLG;
-		}
-				
-		// create a new event		
-		DynamicEvent dEvent = null;
-		
-		//new AcscScenarioHelper(dstabNet)
-		//.mapAcscFaultNetwork(faultXml);
-		
-		// specify the type of this dEvent
-		if(faultType.equals("BUS_FAULT")){
-			dEvent = DStabObjectFactory.createDEvent(eventId, eventName, 
-					DynamicEventType.BUS_FAULT, dstabNet, dstabAlgo.getMsgHub());			
-			
-			String faultBusId=((BusXmlType)fault.getBusBranchId().getIdRef()).getId();
-			DStabBus faultBus = dstabNet.getDStabBus(faultBusId);
-			/*AcscBusFault acscBusFault = dstabNet.getFault(faultBusId);*/
-			AcscBusFault acscBusFault = CoreObjectFactory.createAcscBusFault(eventId);
-			acscBusFault.setAcscBus(faultBus);
-			acscBusFault.setFaultCode(faultCode);
-			if(zLG != null){
-				acscBusFault.setZLGFault(new Complex (zLG.getRe(),zLG.getIm()));
-			}
-			if(zLL != null){
-				acscBusFault.setZLLFault(new Complex (zLL.getRe(),zLL.getIm()));
-			}			
-			dEvent.setBusFault(acscBusFault);
-			
-		}else if (faultType.equals("BRANCH_FAULT")){
-			dEvent = DStabObjectFactory.createDEvent(eventId, eventName, 
-					DynamicEventType.BRANCH_FAULT, dstabNet, dstabAlgo.getMsgHub());			
-			
-			String faultBranchId=((BaseBranchXmlType)fault.getBusBranchId().getIdRef()).getId();
-			Branch bra = dstabNet.getBranch(faultBranchId);
-			String fromBusId = bra.getFromBusId();
-			String toBusId = bra.getToBusId();
-			double distance = fault.getDistance();
-			
-			double reclosureTime = convertTimeUnit2Sec(fault.getReclosureTime(), this.dstabNet.getFrequency());
-			double rLG=0;
-			double xLG=0;
-			double rLL=0;
-			double xLL=0;
-			if(zLG != null){
-				rLG=zLG.getRe();
-				xLG=zLG.getIm();
-			}
-			if(zLL != null){
-				rLL=zLL.getRe();
-				xLL=zLL.getIm();
-			}			
-			DStabBranchFault dBraFault = DStabObjectFactory.createDStabBranchFault(dstabNet, 
-					fromBusId, toBusId, faultCode, distance, rLG, xLG, 
-					rLL, xLL, fault.isBranchReclosure(), reclosureTime);
-			dEvent.setBranchFault(dBraFault);
-			
-			
-		}else if (faultType.equals("BRANCH_OUTAGE")){
-			String branchId=((BaseBranchXmlType)fault.getBusBranchId().getIdRef()).getId();			
-			
-			BranchOutageEvent braOutEvent = DStabObjectFactory.createBranchOutageEvent(branchId, dstabNet);			
-			
-			//(TODO: HOW TO SET BRANCH-OUTAGE-EVENT?)			
-			
-		}
-	
-		dEvent.setPermanent(eventXml.isPermanentFault());
-		TimePeriodXmlType startTime = eventXml.getStartTime();
-		double startTimeInSec= convertTimeUnit2Sec(startTime,this.dstabNet.getFrequency());
-		dEvent.setStartTimeSec(startTimeInSec);
-		double durationTimeInSec = convertTimeUnit2Sec(eventXml.getDuration(),
-				this.dstabNet.getFrequency());
-		dEvent.setDurationSec(durationTimeInSec);
-		
-	}
-	
-	public double convertTimeUnit2Sec(TimePeriodXmlType timeXml, double frequency){
-		Double val = timeXml.getValue();
-		TimePeriodUnitType unit= timeXml.getUnit();
-		if(unit.equals("Min")){
-			val=val*60;
-		}else if(unit.equals("Hour")){
-			val=val*60*60;
-		}else if(unit.equals("Cycle")){
-			val=1/frequency*val;
-		}
-		return val;
-		
-	}		
-
 }
