@@ -161,7 +161,7 @@ public class ODMDStabDataMapperImpl {
 				// map the dynamic simulation settings information
 				if(parser.getStudyCase().getStudyScenario() !=null){
 					IpssStudyScenarioXmlType s = (IpssStudyScenarioXmlType)parser.getStudyCase().getStudyScenario().getValue();
-					new DStabScenarioHelper(dstabNet,dstabAlgo).
+					new DStabScenarioHelper(dstabNet,dstabAlgo, simuCtx.getMsgHub()).
 								mapOneFaultScenario(s);
 				}
 			} catch (InterpssException e) {

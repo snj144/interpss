@@ -125,8 +125,7 @@ public class Xml2AlgorithmMapperImpl {
 			algo.setMultiFactor(acscCase.getMultiFactor() * 0.01);
 		// algo.multiFactor in PU and acscData.getMFactor in %
 		if (acscCase.getBusAcscInitVolt() != null)
-			algo
-					.setScBusVoltage(acscCase.getBusAcscInitVolt() == 
+			algo.setScBusVoltage(acscCase.getBusAcscInitVolt() == 
 						AcscStudyCaseXmlType.BusAcscInitVolt.UNIT_VOLT ? 
 								ScBusVoltageType.UNIT_VOLT : ScBusVoltageType.LOADFLOW_VOLT); // UnitV | LFVolt
 		return true;
