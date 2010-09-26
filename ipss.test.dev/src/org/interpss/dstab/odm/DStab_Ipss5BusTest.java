@@ -36,12 +36,13 @@ import org.interpss.mapper.odm.IEEEODMMapper;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
+import com.interpss.core.acsc.SimpleFaultCode;
+import com.interpss.core.acsc.SimpleFaultType;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
-import com.interpss.dstab.common.IDStabBusVisitor;
-import com.interpss.dstab.mach.Machine;
+import com.interpss.dstab.devent.DynamicEvent;
+import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -61,30 +62,55 @@ public class DStab_Ipss5BusTest extends BaseTestSetup {
 				return;
 			}	
 
-			DStabilityNetwork dstabNet = simuCtx.getDStabilityNet();
-			dstabNet.forEachDStabBus(new IDStabBusVisitor() {
-				public void visit(DStabBus bus) {
-					if (bus.getMachine() != null) {
-						Machine mach = bus.getMachine();
-						// transfer SC3PMva ... info to mach data
-						mach.setBusAcscInfo(bus);			
-					}					
-				}
-			});		
-
 			DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
+			DStabilityNetwork dstabNet = simuCtx.getDStabilityNet();
+
 			LoadflowAlgorithm lfAlgo = dstabAlgo.getAclfAlgorithm();
 			lfAlgo.loadflow();
-					
-			
-			//System.out.println(AclfOutFunc.loadFlowSummary(dstabNet));
 			assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageMag() - 0.86011) < 0.0001);
 			assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageAng(UnitType.Deg) + 4.8) < 0.1);
+			
+/*
+						<pss:simulationSetting>
+							<pss:dstabMethod>ModifiedEuler</pss:dstabMethod>
+							<pss:totalTime unit="Sec" value="10"></pss:totalTime>
+							<pss:step unit="Sec" value="0.01" />
+							<pss:absMachineAngle>true</pss:absMachineAngle>
+							<pss:netEqnSolveConfig>
+								<pss:netEqnItrNoEvent>3</pss:netEqnItrNoEvent>
+								<pss:netEqnItrWithEvent>5</pss:netEqnItrWithEvent>
+							</pss:netEqnSolveConfig>
+							<pss:staticLoadModel>
+								<pss:staticLoadType>CONST_Z</pss:staticLoadType>
+							</pss:staticLoadModel>
+						</pss:simulationSetting>
+						<pss:dynamicEvents>
+							<pss:disableDynEvents>false</pss:disableDynEvents>
+							<pss:dynamicEvent id="Fault@Bus-1" name="3PhaseGroudFault" eventType="Fault">
+								<pss:startTime unit="Sec" value="0.0"></pss:startTime>
+								<pss:duration unit="Sec" value="0.1" />
+								<pss:permanentFault>false</pss:permanentFault>
+								<pss:fault>
+									<pss:faultType>BusFault</pss:faultType>
+									<pss:faultCategory>Fault3Phase</pss:faultCategory>
+									<pss:busBranchId idRef="Bus-1"></pss:busBranchId>
+									<pss:zLG im="0.0" unit="PU" re="0.0"></pss:zLG>
+								</pss:fault>
+							</pss:dynamicEvent>
+						</pss:dynamicEvents> */
 
-			if (dstabAlgo.initialization()) {
-				System.out.println("Running DStab simulation ...");
-				dstabAlgo.performSimulation();
-			}			
+			assertTrue(Math.abs(dstabAlgo.getTotalSimuTimeSec() - 10.0) < 0.0001);
+			assertTrue(Math.abs(dstabAlgo.getSimuStepSec() - 0.01) < 0.0001);
+			
+			DynamicEvent eventObj = dstabNet.getDynamicEvent("Fault@Bus-1");
+			assertTrue(eventObj != null);
+			assertTrue(eventObj.getType() == DynamicEventType.BUS_FAULT);
+			assertTrue(eventObj.getStartTimeSec() == 0.0);
+			assertTrue(eventObj.getDurationSec() == 0.1);
+			
+			assertTrue(eventObj.getBusFault().getFaultType() == SimpleFaultType.BUS_FAULT);
+			assertTrue(eventObj.getBusFault().getFaultCode() == SimpleFaultCode.GROUND_3P);
+			assertTrue(eventObj.getBusFault().getAcscBus().getId().equals("Bus-1"));
 		}
 	}
 }
