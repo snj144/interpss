@@ -4,21 +4,18 @@
 
     <include schemaLocation="../common/DataType.xsd"></include>
     <include schemaLocation="../common/RecordType.xsd"></include>
-
     <include schemaLocation="../loadflow/LFRecordType.xsd"></include>
 
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008</documentation>
+		<documentation>Copyright www.interpss.org 2008-2010</documentation>
 	</annotation>
 	
 <!-- 
 		Network object
  -->	
 	<complexType name="OpfNetworkXmlType">
-		<annotation>
-			<documentation>
-			</documentation>
-		</annotation>
+		<annotation><documentation>
+		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:LoadflowNetXmlType">
 				<sequence>
@@ -32,9 +29,8 @@
 		Bus objects
  	-->	
 	<complexType name="OpfGenBusXmlType">
-		<annotation>
-			<documentation></documentation>
-		</annotation>
+		<annotation><documentation>
+		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:LoadflowBusXmlType">
 				<sequence>
