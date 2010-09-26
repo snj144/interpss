@@ -381,9 +381,7 @@ public class DStabScenarioHelper {
 				dstabAlgo.setRefMachine(mach);			
 			} 
 		}
-
-		// TODO set refMach
-		
+	
 		//set net equn interation
 		if (settings.getNetEqnSolveConfig() != null) {
 			int intNoEvent = settings.getNetEqnSolveConfig().getNetEqnItrNoEvent();
