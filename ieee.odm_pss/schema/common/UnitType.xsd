@@ -4,8 +4,9 @@
    xmlns:pss="http://www.ieee.org/odm/Schema/2009" elementFormDefault="qualified" xmlns:Q1="http://www.ieee.org/odm/Schema/2008">
 
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008</documentation>
+		<documentation>Copyright www.interpss.org 2008-2010</documentation>
 	</annotation>
+	
 	<simpleType name="ApparentPowerUnitType">
 		<restriction base="string">
 			<enumeration value="PU"></enumeration>

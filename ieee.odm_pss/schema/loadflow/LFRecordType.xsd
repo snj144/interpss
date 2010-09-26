@@ -9,7 +9,7 @@
     <include schemaLocation="CompensatorType.xsd"></include>
 
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008</documentation>
+		<documentation>Copyright www.interpss.org 2008-2010</documentation>
 	</annotation>
 <!-- 
 		Network object

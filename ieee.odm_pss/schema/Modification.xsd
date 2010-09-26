@@ -6,6 +6,10 @@
 	
 	<include schemaLocation="common/DataType.xsd"></include>
 	
+	<annotation>
+		<documentation>Copyright www.interpss.org 2008-2010</documentation>
+	</annotation>
+		
 	<complexType name="ModifyRecordXmlType">
 		<complexContent>
 			<extension base="pss:IDRecordXmlType"></extension>

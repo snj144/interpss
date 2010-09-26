@@ -6,8 +6,9 @@
     <include schemaLocation="UnitType.xsd"></include>
 
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008</documentation>
+		<documentation>Copyright www.interpss.org 2008-2010</documentation>
 	</annotation>
+	
 	<complexType name="BaseRecordXmlType">
 		<sequence>
 			<element name="desc" type="string" minOccurs="0" maxOccurs="1"></element>

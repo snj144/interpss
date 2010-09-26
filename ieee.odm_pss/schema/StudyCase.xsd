@@ -14,7 +14,7 @@
 	<include schemaLocation="StudyScenario.xsd"></include>
 
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008</documentation>
+		<documentation>Copyright www.interpss.org 2008-2010</documentation>
 	</annotation>
 
 	<element name="baseCase" type="pss:NetworkXmlType"/>
