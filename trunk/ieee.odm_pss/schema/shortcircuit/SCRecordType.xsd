@@ -2,9 +2,6 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" 
     targetNamespace="http://www.ieee.org/odm/Schema/2008" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-    <include schemaLocation="../common/DataType.xsd"></include>
-    <include schemaLocation="../common/RecordType.xsd"></include>
-
     <include schemaLocation="../loadflow/LFRecordType.xsd"></include>
 
 	<annotation>
@@ -13,7 +10,9 @@
 	
 	<element name="acscNet" type="pss:ShortCircuitNetXmlType" substitutionGroup="pss:baseCase">
 		<annotation><documentation>
-		Network for AC Short circuit analysis
+		Network for AC Short circuit analysis. acscBus or acscNoLFBus could be
+		used define bus; acscLine/aclfLine, aclfXfr/aclfXfr and acscPSXfr/aclfPSXfr
+		could be used to define branch 
 		</documentation></annotation>
 	</element>
 	
@@ -32,14 +31,17 @@
 	
 	<element name="acscLine" type="pss:LineShortCircuitXmlType" substitutionGroup="pss:branch">
 		<annotation><documentation>
+		Line Branch record for acsc analysis
 		</documentation></annotation>
 	</element>
 	<element name="acscXfr"  type="pss:XfrShortCircuitXmlType" substitutionGroup="pss:branch">
 		<annotation><documentation>
+		Xfr Branch record for acsc analysis
 		</documentation></annotation>
 	</element>
 	<element name="acscPSXfr"  type="pss:PSXfrShortCircuitXmlType" substitutionGroup="pss:branch">
 		<annotation><documentation>
+		PSXfr Branch record for acsc analysis
 		</documentation></annotation>
 	</element>
 
@@ -65,10 +67,8 @@
 		Bus objects
  	-->	
 	<complexType name="ShortCircuitBusXmlType">
-		<annotation>
-			<documentation>
-			</documentation>
-		</annotation>
+		<annotation><documentation>
+		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:LoadflowBusXmlType">
 				<group ref="pss:ShortCircuitBusDataGroup"/>
@@ -78,6 +78,8 @@
 	</complexType>
 
 	<complexType name="ScSimpleBusXmlType">
+		<annotation><documentation>
+		</documentation></annotation>	
 		<complexContent>
 			<extension base="pss:BusXmlType">
 				<group ref="pss:ShortCircuitBusDataGroup"/>
