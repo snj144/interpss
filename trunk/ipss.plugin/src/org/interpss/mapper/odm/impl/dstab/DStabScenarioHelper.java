@@ -45,7 +45,7 @@ import org.ieee.odm.schema.DStabSimuSettingXmlType;
 import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.DynamicEventEnumType;
 import org.ieee.odm.schema.DynamicEventXmlType;
-import org.ieee.odm.schema.DynamicGeneratorXmlType;
+import org.ieee.odm.schema.DynamicMachineXmlType;
 import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.MachineControllerEnumType;
@@ -199,14 +199,14 @@ public class DStabScenarioHelper {
 			AcscFaultXmlType faultXml = eventXml.getFault();
 			if (eventXml.getFault().getFaultType() == AcscFaultTypeEnumType.BRANCH_OUTAGE) {
 				eventObj.setType(DynamicEventType.BRANCH_OUTAGE);
-				String faultBranchId=((BaseBranchXmlType)faultXml.getBusBranchId().getIdRef()).getId();
+				String faultBranchId=((BaseBranchXmlType)faultXml.getRefBusBranch().getIdRef()).getId();
 				BranchOutageEvent bOutageEvent = DStabObjectFactory.createBranchOutageEvent(faultBranchId, dstabNet);
 				bOutageEvent.setOutageType(AcscScenarioHelper.getBranchOutageType(faultXml.getFaultCategory()));
 				eventObj.setBranchDynamicEvent(bOutageEvent);
 			} 
 			else if (eventXml.getFault().getFaultType() == AcscFaultTypeEnumType.BUS_FAULT) {
 				eventObj.setType(DynamicEventType.BUS_FAULT);
-				String faultBusId =((BusXmlType)faultXml.getBusBranchId().getIdRef()).getId();
+				String faultBusId =((BusXmlType)faultXml.getRefBusBranch().getIdRef()).getId();
 				AcscBusFault busFault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId+faultBusId);
 				AcscBus bus = this.dstabNet.getAcscBus(faultBusId);
 				busFault.setFaultBus(bus);
@@ -235,7 +235,7 @@ public class DStabScenarioHelper {
 	}
 	
 	private DStabBranchFault createDStabBranchFault(AcscFaultXmlType faultXml) throws InterpssException {
-		String faultBranchId=((BaseBranchXmlType)faultXml.getBusBranchId().getIdRef()).getId();
+		String faultBranchId=((BaseBranchXmlType)faultXml.getRefBusBranch().getIdRef()).getId();
 		DStabBranchFault branchFault = DStabObjectFactory.createDStabBranchFault(Constants.Token_BranchFaultId + faultBranchId);
 		
 		AcscBranch branch = this.dstabNet.getAcscBranch(faultBranchId);
@@ -296,8 +296,8 @@ public class DStabScenarioHelper {
 	private void setLoadChangeData(DynamicEvent eventObj, DynamicEventXmlType eventXml) {
 		eventObj.setType(DynamicEventType.LOAD_CHANGE);
 		DStabLoadChangeXmlType ldata = eventXml.getLoadChangeData();
-		LoadChangeEvent eLoad = DStabObjectFactory.createLoadChangeEvent(
-				ldata.getBusId(), dstabNet);
+		String busId =((BusXmlType)ldata.getRefBus().getIdRef()).getId();
+		LoadChangeEvent eLoad = DStabObjectFactory.createLoadChangeEvent(busId, dstabNet);
 		eLoad.setType(ldata.getLoadChangeType() == 
 			DStabLoadChangeEnumType.LOW_FREQUENCY ? LoadChangeEventType.LOW_FREQUENCY
 				: (ldata.getLoadChangeType() == DStabLoadChangeEnumType.LOW_VOLTAGE) ? LoadChangeEventType.LOW_VOLTAGE
@@ -322,7 +322,7 @@ public class DStabScenarioHelper {
 	private void setSetPointChangeDynEvent(DStabSetPointChangeXmlType spcEventXml, DStabSimuSettingXmlType settings) throws InterpssException {
 		// find the machine from the dtabNet using the machId
 		IpssLogger.getLogger().info("Dynamic Event Type: SetPointChange");
-		String machId = spcEventXml.getMachId();
+		String machId = ((DynamicMachineXmlType)spcEventXml.getRefGenerator().getIdRef()).getId();
 		Machine mach = this.dstabNet.getMachine(machId);
 		if (mach == null)
 			throw new InterpssException("Machine for Set Point Change not found");
@@ -376,7 +376,7 @@ public class DStabScenarioHelper {
 		
 		if (settings.isAbsMachineAngle() != null) {
 			if(!settings.isAbsMachineAngle()){
-				String refMachId=((DynamicGeneratorXmlType)settings.getRefMachine().getIdRef()).getGenId().getId();
+				String refMachId=((DynamicMachineXmlType)settings.getRefMachine().getIdRef()).getId();
 				Machine mach = dstabNet.getMachine(refMachId); 
 				dstabAlgo.setRefMachine(mach);			
 			} 
