@@ -56,7 +56,7 @@
 					</pss:equivGen>
 				</pss:genData>
 				<pss:machineList>
-					<pss:machine>
+					<pss:machine id="mach_Bus-4">
 						<pss:ratedPower unit="MW" value="600"></pss:ratedPower>
 						<pss:ratedVoltage unit="KV" value="1" />
 						<pss:eq1MachModel>
@@ -114,7 +114,7 @@
 					</pss:equivGen>
 				</pss:genData>
 				<pss:machineList>
-					<pss:machine>
+					<pss:machine  id="mach_Bus-5">
 						<pss:equiMachModel>
 							<pss:equivSource>
 								<pss:scMva3Phase>10000.00</pss:scMva3Phase>
@@ -208,7 +208,7 @@
 								<pss:fault>
 									<pss:faultType>BusFault</pss:faultType>
 									<pss:faultCategory>Fault3Phase</pss:faultCategory>
-									<pss:busBranchId idRef="Bus-1"></pss:busBranchId>
+									<pss:refBusBranch idRef="Bus-1"></pss:refBusBranch>
 									<pss:zLG im="0.0" unit="PU" re="0.0"></pss:zLG>
 								</pss:fault>
 							</pss:dynamicEvent>
