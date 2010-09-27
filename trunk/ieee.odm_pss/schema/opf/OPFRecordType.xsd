@@ -10,6 +10,17 @@
 		<documentation>Copyright www.interpss.org 2008-2010</documentation>
 	</annotation>
 	
+	<element name="opfNet" type="pss:OpfNetworkXmlType" substitutionGroup="pss:baseCase">
+		<annotation><documentation>
+		Network for OPF analysis
+		</documentation></annotation>
+	</element>
+	
+	<element name="opfGenBus" type="pss:OpfGenBusXmlType" substitutionGroup="pss:bus">
+		<annotation><documentation>
+		Bus record for OPF Generator
+		</documentation></annotation>
+	</element>
 <!-- 
 		Network object
  -->	

@@ -60,12 +60,14 @@
 	<element name="pssIEEEDualInput" type="pss:PssIEEEDualInputXmlType" substitutionGroup="pss:stabilizer"/>
 	
 
-	<complexType name="DynamicGeneratorXmlType">
+	<complexType name="DynamicMachineXmlType">
+		<complexContent>
+			<extension base="pss:IDRecordXmlType">
 		<sequence>
-			<element name="genId" type="pss:IDRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="ownerName" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="ratedPower" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>			<element ref="pss:machineModel" maxOccurs="1" minOccurs="1"></element>
+			<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element ref="pss:machineModel" maxOccurs="1" minOccurs="1"></element>
 			<element ref="pss:exciter" minOccurs="0"></element>
 			<element ref="pss:governor" minOccurs="0"></element>
 			<element ref="pss:stabilizer" minOccurs="0"></element>
@@ -73,6 +75,8 @@
             <element name="pContributionPercent" type="double" maxOccurs="1" minOccurs="0"></element>
 			<element name="qContributionPercent" type="double" minOccurs="0"></element>
 		</sequence>
+			</extension>
+		</complexContent>	
 	</complexType>
 
 	<complexType name="MachineModelXmlType" abstract="true">
