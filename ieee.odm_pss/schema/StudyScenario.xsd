@@ -289,7 +289,7 @@
 
 	<ns:complexType name="DStabLoadChangeXmlType">
 		<ns:sequence>
-			<ns:element name="busId" type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="refBus" type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1"></ns:element>
 			<ns:element name="loadChangeType" minOccurs="1" maxOccurs="1" type="pss:DStabLoadChangeEnumType"></ns:element>
 			<ns:element name="changeFactor" type="pss:ChangeFactorXmlType" minOccurs="1" maxOccurs="1"></ns:element>
 			<ns:element name="threshhold" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
@@ -307,7 +307,7 @@
 
 	<ns:complexType name="DStabSetPointChangeXmlType">
 		<ns:sequence>
-			<ns:element name="machId" type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="refGenerator" type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1"></ns:element>
 			<ns:element name="controllerType" minOccurs="1" maxOccurs="1" type="pss:MachineControllerEnumType"></ns:element>
 			<ns:element name="changeValue" type="ns:double" minOccurs="1" maxOccurs="1"></ns:element>
 			<ns:element name="valueChangeType" minOccurs="1" maxOccurs="1" type="pss:SetPointChangeEnumType">			</ns:element>

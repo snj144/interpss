@@ -9,6 +9,11 @@
 		<documentation>Copyright www.interpss.org 2008-2010</documentation>
 	</annotation>
 
+	<element name="baseCase" type="pss:NetworkXmlType">
+		<annotation><documentation>
+		Base network for defining a generic network with bus and branch objects. For testing purpose
+		</documentation></annotation>
+	</element>
 	<element name="bus" type="pss:BusXmlType" />
 	<element name="branch" type="pss:BaseBranchXmlType" />
 

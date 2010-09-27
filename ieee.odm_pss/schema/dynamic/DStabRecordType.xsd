@@ -13,6 +13,31 @@
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2010</documentation>
 	</annotation>
+	
+	<element name="dstabNet" type="pss:DStabNetXmlType" substitutionGroup="pss:baseCase">
+		<annotation><documentation>
+		Network for dynamic (transient) stability analysis
+		</documentation></annotation>
+	</element>
+	
+	<element name="dstabBus" type="pss:DStabBusXmlType" substitutionGroup="pss:bus">
+		<annotation><documentation>
+		Bus record for dynamic stability analysis
+		</documentation></annotation>
+	</element>
+	
+	<element name="dstabLine"  type="pss:LineDStabXmlType" substitutionGroup="pss:branch">
+		<annotation><documentation>
+		</documentation></annotation>
+	</element>
+	<element name="dstabXfr"  type="pss:XfrDStabXmlType" substitutionGroup="pss:branch">
+		<annotation><documentation>
+		</documentation></annotation>
+	</element>
+	<element name="dstabPSXfr"  type="pss:PSXfrDStabXmlType" substitutionGroup="pss:branch">
+		<annotation><documentation>
+		</documentation></annotation>
+	</element>
 <!-- 
 		Network object
  -->	
@@ -40,7 +65,7 @@
 					<element name="machineList" minOccurs="0" maxOccurs="1">
 						<complexType>
 							<sequence>
-								<element name="machine" type="pss:DynamicGeneratorXmlType" minOccurs="1" maxOccurs="unbounded"></element>
+								<element name="machine" type="pss:DynamicMachineXmlType" minOccurs="1" maxOccurs="unbounded"></element>
 							</sequence>
 						</complexType>
 					</element>

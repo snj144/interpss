@@ -11,6 +11,31 @@
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2010</documentation>
 	</annotation>
+	
+	<element name="aclfNet" type="pss:LoadflowNetXmlType" substitutionGroup="pss:baseCase">
+		<annotation><documentation>
+		Network for AC Loadflow analysis
+		</documentation></annotation>
+	</element>
+	<element name="aclfBus" type="pss:LoadflowBusXmlType" substitutionGroup="pss:bus">
+		<annotation><documentation>
+		Bus record for AC loadflow analysis
+		</documentation></annotation>
+	</element>
+	<element name="aclfLine" type="pss:LineBranchXmlType" substitutionGroup="pss:branch">
+		<annotation><documentation>
+		Branch record for define 
+		</documentation></annotation>
+	</element>
+	<element name="aclfXfr" type="pss:XfrBranchXmlType" substitutionGroup="pss:branch">
+		<annotation><documentation>
+		</documentation></annotation>
+	</element>
+	<element name="aclfPSXfr" type="pss:PSXfrBranchXmlType" substitutionGroup="pss:branch">
+		<annotation><documentation>
+		</documentation></annotation>
+	</element>
+		
 <!-- 
 		Network object
  -->

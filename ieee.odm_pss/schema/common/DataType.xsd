@@ -318,7 +318,7 @@
 		<sequence>
 			<element name="faultType" minOccurs="1" type="pss:AcscFaultTypeEnumType"/>
 			<element name="faultCategory" minOccurs="1" type="pss:AcscFaultCategoryEnumType"/>
-			<element name="busBranchId" type="pss:IDRefRecordXmlType" minOccurs="1"/>
+			<element name="refBusBranch" type="pss:IDRefRecordXmlType" minOccurs="1"/>
 			<element name="zLG" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"/>
 			<element name="zLL" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"/>
 			<element name="distance" type="double" maxOccurs="1" minOccurs="0"/>

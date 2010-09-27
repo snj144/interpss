@@ -8,4 +8,23 @@
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
 	</annotation>
+	
+	<element name="distNet" substitutionGroup="pss:baseCase">
+		<annotation><documentation>
+		Network for distribution system analysis, not implemented yet
+		</documentation></annotation>
+	</element>
+	
+	<element name="distBus" substitutionGroup="pss:bus">
+		<annotation><documentation>
+		Bus record for distribution system analysis (not implemented yet)
+		</documentation></annotation>
+	</element>	
+	
+	<element name="distBranch" substitutionGroup="pss:branch">
+		<annotation><documentation>
+		</documentation></annotation>
+	</element>
+	
+	
 </schema>

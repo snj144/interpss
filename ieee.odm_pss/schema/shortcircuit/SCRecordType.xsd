@@ -8,8 +8,41 @@
     <include schemaLocation="../loadflow/LFRecordType.xsd"></include>
 
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008</documentation>
+		<documentation>Copyright www.interpss.org 2008-2010</documentation>
 	</annotation>
+	
+	<element name="acscNet" type="pss:ShortCircuitNetXmlType" substitutionGroup="pss:baseCase">
+		<annotation><documentation>
+		Network for AC Short circuit analysis
+		</documentation></annotation>
+	</element>
+	
+	<element name="acscBus" type="pss:ShortCircuitBusXmlType" substitutionGroup="pss:bus">
+		<annotation><documentation>
+		Bus record for AC short circuit analysis. It is a child type of LoadflowBusXmlType, therefore
+		Loadflow info for init voltage are included.
+		</documentation></annotation>
+	</element>
+	<element name="acscNoLFBus" type="pss:ScSimpleBusXmlType" substitutionGroup="pss:bus">
+		<annotation><documentation>
+		Bus record for AC short circuit analysis without Loadflow info. Unit voltage is used for the 
+		bus init voltage.
+		</documentation></annotation>
+	</element>
+	
+	<element name="acscLine" type="pss:LineShortCircuitXmlType" substitutionGroup="pss:branch">
+		<annotation><documentation>
+		</documentation></annotation>
+	</element>
+	<element name="acscXfr"  type="pss:XfrShortCircuitXmlType" substitutionGroup="pss:branch">
+		<annotation><documentation>
+		</documentation></annotation>
+	</element>
+	<element name="acscPSXfr"  type="pss:PSXfrShortCircuitXmlType" substitutionGroup="pss:branch">
+		<annotation><documentation>
+		</documentation></annotation>
+	</element>
+
 <!-- 
 		Network object
  -->	
