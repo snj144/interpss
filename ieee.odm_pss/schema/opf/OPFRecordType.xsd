@@ -2,8 +2,6 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" 
     targetNamespace="http://www.ieee.org/odm/Schema/2008" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-    <include schemaLocation="../common/DataType.xsd"></include>
-    <include schemaLocation="../common/RecordType.xsd"></include>
     <include schemaLocation="../loadflow/LFRecordType.xsd"></include>
 
 	<annotation>
@@ -12,7 +10,8 @@
 	
 	<element name="opfNet" type="pss:OpfNetworkXmlType" substitutionGroup="pss:baseCase">
 		<annotation><documentation>
-		Network for OPF analysis
+		Network for OPF analysis. aclfBus and opfGenBus could be used to define bus objects,
+		aclfLine/aclfXfr/aclfPSXfr could be used to define branch objects.
 		</documentation></annotation>
 	</element>
 	
@@ -53,9 +52,4 @@
 			</extension>
 		</complexContent>
 	</complexType>
-
-	<!-- 
-		Branch objects
- -->
-	
 </schema>

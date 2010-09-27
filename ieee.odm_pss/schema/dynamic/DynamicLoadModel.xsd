@@ -36,16 +36,16 @@
 
 	<complexType name="LoadCharacteristicModelListXmlType">
 		<sequence>
-			<element name="IEEEStaticLoad" maxOccurs="1" minOccurs="0" type="pss:DLoad_IEEEStaticLoadXmlType">
+			<element name="IEEEStaticLoad" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadIEEEStaticLoadXmlType">
 			</element>
-			<element name="ComplexLoad" maxOccurs="1" minOccurs="0" type="pss:DLoad_ComplexLoadXmlType">
+			<element name="ComplexLoad" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadComplexLoadXmlType">
 			</element>
-			<element name="InductionMotor" maxOccurs="1" minOccurs="0" type="pss:DLoad_InductionMotorXmlType">
+			<element name="InductionMotor" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadInductionMotorXmlType">
 			</element>
 		</sequence>
 	</complexType>
 
-	<complexType name="DLoad_IEEEStaticLoadXmlType">
+	<complexType name="DynamicLoadIEEEStaticLoadXmlType">
 		<sequence>
 			<element name="modelDesc" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadEnumType">			</element>
 			<element name="a1" type="double" maxOccurs="1" minOccurs="1"></element>
@@ -75,7 +75,7 @@
 		</restriction>
 	</simpleType>
 
-	<complexType name="DLoad_ComplexLoadXmlType">
+	<complexType name="DynamicLoadComplexLoadXmlType">
 		<sequence>
 			<element name="modelDesc" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadEnumType"> 		</element>
 			<element name="largeMotPercent" type="double" maxOccurs="1" minOccurs="1"></element>
@@ -89,7 +89,7 @@
 		</sequence>
 	</complexType>
 
-	<complexType name="DLoad_InductionMotorXmlType">
+	<complexType name="DynamicLoadInductionMotorXmlType">
 		<sequence>
 			<element name="modelDesc" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadEnumType">			</element>
 			<element name="motorType" maxOccurs="1" minOccurs="1" type="pss:InductionMotorEnumType">			</element>
@@ -124,11 +124,11 @@
 
 	<complexType name="DynamicLoadModelSelectionXmlType">
 		<choice>
-			<element name="IEEEStaticLoad" maxOccurs="1" minOccurs="0" type="pss:DLoad_IEEEStaticLoadXmlType">
+			<element name="IEEEStaticLoad" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadIEEEStaticLoadXmlType">
 			</element>
-			<element name="ComplexLoad" maxOccurs="1" minOccurs="0" type="pss:DLoad_ComplexLoadXmlType">
+			<element name="ComplexLoad" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadComplexLoadXmlType">
 			</element>
-			<element name="InductionMotor" maxOccurs="1" minOccurs="0" type="pss:DLoad_InductionMotorXmlType">
+			<element name="InductionMotor" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadInductionMotorXmlType">
 			</element>
 		</choice>
 	</complexType>	

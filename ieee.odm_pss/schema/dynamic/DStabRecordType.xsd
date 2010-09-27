@@ -2,9 +2,6 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" 
     targetNamespace="http://www.ieee.org/odm/Schema/2008" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-    <include schemaLocation="../common/DataType.xsd"></include>
-    <include schemaLocation="../common/RecordType.xsd"></include>
-
     <include schemaLocation="../shortcircuit/SCRecordType.xsd"></include>
     
 	<include schemaLocation="MachineModel.xsd"></include>
@@ -16,28 +13,34 @@
 	
 	<element name="dstabNet" type="pss:DStabNetXmlType" substitutionGroup="pss:baseCase">
 		<annotation><documentation>
-		Network for dynamic (transient) stability analysis
+		Network for dynamic (transient) stability analysis. aclfBus, acscBus and dstabBus could be
+		used define bus; dstabLine/acscLine/aclfLine, dstabXfr/aclfXfr/aclfXfr and dstabPSXfr/acscPSXfr/aclfPSXfr
+		could be used to define branch 
 		</documentation></annotation>
 	</element>
 	
 	<element name="dstabBus" type="pss:DStabBusXmlType" substitutionGroup="pss:bus">
 		<annotation><documentation>
-		Bus record for dynamic stability analysis
+		Bus record for dynamic stability analysis. aclfBus/acscBus could be used also
 		</documentation></annotation>
 	</element>
 	
 	<element name="dstabLine"  type="pss:LineDStabXmlType" substitutionGroup="pss:branch">
 		<annotation><documentation>
+		Line branch record for DStability simulation
 		</documentation></annotation>
 	</element>
 	<element name="dstabXfr"  type="pss:XfrDStabXmlType" substitutionGroup="pss:branch">
 		<annotation><documentation>
+		Xfr branch record for DStability simulation
 		</documentation></annotation>
 	</element>
 	<element name="dstabPSXfr"  type="pss:PSXfrDStabXmlType" substitutionGroup="pss:branch">
 		<annotation><documentation>
+		PSXfr branch record for DStability simulation
 		</documentation></annotation>
 	</element>
+	
 <!-- 
 		Network object
  -->	
@@ -63,6 +66,9 @@
 			<extension base="pss:ShortCircuitBusXmlType">
 				<sequence>
 					<element name="machineList" minOccurs="0" maxOccurs="1">
+						<annotation><documentation>
+						0-* machines could be defined at a DStab Bus.
+						</documentation></annotation>
 						<complexType>
 							<sequence>
 								<element name="machine" type="pss:DynamicMachineXmlType" minOccurs="1" maxOccurs="unbounded"></element>

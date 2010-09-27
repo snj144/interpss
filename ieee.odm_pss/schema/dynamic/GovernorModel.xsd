@@ -5,9 +5,27 @@
 
 	<include schemaLocation="../common/DataType.xsd"></include>
 
+	<annotation>
+		<documentation>Copyright www.interpss.org 2008-2010</documentation>
+	</annotation>
+	
 	<element name="turbine" type="pss:TurbineModelXmlType"/>
 	<element name="turbineSteam" type="pss:SteamTurbineXmlType"/>
 	<element name="turbineHydraulic" type="pss:HydraulicTurbineXmlType"/>
+
+	<element name="governor" type="pss:GovernorModelXmlType"/>
+	<element name="govSimpleType" type="pss:GovSimpleTypeXmlType" substitutionGroup="pss:governor"/>
+	<element name="govIEEE1981Type1" type="pss:GovIEEE1981Type1XmlType" substitutionGroup="pss:governor"/>
+	<element name="govIEEE1981Type2" type="pss:GovIEEE1981Type2XmlType" substitutionGroup="pss:governor"/>
+	<element name="govIEEE1981Type3" type="pss:GovIEEE1981Type3XmlType" substitutionGroup="pss:governor"/>
+	<element name="govHydro" type="pss:GovHydroXmlType" substitutionGroup="pss:governor"/>
+	<element name="govHydroTurbine" type="pss:GovHydroTurbineXmlType" substitutionGroup="pss:governor"/>
+	<element name="govHydroSteamGeneralModel" type="pss:GovHydroSteamGeneralModelXmlType" substitutionGroup="pss:governor"/>
+	
+	<element name="govSteamNR" type="pss:GovSteamNRXmlType" substitutionGroup="pss:governor"/>
+	<element name="govSteamTCSR" type="pss:GovSteamTCSRXmlType" substitutionGroup="pss:governor"/>
+	<element name="govSteamTDSR" type="pss:GovSteamTDSRXmlType" substitutionGroup="pss:governor"/>
+
 
 	<complexType name="GovernorModelXmlType" abstract="true">
 		<sequence>

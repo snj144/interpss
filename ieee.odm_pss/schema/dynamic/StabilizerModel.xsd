@@ -5,6 +5,18 @@
 
 	<include schemaLocation="../common/DataType.xsd"></include>
 
+	<annotation>
+		<documentation>Copyright www.interpss.org 2008-2010</documentation>
+	</annotation>
+	
+	<element name="stabilizer" type="pss:StabilizerModelXmlType"/>
+	<element name="pssSimpleType" type="pss:PssSimpleTypeXmlType" substitutionGroup="pss:stabilizer"/>
+	<element name="pssIEEE1981Type" type="pss:PssIEEE1981TypeXmlType" substitutionGroup="pss:stabilizer"/>
+	<element name="pssIEEE1992Type2A" type="pss:PssIEEE1992Type2AXmlType" substitutionGroup="pss:stabilizer"/>
+	<element name="pssIEEEType1A" type="pss:PssIeeePss1AXmlType" substitutionGroup="pss:stabilizer"/>
+	<element name="pssIEE2ST" type="pss:PssIEE2STXmlType" substitutionGroup="pss:stabilizer"/>
+	<element name="pssIEEEDualInput" type="pss:PssIEEEDualInputXmlType" substitutionGroup="pss:stabilizer"/>
+
 	<complexType name="StabilizerModelXmlType" abstract="true">
 		<sequence>
 			<element name="name" type="string" maxOccurs="1" minOccurs="0"></element>
@@ -187,7 +199,8 @@
 			<element name="VSMIN" type="double" maxOccurs="1" minOccurs="1"></element>
 		</sequence>
 		</extension>
-		</complexContent>		</complexType>
+		</complexContent>		
+	</complexType>
 
 <!-- below net used -->
 	<complexType name="StabilizerXmlType">
