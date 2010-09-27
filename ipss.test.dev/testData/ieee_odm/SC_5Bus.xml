@@ -104,10 +104,10 @@
 						<pss:fault>
 							<pss:faultType>BusFault</pss:faultType>
 							<pss:faultCategory>Fault3Phase</pss:faultCategory>
-							<pss:busBranchId idRef="Bus-1"></pss:busBranchId>
+							<pss:refBusBranch idRef="Bus-1"></pss:refBusBranch>
 							<pss:zLG im="0.0" unit="PU" re="0.0" />
 						</pss:fault>
-						<pss:preFaultBusVoltage>Fixed</pss:preFaultBusVoltage>
+						<pss:preFaultBusVoltage>UnitVolt</pss:preFaultBusVoltage>
 					</pss:acscAnalysis>
 				</pss:simuAlgo>
 			</pss:scenario>
