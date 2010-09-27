@@ -33,7 +33,7 @@ import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
-import org.ieee.odm.schema.DynamicGeneratorXmlType;
+import org.ieee.odm.schema.DynamicMachineXmlType;
 import org.ieee.odm.schema.ExciterModelXmlType;
 import org.ieee.odm.schema.GovernorModelXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
@@ -190,7 +190,7 @@ public class ODMDStabDataMapperImpl {
 	private static void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus)  throws InterpssException {
 		int cnt = 0;
 		if (dstabBusXml.getMachineList() != null)
-			for (DynamicGeneratorXmlType dyGen : dstabBusXml.getMachineList().getMachine()) {
+			for (DynamicMachineXmlType dyGen : dstabBusXml.getMachineList().getMachine()) {
 				// create the machine model and added to the parent bus object
 				MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
 				String machId = dstabBus.getId() + "-mach" + ++cnt;
