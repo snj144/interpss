@@ -114,7 +114,8 @@ public class EigenAnalysisImpl implements EigenAnalysis {
 		setMinEigenValue(realEigenValues[columnOfMinEigen]);
 	}
 	private RealMatrix getEigenVectors(){
-		 
+		     System.out.println(jacobi.getColumnDimension()+"\n"+
+		    		 jacobi.getRowDimension()+"\n"+jacobi.getData());
 			 EigenDecomposition eigDcp  =new EigenDecompositionImpl(jacobi,MathUtils.SAFE_MIN);
 		     eigVectors= eigDcp.getV();
 		     return eigVectors;
@@ -136,6 +137,8 @@ public class EigenAnalysisImpl implements EigenAnalysis {
 			}
 		else this.leftMinEigenVector=getEigenVectors().getColumnVector(getColumnOfMinEigen());
 	}
+	
+	
 	
 
 	}

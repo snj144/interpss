@@ -32,7 +32,7 @@ public class JacobiMatrixCalculator {
 	 *
 	 */
 	
-	private  void transSparse2RealFmt (AclfNetwork net){
+	private  void transSparse2RealFmt (AclfNetwork net,IPSSMsgHub msg){
 		
 		SparseEqnMatrix2x2 S=net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE, msg);   
 		 // get sortIndex
@@ -116,17 +116,55 @@ public class JacobiMatrixCalculator {
 	 
 	 }//end this method
 	public RealMatrix getFullJacobiRealFmt(AclfNetwork net){
-		transSparse2RealFmt(net);
+		transSparse2RealFmt(net,msg);
 	 // the sign of sparseMatrix is opposite to usual, so here  its sign is changed by default .
 		return fullJacobi.scalarMultiply(-1);
 	}
 	
 	public  RealMatrix getSubJQVMatrix(AclfNetwork net){
-		transSparse2RealFmt(net);
+		transSparse2RealFmt(net,msg);
 		return this.subJQV;
 			
 	}
+	public double getHii(String aNonSwingBusID){// the diagnose element of SubJptheta with bus of "BusID"
+		double Hii=0;
+		Matrix_xy elem =null;
+		AclfBus acBus=null;
+		try{
+		acBus=(AclfBus) this._net.getBus(aNonSwingBusID);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		SparseEqnMatrix2x2 S=_net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE, msg);
+		if(acBus.isActive()&&!acBus.isSwing()){ // both PQ and PV
+			
+			elem = S.getElement(acBus.getSortNumber(),acBus.getSortNumber());
+			Hii=elem.xx;
+			
+		}
+		return Hii;
+	}
 
+
+	public double getLii(String aPQBusID){// the diagnose element of SubJqv with bus of "BusID"
+		double Lii=0;
+		Matrix_xy elem =null;
+		AclfBus acBus=null;
+		try{
+		acBus=(AclfBus) this._net.getBus(aPQBusID);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		SparseEqnMatrix2x2 S=_net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE, msg);
+		if(acBus.isActive()&&acBus.isGenPQ()){ // only for PQ
+			
+			elem = S.getElement(acBus.getSortNumber(),acBus.getSortNumber());
+			Lii=elem.yy;
+			
+		}
+		return Lii;
+	}
+	
 	
 	
 }
