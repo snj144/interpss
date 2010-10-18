@@ -37,7 +37,7 @@ import com.interpss.common.util.PerformanceTimer;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
-import com.interpss.core.algorithm.BusArrangeRule;
+import com.interpss.core.algorithm.BusNumberArrangeRule;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.NetworkAlgorithm;
 import com.interpss.pssl.simu.IpssAclf;
@@ -86,7 +86,7 @@ public class LoadflowPerformance {
 	  	timer.start();
 	  	adjNet.setBusNumberArranged(false);
 	  	NetworkAlgorithm algoNet = CoreObjectFactory.createNetworkAlgorithm(adjNet);
-		algoNet.arrangeBusNumber(BusArrangeRule.TINNEY2, msg);
+		algoNet.arrangeBusNumber(BusNumberArrangeRule.TINNEY2, msg);
 	  	timer.logStd("Time for bus arrangement: ");
 	}	
 }
