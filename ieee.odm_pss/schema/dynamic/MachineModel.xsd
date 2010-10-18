@@ -62,15 +62,7 @@
 				from Loadflow analysis
 				</documentation></annotation>
 				<choice>
-					<element name="equivSource" minOccurs="0">
-						<complexType>
-							<sequence>
-								<element name="scMva3Phase" type="double" minOccurs="1"></element>
-								<element name="xOverR3Phase" type="double" minOccurs="1"></element>
-								<element name="scMva1Phase" type="double" minOccurs="0"></element>
-								<element name="xOverR1Phase" type="double" minOccurs="0"></element>
-							</sequence>
-						</complexType>
+					<element name="equivSource" minOccurs="0" type="pss:ScEquivSourceXmlType">
 					</element>
 					<element name="equivGen" minOccurs="0">
 						<complexType>

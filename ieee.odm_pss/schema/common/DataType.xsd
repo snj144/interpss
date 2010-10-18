@@ -111,11 +111,24 @@
 		</complexContent>
 	</complexType>
 
+	<complexType name="NamedZXmlType">
+		<complexContent>
+			<extension base="pss:ZXmlType">
+				<attribute name="name" use="optional" type="string"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
 	<complexType name="RXmlType">
 		<attribute name="r" type="double" use="required"></attribute>
 		<attribute name="unit" use="required" type="pss:ZUnitType"></attribute>
 	</complexType>
 
+	<complexType name="XXmlType">
+		<attribute name="x" type="double" use="required"></attribute>
+		<attribute name="unit" use="required" type="pss:ZUnitType"></attribute>
+	</complexType>
+	
 	<complexType name="YXmlType">
 		<complexContent>
 			<extension base="pss:ComplexXmlType">
@@ -157,7 +170,23 @@
 			</extension>
 		</complexContent>
 	</complexType>
+	
+	<complexType name="PowerFactorXmlType">
+		<complexContent>
+			<extension base="pss:FactorXmlType">
+			</extension>
+		</complexContent>
+	</complexType>	
 
+	<complexType name="FactorXmlType">
+		<complexContent>
+			<extension base="pss:BaseDoubleXmlType">
+				<attribute name="unit" use="required" type="pss:FactorUnitType">
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>	
+	
 	<complexType name="ActivePowerXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
@@ -179,7 +208,7 @@
 	<complexType name="TurnRatioXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required" type="pss:TapUnitType">
+				<attribute name="unit" use="required" type="pss:TurnRatioUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -188,7 +217,6 @@
 	<complexType name="VoltageXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-
 				<attribute name="unit" type="pss:VoltageUnitType" use="required"></attribute>
 			</extension>
 		</complexContent>
@@ -211,6 +239,7 @@
 			</extension>
 		</complexContent>
 	</complexType>
+
 	<complexType name="AdjustmentDataXmlType">
 		<annotation>
 			<documentation>There are two adj modes: ValueAdjustment and RangeAdjustment. For ValueAdjustment, the desiredValue is used. For RangeAdjustment,
@@ -222,6 +251,15 @@
 				<attribute name="desiredValue" type="double" use="required"></attribute>
 			</extension>
 		</complexContent>
+	</complexType>
+
+	<complexType name="ScEquivSourceXmlType">
+		<sequence>
+			<element name="scMva3Phase" type="double" minOccurs="1"></element>
+			<element name="xOverR3Phase" type="double" minOccurs="1"></element>
+			<element name="scMva1Phase" type="double" minOccurs="0"></element>
+			<element name="xOverR1Phase" type="double" minOccurs="0"></element>
+		</sequence>
 	</complexType>
 
 	<simpleType name="AdjustmentModeEnumType">
@@ -345,14 +383,14 @@
 		<sequence>
 			<element name="grounding" type="pss:GroundingXmlType" minOccurs="0"></element>
 		</sequence>
-		<attribute name="connection" type="pss:XformrtConnectionEnumType" use="required"></attribute>
+		<attribute name="xfrConnection" type="pss:XformrtConnectionEnumType" use="required"></attribute>
 	</complexType>
 
 	<complexType name="GroundingXmlType">
 		<sequence>
-			<element name="groundZ" type="pss:ZXmlType" minOccurs="0"></element>
+			<element name="groundingZ" type="pss:ZXmlType" minOccurs="0"></element>
 		</sequence>
-		<attribute name="connection" type="pss:GroundingEnumType" use="required"></attribute>
+		<attribute name="groundingConnection" type="pss:GroundingEnumType" use="required"></attribute>
 	</complexType>
 	
 	<simpleType name="ShortCircuitBusEnumType">
@@ -593,7 +631,15 @@
 			<enumeration value="PhaseShiftXformer"></enumeration>
 		</restriction>
 	</simpleType>
-
+	
+	<simpleType name="LfMethodEnumType">
+		<restriction base="string">
+			<enumeration value="NR"></enumeration>
+			<enumeration value="PQ"></enumeration>
+			<enumeration value="GS"></enumeration>
+		</restriction>
+	</simpleType>
+	
 	<complexType name="TapLimitXmlType">
 		<complexContent>
 			<extension base="pss:TurnRatioLimitXmlType"></extension>
@@ -660,18 +706,39 @@
 		</sequence>
 	</complexType>
 	
+	<simpleType name="DStabMethodEnumType">
+		<restriction base="string">
+			<enumeration value="ModifiedEuler"></enumeration>
+			<enumeration value="RungerKutta"></enumeration>
+		</restriction>
+	</simpleType>
+
 	<simpleType name="StaticLoadModelEnumType">
 		<restriction base="string">
 			<enumeration value="Constant_Z"></enumeration>
 			<enumeration value="Constant_P"></enumeration>
 		</restriction>
 	</simpleType>
-
+	
 	<simpleType name="PreFaultBusVoltageEnumType">
 		<restriction base="string">
 			<enumeration value="Loadflow"></enumeration>
 			<enumeration value="UnitVolt"></enumeration>
 		</restriction>
 	</simpleType>
+
+	<simpleType name="DStabLoadChangeEnumType">
+		<restriction base="string">
+			<enumeration value="LowFrequency"></enumeration>
+			<enumeration value="LowVoltage"></enumeration>
+			<enumeration value="FixedTime"></enumeration>
+		</restriction>
+	</simpleType>	
 	
+	<simpleType name="SetPointChangeEnumType">
+		<restriction base="string">
+			<enumeration value="Absolute"></enumeration>
+			<enumeration value="Delta"></enumeration>
+		</restriction>
+	</simpleType>	
 </schema>

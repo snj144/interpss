@@ -12,28 +12,28 @@
     	<pss:dstabBus id="Bus1" name="AR1GEN1" scCode="Contributing">
     		<pss:baseVoltage unit="KV" value="230"></pss:baseVoltage>
     		<pss:machineList>
-    		<pss:machine>
+    		<pss:machine id="mach_Bus1">
     			<pss:classicMachModel>
     				<pss:name>mach</pss:name>
     				<pss:H>0.0</pss:H>
     				<pss:D>0.0</pss:D>
     				<pss:xd1>0.0</pss:xd1>
     			</pss:classicMachModel>
-    			<pss:grounding connection="Ungrounded"></pss:grounding>
+    			<pss:grounding groundingConnection="Ungrounded"></pss:grounding>
     		</pss:machine>
     		</pss:machineList>
     	</pss:dstabBus>
     	<pss:dstabBus scCode="Non-contributing" id="Bus2">
     		<pss:baseVoltage unit="PU" value="0.0" />
     		<pss:machineList>
-    		<pss:machine>
+    		<pss:machine id="mach_Bus2">
     			<pss:classicMachModel>
     				<pss:name>mach</pss:name>
     				<pss:H>0.0</pss:H>
     				<pss:D>0.0</pss:D>
     				<pss:xd1>0.0</pss:xd1>
     			</pss:classicMachModel>
-    			<pss:grounding connection="Ungrounded"></pss:grounding>
+    			<pss:grounding groundingConnection="Ungrounded"></pss:grounding>
     		</pss:machine>
     		</pss:machineList>
     	</pss:dstabBus>

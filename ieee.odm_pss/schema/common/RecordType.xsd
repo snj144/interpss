@@ -24,7 +24,11 @@
 					<element name="networkCategory" minOccurs="1" maxOccurs="1" type="pss:NetworkCategoryEnumType"></element>
 					<element name="analysisCategory" type="pss:AnalysisCategoryEnumType" maxOccurs="1"></element>
 					<element name="basePower" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"></element>
-					<element name="frequency" type="pss:FrequencyXmlType" minOccurs="0"></element>
+                    <element name="autoBranchId" type="boolean" minOccurs="0">
+						<annotation>
+							<documentation>if true, the branch id will be auto generated formId->toId(cirNo). The original branchId will be moved to the name field.</documentation>
+						</annotation></element>
+                    <element name="frequency" type="pss:FrequencyXmlType" minOccurs="0"></element>
 					<element name="busList" minOccurs="1" maxOccurs="1">
 						<complexType>
 							<sequence>
@@ -52,7 +56,7 @@
 								<element name="lossZone" maxOccurs="unbounded" minOccurs="0" type="pss:NetZoneXmlType"></element>
 							</sequence>
 						</complexType>
-					</element>
+					</element>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -64,6 +68,7 @@
 			<enumeration value="ShortCircuit"></enumeration>
 			<enumeration value="TransientStability"></enumeration>
 			<enumeration value="OPF"></enumeration>
+			<enumeration value="DistributionAnalysis"></enumeration>
 		</restriction>
 	</simpleType>
 

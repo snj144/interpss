@@ -166,14 +166,6 @@
 		</ns:complexContent>
 	</ns:complexType>
 
-	<ns:simpleType name="LfMethodEnumType">
-		<ns:restriction base="ns:string">
-			<ns:enumeration value="NR"></ns:enumeration>
-			<ns:enumeration value="PQ"></ns:enumeration>
-			<ns:enumeration value="GS"></ns:enumeration>
-		</ns:restriction>
-	</ns:simpleType>
-	
 <!-- 
 	Acsc Study Scenario
  -->
@@ -242,27 +234,13 @@
 		</sequence>
 	</complexType>
 
-	<simpleType name="DStabMethodEnumType">
-		<restriction base="string">
-			<enumeration value="ModifiedEuler"></enumeration>
-			<enumeration value="RungerKutta"></enumeration>
-		</restriction>
-	</simpleType>
-
 	<complexType name="StaticLoadModelXmlType">
 		<ns:sequence>
-			<ns:element name="staticLoadType" minOccurs="1" maxOccurs="1" type="pss:StaticLoadEnumType"></ns:element>
+			<ns:element name="staticLoadType" minOccurs="1" maxOccurs="1" type="pss:StaticLoadModelEnumType"></ns:element>
 			<ns:element name="switchVolt" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
 			<ns:element name="switchDeadZone" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
 		</ns:sequence>
 	</complexType>
-
-	<ns:simpleType name="StaticLoadEnumType">
-		<ns:restriction base="ns:string">
-			<ns:enumeration value="CONST_Z"></ns:enumeration>
-			<ns:enumeration value="CONST_P"></ns:enumeration>
-		</ns:restriction>
-	</ns:simpleType>
 
 	<complexType name="DynamicEventXmlType">
         <annotation><documentation>
@@ -297,14 +275,6 @@
 		</ns:sequence>
 	</ns:complexType>
 
-	<ns:simpleType name="DStabLoadChangeEnumType">
-		<ns:restriction base="ns:string">
-			<ns:enumeration value="LowFrequency"></ns:enumeration>
-			<ns:enumeration value="LowVoltage"></ns:enumeration>
-			<ns:enumeration value="FixedTime"></ns:enumeration>
-		</ns:restriction>
-	</ns:simpleType>
-
 	<ns:complexType name="DStabSetPointChangeXmlType">
 		<ns:sequence>
 			<ns:element name="refGenerator" type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1"></ns:element>
@@ -313,11 +283,4 @@
 			<ns:element name="valueChangeType" minOccurs="1" maxOccurs="1" type="pss:SetPointChangeEnumType">			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
-
-	<ns:simpleType name="SetPointChangeEnumType">
-		<ns:restriction base="ns:string">
-			<ns:enumeration value="Absolute"></ns:enumeration>
-			<ns:enumeration value="Delta"></ns:enumeration>
-		</ns:restriction>
-	</ns:simpleType>	
 </schema>
