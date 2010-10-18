@@ -54,7 +54,7 @@ import com.interpss.core.aclf.adj.PVBusLimit;
 import com.interpss.core.aclf.adj.RemoteQBus;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.net.Area;
-import com.interpss.core.net.IRegulationDevice;
+import com.interpss.core.net.reg.IRegulationDevice;
 import com.interpss.simu.SimuContext;
 
 public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPanel, IpssMsgListener {
@@ -106,8 +106,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	    _netContainer = (GFormContainer)netContainer;
 	    _simuCtx = (SimuContext)simuCtx;
     	_simuCtx.getLoadflowAlgorithm().setInitBusVoltage(false);
-    	if (_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm() != null) {
-    		_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().setActivateAllAdjust(false);
+    	if (_simuCtx.getAclfAdjAlgorithm() != null) {
+    		_simuCtx.getAclfAdjAlgorithm().setActivateAllAdjust(false);
         	initAdvanceControlPanel();
     	}
 		msgOutTextArea.setText("");
@@ -135,9 +135,9 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		funcLoadButton.setEnabled(list.length > 1);
 
 		list = null;
-		if (_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm() != null)
+		if (_simuCtx.getAclfAdjAlgorithm() != null)
 			list = RunActUtilFunc.getXfrTapControlList(_simuCtx.getAclfAdjNet(),		
-				_simuCtx.getLoadflowAlgorithm().getTolerance()*_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().getVoltAdjToleranceFactor(),
+				_simuCtx.getLoadflowAlgorithm().getTolerance()*_simuCtx.getAclfAdjAlgorithm().getVoltAdjToleranceFactor(),
 				_simuCtx.getMsgHub());
 		if (list != null && list.length > 1) {
 			xfrTapControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(list));
@@ -177,9 +177,9 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		interPControlTextField.setEnabled(list.length > 1);
 		
 		list = null;
-		if (_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm() != null)
+		if (_simuCtx.getAclfAdjAlgorithm() != null)
 			list = RunActUtilFunc.getRemoteQBusList(_simuCtx.getAclfAdjNet(), 
-				_simuCtx.getLoadflowAlgorithm().getTolerance()*_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().getVoltAdjToleranceFactor(),
+				_simuCtx.getLoadflowAlgorithm().getTolerance()*_simuCtx.getAclfAdjAlgorithm().getVoltAdjToleranceFactor(),
 				_simuCtx.getMsgHub());
 		if (list != null && list.length > 1) {
 			remoteQBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(list));
@@ -1030,7 +1030,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         String selected = (String)interPControlComboBox.getSelectedItem();
         if (selected.equals(RunActUtilFunc.AllControlDevices)) {
         	IpssLogger.getLogger().info("Apply All Interarea exchagnge controls");
-        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doInterAreaPowerAdjust();
+        	_simuCtx.getAclfAdjAlgorithm().doInterAreaPowerAdjust();
         }
         else {
         	String no = new StringTokenizer(selected).nextToken();

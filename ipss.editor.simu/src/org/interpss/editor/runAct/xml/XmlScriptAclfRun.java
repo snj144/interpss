@@ -52,6 +52,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.adj.AclfAdjNetwork;
+import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -109,7 +110,7 @@ public class XmlScriptAclfRun {
 				    net.rebuildLookupTable();
 				}
 
-				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
+				AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, msg);
 				// map to the Algo object including network modification at the study case level
 				IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 				if (!XmlScriptUtilFunc.mapAclfStudyCase(mapper, xmlCase, algo, xmlDefaultAlgo, reJobCreation, msg))
@@ -183,7 +184,7 @@ public class XmlScriptAclfRun {
 	private static boolean aclfSingleRun(AclfAdjNetwork aclfNet, AclfStudyCaseXmlType xmlCase, AclfAlgorithmXmlType xmlDefaultAlgo, 
 				RuleBaseXmlType ruleBase, boolean applyRuleBase, boolean gridRun, long timeout, IPSSMsgHub msg) {
 		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet, msg);
+		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(aclfNet, msg);
 		if (!XmlScriptUtilFunc.mapAclfStudyCase(mapper, xmlCase, algo, xmlDefaultAlgo, false, msg))
 			return false;
 

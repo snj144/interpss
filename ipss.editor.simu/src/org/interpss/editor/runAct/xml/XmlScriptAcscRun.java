@@ -34,9 +34,9 @@ import org.interpss.schema.RunStudyCaseXmlType;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.acsc.AcscBranchFault;
-import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultNetwork;
+import com.interpss.core.acsc.fault.AcscBranchFault;
+import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 
 public class XmlScriptAcscRun {
