@@ -33,12 +33,12 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
 import com.interpss.core.acsc.AcscBranch;
-import com.interpss.core.acsc.AcscBranchFault;
 import com.interpss.core.acsc.AcscBus;
-import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.AcscNetwork;
-import com.interpss.core.acsc.SimpleFaultCode;
 import com.interpss.core.acsc.SimpleFaultNetwork;
+import com.interpss.core.acsc.fault.AcscBranchFault;
+import com.interpss.core.acsc.fault.AcscBusFault;
+import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 

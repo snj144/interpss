@@ -33,6 +33,7 @@ import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
 import org.ieee.odm.schema.Eq1MachineXmlType;
 import org.ieee.odm.schema.EquiMachineXmlType;
 import org.ieee.odm.schema.MachineModelXmlType;
+import org.ieee.odm.schema.ScEquivSourceXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 
@@ -203,7 +204,7 @@ public class MachDataHelper {
 	
 	private Complex calSourceZ1(EquiMachineXmlType machXml) {
 		if ( machXml.getEquivSource() != null) {
-			EquiMachineXmlType.EquivSource source = machXml.getEquivSource(); 
+			ScEquivSourceXmlType source = machXml.getEquivSource(); 
 			if (source.getScMva3Phase() > 0.0 && source.getXOverR3Phase() > 0.0)
 				return CoreUtilFunc.calUitilityZ1PU(source.getScMva3Phase() * 1000,
 						source.getXOverR3Phase(), this.dstabBus.getNetwork().getBaseKva());
@@ -216,7 +217,7 @@ public class MachDataHelper {
 	
 	private Complex calSourceZ0(EquiMachineXmlType machXml, Complex z1) {
 		if ( machXml.getEquivSource() != null) {
-			EquiMachineXmlType.EquivSource source = machXml.getEquivSource(); 
+			ScEquivSourceXmlType source = machXml.getEquivSource(); 
 			if (source.getXOverR1Phase() != null && source.getXOverR1Phase() != null 
 					&& source.getXOverR1Phase() > 0.0 && source.getXOverR1Phase() > 0.0) {
 				return CoreUtilFunc.calUitilityZ0PU(source.getScMva1Phase() * 1000,

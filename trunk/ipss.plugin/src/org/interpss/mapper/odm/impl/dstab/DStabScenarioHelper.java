@@ -51,7 +51,7 @@ import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.MachineControllerEnumType;
 import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.SetPointChangeEnumType;
-import org.ieee.odm.schema.StaticLoadEnumType;
+import org.ieee.odm.schema.StaticLoadModelEnumType;
 import org.ieee.odm.schema.StaticLoadModelXmlType;
 import org.ieee.odm.schema.TimePeriodUnitType;
 import org.ieee.odm.schema.TimePeriodXmlType;
@@ -65,7 +65,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
-import com.interpss.core.acsc.AcscBusFault;
+import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
@@ -395,7 +395,7 @@ public class DStabScenarioHelper {
 		}
         
         StaticLoadModelXmlType statLoad = settings.getStaticLoadModel();
-        if(statLoad.getStaticLoadType() == StaticLoadEnumType.CONST_Z){
+        if(statLoad.getStaticLoadType() == StaticLoadModelEnumType.CONSTANT_Z){
         	dstabNet.setStaticLoadModel(StaticLoadModel.CONST_Z);
         }
         else {

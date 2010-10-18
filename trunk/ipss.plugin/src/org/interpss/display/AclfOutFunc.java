@@ -49,7 +49,7 @@ import com.interpss.core.aclf.adpter.PSXfrAdapter;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.loss.ActivePowerWalkDirection;
 import com.interpss.core.algorithm.sec.BranchRatingAdapter;
-import com.interpss.core.algorithm.sec.ViolationType;
+import com.interpss.core.algorithm.sec.SecAnalysisViolationType;
 import com.interpss.core.common.IAclfBusVisitor;
 import com.interpss.core.common.IPVBusLimitVisitor;
 import com.interpss.core.datatype.Mismatch;
@@ -297,7 +297,7 @@ public class AclfOutFunc {
 				AclfBranch bra = (AclfBranch) b;
 				if (bra.isActive()) {
 					BranchRatingAdapter adapter = (BranchRatingAdapter)b.getAdapter(BranchRatingAdapter.class);
-					if (adapter.isRatingViolated(ViolationType.BRANCH_THERMAL_MVA_RATING, net.getBaseKva())) {
+					if (adapter.isRatingViolated(SecAnalysisViolationType.BRANCH_THERMAL_MVA_RATING, net.getBaseKva())) {
 						str.append(Number2String.toStr(5, " "));
 						str.append(Number2String.toStr(-16, bra.getId()));
 						double mva = bra.powerFrom2To(UnitType.mVA).abs();
