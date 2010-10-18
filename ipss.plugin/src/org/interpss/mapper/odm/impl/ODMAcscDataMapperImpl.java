@@ -58,14 +58,14 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
-import com.interpss.core.acsc.AcscLineAdapter;
 import com.interpss.core.acsc.AcscNetwork;
-import com.interpss.core.acsc.AcscXfrAdapter;
 import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;
 import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.acsc.XfrConnectCode;
+import com.interpss.core.acsc.adpter.AcscLineAdapter;
+import com.interpss.core.acsc.adpter.AcscXfrAdapter;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -246,8 +246,8 @@ public class ODMAcscDataMapperImpl {
 	}
 
 	private static void setBusScZg(AcscBus bus, double baseV, double baseKVA, GroundingXmlType g) {
-		ZXmlType z = g.getGroundZ();
-		bus.getGrounding().setCode(ODMXmlHelper.toBusGroundCode(g.getConnection()));
+		ZXmlType z = g.getGroundingZ();
+		bus.getGrounding().setCode(ODMXmlHelper.toBusGroundCode(g.getGroundingConnection()));
 		if(z != null){
 			byte zgUnit = ODMXmlHelper.toUnit(z.getUnit());			
 			bus.getGrounding().setZ(new Complex(z.getRe(), z.getIm()), zgUnit, baseV, baseKVA);
@@ -299,7 +299,7 @@ public class ODMAcscDataMapperImpl {
 					XfrConnectCode conCode=calXfrConnectCode(connect);
 					acscBra.setXfrFromConnectCode(conCode);
 					if(connect.getGrounding() != null){
-						ZXmlType z = connect.getGrounding().getGroundZ();
+						ZXmlType z = connect.getGrounding().getGroundingZ();
 						if (z != null) 
 							xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(z.getRe(), z.getIm()),
 									ODMXmlHelper.toUnit(z.getUnit()));
@@ -311,7 +311,7 @@ public class ODMAcscDataMapperImpl {
 					XfrConnectCode conCode=calXfrConnectCode(connect);
 					acscBra.setXfrToConnectCode(conCode);
 					if(connect.getGrounding() != null){
-						ZXmlType z = connect.getGrounding().getGroundZ();
+						ZXmlType z = connect.getGrounding().getGroundingZ();
 						if (z != null) 
 							xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(z.getRe(), z.getIm()),
 									ODMXmlHelper.toUnit(z.getUnit()));
@@ -322,12 +322,12 @@ public class ODMAcscDataMapperImpl {
 	private static XfrConnectCode calXfrConnectCode(XformerConnectionXmlType connect) {
 		// connectCode : [Delta | Wye]
 		// groundCode : [SolidGrounded | ZGrounded | Ungrounded ]
-		if (connect.getConnection() == XformrtConnectionEnumType.DELTA)
+		if (connect.getXfrConnection() == XformrtConnectionEnumType.DELTA)
 			return XfrConnectCode.DELTA;
 		else {  // Wye connection
-			if (connect.getGrounding().getConnection() == GroundingEnumType.SOLID_GROUNDED)
+			if (connect.getGrounding().getGroundingConnection() == GroundingEnumType.SOLID_GROUNDED)
 				return XfrConnectCode.WYE_SOLID_GROUNDED;
-			else if (connect.getGrounding().getConnection() == GroundingEnumType.Z_GROUNDED)
+			else if (connect.getGrounding().getGroundingConnection() == GroundingEnumType.Z_GROUNDED)
 				return XfrConnectCode.WYE_ZGROUNDED;
 			else 
 				return XfrConnectCode.WYE_UNGROUNDED;

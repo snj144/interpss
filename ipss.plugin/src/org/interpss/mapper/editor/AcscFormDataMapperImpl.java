@@ -52,9 +52,7 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
-import com.interpss.core.acsc.AcscLineAdapter;
 import com.interpss.core.acsc.AcscNetwork;
-import com.interpss.core.acsc.AcscXfrAdapter;
 import com.interpss.core.acsc.BaseAcscBranch;
 import com.interpss.core.acsc.BaseAcscBus;
 import com.interpss.core.acsc.BusGroundCode;
@@ -62,6 +60,8 @@ import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;
 import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.acsc.XfrConnectCode;
+import com.interpss.core.acsc.adpter.AcscLineAdapter;
+import com.interpss.core.acsc.adpter.AcscXfrAdapter;
 import com.interpss.core.util.CoreUtilFunc;
 
 /**
