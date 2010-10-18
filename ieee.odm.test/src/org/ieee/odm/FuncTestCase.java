@@ -89,7 +89,7 @@ public class FuncTestCase {
 		assertTrue(parser.getAclfBaseCase().getId() != null);
 		
 		str = BusListHead +
-		"<bus xsi:type=\"LoadflowBusXmlType\" id=\"Bus1\" >" +
+		"<aclfBus id=\"Bus1\" >" +
 		  "<baseVoltage value=\"132.0\" unit=\"KV\"/>" +
 		  "<genData code=\"Swing\">" +
 			"<equivGen>" +
@@ -97,7 +97,7 @@ public class FuncTestCase {
 				"<desiredAngle value=\"0.0\" unit=\"DEG\" />" +
 			"</equivGen>" +
 		  "</genData>" +
-		"</bus>" +
+		"</aclfBus>" +
 		BusListEnd;
 
 		parser = new JaxbODMModelParser();
@@ -108,12 +108,12 @@ public class FuncTestCase {
 		assertTrue(bus.getGenData().getEquivGen().getDesiredVoltage().getValue() == 1.06);
 		
 		str = BranchListHead +
-		"<branch xsi:type=\"LineBranchXmlType\" circuitId=\"1\" id=\"Bus1_to_Bus2_cirId_1\">" +
+		"<aclfLine circuitId=\"1\" id=\"Bus1_to_Bus2_cirId_1\">" +
 			"<fromBus idRef=\"Bus1\" />" +
 			"<toBus idRef=\"Bus2\" />" +
 			"<z re=\"0.01938\" im=\"0.05917\" unit=\"PU\" />" +
 			"<totalShuntY re=\"0.0\" im=\"0.0528\" unit=\"PU\" />" +
-		"</branch>" +
+		"</aclfLine>" +
 		BranchListEnd;
 
 		parser = new JaxbODMModelParser();
@@ -126,11 +126,11 @@ public class FuncTestCase {
 	@Test
 	public void parseTestCase() throws Exception {
 		String str = PSSStudyCaseHead +
-			"<baseCase xsi:type=\"LoadflowNetXmlType\" id=\"Base_Case_from_IEEECDF_format\">" +
+			"<aclfNet id=\"Base_Case_from_IEEECDF_format\">" +
 			"   <networkCategory>Transmission</networkCategory>" +
 			"   <analysisCategory>Loadflow</analysisCategory>" +
 			"   <basePower value=\"100.0\" unit=\"MVA\" />" +
-			"</baseCase>" +
+			"</aclfNet>" +
 			PSSStudyCaseEnd;
 		
 		JaxbODMModelParser parser = new JaxbODMModelParser();
@@ -139,7 +139,7 @@ public class FuncTestCase {
 		assertTrue(parser.getAclfBaseCase().getId() != null);
 		
 		str = BusListHead +
-		"<bus xsi:type=\"BusRecordXmlType\" id=\"Bus1\" >" +
+		"<aclfBus id=\"Bus1\" >" +
 		  "<baseVoltage value=\"132.0\" unit=\"KV\"/>" +
 		  "<loadflowData>" +
 			"<genData code=\"Swing\">" +
@@ -149,7 +149,7 @@ public class FuncTestCase {
 				"</equivGen>" +
 			"</genData>" +
 		  "</loadflowData>" +
-		"</bus>" +
+		"</aclfBus>" +
 		BusListEnd;
 
 		parser = new JaxbODMModelParser();
@@ -158,7 +158,7 @@ public class FuncTestCase {
 		assertTrue(parser.getAclfBaseCase().getBusList().getBus().get(0).getValue().getBaseVoltage().getValue() == 132.0);
 		
 		str = BranchListHead +
-		"<branch xsi:type=\"LineBranchXmlType\" circuitId=\"1\" id=\"Bus1_to_Bus2_cirId_1\">" +
+		"<aclfLine circuitId=\"1\" id=\"Bus1_to_Bus2_cirId_1\">" +
 			"<fromBus idRef=\"Bus1\" />" +
 			"<toBus idRef=\"Bus2\" />" +
 			"<loadflowData code=\"Line\">" +
@@ -167,7 +167,7 @@ public class FuncTestCase {
 					"<totalShuntY re=\"0.0\" im=\"0.0528\" unit=\"PU\" />" +
 				"</lineData>" +
 			"</loadflowData>" +
-		"</branch>" +
+		"</aclfLine>" +
 		BranchListEnd;
 
 		parser = new JaxbODMModelParser();
