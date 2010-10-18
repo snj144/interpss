@@ -17,9 +17,11 @@
 
 	<!-- Create xml schema jar, this needs to done in DOS model -->
 	<target name="createIEEEODMPSSSchemas" depends="init">
-		<xmlbean schema="schema/ODM_StudyCase.xsd"
+		<!--
+		<xmlbean schema="schema/StudyCase.xsd"
 			destfile="${lib_dir}/ieee.odm_pss.schemas.jar"
 			classpath="${xmlbeans.classpath}" />
+			-->
 	</target>
 
 	<!-- Jar lib file to c:/eclise/ieee_odm -->
