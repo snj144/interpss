@@ -47,6 +47,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.simu.SimuContext;
@@ -181,8 +182,8 @@ public class CmdLineRunner {
 			if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK
 					|| simuCtx.getNetType() == SimuCtxType.ACLF_ADJ_NETWORK) {
 				// create the default loadflow algorithm
-				LoadflowAlgorithm algo = CoreObjectFactory
-						.createLoadflowAlgorithm(simuCtx.getAclfAdjNet(), msg);
+				AclfAdjustAlgorithm algo = CoreObjectFactory
+						.createAclfAdjAlgorithm(simuCtx.getAclfAdjNet(), msg);
 				// use the loadflow algorithm to perform loadflow calculation
 				algo.loadflow();
 				runType = SimuRunType.Aclf;
