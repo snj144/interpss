@@ -43,6 +43,7 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
@@ -58,7 +59,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
@@ -109,7 +110,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
@@ -133,7 +134,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 		
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
@@ -141,9 +142,9 @@ public class CR_UserTestCases extends BaseTestSetup {
 	  	AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
   		Complex p = swing.getGenResults(UnitType.mW);
-  		//System.out.println(p.getReal() + ", " + p.getImaginary());
+  		System.out.println(p.getReal() + ", " + p.getImaginary());
   		assertTrue(Math.abs(p.getReal()-1841.665)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()-11.738)<0.01);	  	
+  		assertTrue(Math.abs(p.getImaginary()-11.7137)<0.01);	  	
 	}	
 }
 

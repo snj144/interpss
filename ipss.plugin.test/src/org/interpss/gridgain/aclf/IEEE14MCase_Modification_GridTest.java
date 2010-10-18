@@ -43,6 +43,7 @@ import org.junit.Test;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.adj.AclfAdjNetwork;
+import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -72,7 +73,7 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 		/*
 		 * step-2 Define LF algorithm
 		 */
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
+		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, msg);
 	  	//algo.setLfMethod(AclfMethod.PQ);
 
 	  	/*
@@ -162,7 +163,7 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 		/*
 		 * step-2 Define LF algorithm
 		 */
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, msg);
 	  	//algo.setLfMethod(AclfMethod.PQ);
 
 	  	/*
