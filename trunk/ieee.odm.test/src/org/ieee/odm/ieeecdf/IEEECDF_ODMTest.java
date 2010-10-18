@@ -63,7 +63,7 @@ public class IEEECDF_ODMTest {
 		assertTrue(adapter.parseInputFile("testdata/ieee_format/Ieee14Bus.ieee"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
-		System.out.println(parser.toXmlDoc(false));
+		//System.out.println(parser.toXmlDoc(false));
 		
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 		assertTrue(baseCaseNet.getBusList().getBus().size() == 14);
@@ -148,7 +148,7 @@ public class IEEECDF_ODMTest {
 		assertTrue(xfrBraRec.getFromTurnRatio().getValue() == 0.978); 
 		assertTrue(xfrBraRec.getToTurnRatio().getValue() == 1.0);
 
-		parser.stdout();
+		//parser.stdout();
 	}
 	
 	//@Test
@@ -249,7 +249,7 @@ public class IEEECDF_ODMTest {
 		assertTrue(branchData.getFromTurnRatio().getValue() == 0.978); 
 		assertTrue(branchData.getToTurnRatio().getValue() == 1.0);
 
-		parser.stdout();
+		//parser.stdout();
 	}
 }
 
