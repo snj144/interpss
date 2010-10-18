@@ -43,8 +43,8 @@ import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
 import com.interpss.core.aclf.adpter.GenBusAdapter;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
-import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultNetwork;
+import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.simu.SimuContext;
 
 public class GraphSimuUtilFunc {
