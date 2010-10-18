@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" 
    targetNamespace="http://www.ieee.org/odm/Schema/2008" 
-   xmlns:pss="http://www.ieee.org/odm/Schema/2009" elementFormDefault="qualified" xmlns:Q1="http://www.ieee.org/odm/Schema/2008">
+   xmlns:pss="http://www.ieee.org/odm/Schema/2008" 
+   elementFormDefault="qualified">
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2010</documentation>
@@ -22,6 +23,7 @@
 			<enumeration value="W"></enumeration>
 			<enumeration value="KW"></enumeration>
 			<enumeration value="MW"></enumeration>
+			<enumeration value="HP"></enumeration>
 		</restriction>
 	</simpleType>
 
@@ -43,7 +45,7 @@
 	</simpleType>
 
 	<simpleType name="TurnRatioUnitType">
-		<restriction base="Q1:FactorUnitType">
+		<restriction base="pss:FactorUnitType">
 		</restriction>
 	</simpleType>
 
@@ -52,6 +54,14 @@
 			<enumeration value="PU"></enumeration>
 			<enumeration value="MHO"></enumeration>
 			<enumeration value="MICROMHO"></enumeration>
+			<enumeration value="MHOPerMile"></enumeration>
+			<enumeration value="MHOPerFt"></enumeration>
+			<enumeration value="MHOPerKM"></enumeration>
+			<enumeration value="MHOPerM"></enumeration>
+			<enumeration value="MICROMHOPerMile"></enumeration>
+			<enumeration value="MICROMHOPerFt"></enumeration>
+			<enumeration value="MICROMHOPerM"></enumeration>
+			<enumeration value="MICROMHOPerKM"></enumeration>
 		</restriction>
 	</simpleType>
 
@@ -59,6 +69,11 @@
 		<restriction base="string">
 			<enumeration value="PU"></enumeration>
 			<enumeration value="OHM"></enumeration>
+			<enumeration value="Percent"></enumeration>
+			<enumeration value="OHMPerMile"></enumeration>
+			<enumeration value="OHMPerFt"></enumeration>
+			<enumeration value="OHMPerKM"></enumeration>
+			<enumeration value="OHMPerM"></enumeration>
 		</restriction>
 	</simpleType>
 
@@ -71,6 +86,8 @@
 
 	<simpleType name="LengthUnitType">
 		<restriction base="string">
+			<enumeration value="M"></enumeration>
+			<enumeration value="Ft"></enumeration>
 			<enumeration value="KM"></enumeration>
 			<enumeration value="Mile"></enumeration>
 		</restriction>
@@ -109,6 +126,6 @@
 	</simpleType>
 
 	<simpleType name="TapUnitType">
-		<restriction base="Q1:TurnRatioUnitType"></restriction>
+		<restriction base="pss:TurnRatioUnitType"></restriction>
 	</simpleType>
 </schema>

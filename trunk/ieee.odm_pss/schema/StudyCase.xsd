@@ -9,6 +9,7 @@
 	<include schemaLocation="shortcircuit/SCRecordType.xsd"></include>
 	<include schemaLocation="dynamic/DstabRecordType.xsd"></include>
 	<include schemaLocation="opf/OPFRecordType.xsd"></include>
+	<include schemaLocation="distribution/DistRecordType.xsd"></include>
 	
 	<include schemaLocation="Modification.xsd"></include>
 	<include schemaLocation="StudyScenario.xsd"></include>
