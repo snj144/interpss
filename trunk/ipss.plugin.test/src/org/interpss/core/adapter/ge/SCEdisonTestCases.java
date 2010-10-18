@@ -33,7 +33,7 @@ import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
 import com.interpss.simu.SimuContext;
 
@@ -44,7 +44,7 @@ public class SCEdisonTestCases extends BaseTestSetup {
 		SimuContext simuCtx = adapter.load("testData/ge/lftest_083008.epc");
 		GeAclfNetwork net = (GeAclfNetwork)simuCtx.getAclfAdjNet();
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setTolerance(0.1);
 	  	algo.loadflow();
 		//System.out.println(net.net2String());

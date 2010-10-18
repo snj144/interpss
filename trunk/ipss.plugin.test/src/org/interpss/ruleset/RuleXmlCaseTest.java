@@ -32,10 +32,10 @@ import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
 import org.interpss.schema.AclfAlgorithmXmlType;
-import org.interpss.schema.RuleBaseXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.PreventiveRuleSetXmlType;
+import org.interpss.schema.RuleBaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.ViolationConditionXmlType;
 import org.interpss.xml.IpssXmlParser;
@@ -48,6 +48,7 @@ import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.adj.AclfAdjNetwork;
+import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -70,7 +71,7 @@ public class RuleXmlCaseTest extends BaseTestSetup {
 	  	AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
 		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 		net.rebuildLookupTable();
-  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
   		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 	  	
@@ -121,7 +122,7 @@ public class RuleXmlCaseTest extends BaseTestSetup {
 		mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		mapper = new RunForm2AlgorithmMapper();
 		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
   		
@@ -168,7 +169,7 @@ public class RuleXmlCaseTest extends BaseTestSetup {
   		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		mapper = new RunForm2AlgorithmMapper();
 		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
   		
