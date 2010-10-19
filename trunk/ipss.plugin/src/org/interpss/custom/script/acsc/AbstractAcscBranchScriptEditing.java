@@ -30,10 +30,10 @@ import org.interpss.custom.script.ScriptPluginEditingAdapter;
 
 import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.common.ui.IScriptPluginEditing;
-import com.interpss.core.acsc.impl.BaseAcscBranchImpl;
+import com.interpss.core.acsc.impl.AbstractAcscBranch;
 
 
-public abstract class AbstractAcscBranchScriptEditing extends BaseAcscBranchImpl implements IScriptPluginEditing {  
+public abstract class AbstractAcscBranchScriptEditing extends AbstractAcscBranch implements IScriptPluginEditing {  
 	private ScriptPluginEditingAdapter pluginAdapter = null;
 
 	public AbstractAcscBranchScriptEditing(String name, String desc) {

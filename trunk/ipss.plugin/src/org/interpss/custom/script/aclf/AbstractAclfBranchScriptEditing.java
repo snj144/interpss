@@ -30,9 +30,9 @@ import org.interpss.custom.script.ScriptPluginEditingAdapter;
 
 import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.common.ui.IScriptPluginEditing;
-import com.interpss.core.aclf.impl.BaseAclfBranchImpl;
+import com.interpss.core.aclf.impl.AbstractAclfBranch;
 
-public abstract class AbstractAclfBranchScriptEditing extends BaseAclfBranchImpl implements IScriptPluginEditing {  
+public abstract class AbstractAclfBranchScriptEditing extends AbstractAclfBranch implements IScriptPluginEditing {  
 	private ScriptPluginEditingAdapter pluginAdapter = null;
 
 	public AbstractAclfBranchScriptEditing(String name, String desc) {

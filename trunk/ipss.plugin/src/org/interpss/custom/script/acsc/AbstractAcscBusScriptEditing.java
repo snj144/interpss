@@ -30,9 +30,9 @@ import org.interpss.custom.script.ScriptPluginEditingAdapter;
 
 import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.common.ui.IScriptPluginEditing;
-import com.interpss.core.acsc.impl.BaseAcscBusImpl;
+import com.interpss.core.acsc.impl.AbstractAcscBus;
 
-public abstract class AbstractAcscBusScriptEditing extends BaseAcscBusImpl implements IScriptPluginEditing {  
+public abstract class AbstractAcscBusScriptEditing extends AbstractAcscBus implements IScriptPluginEditing {  
 	private ScriptPluginEditingAdapter pluginAdapter = null;
 
 	public AbstractAcscBusScriptEditing(String name, String desc) {
