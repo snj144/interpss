@@ -180,7 +180,7 @@ public class AcscFormDataMapperImpl {
 						CoreScriptUtilFunc.Tag_AcscScriptBus_Baseclass,
 						CoreScriptUtilFunc.Tag_AcscScriptBus_Begin);
 				try {
-					bus.setExternalAcscBus((IAcscBus) MemoryJavaCompiler
+					bus.setExtensionObject((IAcscBus) MemoryJavaCompiler
 							.javac(CoreScriptUtilFunc.AcscScriptingPackageName
 									+ "/" + classname, javacode));
 				} catch (Exception e) {
@@ -191,7 +191,7 @@ public class AcscFormDataMapperImpl {
 				Object plugin = UISpringAppContext
 						.getCustomAcscBusScriptPlugin(busData
 								.getScriptPluginName());
-				bus.setExternalAcscBus((IAcscBus) plugin);
+				bus.setExtensionObject((IAcscBus) plugin);
 			}
 		} else {
 			throw new InvalidParameterException(
@@ -276,7 +276,7 @@ public class AcscFormDataMapperImpl {
 						CoreScriptUtilFunc.Tag_AcscScriptBranch_Begin);
 				try {
 					branch
-							.setExternalAcscBranch((IAcscBranch) MemoryJavaCompiler
+							.setExtensionObject((IAcscBranch) MemoryJavaCompiler
 									.javac(
 											CoreScriptUtilFunc.AcscScriptingPackageName
 													+ "/" + classname, javacode));
@@ -288,7 +288,7 @@ public class AcscFormDataMapperImpl {
 				Object plugin = UISpringAppContext
 						.getCustomAcscBranchScriptPlugin(braData
 								.getScriptPluginName());
-				branch.setExternalAcscBranch((IAcscBranch) plugin);
+				branch.setExtensionObject((IAcscBranch) plugin);
 			}
 		} else {
 			throw new InvalidParameterException(
