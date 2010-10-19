@@ -30,10 +30,10 @@ import org.interpss.custom.script.ScriptPluginEditingAdapter;
 
 import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.common.ui.IScriptPluginEditing;
-import com.interpss.core.aclf.impl.BaseAclfBusImpl;
+import com.interpss.core.aclf.impl.AbstractAclfBus;
 
 
-public abstract class AbstractAclfBusScriptEditing extends BaseAclfBusImpl implements IScriptPluginEditing {  
+public abstract class AbstractAclfBusScriptEditing extends AbstractAclfBus implements IScriptPluginEditing {  
 
 	private ScriptPluginEditingAdapter pluginAdapter = null;
 

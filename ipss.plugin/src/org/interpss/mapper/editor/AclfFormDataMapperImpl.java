@@ -53,8 +53,8 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.BaseAclfBranch;
-import com.interpss.core.aclf.BaseAclfBus;
+import com.interpss.core.aclf.IAclfBranch;
+import com.interpss.core.aclf.IAclfBus;
 import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.core.aclf.adj.AdjControlType;
 import com.interpss.core.aclf.adj.FunctionLoad;
@@ -319,7 +319,7 @@ public class AclfFormDataMapperImpl {
 							CoreScriptUtilFunc.Tag_AclfScriptBus_Begin);
 				}
 				try {
-					bus.setExternalAclfBus((BaseAclfBus) MemoryJavaCompiler
+					bus.setExternalAclfBus((IAclfBus) MemoryJavaCompiler
 							.javac(CoreScriptUtilFunc.AclfScriptingPackageName
 									+ "/" + classname, javacode));
 				} catch (Exception e) {
@@ -330,7 +330,7 @@ public class AclfFormDataMapperImpl {
 				Object plugin = UISpringAppContext
 						.getCustomAclfBusScriptPlugin(busData
 								.getScriptPluginName());
-				bus.setExternalAclfBus((BaseAclfBus) plugin);
+				bus.setExternalAclfBus((IAclfBus) plugin);
 			}
 		}
 		return true;
@@ -452,7 +452,7 @@ public class AclfFormDataMapperImpl {
 						CoreScriptUtilFunc.Tag_AclfScriptBranch_Begin);
 				try {
 					branch
-							.setExternalAclfBranch((BaseAclfBranch) MemoryJavaCompiler
+							.setExternalAclfBranch((IAclfBranch) MemoryJavaCompiler
 									.javac(
 											CoreScriptUtilFunc.AclfScriptingPackageName
 													+ "/" + classname, javacode));
@@ -464,7 +464,7 @@ public class AclfFormDataMapperImpl {
 				Object plugin = UISpringAppContext
 						.getCustomAclfBranchScriptPlugin(braData
 								.getScriptPluginName());
-				branch.setExternalAclfBranch((BaseAclfBranch) plugin);
+				branch.setExternalAclfBranch((IAclfBranch) plugin);
 			}
 		}
 		return true;
