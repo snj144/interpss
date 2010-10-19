@@ -319,7 +319,7 @@ public class AclfFormDataMapperImpl {
 							CoreScriptUtilFunc.Tag_AclfScriptBus_Begin);
 				}
 				try {
-					bus.setExternalAclfBus((IAclfBus) MemoryJavaCompiler
+					bus.setExtensionObject((IAclfBus) MemoryJavaCompiler
 							.javac(CoreScriptUtilFunc.AclfScriptingPackageName
 									+ "/" + classname, javacode));
 				} catch (Exception e) {
@@ -330,7 +330,7 @@ public class AclfFormDataMapperImpl {
 				Object plugin = UISpringAppContext
 						.getCustomAclfBusScriptPlugin(busData
 								.getScriptPluginName());
-				bus.setExternalAclfBus((IAclfBus) plugin);
+				bus.setExtensionObject((IAclfBus) plugin);
 			}
 		}
 		return true;
@@ -452,7 +452,7 @@ public class AclfFormDataMapperImpl {
 						CoreScriptUtilFunc.Tag_AclfScriptBranch_Begin);
 				try {
 					branch
-							.setExternalAclfBranch((IAclfBranch) MemoryJavaCompiler
+							.setExtensionObject((IAclfBranch) MemoryJavaCompiler
 									.javac(
 											CoreScriptUtilFunc.AclfScriptingPackageName
 													+ "/" + classname, javacode));
@@ -464,7 +464,7 @@ public class AclfFormDataMapperImpl {
 				Object plugin = UISpringAppContext
 						.getCustomAclfBranchScriptPlugin(braData
 								.getScriptPluginName());
-				branch.setExternalAclfBranch((IAclfBranch) plugin);
+				branch.setExtensionObject((IAclfBranch) plugin);
 			}
 		}
 		return true;
