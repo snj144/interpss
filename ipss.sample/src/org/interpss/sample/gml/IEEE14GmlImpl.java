@@ -13,7 +13,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IPSSMsgHubImpl;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.adj.AclfAdjNetwork;
+import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 

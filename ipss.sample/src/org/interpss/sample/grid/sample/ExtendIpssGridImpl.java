@@ -11,7 +11,7 @@ import org.interpss.sample.grid.impl.single.CustomSingleLocalTask;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IPSSMsgHubImpl;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.adj.AclfAdjNetwork;
+import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.simu.util.sample.SampleCases;
 
 /**
