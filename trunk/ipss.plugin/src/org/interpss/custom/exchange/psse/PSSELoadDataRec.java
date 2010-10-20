@@ -31,7 +31,7 @@ import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.adj.AclfAdjNetwork;
+import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.psse.aclf.PSSEAclfLoad;
 

@@ -27,7 +27,7 @@ package org.interpss.custom.exchange.ucte;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.interpss.core.aclf.adj.impl.AclfAdjNetworkImpl;
+import com.interpss.core.aclf.netAdj.impl.AclfAdjNetworkImpl;
 
 public class UCTENetwork extends AclfAdjNetworkImpl {
 	public static class ExchangePower {

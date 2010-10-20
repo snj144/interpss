@@ -27,7 +27,7 @@ package org.interpss.custom;
 import org.ieee.odm.model.IODMModelParser;
 
 import com.interpss.common.custom.IpssCustomAdapter;
-import com.interpss.core.aclf.adj.AclfAdjNetwork;
+import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.simu.SimuContext;
 
 public interface IpssFileAdapter extends IpssCustomAdapter {

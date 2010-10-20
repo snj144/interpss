@@ -27,7 +27,7 @@ package org.interpss.custom.exchange.ge;
 import java.util.StringTokenizer;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.aclf.Interface;
+import com.interpss.core.aclf.netAdj.TieLineInterface;
 import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
 import com.interpss.ext.ge.aclf.GeArea;
@@ -378,7 +378,7 @@ public class GEDataRec {
 		}
 
 		public void setInterfaceBranchData(GeAclfNetwork net, IPSSMsgHub msg) throws Exception {
-			Interface inf = net.getInterface(this.ifn);
+			TieLineInterface inf = net.getInterface(this.ifn);
 			if (inf == null) {
 				msg.sendErrorMsg("Interface can not be found, interface number: " + this.ifn);
 				throw new Exception("Interface can not be found");				

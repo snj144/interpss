@@ -15,10 +15,10 @@ import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
-import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.core.aclf.adpter.LineAdapter;
 import com.interpss.core.aclf.adpter.LoadBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 
 public class PSATFormat_in {
 	private static final int NotDefined = 0;

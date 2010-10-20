@@ -38,7 +38,6 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.core.aclf.adj.PVBusLimit;
 import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
 import com.interpss.core.aclf.adpter.LineAdapter;
@@ -46,6 +45,7 @@ import com.interpss.core.aclf.adpter.LoadBusAdapter;
 import com.interpss.core.aclf.adpter.PQBusAdapter;
 import com.interpss.core.aclf.adpter.PVBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 
 public class IpssInternalFormat_in {
     public static AclfAdjNetwork loadFile(final java.io.BufferedReader din, final IPSSMsgHub msg) throws Exception {
