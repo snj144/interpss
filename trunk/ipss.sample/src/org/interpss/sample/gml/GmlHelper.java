@@ -47,7 +47,7 @@ import org.graphdrawing.gml.ObjectFactory;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.NetUtilFunc;
 import com.interpss.common.util.StringUtil;
-import com.interpss.core.aclf.adj.AclfAdjNetwork;
+import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 
 public class GmlHelper {
 	private static final String Gml_NS = "org.graphdrawing.gml";

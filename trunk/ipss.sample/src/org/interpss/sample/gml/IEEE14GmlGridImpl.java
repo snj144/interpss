@@ -15,7 +15,7 @@ import org.interpss.sample.grid.impl.multi.CustomMultiLocalTask;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
-import com.interpss.core.aclf.adj.AclfAdjNetwork;
+import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;

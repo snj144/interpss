@@ -9,7 +9,7 @@ import org.interpss.gridgain.result.RemoteResultFactory;
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adj.AclfAdjNetwork;
+import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 
 /**

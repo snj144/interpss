@@ -10,7 +10,7 @@ import org.interpss.sample.gml.GmlHelper;
 import com.interpss.common.datatype.Constants;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adj.AclfAdjNetwork;
+import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 
 public class CustomMultiRemoteJob extends GridAclfJob {
 	private static final long serialVersionUID = 1;
