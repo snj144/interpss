@@ -41,7 +41,6 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
-import com.interpss.core.aclf.adj.AclfAdjNetwork;
 import com.interpss.core.aclf.adj.AdjControlType;
 import com.interpss.core.aclf.adj.PSXfrPControl;
 import com.interpss.core.aclf.adj.PVBusLimit;
@@ -52,6 +51,7 @@ import com.interpss.core.aclf.adpter.PSXfrAdapter;
 import com.interpss.core.aclf.adpter.PVBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.aclf.adpter.XfrAdapter;
+import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 
 public class UCTEFormat_in extends IpssFileAdapterBase {
 	private final static String PsXfrType_ASYM = "ASYM"; 

@@ -25,7 +25,7 @@
 package org.interpss.output;
 
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adj.AclfAdjNetwork;
+import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.dclf.DclfAlgorithm;
 
 public interface IOutputSimuResult {
