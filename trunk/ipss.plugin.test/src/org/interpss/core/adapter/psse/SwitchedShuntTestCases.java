@@ -30,7 +30,7 @@ import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.adj.AclfAdjNetwork;
+import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.pssl.simu.IpssAclf;
 
 public class SwitchedShuntTestCases extends BaseTestSetup {
