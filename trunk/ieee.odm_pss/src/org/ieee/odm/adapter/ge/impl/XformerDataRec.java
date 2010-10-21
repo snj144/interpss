@@ -27,14 +27,14 @@ package org.ieee.odm.adapter.ge.impl;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.odm.model.jaxb.JaxbDataSetter;
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
-import org.ieee.odm.model.jaxb.JaxbParserHelper;
+import org.ieee.odm.model.aclf.AclfDataSetter;
+import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.AngleUnitType;
-import org.ieee.odm.schema.BranchRecordXmlType;
-import org.ieee.odm.schema.LFBranchCodeEnumType;
-import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.PSXfrBranchXmlType;
+import org.ieee.odm.schema.TransformerInfoXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
+import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
@@ -47,7 +47,7 @@ public class XformerDataRec extends BaseBranchDataRec {
 	public double tbasept, tbasets, angls, anglt;
 	public double rs1, rs2, rs3, rt1, rt2, rt3, alosss, alosst;
 
-	public XformerDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) {
+	public XformerDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) {
 		//PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		/*
 		<f bus> <"f name"> <f bkv> <t bus> <"t name"> <t bkv> <"ck"> <"long id">:
@@ -73,11 +73,9 @@ public class XformerDataRec extends BaseBranchDataRec {
 	
 		this.setBranchHeaderData(str1);		
 
-		BranchRecordXmlType branchRec = parser.createBranchRecord();
-		
-		LoadflowBranchDataXmlType branchData = parser.getFactory().createLoadflowBranchDataXmlType(); 
-		branchRec.getLoadflowData().add(branchData);
-		branchData.setCode(LFBranchCodeEnumType.TRANSFORMER);
+//		LoadflowBranchDataXmlType branchData = parser.getFactory().createLoadflowBranchDataXmlType(); 
+//		branchRec.getLoadflowData().add(branchData);
+//		branchData.setCode(LFBranchCodeEnumType.TRANSFORMER);
 		
 		StringTokenizer st = new StringTokenizer(str2, "\"");
 		String s1 = st.nextToken();
@@ -208,34 +206,39 @@ public class XformerDataRec extends BaseBranchDataRec {
 		<aloss> Loss factor (0.0 - 1.0) used to assign losses.1.0 = 100% loss assigned to "from" side of transformer
 		<alosss> Secondary Loss factor (0.0 - 1.0)
 */
-		LoadflowBranchDataXmlType.XfrInfo xfrInfo = parser.getFactory().createLoadflowBranchDataXmlTypeXfrInfo(); 
-		branchData.setXfrInfo(xfrInfo);
-		if (branchData.getNvPairList() == null)
-			branchData.setNvPairList(parser.getFactory().createNameValuePairListXmlType());
-		JaxbParserHelper.addNVPair(branchData.getNvPairList(), GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
-		xfrInfo.setRatedPower12(JaxbDataSetter.createPowerMvaValue(this.tbase));
-		xfrInfo.setRatedVoltage1(JaxbDataSetter.createVoltageValue(this.vnomp, VoltageUnitType.KV));
-		xfrInfo.setRatedVoltage2(JaxbDataSetter.createVoltageValue(this.vnoms, VoltageUnitType.KV));
+		boolean isPsXfr = this.anglp != 0.0 || this.angls != 0.0;
+
+		XfrBranchXmlType branchRec = isPsXfr?
+				parser.createPSXfrBranch() : parser.createXfrBranch();
 		
-		branchData.setZ(JaxbDataSetter.createZValue(this.zpsr, this.zpsx, ZUnitType.PU));
-		branchData.getXfrInfo().setDataOnSystemBase(false);
+		if (branchRec.getNvPairList() == null)
+			branchRec.setNvPairList(parser.getFactory().createNameValuePairListXmlType());
+		AclfParserHelper.addNVPair(branchRec.getNvPairList(), GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
 		
-		branchData.setFromTurnRatio(JaxbDataSetter.createTapPU(this.tapfp));
-		branchData.setToTurnRatio(JaxbDataSetter.createTapPU(this.tapfs));
+		TransformerInfoXmlType xfrInfo = branchRec.getXfrInfo();
+		xfrInfo.setRatedPower(AclfDataSetter.createPowerMvaValue(this.tbase));
+		xfrInfo.setFromRatedVoltage(AclfDataSetter.createVoltageValue(this.vnomp, VoltageUnitType.KV));
+		xfrInfo.setToRatedVoltage(AclfDataSetter.createVoltageValue(this.vnoms, VoltageUnitType.KV));
 		
-		if (this.anglp != 0.0 || this.angls != 0.0) {
-			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
-			branchData.setFromAngle(JaxbDataSetter.createAngleValue(this.anglp, AngleUnitType.DEG));
-			branchData.setToAngle(JaxbDataSetter.createAngleValue(this.angls, AngleUnitType.DEG));
+		branchRec.setZ(AclfDataSetter.createZValue(this.zpsr, this.zpsx, ZUnitType.PU));
+		branchRec.getXfrInfo().setDataOnSystemBase(false);
+		
+		branchRec.setFromTurnRatio(AclfDataSetter.createTapPU(this.tapfp));
+		branchRec.setToTurnRatio(AclfDataSetter.createTapPU(this.tapfs));
+		
+		if (isPsXfr) {
+			PSXfrBranchXmlType branch = (PSXfrBranchXmlType)branchRec;
+			branch.setFromAngle(AclfDataSetter.createAngleValue(this.anglp, AngleUnitType.DEG));
+			branch.setToAngle(AclfDataSetter.createAngleValue(this.angls, AngleUnitType.DEG));
 		}
 
 		if (this.gmag != 0.0 || this.bmag != 0.0)
-			branchData.setFromShuntY(JaxbDataSetter.createYValue(this.gmag, this.bmag, YUnitType.PU));
+			branchRec.setMagnitizingY(AclfDataSetter.createYValue(this.gmag, this.bmag, YUnitType.PU));
 		
 		if (this.aloss != 0.0)
-			xfrInfo.setLossFactor1(this.aloss);
+			xfrInfo.setFromLossFactor(this.aloss);
 		if (this.alosss != 0.0)
-			xfrInfo.setLossFactor2(this.alosss);
+			xfrInfo.setToLossFactor(this.alosss);
 
 		/*		
 		<kreg bus> Number of bus whose voltage is controlled by this transformer if type is not a 1.

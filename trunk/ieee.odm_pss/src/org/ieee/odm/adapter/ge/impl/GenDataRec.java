@@ -27,16 +27,16 @@ package org.ieee.odm.adapter.ge.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.model.aclf.AclfDataSetter;
+import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ZUnitType;
-import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.odm.model.jaxb.JaxbDataSetter;
-import org.ieee.odm.model.jaxb.JaxbParserHelper;
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 
 public class GenDataRec extends BusHeaderRec {
 	public int st, igregBus, nst; 
@@ -50,7 +50,7 @@ public class GenDataRec extends BusHeaderRec {
 	public double airTemp, pmax2;
 
 	public GenDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, 
-			final JaxbODMModelParser parser, Logger logger) throws Exception {
+			final AclfModelParser parser, Logger logger) throws Exception {
 		//System.out.println("gen data->" + lineStr);
 /*
 generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  qrf  ar zone   pgen   pmax   pmin   qgen   qmax   qmin   mbase cmp_r cmp_x gen_r gen_x           hbus                    tbus           date_in date_out pid N
@@ -64,9 +64,9 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		//  <bus> <"name"> <bkv> <"id"> <"long id"> : 
 		setHeaderData(str1);
 
-	    final String busId = JaxbODMModelParser.BusIdPreFix+this.number;
+	    final String busId = AclfModelParser.BusIdPreFix+this.number;
 		// get the responding-bus data with busId
-		BusRecordXmlType busRec = parser.getBusRecord(busId);
+		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
 		if (busRec==null){
 			logger.severe("Error: Bus not found in the network, bus number: " + busId);
         	return;
@@ -179,7 +179,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		
 	    // ODM allows one equiv gen has many contribute generators, but here, we assume there is only one contribute gen.
 
-	    LoadflowGenDataXmlType contriGen = JaxbParserHelper.createContriGen(busRec);
+	    LoadflowGenDataXmlType contriGen = AclfParserHelper.createContriGen(busRec);
 		
 	    contriGen.setId(this.id);
 		if (this.longId != null && !this.longId.equals(""))
@@ -196,7 +196,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		<igreg bkv> Regulating bus base voltage
 		*/
 		
-	    contriGen.setRemoteVoltageControlBus(parser.createBusRecRef(JaxbODMModelParser.BusIdPreFix+this.igregBus));
+	    contriGen.setRemoteVoltageControlBus(parser.createBusRef(AclfModelParser.BusIdPreFix+this.igregBus));
 		
 		/*
 		<prf> Real power regulating assignment factor (0.0 - 1.0)
@@ -216,10 +216,10 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		<mbase> Generator base (MVA)
 		 */
 		
-	    contriGen.setRatedPower(JaxbDataSetter.createPowerMvaValue(this.mbase));
-	    contriGen.setPower(JaxbDataSetter.createPowerValue(this.pgen, this.qgen, ApparentPowerUnitType.MVA));
-	    contriGen.setPLimit(JaxbDataSetter.createActivePowerLimit(this.pmax, this.pmin, ActivePowerUnitType.MW));
-	    contriGen.setQLimit(JaxbDataSetter.createReactivePowerLimit(this.qmax, this.qmin, ReactivePowerUnitType.MVAR));
+	    contriGen.setRatedPower(AclfDataSetter.createPowerMvaValue(this.mbase));
+	    contriGen.setPower(AclfDataSetter.createPowerValue(this.pgen, this.qgen, ApparentPowerUnitType.MVA));
+	    contriGen.setPLimit(AclfDataSetter.createActivePowerLimit(this.pmax, this.pmin, ActivePowerUnitType.MW));
+	    contriGen.setQLimit(AclfDataSetter.createReactivePowerLimit(this.qmax, this.qmin, ReactivePowerUnitType.MVAR));
 		
 		/*
 		<rcomp> Compensating resistance (pu)
@@ -233,9 +233,9 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		gen.setXCharactPU(this.zgenx);
 */		
 		if (this.rcomp != 0.0 || this.xcomp != 0.0)
-			contriGen.setSourceZ(JaxbDataSetter.createZValue(this.rcomp, this.xcomp, ZUnitType.PU));
+			contriGen.setSourceZ(AclfDataSetter.createZValue(this.rcomp, this.xcomp, ZUnitType.PU));
 		if (this.zgenr != 0.0 || this.zgenx != 0.0)
-			contriGen.setXfrZ(JaxbDataSetter.createZValue(this.zgenr, this.zgenx, ZUnitType.PU));
+			contriGen.setXfrZ(AclfDataSetter.createZValue(this.zgenr, this.zgenx, ZUnitType.PU));
 	}	
 
 	public String toString() {

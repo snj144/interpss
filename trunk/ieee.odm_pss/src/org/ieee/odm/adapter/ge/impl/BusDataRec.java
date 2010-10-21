@@ -27,16 +27,15 @@ package org.ieee.odm.adapter.ge.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.model.aclf.AclfDataSetter;
+import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
-import org.ieee.odm.schema.LoadflowBusDataXmlType;
+import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
-import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.odm.model.jaxb.JaxbDataSetter;
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
-import org.ieee.odm.model.jaxb.JaxbParserHelper;
 
 public class BusDataRec extends BusHeaderRec {
 			public int ty, owner;
@@ -44,7 +43,7 @@ public class BusDataRec extends BusHeaderRec {
 			public int level, stisol, islnum;
 			public double latitude, longitude;
 
-	public BusDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final JaxbODMModelParser parser, Logger logger) {
+	public BusDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final AclfModelParser parser, Logger logger) {
 /*
 		<number> <"name"> <kV> : <ty> <vs> <vt> <an> <ar> <z> <vma> <vmi> <d_in> <d_out> <projid> <level> <owner> <stisol> <latitude> <longitude> <islnum>
  
@@ -98,11 +97,11 @@ public class BusDataRec extends BusHeaderRec {
 		public double bkv;
 		public String d_in, d_out, projId;
  */
-		final String busId = JaxbODMModelParser.BusIdPreFix+this.number;
+		final String busId = AclfModelParser.BusIdPreFix+this.number;
 		// XML requires id start with a char
-		BusRecordXmlType busRec;
+		LoadflowBusXmlType busRec;
 		try {
-			busRec = parser.createBusRecord(busId, this.number);
+			busRec = parser.createAclfBus(busId, this.number);
 		} catch (Exception e) {
 			logger.severe(e.toString());
 			return;
@@ -114,7 +113,7 @@ public class BusDataRec extends BusHeaderRec {
 		busRec.setName(name);
 		if (this.longId != null && !this.longId.equals(""))
 			busRec.setDesc(this.longId);
-		busRec.setBaseVoltage(JaxbDataSetter.createVoltageValue(bkv, VoltageUnitType.KV));
+		busRec.setBaseVoltage(AclfDataSetter.createVoltageValue(bkv, VoltageUnitType.KV));
 		
 		/*
 		<ty> Bus type {0,1,2,-2}
@@ -130,14 +129,13 @@ public class BusDataRec extends BusHeaderRec {
 		<vmi> Voltage checking limit (pu)		
  */	
 		if (owner > 0)
-			JaxbParserHelper.addOwner(busRec, new Integer(owner).toString());
+			AclfParserHelper.addOwner(busRec, new Integer(owner).toString());
 
-		LoadflowBusDataXmlType busData = parser.getFactory().createLoadflowBusDataXmlType();
-		busRec.setLoadflowData(busData);
 		LFGenCodeEnumType genType = ty == 0? LFGenCodeEnumType.SWING : 
 				( ty == 1? LFGenCodeEnumType.PQ : LFGenCodeEnumType.PV);
-		JaxbDataSetter.setGenData(busData, genType, vs_pu, VoltageUnitType.PU, an_deg, AngleUnitType.DEG, 
-							0.0, 0.0,	ApparentPowerUnitType.MVA);
-		busData.getGenData().getEquivGen().setVoltageLimit(JaxbDataSetter.createVoltageLimit(vma, vmi, VoltageUnitType.PU));
+		AclfDataSetter.setGenData(busRec, genType, vs_pu, 
+				VoltageUnitType.PU, an_deg, AngleUnitType.DEG, 
+				0.0, 0.0,	ApparentPowerUnitType.MVA);
+		busRec.getGenData().getEquivGen().setVoltageLimit(AclfDataSetter.createVoltageLimit(vma, vmi, VoltageUnitType.PU));
 	}
 }

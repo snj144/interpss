@@ -27,19 +27,19 @@ package org.ieee.odm.adapter.ge.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BusRecordXmlType;
-import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.odm.model.jaxb.JaxbDataSetter;
-import org.ieee.odm.model.jaxb.JaxbParserHelper;
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
+import org.ieee.odm.model.aclf.AclfDataSetter;
+import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.AclfParserHelper;
+import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.LoadflowBusXmlType;
+import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 
 public class LoadDataRec extends BusHeaderRec {
 	public int st, nst, owner;
 	public double p, q, ip, iq, g, b;
 			
-	public LoadDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final JaxbODMModelParser parser, Logger logger) {
+	public LoadDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final AclfModelParser parser, Logger logger) {
 		//System.out.println("load data->" + lineStr);
 /*
 	<bus> <"name"> <bkv> <"id"> <"long id"> : <st> <p> <q> <ip> <iq> <g> <b> /
@@ -52,8 +52,8 @@ public class LoadDataRec extends BusHeaderRec {
 
 		setHeaderData(str1);
 
-	    final String busId = JaxbODMModelParser.BusIdPreFix+this.number;
-		BusRecordXmlType busRec = parser.getBusRecord(busId);
+	    final String busId = AclfModelParser.BusIdPreFix+this.number;
+		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
 	    if (busRec == null){
 	    	logger.severe("Bus "+ busId+ " not found in the network");
 	    	return;
@@ -91,7 +91,7 @@ public class LoadDataRec extends BusHeaderRec {
 
 	    // ODM allows one equiv load has many contribute loads, but here, we assume there is only one contribute load.
 
-	    LoadflowLoadDataXmlType contribLoad = JaxbParserHelper.createContriLoad(busRec); 
+	    LoadflowLoadDataXmlType contribLoad = AclfParserHelper.createContriLoad(busRec); 
 
 		contribLoad.setAreaNumber(this.ar);
 		contribLoad.setZoneNumber(this.z);
@@ -110,11 +110,11 @@ public class LoadDataRec extends BusHeaderRec {
 		<b> Constant admittance reactive power (MVAR)
  */		
 		if (this.p != 0.0 || this.q != 0.0)
-			contribLoad.setConstPLoad(JaxbDataSetter.createPowerValue(this.p, this.q, ApparentPowerUnitType.MVA));
+			contribLoad.setConstPLoad(AclfDataSetter.createPowerValue(this.p, this.q, ApparentPowerUnitType.MVA));
 		if (this.ip != 0.0 || this.iq != 0.0)
-			contribLoad.setConstILoad(JaxbDataSetter.createPowerValue(this.ip, this.iq, ApparentPowerUnitType.MVA));
+			contribLoad.setConstILoad(AclfDataSetter.createPowerValue(this.ip, this.iq, ApparentPowerUnitType.MVA));
 		if (this.g != 0.0 || this.b != 0.0)
-			contribLoad.setConstZLoad(JaxbDataSetter.createPowerValue(this.g, this.b, ApparentPowerUnitType.MVA));
+			contribLoad.setConstZLoad(AclfDataSetter.createPowerValue(this.g, this.b, ApparentPowerUnitType.MVA));
 	}
 		
 	public String toString() {

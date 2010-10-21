@@ -34,8 +34,8 @@ import org.ieee.odm.adapter.ge.impl.GenDataRec;
 import org.ieee.odm.adapter.ge.impl.LoadDataRec;
 import org.ieee.odm.adapter.ge.impl.NetDataRec;
 import org.ieee.odm.adapter.ge.impl.XformerDataRec;
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
-import org.ieee.odm.model.jaxb.JaxbParserHelper;
+import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 
@@ -85,14 +85,14 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 		super(logger);
 	}
 	 
-	protected JaxbODMModelParser parseInputFile(
+	protected AclfModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		VersionNo version = VersionNo.PSLF15;
 		
-		JaxbODMModelParser parser = new JaxbODMModelParser();
+		AclfModelParser parser = new AclfModelParser();
 		parser.setLFTransInfo(OriginalDataFormatEnumType.GE_PSLF);
 
-		LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
+		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 		baseCaseNet.setId("Base_Case_from_GE_PSLF_format");
 
 		NetDataRec.TitleRec titleRec = new NetDataRec.TitleRec();
@@ -295,7 +295,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
     		throw new Exception("GE data input error, line no " + lineNo + ", " + e.toString() + "\n" + lineStr);
   		}
 
-  		JaxbParserHelper.createBusEquivData(parser, this.getLogger());
+  		AclfParserHelper.createBusEquivData(parser, this.getLogger());
   		
 		return parser;
 	}

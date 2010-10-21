@@ -106,12 +106,12 @@ public class AclfParserHelper extends BaseJaxbHelper {
 							offLine = false;
 							if (remoteBusId == null) {
 								if (gen.getRemoteVoltageControlBus() != null) {
-									remoteBusId = ((BusXmlType)gen.getRemoteVoltageControlBus().getIdRef()).getId();
+									remoteBusId = BaseJaxbHelper.getRecId(gen.getRemoteVoltageControlBus());
 								}
 							}
-							else if (!remoteBusId.equals(gen.getRemoteVoltageControlBus().getIdRef())) {
+							else if (!remoteBusId.equals(BaseJaxbHelper.getRecId(gen.getRemoteVoltageControlBus()))) {
 								logger.severe("Inconsistant remote control bus id, " + remoteBusId +
-										", " + gen.getRemoteVoltageControlBus().getIdRef());
+										", " + BaseJaxbHelper.getRecId(gen.getRemoteVoltageControlBus()));
 								return false; 
 							}
 							
@@ -133,7 +133,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 								}
 								else if (vSpec != gen.getDesiredVoltage().getValue()) {
 									logger.severe("Inconsistant gen desired voltage, " + 
-											gen.getRemoteVoltageControlBus().getIdRef());
+											BaseJaxbHelper.getRecId(gen.getRemoteVoltageControlBus()));
 									return false; 
 								}
 							}
