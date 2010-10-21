@@ -30,13 +30,12 @@ Key concepts:
 package org.interpss.mapper.odm.impl.acsc;
 
 import org.apache.commons.math.complex.Complex;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
 import org.ieee.odm.schema.AcscFaultCategoryEnumType;
 import org.ieee.odm.schema.AcscFaultTypeEnumType;
 import org.ieee.odm.schema.AcscFaultXmlType;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
-import org.ieee.odm.schema.BaseBranchXmlType;
-import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.PreFaultBusVoltageEnumType;
 import org.ieee.odm.schema.ScenarioXmlType;
@@ -106,7 +105,7 @@ public class AcscScenarioHelper {
 		
 		AcscFaultXmlType faultXml = scAnalysisXml.getFault();
 		if(faultXml.getFaultType() == AcscFaultTypeEnumType.BUS_FAULT){			
-			String faultBusId=((BusXmlType)faultXml.getRefBusBranch().getIdRef()).getId();
+			String faultBusId = BaseJaxbHelper.getRecId(faultXml.getRefBusBranch());
 			AcscBusFault acscBusFault = CoreObjectFactory.createAcscBusFault(faultBusId);
 			acscFaultNet.addBusFault(faultBusId, idStr, acscBusFault);
 
@@ -117,7 +116,7 @@ public class AcscScenarioHelper {
 			setBusFaultInfo(faultXml, acscBusFault, baseV, baseKVA);
 		}
 		else if(faultXml.getFaultType()== AcscFaultTypeEnumType.BRANCH_FAULT){
-			String faultBranchId=((BaseBranchXmlType)faultXml.getRefBusBranch().getIdRef()).getId();
+			String faultBranchId = BaseJaxbHelper.getRecId(faultXml.getRefBusBranch());
 			AcscBranchFault acscBraFault = CoreObjectFactory.createAcscBranchFault(faultBranchId);
 			acscFaultNet.addBranchFault(faultBranchId, idStr, acscBraFault);
 
@@ -128,7 +127,6 @@ public class AcscScenarioHelper {
 			setBranchFaultInfo(faultXml, acscBraFault, baseV, baseKVA);
 		}
 		else if(faultXml.getFaultType()== AcscFaultTypeEnumType.BRANCH_OUTAGE){
-			//String faultBranchId=((BaseBranchXmlType)faultXml.getBusBranchId().getIdRef()).getId();
 			throw new InterpssException("Acsc branch outtage fault not implemented");
 		}
 

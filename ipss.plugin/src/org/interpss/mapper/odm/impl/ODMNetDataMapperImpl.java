@@ -24,6 +24,7 @@
 
 package org.interpss.mapper.odm.impl;
 
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
@@ -110,9 +111,9 @@ public class ODMNetDataMapperImpl {
 				branchRec.getCircuitId() : Constants.Token_DefaultBranchCirNo;
 		branch.setCircuitNumber(cirId);
 		try {
-			BusXmlType fromBus = (BusXmlType)branchRec.getFromBus().getIdRef();
-			BusXmlType toBus = (BusXmlType)branchRec.getToBus().getIdRef();
-			net.addBranch(branch, fromBus.getId(), toBus.getId());
+			String fromBusId = BaseJaxbHelper.getRecId(branchRec.getFromBus());
+			String toBusId = BaseJaxbHelper.getRecId(branchRec.getToBus());
+			net.addBranch(branch, fromBusId, toBusId);
 		} catch (Exception e) {
 			throw new InterpssException(e.toString() + ", the branch is ignored");
 		}

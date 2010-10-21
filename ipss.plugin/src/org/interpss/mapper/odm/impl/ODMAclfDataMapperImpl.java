@@ -27,6 +27,7 @@ package org.interpss.mapper.odm.impl;
 import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.math.complex.Complex;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
@@ -198,7 +199,7 @@ public class ODMAclfDataMapperImpl {
   					aclfBus.setGenCode(AclfGenCode.GEN_PQ);
   					// The remote bus to be adjusted is normally defined as a PV bus. It needs to
   					// be changed to PQ bus
-  					String remoteId = xmlEquivGenData.getRemoteVoltageControlBus().getIdRef().toString();
+  					String remoteId = BaseJaxbHelper.getRecId(xmlEquivGenData.getRemoteVoltageControlBus());
   					if (remoteId != null) {
   						AclfBus remoteBus = adjNet.getAclfBus(remoteId);
   	  					if (remoteBus != null) {
