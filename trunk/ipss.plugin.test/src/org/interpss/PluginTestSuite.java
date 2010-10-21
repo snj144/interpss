@@ -32,6 +32,7 @@ import org.interpss.dstab.ieeeModel.IEEE11ModelTest;
 import org.interpss.dstab.ieeeModel.IEEE12ModelTest;
 import org.interpss.dstab.ieeeModel.IEEE21ModelTest;
 import org.interpss.dstab.ieeeModel.IEEE22ModelTest;
+import org.interpss.odm.psse.v30.GuideSample_TestCase;
 import org.interpss.ruleset.RuleXmlCaseTest;
 import org.interpss.schema.AclfSchemaIeee14BusCaseTest;
 import org.interpss.schema.AcscSchemaSampleCaseTest;
@@ -121,6 +122,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	GE_ODMTest.class,
 	XBeanPSSEV30_ODMTest.class,
 	XBeanPSSEV26_ODMTest.class,	
+	GuideSample_TestCase.class,
 })
 public class PluginTestSuite {
 }
