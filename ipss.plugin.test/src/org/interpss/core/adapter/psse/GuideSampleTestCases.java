@@ -87,7 +87,7 @@ public class GuideSampleTestCases extends BaseTestSetup {
   	  		simuCtx.setName("Sample18Bus");
   	  		simuCtx.setDesc("This project is created by input file adapter.getModel()");
   			net = simuCtx.getAclfNet();
-  			//System.out.println(net.net2String());
+  			System.out.println(net.net2String());
 		}
 		else {
   	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");

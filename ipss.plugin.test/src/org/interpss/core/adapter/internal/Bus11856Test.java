@@ -26,16 +26,21 @@ package org.interpss.core.adapter.internal;
 
 import static org.junit.Assert.assertTrue;
 
+import org.apache.commons.math.complex.Complex;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.common.IAclfBusVisitor;
+import com.interpss.core.sparse.SparseEqnComplex;
 import com.interpss.simu.SimuContext;
 
 public class Bus11856Test extends BaseTestSetup {
@@ -59,7 +64,7 @@ public class Bus11856Test extends BaseTestSetup {
   	  		System.out.println("time for swing bus check : " + (System.currentTimeMillis() - starttime)*0.001);
 	  	
   			starttime = System.currentTimeMillis() ;
-  			algo.setLfMethod(AclfMethod.NR);
+  			algo.setLfMethod(AclfMethod.PQ);
   			algo.loadflow();
   			//	System.out.println(net.net2String());
   			System.out.println("time for loadflow calculation : " + (System.currentTimeMillis() - starttime)*0.001);
@@ -67,5 +72,37 @@ public class Bus11856Test extends BaseTestSetup {
   			assertTrue(net.isLfConverged());		
 //  		}
   	}
+	
+	@Test
+	public void testZiiCase() throws Exception {
+        long starttime = System.currentTimeMillis() ;
+  		System.out.println("Start loading data ...");
+		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ipssdat");
+		SimuContext simuCtx = adapter.load("testData/ipssdata/BUS11856.ipssdat");
+  		System.out.println("End loading data ...");
+  		System.out.println("time for loading data : " + (System.currentTimeMillis() - starttime)*0.001);
+  		
+		AclfNetwork net = simuCtx.getAclfNet();
+		final SparseEqnComplex eqn = net.formYMatrix(msg);
+		net.forEachAclfBus(new IAclfBusVisitor() {
+			public void visit(AclfBus bus) {
+				if (bus.isSwing()) {
+					int busNo = bus.getSortNumber();
+					eqn.setAij(new Complex(0.0, 1.0e10), busNo, busNo);		
+				}
+			}
+		});
+		eqn.luMatrix(1.0e-20, msg);
+		
+		AclfBus bus1 = net.getAclfBus("9a");
+		int busNo = bus1.getSortNumber();
+		eqn.setB2Unit(busNo);
+		
+        starttime = System.currentTimeMillis() ;
+		eqn.solveEqn(msg);
+		Complex z = eqn.getBi(busNo);
+		System.out.println("Zii: " + ComplexFunc.toString(z));    		
+  		System.out.println("time for finding zii : " + (System.currentTimeMillis() - starttime)*0.001);
+	}	
 }
 
