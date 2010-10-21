@@ -198,7 +198,7 @@ public class ODMAclfDataMapperImpl {
   					aclfBus.setGenCode(AclfGenCode.GEN_PQ);
   					// The remote bus to be adjusted is normally defined as a PV bus. It needs to
   					// be changed to PQ bus
-  					String remoteId = (String)xmlEquivGenData.getRemoteVoltageControlBus().getIdRef();
+  					String remoteId = xmlEquivGenData.getRemoteVoltageControlBus().getIdRef().toString();
   					if (remoteId != null) {
   						AclfBus remoteBus = adjNet.getAclfBus(remoteId);
   	  					if (remoteBus != null) {
