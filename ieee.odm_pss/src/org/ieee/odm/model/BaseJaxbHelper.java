@@ -31,6 +31,8 @@ import org.ieee.odm.schema.BaseRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
+import org.ieee.odm.schema.IDRecordXmlType;
+import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
@@ -48,6 +50,16 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 
 public class BaseJaxbHelper {
+	/**
+	 * get the id of the id ref record
+	 * 
+	 * @param idRefRec
+	 * @return
+	 */
+	public static String getRecId(IDRefRecordXmlType idRefRec) {
+		return ((IDRecordXmlType)idRefRec.getIdRef()).getId();
+	}
+	
 	/**
 	 * warp the network object for substitutionGroup
 	 * 
@@ -135,6 +147,7 @@ public class BaseJaxbHelper {
 	public static void addOwner(BaseRecordXmlType rec, String id) {
 		addOwner(rec, id, 1.0);
 	}
+	
 	public static void addOwner(BaseRecordXmlType rec, String id, 
 			double ownership) {
 		if(rec.getOwnerList() == null)
@@ -167,7 +180,20 @@ public class BaseJaxbHelper {
 			addOwner(rec, id4, ownership4);
 	}
 
-	
+	/**
+	 * Set branch ownership
+	 * 
+	 * @param branchData
+	 * @param oAry
+	 * @param pAry
+	 */
+	public static void setBranchOwnership(BaseRecordXmlType rec, int[] oAry, double[] pAry) {
+		for ( int i = 0; i < oAry.length; i++) {
+			if (oAry[i] > 0) {
+				addOwner(rec, new Integer(oAry[i]).toString(), pAry[i]);
+			}
+		}
+	}		
 	
 	private static ObjectFactory _factory = null;	
 	public static ObjectFactory getFactory() {

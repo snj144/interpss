@@ -27,13 +27,12 @@ package org.ieee.odm.adapter.ge.impl;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.odm.model.jaxb.JaxbDataSetter;
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
+import org.ieee.odm.model.aclf.AclfDataSetter;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BranchRecordXmlType;
-import org.ieee.odm.schema.LFBranchCodeEnumType;
 import org.ieee.odm.schema.LengthUnitType;
-import org.ieee.odm.schema.LoadflowBranchDataXmlType;
+import org.ieee.odm.schema.LineBranchInfoXmlType;
+import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
@@ -53,7 +52,7 @@ public class BranchSecDataRec extends BaseBranchDataRec {
   		1 201 0.0000 0.000 1.000   400101   391231   0 1  0    0.0    0.0    0.0    
   		0.0   1 1.000   0 1.000   0 1.000   0 1.000   0 0.000   0 0.000   0 0.000   0 0.000  0
 	 */
-	public BranchSecDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) {
+	public BranchSecDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) {
 		//PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		//System.out.println("branch sec->" + lineStr);
 
@@ -66,11 +65,11 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 		public String f_name, t_name, ck, long_id;
 		public double f_bkv, t_bkv;
 */		
-		BranchRecordXmlType branchRec = parser.createBranchRecord();
+		LineBranchXmlType branchRec = parser.createLineBranch();
 		
-		LoadflowBranchDataXmlType branchData = parser.getFactory().createLoadflowBranchDataXmlType(); 
-		branchRec.getLoadflowData().add(branchData);
-		branchData.setCode(LFBranchCodeEnumType.LINE);
+		LineBranchInfoXmlType branchInfo = branchRec.getLineInfo(); 
+//		branchRec.getLoadflowData().add(branchData);
+//		branchData.setCode(LFBranchCodeEnumType.LINE);
 
 /*
 		<r> Branch section resistance (pu)
@@ -145,18 +144,17 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 			1 if impedances in ohms
 			0 if in per unit
 */	
-		branchData.setOffLine(this.st == 0);
-		branchData.setNormalOffLineStatus(this.nst == 0);
+		branchRec.setOffLine(this.st == 0);
+		branchRec.setNormalOffLineStatus(this.nst == 0);
 		
 		if (this.ohms == 0) 
-			JaxbDataSetter.setLineData(branchData, r, x,
+			AclfDataSetter.setLineData(branchRec, r, x,
 					ZUnitType.PU, 0.0, b, YUnitType.PU);			
 		else
-			JaxbDataSetter.setLineData(branchData, r, x,
+			AclfDataSetter.setLineData(branchRec, r, x,
 					ZUnitType.OHM, 0.0, b, YUnitType.MHO);
 		
-		branchData.setBranchRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
-		JaxbDataSetter.setBranchRatingLimitData(branchData.getBranchRatingLimit(), r_mvaAry, ApparentPowerUnitType.MVA);
+		AclfDataSetter.setBranchRatingLimitData(branchRec.getRatingLimit(), r_mvaAry, ApparentPowerUnitType.MVA);
 		
 		/*
 		<al> - Loss factor (0.0 - 1.0) used to assign losses.
@@ -166,15 +164,14 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 		<ar> - Branch area number
 		<z>  - Branch Zone number
 		 */
-		branchData.setAreaNumber(ar);
-		branchData.setZoneNumber(z);
-		LoadflowBranchDataXmlType.LineInfo lineInfo = parser.getFactory().createLoadflowBranchDataXmlTypeLineInfo(); 
-		branchData.setLineInfo(lineInfo);
+		branchRec.setAreaNumber(ar);
+		branchRec.setZoneNumber(z);
+		LineBranchInfoXmlType lineInfo = branchRec.getLineInfo();
 		lineInfo.setLength(parser.getFactory().createLengthXmlType());
 		lineInfo.getLength().setValue(l_info);
 		lineInfo.getLength().setUnit(LengthUnitType.MILE);
 		
-		JaxbDataSetter.setBranchOwnership(branchData, oAry, pAry);
+		AclfDataSetter.setBranchOwnership(branchRec, oAry, pAry);
 	}
 	
 	public String toString() {

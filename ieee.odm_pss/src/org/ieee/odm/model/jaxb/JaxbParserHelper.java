@@ -63,6 +63,7 @@ import org.ieee.odm.schema.VoltageUnitType;
 public class JaxbParserHelper extends BaseJaxbHelper {
 	/**
 	 * consolidate bus genContributionList and loadContributionList to the equiv gen and load 
+	 * for v07 
 	 * 
 	 */
 	public static boolean createBusEquivData(JaxbODMModelParser parser, Logger logger) {
@@ -85,12 +86,12 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 							offLine = false;
 							if (remoteBusId == null) {
 								if (gen.getRemoteVoltageControlBus() != null) {
-									remoteBusId = ((BusRecordXmlType)gen.getRemoteVoltageControlBus().getIdRef()).getId();
+									remoteBusId = BaseJaxbHelper.getRecId(gen.getRemoteVoltageControlBus());
 								}
 							}
-							else if (!remoteBusId.equals(gen.getRemoteVoltageControlBus().getIdRef())) {
+							else if (!remoteBusId.equals(BaseJaxbHelper.getRecId(gen.getRemoteVoltageControlBus()))) {
 								logger.severe("Inconsistant remote control bus id, " + remoteBusId +
-										", " + gen.getRemoteVoltageControlBus().getIdRef());
+										", " + BaseJaxbHelper.getRecId(gen.getRemoteVoltageControlBus()));
 								return false; 
 							}
 							
@@ -111,8 +112,7 @@ public class JaxbParserHelper extends BaseJaxbHelper {
 									vSpecUnit = gen.getDesiredVoltage().getUnit();
 								}
 								else if (vSpec != gen.getDesiredVoltage().getValue()) {
-									logger.severe("Inconsistant gen desired voltage, " + 
-											gen.getRemoteVoltageControlBus().getIdRef());
+									logger.severe("Inconsistant gen desired voltage, " + BaseJaxbHelper.getRecId(gen.getRemoteVoltageControlBus()));
 									return false; 
 								}
 							}

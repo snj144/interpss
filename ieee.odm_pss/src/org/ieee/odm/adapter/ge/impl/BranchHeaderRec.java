@@ -26,10 +26,6 @@ package org.ieee.odm.adapter.ge.impl;
 
 import java.util.StringTokenizer;
 
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
-import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.schema.BranchRecordXmlType;
-
 public class BranchHeaderRec {
 	public int f_bus, t_bus, sec;
 	public String f_name, t_name, ck, long_id;
@@ -61,19 +57,19 @@ public class BranchHeaderRec {
 			this.long_id = st.nextToken();
 		}
 	}
-	
-	public BranchRecordXmlType createBranch(JaxbODMModelParser parser) throws Exception {
-		final String fid = JaxbODMModelParser.BusIdPreFix + f_bus;
-		final String tid = JaxbODMModelParser.BusIdPreFix + t_bus;
-		final String cId = ck.replace(' ', '_');
-		BranchRecordXmlType branchRec = parser.getBranchRecord(fid, tid, cId);
-		if (branchRec == null) {
-			String id = ModelStringUtil.formBranchId(fid, tid, cId);
-			branchRec = parser.createBranchRecord(id);	
-			branchRec.setFromBus(parser.createBusRecRef(fid));
-			branchRec.setToBus(parser.createBusRecRef(tid));
-			branchRec.setName(f_name + "-" + t_name + "_" + cId);
-		}
-		return branchRec;
-	}
+//	
+//	public BranchXmlType createBranch(AclfModelParser parser) throws Exception {
+//		final String fid = AclfModelParser.BusIdPreFix + f_bus;
+//		final String tid = AclfModelParser.BusIdPreFix + t_bus;
+//		final String cId = ck.replace(' ', '_');
+//		BranchXmlType branchRec = parser.getBranch(fid, tid, cId);
+//		if (branchRec == null) {
+//			String id = ModelStringUtil.formBranchId(fid, tid, cId);
+//			branchRec = parser.createBranch(id);	
+//			branchRec.setFromBus(parser.createBusRef(fid));
+//			branchRec.setToBus(parser.createBusRef(tid));
+//			branchRec.setName(f_name + "-" + t_name + "_" + cId);
+//		}
+//		return branchRec;
+//	}
 }

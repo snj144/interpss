@@ -28,12 +28,14 @@ import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
+import org.ieee.odm.schema.BaseRecordXmlType;
 import org.ieee.odm.schema.BranchRatingLimitXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.CurrentXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;
+import org.ieee.odm.schema.LoadflowBranchDataXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
@@ -46,6 +48,7 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 import org.ieee.odm.schema.ZXmlType;
+import org.ieee.odm.schema.BaseRecordXmlType.OwnerList.Owner;
 
 
 public class AclfDataSetter extends BaseDataSetter {
@@ -337,4 +340,24 @@ public class AclfDataSetter extends BaseDataSetter {
 				double current, CurrentUnitType curUnit) {
 		setBranchRatingLimitData(branchLimit, 0.0, 0.0, 0.0, null, current, curUnit);
 	}
+	
+	/**
+	 * Set branch ownership
+	 * 
+	 * @param branchData
+	 * @param oAry
+	 * @param pAry
+	 */
+	public static void setBranchOwnership(LoadflowBranchDataXmlType branchData,	int[] oAry, double[] pAry) {
+		BaseRecordXmlType.OwnerList ownerList = getFactory().createBaseRecordXmlTypeOwnerList(); 
+		branchData.setOwnerList(ownerList);
+		for ( int i = 0; i < oAry.length; i++) {
+			if (oAry[i] > 0) {
+				Owner owner = getFactory().createBaseRecordXmlTypeOwnerListOwner();
+				branchData.getOwnerList().getOwner().add(owner);
+				owner.setId(new Integer(oAry[i]).toString());
+				owner.setOwnership(pAry[i]);
+			}
+		}
+	}	
 }

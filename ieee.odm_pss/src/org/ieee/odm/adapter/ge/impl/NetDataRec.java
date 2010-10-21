@@ -27,9 +27,9 @@ package org.ieee.odm.adapter.ge.impl;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.odm.model.jaxb.JaxbDataSetter;
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
-import org.ieee.odm.model.jaxb.JaxbParserHelper;
+import org.ieee.odm.model.aclf.AclfDataSetter;
+import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ExchangeAreaXmlType;
@@ -39,22 +39,22 @@ import org.ieee.odm.schema.NameValuePairListXmlType;
 
 public class NetDataRec {
 	static public class TitleRec {
-		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) {
-			LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
+		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) {
+			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 			NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType(); 
 			baseCaseNet.setNvPairList(nvList);
-			JaxbParserHelper.addNVPair(nvList, "Title", lineStr);
+			AclfParserHelper.addNVPair(nvList, "Title", lineStr);
 		}
 	}
 	
 	static public class CommentsRec {
 		public String comments = "";
 
-		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) {
-			LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
+		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) {
+			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 			NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType(); 
 			baseCaseNet.setNvPairList(nvList);
-			JaxbParserHelper.addNVPair(nvList, "Comments", lineStr);
+			AclfParserHelper.addNVPair(nvList, "Comments", lineStr);
 		}
 	}
 
@@ -82,8 +82,8 @@ public class NetDataRec {
 	 */	
 	static public class SolutionParamRec {
 
-		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) {
-			LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
+		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) {
+			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 			int tap, phas, area, svd, dctap, gcd;
 			double jump, toler;
 
@@ -109,7 +109,7 @@ public class NetDataRec {
 				toler = new Double(str).doubleValue();
 			else if (lineStr.startsWith("sbase")) {
 				double sbase = new Double(str).doubleValue();
-				baseCaseNet.setBasePower(JaxbDataSetter.createPowerMvaValue(sbase));
+				baseCaseNet.setBasePower(AclfDataSetter.createPowerMvaValue(sbase));
 			}
 		}
 	}
@@ -119,8 +119,8 @@ public class NetDataRec {
 		public String arnam;
 		public double pnetdes, pnettol, pnet, qnet;
 
-		public AreaRec(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) throws Exception {
-			LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
+		public AreaRec(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) throws Exception {
+			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 			//System.out.println("area->" + lineStr);
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
 			
@@ -155,10 +155,10 @@ public class NetDataRec {
 			area.setId(new Integer(this.arnum).toString());
 			area.setNumber(this.arnum);
 			area.setName(this.arnam);	
-			area.setSwingBusId(parser.createBusRecRef(new Integer(this.swing).toString()));
-			area.setTotalExchangePower(JaxbDataSetter.createPowerValue(this.pnet, this.qnet, ApparentPowerUnitType.MVA));
-			area.setDesiredExchangePower(JaxbDataSetter.createActivePowerValue(this.pnetdes, ActivePowerUnitType.MW));
-			area.setExchangeErrTolerance(JaxbDataSetter.createActivePowerValue(this.pnettol, ActivePowerUnitType.MW));
+			area.setSwingBusId(parser.createBusRef(new Integer(this.swing).toString()));
+			area.setTotalExchangePower(AclfDataSetter.createPowerValue(this.pnet, this.qnet, ApparentPowerUnitType.MVA));
+			area.setDesiredExchangePower(AclfDataSetter.createActivePowerValue(this.pnetdes, ActivePowerUnitType.MW));
+			area.setExchangeErrTolerance(AclfDataSetter.createActivePowerValue(this.pnettol, ActivePowerUnitType.MW));
 		}
 	}
 
@@ -167,8 +167,8 @@ public class NetDataRec {
 		public String zonam;
 		public double pznet, qznet;
 
-		public ZoneRec(String lineStr, GE_PSLF_Adapter.VersionNo version, JaxbODMModelParser parser) throws Exception {
-			LoadflowNetXmlType baseCaseNet = parser.getAclfBaseCase();
+		public ZoneRec(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) throws Exception {
+			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 			//System.out.println("zone->" + lineStr);
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
 			
@@ -195,7 +195,7 @@ public class NetDataRec {
 			zone.setId(new Integer(this.zonum).toString());
 			zone.setNumber(this.zonum);
 			zone.setName(this.zonam);	
-			zone.setExchangePower(JaxbDataSetter.createPowerValue(this.pznet, this.qznet, ApparentPowerUnitType.MVA)); 
+			zone.setExchangePower(AclfDataSetter.createPowerValue(this.pznet, this.qznet, ApparentPowerUnitType.MVA)); 
 		}
 	}
 
