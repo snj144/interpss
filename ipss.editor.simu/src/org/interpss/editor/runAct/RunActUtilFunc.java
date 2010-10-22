@@ -136,7 +136,7 @@ public class RunActUtilFunc {
 		for (Branch b : adjNet.getBranchList()) {
 			AclfBranch branch = (AclfBranch)b;
 			if (branch.isPSXfrPControl()) {
-				TapControl xfr = (TapControl)branch.getFlowControl();
+				TapControl xfr = branch.getTapControl();
 				if (xfr.needAdjust(tolerance)) {
 					list.add(xfr.getId() + " at " + xfr.getParentBranch().getName());
 				}
@@ -152,7 +152,7 @@ public class RunActUtilFunc {
 		for (Branch b : adjNet.getBranchList()) {
 			AclfBranch branch = (AclfBranch)b;
 			if (branch.isPSXfrPControl()) {
-				PSXfrPControl psXfr = (PSXfrPControl)branch.getFlowControl();
+				PSXfrPControl psXfr = branch.getPSXfrPControl();
 				if (psXfr.needAdjust(tolerance)) {
 					list.add(psXfr.getId() + " at "	+ psXfr.getParentBranch().getName());
 				}
