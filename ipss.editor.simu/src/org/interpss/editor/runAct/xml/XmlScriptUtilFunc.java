@@ -31,7 +31,7 @@ import org.interpss.schema.RuleBaseXmlType;
 
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.simu.multicase.MultiStudyCase;
 
 public class XmlScriptUtilFunc {
@@ -42,7 +42,7 @@ public class XmlScriptUtilFunc {
 	}
 	
 	public static boolean mapAclfStudyCase(IpssMapper mapper, AclfStudyCaseXmlType xmlCase, 
-						LoadflowAlgorithm algo, AclfAlgorithmXmlType xmlDefaultAlgo, 
+						AclfAdjustAlgorithm algo, AclfAlgorithmXmlType xmlDefaultAlgo, 
 						boolean remoteJobCreation, IPSSMsgHub msg) {
 		if (xmlCase.getAclfAlgorithm() == null) {
 			if (xmlDefaultAlgo == null) {
