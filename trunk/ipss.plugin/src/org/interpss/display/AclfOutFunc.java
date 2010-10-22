@@ -400,7 +400,7 @@ public class AclfOutFunc {
 		for (Bus b : net.getBusList()) {
 			AclfBus bus = (AclfBus)b;
 			if (bus.isPQBusLimit()) {
-				PQBusLimit pq = (PQBusLimit)bus.getBusControl();
+				PQBusLimit pq = bus.getPQBusLimit();
 				GenBusAdapter genBus = (GenBusAdapter) pq.getParentBus().getAdapter(
 						GenBusAdapter.class);
 				str.append(Number2String.toStr(5, " "));
@@ -441,7 +441,7 @@ public class AclfOutFunc {
 		for (Bus b : net.getBusList()) {
 			AclfBus bus = (AclfBus)b;
 			if (bus.isRemoteQBus()) {
-				RemoteQBus re = (RemoteQBus)bus.getBusControl();
+				RemoteQBus re = bus.getRemoteQBus();
 				GenBusAdapter genBus = (GenBusAdapter) re.getParentBus().getAdapter(
 						GenBusAdapter.class);
 				str.append(Number2String.toStr(5, " "));
@@ -529,7 +529,7 @@ public class AclfOutFunc {
 		for (Branch b : net.getBranchList()) {
 			AclfBranch branch = (AclfBranch)b;
 			if (branch.isTapControl()) {
-				TapControl x = (TapControl)branch.getFlowControl();
+				TapControl x = branch.getTapControl();
 				str.append(Number2String.toStr(5, " "));
 				str.append(Number2String.toStr(-17, x.getParentBranch().getId())
 						+ " ");
@@ -592,7 +592,7 @@ public class AclfOutFunc {
 		for (Branch b : net.getBranchList()) {
 			AclfBranch branch = (AclfBranch)b;
 			if (branch.isTapControl()) {
-				PSXfrPControl x = (PSXfrPControl)branch.getFlowControl();
+				PSXfrPControl x = branch.getPSXfrPControl();
 				str.append(Number2String.toStr(5, " "));
 				str.append(Number2String.toStr(-17, x.getParentBranch().getId())
 						+ " ");

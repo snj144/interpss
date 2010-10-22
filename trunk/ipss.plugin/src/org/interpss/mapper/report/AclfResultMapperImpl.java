@@ -362,7 +362,7 @@ public class AclfResultMapperImpl {
 		for (Branch b : net.getBranchList()) {
 			AclfBranch branch = (AclfBranch)b;
 			if (branch.isTapControl()) {
-				PSXfrPControl psCtrl = (PSXfrPControl)branch.getFlowControl();
+				PSXfrPControl psCtrl = branch.getPSXfrPControl();
 				RptPSXfrPControlBean bean = new RptPSXfrPControlBean();
 				bean.setBranchId(psCtrl.getParentBranch().getId());
 				bean.setPact(Number2String.toStr("##0.0000", (psCtrl
@@ -394,7 +394,7 @@ public class AclfResultMapperImpl {
 		for (Branch b : net.getBranchList()) {
 			AclfBranch branch = (AclfBranch)b;
 			if (branch.isTapControl()) {
-				TapControl tap = (TapControl)branch.getFlowControl();
+				TapControl tap = branch.getTapControl();
 				RptTapVControlBean bean = new RptTapVControlBean();
 				bean.setBranchId(tap.getParentBranch().getId());
 				if (tap.getControlType() == XfrTapControlType.BUS_VOLTAGE) {
