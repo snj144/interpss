@@ -87,7 +87,7 @@ public class IpssInternalFormat_out {
 		for (Bus b : net.getBusList()) {
 			AclfBus bus = (AclfBus) b;
 			if (bus.isPVBusLimit()) {
-				PVBusLimit pv = (PVBusLimit)bus.getBusControl();
+				PVBusLimit pv = bus.getPVBusLimit();
 				out.write(String.format("%8s %7.4f %7.2f %7.2f %n", 
 							pv.getParentBus().getId(),
 							pv.getVSpecified(),
