@@ -316,7 +316,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 		
     	// set line info into InterPSS simulation engine 
     	branch.setBranchCode(AclfBranchCode.LINE);
-		final LineAdapter line = (LineAdapter)branch.getAdapter(LineAdapter.class);
+		final LineAdapter line = branch.toLine();
     	line.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, branch.getFromAclfBus().getBaseVoltage(), msg);
     	// UCTE line B is treated as half branch B
     	line.setHShuntY(new Complex(0.0,0.5*bMuS), UnitType.MicroMho, branch.getFromAclfBus().getBaseVoltage()); 
@@ -379,7 +379,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
       	
     	// set xfr info into InterPSS simulation engine 
 	 	branch.setBranchCode(AclfBranchCode.XFORMER);
-		final XfrAdapter xfr = (XfrAdapter)branch.getAdapter(XfrAdapter.class);
+		final XfrAdapter xfr = branch.toXfr();
 		// r, x, g, b are measured at from side in Ohms
 		// they are converted to PU using from bus base voltage
     	xfr.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, branch.getFromBus().getBaseVoltage(), msg);
@@ -462,7 +462,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 			branch.setN1Phase(n1Phase);
 			branch.setUKvPhase(uKvPhase);
 			
-	    	final XfrAdapter xfr = (XfrAdapter)branch.getAdapter(XfrAdapter.class);
+	    	final XfrAdapter xfr = branch.toXfr();
 	    	double ratioFactor = xfr.getToTurnRatio();
 
 			double x = 1.0 / (1.0 + n1Phase*dUPhase*0.01);
@@ -492,7 +492,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 			branch.setPMwAngle(pMwAngle);
 	
 		 	branch.setBranchCode(AclfBranchCode.PS_XFORMER);
-			final PSXfrAdapter psXfr = (PSXfrAdapter)branch.getAdapter(PSXfrAdapter.class);
+			final PSXfrAdapter psXfr = branch.toPSXfr();
 	    	double ratioFactor = psXfr.getToTurnRatio();
 
 	    	double ang = 0.0, angMax = 0.0, angMin = 0.0, x = 1.0;

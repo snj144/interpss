@@ -315,7 +315,7 @@ public class ODMAclfDataMapperImpl {
 		
 		aclfBra.setBranchCode(AclfBranchCode.LINE);
 		//System.out.println(braXmlData.getLineData().getZ().getIm());
-		LineAdapter line = (LineAdapter) aclfBra.getAdapter(LineAdapter.class);
+		LineAdapter line = aclfBra.toLine();
 		if (braLine.getZ() == null) {
 			throw new InterpssException("Line data error, Z == null, branch id: " + braLine.getId());
 		}
@@ -369,7 +369,7 @@ public class ODMAclfDataMapperImpl {
 
 		setXfrBranchData(braPsXfr, aclfBra, adjNet, msg);
 		
-		PSXfrAdapter psXfr = (PSXfrAdapter) aclfBra.getAdapter(PSXfrAdapter.class);
+		PSXfrAdapter psXfr = aclfBra.toPSXfr();
 		if(braPsXfr.getFromAngle() != null)
 			psXfr.setFromAngle(braPsXfr.getFromAngle().getValue(), 
 						ODMXmlHelper.toUnit(braPsXfr.getFromAngle().getUnit()));
@@ -409,7 +409,7 @@ public class ODMAclfDataMapperImpl {
 		}
 		
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
-		XfrAdapter xfr = (XfrAdapter) aclfBra.getAdapter(XfrAdapter.class);
+		XfrAdapter xfr = aclfBra.toXfr();
 		xfr.setZ(new Complex(xfrBranch.getZ().getRe()*zratio, xfrBranch.getZ().getIm()*zratio),
 				ODMXmlHelper.toUnit(xfrBranch.getZ().getUnit()), baseV,	msg);
 		xfr.setFromTurnRatio(xfrBranch.getFromTurnRatio().getValue() == 0.0 ? 1.0 : 
