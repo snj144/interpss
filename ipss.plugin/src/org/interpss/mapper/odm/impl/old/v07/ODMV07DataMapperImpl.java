@@ -182,7 +182,7 @@ public class ODMV07DataMapperImpl {
 			LoadflowGenDataXmlType xmlEquivGenData = busXmlData.getGenData().getEquivGen();
 			if (xmlEquivGenData.getCode() == LFGenCodeEnumType.PQ) {
 				aclfBus.setGenCode(AclfGenCode.GEN_PQ);
-				PQBusAdapter pqBus = (PQBusAdapter) aclfBus.getAdapter(PQBusAdapter.class);
+				PQBusAdapter pqBus = aclfBus.toPQBus();
 				pqBus.setGen(new Complex(xmlEquivGenData.getPower().getRe(), 
 						                 xmlEquivGenData.getPower().getIm()),
 						           ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()));
@@ -196,7 +196,7 @@ public class ODMV07DataMapperImpl {
 					xmlEquivGenData != null) {
 				if (xmlEquivGenData.getRemoteVoltageControlBus() == null) {
 					aclfBus.setGenCode(AclfGenCode.GEN_PV);
-					PVBusAdapter pvBus = (PVBusAdapter) aclfBus.getAdapter(PVBusAdapter.class);
+					PVBusAdapter pvBus = aclfBus.toPVBus();
 					//if (xmlEquivGenData == null)
 					//	System.out.print(busXmlData);
 					pvBus.setGenP(xmlEquivGenData.getPower().getRe(),
@@ -238,7 +238,7 @@ public class ODMV07DataMapperImpl {
 				}
 			} else if (xmlEquivGenData.getCode() == LFGenCodeEnumType.SWING) {
 				aclfBus.setGenCode(AclfGenCode.SWING);
-				SwingBusAdapter swing = (SwingBusAdapter) aclfBus.getAdapter(SwingBusAdapter.class);
+				SwingBusAdapter swing = aclfBus.toSwingBus();
 				vXml = busXmlData.getGenData().getEquivGen().getDesiredVoltage();
 				vpu = UnitType.vConversion(vXml.getValue(),
 						aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
@@ -258,7 +258,7 @@ public class ODMV07DataMapperImpl {
 			aclfBus.setLoadCode(busXmlData.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_I ? 
 							AclfLoadCode.CONST_I : (busXmlData.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_Z ? 
 									AclfLoadCode.CONST_Z : AclfLoadCode.CONST_P));
-			LoadBusAdapter loadBus = (LoadBusAdapter) aclfBus.getAdapter(LoadBusAdapter.class);
+			LoadBusAdapter loadBus = aclfBus.toLoadBus();
 			LoadflowLoadDataXmlType xmlEquivLoad = busXmlData.getLoadData().getEquivLoad();
 			if (xmlEquivLoad != null) {
 				PowerXmlType p;

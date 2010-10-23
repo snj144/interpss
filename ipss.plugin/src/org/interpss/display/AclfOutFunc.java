@@ -117,13 +117,11 @@ public class AclfOutFunc {
 			net.forEachAclfBus(new IAclfBusVisitor() {
 				public void visit(AclfBus bus) {
 					if (bus.isActive()) {
-						GenBusAdapter genBus = (GenBusAdapter) bus
-								.getAdapter(GenBusAdapter.class);
+						GenBusAdapter genBus = bus.toGenBus();
 						Complex busPQ = genBus.getGenResults(UnitType.PU);
 						busPQ = busPQ.subtract(genBus.getLoadResults(UnitType.PU));
 						if (bus.isCapacitor()) {
-							CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
-									.getAdapter(CapacitorBusAdapter.class);
+							CapacitorBusAdapter cap = bus.toCapacitorBus();
 							busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
 									.getVoltageMag(), UnitType.PU)));
 						}
@@ -341,8 +339,7 @@ public class AclfOutFunc {
 
 		net.forEachPVBusLimit(new IPVBusLimitVisitor() {
 			public void visit(PVBusLimit pv) {
-				GenBusAdapter genBus = (GenBusAdapter) pv.getParentBus().getAdapter(
-						GenBusAdapter.class);
+				GenBusAdapter genBus = pv.getParentBus().toGenBus();
 				str.append(Number2String.toStr(5, " "));
 				str.append(Number2String.toStr(-8, getBusId(pv.getParentBus(), 
 						pv.getParentBus().getNetwork().getOriginalDataFormat())));
@@ -401,8 +398,7 @@ public class AclfOutFunc {
 			AclfBus bus = (AclfBus)b;
 			if (bus.isPQBusLimit()) {
 				PQBusLimit pq = bus.getPQBusLimit();
-				GenBusAdapter genBus = (GenBusAdapter) pq.getParentBus().getAdapter(
-						GenBusAdapter.class);
+				GenBusAdapter genBus = pq.getParentBus().toGenBus();
 				str.append(Number2String.toStr(5, " "));
 				str.append(Number2String.toStr(-8, getBusId(pq.getParentBus(), net.getOriginalDataFormat())) + " ");
 				str.append(Number2String.toStr("####0.00", genBus.getGenResults(
@@ -442,8 +438,7 @@ public class AclfOutFunc {
 			AclfBus bus = (AclfBus)b;
 			if (bus.isRemoteQBus()) {
 				RemoteQBus re = bus.getRemoteQBus();
-				GenBusAdapter genBus = (GenBusAdapter) re.getParentBus().getAdapter(
-						GenBusAdapter.class);
+				GenBusAdapter genBus = re.getParentBus().toGenBus();
 				str.append(Number2String.toStr(5, " "));
 				str.append(Number2String.toStr(-9, getBusId(re.getParentBus(), net.getOriginalDataFormat())));
 				str.append(Number2String.toStr(-9,

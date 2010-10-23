@@ -279,7 +279,7 @@ public class IeeeCommonFormat_in {
       		// Swing bus
    		 	bus.setGenCode(AclfGenCode.SWING);
    		 	bus.setLoadCode(AclfLoadCode.CONST_P);
-  			final SwingBusAdapter gen = (SwingBusAdapter)bus.getAdapter(SwingBusAdapter.class);
+  			final SwingBusAdapter gen = bus.toSwingBus();
   			gen.setVoltMag(vpu, UnitType.PU);
   			gen.setVoltAng(angDeg, UnitType.Deg);
   			gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
@@ -288,7 +288,7 @@ public class IeeeCommonFormat_in {
     		// PQ bus
     		bus.setGenCode(AclfGenCode.GEN_PQ);
     		bus.setLoadCode(AclfLoadCode.CONST_P);
-   			final PQBusAdapter gen = (PQBusAdapter)bus.getAdapter(PQBusAdapter.class);
+   			final PQBusAdapter gen = bus.toPQBus();
     		gen.setGen(new Complex(genMw, genMvar), UnitType.mVA);
     		gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
     		if ((max != 0.0) || (min != 0.0)) {
@@ -301,7 +301,7 @@ public class IeeeCommonFormat_in {
     		// PV or remote Q bus
    		 	bus.setGenCode(AclfGenCode.GEN_PV);
    		 	bus.setLoadCode(AclfLoadCode.CONST_P);
-  			final PVBusAdapter gen = (PVBusAdapter)bus.getAdapter(PVBusAdapter.class);
+  			final PVBusAdapter gen = bus.toPVBus();
   			gen.setGenP(genMw, UnitType.mW);
   			gen.setVoltMag(vpu, UnitType.PU);
   			gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
@@ -326,7 +326,7 @@ public class IeeeCommonFormat_in {
     		// Non-gen load bus
    		 	bus.setGenCode(AclfGenCode.NON_GEN);
    		 	bus.setLoadCode(AclfLoadCode.CONST_P);
-  			final LoadBusAdapter load = (LoadBusAdapter)bus.getAdapter(LoadBusAdapter.class);
+  			final LoadBusAdapter load = bus.toLoadBus();
   			load.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
     	}
     	else {

@@ -58,11 +58,11 @@ public class AclfOut_BusStyle {
 		double baseKVA = net.getBaseKva();
 		StringBuffer str = new StringBuffer("");
 
-		GenBusAdapter genBus = (GenBusAdapter) bus.getAdapter(GenBusAdapter.class);
+		GenBusAdapter genBus = bus.toGenBus();
 		Complex busGen = genBus.getGenResults(UnitType.mVA);
 		Complex busLoad = genBus.getLoadResults(UnitType.mVA);
 		if (bus.isCapacitor()) {
-			CapacitorBusAdapter cap = (CapacitorBusAdapter) bus.getAdapter(CapacitorBusAdapter.class);
+			CapacitorBusAdapter cap = bus.toCapacitorBus();
 			busGen = busGen.add(new Complex(0.0, cap.getQResults(bus.getVoltageMag(), UnitType.PU)));
 		}
 		str.append(Number2String.toStr(-12, AclfOutFunc.getBusId(bus, net.getOriginalDataFormat())) + " ");

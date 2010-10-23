@@ -84,13 +84,11 @@ public class AclfResultMapperImpl {
 			double baseKVA = net.getBaseKva();
 			for (Bus b : net.getBusList()) {
 				AclfBus bus = (AclfBus) b;
-				GenBusAdapter genBus = (GenBusAdapter) bus
-						.getAdapter(GenBusAdapter.class);
+				GenBusAdapter genBus = bus.toGenBus();
 				Complex busPQ = genBus.getGenResults(UnitType.PU)
 						.subtract(genBus.getLoadResults(UnitType.PU));
 				if (bus.isCapacitor()) {
-					CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
-							.getAdapter(CapacitorBusAdapter.class);
+					CapacitorBusAdapter cap = bus.toCapacitorBus();
 					busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
 							.getVoltageMag(), UnitType.PU)));
 				}
@@ -121,13 +119,11 @@ public class AclfResultMapperImpl {
 			double baseKVA = net.getBaseKva();
 			for (Bus b : net.getBusList()) {
 				AclfBus bus = (AclfBus) b;
-				GenBusAdapter genBus = (GenBusAdapter) bus
-						.getAdapter(GenBusAdapter.class);
+				GenBusAdapter genBus = bus.toGenBus();
 				Complex busGen = genBus.getGenResults(UnitType.mVA);
 				Complex busLoad = genBus.getLoadResults(UnitType.mVA);
 				if (bus.isCapacitor()) {
-					CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
-							.getAdapter(CapacitorBusAdapter.class);
+					CapacitorBusAdapter cap = bus.toCapacitorBus();
 					busGen = busGen.add(new Complex(0.0, cap.getQResults(bus
 							.getVoltageMag(), UnitType.PU)));
 				}
@@ -232,8 +228,7 @@ public class AclfResultMapperImpl {
 			AclfBus bus = (AclfBus)b;
 			if (bus.isPVBusLimit()) {
 				PVBusLimit pv = (PVBusLimit)bus.getBranchList();
-				GenBusAdapter genBus = (GenBusAdapter) pv.getParentBus().getAdapter(
-						GenBusAdapter.class);
+				GenBusAdapter genBus = pv.getParentBus().toGenBus();
 				RptPVLimitBean bean = new RptPVLimitBean();
 				bean.setBusId(Number2String.toStr(-8, pv.getParentBus().getId()));
 				bean.setVact(Number2String.toStr("###0.0000", pv.getParentBus()
@@ -261,8 +256,7 @@ public class AclfResultMapperImpl {
 			AclfBus bus = (AclfBus)b;
 			if (bus.isPVBusLimit()) {
 				PQBusLimit pq = (PQBusLimit)bus.getBranchList();
-				GenBusAdapter genBus = (GenBusAdapter) pq.getParentBus().getAdapter(
-						GenBusAdapter.class);
+				GenBusAdapter genBus = pq.getParentBus().toGenBus();
 				RptPQLimitBean bean = new RptPQLimitBean();
 				bean.setBusId(Number2String.toStr(-8, pq.getParentBus().getId()));
 				bean.setQact(Number2String.toStr("####0.00", genBus.getGenResults(
@@ -315,21 +309,15 @@ public class AclfResultMapperImpl {
 
 	public static Object[] createRemoteQBusBeanArray(AclfAdjNetwork net) {
 		List<RptRemoteQBusBean> list = new ArrayList<RptRemoteQBusBean>();
-		double baseKva = net.getBaseKva();
 		for (Bus b : net.getBusList()) { 
 			AclfBus bus = (AclfBus)b;
 			if (bus.isPVBusLimit()) {
 				RemoteQBus re = (RemoteQBus)bus.getBranchList();
-				GenBusAdapter genBus = (GenBusAdapter) re.getParentBus().getAdapter(
-						GenBusAdapter.class);
+				GenBusAdapter genBus = re.getParentBus().toGenBus();
 				RptRemoteQBusBean bean = new RptRemoteQBusBean();
 				bean.setVcBusId(re.getParentBus().getId());
-				bean
-						.setType(Number2String
-								.toStr(
-										-9,
-										(re.getControlType() == RemoteQControlType.BUS_VOLTAGE ? " Voltage"
-												: "MvarFlow")));
+				bean.setType(Number2String.toStr(-9,
+						(re.getControlType() == RemoteQControlType.BUS_VOLTAGE ? " Voltage"	: "MvarFlow")));
 				bean.setReQBusBranch(Number2String.toStr(15,
 						re.getControlType() == RemoteQControlType.BUS_VOLTAGE ? re
 								.getRemoteBus().getId() : re.getRemoteBranch()

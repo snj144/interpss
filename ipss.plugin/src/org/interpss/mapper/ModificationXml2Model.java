@@ -142,7 +142,7 @@ public class ModificationXml2Model {
 		// swing bus voltage modification
 		if (busRec.getAclfBusChangeData().getGenChangeData().getSwingVoltageChange() != null) {
 			if (bus.isSwing()) {
-	  			final SwingBusAdapter gen = (SwingBusAdapter)bus.getAdapter(SwingBusAdapter.class);
+	  			final SwingBusAdapter gen = bus.toSwingBus();
 				double x = applyValueChangeRec(gen.getVoltMag(UnitType.PU),
 						busRec.getAclfBusChangeData().getGenChangeData().getSwingVoltageChange(),
 						ValueType.Voltage, bus.getBaseVoltage());

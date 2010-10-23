@@ -229,8 +229,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 		case 0: // PQ bus
 			bus.setGenCode(AclfGenCode.GEN_PQ);
 			bus.setLoadCode(AclfLoadCode.CONST_P);
-			final PQBusAdapter pqGen = (PQBusAdapter) bus
-					.getAdapter(PQBusAdapter.class);
+			final PQBusAdapter pqGen = bus.toPQBus();
 			pqGen.setGen(new Complex(pGenMW, qGenMvar), UnitType.mVA);
 			pqGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA);
 			break;
@@ -241,8 +240,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 		case 2: // PV bus
 			bus.setGenCode(AclfGenCode.GEN_PV);
 			bus.setLoadCode(AclfLoadCode.CONST_P);
-			final PVBusAdapter pvGen = (PVBusAdapter) bus
-					.getAdapter(PVBusAdapter.class);
+			final PVBusAdapter pvGen = bus.toPVBus();
 			pvGen.setGenP(pGenMW, UnitType.mW);
 			pvGen.setVoltMag(voltage, UnitType.kV);
 			pvGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA);
@@ -257,8 +255,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 		case 3: // swing bus
 			bus.setGenCode(AclfGenCode.SWING);
 			bus.setLoadCode(AclfLoadCode.CONST_P);
-			final SwingBusAdapter swingGen = (SwingBusAdapter) bus
-					.getAdapter(SwingBusAdapter.class);
+			final SwingBusAdapter swingGen = bus.toSwingBus();
 			swingGen.setVoltMag(voltage, UnitType.kV);
 			swingGen.setVoltAng(0.0, UnitType.Deg);
 			swingGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA);

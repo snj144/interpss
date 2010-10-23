@@ -49,10 +49,7 @@ import com.interpss.core.aclf.adpter.PVBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.net.Bus;
-import com.interpss.ext.psse.aclf.PSSEAclfGen;
-import com.interpss.ext.psse.aclf.PSSEAclfLoad;
 import com.interpss.ext.psse.aclf.PSSEAclfXformer;
-import com.interpss.ext.psse.aclf.PSSESwitchedShunt;
 
 public class PSSE2IpssUtilFunc {
 	private static class BusData {
@@ -104,13 +101,13 @@ public class PSSE2IpssUtilFunc {
 					IpssLogger.getLogger().fine("genPSum, genQSum, vSpec, genQmax, genQmin: " + 
 							data.genPSum + ", " + data.genQSum + ", " + data.vSpec + ", " + data.genQmax + ", " + data.genQmin);
 					if (bus.isSwing()) {
-			  			final SwingBusAdapter gen = (SwingBusAdapter)bus.getAdapter(SwingBusAdapter.class);
+			  			final SwingBusAdapter gen = bus.toSwingBus();
 			  			gen.setVoltMag(data.vSpec, UnitType.PU);
 					}
 					else if (bus.isGenPV()) {
 						if (data.remoteBusId == null || data.remoteBusId.equals("0")) {
 							// PVLimit
-				  			final PVBusAdapter gen = (PVBusAdapter)bus.getAdapter(PVBusAdapter.class);
+				  			final PVBusAdapter gen = bus.toPVBus();
 				  			gen.setGenP(data.genPSum, UnitType.PU);
 				  			gen.setVoltMag(data.vSpec, UnitType.PU);
 		  					IpssLogger.getLogger().fine("Bus is a PVLimitBus, id: " + bus.getId());
@@ -127,7 +124,7 @@ public class PSSE2IpssUtilFunc {
 		  						adjNet.getAclfBus(data.remoteBusId).setGenCode(AclfGenCode.GEN_PQ);
 		  			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(bus, 
 		  			  				RemoteQControlType.BUS_VOLTAGE, adjNet, data.remoteBusId);
-				  			final PQBusAdapter gen = (PQBusAdapter)bus.getAdapter(PQBusAdapter.class);
+				  			final PQBusAdapter gen = bus.toPQBus();
 				  			gen.setGen(new Complex(data.genPSum,data.genQSum), UnitType.PU);
 		  			  		reQ1.setQLimit(new LimitType(data.genQmax, data.genQmin), UnitType.PU);
 		  			  		reQ1.setVSpecified(data.vSpec);
