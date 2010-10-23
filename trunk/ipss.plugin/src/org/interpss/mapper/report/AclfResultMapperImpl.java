@@ -210,8 +210,7 @@ public class AclfResultMapperImpl {
 									toRatio));
 
 						if (bra.isPSXfr()) {
-							PSXfrAdapter psXfr = (PSXfrAdapter) bra
-									.getAdapter(PSXfrAdapter.class);
+							PSXfrAdapter psXfr = bra.toPSXfr();
 							bean.setPsXfrAngle(Number2String.toStr("##0.0",
 									psXfr.getFromAngle(UnitType.Deg)));
 						}
@@ -372,8 +371,7 @@ public class AclfResultMapperImpl {
 						.getReal())));
 				bean.setPspec(Number2String.toStr("##0.0000", psCtrl.getPSpecified(
 						UnitType.PU, baseKva)));
-				PSXfrAdapter psXfr = (PSXfrAdapter) psCtrl.getParentBranch().getAdapter(
-						PSXfrAdapter.class);
+				PSXfrAdapter psXfr = psCtrl.getParentBranch().toPSXfr();
 				bean.setAngle(Number2String.toStr("#0.00", psXfr
 						.getFromAngle(UnitType.Deg)));
 				bean.setAngMax(Number2String.toStr("#0.00", psCtrl.getAngLimit(

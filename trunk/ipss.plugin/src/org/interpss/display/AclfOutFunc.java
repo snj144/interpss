@@ -609,8 +609,7 @@ public class AclfOutFunc {
 				else
 					str.append(x.getControlRange() + " ");
 
-				PSXfrAdapter psXfr = (PSXfrAdapter) x.getParentBranch().getAdapter(
-						PSXfrAdapter.class);
+				PSXfrAdapter psXfr = x.getParentBranch().toPSXfr();
 				str.append(Number2String.toStr("#0.00", psXfr
 						.getFromAngle(UnitType.Deg))
 						+ " ");

@@ -493,7 +493,7 @@ public class AclfFormDataMapperImpl {
 		try {
 			AclfBranchData data = branchForm.getAcscBranchData();
 			branch.setBranchCode(AclfBranchCode.LINE);
-			LineAdapter line = (LineAdapter) branch.getAdapter(LineAdapter.class);
+			LineAdapter line = branch.toLine();
 			line.setZ(new Complex(data.getZR(), data.getZX()), UnitType
 					.toUnit(data.getZUnit()), branch.getFromAclfBus()
 					.getBaseVoltage(), msg);
@@ -524,7 +524,7 @@ public class AclfFormDataMapperImpl {
 			// the follow only applies if zUnit is in Ohms, which is very
 			// unlikely
 			double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
-			XfrAdapter xfr = (XfrAdapter) branch.getAdapter(XfrAdapter.class);
+			XfrAdapter xfr = branch.toXfr();
 			xfr.setZ(new Complex(data.getZR(), data.getZX()), UnitType
 					.toUnit(data.getZUnit()), baseV, msg);
 
@@ -583,7 +583,7 @@ public class AclfFormDataMapperImpl {
 		setXfrBranchFormInfo(formBranch, branch, net, msg);
 		AclfBranchData data = formBranch.getAcscBranchData();
 		branch.setBranchCode(AclfBranchCode.PS_XFORMER);
-		PSXfrAdapter psXfr = (PSXfrAdapter) branch.getAdapter(PSXfrAdapter.class);
+		PSXfrAdapter psXfr = branch.toPSXfr();
 		psXfr.setFromAngle(data.getPhaseShiftAngle(), UnitType.toUnit(data
 				.getPhaseShiftAngleUnit()));
 		return true;

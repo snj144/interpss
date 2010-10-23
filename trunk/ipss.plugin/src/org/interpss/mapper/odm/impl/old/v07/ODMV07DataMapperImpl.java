@@ -292,7 +292,7 @@ public class ODMV07DataMapperImpl {
 		if (braXmlData.getCode() == LFBranchCodeEnumType.LINE) {
 				aclfBra.setBranchCode(AclfBranchCode.LINE);
 				//System.out.println(braXmlData.getLineData().getZ().getIm());
-				LineAdapter line = (LineAdapter) aclfBra.getAdapter(LineAdapter.class);
+				LineAdapter line = aclfBra.toLine();
 				line.setZ(new Complex(braXmlData.getZ().getRe(), braXmlData.getZ().getIm()), 
 							ODMXmlHelper.toUnit(braXmlData.getZ().getUnit()), 
 							aclfBra.getFromAclfBus().getBaseVoltage(), msg);
@@ -312,7 +312,7 @@ public class ODMV07DataMapperImpl {
 		} else if (braXmlData.getCode() == LFBranchCodeEnumType.PHASE_SHIFT_XFORMER) {
 			aclfBra.setBranchCode(AclfBranchCode.PS_XFORMER);
 			setXformerLoadflowData(aclfBra, braXmlData, adjNet, msg);
-			PSXfrAdapter psXfr = (PSXfrAdapter) aclfBra.getAdapter(PSXfrAdapter.class);
+			PSXfrAdapter psXfr = aclfBra.toPSXfr();
 			if(braXmlData.getFromAngle() != null)
 				psXfr.setFromAngle(braXmlData.getFromAngle().getValue(), 
 						ODMXmlHelper.toUnit(braXmlData.getFromAngle().getUnit()));
@@ -381,7 +381,7 @@ public class ODMV07DataMapperImpl {
 		}
 		
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
-		XfrAdapter xfr = (XfrAdapter) aclfBra.getAdapter(XfrAdapter.class);
+		XfrAdapter xfr = aclfBra.toXfr();
 		xfr.setZ(new Complex(xfrData.getZ().getRe()*zratio, xfrData.getZ().getIm()*zratio),
 				ODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV, msg);
 		xfr.setFromTurnRatio(xfrData.getFromTurnRatio().getValue() == 0.0 ? 1.0 : xfrData

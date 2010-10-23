@@ -94,7 +94,7 @@ public class AclfOut_BusStyle {
 							fromRatio = bra.getFromTurnRatio();
 							toRatio = bra.getToTurnRatio();
 							if (bra.isPSXfr()) {
-								PSXfrAdapter psXfr = (PSXfrAdapter) bra.getAdapter(PSXfrAdapter.class);
+								PSXfrAdapter psXfr = bra.toPSXfr();
 								fromAng = psXfr.getFromAngle(UnitType.Deg);
 								toAng = psXfr.getToAngle(UnitType.Deg);
 							}

@@ -494,14 +494,14 @@ public class IeeeCommonFormat_in {
       	if (type == 0) {
       		// A line branch
         	bra.setBranchCode(AclfBranchCode.LINE);
-    		final LineAdapter line = (LineAdapter)bra.getAdapter(LineAdapter.class);
+    		final LineAdapter line = bra.toLine();
         	line.getAclfBranch().setZ(new Complex(rpu,xpu), msg);
         	line.setHShuntY(new Complex(0.0,0.5*bpu), UnitType.PU, 1.0); // Unit is PU, no need to enter baseV
       	}
       	else if (type >= 1) {
       		// Transformer branch
     	 	bra.setBranchCode(AclfBranchCode.XFORMER);
-    		final XfrAdapter xfr = (XfrAdapter)bra.getAdapter(XfrAdapter.class);
+    		final XfrAdapter xfr = bra.toXfr();
         	xfr.getAclfBranch().setZ(new Complex(rpu,xpu), msg);
         	if (bpu < 0.0) {
         		IpssLogger.getLogger().fine("Xfr B: " + bpu);
@@ -512,7 +512,7 @@ public class IeeeCommonFormat_in {
         	if (angle != 0.0) {
         		// PhaseShifting transformer branch
         	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER);
-        		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.getAdapter(PSXfrAdapter.class);
+        		final PSXfrAdapter psXfr = bra.toPSXfr();
         		psXfr.setFromAngle(Math.toRadians(angle));
         	}
         	

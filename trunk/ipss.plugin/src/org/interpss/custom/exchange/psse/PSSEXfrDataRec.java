@@ -222,7 +222,7 @@ public class PSSEXfrDataRec {
 			String jStr = new Integer(this.j).toString();
 	      	adjNet.addBranch(bra, iStr, jStr);
     	 	bra.setBranchCode(AclfBranchCode.XFORMER);
-    		final XfrAdapter xfr = (XfrAdapter)bra.getAdapter(XfrAdapter.class);
+    		final XfrAdapter xfr = bra.toXfr();
     		
 	    	/*
 			CM - The magnetizing admittance I/O code that defines the units in which MAG1
@@ -306,7 +306,7 @@ public class PSSEXfrDataRec {
         	if (this.ang1 != 0.0 || this.cod == 3 || this.cod == -3) {
         		// PhaseShifting transformer branch
         	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER);
-        		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.getAdapter(PSXfrAdapter.class);
+        		final PSXfrAdapter psXfr = bra.toPSXfr();
         		psXfr.setFromAngle(Math.toRadians(this.ang1));
         		psXfr.setToAngle(0.0);
         	}

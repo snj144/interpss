@@ -334,7 +334,7 @@ public class Ge2IpssUtilFunc {
 	   	geBra.setStatus(sec.isInSevice());
 	   	if (geBra.getFromAclfBus().getBaseVoltage() == geBra.getToAclfBus().getBaseVoltage()) {
 	   		geBra.setBranchCode(AclfBranchCode.LINE);
-			final LineAdapter line = (LineAdapter)geBra.getAdapter(LineAdapter.class);
+			final LineAdapter line = geBra.toLine();
 		   	line.getAclfBranch().setZ(new Complex(sec.getR(),sec.getX()), msg);
 		   	line.setHShuntY(new Complex(0.0,0.5*sec.getB()), UnitType.PU, 1.0); // Unit is PU, no need to enter baseV
 		   	line.setMvaRating1(sec.getMvaRatingAry().get(0));
@@ -343,7 +343,7 @@ public class Ge2IpssUtilFunc {
 	   	}
 	   	else {
 	    	geBra.setBranchCode(AclfBranchCode.XFORMER);
-			final XfrAdapter xfr = (XfrAdapter)geBra.getAdapter(XfrAdapter.class);
+			final XfrAdapter xfr = geBra.toXfr();
 	    	xfr.getAclfBranch().setZ(new Complex(sec.getR(),sec.getX()), msg);
 	    	xfr.setFromTurnRatio(1.0+sec.getFromTap(), UnitType.PU);
 	    	xfr.setToTurnRatio(1.0+sec.getToTap(), UnitType.PU); 
@@ -385,7 +385,7 @@ public class Ge2IpssUtilFunc {
 		}
 
     	geXfr.setBranchCode(AclfBranchCode.XFORMER);
-		final XfrAdapter xfr = (XfrAdapter)geXfr.getAdapter(XfrAdapter.class);
+		final XfrAdapter xfr = geXfr.toXfr();
     	xfr.getAclfBranch().setZ(new Complex(r, x), msg);
     	xfr.setFromTurnRatio(fromRatio, UnitType.PU);
     	xfr.setToTurnRatio(toRatio, UnitType.PU); 
@@ -396,7 +396,7 @@ public class Ge2IpssUtilFunc {
     		// PhaseShifting transformer branch
     		IpssLogger.getLogger().info("Branch " + geXfr.getId() + " is a PsXfr" );
     	 	geXfr.setBranchCode(AclfBranchCode.PS_XFORMER);
-    		final PSXfrAdapter psXfr = (PSXfrAdapter)geXfr.getAdapter(PSXfrAdapter.class);
+    		final PSXfrAdapter psXfr = geXfr.toPSXfr();
     		psXfr.setFromAngle(Math.toRadians(geXfr.getPhaseAngleDegPrim()));
     		psXfr.setToAngle(Math.toRadians(geXfr.getPhaseAngleDegSecd()));
 		}
