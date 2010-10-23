@@ -34,7 +34,6 @@ import org.junit.Test;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
-import com.interpss.core.aclf.adpter.PSXfrAdapter;
 import com.interpss.core.aclf.adpter.XfrAdapter;
 import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.pssl.simu.IpssAclf;
@@ -65,7 +64,7 @@ public class XfrlTestCases extends BaseTestSetup {
 		PSSEXfrDataRec rec = new PSSEXfrDataRec(l1, l2, l3, l4, l5, VersionNo.PSS_E_30);
 		rec.processXfr(adjNet, msg);
 		
-		final XfrAdapter xfr = (XfrAdapter)adjNet.getBranch("2", "1").getAdapter(XfrAdapter.class);
+		final XfrAdapter xfr = ((AclfBranch)adjNet.getBranch("2", "1")).toXfr();
 		assertTrue(xfr.getAclfBranch().getZ().getImaginary() == 0.16);
 		//System.out.println(adjNet.getBranch("2", "1"));
 	}
@@ -95,7 +94,7 @@ public class XfrlTestCases extends BaseTestSetup {
 		PSSEXfrDataRec rec = new PSSEXfrDataRec(l1, l2, l3, l4, l5, VersionNo.PSS_E_30);
 		rec.processXfr(adjNet, msg);
 		
-		final XfrAdapter xfr = (XfrAdapter)adjNet.getBranch("2", "1").getAdapter(XfrAdapter.class);
+		final XfrAdapter xfr = ((AclfBranch)adjNet.getBranch("2", "1")).toXfr();
 		assertTrue(xfr.getFromTurnRatio() == 1.0);
 		assertTrue(xfr.getToTurnRatio() == 1.02);
 		//System.out.println(adjNet.getBranch("2", "1"));
@@ -126,7 +125,7 @@ public class XfrlTestCases extends BaseTestSetup {
 		PSSEXfrDataRec rec = new PSSEXfrDataRec(l1, l2, l3, l4, l5, VersionNo.PSS_E_30);
 		rec.processXfr(adjNet, msg);
 		
-		final XfrAdapter xfr = (XfrAdapter)adjNet.getBranch("2", "1").getAdapter(XfrAdapter.class);
+		final XfrAdapter xfr = ((AclfBranch)adjNet.getBranch("2", "1")).toXfr();
 		assertTrue(Math.abs(xfr.getFromTurnRatio()-1.026785) < 0.00001);
 		assertTrue(xfr.getToTurnRatio() == 1.02);
 		//System.out.println(adjNet.getBranch("2", "1"));
