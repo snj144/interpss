@@ -33,7 +33,7 @@ public class IEEE14BusCaseTest  extends BaseTestSetup {
   		assertTrue(algo.loadflow());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+  		SwingBusAdapter swing = swingBus.toSwingBus();
 		System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.35978)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.22723)<0.0001);
@@ -51,7 +51,7 @@ public class IEEE14BusCaseTest  extends BaseTestSetup {
 	  	
   		assertTrue(algo.loadflow());
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+		SwingBusAdapter swing = swingBus.toSwingBus();
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32428)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.26235)<0.0001);

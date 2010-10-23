@@ -70,7 +70,7 @@ public class GuideSample_TestCase extends BaseTestSetup {
   		//System.out.println(net.net2String());
 	  	
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus3011");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+		SwingBusAdapter swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		//System.out.println(p.getReal() + ", " + p.getImaginary());
   		assertTrue(Math.abs(p.getReal()-248.189)<0.01);
@@ -100,7 +100,7 @@ public class GuideSample_TestCase extends BaseTestSetup {
   		//System.out.println(net.net2String());
 	  	
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus3011");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+		SwingBusAdapter swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		System.out.println(p.getReal() + ", " + p.getImaginary());
   		assertTrue(Math.abs(p.getReal()-258.657)<0.01);

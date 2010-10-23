@@ -55,7 +55,7 @@ public class IEEEODMTest extends BaseTestSetup {
 	  	
   		assertTrue(net.isLfConverged());		
   		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+		SwingBusAdapter swing = swingBus.toSwingBus();
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32393)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.16549)<0.0001);
 

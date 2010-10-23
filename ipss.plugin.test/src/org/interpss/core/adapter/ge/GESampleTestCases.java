@@ -64,7 +64,7 @@ public class GESampleTestCases extends BaseTestSetup {
 	  	
   		assertTrue(net.isLfConverged());		
   		AclfBus swingBus = (AclfBus)net.getBus("101");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+		SwingBusAdapter swing = swingBus.toSwingBus();
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.234)<0.01);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-1.108)<0.01);
 	}	
@@ -97,7 +97,7 @@ public class GESampleTestCases extends BaseTestSetup {
 	  	
   		assertTrue(net.isLfConverged());		
   		AclfBus swingBus = (AclfBus)net.getBus("Bus101");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+		SwingBusAdapter swing = swingBus.toSwingBus();
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.234)<0.01);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-1.108)<0.01);
 	}	
