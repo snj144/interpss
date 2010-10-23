@@ -3,7 +3,7 @@
       targetNamespace="http://www.ieee.org/odm/Schema/2008" 
       xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-	<include schemaLocation="common/V7StyleRecordType.xsd"></include>
+	<include schemaLocation="deprecated/V7StyleRecordType.xsd"></include>
 	
 	<include schemaLocation="loadflow/LFRecordType.xsd"></include>
 	<include schemaLocation="shortcircuit/SCRecordType.xsd"></include>
