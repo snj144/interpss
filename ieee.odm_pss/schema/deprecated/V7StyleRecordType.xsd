@@ -2,8 +2,8 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" 
     targetNamespace="http://www.ieee.org/odm/Schema/2008" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-    <include schemaLocation="DataType.xsd"></include>
-    <include schemaLocation="RecordType.xsd"></include>
+    <include schemaLocation="../common/DataType.xsd"></include>
+    <include schemaLocation="../common/RecordType.xsd"></include>
     <include schemaLocation="../loadflow/LFRecordType.xsd"></include>
 
 	<include schemaLocation="../dynamic/MachineModel.xsd"></include>
