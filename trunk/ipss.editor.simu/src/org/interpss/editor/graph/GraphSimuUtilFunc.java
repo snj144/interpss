@@ -82,15 +82,13 @@ public class GraphSimuUtilFunc {
 				else if (LABEL_ACT_ACLF.equals(action)) {
 					AclfBus bus = (AclfBus) simuCtx.getAclfNet().getBus(
 							form.getId());
-					GenBusAdapter genBus = (GenBusAdapter) bus
-							.getAdapter(GenBusAdapter.class);
+					GenBusAdapter genBus = bus.toGenBus();
 					Complex busPQ = genBus
 							.getGenResults(UnitType.PU)
 							.subtract(
 									genBus.getLoadResults(UnitType.PU));
 					if (bus.isCapacitor()) {
-						CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
-								.getAdapter(CapacitorBusAdapter.class);
+						CapacitorBusAdapter cap = bus.toCapacitorBus();
 						busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
 								.getVoltageMag(), UnitType.PU)));
 					}
