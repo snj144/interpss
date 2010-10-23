@@ -129,7 +129,7 @@ public class PSATFormat_in {
       		throw new Exception("Swing Bus not found in the network, bus munber: " + busNumber);
       	}
 		bus.setGenCode(AclfGenCode.SWING);
-		SwingBusAdapter gen = (SwingBusAdapter)bus.getAdapter(SwingBusAdapter.class);
+		SwingBusAdapter gen = bus.toSwingBus();
 		gen.setVoltMag(vpu, UnitType.PU);
 		gen.setVoltAng(ang, UnitType.Deg);
     }
@@ -160,7 +160,7 @@ public class PSATFormat_in {
       		throw new Exception("PQ Bus not found in the network, bus munber: " + busNumber);
       	}
 	 	bus.setLoadCode(AclfLoadCode.CONST_P);
-		LoadBusAdapter load = (LoadBusAdapter)bus.getAdapter(LoadBusAdapter.class);
+		LoadBusAdapter load = bus.toLoadBus();
 		load.setLoad(new Complex(pl, ql), UnitType.PU);      	
     }
 

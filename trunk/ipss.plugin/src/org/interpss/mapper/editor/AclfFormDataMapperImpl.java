@@ -248,12 +248,12 @@ public class AclfFormDataMapperImpl {
 		AclfBusData busData = formBus.getAcscBusData();
 		if (busData.getGenCode().equals(AclfBusData.GenCode_PQ)) {
 			bus.setGenCode(AclfGenCode.GEN_PQ);
-			PQBusAdapter pqBus = (PQBusAdapter) bus.getAdapter(PQBusAdapter.class);
+			PQBusAdapter pqBus = bus.toPQBus();
 			pqBus.setGen(new Complex(busData.getGenP(), busData.getGenQ()),
 							UnitType.toUnit(busData.getGenUnit()));
 		} else if (busData.getGenCode().equals(AclfBusData.GenCode_PV)) {
 			bus.setGenCode(AclfGenCode.GEN_PV);
-			PVBusAdapter pvBus = (PVBusAdapter) bus.getAdapter(PVBusAdapter.class);
+			PVBusAdapter pvBus = bus.toPVBus();
 			pvBus.setGenP(busData.getGenP(), UnitType.toUnit(busData.getGenUnit()));
 			// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and
 			// ReQMvarFlow-MvarSpec
@@ -261,8 +261,7 @@ public class AclfFormDataMapperImpl {
 					.getVoltageMagUnit()));
 		} else if (busData.getGenCode().equals(AclfBusData.GenCode_Swing)) {
 			bus.setGenCode(AclfGenCode.SWING);
-			SwingBusAdapter swing = (SwingBusAdapter) bus
-					.getAdapter(SwingBusAdapter.class);
+			SwingBusAdapter swing = bus.toSwingBus();
 			swing.setVoltMag(busData.getVoltageMag(), UnitType.toUnit(busData
 					.getVoltageMagUnit()));
 			swing.setVoltAng(busData.getVoltageAng(), UnitType.toUnit(busData
@@ -270,8 +269,7 @@ public class AclfFormDataMapperImpl {
 		} else if (busData.getGenCode().equals(AclfBusData.GenCode_Capacitor)) { // capacitor
 																					// bus
 			bus.setGenCode(AclfGenCode.CAPACITOR);
-			CapacitorBusAdapter cBus = (CapacitorBusAdapter) bus
-					.getAdapter(CapacitorBusAdapter.class);
+			CapacitorBusAdapter cBus = bus.toCapacitorBus();
 			cBus.setQ(busData.getCapQ(),
 					UnitType.toUnit(busData.getCapQUnit()));
 		} else if (busData.getGenCode()
@@ -286,8 +284,7 @@ public class AclfFormDataMapperImpl {
 		if (busData.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)) {
 			// bus.setScripts(busData.getScripts());
 		} else {
-			LoadBusAdapter loadBus = (LoadBusAdapter) bus
-					.getAdapter(LoadBusAdapter.class);
+			LoadBusAdapter loadBus = bus.toLoadBus();
 			if (!busData.getLoadCode().equals(AclfBusData.LoadCode_NonLoad))
 				loadBus.setLoad(new Complex(busData.getLoadP(), busData
 						.getLoadQ()), UnitType.toUnit(busData.getLoadUnit()));

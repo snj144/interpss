@@ -157,7 +157,7 @@ public class Ge2IpssUtilFunc {
 		
 		if ((cp_p != 0.0 || cp_q != 0.0) && (ci_p==0.0 && ci_q ==0.0 && cz_p==0.0 && cz_q ==0.0) ) {
 			geBus.setLoadCode(AclfLoadCode.CONST_P);
-  			final LoadBusAdapter load = (LoadBusAdapter)geBus.getAdapter(LoadBusAdapter.class);
+  			final LoadBusAdapter load = geBus.toLoadBus();
   			load.setLoad(new Complex(cp_p, cp_q), UnitType.mVA);
   		}
 		else if ((ci_p != 0.0 || ci_q != 0.0) && (cp_p==0.0 && cp_q ==0.0 && cz_p==0.0 && cz_q ==0.0) ) {
@@ -227,7 +227,7 @@ public class Ge2IpssUtilFunc {
 		switch (geBus.getGeBusType()) {
 			case 0 : {
 				geBus.setGenCode(AclfGenCode.SWING);
-	  			final SwingBusAdapter gen = (SwingBusAdapter)geBus.getAdapter(SwingBusAdapter.class);
+	  			final SwingBusAdapter gen = geBus.toSwingBus();
 	  			double mag = geBus.getVSpecPU(), ang = geBus.getVoltageAng(); 
 	  			// setVoltMag() also changes VoltAng, so we need first buffer the values
 	  			gen.setVoltMag(mag, UnitType.PU);
@@ -235,7 +235,7 @@ public class Ge2IpssUtilFunc {
 			} break;
 			case 1 : {
 				geBus.setGenCode(AclfGenCode.GEN_PQ);
-	   			final PQBusAdapter gen = (PQBusAdapter)geBus.getAdapter(PQBusAdapter.class);
+	   			final PQBusAdapter gen = geBus.toPQBus();
 	    		gen.setGen(new Complex(pgen, qgen), UnitType.mVA);
 	    	} break;
 			case 2 : {
@@ -243,7 +243,7 @@ public class Ge2IpssUtilFunc {
 					if (regBusNumber == new Integer(geBus.getId()).intValue()) {
 	  					// PV Bus limit control
 						geBus.setGenCode(AclfGenCode.GEN_PV);
-			  			final PVBusAdapter gen = (PVBusAdapter)geBus.getAdapter(PVBusAdapter.class);
+			  			final PVBusAdapter gen = geBus.toPVBus();
 			  			gen.setGenP(pgen, UnitType.mW);
 			  			gen.setVoltMag(geBus.getVSpecPU(), UnitType.PU);
 
