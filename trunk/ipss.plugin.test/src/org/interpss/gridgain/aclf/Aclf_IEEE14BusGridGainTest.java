@@ -72,7 +72,7 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
 		assert(adjNet.isLfConverged());
     	
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+  		SwingBusAdapter swing = swingBus.toSwingBus();
 		System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.11824)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.37383)<0.0001);
@@ -107,7 +107,7 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
 		assert(adjNet.isLfConverged());
     	
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+  		SwingBusAdapter swing = swingBus.toSwingBus();
 		System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.11824)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.37383)<0.0001);
