@@ -15,15 +15,15 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for FrequencyXmlType complex type.
+ * <p>Java class for NamedZXmlType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="FrequencyXmlType">
+ * &lt;complexType name="NamedZXmlType">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.ieee.org/odm/Schema/2008}BaseDoubleXmlType">
- *       &lt;attribute name="unit" use="required" type="{http://www.ieee.org/odm/Schema/2008}FrequencyUnitType" />
+ *     &lt;extension base="{http://www.ieee.org/odm/Schema/2008}ZXmlType">
+ *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -32,36 +32,36 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "FrequencyXmlType")
-public class FrequencyXmlType
-    extends BaseDoubleXmlType
+@XmlType(name = "NamedZXmlType")
+public class NamedZXmlType
+    extends ZXmlType
 {
 
-    @XmlAttribute(required = true)
-    protected FrequencyUnitType unit;
+    @XmlAttribute
+    protected String name;
 
     /**
-     * Gets the value of the unit property.
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
-     *     {@link FrequencyUnitType }
+     *     {@link String }
      *     
      */
-    public FrequencyUnitType getUnit() {
-        return unit;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Sets the value of the unit property.
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
-     *     {@link FrequencyUnitType }
+     *     {@link String }
      *     
      */
-    public void setUnit(FrequencyUnitType value) {
-        this.unit = value;
+    public void setName(String value) {
+        this.name = value;
     }
 
 }
