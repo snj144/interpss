@@ -9,10 +9,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_pssl.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_ext.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf_2.5.0.v200906151043.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.common_2.5.0.v200906151043.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore_2.5.0.v200906151043.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-logging.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math-2.1.jar" sourcepath="G:/Software/java/commons-math-2.1-src.zip"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/jgraph.jar"/>
@@ -24,5 +20,9 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/custom/custom.plugin.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.vstab"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.opf"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.common.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.xmi.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
