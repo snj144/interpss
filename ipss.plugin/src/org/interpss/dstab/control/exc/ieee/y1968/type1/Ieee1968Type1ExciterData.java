@@ -60,9 +60,11 @@ public class Ieee1968Type1ExciterData extends BaseControllerData {
 		setRangeParameters(controllerParameters);
 	}
 
+	@Override
 	public void setValue(String name, int value) {
 	}
 
+	@Override
 	public void setValue(String name, double value) {
 		if (name.equals("ka"))
 			this.ka = value;

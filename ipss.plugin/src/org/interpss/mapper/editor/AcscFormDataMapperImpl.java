@@ -46,6 +46,7 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.CoreObjectFactory;
@@ -172,7 +173,7 @@ public class AcscFormDataMapperImpl {
 		} else if (busData.getScCode().equals(AcscBusData.ScCode_BusScripting)) {
 			bus.setScCode(BusScCode.SC_BUS_SCRIPTING);
 
-			if (busData.getScriptLanguage() == AclfBusData.ScriptLanguage_Java) {
+			if (busData.getScriptLanguage() == BaseDataBean.ScriptLanguage_Java) {
 				String classname = ScriptJavacUtilFunc
 						.createScriptingClassname(bus.getId());
 				String javacode = CoreScriptUtilFunc.parseAcscJavaCode(busData
@@ -180,7 +181,7 @@ public class AcscFormDataMapperImpl {
 						CoreScriptUtilFunc.Tag_AcscScriptBus_Baseclass,
 						CoreScriptUtilFunc.Tag_AcscScriptBus_Begin);
 				try {
-					bus.setExtensionObject((IAcscBus) MemoryJavaCompiler
+					bus.setExtensionObject(MemoryJavaCompiler
 							.javac(CoreScriptUtilFunc.AcscScriptingPackageName
 									+ "/" + classname, javacode));
 				} catch (Exception e) {
@@ -191,7 +192,7 @@ public class AcscFormDataMapperImpl {
 				Object plugin = UISpringAppContext
 						.getCustomAcscBusScriptPlugin(busData
 								.getScriptPluginName());
-				bus.setExtensionObject((IAcscBus) plugin);
+				bus.setExtensionObject(plugin);
 			}
 		} else {
 			throw new InvalidParameterException(
@@ -266,7 +267,7 @@ public class AcscFormDataMapperImpl {
 			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING);
 			// branch.setScripts(data.getScripts());
 
-			if (braData.getScriptLanguage() == AclfBusData.ScriptLanguage_Java) {
+			if (braData.getScriptLanguage() == BaseDataBean.ScriptLanguage_Java) {
 				// branch.setScripts(data.getScripts());
 				String classname = ScriptJavacUtilFunc
 						.createScriptingClassname(branch.getId());
@@ -276,7 +277,7 @@ public class AcscFormDataMapperImpl {
 						CoreScriptUtilFunc.Tag_AcscScriptBranch_Begin);
 				try {
 					branch
-							.setExtensionObject((IAcscBranch) MemoryJavaCompiler
+							.setExtensionObject(MemoryJavaCompiler
 									.javac(
 											CoreScriptUtilFunc.AcscScriptingPackageName
 													+ "/" + classname, javacode));
@@ -288,7 +289,7 @@ public class AcscFormDataMapperImpl {
 				Object plugin = UISpringAppContext
 						.getCustomAcscBranchScriptPlugin(braData
 								.getScriptPluginName());
-				branch.setExtensionObject((IAcscBranch) plugin);
+				branch.setExtensionObject(plugin);
 			}
 		} else {
 			throw new InvalidParameterException(

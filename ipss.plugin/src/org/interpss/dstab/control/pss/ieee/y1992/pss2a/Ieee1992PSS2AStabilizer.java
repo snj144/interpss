@@ -125,11 +125,14 @@ public class Ieee1992PSS2AStabilizer extends AnnotateStabilizer {
 	            y0="this.output"	)
 	    DelayControlBlock delayBlock;
 	 	
-	    public AnController getAnController() {
-	    	return (AnController)getClass().getAnnotation(AnController.class);  }
-	    public Field getField(String fieldName) throws Exception {
+	    @Override
+		public AnController getAnController() {
+	    	return getClass().getAnnotation(AnController.class);  }
+	    @Override
+		public Field getField(String fieldName) throws Exception {
 	    	return getClass().getField(fieldName);   }
-	    public Object getFieldObject(Field field) throws Exception {
+	    @Override
+		public Object getFieldObject(Field field) throws Exception {
 	    	return field.get(this);    }
 	}
 	
@@ -203,11 +206,14 @@ public class Ieee1992PSS2AStabilizer extends AnnotateStabilizer {
 		return _editPanel;
 	}
 	
-    public AnController getAnController() {
-    	return (AnController)getClass().getAnnotation(AnController.class);  }
-    public Field getField(String fieldName) throws Exception {
+    @Override
+	public AnController getAnController() {
+    	return getClass().getAnnotation(AnController.class);  }
+    @Override
+	public Field getField(String fieldName) throws Exception {
     	return getClass().getField(fieldName);   }
-    public Object getFieldObject(Field field) throws Exception {
+    @Override
+	public Object getFieldObject(Field field) throws Exception {
     	return field.get(this);    }
 
 } // SimpleStabilizer

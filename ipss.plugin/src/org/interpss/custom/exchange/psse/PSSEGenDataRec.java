@@ -170,6 +170,7 @@ public class PSSEGenDataRec {
 //		bus.getRegDeviceList().add(gen);
 	}			
 	
+	@Override
 	public String toString() {
 		String str = "";
 		str += "Bus number, GenId:" + i + ", " + id + "\n";

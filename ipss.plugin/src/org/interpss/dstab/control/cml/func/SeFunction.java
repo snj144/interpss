@@ -67,6 +67,7 @@ public class SeFunction extends FunctionAdapter {
 		return this.a * Math.exp(this.b * efd);
 	}
 
+	@Override
 	public String toString() {
 		String str = "E1, Se(E1), E2, Se(E2): " + e1 + ", " + se_e1 + ", " + e2
 				+ ", " + se_e2;

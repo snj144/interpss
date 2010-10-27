@@ -142,6 +142,7 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 		branch.getBranchSecList().add(braSec);
 	}
 	
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "r, x, b, type: " + st + ", " + r + ", " + x + ", " + b + ", " + type + "\n";

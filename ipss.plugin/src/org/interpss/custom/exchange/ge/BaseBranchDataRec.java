@@ -78,6 +78,7 @@ public class BaseBranchDataRec extends BranchHeaderRec {
 		}		
 	}
 	
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "st, ar, z, nst, ohms: " + st + ar + ", " + z + ", " + nst + ", " + ohms + "\n";

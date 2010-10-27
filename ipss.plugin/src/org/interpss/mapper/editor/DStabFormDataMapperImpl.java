@@ -44,6 +44,7 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.util.CoreUtilFunc;
@@ -61,7 +62,6 @@ import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineType;
 import com.interpss.dstab.mach.RoundRotorMachine;
 import com.interpss.dstab.mach.SalientPoleMachine;
-import com.interpss.dstab.mach.impl.MachineDataImpl;
 import com.interpss.simu.util.SimuSpringAppCtxUtil;
 
 /**
@@ -136,9 +136,9 @@ public class DStabFormDataMapperImpl {
 		busDevice.setId(Constants.Token_DBusDeviceId + busId);
 		busDevice.setName(Constants.Token_DBusDeviceId + busId);
 		busDevice
-				.setScriptLang(busData.getScriptLanguage() == DStabBusData.ScriptLanguage_Java ? ScriptLangType.JAVA
+				.setScriptLang(busData.getScriptLanguage() == BaseDataBean.ScriptLanguage_Java ? ScriptLangType.JAVA
 						: ScriptLangType.PLUGIN);
-		if (busData.getScriptLanguage() == DStabBusData.ScriptLanguage_Java)
+		if (busData.getScriptLanguage() == BaseDataBean.ScriptLanguage_Java)
 			busDevice.setScripts(busData.getScripts());
 		else {
 			busDevice.setPluginName(busData.getScriptPluginName());
@@ -257,7 +257,7 @@ public class DStabFormDataMapperImpl {
 		IpssLogger.getLogger()
 				.info("Set Exciter info, machid: " + mach.getId());
 		DStabExcData excData = machData.getExcData();
-		Controller controller = (Controller) SimuSpringAppCtxUtil
+		Controller controller = SimuSpringAppCtxUtil
 				.getExciter(excData.getTypeName());
 		if (controller != null) {
 			controller.setData(excData.getDataXmlStr(), controller
@@ -280,7 +280,7 @@ public class DStabFormDataMapperImpl {
 			IPSSMsgHub msg) {
 		IpssLogger.getLogger().info(
 				"Set Governor info, machid: " + mach.getId());
-		Controller controller = (Controller) SimuSpringAppCtxUtil
+		Controller controller = SimuSpringAppCtxUtil
 				.getGovernor(govData.getTypeName());
 		if (controller != null) {
 			controller.setData(govData.getDataXmlStr(), controller
@@ -300,7 +300,7 @@ public class DStabFormDataMapperImpl {
 			IPSSMsgHub msg) {
 		IpssLogger.getLogger().info(
 				"Set Stabilizer info, machid: " + mach.getId());
-		Controller controller = (Controller) SimuSpringAppCtxUtil
+		Controller controller = SimuSpringAppCtxUtil
 				.getStabilizer(pssData.getTypeName());
 		if (controller != null) {
 			controller.setData(pssData.getDataXmlStr(), controller

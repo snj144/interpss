@@ -47,6 +47,7 @@ public class GEDataRec {
 			title += lineStr + "\n";
 		}
 
+		@Override
 		public String toString() {
 			return "Title: " + title;
 		}
@@ -60,6 +61,7 @@ public class GEDataRec {
 			comments += lineStr + "\n";
 		}
 
+		@Override
 		public String toString() {
 			return "Comments: " + comments;
 		}
@@ -128,6 +130,7 @@ public class GEDataRec {
 	  		net.setTolerance(toler);
 		}
 		
+		@Override
 		public String toString() {
 			String str = "Solution Paramters: \n";
 			str += "tap, phas, area, svd, dctap, gcd: " + tap + ", " + phas + ", " + area + ", " + svd + ", " + dctap + ", " + gcd + "\n";
@@ -179,6 +182,7 @@ public class GEDataRec {
 			net.getGeAreaList().add(area);
 		}
 		
+		@Override
 		public String toString() {
 			String str = "";
 			str += "arnum, swing, arnam: " + arnum + ", " + swing + ", " + arnam + "\n";
@@ -220,6 +224,7 @@ public class GEDataRec {
 			net.getGeZoneList().add(zone);
 		}
 
+		@Override
 		public String toString() {
 			String str = "zonum, zonam, pznet, qznet: " + zonum + ", " + zonam + ", " + pznet + ", " + qznet + "\n";
 			return str;
@@ -273,6 +278,7 @@ public class GEDataRec {
 			net.getGeOwnerList().add(o);
 		}		
 	
+		@Override
 		public String toString() {
 			String str = "ownerNo, ar, oname, sname: " + ownerNo + ", " + ar + ", " + oname + ", " + sname + "\n";
 			str += "net_mw, net_mvar, sch_mw, sch_mvar: " + net_mw + ", " + net_mvar + ", " + sch_mw + ", " + sch_mvar + "\n";
@@ -341,6 +347,7 @@ public class GEDataRec {
 			net.getInterfaces().add(inf);
 		}
 
+		@Override
 		public String toString() {
 			String str = "ifno, name, pnet, qnet: " + ifno + ", " + name + ", " + pnet + ", " + qnet + "\n";
 			return str;
@@ -388,6 +395,7 @@ public class GEDataRec {
 			inf.getInterfaceBranches().add(infBra);
 		}
 
+		@Override
 		public String toString() {
 			String str = "";
 			return str;

@@ -220,6 +220,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		gen.setXCharactPU(this.zgenx);
 	}	
 
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "st, igregBus, nst, igregName, hName, tName: " + st + ", " + igregBus + ", " + nst + ", " + igregName + ", " + hName + ", " + tName + "\n" ;

@@ -75,6 +75,7 @@ public class Ieee1992PSS2AStabilizerData extends BaseControllerData {
 		setRangeParameters(controllerParameters);
 	}
 
+	@Override
 	public void setValue(String name, int value) {
 		if (name.equals("n"))
 			this.n = value;
@@ -82,6 +83,7 @@ public class Ieee1992PSS2AStabilizerData extends BaseControllerData {
 			this.m = value;
 	}
 	
+	@Override
 	public void setValue(String name, double value) {
 		if (name.equals("ks1"))
 			this.ks1 = value;

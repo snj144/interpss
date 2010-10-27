@@ -88,7 +88,7 @@ public class AcscResultMapperImpl {
 		List<RptAcscVoltAmpsBean> list = new ArrayList<RptAcscVoltAmpsBean>();
 		try {
 			double baseKva = faultNet.getBaseKva();
-			AcscBusFault fault = (AcscBusFault) faultNet.getFaultList().get(0);
+			AcscBusFault fault = faultNet.getFaultList().get(0);
 			if (fault != null) {
 				fault.getFaultResult().calContributingCurrent(faultNet);
 				if (fault.getFaultCode() == SimpleFaultCode.GROUND_3P) {

@@ -188,6 +188,7 @@ public class IeeeST2Governor extends AbstractGovernor {
 		return _editPanel;
 	}
 	
+	@Override
 	public void setRefPoint(double x) {
 		statePref = x;
 	}	

@@ -25,6 +25,7 @@ public abstract class AbstractCostFunc {
 		this.minIhr = min;
 	}
 	
+	@Override
 	public String toString() {
 		String str = "";
 		str += "curveOrder, fuelCost, maxIhr, minIhr: " + 

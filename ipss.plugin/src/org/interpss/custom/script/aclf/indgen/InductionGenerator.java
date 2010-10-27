@@ -51,7 +51,8 @@ public class InductionGenerator extends AbstractAclfBusScriptEditing {
      *
      * @return the data object
      */
-    public InductionGeneratorData getData() {
+    @Override
+	public InductionGeneratorData getData() {
         return (InductionGeneratorData)super.getData();
     }
     
@@ -59,15 +60,18 @@ public class InductionGenerator extends AbstractAclfBusScriptEditing {
      *  BaseAclfBus interface implementation
      */
     
-    public boolean isGenPQ() { 
+    @Override
+	public boolean isGenPQ() { 
     	return true; 
     }
     
-    public double getGenP() { 
+    @Override
+	public double getGenP() { 
     	return getData().getPe(); 
     }
     
-    public double getGenQ() {
+    @Override
+	public double getGenQ() {
          double v = getParentAclfBus().getVoltageMag();
          double v2 = v * v;
          double xs = getData().getXs();

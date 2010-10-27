@@ -123,6 +123,7 @@ public class PSSEDataRec {
 			}
 		}
 		
+		@Override
 		public String toString() {
 			String str = "";
 			str += "Area number, Swing Bus Number:" + i + ", " + isw + "\n";
@@ -154,6 +155,7 @@ public class PSSEDataRec {
 			zone.setName(name);
 		}		
 
+		@Override
 		public String toString() {
 			String str = "";
 			str += "Zone number, name:" + i + ", " + name;
@@ -199,6 +201,7 @@ public class PSSEDataRec {
 			tr.setTransferMW(this.ptran);
 		}		
 
+		@Override
 		public String toString() {
 			String str = "";
 			str += "From area number, From area number, id, value:" + arfrom + ", " + arto  + ", " + trid  + ", " + ptran;
@@ -229,6 +232,7 @@ public class PSSEDataRec {
 			owner.setName(name);
 		}
 
+		@Override
 		public String toString() {
 			String str = "";
 			str += "Zone number, name:" + i + ", " + name;

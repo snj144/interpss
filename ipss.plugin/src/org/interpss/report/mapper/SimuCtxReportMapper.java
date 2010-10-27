@@ -72,6 +72,7 @@ public class SimuCtxReportMapper extends AbstractMapper {
 	 * @param kclass
 	 *            class type of the toObj
 	 */
+	@Override
 	public boolean mapping(Object fromObj, Object toObj, Class<?> klass) {
 		IAppSimuContext appSimuCtx = null;
 		SimuContext simuCtx = null;
@@ -110,6 +111,7 @@ public class SimuCtxReportMapper extends AbstractMapper {
 	 * @param a
 	 *            set of attributes
 	 */
+	@Override
 	public Object[] mappingMultiObject(Object fromObj, Class<?> klass,
 			Map<String, Object> parameters) {
 		SimuContext simuCtx = null;

@@ -40,12 +40,14 @@ public class WashoutControlBlock extends ControlBlock1stOrderAdapter {
 		this.t = t;
 	}
 
+	@Override
 	public boolean initStateU0(double u0) {
 		setU(u0);
 		setStateX(getK() * u0);
 		return true;
 	}
 
+	@Override
 	public boolean initStateY0(double y0) {
 		if (y0 != 0.0) {
 			throw new InterpssRuntimeException(
@@ -56,16 +58,19 @@ public class WashoutControlBlock extends ControlBlock1stOrderAdapter {
 		return true;
 	}
 
+	@Override
 	public double getU0() {
 		return getU();
 	}
 
+	@Override
 	public double getY() {
 		double u = getU();
 		double y = getK() * u - getStateX();
 		return y;
 	}
 
+	@Override
 	protected double dX_dt(double u) {
 		return (getK() * u - getStateX()) / getT();
 	}

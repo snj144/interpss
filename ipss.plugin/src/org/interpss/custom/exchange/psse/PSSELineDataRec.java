@@ -7,7 +7,6 @@ import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.adpter.LineAdapter;
 import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
@@ -125,6 +124,7 @@ public class PSSELineDataRec {
       	}
 	}		
 	
+	@Override
 	public String toString() {
 		String str = "";
 		str += "From Bus number, To Bus Number, Circuit id:" + i + ", " + j + ", " + ckt + "\n";

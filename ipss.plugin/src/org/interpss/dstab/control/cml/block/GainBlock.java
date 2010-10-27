@@ -43,6 +43,7 @@ public class GainBlock extends StaticBlockAdapter {
 		limit = new LimitType(max, min);
 	}
 
+	@Override
 	public boolean initStateY0(double y0) {
 		u = y0 / getK();
 		if (getType() == IStaticBlock.Type.Limit)
@@ -52,27 +53,33 @@ public class GainBlock extends StaticBlockAdapter {
 		}
 	}
 
+	@Override
 	public boolean initStateU0(double u0) {
 		double y0 = u0 * getK();
 		return initStateY0(y0);
 	}
 
+	@Override
 	public double getU0(double y0) {
 		return y0 / getK();
 	}
 
+	@Override
 	public double getU0() {
 		return u;
 	}
 
+	@Override
 	public void eulerStep1(double u, double dt) {
 		this.u = u;
 	}
 
+	@Override
 	public void eulerStep2(double u, double dt) {
 		this.u = u;
 	}
 
+	@Override
 	public double getY() {
 		double u = getU();
 		if (getType() == IStaticBlock.Type.Limit)
@@ -95,6 +102,7 @@ public class GainBlock extends StaticBlockAdapter {
 		return limit;
 	}
 
+	@Override
 	public String toString() {
 		String str = "type, k, limit: " + getType() + ", " + k + ", " + limit;
 		return str;

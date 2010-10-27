@@ -54,9 +54,11 @@ public class IeeeSteamNRGovernorData extends BaseControllerData {
 		setRangeParameters(controllerParameters);
 	}
 
+	@Override
 	public void setValue(String name, int value) {
 	}
 
+	@Override
 	public void setValue(String name, double value) {
 		if (name.equals("k"))
 			this.k = value;

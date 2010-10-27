@@ -162,6 +162,7 @@ public class ShuntDataRec extends BusHeaderRec {
 		shunt.setB(this.b);
 	}
 	
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "fbus, tbus, sec, st, nst, regBus:" + fbus + ", " + tbus + ", " + sec + ", " + st + ", " + nst + ", " + regBus + "\n"; 

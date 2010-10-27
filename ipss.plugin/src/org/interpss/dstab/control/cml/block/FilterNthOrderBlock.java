@@ -69,6 +69,7 @@ public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 		}
 	}
 
+	@Override
 	public boolean initStateY0(double y0) {
 		if (getN() < 0 || getM() <= 0) {
 			IpssLogger.getLogger().severe(
@@ -90,16 +91,19 @@ public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 		return true;
 	}
 
+	@Override
 	public boolean initStateU0(double u0) {
 		setU(u0);
 		double y0 = u0;
 		return initStateY0(y0);
 	}
 
+	@Override
 	public double getU0() {
 		return getU();
 	}
 
+	@Override
 	public void eulerStep1(double u, double dt) {
 		setU(u);
 		if (delayBlockList != null) {
@@ -125,6 +129,7 @@ public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 		}
 	}
 
+	@Override
 	public void eulerStep2(double u, double dt) {
 		setU(u);
 		if (delayBlockList != null) {
@@ -150,6 +155,7 @@ public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 		}
 	}
 
+	@Override
 	public double getY() {
 		// return y of the last block
 		if (delayBlockList != null)
@@ -188,6 +194,7 @@ public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 		return this.n;
 	}
 
+	@Override
 	public String toString() {
 		String str = "t1, t2, n, m: " + t1 + ", " + t2 + ", " + n + ", " + m;
 		return str;

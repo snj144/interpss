@@ -138,6 +138,7 @@ public abstract class BaseCMLScriptingController extends ControllerImpl implemen
 	 * 
 	 * @param x the set point value
 	 */
+	@Override
 	public void setRefPoint(double x) {
 		anController.setRefPoint(x);
 	}

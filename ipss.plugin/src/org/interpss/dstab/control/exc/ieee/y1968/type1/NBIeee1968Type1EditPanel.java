@@ -355,7 +355,8 @@ public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements ICus
 
     // define data validation rules
 	class DataVerifier extends javax.swing.InputVerifier {
-    	public boolean verify(javax.swing.JComponent input) {
+    	@Override
+		public boolean verify(javax.swing.JComponent input) {
 			if (input == null)
 				return false;
        		try {

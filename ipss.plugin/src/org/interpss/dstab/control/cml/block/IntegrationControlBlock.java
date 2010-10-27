@@ -43,6 +43,7 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 		limit = new LimitType(max, min);
 	}
 
+	@Override
 	public boolean initStateY0(double y0) {
 		setStateX(y0);
 		if (getType() == IStaticBlock.Type.Limit
@@ -52,10 +53,12 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 			return true;
 	}
 
+	@Override
 	public double getU0() {
 		return 0.0;
 	}
 
+	@Override
 	public void eulerStep1(double u, double dt) {
 		super.eulerStep1(u, dt);
 		if (getType() == IStaticBlock.Type.NonWindup) {
@@ -66,12 +69,14 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 		}
 	}
 
+	@Override
 	public void eulerStep2(double u, double dt) {
 		super.eulerStep2(u, dt);
 		if (getType() == IStaticBlock.Type.NonWindup)
 			setStateX(limit.limit(getStateX()));
 	}
 
+	@Override
 	public double getY() {
 		if (getType() == IStaticBlock.Type.Limit)
 			return limit.limit(getStateX());
@@ -79,6 +84,7 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 			return getStateX();
 	}
 
+	@Override
 	protected double dX_dt(double u) {
 		return getK() * u;
 	}
