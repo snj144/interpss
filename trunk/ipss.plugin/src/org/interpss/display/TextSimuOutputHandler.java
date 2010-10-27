@@ -34,6 +34,7 @@ public class TextSimuOutputHandler extends AbstractSimuOutputHandler {
 	public TextSimuOutputHandler() {
 	}
 
+	@Override
 	public void onMsgEvent(IpssMessage event) {
 		// Plot step outout message processing
 		DStabSimuAction e = (DStabSimuAction) event;

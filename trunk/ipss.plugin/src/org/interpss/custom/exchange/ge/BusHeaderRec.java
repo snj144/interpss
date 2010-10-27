@@ -46,6 +46,7 @@ public class BusHeaderRec {
 			this.longId = st.nextToken();
 	}
 	
+	@Override
 	public String toString() {
 		String str = "";
 		str += "number, name, ar, z, id, longId,  bkv: " + number + ", " + name + ", " 

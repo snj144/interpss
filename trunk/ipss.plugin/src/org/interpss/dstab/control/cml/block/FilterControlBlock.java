@@ -49,6 +49,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 		limit = new LimitType(max, min);
 	}
 
+	@Override
 	public boolean initStateY0(double y0) {
 		if (getK() <= 0.0) {
 			IpssLogger.getLogger().severe(
@@ -64,16 +65,19 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 			return true;
 	}
 
+	@Override
 	public boolean initStateU0(double u0) {
 		setU(u0);
 		double y0 = u0 * getK();
 		return initStateY0(y0);
 	}
 
+	@Override
 	public double getU0() {
 		return getU();
 	}
 
+	@Override
 	public void eulerStep1(double u, double dt) {
 		super.eulerStep1(u, dt);
 		if (getType() == IStaticBlock.Type.NonWindup) {
@@ -85,6 +89,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 		}
 	}
 
+	@Override
 	public void eulerStep2(double u, double dt) {
 		super.eulerStep2(u, dt);
 		if (getType() == IStaticBlock.Type.NonWindup) {
@@ -95,6 +100,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 		}
 	}
 
+	@Override
 	public double getY() {
 		double u = getU();
 		double y = 0.0;
@@ -110,6 +116,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 			return y;
 	}
 
+	@Override
 	protected double dX_dt(double u) {
 		if (getT2() > 0.0)
 			return (getK() * (1.0 - getT1() / getT2()) * u - getStateX())
@@ -158,6 +165,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 		return t2;
 	}
 
+	@Override
 	public String toString() {
 		String str = "type, k, t1, t2, limit: " + getType() + ", " + k + ", "
 				+ t1 + ", " + t2 + ", " + limit;

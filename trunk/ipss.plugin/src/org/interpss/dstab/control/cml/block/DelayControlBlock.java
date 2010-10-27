@@ -87,6 +87,7 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 			return true;
 	}
 
+	@Override
 	public boolean initStateY0(double y0) {
 		if (getK() <= 0.0) {
 			IpssLogger.getLogger().severe(
@@ -108,20 +109,24 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 		return initStateY0(y0, maxDAry, minDAry);
 	}
 
+	@Override
 	public boolean initStateU0(double u0) {
 		setU(u0);
 		double y0 = u0 * getK();
 		return initStateY0(y0);
 	}
 
+	@Override
 	public double getU0() {
 		return getU();
 	}
 
+	@Override
 	public void eulerStep1(double u, double dt) {
 		eulerStep1(u, dt, null, null);
 	}
 
+	@Override
 	public void eulerStep2(double u, double dt) {
 		eulerStep2(u, dt, null, null);
 	}
@@ -144,6 +149,7 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 			setStateX(limit.limit(getStateX(), maxDAry, minDAry));
 	}
 
+	@Override
 	public double getY() {
 		//System.out.println("state " + getStateX());
 		double y = getStateX();
@@ -155,6 +161,7 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 			return y;
 	}
 
+	@Override
 	protected double dX_dt(double u) {
 		if (getT() > 0.0)
 			return (getK() * u - getStateX()) / getT();
@@ -183,6 +190,7 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 		return t;
 	}
 
+	@Override
 	public String toString() {
 		String str = "type, k, t, limit: " + getType() + ", " + k + ", " + t
 				+ ", " + limit;

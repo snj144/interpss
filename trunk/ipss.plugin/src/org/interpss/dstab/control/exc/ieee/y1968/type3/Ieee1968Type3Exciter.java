@@ -65,7 +65,8 @@ public class Ieee1968Type3Exciter extends AnnotateExciter {
 	      private boolean A_gt_1 = false;
 	      private double u = 0.0;
 	                  
-	      public boolean initStateY0(double y0) {
+	      @Override
+		public boolean initStateY0(double y0) {
 	         if ( y0 > vbmax || y0 < 0.0) {
 	            getMsgHub().sendWarnMsg("CustomBlock init problem: y0 > vbmax or y0 < 0.0");
 	            return false;
@@ -79,19 +80,23 @@ public class Ieee1968Type3Exciter extends AnnotateExciter {
 	         return true;
 	      }
 
-	      public double getU0() {
+	      @Override
+		public double getU0() {
 	         return this.u;
 	      }
 
-	      public void eulerStep1(double u, double dt) {
+	      @Override
+		public void eulerStep1(double u, double dt) {
 	         this.u = u;
 	      }
 
-	      public void eulerStep2(double u, double dt) {
+	      @Override
+		public void eulerStep2(double u, double dt) {
 	         this.u = u;
 	      }
 	 
-	      public double getY() {
+	      @Override
+		public double getY() {
 	         double x = calFunc();
 	         if ( this.A_gt_1 )
 	           return 0.0;
@@ -180,7 +185,8 @@ public class Ieee1968Type3Exciter extends AnnotateExciter {
      *
      *  @param msg the SessionMsg object
      */
-    public boolean initStates(DStabBus bus, Machine mach, IPSSMsgHub msg) {
+    @Override
+	public boolean initStates(DStabBus bus, Machine mach, IPSSMsgHub msg) {
         this.ka = getData().getKa();
         this.ta = getData().getTa();
         this.vrmax = getData().getVrmax();
@@ -200,16 +206,20 @@ public class Ieee1968Type3Exciter extends AnnotateExciter {
      *
      * @return the editor panel object
      */
-    public Object getEditPanel() {
+    @Override
+	public Object getEditPanel() {
         _editPanel.init(this);
         return _editPanel;
     }
  
-    public AnController getAnController() {
-    	return (AnController)getClass().getAnnotation(AnController.class);  }
-    public Field getField(String fieldName) throws Exception {
+    @Override
+	public AnController getAnController() {
+    	return getClass().getAnnotation(AnController.class);  }
+    @Override
+	public Field getField(String fieldName) throws Exception {
     	return getClass().getField(fieldName);   }
-    public Object getFieldObject(Field field) throws Exception {
+    @Override
+	public Object getFieldObject(Field field) throws Exception {
     	return field.get(this);    }
 } // SimpleExciter
 

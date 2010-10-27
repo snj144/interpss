@@ -360,7 +360,8 @@ public class NBIeeeST1GovernorEditPanel extends javax.swing.JPanel implements IC
     // End of variables declaration//GEN-END:variables
 
 	class DataVerifier extends javax.swing.InputVerifier {
-    	public boolean verify(javax.swing.JComponent input) {
+    	@Override
+		public boolean verify(javax.swing.JComponent input) {
 			if (input == null)
 				return false;
        		try {

@@ -237,7 +237,8 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 
         setTitle("");
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
+            @Override
+			public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeDialog(evt);
             }
         });

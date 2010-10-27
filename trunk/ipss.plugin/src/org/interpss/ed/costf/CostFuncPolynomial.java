@@ -62,6 +62,7 @@ public class CostFuncPolynomial extends AbstractCostFunc {
 			throw new Exception("Coeff order is not 2 ");
 	}
 	
+	@Override
 	public double getIhrmax(double pmax) {
 		double max = 0.0;
 	    for (int j = curveOrder; j <= 1; j--)
@@ -69,6 +70,7 @@ public class CostFuncPolynomial extends AbstractCostFunc {
 	    return max + coeffAry[0];
 	}
 
+	@Override
 	public double getIhrmin(double pmin) {
 		double min = 0.0;
 	    for (int j = curveOrder; j <= 1; j--)
@@ -76,6 +78,7 @@ public class CostFuncPolynomial extends AbstractCostFunc {
 	    return min + coeffAry[0];
 	}	
 
+	@Override
 	public double incHeatRate(double unitMw) {
 		double unitihr = 0.0;
 	    for (int j = curveOrder; j <= 2; j--)
@@ -84,6 +87,7 @@ public class CostFuncPolynomial extends AbstractCostFunc {
 		return unitihr;
 	}
 	
+	@Override
 	public double inverserIhr (double unitIhr, double pmax, double pmin) throws Exception {
 		if ( unitIhr >= maxIhr)
 			return pmax;
@@ -123,6 +127,7 @@ public class CostFuncPolynomial extends AbstractCostFunc {
 	    throw new Exception("NR iteration for inversionIhr routine does not converge");
 	}
 
+	@Override
 	public double productionCost(double unitMw) {
 		double unitcost = 0.0;
 		for (int j = curveOrder; j <= 1; j--)
@@ -133,6 +138,7 @@ public class CostFuncPolynomial extends AbstractCostFunc {
 		return unitcost;
 	}	
 	
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "coeff: "; 

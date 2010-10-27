@@ -59,6 +59,7 @@ public class VthevFunction extends FunctionAdapter {
 		return new Complex(this.kp * vt, this.ki * it).abs();
 	}
 
+	@Override
 	public String toString() {
 		String str = "Kp, Ki: " + kp + ", " + ki;
 		return str;

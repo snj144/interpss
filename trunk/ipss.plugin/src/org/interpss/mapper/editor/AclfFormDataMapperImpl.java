@@ -43,6 +43,7 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.common.util.NetUtilFunc;
@@ -299,7 +300,7 @@ public class AclfFormDataMapperImpl {
 		if (busData.getGenCode().equals(AclfBusData.GenCode_GenScripting)
 				|| busData.getLoadCode().equals(
 						AclfBusData.LoadCode_LoadScripting)) {
-			if (busData.getScriptLanguage() == AclfBusData.ScriptLanguage_Java) {
+			if (busData.getScriptLanguage() == BaseDataBean.ScriptLanguage_Java) {
 				// compile the source code
 				String classname = "";
 				String javacode = busData.getScripts();
@@ -316,7 +317,7 @@ public class AclfFormDataMapperImpl {
 							CoreScriptUtilFunc.Tag_AclfScriptBus_Begin);
 				}
 				try {
-					bus.setExtensionObject((IAclfBus) MemoryJavaCompiler
+					bus.setExtensionObject(MemoryJavaCompiler
 							.javac(CoreScriptUtilFunc.AclfScriptingPackageName
 									+ "/" + classname, javacode));
 				} catch (Exception e) {
@@ -327,7 +328,7 @@ public class AclfFormDataMapperImpl {
 				Object plugin = UISpringAppContext
 						.getCustomAclfBusScriptPlugin(busData
 								.getScriptPluginName());
-				bus.setExtensionObject((IAclfBus) plugin);
+				bus.setExtensionObject(plugin);
 			}
 		}
 		return true;
@@ -439,7 +440,7 @@ public class AclfFormDataMapperImpl {
 				IGBranchForm.TransBranchCode_Scripting)
 				&& aclf) {
 			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING);
-			if (braData.getScriptLanguage() == AclfBusData.ScriptLanguage_Java) {
+			if (braData.getScriptLanguage() == BaseDataBean.ScriptLanguage_Java) {
 				// branch.setScripts(data.getScripts());
 				String classname = ScriptJavacUtilFunc
 						.createScriptingClassname(branch.getId());
@@ -449,7 +450,7 @@ public class AclfFormDataMapperImpl {
 						CoreScriptUtilFunc.Tag_AclfScriptBranch_Begin);
 				try {
 					branch
-							.setExtensionObject((IAclfBranch) MemoryJavaCompiler
+							.setExtensionObject(MemoryJavaCompiler
 									.javac(
 											CoreScriptUtilFunc.AclfScriptingPackageName
 													+ "/" + classname, javacode));
@@ -461,7 +462,7 @@ public class AclfFormDataMapperImpl {
 				Object plugin = UISpringAppContext
 						.getCustomAclfBranchScriptPlugin(braData
 								.getScriptPluginName());
-				branch.setExtensionObject((IAclfBranch) plugin);
+				branch.setExtensionObject(plugin);
 			}
 		}
 		return true;

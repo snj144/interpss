@@ -112,6 +112,7 @@ public class PSSESwitchedShuntDataRec {
 		//bus.getRegDeviceList().add(shunt);
 	}	
 	
+	@Override
 	public String toString() {
 		String str = "";
 		str += "i, modsw, swrem, vswhi, vswlo, rmpct, binit :" + 

@@ -220,7 +220,8 @@ public class NBInductionGenEditPanel extends javax.swing.JPanel implements ICust
 
     // define data validation rules
 	class DataVerifier extends javax.swing.InputVerifier {
-    	public boolean verify(javax.swing.JComponent input) {
+    	@Override
+		public boolean verify(javax.swing.JComponent input) {
 			if (input == null)
 				return false;
        		try {

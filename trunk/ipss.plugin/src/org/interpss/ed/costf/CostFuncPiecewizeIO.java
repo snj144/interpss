@@ -58,11 +58,13 @@ public class CostFuncPiecewizeIO  extends AbstractCostFunc {
 		this.ioCostAry = new double[order+1];
 	}
 	
+	@Override
 	public double getIhrmax(double pmax) {
 		double max = 0.0;
 	    return max;
 	}
 
+	@Override
 	public double getIhrmin(double pmin) {
 		double min = 0.0;
 	    return min;
@@ -82,6 +84,7 @@ public class CostFuncPiecewizeIO  extends AbstractCostFunc {
 			throw new Exception("IoCost order out of range, order: " + order);
 	}
 	
+	@Override
 	public double incHeatRate(double unitMw) {
 		double unitihr = 0.0;
 	    int j = 0;
@@ -94,6 +97,7 @@ public class CostFuncPiecewizeIO  extends AbstractCostFunc {
 	    return unitihr;
 	}
 	
+	@Override
 	public double inverserIhr(double unitIhr, double pmax, double pmin) throws Exception {
 		if ( unitIhr >= maxIhr)
 			return pmax;
@@ -118,6 +122,7 @@ public class CostFuncPiecewizeIO  extends AbstractCostFunc {
 	    return ioMwPointAry[j-1];
 	}
 
+	@Override
 	public double productionCost(double unitMw) {
 		double unitcost = 0.0;
 		for ( int j = 1; j <= curveOrder; j++) {
@@ -135,6 +140,7 @@ public class CostFuncPiecewizeIO  extends AbstractCostFunc {
 		return unitcost;
 	}
 	
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "ioMwPointAry, ioCostAry : "; 

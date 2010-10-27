@@ -81,7 +81,7 @@ public class PluginSpringAppContext extends SpringAppContext {
 	public static IpssFileAdapter getCustomFileAdapter(String ext) {
 		List<IpssFileAdapter> adapterList = getCustomFileAdapterList();
 		for (int i = 0; i < adapterList.size(); i++) {
-			IpssFileAdapter adapter = (IpssFileAdapter) adapterList.get(i);
+			IpssFileAdapter adapter = adapterList.get(i);
 			if (ext.equals(adapter.getExtension()))
 				return adapter;
 		}
@@ -97,7 +97,7 @@ public class PluginSpringAppContext extends SpringAppContext {
 		List<String> nameList = new ArrayList<String>();
 		List<IpssFileAdapter> adapterList = getCustomFileAdapterList();
 		for (int i = 0; i < adapterList.size(); i++) {
-			IpssFileAdapter adapter = (IpssFileAdapter) adapterList.get(i);
+			IpssFileAdapter adapter = adapterList.get(i);
 			nameList.add(adapter.getName());
 		}
 		return nameList.toArray();
@@ -111,7 +111,7 @@ public class PluginSpringAppContext extends SpringAppContext {
 	public static IpssFileAdapter getCustomFileAdapterByName(String name) {
 		List<IpssFileAdapter> adapterList = getCustomFileAdapterList();
 		for (int i = 0; i < adapterList.size(); i++) {
-			IpssFileAdapter adapter = (IpssFileAdapter) adapterList.get(i);
+			IpssFileAdapter adapter = adapterList.get(i);
 			if (name.equals(adapter.getName()))
 				return adapter;
 		}
@@ -137,7 +137,7 @@ public class PluginSpringAppContext extends SpringAppContext {
 		List<String> nameList = new ArrayList<String>();
 		List<ICustomRunScriptPlugin> adapterList = getCustomScriptRunPluginList();
 		for (int i = 0; i < adapterList.size(); i++) {
-			ICustomRunScriptPlugin adapter = (ICustomRunScriptPlugin) adapterList.get(i);
+			ICustomRunScriptPlugin adapter = adapterList.get(i);
 			nameList.add(adapter.getName());
 		}
 		return nameList.toArray();
@@ -151,7 +151,7 @@ public class PluginSpringAppContext extends SpringAppContext {
 	public static ICustomRunScriptPlugin getCustomScriptRunPlugin(String name) {
 		List<ICustomRunScriptPlugin> adapterList = getCustomScriptRunPluginList();
 		for (int i = 0; i < adapterList.size(); i++) {
-			ICustomRunScriptPlugin adapter = (ICustomRunScriptPlugin) adapterList.get(i);
+			ICustomRunScriptPlugin adapter = adapterList.get(i);
 			if (name.equals(adapter.getName()))
 				return adapter;
 		}

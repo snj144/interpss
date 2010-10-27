@@ -190,6 +190,7 @@ public class ControlledShuntDataRec extends BusHeaderRec {
 		}
 	}
 	
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "st, ty, kregBus, nst, kregName: " + st + ", " + ty + ", " + kregBus + ", " + nst + ", " + kregName + "\n"; 

@@ -92,6 +92,7 @@ public class SampleGenUnitImpl implements IEDGenUnit {
 		this.penFactor = p;
 	}
 
+	@Override
 	public String toString() {
 		String str = "";
 		str += "costFuncType: " + costFuncType + "\n";

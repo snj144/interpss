@@ -58,6 +58,7 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 	 * 
 	 * @param u0 bus angle at time = 0.0, in Rad
 	 */
+	@Override
 	public boolean initStateU0(double u0) {
 		// this.baseFreq has to be set by calling the setParameter method
 		double kWashout = 1.0 / (2.0 * Math.PI * this.baseFreq * tf); // 1.0 / 2*Pai*f0 / Tf
@@ -71,6 +72,7 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 		return true;
 	}
 
+	@Override
 	public void eulerStep1(double u, double dt) {
 		double u2 = 1.0 + this.washoutBlock.getY();
 		this.delayBlock.eulerStep1(u2, dt);
@@ -79,6 +81,7 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 		this.washoutBlock.eulerStep1(u1, dt);
 	}
 
+	@Override
 	public void eulerStep2(double u, double dt) {
 		double u2 = 1.0 + this.washoutBlock.getY();
 		this.delayBlock.eulerStep2(u2, dt);
@@ -87,6 +90,7 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 		this.washoutBlock.eulerStep2(u1, dt);
 	}
 
+	@Override
 	public double getY() {
 		return this.delayBlock.getY();
 	}
@@ -97,11 +101,13 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 	 * @param name parameter name
 	 * @param value parameter value
 	 */
+	@Override
 	public void setParameter(String name, double value) {
 		if (name.equals(Constants.Token_NetBaseFreq))
 			this.baseFreq = value;
 	}
 
+	@Override
 	public String toString() {
 		String str = "tf, tw: " + tf + ", " + tw;
 		return str;
@@ -127,11 +133,13 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 	 * 2) serialze() and 3) deseralize().
 	 */
 
+	@Override
 	public String serialize() {
 		String name = this.getClass().getName();
 		return name + "|" + tf + "," + tw;
 	}
 
+	@Override
 	public void deserialize(String str) throws InvalidParameterException {
 		String classname = str.substring(0, str.indexOf('|'));
 		if (!classname.equals(this.getClass().getName())) {

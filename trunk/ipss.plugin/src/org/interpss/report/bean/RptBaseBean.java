@@ -30,6 +30,7 @@ public class RptBaseBean {
 	public RptBaseBean() {
 	}
 
+	@Override
 	public String toString() {
 		return XmlUtil.toXmlString(this);
 	}

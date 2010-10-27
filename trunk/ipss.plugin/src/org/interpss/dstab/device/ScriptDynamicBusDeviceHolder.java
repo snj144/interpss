@@ -74,6 +74,7 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	 *            the MessageHub object
 	 * @return false if there is anything wrong
 	 */
+	@Override
 	public boolean initStates(DStabBus abus, Network net, IPSSMsgHub msg) {
 		super.initStates(abus, msg);
 
@@ -116,6 +117,7 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	 * @param abus
 	 *            the bus object
 	 */
+	@Override
 	public Object getOutputObject() {
 		return device.getOutputObject();
 	}
@@ -127,6 +129,7 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	 *            the bus object
 	 * @refMach the ref machine object
 	 */
+	@Override
 	public Hashtable<String, Object> getStates(Object refMach) {
 		return device.getStates(refMach);
 	}
@@ -140,6 +143,7 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	 *            if there is any network change event
 	 * @return false if there is any problem
 	 */
+	@Override
 	public boolean updateAttributes(boolean netChange) {
 		return device.updateAttributes(netChange);
 	}

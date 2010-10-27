@@ -113,6 +113,7 @@ bus data  [    5]             ty  vsched   volt     angle   ar zone  vmax   vmin
 		bus.setVLowerLimitPU(vmi);
 	}
 	
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "number, name, ty, ar, z, owner: " + number + ", " + name + ", " + ty + ", " + ar + ", " + z + ", " + owner + "\n";

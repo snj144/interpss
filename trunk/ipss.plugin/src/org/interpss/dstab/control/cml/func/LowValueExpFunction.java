@@ -49,6 +49,7 @@ public class LowValueExpFunction extends GateValueExpFunction {
 	 * @param dAry2D contains two arrays [u1Ary, u2Ary]
 	 * @return the function value
 	 */
+	@Override
 	public double eval(double[][] dAry2D) throws Exception {
 		return eval(dAry2D, false);
 	}

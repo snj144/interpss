@@ -57,19 +57,24 @@ public class Ieee1968Type4Exciter extends AnnotateExciter {
 	       private IntegrationControlBlock block = new IntegrationControlBlock(
 	                      IStaticBlock.Type.Limit, 1.0/trh, vrmax, vrmin);
 
-	       public boolean initStateY0(double y0) {
+	       @Override
+		public boolean initStateY0(double y0) {
 	         return block.initStateY0(y0);
 	       }
-	       public double getU0(){
+	       @Override
+		public double getU0(){
 	         return 0.0;
 	       }  
-	       public void eulerStep1(double u, double dt){
+	       @Override
+		public void eulerStep1(double u, double dt){
 	         block.eulerStep1(u, dt);
 	       }
-	       public void eulerStep2(double u, double dt){
+	       @Override
+		public void eulerStep2(double u, double dt){
 	         block.eulerStep2(u, dt);
 	       }
-	       public double getY(){
+	       @Override
+		public double getY(){
 		      double u = block.getU();
 	         if ( u > kv )
 	            return vrmax;
@@ -78,7 +83,8 @@ public class Ieee1968Type4Exciter extends AnnotateExciter {
 	         else
 	            return block.getY();
 	       }
-	       public double getStateX() {
+	       @Override
+		public double getStateX() {
 	           return block.getStateX();
 	       }
 	   };
@@ -143,7 +149,8 @@ public class Ieee1968Type4Exciter extends AnnotateExciter {
      *
      *  @param msg the SessionMsg object
      */
-    public boolean initStates(DStabBus bus, Machine mach, IPSSMsgHub msg) {
+    @Override
+	public boolean initStates(DStabBus bus, Machine mach, IPSSMsgHub msg) {
         this.trh = getData().getTrh();
         this.kv = getData().getKv();
         this.vrmax = getData().getVrmax();
@@ -164,16 +171,20 @@ public class Ieee1968Type4Exciter extends AnnotateExciter {
      *
      * @return the editor panel object
      */
-    public Object getEditPanel() {
+    @Override
+	public Object getEditPanel() {
         _editPanel.init(this);
         return _editPanel;
     }
  
-    public AnController getAnController() {
-    	return (AnController)getClass().getAnnotation(AnController.class);  }
-    public Field getField(String fieldName) throws Exception {
+    @Override
+	public AnController getAnController() {
+    	return getClass().getAnnotation(AnController.class);  }
+    @Override
+	public Field getField(String fieldName) throws Exception {
     	return getClass().getField(fieldName);   }
-    public Object getFieldObject(Field field) throws Exception {
+    @Override
+	public Object getFieldObject(Field field) throws Exception {
     	return field.get(this);    }
 } // SimpleExciter
 

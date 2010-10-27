@@ -221,6 +221,7 @@ public class AnnotateDStabOutputScripting {
 		}
 	}
 
+	@Override
 	public String toString() {
 		String str = "Output Display Record: [\n";
 		for (Rec rec : displayRecList)
@@ -233,6 +234,7 @@ public class AnnotateDStabOutputScripting {
 		public String id;
 		public OutType type;
 
+		@Override
 		public String toString() {
 			return "name, id, type: " + name + ", " + id + ", " + type;
 		}
