@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.simu"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/tsinghua"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
 	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/db/ibatis-common-2.jar"/>
@@ -36,5 +35,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.grid.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/custom/tsinghua.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
