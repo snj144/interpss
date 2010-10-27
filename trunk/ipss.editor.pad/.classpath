@@ -9,7 +9,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.simu"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/tsinghua"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
 	<classpathentry kind="var" path="IPSS_LIB/batik/batik-awt-util.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/batik/batik-dom.jar"/>
@@ -30,5 +29,6 @@
 	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/swing/bounce.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.grid"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/custom/tsinghua.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
