@@ -28,6 +28,9 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.v07.ge.GE_PSLF_AdapterOld;
+import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.BaseDataSetter;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.jaxb.JaxbDataSetter;
 import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.jaxb.JaxbParserHelper;
@@ -98,7 +101,7 @@ public class BusDataRec extends BusHeaderRec {
 		public double bkv;
 		public String d_in, d_out, projId;
  */
-		final String busId = JaxbODMModelParser.BusIdPreFix+this.number;
+		final String busId = AbstractModelParser.BusIdPreFix+this.number;
 		// XML requires id start with a char
 		BusRecordXmlType busRec;
 		try {
@@ -114,7 +117,7 @@ public class BusDataRec extends BusHeaderRec {
 		busRec.setName(name);
 		if (this.longId != null && !this.longId.equals(""))
 			busRec.setDesc(this.longId);
-		busRec.setBaseVoltage(JaxbDataSetter.createVoltageValue(bkv, VoltageUnitType.KV));
+		busRec.setBaseVoltage(BaseDataSetter.createVoltageValue(bkv, VoltageUnitType.KV));
 		
 		/*
 		<ty> Bus type {0,1,2,-2}
@@ -130,7 +133,7 @@ public class BusDataRec extends BusHeaderRec {
 		<vmi> Voltage checking limit (pu)		
  */	
 		if (owner > 0)
-			JaxbParserHelper.addOwner(busRec, new Integer(owner).toString());
+			BaseJaxbHelper.addOwner(busRec, new Integer(owner).toString());
 
 		LoadflowBusDataXmlType busData = parser.getFactory().createLoadflowBusDataXmlType();
 		busRec.setLoadflowData(busData);
@@ -138,6 +141,6 @@ public class BusDataRec extends BusHeaderRec {
 				( ty == 1? LFGenCodeEnumType.PQ : LFGenCodeEnumType.PV);
 		JaxbDataSetter.setGenData(busData, genType, vs_pu, VoltageUnitType.PU, an_deg, AngleUnitType.DEG, 
 							0.0, 0.0,	ApparentPowerUnitType.MVA);
-		busData.getGenData().getEquivGen().setVoltageLimit(JaxbDataSetter.createVoltageLimit(vma, vmi, VoltageUnitType.PU));
+		busData.getGenData().getEquivGen().setVoltageLimit(BaseDataSetter.createVoltageLimit(vma, vmi, VoltageUnitType.PU));
 	}
 }

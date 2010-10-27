@@ -27,6 +27,8 @@ package org.ieee.odm.adapter.ge.impl;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.model.BaseDataSetter;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
@@ -213,27 +215,27 @@ public class XformerDataRec extends BaseBranchDataRec {
 		
 		if (branchRec.getNvPairList() == null)
 			branchRec.setNvPairList(parser.getFactory().createNameValuePairListXmlType());
-		AclfParserHelper.addNVPair(branchRec.getNvPairList(), GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
+		BaseJaxbHelper.addNVPair(branchRec.getNvPairList(), GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
 		
 		TransformerInfoXmlType xfrInfo = branchRec.getXfrInfo();
-		xfrInfo.setRatedPower(AclfDataSetter.createPowerMvaValue(this.tbase));
-		xfrInfo.setFromRatedVoltage(AclfDataSetter.createVoltageValue(this.vnomp, VoltageUnitType.KV));
-		xfrInfo.setToRatedVoltage(AclfDataSetter.createVoltageValue(this.vnoms, VoltageUnitType.KV));
+		xfrInfo.setRatedPower(BaseDataSetter.createPowerMvaValue(this.tbase));
+		xfrInfo.setFromRatedVoltage(BaseDataSetter.createVoltageValue(this.vnomp, VoltageUnitType.KV));
+		xfrInfo.setToRatedVoltage(BaseDataSetter.createVoltageValue(this.vnoms, VoltageUnitType.KV));
 		
-		branchRec.setZ(AclfDataSetter.createZValue(this.zpsr, this.zpsx, ZUnitType.PU));
+		branchRec.setZ(BaseDataSetter.createZValue(this.zpsr, this.zpsx, ZUnitType.PU));
 		branchRec.getXfrInfo().setDataOnSystemBase(false);
 		
-		branchRec.setFromTurnRatio(AclfDataSetter.createTapPU(this.tapfp));
-		branchRec.setToTurnRatio(AclfDataSetter.createTapPU(this.tapfs));
+		branchRec.setFromTurnRatio(BaseDataSetter.createTapPU(this.tapfp));
+		branchRec.setToTurnRatio(BaseDataSetter.createTapPU(this.tapfs));
 		
 		if (isPsXfr) {
 			PSXfrBranchXmlType branch = (PSXfrBranchXmlType)branchRec;
-			branch.setFromAngle(AclfDataSetter.createAngleValue(this.anglp, AngleUnitType.DEG));
-			branch.setToAngle(AclfDataSetter.createAngleValue(this.angls, AngleUnitType.DEG));
+			branch.setFromAngle(BaseDataSetter.createAngleValue(this.anglp, AngleUnitType.DEG));
+			branch.setToAngle(BaseDataSetter.createAngleValue(this.angls, AngleUnitType.DEG));
 		}
 
 		if (this.gmag != 0.0 || this.bmag != 0.0)
-			branchRec.setMagnitizingY(AclfDataSetter.createYValue(this.gmag, this.bmag, YUnitType.PU));
+			branchRec.setMagnitizingY(BaseDataSetter.createYValue(this.gmag, this.bmag, YUnitType.PU));
 		
 		if (this.aloss != 0.0)
 			xfrInfo.setFromLossFactor(this.aloss);
@@ -312,6 +314,7 @@ public class XformerDataRec extends BaseBranchDataRec {
  */	
 	}
 	
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "type, kregBus, zt, iintBus, tertBus: " + type + ", " + kregBus + ", " + zt + ", " + iintBus + ", " + tertBus + "\n";

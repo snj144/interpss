@@ -97,7 +97,7 @@ public class AclfModelParser extends AbstractModelParser {
 			baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 		}
-		return (LoadflowNetXmlType)getStudyCase().getBaseCase().getValue();
+		return getStudyCase().getBaseCase().getValue();
 	}
 	
 	/*
@@ -115,7 +115,7 @@ public class AclfModelParser extends AbstractModelParser {
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);
 		busRec.setZoneNumber(1);
-		getBaseCase().getBusList().getBus().add(AclfParserHelper.bus(busRec));
+		getBaseCase().getBusList().getBus().add(BaseJaxbHelper.bus(busRec));
 		return busRec;
 	}	
 	
@@ -164,7 +164,7 @@ public class AclfModelParser extends AbstractModelParser {
 	 */
 	
 	public void addAclfBaseBranch(BranchXmlType branch) {
-		getBaseCase().getBranchList().getBranch().add(AclfParserHelper.branch(branch));
+		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branch));
 		this.objectCache.put(branch.getId(), branch);
 	}
 	
@@ -256,7 +256,7 @@ public class AclfModelParser extends AbstractModelParser {
 	}
 
 	private void intiBranchData(BaseBranchXmlType branch) {
-		getBaseCase().getBranchList().getBranch().add(AclfParserHelper.branch(branch));
+		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branch));
 		branch.setOffLine(false);
 		branch.setAreaNumber(1);
 		branch.setZoneNumber(1);

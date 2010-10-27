@@ -374,6 +374,7 @@ public class XBeanODMModelParser implements IODMModelParser {
 	/**
 	 * convert the document object to an XML string
 	 */
+	@Override
 	public String toString() {
 		 return this.doc.toString(); 
 	}

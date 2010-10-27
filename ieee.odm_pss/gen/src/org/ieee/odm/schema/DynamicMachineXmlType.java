@@ -232,7 +232,7 @@ public class DynamicMachineXmlType
      *     
      */
     public void setMachineModel(JAXBElement<? extends MachineModelXmlType> value) {
-        this.machineModel = ((JAXBElement<? extends MachineModelXmlType> ) value);
+        this.machineModel = (value);
     }
 
     /**
@@ -284,7 +284,7 @@ public class DynamicMachineXmlType
      *     
      */
     public void setExciter(JAXBElement<? extends ExciterModelXmlType> value) {
-        this.exciter = ((JAXBElement<? extends ExciterModelXmlType> ) value);
+        this.exciter = (value);
     }
 
     /**
@@ -328,7 +328,7 @@ public class DynamicMachineXmlType
      *     
      */
     public void setGovernor(JAXBElement<? extends GovernorModelXmlType> value) {
-        this.governor = ((JAXBElement<? extends GovernorModelXmlType> ) value);
+        this.governor = (value);
     }
 
     /**
@@ -364,7 +364,7 @@ public class DynamicMachineXmlType
      *     
      */
     public void setStabilizer(JAXBElement<? extends StabilizerModelXmlType> value) {
-        this.stabilizer = ((JAXBElement<? extends StabilizerModelXmlType> ) value);
+        this.stabilizer = (value);
     }
 
     /**

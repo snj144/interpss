@@ -39,6 +39,6 @@ public class AcscModelParser extends AclfModelParser {
 			baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 		}
-		return (ShortCircuitNetXmlType)getStudyCase().getBaseCase().getValue();
+		return getStudyCase().getBaseCase().getValue();
 	}
 }

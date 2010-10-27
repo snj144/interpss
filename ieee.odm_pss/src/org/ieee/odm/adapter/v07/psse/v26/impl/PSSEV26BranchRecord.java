@@ -26,6 +26,8 @@ package org.ieee.odm.adapter.v07.psse.v26.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.jaxb.JaxbDataSetter;
 import org.ieee.odm.model.jaxb.JaxbODMModelParser;
@@ -63,8 +65,8 @@ public class PSSEV26BranchRecord {
 		 */
 		// parse the input data line	
 		final String[] strAry = getBranchDataFields(str);		
-		final String fid = JaxbODMModelParser.BusIdPreFix+strAry[0];
-		final String tid = JaxbODMModelParser.BusIdPreFix+strAry[1];
+		final String fid = AbstractModelParser.BusIdPreFix+strAry[0];
+		final String tid = AbstractModelParser.BusIdPreFix+strAry[1];
 		final String cirId = ModelStringUtil.formatCircuitId(strAry[2]);
 		String branchId = ModelStringUtil.formBranchId(fid, tid, cirId);
 		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
@@ -129,7 +131,7 @@ public class PSSEV26BranchRecord {
 		final double GI= ModelStringUtil.getDouble(strAry[11], 0.0);
 		final double BI= ModelStringUtil.getDouble(strAry[12], 0.0);
         if(GI!=0.0 || BI!=0.0 )  {
-        	YXmlType y = JaxbDataSetter.createYValue(GI, BI, YUnitType.PU);
+        	YXmlType y = BaseDataSetter.createYValue(GI, BI, YUnitType.PU);
         	if (branchData.getCode() == LFBranchCodeEnumType.LINE)
         		branchData.setFromShuntY(y);
         	else if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER)
@@ -143,7 +145,7 @@ public class PSSEV26BranchRecord {
 		final double GJ= ModelStringUtil.getDouble(strAry[13], 0.0);
 		final double BJ= ModelStringUtil.getDouble(strAry[14], 0.0);
 	    if(GJ!=0.0 || BJ!=0.0)  {
-        	YXmlType y = JaxbDataSetter.createYValue(GJ, BJ, YUnitType.PU);
+        	YXmlType y = BaseDataSetter.createYValue(GJ, BJ, YUnitType.PU);
         	if (branchData.getCode() == LFBranchCodeEnumType.LINE)
         		branchData.setToShuntY(y);
         	else if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER)
@@ -172,8 +174,8 @@ public class PSSEV26BranchRecord {
 		TABLE - Zero, or number of a transformer impedance correction table 1-5
 	 */
 		final String[] strAry = getXfrAdjDataFields(str);		
-		final String fid = JaxbODMModelParser.BusIdPreFix+strAry[0];
-		final String tid = JaxbODMModelParser.BusIdPreFix+strAry[1];
+		final String fid = AbstractModelParser.BusIdPreFix+strAry[0];
+		final String tid = AbstractModelParser.BusIdPreFix+strAry[1];
 		final String cirId = ModelStringUtil.formatCircuitId(strAry[2]);
 		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		
@@ -195,7 +197,7 @@ public class PSSEV26BranchRecord {
 	    	isNegative = true;
 	    	icon = - icon;
 	    }
-		final String iconId = icon > 0? JaxbODMModelParser.BusIdPreFix+icon : null;
+		final String iconId = icon > 0? AbstractModelParser.BusIdPreFix+icon : null;
 
 		if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER) {
 	    	double tmax = ModelStringUtil.getDouble(strAry[4], 0.0);
@@ -207,7 +209,7 @@ public class PSSEV26BranchRecord {
 	    	TapAdjustmentXmlType tapAdj = parser.getFactory().createTapAdjustmentXmlType(); 
 	    	branchData.getXfrInfo().setTapAdjustment(tapAdj);
 	    	tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
-	    	tapAdj.setTapLimit(JaxbDataSetter.createTapLimit(tmax, tmin));
+	    	tapAdj.setTapLimit(BaseDataSetter.createTapLimit(tmax, tmin));
 	    	tapAdj.setTapAdjStepSize(tstep);
 	    	tapAdj.setTapAdjOnFromSide(true);
 
@@ -242,7 +244,7 @@ public class PSSEV26BranchRecord {
 
 	    	AngleAdjustmentXmlType angAdj = parser.getFactory().createAngleAdjustmentXmlType(); 
 	    	branchData.getXfrInfo().setAngleAdjustment(angAdj);
-	    	angAdj.setAngleLimit(JaxbDataSetter.createAngleLimit(angmax, angmin, AngleUnitType.DEG));
+	    	angAdj.setAngleLimit(BaseDataSetter.createAngleLimit(angmax, angmin, AngleUnitType.DEG));
 	    	angAdj.setMax(mwup);
 	    	angAdj.setMin(mwlow);
 	    	angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);

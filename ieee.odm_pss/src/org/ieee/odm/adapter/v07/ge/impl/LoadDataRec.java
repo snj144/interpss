@@ -28,6 +28,8 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.v07.ge.GE_PSLF_AdapterOld;
+import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.jaxb.JaxbDataSetter;
 import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.jaxb.JaxbParserHelper;
@@ -52,7 +54,7 @@ public class LoadDataRec extends BusHeaderRec {
 
 		setHeaderData(str1);
 
-	    final String busId = JaxbODMModelParser.BusIdPreFix+this.number;
+	    final String busId = AbstractModelParser.BusIdPreFix+this.number;
 		BusRecordXmlType busRec = parser.getBusRecord(busId);
 	    if (busRec == null){
 	    	logger.severe("Bus "+ busId+ " not found in the network");
@@ -110,13 +112,14 @@ public class LoadDataRec extends BusHeaderRec {
 		<b> Constant admittance reactive power (MVAR)
  */		
 		if (this.p != 0.0 || this.q != 0.0)
-			contribLoad.setConstPLoad(JaxbDataSetter.createPowerValue(this.p, this.q, ApparentPowerUnitType.MVA));
+			contribLoad.setConstPLoad(BaseDataSetter.createPowerValue(this.p, this.q, ApparentPowerUnitType.MVA));
 		if (this.ip != 0.0 || this.iq != 0.0)
-			contribLoad.setConstILoad(JaxbDataSetter.createPowerValue(this.ip, this.iq, ApparentPowerUnitType.MVA));
+			contribLoad.setConstILoad(BaseDataSetter.createPowerValue(this.ip, this.iq, ApparentPowerUnitType.MVA));
 		if (this.g != 0.0 || this.b != 0.0)
-			contribLoad.setConstZLoad(JaxbDataSetter.createPowerValue(this.g, this.b, ApparentPowerUnitType.MVA));
+			contribLoad.setConstZLoad(BaseDataSetter.createPowerValue(this.g, this.b, ApparentPowerUnitType.MVA));
 	}
 		
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "st, nst, owner, d_in, d_out, proj id: " + st + ", " + nst + ", " + owner + ", " + d_in + ", " + d_out + ", " + projId + "\n";

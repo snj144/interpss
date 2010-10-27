@@ -28,6 +28,8 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.v07.ge.GE_PSLF_AdapterOld;
+import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.jaxb.JaxbDataSetter;
 import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.jaxb.JaxbParserHelper;
@@ -64,7 +66,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		//  <bus> <"name"> <bkv> <"id"> <"long id"> : 
 		setHeaderData(str1);
 
-	    final String busId = JaxbODMModelParser.BusIdPreFix+this.number;
+	    final String busId = AbstractModelParser.BusIdPreFix+this.number;
 		// get the responding-bus data with busId
 		BusRecordXmlType busRec = parser.getBusRecord(busId);
 		if (busRec==null){
@@ -196,7 +198,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		<igreg bkv> Regulating bus base voltage
 		*/
 		
-	    contriGen.setRemoteVoltageControlBus(parser.createBusRecRef(JaxbODMModelParser.BusIdPreFix+this.igregBus));
+	    contriGen.setRemoteVoltageControlBus(parser.createBusRecRef(AbstractModelParser.BusIdPreFix+this.igregBus));
 		
 		/*
 		<prf> Real power regulating assignment factor (0.0 - 1.0)
@@ -216,10 +218,10 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		<mbase> Generator base (MVA)
 		 */
 		
-	    contriGen.setRatedPower(JaxbDataSetter.createPowerMvaValue(this.mbase));
-	    contriGen.setPower(JaxbDataSetter.createPowerValue(this.pgen, this.qgen, ApparentPowerUnitType.MVA));
-	    contriGen.setPLimit(JaxbDataSetter.createActivePowerLimit(this.pmax, this.pmin, ActivePowerUnitType.MW));
-	    contriGen.setQLimit(JaxbDataSetter.createReactivePowerLimit(this.qmax, this.qmin, ReactivePowerUnitType.MVAR));
+	    contriGen.setRatedPower(BaseDataSetter.createPowerMvaValue(this.mbase));
+	    contriGen.setPower(BaseDataSetter.createPowerValue(this.pgen, this.qgen, ApparentPowerUnitType.MVA));
+	    contriGen.setPLimit(BaseDataSetter.createActivePowerLimit(this.pmax, this.pmin, ActivePowerUnitType.MW));
+	    contriGen.setQLimit(BaseDataSetter.createReactivePowerLimit(this.qmax, this.qmin, ReactivePowerUnitType.MVAR));
 		
 		/*
 		<rcomp> Compensating resistance (pu)
@@ -233,11 +235,12 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		gen.setXCharactPU(this.zgenx);
 */		
 		if (this.rcomp != 0.0 || this.xcomp != 0.0)
-			contriGen.setSourceZ(JaxbDataSetter.createZValue(this.rcomp, this.xcomp, ZUnitType.PU));
+			contriGen.setSourceZ(BaseDataSetter.createZValue(this.rcomp, this.xcomp, ZUnitType.PU));
 		if (this.zgenr != 0.0 || this.zgenx != 0.0)
-			contriGen.setXfrZ(JaxbDataSetter.createZValue(this.zgenr, this.zgenx, ZUnitType.PU));
+			contriGen.setXfrZ(BaseDataSetter.createZValue(this.zgenr, this.zgenx, ZUnitType.PU));
 	}	
 
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "st, igregBus, nst, igregName, hName, tName: " + st + ", " + igregBus + ", " + nst + ", " + igregName + ", " + hName + ", " + tName + "\n" ;

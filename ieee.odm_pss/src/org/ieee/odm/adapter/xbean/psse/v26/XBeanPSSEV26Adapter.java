@@ -60,6 +60,7 @@ public class XBeanPSSEV26Adapter extends AbstractODMAdapter{
 		super(logger);
 	}
 	
+	@Override
 	protected XBeanODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		XBeanODMModelParser parser = new XBeanODMModelParser();

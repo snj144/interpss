@@ -64,6 +64,7 @@ public class XBeanBaseBranchDataRec extends XBeanBranchHeaderRec {
 		XBeanNetDataRec.setOwnerAry(st, this.oAry, this.pAry);
 	}
 	
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "st, ar, z, nst, ohms: " + st + ar + ", " + z + ", " + nst + ", " + ohms + "\n";

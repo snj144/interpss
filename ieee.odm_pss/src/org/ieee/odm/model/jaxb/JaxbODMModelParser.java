@@ -97,7 +97,7 @@ public class JaxbODMModelParser extends AbstractModelParser {
 			LoadflowNetXmlType baseCase = createAclfBaseCase();
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 		}
-		return (LoadflowNetXmlType)getStudyCase().getBaseCase().getValue();
+		return getStudyCase().getBaseCase().getValue();
 	}
 	
 	private LoadflowNetXmlType createAclfBaseCase() {
@@ -138,7 +138,7 @@ public class JaxbODMModelParser extends AbstractModelParser {
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);
 		busRec.setZoneNumber(1);
-		getBaseCase().getBusList().getBus().add(JaxbParserHelper.bus(busRec));
+		getBaseCase().getBusList().getBus().add(BaseJaxbHelper.bus(busRec));
 		return busRec;
 	}	
 	
@@ -200,7 +200,7 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	 */
 	public BranchRecordXmlType getBranchRecord(String fromId, String toId, String cirId) {
 		String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
-		return (BranchRecordXmlType)this.getBranchRecord(id);
+		return this.getBranchRecord(id);
 	}
 	
 	/**
@@ -214,7 +214,7 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	 */
 	public BranchRecordXmlType getBranchRecord(String fromId, String toId, String tertId, String cirId) {
 		String id = ModelStringUtil.formBranchId(fromId, toId, tertId, cirId);
-		return (BranchRecordXmlType)this.getBranchRecord(id);
+		return this.getBranchRecord(id);
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class JaxbODMModelParser extends AbstractModelParser {
 	 */
 	public BranchRecordXmlType createBranchRecord() {
 		BranchRecordXmlType branchRec = new BranchRecordXmlType();
-		getBaseCase().getBranchList().getBranch().add(JaxbParserHelper.branch(branchRec));
+		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branchRec));
 		branchRec.setOffLine(false);
 		branchRec.setAreaNumber(1);
 		branchRec.setZoneNumber(1);

@@ -26,6 +26,7 @@ package org.ieee.odm.adapter.v07.ge.impl;
 
 import java.util.StringTokenizer;
 
+import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.schema.BranchRecordXmlType;
@@ -63,8 +64,8 @@ public class BranchHeaderRec {
 	}
 	
 	public BranchRecordXmlType createBranch(JaxbODMModelParser parser) throws Exception {
-		final String fid = JaxbODMModelParser.BusIdPreFix + f_bus;
-		final String tid = JaxbODMModelParser.BusIdPreFix + t_bus;
+		final String fid = AbstractModelParser.BusIdPreFix + f_bus;
+		final String tid = AbstractModelParser.BusIdPreFix + t_bus;
 		final String cId = ck.replace(' ', '_');
 		BranchRecordXmlType branchRec = parser.getBranchRecord(fid, tid, cId);
 		if (branchRec == null) {

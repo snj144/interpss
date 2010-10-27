@@ -117,6 +117,7 @@ public class XBeanLoadDataRec extends XBeanBusHeaderRec {
 			XBeanDataSetter.setPowerData(contribLoad.addNewConstZLoad(), this.g, this.b, ApparentPowerUnitType.MVA);
 	}
 		
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "st, nst, owner, d_in, d_out, proj id: " + st + ", " + nst + ", " + owner + ", " + d_in + ", " + d_out + ", " + projId + "\n";

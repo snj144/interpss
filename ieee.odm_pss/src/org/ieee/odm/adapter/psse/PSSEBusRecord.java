@@ -27,6 +27,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -98,7 +99,7 @@ public class PSSEBusRecord {
 		//VSWLO - Desired voltage lower limit, per unit
 		final double vmax = ModelStringUtil.getDouble(strAry[2], 1.0);
 		final double vmin = ModelStringUtil.getDouble(strAry[3], 1.0);
-		shunt.setDesiredVoltageRange(AclfDataSetter.createVoltageLimit(vmax, vmin, VoltageUnitType.PU));
+		shunt.setDesiredVoltageRange(BaseDataSetter.createVoltageLimit(vmax, vmin, VoltageUnitType.PU));
 		
 		//SWREM - Number of remote bus to control. 0 to control own bus.
 		int busNo = ModelStringUtil.getInt(strAry[4], 0);
@@ -134,7 +135,7 @@ public class PSSEBusRecord {
 		double equiQ = 0.0;
 		if (aclfBus.getShuntCompensatorData().getEquivQ() != null)
 			equiQ = aclfBus.getShuntCompensatorData().getEquivQ().getValue();
-		aclfBus.getShuntCompensatorData().setEquivQ(AclfDataSetter.createReactivePowerValue(equiQ+binit, ReactivePowerUnitType.MVAR));
+		aclfBus.getShuntCompensatorData().setEquivQ(BaseDataSetter.createReactivePowerValue(equiQ+binit, ReactivePowerUnitType.MVAR));
 		
 		//N1 - Number of steps for block 1, first 0 is end of blocks
 		//B1 - Admittance increment of block 1 in MVAR at 1.0 per unit volts. N2, B2, etc, as N1, B1
@@ -148,7 +149,7 @@ public class PSSEBusRecord {
 	  			ShuntCompensatorXmlType.Block block = parser.getFactory().createShuntCompensatorXmlTypeBlock(); 
 	  			shunt.getBlock().add(block);
 	  			block.setSteps(n);
-	  			block.setIncrementB(AclfDataSetter.createReactivePowerValue(b, ReactivePowerUnitType.MVAR));
+	  			block.setIncrementB(BaseDataSetter.createReactivePowerValue(b, ReactivePowerUnitType.MVAR));
 	  		}
 		}
 	}
