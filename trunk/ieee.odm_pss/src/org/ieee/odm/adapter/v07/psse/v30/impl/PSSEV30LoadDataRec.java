@@ -31,6 +31,9 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.adapter.v07.psse.PsseVersion;
+import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.BaseDataSetter;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.jaxb.JaxbDataSetter;
 import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.jaxb.JaxbParserHelper;
@@ -48,7 +51,7 @@ public class PSSEV30LoadDataRec {
 /*
 		I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 */		
-	    final String busId = JaxbODMModelParser.BusIdPreFix+i;
+	    final String busId = AbstractModelParser.BusIdPreFix+i;
 		BusRecordXmlType busRec = parser.getBusRecord(busId);
 	    if (busRec == null){
 	    	logger.severe("Bus "+ busId+ " not found in the network");
@@ -64,14 +67,14 @@ public class PSSEV30LoadDataRec {
 
 	    contribLoad.setAreaNumber(area);
 	    contribLoad.setZoneNumber(zone);
-	    JaxbParserHelper.addOwner(contribLoad, new Integer(owner).toString());
+	    BaseJaxbHelper.addOwner(contribLoad, new Integer(owner).toString());
 		
 		if (pl != 0.0 || ql != 0.0)
-			contribLoad.setConstPLoad(JaxbDataSetter.createPowerValue(pl, ql, ApparentPowerUnitType.MVA));
+			contribLoad.setConstPLoad(BaseDataSetter.createPowerValue(pl, ql, ApparentPowerUnitType.MVA));
 		if (ip != 0.0 || iq != 0.0)
-			contribLoad.setConstILoad(JaxbDataSetter.createPowerValue(ip, iq, ApparentPowerUnitType.MVA));
+			contribLoad.setConstILoad(BaseDataSetter.createPowerValue(ip, iq, ApparentPowerUnitType.MVA));
 		if (yp != 0.0 || yq != 0.0)
-			contribLoad.setConstZLoad(JaxbDataSetter.createPowerValue(yp, yq, ApparentPowerUnitType.MVA));
+			contribLoad.setConstZLoad(BaseDataSetter.createPowerValue(yp, yq, ApparentPowerUnitType.MVA));
 	}
 
 	private static void procLineString(String lineStr, PsseVersion version, Logger logger) {

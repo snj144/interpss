@@ -26,6 +26,8 @@ package org.ieee.odm.adapter.psse.v26.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.odm.model.BaseDataSetter;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -50,17 +52,17 @@ public class PSSEV26NetRecord {
 		
 		final double baseMva = ModelStringUtil.getDouble(strAry[1], 100.0);
 	    logger.fine("BaseKva: "  + baseMva);
-		baseCaseNet.setBasePower(AclfDataSetter.createPowerMvaValue(baseMva));	    
+		baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(baseMva));	    
 	    
 		NameValuePairListXmlType nvList = factory.createNameValuePairListXmlType();
 		baseCaseNet.setNvPairList(nvList);
 		
 		final String desc = strAry[2];// The 2nd line is treated as description
-		AclfParserHelper.addNVPair(nvList, Token_CaseDesc, desc);     
+		BaseJaxbHelper.addNVPair(nvList, Token_CaseDesc, desc);     
 	   
 	    // the 3rd line is treated as the network id and network name		
 		final String caseId= strAry[3];
-		AclfParserHelper.addNVPair(nvList, Token_CaseId, caseId);				
+		BaseJaxbHelper.addNVPair(nvList, Token_CaseId, caseId);				
 		logger.fine("Case Description, caseId: " + desc + ", "+ caseId);		
 		
         return true;
@@ -92,8 +94,8 @@ public class PSSEV26NetRecord {
 
 		interchange.setSwingBus(parser.createBusRef(swingBusName));
 		
-		interchange.setDesiredExPower(AclfDataSetter.createActivePowerValue(mw, ActivePowerUnitType.MW));
-		interchange.setExErrTolerance(AclfDataSetter.createActivePowerValue(err, ActivePowerUnitType.MW));			
+		interchange.setDesiredExPower(BaseDataSetter.createActivePowerValue(mw, ActivePowerUnitType.MW));
+		interchange.setExErrTolerance(BaseDataSetter.createActivePowerValue(err, ActivePowerUnitType.MW));			
 	}
 	
 	public static  void processInterAreaTransferData(final String str,

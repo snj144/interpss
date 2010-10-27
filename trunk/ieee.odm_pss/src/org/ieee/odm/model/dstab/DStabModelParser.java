@@ -24,9 +24,6 @@
 
 package org.ieee.odm.model.dstab;
 
-import java.io.InputStream;
-
-import org.apache.xmlbeans.XmlException;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.DStabNetXmlType;
@@ -85,6 +82,6 @@ public class DStabModelParser extends AclfModelParser {
 			baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 		}
-		return (DStabNetXmlType)getStudyCase().getBaseCase().getValue();
+		return getStudyCase().getBaseCase().getValue();
 	}
 }

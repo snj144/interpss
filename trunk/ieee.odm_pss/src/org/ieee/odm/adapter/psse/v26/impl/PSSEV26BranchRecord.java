@@ -27,6 +27,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -97,13 +98,13 @@ public class PSSEV26BranchRecord {
 				AclfDataSetter.setLineData(branchData, rpu, xpu, ZUnitType.PU, 0.0, bpu, YUnitType.PU);
 				//From side shuntY
 		        if(GI!=0.0 || BI!=0.0 )  {
-		        	YXmlType y = AclfDataSetter.createYValue(GI, BI, YUnitType.PU);
+		        	YXmlType y = BaseDataSetter.createYValue(GI, BI, YUnitType.PU);
 	        		branchData.setFromShuntY(y);
 		        }
 
 			    //To side shuntY
 			    if(GJ!=0.0 || BJ!=0.0)  {
-		        	YXmlType y = AclfDataSetter.createYValue(GJ, BJ, YUnitType.PU);
+		        	YXmlType y = BaseDataSetter.createYValue(GJ, BJ, YUnitType.PU);
 	        		branchData.setToShuntY(y);
 			    }
 			}
@@ -114,7 +115,7 @@ public class PSSEV26BranchRecord {
 					       rpu, xpu, ZUnitType.PU, fromTap, toTap);		
 				//From side shuntY
 		        if(GI!=0.0 || BI!=0.0 )  {
-		        	YXmlType y = AclfDataSetter.createYValue(GI, BI, YUnitType.PU);
+		        	YXmlType y = BaseDataSetter.createYValue(GI, BI, YUnitType.PU);
 	        		branchData.setMagnitizingY(y);
 		        }
 			}
@@ -125,7 +126,7 @@ public class PSSEV26BranchRecord {
 						ZUnitType.PU, fromTap, toTap, fromAng, toAng, AngleUnitType.DEG);			
 				//From side shuntY
 		        if(GI!=0.0 || BI!=0.0 )  {
-		        	YXmlType y = AclfDataSetter.createYValue(GI, BI, YUnitType.PU);
+		        	YXmlType y = BaseDataSetter.createYValue(GI, BI, YUnitType.PU);
 		        	branchData.setMagnitizingY(y);
 		        }
 			}
@@ -200,7 +201,7 @@ public class PSSEV26BranchRecord {
 	    	TapAdjustmentXmlType tapAdj = parser.getFactory().createTapAdjustmentXmlType(); 
 	    	branchData.setTapAdjustment(tapAdj);
 	    	tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
-	    	tapAdj.setTapLimit(AclfDataSetter.createTapLimit(tmax, tmin));
+	    	tapAdj.setTapLimit(BaseDataSetter.createTapLimit(tmax, tmin));
 	    	tapAdj.setTapAdjStepSize(tstep);
 	    	tapAdj.setTapAdjOnFromSide(true);
 
@@ -236,7 +237,7 @@ public class PSSEV26BranchRecord {
 
 	    	AngleAdjustmentXmlType angAdj = parser.getFactory().createAngleAdjustmentXmlType(); 
 	    	branchData.setAngleAdjustment(angAdj);
-	    	angAdj.setAngleLimit(AclfDataSetter.createAngleLimit(angmax, angmin, AngleUnitType.DEG));
+	    	angAdj.setAngleLimit(BaseDataSetter.createAngleLimit(angmax, angmin, AngleUnitType.DEG));
 	    	angAdj.setMax(mwup);
 	    	angAdj.setMin(mwlow);
 	    	angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);

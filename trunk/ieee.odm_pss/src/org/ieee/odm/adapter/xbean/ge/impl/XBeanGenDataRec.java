@@ -237,6 +237,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 			XBeanDataSetter.setZValue(contriGen.addNewXfrZ(), this.zgenr, this.zgenx, ZUnitType.PU);
 	}	
 
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "st, igregBus, nst, igregName, hName, tName: " + st + ", " + igregBus + ", " + nst + ", " + igregName + ", " + hName + ", " + tName + "\n" ;

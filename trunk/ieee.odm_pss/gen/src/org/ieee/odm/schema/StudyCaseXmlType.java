@@ -155,7 +155,7 @@ public class StudyCaseXmlType
      *     
      */
     public void setBaseCase(JAXBElement<? extends NetworkXmlType> value) {
-        this.baseCase = ((JAXBElement<? extends NetworkXmlType> ) value);
+        this.baseCase = (value);
     }
 
     /**
@@ -209,7 +209,7 @@ public class StudyCaseXmlType
      *     
      */
     public void setStudyScenario(JAXBElement<? extends StudyScenarioXmlType> value) {
-        this.studyScenario = ((JAXBElement<? extends StudyScenarioXmlType> ) value);
+        this.studyScenario = (value);
     }
 
 

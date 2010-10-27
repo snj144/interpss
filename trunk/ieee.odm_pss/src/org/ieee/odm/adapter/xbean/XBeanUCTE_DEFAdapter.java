@@ -94,6 +94,7 @@ public class XBeanUCTE_DEFAdapter extends AbstractODMAdapter {
 		super(logger);
 	}
 
+	@Override
 	protected XBeanODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		XBeanODMModelParser parser = new XBeanODMModelParser();

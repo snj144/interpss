@@ -67,6 +67,7 @@ public class XBeanPSSEV30Adapter extends AbstractODMAdapter{
 		return "PSS/E File elements coount\n" + this.elemCntStr;
 	}
 	
+	@Override
 	protected XBeanODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		XBeanODMModelParser parser = new XBeanODMModelParser();

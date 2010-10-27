@@ -4,6 +4,9 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.v07.psse.PsseVersion;
+import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.BaseDataSetter;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.jaxb.JaxbDataSetter;
 import org.ieee.odm.model.jaxb.JaxbODMModelParser;
@@ -41,8 +44,8 @@ public class PSSEV30LineDataRec {
 			j = -j;
 		}
       	
-		final String fid = JaxbODMModelParser.BusIdPreFix+i;
-		final String tid = JaxbODMModelParser.BusIdPreFix+j;
+		final String fid = AbstractModelParser.BusIdPreFix+i;
+		final String tid = AbstractModelParser.BusIdPreFix+j;
 		String branchId = ModelStringUtil.formBranchId(fid, tid, ckt);
 
 		BranchRecordXmlType branchRec;
@@ -72,11 +75,11 @@ public class PSSEV30LineDataRec {
     				ratea, rateb, ratec, ApparentPowerUnitType.MVA);
         
        if ( gi != 0.0 || bi != 0.0)
-    	   branchData.setFromShuntY(JaxbDataSetter.createYValue(gi, bi, YUnitType.PU));
+    	   branchData.setFromShuntY(BaseDataSetter.createYValue(gi, bi, YUnitType.PU));
        if ( gj != 0.0 || bj != 0.0)
-    	   branchData.setFromShuntY(JaxbDataSetter.createYValue(gj, bj, YUnitType.PU));
+    	   branchData.setFromShuntY(BaseDataSetter.createYValue(gj, bj, YUnitType.PU));
       
-    	JaxbParserHelper.addOwner(branchRec, 
+    	BaseJaxbHelper.addOwner(branchRec, 
     			new Integer(o1).toString(), f1, 
     			new Integer(o2).toString(), o2==0?0.0:f2, 
     			new Integer(o3).toString(), o3==0?0.0:f3, 

@@ -27,6 +27,8 @@ package org.ieee.odm.adapter.ge.impl;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.model.BaseDataSetter;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
@@ -43,7 +45,7 @@ public class NetDataRec {
 			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 			NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType(); 
 			baseCaseNet.setNvPairList(nvList);
-			AclfParserHelper.addNVPair(nvList, "Title", lineStr);
+			BaseJaxbHelper.addNVPair(nvList, "Title", lineStr);
 		}
 	}
 	
@@ -54,7 +56,7 @@ public class NetDataRec {
 			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 			NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType(); 
 			baseCaseNet.setNvPairList(nvList);
-			AclfParserHelper.addNVPair(nvList, "Comments", lineStr);
+			BaseJaxbHelper.addNVPair(nvList, "Comments", lineStr);
 		}
 	}
 
@@ -109,7 +111,7 @@ public class NetDataRec {
 				toler = new Double(str).doubleValue();
 			else if (lineStr.startsWith("sbase")) {
 				double sbase = new Double(str).doubleValue();
-				baseCaseNet.setBasePower(AclfDataSetter.createPowerMvaValue(sbase));
+				baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(sbase));
 			}
 		}
 	}
@@ -156,9 +158,9 @@ public class NetDataRec {
 			area.setNumber(this.arnum);
 			area.setName(this.arnam);	
 			area.setSwingBusId(parser.createBusRef(new Integer(this.swing).toString()));
-			area.setTotalExchangePower(AclfDataSetter.createPowerValue(this.pnet, this.qnet, ApparentPowerUnitType.MVA));
-			area.setDesiredExchangePower(AclfDataSetter.createActivePowerValue(this.pnetdes, ActivePowerUnitType.MW));
-			area.setExchangeErrTolerance(AclfDataSetter.createActivePowerValue(this.pnettol, ActivePowerUnitType.MW));
+			area.setTotalExchangePower(BaseDataSetter.createPowerValue(this.pnet, this.qnet, ApparentPowerUnitType.MVA));
+			area.setDesiredExchangePower(BaseDataSetter.createActivePowerValue(this.pnetdes, ActivePowerUnitType.MW));
+			area.setExchangeErrTolerance(BaseDataSetter.createActivePowerValue(this.pnettol, ActivePowerUnitType.MW));
 		}
 	}
 
@@ -195,7 +197,7 @@ public class NetDataRec {
 			zone.setId(new Integer(this.zonum).toString());
 			zone.setNumber(this.zonum);
 			zone.setName(this.zonam);	
-			zone.setExchangePower(AclfDataSetter.createPowerValue(this.pznet, this.qznet, ApparentPowerUnitType.MVA)); 
+			zone.setExchangePower(BaseDataSetter.createPowerValue(this.pznet, this.qznet, ApparentPowerUnitType.MVA)); 
 		}
 	}
 

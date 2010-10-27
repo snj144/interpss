@@ -85,6 +85,7 @@ public class XBeanGE_PSLF_Adapter  extends AbstractODMAdapter {
 		super(logger);
 	}
 	 
+	@Override
 	protected XBeanODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		VersionNo version = VersionNo.PSLF15;

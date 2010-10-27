@@ -29,6 +29,8 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.BaseDataSetter;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
@@ -68,20 +70,20 @@ public class PSSEV30BusDataRec {
 		aclfBus.setAreaNumber(area);
 		aclfBus.setZoneNumber(zone);
 		if (owner > 0) {
-			AclfParserHelper.addOwner(aclfBus, new Integer(owner).toString());
+			BaseJaxbHelper.addOwner(aclfBus, new Integer(owner).toString());
 		}
 		
 		aclfBus.setName(name);
-		aclfBus.setBaseVoltage(AclfDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
+		aclfBus.setBaseVoltage(BaseDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
 		
-		aclfBus.setVoltage(AclfDataSetter.createVoltageValue(vm, VoltageUnitType.PU));
-		aclfBus.setAngle(AclfDataSetter.createAngleValue(va, AngleUnitType.DEG));
+		aclfBus.setVoltage(BaseDataSetter.createVoltageValue(vm, VoltageUnitType.PU));
+		aclfBus.setAngle(BaseDataSetter.createAngleValue(va, AngleUnitType.DEG));
 
     	if (gl != 0.0 || bl != 0.0) {
     		double factor = parser.getAclfNet().getBasePower().getValue();  
     		// for transfer G+jB to PU on system base, gl, bl are entered in MW at one per unit voltage
     		// bl is reactive power consumed, - for capactor
-    		aclfBus.setShuntY(AclfDataSetter.createYValue(gl/factor, bl/factor, YUnitType.PU));
+    		aclfBus.setShuntY(BaseDataSetter.createYValue(gl/factor, bl/factor, YUnitType.PU));
     	}
       	
     	// set input data to the bus object

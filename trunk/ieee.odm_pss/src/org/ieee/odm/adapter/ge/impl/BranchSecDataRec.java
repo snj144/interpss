@@ -27,6 +27,7 @@ package org.ieee.odm.adapter.ge.impl;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.ApparentPowerUnitType;
@@ -171,9 +172,10 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 		lineInfo.getLength().setValue(l_info);
 		lineInfo.getLength().setUnit(LengthUnitType.MILE);
 		
-		AclfDataSetter.setBranchOwnership(branchRec, oAry, pAry);
+		BaseJaxbHelper.setBranchOwnership(branchRec, oAry, pAry);
 	}
 	
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "r, x, b, type: " + st + ", " + r + ", " + x + ", " + b + ", " + type + "\n";

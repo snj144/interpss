@@ -28,6 +28,9 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.v07.psse.PsseVersion;
+import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.BaseDataSetter;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.jaxb.JaxbDataSetter;
 import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.jaxb.JaxbParserHelper;
@@ -55,7 +58,7 @@ public class PSSEV30BusDataRec {
 /*
 		Format: I,    ’NAME’,    BASKV, IDE,  GL,      BL,  AREA, ZONE, VM, VA, OWNER
 */
-		String iStr = JaxbODMModelParser.BusIdPreFix+i;
+		String iStr = AbstractModelParser.BusIdPreFix+i;
 		BusRecordXmlType busRec;
 		try {
 			busRec = parser.createBusRecord(iStr, i);
@@ -68,22 +71,22 @@ public class PSSEV30BusDataRec {
 		busRec.setAreaNumber(area);
 		busRec.setZoneNumber(zone);
 		if (owner > 0) {
-			JaxbParserHelper.addOwner(busRec, new Integer(owner).toString());
+			BaseJaxbHelper.addOwner(busRec, new Integer(owner).toString());
 		}
 		
 		busRec.setName(name);
-		busRec.setBaseVoltage(JaxbDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
+		busRec.setBaseVoltage(BaseDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
 		
 		LoadflowBusDataXmlType busData = parser.getFactory().createLoadflowBusDataXmlType(); 
 		busRec.setLoadflowData(busData);
-		busData.setVoltage(JaxbDataSetter.createVoltageValue(vm, VoltageUnitType.PU));
-		busData.setAngle(JaxbDataSetter.createAngleValue(va, AngleUnitType.DEG));
+		busData.setVoltage(BaseDataSetter.createVoltageValue(vm, VoltageUnitType.PU));
+		busData.setAngle(BaseDataSetter.createAngleValue(va, AngleUnitType.DEG));
 
     	if (gl != 0.0 || bl != 0.0) {
     		double factor = parser.getAclfBaseCase().getBasePower().getValue();  
     		// for transfer G+jB to PU on system base, gl, bl are entered in MW at one per unit voltage
     		// bl is reactive power consumed, - for capactor
-    		busData.setShuntY(JaxbDataSetter.createYValue(gl/factor, bl/factor, YUnitType.PU));
+    		busData.setShuntY(BaseDataSetter.createYValue(gl/factor, bl/factor, YUnitType.PU));
     	}
       	
     	// set input data to the bus object

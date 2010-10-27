@@ -177,6 +177,7 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 		JaxbDataSetter.setBranchOwnership(branchData, oAry, pAry);
 	}
 	
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "r, x, b, type: " + st + ", " + r + ", " + x + ", " + b + ", " + type + "\n";

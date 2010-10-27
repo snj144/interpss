@@ -29,6 +29,8 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.BaseDataSetter;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
@@ -65,14 +67,14 @@ public class PSSEV30LoadDataRec {
 
 	    contribLoad.setAreaNumber(area);
 	    contribLoad.setZoneNumber(zone);
-	    AclfParserHelper.addOwner(contribLoad, new Integer(owner).toString());
+	    BaseJaxbHelper.addOwner(contribLoad, new Integer(owner).toString());
 		
 		if (pl != 0.0 || ql != 0.0)
-			contribLoad.setConstPLoad(AclfDataSetter.createPowerValue(pl, ql, ApparentPowerUnitType.MVA));
+			contribLoad.setConstPLoad(BaseDataSetter.createPowerValue(pl, ql, ApparentPowerUnitType.MVA));
 		if (ip != 0.0 || iq != 0.0)
-			contribLoad.setConstILoad(AclfDataSetter.createPowerValue(ip, iq, ApparentPowerUnitType.MVA));
+			contribLoad.setConstILoad(BaseDataSetter.createPowerValue(ip, iq, ApparentPowerUnitType.MVA));
 		if (yp != 0.0 || yq != 0.0)
-			contribLoad.setConstZLoad(AclfDataSetter.createPowerValue(yp, yq, ApparentPowerUnitType.MVA));
+			contribLoad.setConstZLoad(BaseDataSetter.createPowerValue(yp, yq, ApparentPowerUnitType.MVA));
 	}
 
 	private static void procLineString(String lineStr, PsseVersion version, Logger logger) {

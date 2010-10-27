@@ -306,6 +306,7 @@ public class XBeanXformerDataRec extends XBeanBaseBranchDataRec {
  */	
 	}
 	
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "type, kregBus, zt, iintBus, tertBus: " + type + ", " + kregBus + ", " + zt + ", " + iintBus + ", " + tertBus + "\n";

@@ -30,6 +30,8 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.model.BaseDataSetter;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.ModelContansts;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.aclf.AclfDataSetter;
@@ -98,6 +100,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		super(logger);
 	}
 
+	@Override
 	protected AclfModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		AclfModelParser parser = new AclfModelParser();
@@ -109,7 +112,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
     	// no base kva definition in UCTE format, so use 100 MVA
     	// UCTE data are in actual units, mw, mva ...
-		baseCaseNet.setBasePower(AclfDataSetter.createPowerMvaValue(100.0));   
+		baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(100.0));   
 
     	// scan all lines and process the data
     	customBaseVoltage = false;
@@ -257,11 +260,11 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
       		aclfBus.setName(name);
       	if (isoId != null && !isoId.trim().equals(""))
       		aclfBus.setIsoCode(isoId);
-      	aclfBus.setBaseVoltage(AclfDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
+      	aclfBus.setBaseVoltage(BaseDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
 		
-      	aclfBus.setVoltage(AclfDataSetter.createVoltageValue(voltage, VoltageUnitType.KV));
+      	aclfBus.setVoltage(BaseDataSetter.createVoltageValue(voltage, VoltageUnitType.KV));
 
-      	aclfBus.setAngle(AclfDataSetter.createAngleValue(0.0, AngleUnitType.DEG));    	
+      	aclfBus.setAngle(BaseDataSetter.createAngleValue(0.0, AngleUnitType.DEG));    	
     	
 		if (pLoadMW != 0.0 || qLoadMvar != 0.0) {
 			AclfDataSetter.setLoadData(aclfBus,
@@ -290,7 +293,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 					&& maxGenMVar > minGenMVar) {
 				// PV Bus limit control
 				getLogger().fine("Bus is a PVLimitBus, id: " + id);
-				aclfBus.getGenData().getEquivGen().setQLimit(AclfDataSetter.createReactivePowerLimit(  
+				aclfBus.getGenData().getEquivGen().setQLimit(BaseDataSetter.createReactivePowerLimit(  
 						maxGenMVar, minGenMVar, ReactivePowerUnitType.MVAR));
 			}
 			break;
@@ -309,21 +312,21 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType();
 		aclfBus.setNvPairList(nvList);
 		if (status != 0)
-			AclfParserHelper.addNVPair(nvList, Token_Status, new Integer(status).toString());
+			BaseJaxbHelper.addNVPair(nvList, Token_Status, new Integer(status).toString());
 		if (minGenMW != 0.0)
-			AclfParserHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString());
+			BaseJaxbHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString());
 		if (maxGenMW != 0.0)
-			AclfParserHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString());
+			BaseJaxbHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString());
 		if (staticPrimaryControl != 0.0)
-			AclfParserHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString());
+			BaseJaxbHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString());
 		if (normalPowerPrimaryControl != 0.0)
-			AclfParserHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
+			BaseJaxbHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
 		if (scMVA3P != 0.0)
-			AclfParserHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString());
+			BaseJaxbHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString());
 		if (x_rRatio != 0.0)
-			AclfParserHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString());
+			BaseJaxbHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString());
 		if (powerPlanType != null)
-			AclfParserHelper.addNVPair(nvList, Token_PPlanType, powerPlanType);
+			BaseJaxbHelper.addNVPair(nvList, Token_PPlanType, powerPlanType);
     }
     
     /*
@@ -501,19 +504,19 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
       	if (dUPhase > 0.0) {
 			if (dUPhase != 0.0)
-				AclfParserHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString());
+				BaseJaxbHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString());
 			if (dUPhase != 0.0)
-				AclfParserHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString());
+				BaseJaxbHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString());
 			if (dUPhase != 0.0)
-				AclfParserHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString());
+				BaseJaxbHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString());
 			if (dUPhase != 0.0)
-				AclfParserHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
+				BaseJaxbHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
 
 			double ratioFactor = xfrBranch.getToTurnRatio().getValue();
 
 			double x = 1.0 / (1.0 + n1Phase*dUPhase*0.01);
 			// UCTE model at to side x : 1.0, InterPSS model 1.0:turnRatio
-			xfrBranch.setToTurnRatio(AclfDataSetter.createTurnRatioPU(ratioFactor/x));
+			xfrBranch.setToTurnRatio(BaseDataSetter.createTurnRatioPU(ratioFactor/x));
 			
 			if (uKvPhase > 0.0) {
 				TapAdjustmentXmlType tapAdj = parser.getFactory().createTapAdjustmentXmlType();
@@ -525,7 +528,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
           		double maxTap = ratioFactor*(nPhase*dUPhase), 
           		       minTap = ratioFactor*(-nPhase*dUPhase);
 
-          		tapAdj.setTapLimit(AclfDataSetter.createTapLimit(maxTap, minTap));
+          		tapAdj.setTapLimit(BaseDataSetter.createTapLimit(maxTap, minTap));
 				tapAdj.getTapLimit().setUnit(FactorUnitType.PERCENT);
           		tapAdj.setTapAdjStepSize(dUPhase);
           		tapAdj.setTapAdjOnFromSide(false);
@@ -543,15 +546,15 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		}
 		else if (dUAngle > 0.0) {
 			if (dUPhase != 0.0)
-				AclfParserHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString());
+				BaseJaxbHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString());
 			if (dUPhase != 0.0)
-				AclfParserHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
+				BaseJaxbHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
 			if (dUPhase != 0.0)
-				AclfParserHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString());
+				BaseJaxbHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString());
 			if (dUPhase != 0.0)
-				AclfParserHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString());
+				BaseJaxbHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString());
 			if (dUPhase != 0.0)
-				AclfParserHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
+				BaseJaxbHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
 
 			double ratioFactor = xfrBranch.getToTurnRatio().getValue();
 
@@ -588,8 +591,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			
 			PSXfrBranchXmlType psXfrBranch = (PSXfrBranchXmlType)ModelStringUtil.casting(xfrBranch, "XfrBranchXmlType", "PSXfrBranchXmlType");
 			
-			psXfrBranch.setToAngle(AclfDataSetter.createAngleValue(-ang*ModelContansts.Rad2Deg, AngleUnitType.DEG));
-			psXfrBranch.setToTurnRatio(AclfDataSetter.createTurnRatioPU(ratioFactor/x));
+			psXfrBranch.setToAngle(BaseDataSetter.createAngleValue(-ang*ModelContansts.Rad2Deg, AngleUnitType.DEG));
+			psXfrBranch.setToTurnRatio(BaseDataSetter.createTurnRatioPU(ratioFactor/x));
 			
 			if (pMwAngle != 0.0) {
 				AngleAdjustmentXmlType angAdj = parser.getFactory().createAngleAdjustmentXmlType();
@@ -597,7 +600,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
           		angAdj.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
           		angAdj.setDesiredValue(pMwAngle);				
 				angAdj.setDesiredPowerUnit(ActivePowerUnitType.MW);
-				angAdj.setAngleLimit(AclfDataSetter.createAngleLimit(angMax, angMin, AngleUnitType.DEG));
+				angAdj.setAngleLimit(BaseDataSetter.createAngleLimit(angMax, angMin, AngleUnitType.DEG));
 				angAdj.setAngleAdjOnFromSide(false);
 				// this part if not specified in the UCTE spec. We assume it is measured on to side
 				angAdj.setDesiredMeasuredOnFromSide(false);
@@ -640,7 +643,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		interChange.setUcteExchange(ucteExRec);
 		ucteExRec.setFromIsoId(fromIsoId);
 		ucteExRec.setToIsoId(toIsoId);
-		ucteExRec.setExchangePower(AclfDataSetter.createPowerValue(exPower, 0.0, ApparentPowerUnitType.MVA)); 
+		ucteExRec.setExchangePower(BaseDataSetter.createPowerValue(exPower, 0.0, ApparentPowerUnitType.MVA)); 
 		if (comment != null)
 			ucteExRec.setComment(comment);
     }

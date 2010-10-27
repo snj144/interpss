@@ -3,6 +3,8 @@ package org.ieee.odm.adapter.psse;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.BaseDataSetter;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
@@ -26,12 +28,12 @@ public class PSSENetDataRec {
 				// at here we have "100.00 / PSS/E-29.0 THU, JUN 20 2002 14:19"
 				st = new StringTokenizer(st.nextToken(), "/");
 				double baseMva = new Double(st.nextToken().trim()).doubleValue();
-				baseCaseNet.setBasePower(AclfDataSetter.createPowerMvaValue(baseMva));
+				baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(baseMva));
 				
 				NameValuePairListXmlType nvList = factory.createNameValuePairListXmlType();
 				baseCaseNet.setNvPairList(nvList);
 				
-				AclfParserHelper.addNVPair(nvList, "CaseIndicator", 
+				BaseJaxbHelper.addNVPair(nvList, "CaseIndicator", 
 						new Integer(indicator).toString());
 			}
 			else if (lineNo == 2) {
@@ -72,8 +74,8 @@ public class PSSENetDataRec {
 
 		if (isw > 0) {
 			area.setSwingBusId(parser.createBusRef(AbstractModelParser.BusIdPreFix+isw));
-			area.setDesiredExchangePower(AclfDataSetter.createActivePowerValue(pdes, ActivePowerUnitType.MW));
-			area.setExchangeErrTolerance(AclfDataSetter.createActivePowerValue(ptol, ActivePowerUnitType.MW));			
+			area.setDesiredExchangePower(BaseDataSetter.createActivePowerValue(pdes, ActivePowerUnitType.MW));
+			area.setExchangeErrTolerance(BaseDataSetter.createActivePowerValue(ptol, ActivePowerUnitType.MW));			
 		}
 	}
 

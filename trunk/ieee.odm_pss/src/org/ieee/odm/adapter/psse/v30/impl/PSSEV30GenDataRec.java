@@ -29,6 +29,8 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.BaseDataSetter;
+import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
@@ -81,38 +83,38 @@ public class PSSEV30GenDataRec {
 	    contriGen.setDesc("PSSE Generator " + id + " at Bus " + i);
 	    contriGen.setOffLine(stat!=1);
 
-	    contriGen.setPower(AclfDataSetter.createPowerValue(pg, qg, ApparentPowerUnitType.MVA));
+	    contriGen.setPower(BaseDataSetter.createPowerValue(pg, qg, ApparentPowerUnitType.MVA));
 
-	    contriGen.setDesiredVoltage(AclfDataSetter.createVoltageValue(vs, VoltageUnitType.PU));
+	    contriGen.setDesiredVoltage(BaseDataSetter.createVoltageValue(vs, VoltageUnitType.PU));
 		
 		if (pt == 0.0 & pb == 0.0 || pt < pb ) {
 			pt = 9999.0; pb = -9999.0;
 		}
-		contriGen.setPLimit(AclfDataSetter.createActivePowerLimit(pt, pb, ActivePowerUnitType.MW));
+		contriGen.setPLimit(BaseDataSetter.createActivePowerLimit(pt, pb, ActivePowerUnitType.MW));
 		
 		if (qt == 0.0 & qb == 0.0 || qt < qb) {
 			qt = 9999.0; qb = -9999.0;
 		}
-		contriGen.setQLimit(AclfDataSetter.createReactivePowerLimit(qt, qb, ReactivePowerUnitType.MVAR));
+		contriGen.setQLimit(BaseDataSetter.createReactivePowerLimit(qt, qb, ReactivePowerUnitType.MVAR));
 		
 	    if (ireg > 0) {
 	    	final String reBusId = AbstractModelParser.BusIdPreFix+ireg;
 	    	contriGen.setRemoteVoltageControlBus(parser.createBusRef(reBusId));
 	    }
 	    
-	    contriGen.setRatedPower(AclfDataSetter.createPowerMvaValue(mbase));
+	    contriGen.setRatedPower(BaseDataSetter.createPowerMvaValue(mbase));
 
 		if ( zr != 0.0 || zx != 0.0 )
-			contriGen.setSourceZ(AclfDataSetter.createZValue(zr, zx, ZUnitType.PU));
+			contriGen.setSourceZ(BaseDataSetter.createZValue(zr, zx, ZUnitType.PU));
 
 		if ( rt != 0.0 || xt != 0.0 ) {
-			contriGen.setXfrZ(AclfDataSetter.createZValue(rt, xt, ZUnitType.PU));
+			contriGen.setXfrZ(BaseDataSetter.createZValue(rt, xt, ZUnitType.PU));
 			contriGen.setXfrTap(gtap);
 		}
 		
 		contriGen.setMvarVControlParticipateFactor(rmpct*0.01);
 
-		AclfParserHelper.addOwner(contriGen, 
+		BaseJaxbHelper.addOwner(contriGen, 
 				new Integer(o1).toString(), f1, 
 				new Integer(o2).toString(), o2==0?0.0:f2, 
 				new Integer(o3).toString(), o3==0?0.0:f3, 
