@@ -43,7 +43,6 @@ import org.junit.Test;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
@@ -140,7 +139,7 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 		
     	for (StudyCase scase : mCaseContainer.getStudyCaseList()) {
     		if (scase.getNetModelString() != null) {
-    			AclfAdjNetwork aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
+    			AclfNetwork aclfAdjNet = (AclfNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
     			aclfAdjNet.rebuildLookupTable();
     			assertTrue(aclfAdjNet.isLfConverged());
     			assertTrue(!aclfAdjNet.getBranch("0005", "0006", "1").isActive());
@@ -231,7 +230,7 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 		
     	for (StudyCase scase : mCaseContainer.getStudyCaseList()) {
     		if (scase.getNetModelString() != null) {
-    			AclfAdjNetwork aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
+    			AclfNetwork aclfAdjNet = (AclfNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
     			aclfAdjNet.rebuildLookupTable();
     			assertTrue(aclfAdjNet.isLfConverged());
     			assertTrue(!aclfAdjNet.getBranch("0005", "0006", "1").isActive());

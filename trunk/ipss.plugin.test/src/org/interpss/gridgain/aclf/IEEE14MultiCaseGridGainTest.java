@@ -41,7 +41,6 @@ import org.junit.Test;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -131,7 +130,7 @@ public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 		
     	for (StudyCase scase : mCaseContainer.getStudyCaseList()) {
     		if (scase.getNetModelString() != null) {
-    			AclfAdjNetwork aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
+    			AclfNetwork aclfAdjNet = (AclfNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
     			aclfAdjNet.rebuildLookupTable();
     			assertTrue(aclfAdjNet.isLfConverged());
     		}
