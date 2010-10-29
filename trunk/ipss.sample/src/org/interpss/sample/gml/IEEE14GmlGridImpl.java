@@ -34,9 +34,9 @@ public class IEEE14GmlGridImpl {
     	// Build the base case network
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee14.ieee");
-		AclfNetwork adjNet = simuCtx.getAclfAdjNet();
+		AclfNetwork adjNet = simuCtx.getAclfNet();
 		
-		AclfMultiStudyCase mCaseContainer = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
+		AclfMultiStudyCase mCaseContainer = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_NETWORK);
 		// save the base case Network model
 		mCaseContainer.setBaseNetModelString(adjNet.serialize());
 		mCaseContainer.setRemoteJobCreation(true);

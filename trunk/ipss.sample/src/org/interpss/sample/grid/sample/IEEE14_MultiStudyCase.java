@@ -62,7 +62,7 @@ public class IEEE14_MultiStudyCase {
 	  	/*
 	  	 * step-3 define multiple study cases
 	  	 */
-		AclfMultiStudyCase mCaseContainer = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
+		AclfMultiStudyCase mCaseContainer = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_NETWORK);
 		// save the base case Network model
 		mCaseContainer.setBaseNetModelString(adjNet.serialize());
 

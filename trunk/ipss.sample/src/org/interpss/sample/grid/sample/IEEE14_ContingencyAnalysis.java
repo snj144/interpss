@@ -48,7 +48,7 @@ public class IEEE14_ContingencyAnalysis {
     	 */
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee14.ieee");
-		AclfNetwork adjNet = simuCtx.getAclfAdjNet();
+		AclfNetwork adjNet = simuCtx.getAclfNet();
 		adjNet.setId("IEEE14BusNetId");
     		
 		/*
@@ -62,7 +62,7 @@ public class IEEE14_ContingencyAnalysis {
 	  	/*
 	  	 * step-3 define multiple study cases
 	  	 */
-		ContingencyAnalysis mCaseContainer = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, adjNet);
+		ContingencyAnalysis mCaseContainer = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, adjNet);
 		// save the base case Network model
 		mCaseContainer.setBaseNetModelString(adjNet.serialize());
 
