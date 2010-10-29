@@ -8,8 +8,8 @@ import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBranchCode;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.LineAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.psse.aclf.PSSEAclfLine;
 
@@ -76,7 +76,7 @@ public class PSSELineDataRec {
 	 * @param msgHub the message hub object
 	 */
 	public void processLine(
-				AclfAdjNetwork adjNet, 
+			AclfNetwork adjNet, 
 				IPSSMsgHub msg) throws Exception {
 /*
 		I,J,CKT,R,X,B,RATEA,RATEB,RATEC,GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4

@@ -3,14 +3,14 @@ package org.interpss.custom.exchange.psse;
 import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 
 public class PSSEMultiTermDCLineDataRec {
 	public PSSEMultiTermDCLineDataRec(String lineStr, VersionNo version) {
 	}
 	
 	public void processMultiTerminalDCLine(
-			AclfAdjNetwork adjNet, 
+			AclfNetwork adjNet, 
 			IPSSMsgHub msg) throws Exception {
 		msg.sendWarnMsg("Voltage Source Converter DC Line record has not been implemented");	
 	}	

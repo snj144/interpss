@@ -48,7 +48,7 @@ import com.interpss.common.msg.SimuMessage;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.datatype.DStabSimuDBRecord;
@@ -59,7 +59,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 	private static final long serialVersionUID = 1;
 	
 	private IPSSMsgHub msg = null;
-	private AclfAdjNetwork aclfAdjNet = null;
+	private AclfNetwork aclfAdjNet = null;
 	private Object data = null;
 
 	private static JFileChooser saveTextFileChooser = null;
@@ -124,8 +124,8 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
             busStyleRadioButton.setEnabled(false);
             summaryRadioButton.setEnabled(false);
         }
-        else if (data instanceof AclfAdjNetwork) {
-        	aclfAdjNet = (AclfAdjNetwork)data;
+        else if (data instanceof AclfNetwork) {
+        	aclfAdjNet = (AclfNetwork)data;
         	textArea.setText(AclfOutFunc.loadFlowSummary(aclfAdjNet));
             busStyleRadioButton.setEnabled(true);
             summaryRadioButton.setEnabled(true);

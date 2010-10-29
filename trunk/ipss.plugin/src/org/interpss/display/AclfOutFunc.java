@@ -45,7 +45,6 @@ import com.interpss.core.aclf.adj.XfrTapControlType;
 import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
 import com.interpss.core.aclf.adpter.GenBusAdapter;
 import com.interpss.core.aclf.adpter.PSXfrAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.loss.ActivePowerWalkDirection;
 import com.interpss.core.algorithm.sec.BranchRatingAdapter;
@@ -73,7 +72,7 @@ public class AclfOutFunc {
 			return String.format("%6.3f ", kv);
 	}
   
-	public static String lf4Google(AclfAdjNetwork net) {
+	public static String lf4Google(AclfNetwork net) {
 		if (net.getOriginalDataFormat() == OriginalDataFormat.CIM)
 			return loadFlowSummary(net);
 		return lfResultsBusStyle(net);
@@ -100,7 +99,7 @@ public class AclfOutFunc {
 	 *   Summary output
 	 *   ==============
 	 */
-	public static String loadFlowSummary(AclfNetwork net) {
+	public static String _loadFlowSummary(AclfNetwork net) {
 		final StringBuffer str = new StringBuffer("");
 		try {
 			str.append("\n                          Load Flow Summary\n");
@@ -233,8 +232,8 @@ public class AclfOutFunc {
 		return str.toString();
 	}
 
-	public static String loadFlowSummary(AclfAdjNetwork net) {
-		StringBuffer str = new StringBuffer(loadFlowSummary((AclfNetwork) net));
+	public static String loadFlowSummary(AclfNetwork net) {
+		StringBuffer str = new StringBuffer(_loadFlowSummary((AclfNetwork) net));
 		try {
 			if (net.hasPVBusLimit())
 				str.append(pvBusLimitToString(net));
@@ -326,7 +325,7 @@ public class AclfOutFunc {
 		return str.toString();
 	}
 
-	public static String pvBusLimitToString(AclfAdjNetwork net)
+	public static String pvBusLimitToString(AclfNetwork net)
 			throws Exception {
 		final StringBuffer str = new StringBuffer("");
 
@@ -383,7 +382,7 @@ public class AclfOutFunc {
 		return str.toString();
 	}
 
-	public static String pqBusLimitToString(AclfAdjNetwork net)
+	public static String pqBusLimitToString(AclfNetwork net)
 			throws Exception {
 		StringBuffer str = new StringBuffer("");
 
@@ -423,7 +422,7 @@ public class AclfOutFunc {
 		return str.toString();
 	}
 
-	public static String remoteQBusToString(AclfAdjNetwork net)
+	public static String remoteQBusToString(AclfNetwork net)
 			throws Exception {
 		StringBuffer str = new StringBuffer("");
 
@@ -465,7 +464,7 @@ public class AclfOutFunc {
 		return str.toString();
 	}
 
-	public static String aclfFuncLoadToString(AclfAdjNetwork net)
+	public static String aclfFuncLoadToString(AclfNetwork net)
 			throws Exception {
 		StringBuffer str = new StringBuffer("");
 
@@ -507,7 +506,7 @@ public class AclfOutFunc {
 		return str.toString();
 	}
 
-	public static String tapVControlToString(AclfAdjNetwork net)
+	public static String tapVControlToString(AclfNetwork net)
 			throws Exception {
 		StringBuffer str = new StringBuffer("");
 
@@ -571,7 +570,7 @@ public class AclfOutFunc {
 		return str.toString();
 	}
 
-	public static String psXfrPControlToString(AclfAdjNetwork net)
+	public static String psXfrPControlToString(AclfNetwork net)
 			throws Exception {
 		StringBuffer str = new StringBuffer("");
 

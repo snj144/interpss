@@ -7,7 +7,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.netAdj.AreaInterchangeControl;
 import com.interpss.core.aclf.netAdj.InterareaTransfer;
 import com.interpss.core.net.Owner;
@@ -62,7 +62,7 @@ public class PSSEDataRec {
 		 * @param msgHub the message hub object
 		 */
 		public boolean processHeader(
-					AclfAdjNetwork adjNet, 
+				AclfNetwork adjNet, 
 					String lineStr,
 					int lineNo, 
 					IPSSMsgHub msg) throws Exception {
@@ -102,11 +102,11 @@ public class PSSEDataRec {
 		/** 
 		 * Process area interchange record lines
 		 *
-		 * @param adjNet the AclfAdjNetwork object
+		 * @param adjNet the AclfNetwork object
 		 * @param msgHub the message hub object
 		 */
 		public void processAreaInterchange(
-					AclfAdjNetwork adjNet, 
+				AclfNetwork adjNet, 
 					IPSSMsgHub msgHub) throws Exception {
 	/*
 			I,ISW,PDES,PTOL,'ARNAM'
@@ -146,7 +146,7 @@ public class PSSEDataRec {
 		}
 		
 		public void processZone(
-				AclfAdjNetwork adjNet, 
+				AclfNetwork adjNet, 
 				IPSSMsgHub msg) throws Exception {
 			/*
 			 * Format: I, ’ZONAME’
@@ -180,7 +180,7 @@ public class PSSEDataRec {
 		}
 		
 		public void processInterareaTransfer(
-				AclfAdjNetwork adjNet, 
+				AclfNetwork adjNet, 
 				IPSSMsgHub msg) throws Exception {
 			/*
 			 * format: ARFROM, ARTO, TRID, PTRAN
@@ -223,7 +223,7 @@ public class PSSEDataRec {
 		}
 	
 		public void processOwner(
-				AclfAdjNetwork adjNet, 
+				AclfNetwork adjNet, 
 				IPSSMsgHub msg) throws Exception {
 			/*
 			 * format : I, ’OWNAME’
@@ -241,7 +241,7 @@ public class PSSEDataRec {
 	}
 	
 	public static void processXfrZCorrectionTable(
-			AclfAdjNetwork adjNet, 
+			AclfNetwork adjNet, 
 			String lineStr1,
 			int lineNo, 
 			IPSSMsgHub msg) throws Exception {

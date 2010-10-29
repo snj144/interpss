@@ -41,6 +41,7 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adj.AdjControlType;
 import com.interpss.core.aclf.adj.PSXfrPControl;
 import com.interpss.core.aclf.adj.PVBusLimit;
@@ -51,7 +52,6 @@ import com.interpss.core.aclf.adpter.PSXfrAdapter;
 import com.interpss.core.aclf.adpter.PVBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.aclf.adpter.XfrAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 
 public class UCTEFormat_in extends IpssFileAdapterBase {
 	private final static String PsXfrType_ASYM = "ASYM"; 
@@ -62,7 +62,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 		super(msgHub);
 	}
 	
-    public static AclfAdjNetwork loadFile(final java.io.BufferedReader din, String filename, final IPSSMsgHub msg) throws Exception {
+    public static AclfNetwork loadFile(final java.io.BufferedReader din, String filename, final IPSSMsgHub msg) throws Exception {
     	final UCTENetwork  aclfNet = new UCTENetwork(filename, "UCTE Network createb by InterPSS");
     	
     	aclfNet.setAllowParallelBranch(true);
@@ -152,7 +152,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
     /*
      * ##C section
      */
-    private static boolean processCommentRecord(String str, AclfAdjNetwork  aclfNet) {
+    private static boolean processCommentRecord(String str, AclfNetwork  aclfNet) {
 		IpssLogger.getLogger().info("Comment: " + str);
 		// there is no need to do anything to the comment lines
 		//aclfNet.setDesc(aclfNet.getDesc() + str + "\n");
@@ -162,7 +162,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
     /*
      * ##N and ##Z sections
      */
-    private static boolean processNodeRecord(String str, String isoId, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
+    private static boolean processNodeRecord(String str, String isoId, AclfNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Node Record: " + str);
 
 		// parse the input line for node information
@@ -281,7 +281,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
     /*
      * ##L section
      */
-    private static boolean processLineRecord(String str, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
+    private static boolean processLineRecord(String str, AclfNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Line Record: " + str);
 
 		// parse the input line for line information
@@ -332,7 +332,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
     /*
      * ##T section
      */
-    private static boolean processXfr2WindingRecord(String str, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
+    private static boolean processXfr2WindingRecord(String str, AclfNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Xfr 2W Record: " + str);
 
 		// parse the input line for xformer information
@@ -405,7 +405,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
     /*
      * ##R section
      */
-    private static boolean processXfr2WRegulationRecord(String str, AclfAdjNetwork aclfNet, IPSSMsgHub msg) throws InterpssException {
+    private static boolean processXfr2WRegulationRecord(String str, AclfNetwork aclfNet, IPSSMsgHub msg) throws InterpssException {
 		IpssLogger.getLogger().info("Xfr 2W Reg Record: " + str);
 
 		String fromNodeId, toNodeId, orderCode, type;
@@ -540,7 +540,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
     /*
      * ##TT section
      */
-    private static boolean processXfr2LookupRecord(String str, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
+    private static boolean processXfr2LookupRecord(String str, AclfNetwork aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Xfr 2W Desc Record: " + str);
 		IpssLogger.getLogger().severe("##TT not implemented yet. Contact support@interpss.org for more info");
 		msg.sendErrorMsg("##TT not implemented yet. Contact support@interpss.org for more info");

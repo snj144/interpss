@@ -37,6 +37,7 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adj.AdjControlType;
 import com.interpss.core.aclf.adj.FunctionLoad;
 import com.interpss.core.aclf.adj.PSXfrPControl;
@@ -47,7 +48,6 @@ import com.interpss.core.aclf.adj.TapControl;
 import com.interpss.core.aclf.adpter.PQBusAdapter;
 import com.interpss.core.aclf.adpter.PVBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.net.Bus;
 import com.interpss.ext.psse.aclf.PSSEAclfXformer;
 
@@ -77,7 +77,7 @@ public class PSSE2IpssUtilFunc {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean transferData(AclfAdjNetwork adjNet, IPSSMsgHub msg) throws InterpssException {
+	public static boolean transferData(AclfNetwork adjNet, IPSSMsgHub msg) throws InterpssException {
 		boolean hasError = false;
 		
 		// PSS/E do not have ground branch concept
