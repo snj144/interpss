@@ -31,6 +31,7 @@ import org.apache.commons.math.complex.Complex;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
@@ -42,7 +43,7 @@ import com.interpss.simu.util.sample.SampleCases;
 
 
 public class ZBusSample {
-	public static void main(String args[]) {
+	public static void main(String args[]) throws InterpssException {
 		SpringAppContext.setAppContext(Constants.SpringConfigPath_Plugin);
 		
 		// set session message to Warning level
