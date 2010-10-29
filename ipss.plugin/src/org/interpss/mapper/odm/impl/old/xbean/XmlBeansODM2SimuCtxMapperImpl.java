@@ -53,15 +53,15 @@ public class XmlBeansODM2SimuCtxMapperImpl {
 				&& parser.getStudyCase().getBaseCase().getAnalysisCategory() == AnalysisCategoryEnumType.LOADFLOW) {
 
 			PSSNetworkXmlType xmlNet = parser.getBaseCase();
-			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
+			simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
 			try {
-				simuCtx.setAclfAdjNet(XmlBeansODMLoadflowDataMapperImpl.mapNetworkData(xmlNet));
+				simuCtx.setAclfNet(XmlBeansODMLoadflowDataMapperImpl.mapNetworkData(xmlNet));
 
 				for (BusRecordXmlType busRec : xmlNet.getBusList().getBusArray()) 
-					XmlBeansODMLoadflowDataMapperImpl.mapBusData(busRec, simuCtx.getAclfAdjNet());
+					XmlBeansODMLoadflowDataMapperImpl.mapBusData(busRec, simuCtx.getAclfNet());
 
 				for (BranchRecordXmlType branchRec : xmlNet.getBranchList().getBranchArray()) 
-					XmlBeansODMLoadflowDataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
+					XmlBeansODMLoadflowDataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfNet(), simuCtx.getMsgHub());
 			} catch (Exception e) {
 				e.printStackTrace();
 				IpssLogger.getLogger().severe(e.toString());

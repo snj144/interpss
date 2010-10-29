@@ -59,18 +59,18 @@ public class ODM2SimuCtxMapper {
 				&& parser.getAclfBaseCase().getAnalysisCategory() == AnalysisCategoryEnumType.LOADFLOW) {
 
 			LoadflowNetXmlType xmlNet = parser.getAclfBaseCase();
-			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
+			simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
 			try {
-				simuCtx.setAclfAdjNet(ODMV07DataMapperImpl.mapNetworkData(xmlNet));
+				simuCtx.setAclfNet(ODMV07DataMapperImpl.mapNetworkData(xmlNet));
 
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					BusRecordXmlType busRec = (BusRecordXmlType) bus.getValue();
-					ODMV07DataMapperImpl.mapBusData(busRec, simuCtx.getAclfAdjNet());
+					ODMV07DataMapperImpl.mapBusData(busRec, simuCtx.getAclfNet());
 				}
 
 				for (JAXBElement<? extends BaseBranchXmlType> branch : xmlNet.getBranchList().getBranch()) { 
 					BranchRecordXmlType branchRec = (BranchRecordXmlType) branch.getValue();
-					ODMV07DataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
+					ODMV07DataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfNet(), simuCtx.getMsgHub());
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

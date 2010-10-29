@@ -67,8 +67,8 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
   		// System.out.println(adjNet.net2String());
 
 		// set the simuContext object
-  		simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
-  		simuCtx.setAclfAdjNet(adjNet);
+  		simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
+  		simuCtx.setAclfNet(adjNet);
   		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
   		simuCtx.setDesc("This project is created by input file " + filepath);
 	}

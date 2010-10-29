@@ -130,22 +130,22 @@ public class SimuCtxReportMapper extends AbstractMapper {
 					.getAclfNet());
 		} else if (klass == PVBusLimit.class) {
 			return AclfResultMapperImpl.createPVBusLimitBeanArray(simuCtx
-					.getAclfAdjNet());
+					.getAclfNet());
 		} else if (klass == PQBusLimit.class) {
 			return AclfResultMapperImpl.createPQBusLimitBeanArray(simuCtx
-					.getAclfAdjNet());
+					.getAclfNet());
 		} else if (klass == FunctionLoad.class) {
 			return AclfResultMapperImpl.createFunctionLoadBeanArray(simuCtx
-					.getAclfAdjNet());
+					.getAclfNet());
 		} else if (klass == PSXfrPControl.class) {
 			return AclfResultMapperImpl.createPSXfrPControlBeanArray(simuCtx
-					.getAclfAdjNet());
+					.getAclfNet());
 		} else if (klass == RemoteQBus.class) {
 			return AclfResultMapperImpl.createRemoteQBusBeanArray(simuCtx
-					.getAclfAdjNet());
+					.getAclfNet());
 		} else if (klass == TapControl.class) {
 			return AclfResultMapperImpl.createTapVControlBeanArray(simuCtx
-					.getAclfAdjNet());
+					.getAclfNet());
 		}
 
 		else if (klass == RptAcscVoltAmpsBean.class) {
