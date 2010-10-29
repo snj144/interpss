@@ -344,7 +344,7 @@ public class GEDataRec {
 			inf.setNetMvar(this.qnet);
 			for (int i = 0; i < 8; i++)
 				inf.getMvaRatings().add(i, this.rAry[i]);
-			net.getInterfaces().add(inf);
+			net.getAclfNetAjust().getInterfaces().add(inf);
 		}
 
 		@Override
@@ -385,7 +385,7 @@ public class GEDataRec {
 		}
 
 		public void setInterfaceBranchData(GeAclfNetwork net, IPSSMsgHub msg) throws Exception {
-			TieLineInterface inf = net.getInterface(this.ifn);
+			TieLineInterface inf = net.getAclfNetAjust().getInterface(this.ifn);
 			if (inf == null) {
 				msg.sendErrorMsg("Interface can not be found, interface number: " + this.ifn);
 				throw new Exception("Interface can not be found");				
