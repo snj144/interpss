@@ -38,7 +38,7 @@ import org.interpss.custom.exchange.impl.IpssInternalFormat_in;
 import org.interpss.custom.exchange.impl.IpssInternalFormat_out;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -63,7 +63,7 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
 		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
 		
 		// load the loadflow data into the AclfAdjNetwork object
-		final AclfAdjNetwork adjNet = IpssInternalFormat_in.loadFile(din, msgHub);
+		final AclfNetwork adjNet = IpssInternalFormat_in.loadFile(din, msgHub);
   		// System.out.println(adjNet.net2String());
 
 		// set the simuContext object

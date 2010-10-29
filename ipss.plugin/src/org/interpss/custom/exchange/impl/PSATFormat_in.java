@@ -15,10 +15,10 @@ import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.LineAdapter;
 import com.interpss.core.aclf.adpter.LoadBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 
 public class PSATFormat_in {
 	private static final int NotDefined = 0;
@@ -27,8 +27,8 @@ public class PSATFormat_in {
 	private static final int SwingBusData = 3;
 	private static final int PQBusData = 4;
 
-    public static AclfAdjNetwork loadFile(java.io.BufferedReader din, IPSSMsgHub msg) throws Exception {
-    	AclfAdjNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
+    public static AclfNetwork loadFile(java.io.BufferedReader din, IPSSMsgHub msg) throws Exception {
+    	AclfNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
     	adjNet.setAllowParallelBranch(false);
 
 		String str = "";
@@ -77,7 +77,7 @@ public class PSATFormat_in {
     	return adjNet;
     }
 
-    private static void processBusDataLine(String lineStr, AclfAdjNetwork  adjNet) {
+    private static void processBusDataLine(String lineStr, AclfNetwork  adjNet) {
 		IpssLogger.getLogger().info("BusData: " + lineStr);
       	java.util.StringTokenizer st = new java.util.StringTokenizer(lineStr);
       	int busNumber = 0, zoneNo = 0, areaNo = 0;
@@ -101,7 +101,7 @@ public class PSATFormat_in {
     	//adjNet.addBus(bus);    	
   	}
 
-    private static void processSwingBusDataLine(String lineStr, AclfAdjNetwork  adjNet) throws Exception {
+    private static void processSwingBusDataLine(String lineStr, AclfNetwork  adjNet) throws Exception {
     	IpssLogger.getLogger().info("SwingBusData: " + lineStr);
       	java.util.StringTokenizer st = new java.util.StringTokenizer(lineStr);
       	int busNumber = 0;
@@ -134,7 +134,7 @@ public class PSATFormat_in {
 		gen.setVoltAng(ang, UnitType.Deg);
     }
     
-    private static void processPQBusDataLine(String lineStr, AclfAdjNetwork  adjNet)  throws Exception  {
+    private static void processPQBusDataLine(String lineStr, AclfNetwork  adjNet)  throws Exception  {
     	IpssLogger.getLogger().info("PQBusData: " + lineStr);
       	java.util.StringTokenizer st = new java.util.StringTokenizer(lineStr);
       	int busNumber = 0;
@@ -164,7 +164,7 @@ public class PSATFormat_in {
 		load.setLoad(new Complex(pl, ql), UnitType.PU);      	
     }
 
-    private static void processBranchDataLine(String lineStr, AclfAdjNetwork  adjNet, IPSSMsgHub msg) {
+    private static void processBranchDataLine(String lineStr, AclfNetwork  adjNet, IPSSMsgHub msg) {
     	IpssLogger.getLogger().info("BranchData: " + lineStr);
       	java.util.StringTokenizer st = new java.util.StringTokenizer(lineStr);
       	int fromBusNumber = 0, toBusNumber = 0;

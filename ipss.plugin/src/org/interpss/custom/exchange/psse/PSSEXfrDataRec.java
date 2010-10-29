@@ -34,9 +34,9 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranchCode;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.PSXfrAdapter;
 import com.interpss.core.aclf.adpter.XfrAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.psse.aclf.PSSEAclf3WXfr;
 import com.interpss.ext.psse.aclf.PSSEAclfXformer;
@@ -207,7 +207,7 @@ public class PSSEXfrDataRec {
 	 * @param msgHub the message hub object
 	 */
 	public void processXfr(
-				AclfAdjNetwork adjNet, 
+				AclfNetwork adjNet, 
 				IPSSMsgHub msg) throws Exception {
 /*
 	For 2W and 3W Xfr: I,J,K,CKT,CW,CZ,CM,MAG1,MAG2,NMETR,’NAME’,STAT,O1,F1,...,O4,F4

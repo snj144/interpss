@@ -8,7 +8,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.psse.aclf.PSSESwitchedShunt;
 
@@ -66,7 +66,7 @@ public class PSSESwitchedShuntDataRec {
 	}
 	
 	public void processSwitchedShunt(
-			AclfAdjNetwork adjNet, 
+			AclfNetwork adjNet, 
 			IPSSMsgHub msg) throws Exception {
 		/*
 			I,MODSW,VSWHI,VSWLO,SWREM,RMINIT,NAME(PSS/E30),BINIT,N1,B1,N2,B2...N8,B8

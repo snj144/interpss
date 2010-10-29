@@ -45,12 +45,11 @@ import com.interpss.core.aclf.adpter.LoadBusAdapter;
 import com.interpss.core.aclf.adpter.PQBusAdapter;
 import com.interpss.core.aclf.adpter.PVBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 
 public class IpssInternalFormat_in {
-    public static AclfAdjNetwork loadFile(final java.io.BufferedReader din, final IPSSMsgHub msg) throws Exception {
+    public static AclfNetwork loadFile(final java.io.BufferedReader din, final IPSSMsgHub msg) throws Exception {
     	// create a AclfAdjNetwork object to hold the loadflow data
-    	final AclfAdjNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
+    	final AclfNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
     	adjNet.setAllowParallelBranch(true);
     	
     	// process loadflow data line-by-line
@@ -263,7 +262,7 @@ public class IpssInternalFormat_in {
 		}
     }
 
-    public static void loadPVBusInfo(final String str, final AclfAdjNetwork adjNet) {
+    public static void loadPVBusInfo(final String str, final AclfNetwork adjNet) {
       	// MsgHub.sendInfoMsg("PVBus: " + str);
       	final java.util.StringTokenizer st = new java.util.StringTokenizer(str);
       	String id = null;
@@ -293,11 +292,11 @@ public class IpssInternalFormat_in {
 		}
     }
 
-    public static void loadPQBusInfo(final String str, final AclfAdjNetwork adjNet) {
+    public static void loadPQBusInfo(final String str, final AclfNetwork adjNet) {
         // do nothing. loadBusInfo already done loading info
     }
 
-    public static void loadCapacitorBusInfo(final String str, final AclfAdjNetwork adjNet) {
+    public static void loadCapacitorBusInfo(final String str, final AclfNetwork adjNet) {
       	// MsgHub.sendInfoMsg("CapacitorBus: " + str);
       	final java.util.StringTokenizer st = 	new java.util.StringTokenizer(str);
       	String id = null;

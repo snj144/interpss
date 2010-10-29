@@ -45,6 +45,7 @@ import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adj.AdjControlType;
 import com.interpss.core.aclf.adj.PQBusLimit;
 import com.interpss.core.aclf.adj.PSXfrPControl;
@@ -59,7 +60,6 @@ import com.interpss.core.aclf.adpter.PSXfrAdapter;
 import com.interpss.core.aclf.adpter.PVBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.aclf.adpter.XfrAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Zone;
@@ -71,8 +71,8 @@ public class IeeeCommonFormat_in {
 	private static final int InterchangeData = 4;
 	private static final int TielineData = 5;
 
-    public static AclfAdjNetwork loadFile(final java.io.BufferedReader din, final IPSSMsgHub msg) throws Exception {
-    	final AclfAdjNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
+    public static AclfNetwork loadFile(final java.io.BufferedReader din, final IPSSMsgHub msg) throws Exception {
+    	final AclfNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
     	adjNet.setAllowParallelBranch(true);
 
     	String str = din.readLine();
@@ -140,7 +140,7 @@ public class IeeeCommonFormat_in {
      *   ============ 
      */
 
-    private static void processNetData(final String str, final AclfAdjNetwork  adjNet) {
+    private static void processNetData(final String str, final AclfNetwork  adjNet) {
     	// parse the input data line
     	final String[] strAry = getNetDataFields(str);
     	
@@ -203,7 +203,7 @@ public class IeeeCommonFormat_in {
      *   ======== 
      */
 
-    private static void processBusData(final String str, final AclfAdjNetwork  net)  throws InterpssException {
+    private static void processBusData(final String str, final AclfNetwork  net)  throws InterpssException {
     	// parse the input data line
     	final String[] strAry = getBusDataFields(str);
     	
@@ -408,7 +408,7 @@ public class IeeeCommonFormat_in {
      *   =========== 
      */
 
-    private static void processBranchData(final String str, final AclfAdjNetwork net, final IPSSMsgHub msg) throws InterpssException  {
+    private static void processBranchData(final String str, final AclfNetwork net, final IPSSMsgHub msg) throws InterpssException  {
     	// parse the input data line
     	final String[] strAry = getBranchDataFields(str);
 
@@ -627,7 +627,7 @@ public class IeeeCommonFormat_in {
      *   ============== 
      */
 
-    private static void processLossZoneData(final String str, final AclfAdjNetwork net, final IPSSMsgHub msg) {
+    private static void processLossZoneData(final String str, final AclfNetwork net, final IPSSMsgHub msg) {
     	final String[] strAry = getLossZoneDataFields(str);
 
 //    	Columns  1- 3   Loss zone number [I] *
@@ -660,7 +660,7 @@ public class IeeeCommonFormat_in {
      *   ================ 
      */
     
-    private static void processInterchangeData(final String str, final AclfAdjNetwork net, final IPSSMsgHub msg) {
+    private static void processInterchangeData(final String str, final AclfNetwork net, final IPSSMsgHub msg) {
     	final String[] strAry = getInterchangeDataFields(str);
     	
 //    	Columns  1- 2   Area number [I], no zeros! *
@@ -727,7 +727,7 @@ public class IeeeCommonFormat_in {
      *   ============ 
      */
 
-    private static void processTielineData(final String str, final AclfAdjNetwork net, final IPSSMsgHub msg) {
+    private static void processTielineData(final String str, final AclfNetwork net, final IPSSMsgHub msg) {
     	final String[] strAry = getTielineDataFields(str);
     	
 //    	Columns  1- 4   Metered bus number [I] *
