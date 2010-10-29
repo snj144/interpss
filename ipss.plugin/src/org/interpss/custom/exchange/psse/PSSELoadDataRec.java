@@ -31,7 +31,7 @@ import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.psse.aclf.PSSEAclfLoad;
 
@@ -77,7 +77,7 @@ public class PSSELoadDataRec {
 	 * @param msgHub the message hub object
 	 */
 	public void processLoad(
-				AclfAdjNetwork adjNet, 
+			AclfNetwork adjNet, 
 				IPSSMsgHub msg) throws Exception {
 /*
 		I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER

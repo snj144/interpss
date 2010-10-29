@@ -34,7 +34,7 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.psse.aclf.PSSEAclfGen;
 
@@ -117,7 +117,7 @@ public class PSSEGenDataRec {
 	 * @param msgHub the message hub object
 	 */
 	public void processGen(
-				AclfAdjNetwork adjNet, 
+			AclfNetwork adjNet, 
 				IPSSMsgHub msg) throws Exception {
 /*
 		I,ID,PG,QG,QT,QB,VS,IREG,MBASE,ZR,ZX,RT,XT,GTAP,STAT,RMPCT,PT,PB,O1,F1,...,O4,F4

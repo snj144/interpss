@@ -25,7 +25,6 @@
 package org.interpss.mapper.editor;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.editor.data.aclf.AclfBusData;
 import org.interpss.editor.data.acsc.AcscBranchData;
 import org.interpss.editor.data.acsc.AcscBusData;
 import org.interpss.editor.data.acsc.AcscNetData;
@@ -54,8 +53,6 @@ import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscNetwork;
-import com.interpss.core.acsc.IAcscBranch;
-import com.interpss.core.acsc.IAcscBus;
 import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;

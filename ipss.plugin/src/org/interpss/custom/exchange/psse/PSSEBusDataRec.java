@@ -35,8 +35,8 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 
 public class PSSEBusDataRec {
 	public int i, ide, area = 1, zone = 1, owner = 1;
@@ -86,7 +86,7 @@ public class PSSEBusDataRec {
 	 * @param msgHub the message hub object
 	 */
 	public void processBus(
-				AclfAdjNetwork adjNet, 
+			AclfNetwork adjNet, 
 				IPSSMsgHub msg) throws Exception {
 /*
 		Format: I,    ’NAME’,    BASKV, IDE,  GL,      BL,  AREA, ZONE, VM, VA, OWNER

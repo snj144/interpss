@@ -37,7 +37,7 @@ import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -89,7 +89,7 @@ public class FileAdapter_GEFormat extends IpssFileAdapterBase {
 		final InputStream stream = new FileInputStream(file);
 		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
 		
-		final AclfAdjNetwork adjNet = GEFormat_in.loadFile(din, StringUtil.getFileName(filepath), GEDataRec.VersionNo.PSLF15, msgHub);
+		final AclfNetwork adjNet = GEFormat_in.loadFile(din, StringUtil.getFileName(filepath), GEDataRec.VersionNo.PSLF15, msgHub);
   		// System.out.println(adjNet.net2String());
 	  		
   		if (adjNet != null) {

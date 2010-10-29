@@ -67,7 +67,6 @@ import com.interpss.core.aclf.adpter.PSXfrAdapter;
 import com.interpss.core.aclf.adpter.PVBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.aclf.adpter.XfrAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.CimRecord;
 import com.interpss.core.net.Zone;

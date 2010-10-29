@@ -6,7 +6,7 @@ import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.ext.psse.aclf.PSSEAclfLine;
 
 public class PSSEMultiSecLineDataRec {
@@ -50,7 +50,7 @@ public class PSSEMultiSecLineDataRec {
 			dumBusIdAry[8] = st.nextToken().trim();
 	}
 	
-	public void processMultiSecLine(AclfAdjNetwork adjNet, IPSSMsgHub msg) throws Exception {
+	public void processMultiSecLine(AclfNetwork adjNet, IPSSMsgHub msg) throws Exception {
 		/*
 		 * format: I, J, ID, DUM1, DUM2, ... DUM9
 		 * 

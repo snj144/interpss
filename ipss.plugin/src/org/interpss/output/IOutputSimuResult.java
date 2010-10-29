@@ -25,7 +25,6 @@
 package org.interpss.output;
 
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.dclf.DclfAlgorithm;
 
 public interface IOutputSimuResult {
@@ -41,18 +40,9 @@ public interface IOutputSimuResult {
 	/**
 	 * Output Aclf analysis result
 	 * 
-	 * @param net an AclfNetwork object
-	 * @param outFilename output filename
-	 * @return
-	 */
-	boolean outAclfResult(AclfNetwork net, String outFilename);
-
-	/**
-	 * Output Aclf analysis result
-	 * 
 	 * @param net an AclfAdjNetwork object
 	 * @param outFilename output filename
 	 * @return
 	 */
-	boolean outAclfResult(AclfAdjNetwork net, String outFilename);
+	boolean outAclfResult(AclfNetwork net, String outFilename);
 }
