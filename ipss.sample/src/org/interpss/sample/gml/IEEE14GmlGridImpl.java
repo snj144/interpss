@@ -15,7 +15,7 @@ import org.interpss.sample.grid.impl.multi.CustomMultiLocalTask;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -34,7 +34,7 @@ public class IEEE14GmlGridImpl {
     	// Build the base case network
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee14.ieee");
-		AclfAdjNetwork adjNet = simuCtx.getAclfAdjNet();
+		AclfNetwork adjNet = simuCtx.getAclfAdjNet();
 		
 		AclfMultiStudyCase mCaseContainer = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 		// save the base case Network model

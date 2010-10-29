@@ -45,7 +45,6 @@ import com.interpss.core.aclf.adj.FunctionLoad;
 import com.interpss.core.aclf.adpter.LineAdapter;
 import com.interpss.core.aclf.adpter.LoadBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.pssl.simu.IpssAclf;
 
@@ -94,7 +93,7 @@ public class SampleLoadflow {
 
 	public static void loadflowWithAdjustment(IPSSMsgHub msg) {
 		// Create an AclfAdjNetwork object
-		AclfAdjNetwork net = IpssAclf.createAclfNetwork("Net")
+		AclfNetwork net = IpssAclf.createAclfNetwork("Net")
 				.setBaseKva(100000.0)
 				.getAclfNet();
 

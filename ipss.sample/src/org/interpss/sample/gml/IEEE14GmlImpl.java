@@ -13,7 +13,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IPSSMsgHubImpl;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
@@ -28,7 +28,7 @@ public class IEEE14GmlImpl {
     	// Build the base case network
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee14.ieee");
-		AclfAdjNetwork adjNet = simuCtx.getAclfAdjNet();
+		AclfNetwork adjNet = simuCtx.getAclfAdjNet();
 		
 		// load the Gml file
 		GraphmlType gml = GmlHelper.load("testData/gml/sample_001.gml");
@@ -38,7 +38,7 @@ public class IEEE14GmlImpl {
 		
 		for (GraphType graph : glist) {
 			// for each graph object, create a sub network
-			AclfAdjNetwork subNet = GmlHelper.createSubNet(adjNet, graph);
+			AclfNetwork subNet = GmlHelper.createSubNet(adjNet, graph);
 
 			// Define LF algorithm for the sub network 
 			IPSSMsgHub msg = new IPSSMsgHubImpl();

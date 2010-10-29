@@ -31,14 +31,14 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.pssl.simu.IpssAclf;
 
 
 public class SampleLoadflowDSL {
 	public static void main(String args[]) {
-		AclfAdjNetwork net = IpssAclf.createAclfNetwork("Sample AclfNetwork")
+		AclfNetwork net = IpssAclf.createAclfNetwork("Sample AclfNetwork")
 				.setBaseKva(100000.0)
 				.getAclfNet();
 
