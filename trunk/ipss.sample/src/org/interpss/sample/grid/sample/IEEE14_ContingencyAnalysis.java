@@ -16,7 +16,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IPSSMsgHubImpl;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.net.Branch;
 import com.interpss.simu.SimuContext;
@@ -48,7 +48,7 @@ public class IEEE14_ContingencyAnalysis {
     	 */
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee14.ieee");
-		AclfAdjNetwork adjNet = simuCtx.getAclfAdjNet();
+		AclfNetwork adjNet = simuCtx.getAclfAdjNet();
 		adjNet.setId("IEEE14BusNetId");
     		
 		/*

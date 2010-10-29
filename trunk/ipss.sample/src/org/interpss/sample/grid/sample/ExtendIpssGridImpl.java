@@ -11,7 +11,7 @@ import org.interpss.sample.grid.impl.single.CustomSingleLocalTask;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IPSSMsgHubImpl;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.util.sample.SampleCases;
 
 /**
@@ -35,7 +35,7 @@ public class ExtendIpssGridImpl {
 	    	CustomSingleLocalTask.RemoteNodeId = GridUtil.getAnyRemoteNodeId();
 
 	    	// input data and create InterPSS Aclf net object
-    		AclfAdjNetwork adjNet = CoreObjectFactory.createAclfAdjNetwork();
+	    	AclfNetwork adjNet = CoreObjectFactory.createAclfAdjNetwork();
     		SampleCases.load_LF_5BusSystem(adjNet, msg);
     		adjNet.setId("SampleNetId");
     		

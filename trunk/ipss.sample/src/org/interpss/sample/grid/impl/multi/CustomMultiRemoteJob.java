@@ -10,7 +10,6 @@ import org.interpss.sample.gml.GmlHelper;
 import com.interpss.common.datatype.Constants;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 
 public class CustomMultiRemoteJob extends GridAclfJob {
 	private static final long serialVersionUID = 1;
@@ -24,7 +23,7 @@ public class CustomMultiRemoteJob extends GridAclfJob {
 		RemoteMessageTable outRemoteResult = new RemoteMessageTable();
 		try {
 			// get the cached base network object 
-			AclfAdjNetwork net = CoreObjectFactory.createAclfAdjNetwork(
+			AclfNetwork net = CoreObjectFactory.createAclfAdjNetwork(
 					getSessionStringAttrib(Constants.GridToken_BaseStudyCaseNetworkModel));
 			
 			// get the GML graph object and create sub-network

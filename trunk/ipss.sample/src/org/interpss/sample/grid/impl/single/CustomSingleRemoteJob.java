@@ -34,7 +34,7 @@ public class CustomSingleRemoteJob extends GridAclfJob {
 			/*
 			 * de-serialize the job object
 			 */
-			AclfAdjNetwork net = CoreObjectFactory.createAclfAdjNetwork();
+			AclfNetwork net = CoreObjectFactory.createAclfAdjNetwork();
 			net = (AclfAdjNetwork)net.deserialize(inRemoteMsg.getStudyCaseNetworkModel());
 			
 			/*
