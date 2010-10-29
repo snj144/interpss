@@ -32,7 +32,7 @@ import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -46,7 +46,7 @@ public class N11Analysis_CR_Test extends BaseTestSetup {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
 		SimuContext simuCtx = adapter.load("testData/psse/MXV-1120MW_FNC475_FEC196_FAC212_InterPSS_3d.raw");
 
-		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfAdjNet();
 		//System.out.println(net.net2String());
 
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, net);

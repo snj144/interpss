@@ -31,7 +31,7 @@ import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.simu.SimuContext;
@@ -43,7 +43,7 @@ public class MMWG_2007series_2008S_Test extends BaseTestSetup {
 		SimuContext simuCtx = adapter.load("testData/psse/MMWG_2007series_2008S_Final.raw");
 //  		System.out.println(simuCtx.getAclfNet().net2String());
 
-		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfAdjNet();
 
 		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);

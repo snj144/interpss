@@ -39,7 +39,6 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
@@ -60,7 +59,7 @@ public class GuideSample_TestCase extends BaseTestSetup {
 		}	
   		simuCtx.setName("Sample18Bus");
  	  	simuCtx.setDesc("This project is created by input file adapter.getModel()");
- 	  	AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+ 	  	AclfNetwork net = simuCtx.getAclfAdjNet();
   		//System.out.println(net.net2String());
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, msg);

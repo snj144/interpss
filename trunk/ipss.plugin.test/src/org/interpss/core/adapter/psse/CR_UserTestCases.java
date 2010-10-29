@@ -42,7 +42,6 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -57,7 +56,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 		SimuContext simuCtx = adapter.load("testData/psse/PSSE_5Bus_Test.raw");
 //  		System.out.println(simuCtx.getAclfNet().net2String());
 
-		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfAdjNet();
 
 		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
@@ -108,7 +107,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 		SimuContext simuCtx = adapter.load("testData/psse/MXV-1120MW_FNC475_FEC196_FAC212_InterPSS_3d.raw");
 //  		System.out.println(simuCtx.getAclfNet().net2String());
 
-		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfAdjNet();
 
 		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
@@ -132,7 +131,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, SpringAppContext.getIpssMsgHub());
 		mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class);	
 		
-		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfAdjNet();
 
 	  	AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);

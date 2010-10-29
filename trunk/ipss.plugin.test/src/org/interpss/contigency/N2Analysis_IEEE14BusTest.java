@@ -35,9 +35,8 @@ import org.junit.Test;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfAdjustAlgorithm;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.net.Branch;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -53,7 +52,7 @@ public class N2Analysis_IEEE14BusTest extends BaseTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 
-		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfAdjNet();
 		
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, net);
 
@@ -71,7 +70,7 @@ public class N2Analysis_IEEE14BusTest extends BaseTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 
-		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfAdjNet();
 		
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, net);
 
