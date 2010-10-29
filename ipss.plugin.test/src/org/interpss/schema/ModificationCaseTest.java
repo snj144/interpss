@@ -42,10 +42,10 @@ import com.interpss.simu.SimuObjectFactory;
 public class ModificationCaseTest extends BaseTestSetup {
 	@Test
 	public void modificationOnlyTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		AclfNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 	  	assertTrue(net.getAclfBus("0003").getGenCode() != AclfGenCode.NON_GEN);
 	  	assertTrue(net.getAclfBus("0009").getLoadCode() != AclfLoadCode.NON_LOAD);
@@ -81,10 +81,10 @@ public class ModificationCaseTest extends BaseTestSetup {
 	
 	@Test
 	public void modificationPersistanceTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		AclfNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 
 		IpssAclf.wrapAclfNetwork(net)

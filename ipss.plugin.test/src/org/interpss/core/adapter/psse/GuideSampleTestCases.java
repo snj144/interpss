@@ -55,7 +55,7 @@ public class GuideSampleTestCases extends BaseTestSetup {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
 		SimuContext simuCtx = adapter.load("testData/psse/PSSE_GuideSample.raw");
   		//System.out.println(simuCtx.getAclfNet().net2String());
-		AclfNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfNet();
 		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setNonDivergent(true);
@@ -81,7 +81,7 @@ public class GuideSampleTestCases extends BaseTestSetup {
 		
 		AclfNetwork net = null;
 		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, SpringAppContext.getIpssMsgHub());
 		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
   	  		simuCtx.setName("Sample18Bus");
   	  		simuCtx.setDesc("This project is created by input file adapter.getModel()");

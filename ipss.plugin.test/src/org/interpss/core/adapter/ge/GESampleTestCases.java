@@ -53,7 +53,7 @@ public class GESampleTestCases extends BaseTestSetup {
 	public void testCase2() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ge");
 		SimuContext simuCtx = adapter.load("testData/ge/Sample18Bus.epc");
-		GeAclfNetwork net = (GeAclfNetwork)simuCtx.getAclfAdjNet();
+		GeAclfNetwork net = (GeAclfNetwork)simuCtx.getAclfNet();
 
 		assertTrue(net.getNoBus() == 18);
 		assertTrue(net.getNoBranch() == 24);
@@ -76,7 +76,7 @@ public class GESampleTestCases extends BaseTestSetup {
 		
 		AclfNetwork net = null;
 		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, SpringAppContext.getIpssMsgHub());
 		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
   	  		simuCtx.setName("Sample18Bus");
   	  		simuCtx.setDesc("This project is created by input file adapter.getModel()");

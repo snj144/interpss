@@ -22,7 +22,7 @@ import com.interpss.simu.util.sample.SampleCases;
 public class LossAllocationCaseTest  extends BaseTestSetup {
 	@Test
 	public void lossAllocationStep() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();

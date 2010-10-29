@@ -17,7 +17,7 @@ import com.interpss.simu.SimuObjectFactory;
 public class DclfIeee14BusCaseTest extends BaseTestSetup {
 	@Test
 	public void runSingleAclfCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		DclfAlgorithm algo = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfNet())
@@ -31,7 +31,7 @@ public class DclfIeee14BusCaseTest extends BaseTestSetup {
 
 	@Test
 	public void lineOutageCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		DclfAlgorithm algo = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfNet())

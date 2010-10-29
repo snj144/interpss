@@ -31,11 +31,11 @@ import com.interpss.simu.multicase.result.AclfBusResultRec;
 public class ContingencyXmlCaseTest extends BaseTestSetup {
 	//@Test
 	public void simpleCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
-	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, simuCtx.getAclfAdjNet());
+	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, simuCtx.getAclfNet());
 
-	  	String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
+	  	String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfNet());
 
 		File xmlFile = new File("testData/xml/contingency/simpleTest.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
@@ -89,11 +89,11 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	
 	//@Test
 	public void ieee14BusCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/xml/contingency/IEEE-14Bus.ipss", simuCtx);
-	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, simuCtx.getAclfAdjNet());
+	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, simuCtx.getAclfNet());
 
-	  	String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
+	  	String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfNet());
 
 		File xmlFile = new File("testData/xml/contingency/IEEE-14Bus_ContingencyAnalysis.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
@@ -129,11 +129,11 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	
 	//@Test
 	public void ieee14BusRuleSetCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/xml/contingency/IEEE-14Bus.ipss", simuCtx);
-	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, simuCtx.getAclfAdjNet());
+	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, simuCtx.getAclfNet());
 
-	  	String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
+	  	String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfNet());
 
 		File xmlFile = new File("testData/xml/contingency/IEEE-14Bus_RuleSet.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);

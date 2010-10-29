@@ -56,10 +56,10 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
     	// set remote and master node id
     	AclfSingleJobTask.RemoteNodeId = nodeId;
 
-    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		AclfNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfNet();
 		//System.out.println(net.net2String());	
 		// network id needs to be set. It is used for identification purpose
 		net.setId("IEEE 14_Bus");
@@ -87,10 +87,10 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
     	// set remote and master node id
     	AclfSingleJobTask.RemoteNodeId = nodeId;
 
-    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		AclfNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfNet();
 		//System.out.println(net.net2String());	
 		// network id needs to be set. It is used for identification purpse
 		net.setId("IEEE 14_Bus");

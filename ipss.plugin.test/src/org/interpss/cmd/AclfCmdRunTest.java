@@ -13,7 +13,7 @@ public class AclfCmdRunTest  extends BaseTestSetup {
 	public void runIEEE14Aclf() throws Exception {
 		SimuContext simuCtx = (SimuContext)CmdLineRunner.cmdLineRun(
 				"testData/ipssdata/Ieee14.ipssdat");
-		assertTrue(simuCtx.getAclfAdjNet().isLfConverged());
+		assertTrue(simuCtx.getAclfNet().isLfConverged());
 	}			
 
 	@Test

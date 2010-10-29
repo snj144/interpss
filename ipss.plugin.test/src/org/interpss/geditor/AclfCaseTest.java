@@ -19,7 +19,7 @@ import com.interpss.simu.SimuObjectFactory;
 public class AclfCaseTest  extends BaseTestSetup {
 	@Test
 	public void AclfNegativeBranchXCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclf/AclfNegativeBranchX.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -37,7 +37,7 @@ public class AclfCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfSimple2BusCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclf/AclfSimple2Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -55,7 +55,7 @@ public class AclfCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfSimple2BusCapacitorCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusCapacitor.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -73,7 +73,7 @@ public class AclfCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfSimple2BusConstILoadCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusConstILoad.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -91,7 +91,7 @@ public class AclfCaseTest  extends BaseTestSetup {
 	
 	@Test
 	public void AclfSimple2BusConstZLoadCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusConstZLoad.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -109,7 +109,7 @@ public class AclfCaseTest  extends BaseTestSetup {
 	
 	@Test
 	public void AclfSimple2BusPQLoadCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusPQLoad.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -127,7 +127,7 @@ public class AclfCaseTest  extends BaseTestSetup {
 	
 	@Test
 	public void AclfSimple2BusPsXfrCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusPsXfr.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -145,7 +145,7 @@ public class AclfCaseTest  extends BaseTestSetup {
 	
 	@Test
 	public void AclfSimple2BusPVLoadCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusPVLoad.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -163,7 +163,7 @@ public class AclfCaseTest  extends BaseTestSetup {
 	
 	@Test
 	public void AclfSimple2BusXfrCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusXfr.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -181,7 +181,7 @@ public class AclfCaseTest  extends BaseTestSetup {
 	
 	@Test
 	public void AclfSimple2BusXfrFromTurnRatioCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusXfrFromTurnRatio.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -199,7 +199,7 @@ public class AclfCaseTest  extends BaseTestSetup {
 	
 	@Test
 	public void AclfSimple2BusXfrToTurnRatioCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusXfrToTurnRatio.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();

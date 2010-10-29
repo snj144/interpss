@@ -28,10 +28,10 @@ import com.interpss.simu.multicase.aclf.AclfStudyCase;
 public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	@Test
 	public void runSingleAclfCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
   		// save net to a String
-  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
+  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfNet());
 
 		File xmlFile = new File("testData/xml/RunAclfCase.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
@@ -40,7 +40,7 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
   		
-	  	MultiStudyCase mscase = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
+	  	MultiStudyCase mscase = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_NETWORK);
 	  	int cnt = 0;
   		double i = 0.0;
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
@@ -78,10 +78,10 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 
 	@Test
 	public void runDefaultAclfCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
   		// save net to a String
-  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
+  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfNet());
 
 		File xmlFile = new File("testData/xml/RunAclfCase.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
@@ -89,7 +89,7 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
   		
-	  	MultiStudyCase mscase = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
+	  	MultiStudyCase mscase = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_NETWORK);
 	  	int cnt = 0;
   		double i = 0.0;
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
@@ -131,7 +131,7 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 
 	@Test
 	public void runSingleAclfCaseModificationTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
