@@ -221,7 +221,7 @@ public class AclfResultMapperImpl {
 		return list.toArray();
 	}
 
-	public static Object[] createPVBusLimitBeanArray(AclfAdjNetwork net) {
+	public static Object[] createPVBusLimitBeanArray(AclfNetwork net) {
 		List<RptPVLimitBean> list = new ArrayList<RptPVLimitBean>();
 		double baseKva = net.getBaseKva();
 		for (Bus b : net.getBusList()) { 
@@ -249,7 +249,7 @@ public class AclfResultMapperImpl {
 		return list.toArray();
 	}
 
-	public static Object[] createPQBusLimitBeanArray(AclfAdjNetwork net) {
+	public static Object[] createPQBusLimitBeanArray(AclfNetwork net) {
 		List<RptPQLimitBean> list = new ArrayList<RptPQLimitBean>();
 		double baseKva = net.getBaseKva();
 		for (Bus b : net.getBusList()) { 
@@ -278,7 +278,7 @@ public class AclfResultMapperImpl {
 		return list.toArray();
 	}
 
-	public static Object[] createFunctionLoadBeanArray(AclfAdjNetwork net) {
+	public static Object[] createFunctionLoadBeanArray(AclfNetwork net) {
 		List<RptFuncLoadBean> list = new ArrayList<RptFuncLoadBean>();
 		double baseKva = net.getBaseKva();
 		
@@ -307,7 +307,7 @@ public class AclfResultMapperImpl {
 		return list.toArray();
 	}
 
-	public static Object[] createRemoteQBusBeanArray(AclfAdjNetwork net) {
+	public static Object[] createRemoteQBusBeanArray(AclfNetwork net) {
 		List<RptRemoteQBusBean> list = new ArrayList<RptRemoteQBusBean>();
 		for (Bus b : net.getBusList()) { 
 			AclfBus bus = (AclfBus)b;
@@ -343,7 +343,7 @@ public class AclfResultMapperImpl {
 		return list.toArray();
 	}
 
-	public static Object[] createPSXfrPControlBeanArray(AclfAdjNetwork net) {
+	public static Object[] createPSXfrPControlBeanArray(AclfNetwork net) {
 		List<RptPSXfrPControlBean> list = new ArrayList<RptPSXfrPControlBean>();
 		double baseKva = net.getBaseKva();
 		for (Branch b : net.getBranchList()) {
@@ -374,7 +374,7 @@ public class AclfResultMapperImpl {
 		return list.toArray();
 	}
 
-	public static Object[] createTapVControlBeanArray(AclfAdjNetwork net) {
+	public static Object[] createTapVControlBeanArray(AclfNetwork net) {
 		List<RptTapVControlBean> list = new ArrayList<RptTapVControlBean>();
 		double baseKva = net.getBaseKva();
 		for (Branch b : net.getBranchList()) {

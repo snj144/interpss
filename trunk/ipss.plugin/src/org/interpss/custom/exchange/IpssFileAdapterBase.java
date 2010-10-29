@@ -34,7 +34,7 @@ import org.interpss.mapper.odm.IEEEODMMapper;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 
 public class IpssFileAdapterBase implements IpssFileAdapter{
@@ -140,7 +140,7 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 		throw new InvalidOperationException("Load need to implemented");
 	}
 
-	public AclfAdjNetwork loadAclfNet(String filepath) throws Exception {
+	public AclfNetwork loadAclfNet(String filepath) throws Exception {
 		return load(filepath).getAclfAdjNet();
 	}
 

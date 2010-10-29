@@ -6,11 +6,11 @@ package org.interpss.custom.exchange.impl;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 
 public class BPAFormat_in {
-    public static AclfAdjNetwork loadFile(java.io.BufferedReader din, String filename, IPSSMsgHub msg) throws Exception {
-    	AclfAdjNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
+    public static AclfNetwork loadFile(java.io.BufferedReader din, String filename, IPSSMsgHub msg) throws Exception {
+    	AclfNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
     	adjNet.setAllowParallelBranch(false);
 
 		// TODO ...    	return adjNet;

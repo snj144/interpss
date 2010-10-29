@@ -30,9 +30,9 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adj.PVBusLimit;
 import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 import com.interpss.simu.SimuContext;
@@ -49,7 +49,7 @@ public class IpssInternalFormat_out {
 	 * @throws Exception
 	 */
     public static boolean save(final BufferedWriter out, final SimuContext simuCtx, final IPSSMsgHub msg) throws Exception {
-    	AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+    	AclfNetwork net = simuCtx.getAclfAdjNet();
     	
     	// out put network info
     	out.write("AclfNetInfo\n");

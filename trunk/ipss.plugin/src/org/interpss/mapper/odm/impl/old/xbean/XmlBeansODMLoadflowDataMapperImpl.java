@@ -54,6 +54,7 @@ import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adj.PQBusLimit;
 import com.interpss.core.aclf.adj.PVBusLimit;
 import com.interpss.core.aclf.adj.RemoteQBus;
@@ -78,8 +79,8 @@ public class XmlBeansODMLoadflowDataMapperImpl {
 	 * @return
 	 * @throws Exception
 	 */
-	public static AclfAdjNetwork mapNetworkData(PSSNetworkXmlType xmlNet) throws Exception {
-		AclfAdjNetwork net = CoreObjectFactory.createAclfAdjNetwork();
+	public static AclfNetwork mapNetworkData(PSSNetworkXmlType xmlNet) throws Exception {
+		AclfNetwork net = CoreObjectFactory.createAclfAdjNetwork();
 		net.setId(xmlNet.getId());
 		net.setName(xmlNet.getName() == null? "ODM Loadflow Case" : xmlNet.getName());
 		net.setDesc(xmlNet.getDesc());
@@ -97,7 +98,7 @@ public class XmlBeansODMLoadflowDataMapperImpl {
 	 * @return
 	 * @throws Exception
 	 */
-	public static AclfBus mapBusData(BusRecordXmlType busRec, AclfAdjNetwork adjNet) throws Exception {
+	public static AclfBus mapBusData(BusRecordXmlType busRec, AclfNetwork adjNet) throws Exception {
 		AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), adjNet);
 		//adjNet.addBus(aclfBus);
 		aclfBus.setNumber(busRec.getNumber());
@@ -137,7 +138,7 @@ public class XmlBeansODMLoadflowDataMapperImpl {
 	 * @return
 	 * @throws Exception
 	 */
-	public static AclfBranch mapBranchData(BranchRecordXmlType branchRec, AclfAdjNetwork adjNet, IPSSMsgHub msg) throws Exception {
+	public static AclfBranch mapBranchData(BranchRecordXmlType branchRec, AclfNetwork adjNet, IPSSMsgHub msg) throws Exception {
 		AclfBranch aclfBranch = CoreObjectFactory.createAclfBranch();
 		aclfBranch.setCircuitNumber(branchRec.getCircuitId());
 		try {
@@ -165,7 +166,7 @@ public class XmlBeansODMLoadflowDataMapperImpl {
 		return aclfBranch;
 	}
 	
-	private static void setBusLoadflowData(LoadflowBusDataXmlType busXmlData, AclfBus aclfBus, AclfAdjNetwork adjNet) throws Exception {
+	private static void setBusLoadflowData(LoadflowBusDataXmlType busXmlData, AclfBus aclfBus, AclfNetwork adjNet) throws Exception {
 		VoltageXmlType vXml = busXmlData.getVoltage();
 		double vpu = vXml == null ? 1.0 : UnitType.vConversion(vXml.getValue(),
 				aclfBus.getBaseVoltage(), XmlBeansODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
@@ -281,7 +282,7 @@ public class XmlBeansODMLoadflowDataMapperImpl {
 	}
 
 	private static void setBranchLoadflowData(LoadflowBranchDataXmlType braXmlData, AclfBranch aclfBra, 
-							AclfAdjNetwork adjNet, IPSSMsgHub msg) throws Exception {
+							AclfNetwork adjNet, IPSSMsgHub msg) throws Exception {
 		YXmlType fromShuntY = null, toShuntY = null;
 		double baseKva = adjNet.getBaseKva();
 		
@@ -350,7 +351,7 @@ public class XmlBeansODMLoadflowDataMapperImpl {
 	}
 
 	private static void setXformerLoadflowData(AclfBranch aclfBra, LoadflowBranchDataXmlType xfrData, 
-						AclfAdjNetwork adjNet, IPSSMsgHub msg) {
+						AclfNetwork adjNet, IPSSMsgHub msg) {
 		double fromBaseV = aclfBra.getFromAclfBus().getBaseVoltage(), 
 		       toBaseV = aclfBra.getToAclfBus().getBaseVoltage();
 		// turn ratio is based on xfr rated voltage

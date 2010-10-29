@@ -14,7 +14,7 @@ import org.interpss.custom.exchange.impl.PSATFormat_in;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -37,7 +37,7 @@ public class FileAdpater_PSATFormat  extends IpssFileAdapterBase {
 		InputStream stream = new FileInputStream(file);
 		BufferedReader din = new BufferedReader(new InputStreamReader(stream));
 		
-		AclfAdjNetwork adjNet = PSATFormat_in.loadFile(din, this.msgHub);
+		AclfNetwork adjNet = PSATFormat_in.loadFile(din, this.msgHub);
   		//System.out.println(adjNet.net2String());
   		
   		simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);

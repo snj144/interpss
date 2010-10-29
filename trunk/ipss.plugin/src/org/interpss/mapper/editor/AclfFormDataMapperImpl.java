@@ -92,9 +92,9 @@ public class AclfFormDataMapperImpl {
 	 *            a SessionMsg object
 	 * @return an AclfAdjNetwork object
 	 */
-	public static AclfAdjNetwork mapEditNet2AclfNet(GFormContainer editNet,
+	public static AclfNetwork mapEditNet2AclfNet(GFormContainer editNet,
 			IPSSMsgHub msg) {
-		AclfAdjNetwork aclfNet = CoreObjectFactory.createAclfAdjNetwork();
+		AclfNetwork aclfNet = CoreObjectFactory.createAclfAdjNetwork();
 
 		BaseFormDataMapperImpl.setBaseNetInfo((GNetForm) editNet.getGNetForm(),
 				aclfNet);
@@ -120,7 +120,7 @@ public class AclfFormDataMapperImpl {
 	 *            a SessionMsg object
 	 */
 	public static void setAclfNetInfo(GFormContainer editNet,
-			AclfAdjNetwork aclfNet, IPSSMsgHub msg) throws InterpssException {
+			AclfNetwork aclfNet, IPSSMsgHub msg) throws InterpssException {
 		IpssLogger.getLogger().info(
 				"AclfFormDataMapperImpl.setBaseNetInfo() called");
 
@@ -184,7 +184,7 @@ public class AclfFormDataMapperImpl {
 	 *            the aclf net object, it may be an AcscNetwork object
 	 * @return the status
 	 */
-	public static boolean setAddBusForm2Net(GBusForm form, AclfAdjNetwork net) {
+	public static boolean setAddBusForm2Net(GBusForm form, AclfNetwork net) {
 		AclfBus bus = null;
 		if (net instanceof DStabilityNetwork)
 			bus = DStabObjectFactory.createDStabBus(form.getId(),
@@ -213,7 +213,7 @@ public class AclfFormDataMapperImpl {
 	 * @return the Branch object of type AclfBranch or AcscBranch
 	 */
 	public static AclfBranch setAddBranchForm2Net(GBranchForm form,
-			AclfAdjNetwork net, IPSSMsgHub msg) {
+			AclfNetwork net, IPSSMsgHub msg) {
 		AclfBranch branch = null;
 		if (net instanceof DStabilityNetwork)
 			branch = DStabObjectFactory.createDStabBranch(form.getFromId(),
@@ -245,7 +245,7 @@ public class AclfFormDataMapperImpl {
 	 * @return the status
 	 */
 	public static boolean setAclfBusFormInfo(GBusForm formBus, AclfBus bus,
-			AclfAdjNetwork aclfNet) {
+			AclfNetwork aclfNet) {
 		AclfBusData busData = formBus.getAcscBusData();
 		if (busData.getGenCode().equals(AclfBusData.GenCode_PQ)) {
 			bus.setGenCode(AclfGenCode.GEN_PQ);
@@ -344,7 +344,7 @@ public class AclfFormDataMapperImpl {
 	 * @return the status
 	 */
 	private static boolean addAclfAdjBusFormInfo(GBusForm formBus,
-			AclfAdjNetwork aclfNet) throws InterpssException {
+			AclfNetwork aclfNet) throws InterpssException {
 		AclfBus bus = aclfNet.getAclfBus(formBus.getId());
 		AclfBusData busData = formBus.getAcscBusData();
 		if (busData.getGenCode().equals(AclfBusData.GenCode_PQ)) {
@@ -424,7 +424,7 @@ public class AclfFormDataMapperImpl {
 	 * @return the status
 	 */
 	public static boolean setAclfBranchFormInfo(GBranchForm formBranch,
-			AclfBranch branch, AclfAdjNetwork aclfNet, boolean aclf,
+			AclfBranch branch, AclfNetwork aclfNet, boolean aclf,
 			IPSSMsgHub msg) {
 		AclfBranchData braData = formBranch.getAcscBranchData();
 		if (braData.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) { // line
@@ -469,7 +469,7 @@ public class AclfFormDataMapperImpl {
 	}
 
 	private static boolean addAclfAdjBranchFormInfo(GBranchForm formBranch,
-			AclfAdjNetwork aclfNet, IPSSMsgHub msg) throws InterpssException {
+			AclfNetwork aclfNet, IPSSMsgHub msg) throws InterpssException {
 		AclfBranch branch = (AclfBranch) aclfNet.getBranch(formBranch
 				.getFromId(), formBranch.getToId());
 		AclfBranchData data = formBranch.getAcscBranchData();
@@ -513,7 +513,7 @@ public class AclfFormDataMapperImpl {
 	}
 
 	private static boolean setXfrBranchFormInfo(GBranchForm branchForm,
-			AclfBranch branch, AclfAdjNetwork net, IPSSMsgHub msg) {
+			AclfBranch branch, AclfNetwork net, IPSSMsgHub msg) {
 		try {
 			AclfBranchData data = branchForm.getAcscBranchData();
 			branch.setBranchCode(AclfBranchCode.XFORMER);
@@ -545,7 +545,7 @@ public class AclfFormDataMapperImpl {
 	}
 
 	private static boolean setXfrAdjBranchFormInfo(GBranchForm branchForm,
-			AclfBranch branch, AclfAdjNetwork net, IPSSMsgHub msg) throws InterpssException{
+			AclfBranch branch, AclfNetwork net, IPSSMsgHub msg) throws InterpssException{
 		AclfAdjBranchData adjData = branchForm.getAcscBranchData();
 		if (adjData.isHasTapVControl()) {
 			TapControl tapv = null;
@@ -577,7 +577,7 @@ public class AclfFormDataMapperImpl {
 	}
 
 	private static boolean setPSXfrBranchFormInfo(GBranchForm formBranch,
-			AclfBranch branch, AclfAdjNetwork net, IPSSMsgHub msg) {
+			AclfBranch branch, AclfNetwork net, IPSSMsgHub msg) {
 		setXfrBranchFormInfo(formBranch, branch, net, msg);
 		AclfBranchData data = formBranch.getAcscBranchData();
 		branch.setBranchCode(AclfBranchCode.PS_XFORMER);
@@ -588,7 +588,7 @@ public class AclfFormDataMapperImpl {
 	}
 
 	private static boolean setPSXfrAdjBranchFormInfo(GBranchForm formBranch,
-			AclfBranch branch, AclfAdjNetwork net, IPSSMsgHub msg) throws InterpssException {
+			AclfBranch branch, AclfNetwork net, IPSSMsgHub msg) throws InterpssException {
 		AclfAdjBranchData adjData = formBranch.getAcscBranchData();
 		if (adjData.isHasPSXfrPControl()) {
 			PSXfrPControl psXfrControl = CoreObjectFactory.createPSXfrPControl(
