@@ -49,7 +49,7 @@ public class IpssInternalFormat_out {
 	 * @throws Exception
 	 */
     public static boolean save(final BufferedWriter out, final SimuContext simuCtx, final IPSSMsgHub msg) throws Exception {
-    	AclfNetwork net = simuCtx.getAclfAdjNet();
+    	AclfNetwork net = simuCtx.getAclfNet();
     	
     	// out put network info
     	out.write("AclfNetInfo\n");

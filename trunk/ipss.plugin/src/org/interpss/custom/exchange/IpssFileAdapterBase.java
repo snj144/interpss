@@ -141,7 +141,7 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 	}
 
 	public AclfNetwork loadAclfNet(String filepath) throws Exception {
-		return load(filepath).getAclfAdjNet();
+		return load(filepath).getAclfNet();
 	}
 
 	public boolean save(String filepath, SimuContext net) throws Exception {

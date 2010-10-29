@@ -92,11 +92,11 @@ public class ODMAclfDataMapperImpl {
 		if (parser.getAclfNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION ) {
 
 			LoadflowNetXmlType xmlNet = parser.getAclfNet();
-			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
+			simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
 			try {
 				AclfNetwork adjNet = CoreObjectFactory.createAclfAdjNetwork();
 				mapNetworkData(adjNet, xmlNet);
-				simuCtx.setAclfAdjNet(adjNet);
+				simuCtx.setAclfNet(adjNet);
 
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
