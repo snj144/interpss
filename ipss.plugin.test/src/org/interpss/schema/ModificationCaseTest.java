@@ -32,8 +32,8 @@ import org.junit.Test;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -45,7 +45,7 @@ public class ModificationCaseTest extends BaseTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfAdjNet();
   		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 	  	assertTrue(net.getAclfBus("0003").getGenCode() != AclfGenCode.NON_GEN);
 	  	assertTrue(net.getAclfBus("0009").getLoadCode() != AclfLoadCode.NON_LOAD);
@@ -84,7 +84,7 @@ public class ModificationCaseTest extends BaseTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfAdjNet();
   		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 
 		IpssAclf.wrapAclfNetwork(net)

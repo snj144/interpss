@@ -40,9 +40,8 @@ import org.junit.Test;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfAdjustAlgorithm;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.net.Branch;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -62,7 +61,7 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
     	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfAdjNet();
 		//System.out.println(net.net2String());	
 		// network id needs to be set. It is used for identification purpse
 		net.setId("IEEE 14_Bus");
@@ -158,7 +157,7 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
     	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfAdjNet();
 		//System.out.println(net.net2String());	
 		// network id needs to be set. It is used for identification purpse
 		net.setId("IEEE 14_Bus");
