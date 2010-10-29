@@ -59,7 +59,7 @@ public class CustomFileUtility {
 					"Network Loadflow Data Error",
 					"Please see the message list for details, Do you want to run the study case?");
 			if (b)
-				simuCtx.getAclfAdjNet().setBypassDataCheck(true);
+				simuCtx.getAclfNet().setBypassDataCheck(true);
 			return b;
 		}
 		return true;

@@ -77,7 +77,7 @@ public class XmlScriptContingency {
 			return false;
 		}
 		
-		ContingencyAnalysis mCaseContainer = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, aclfNet);
+		ContingencyAnalysis mCaseContainer = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, aclfNet);
 		boolean applyRuleBase = ipssXmlDoc.getRunStudyCase().getApplyRuleBase();
 		if (applyRuleBase) 
 			XmlScriptUtilFunc.mapRuleBase(applyRuleBase, mCaseContainer, ipssXmlDoc.getRunStudyCase().getRuleBase());

@@ -75,7 +75,7 @@ public class XmlScriptRunWorker {
 		GridRunner.RemoteNodeDebug = xmlStudyCase.getGridRunOption() != null
 				&& xmlStudyCase.getGridRunOption().getRemoteNodeDebug();
 		if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
-			return XmlScriptAclfRun.runAclf(parser.getRootDoc().getInterPSS(), simuCtx.getAclfAdjNet(), msg);
+			return XmlScriptAclfRun.runAclf(parser.getRootDoc().getInterPSS(), simuCtx.getAclfNet(), msg);
 		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_DCLF) {
 			return XmlScriptDclfRun.runDclf(parser.getRootDoc().getInterPSS(), simuCtx.getAclfNet(),
 					msg);
@@ -86,7 +86,7 @@ public class XmlScriptRunWorker {
 			return XmlScriptDStabRun.runDStab(parser.getRootDoc().getInterPSS(), simuCtx, msg);
 		}
 		else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.CONTINGENCY_ANALYSIS) {
-			return XmlScriptContingency.runContingencyAnalysis(parser.getRootDoc().getInterPSS(), simuCtx.getAclfAdjNet(), msg);
+			return XmlScriptContingency.runContingencyAnalysis(parser.getRootDoc().getInterPSS(), simuCtx.getAclfNet(), msg);
 		}
 		msg.sendErrorMsg("Error: wrong analysus type, " + xmlStudyCase.getAnalysisRunType());
 		return false;

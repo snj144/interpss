@@ -90,7 +90,7 @@ public class XmlScriptAclfRun {
 				return false;
 		} 
 		else {
-			AclfMultiStudyCase mCaseContainer = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
+			AclfMultiStudyCase mCaseContainer = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_NETWORK);
 			// save the base case Network model to the netStr
 			mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(aclfNet));
 
