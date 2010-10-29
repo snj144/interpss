@@ -144,7 +144,7 @@ public class CmdLineRunner {
 					&& xmlStudyCase.getGridRunOption().getRemoteNodeDebug();
 			if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
 				runType = SimuRunType.Aclf;
-				return XmlScriptAclfRun.runAclf(parser.getRootDoc().getInterPSS(), simuCtx.getAclfAdjNet(),
+				return XmlScriptAclfRun.runAclf(parser.getRootDoc().getInterPSS(), simuCtx.getAclfNet(),
 						msg);
 			} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_DCLF) {
 				runType = SimuRunType.Dclf;
@@ -165,13 +165,13 @@ public class CmdLineRunner {
 			if (InterPSS.RunAclfStr.equals(runTypeStr)) {
 				// create the default loadflow algorithm
 				LoadflowAlgorithm algo = CoreObjectFactory
-						.createLoadflowAlgorithm(simuCtx.getAclfAdjNet(), msg);
+						.createLoadflowAlgorithm(simuCtx.getAclfNet(), msg);
 				// use the loadflow algorithm to perform loadflow calculation
 				algo.loadflow();
 				runType = SimuRunType.Aclf;
 			} else if (runTypeStr != null && InterPSS.RunDclfStr.equals(runTypeStr)) {
 				DclfAlgorithm algo = CoreObjectFactory
-						.createDclfAlgorithm(simuCtx.getAclfAdjNet(), msg);
+						.createDclfAlgorithm(simuCtx.getAclfNet(), msg);
 				simuCtx.setDclfAlgorithm(algo);
 				if (algo.checkCondition())
 					algo.calculateDclf();
@@ -180,10 +180,10 @@ public class CmdLineRunner {
 		} else {
 			IpssLogger.getLogger().info("Run CmdLine according network type");
 			if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK
-					|| simuCtx.getNetType() == SimuCtxType.ACLF_ADJ_NETWORK) {
+					|| simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				// create the default loadflow algorithm
 				AclfAdjustAlgorithm algo = CoreObjectFactory
-						.createAclfAdjAlgorithm(simuCtx.getAclfAdjNet(), msg);
+						.createAclfAdjAlgorithm(simuCtx.getAclfNet(), msg);
 				// use the loadflow algorithm to perform loadflow calculation
 				algo.loadflow();
 				runType = SimuRunType.Aclf;
@@ -201,15 +201,15 @@ public class CmdLineRunner {
 		IOutputSimuResult out = PluginSpringAppContext.getSimuResultOutput();
 		if (runType == SimuRunType.Dclf) {
 			if (InterPSS.RunAclfStr.equals(runType)) {
-				out.outAclfResult(simuCtx.getAclfAdjNet(), outFilename);
+				out.outAclfResult(simuCtx.getAclfNet(), outFilename);
 			} else if (runType != null && InterPSS.RunDclfStr.equals(runType)) {
 				out.outDclfResult(simuCtx.getDclfAlgorithm(), outFilename);
 			}
 		} 
 		else if (runType == SimuRunType.Aclf) {
 			if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK
-					|| simuCtx.getNetType() == SimuCtxType.ACLF_ADJ_NETWORK) {
-				out.outAclfResult(simuCtx.getAclfAdjNet(), outFilename);
+					|| simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
+				out.outAclfResult(simuCtx.getAclfNet(), outFilename);
 			}
 		}
 	}

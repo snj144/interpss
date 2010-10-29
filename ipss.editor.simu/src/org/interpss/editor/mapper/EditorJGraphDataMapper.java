@@ -89,7 +89,7 @@ public class EditorJGraphDataMapper extends AbstractMapper {
 						IGNetForm.NetType_AclfNetwork)
 						|| gFormContainer.getGNetForm().getNetType().equals(
 								IGNetForm.NetType_AclfAdjNetwork)) {
-					simuCtx.setNetwork(net, SimuCtxType.ACLF_ADJ_NETWORK);
+					simuCtx.setNetwork(net, SimuCtxType.ACLF_NETWORK);
 				} else if (gFormContainer.getGNetForm().getNetType().equals(
 						IGNetForm.NetType_AcscNetwork)) {
 					simuCtx.setNetwork(net, SimuCtxType.ACSC_FAULT_NET);
@@ -105,7 +105,7 @@ public class EditorJGraphDataMapper extends AbstractMapper {
 							"Please see the message list for details");
 					return false;
 				}
-			} else if (simuCtx.getNetType() == SimuCtxType.ACLF_ADJ_NETWORK) {
+			} else if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				if (!simuCtx.checkData()) {
 					SpringAppContext.getEditorDialogUtil().showMsgDialog(
 							"Network Loadflow Data Error",

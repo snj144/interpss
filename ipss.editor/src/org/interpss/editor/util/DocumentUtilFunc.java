@@ -144,7 +144,7 @@ public class DocumentUtilFunc  {
 			SimuContext simuCxt = (SimuContext)(((IpssCustomDocument) doc).getSimuAppContext()).getSimuCtx();
 			if (simuCxt.getNetType() == SimuCtxType.ACLF_NETWORK || 
 					simuCxt.getNetType() == SimuCtxType.ACLF_NETWORK ||
-					simuCxt.getNetType() == SimuCtxType.ACLF_ADJ_NETWORK) {
+					simuCxt.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				return true;
 			} else if (simuCxt.getNetType() == SimuCtxType.ACSC_FAULT_NET) {
 				return simuCxt.getAcscFaultNet().isLfDataLoaded();

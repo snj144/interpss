@@ -95,7 +95,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 					String str = result.getSerializedAclfNet();
 					AclfNetwork adjNet = (AclfNetwork) SerializeEMFObjectUtil.loadModel(str);
 					adjNet.rebuildLookupTable();
-					simuCtx.setAclfAdjNet(adjNet);
+					simuCtx.setAclfNet(adjNet);
 					converge = adjNet.isLfConverged();
 					if (this.xmlCaseData.getAclfAlgorithm().getDisplaySummary()) {
 						IOutputTextDialog dialog = UISpringAppContext
@@ -109,7 +109,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 					return false;
 				}
 			} else
-				converge = runLoadflow(simuCtx.getAclfAdjNet(), simuCtx);
+				converge = runLoadflow(simuCtx.getAclfNet(), simuCtx);
 		}
 		return converge;
 	}
@@ -118,7 +118,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 		if (this.xmlCaseData.getAclfAlgorithm().getDisplaySummary()) {
 			IOutputTextDialog dialog = UISpringAppContext
 					.getOutputTextDialog("Loadflow Analysis Info");
-			dialog.display(simuCtx.getAclfAdjNet());
+			dialog.display(simuCtx.getAclfNet());
 		}
 	}
 
