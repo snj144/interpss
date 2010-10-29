@@ -42,6 +42,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adj.FunctionLoad;
 import com.interpss.core.aclf.adj.PQBusLimit;
 import com.interpss.core.aclf.adj.PSXfrPControl;
@@ -49,7 +50,6 @@ import com.interpss.core.aclf.adj.PVBusLimit;
 import com.interpss.core.aclf.adj.RemoteQBus;
 import com.interpss.core.aclf.adj.RemoteQControlType;
 import com.interpss.core.aclf.adj.TapControl;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
@@ -61,7 +61,7 @@ import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;
 public class RunActUtilFunc {
 	public static String AllControlDevices = "All Control Devices";
 
-	public static Object[] getFunctionLoadList(AclfAdjNetwork adjNet,
+	public static Object[] getFunctionLoadList(AclfNetwork adjNet,
 			double tolerance, IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
@@ -76,7 +76,7 @@ public class RunActUtilFunc {
 		return list.toArray();
 	}
 
-	public static Object[] getPVBusLimitList(AclfAdjNetwork adjNet,
+	public static Object[] getPVBusLimitList(AclfNetwork adjNet,
 			IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
@@ -92,7 +92,7 @@ public class RunActUtilFunc {
 		return list.toArray();
 	}
 
-	public static Object[] getPQBusLimitList(AclfAdjNetwork adjNet,
+	public static Object[] getPQBusLimitList(AclfNetwork adjNet,
 			IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
@@ -108,7 +108,7 @@ public class RunActUtilFunc {
 		return list.toArray();
 	}
 
-	public static Object[] getRemoteQBusList(AclfAdjNetwork adjNet,
+	public static Object[] getRemoteQBusList(AclfNetwork adjNet,
 			double tolerance, IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
@@ -129,7 +129,7 @@ public class RunActUtilFunc {
 		return list.toArray();
 	}
 
-	public static Object[] getXfrTapControlList(AclfAdjNetwork adjNet,
+	public static Object[] getXfrTapControlList(AclfNetwork adjNet,
 			double tolerance, IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
@@ -145,7 +145,7 @@ public class RunActUtilFunc {
 		return list.toArray();
 	}
 
-	public static Object[] getPSXfrPControlList(AclfAdjNetwork adjNet,
+	public static Object[] getPSXfrPControlList(AclfNetwork adjNet,
 			double tolerance, IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
@@ -161,7 +161,7 @@ public class RunActUtilFunc {
 		return list.toArray();
 	}
 
-	public static Object[] getInterareaPControlList(AclfAdjNetwork adjNet,
+	public static Object[] getInterareaPControlList(AclfNetwork adjNet,
 			IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);

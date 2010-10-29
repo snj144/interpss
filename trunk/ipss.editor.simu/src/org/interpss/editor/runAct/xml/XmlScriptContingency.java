@@ -44,7 +44,7 @@ import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -63,7 +63,7 @@ public class XmlScriptContingency {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean runContingencyAnalysis(InterPSSXmlType ipssXmlDoc, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
+	public static boolean runContingencyAnalysis(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet, IPSSMsgHub msg) {
 		if (!GridUtil.isGridEnabled()) {
 			SpringAppContext.getEditorDialogUtil().showWarnMsgDialog(
 					"Contingency Analysis Warnning", "Contingency analysis requires Grid Computing env setup properly");

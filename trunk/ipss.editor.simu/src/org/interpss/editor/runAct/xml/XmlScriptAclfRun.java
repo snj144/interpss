@@ -51,9 +51,8 @@ import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfAdjustAlgorithm;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.RemoteMessageType;
@@ -72,7 +71,7 @@ public class XmlScriptAclfRun {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean runAclf(InterPSSXmlType ipssXmlDoc, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
+	public static boolean runAclf(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet, IPSSMsgHub msg) {
 		RunStudyCaseXmlType.StandardRun.RunAclfStudyCase xmlRunAclfCase = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAclfStudyCase();
 		if (xmlRunAclfCase == null) {
 			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", "runAclfStudyCase element not defined");
@@ -103,10 +102,10 @@ public class XmlScriptAclfRun {
 			int cnt = 0;
 			for (AclfStudyCaseXmlType xmlCase : xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
 				// deserialize the base case, if necessary
-				AclfAdjNetwork net = aclfNet;
+				AclfNetwork net = aclfNet;
 				if (!gridRun || !reJobCreation) { 
 					// only deserialized the network if not the case of remote job creation
-					net = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(mCaseContainer.getBaseNetModelString());
+					net = (AclfNetwork) SerializeEMFObjectUtil.loadModel(mCaseContainer.getBaseNetModelString());
 				    net.rebuildLookupTable();
 				}
 
@@ -181,7 +180,7 @@ public class XmlScriptAclfRun {
 		return true;
 	}
 
-	private static boolean aclfSingleRun(AclfAdjNetwork aclfNet, AclfStudyCaseXmlType xmlCase, AclfAlgorithmXmlType xmlDefaultAlgo, 
+	private static boolean aclfSingleRun(AclfNetwork aclfNet, AclfStudyCaseXmlType xmlCase, AclfAlgorithmXmlType xmlDefaultAlgo, 
 				RuleBaseXmlType ruleBase, boolean applyRuleBase, boolean gridRun, long timeout, IPSSMsgHub msg) {
 		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(aclfNet, msg);
@@ -196,7 +195,7 @@ public class XmlScriptAclfRun {
 				RemoteMessageTable result = new GridRunner(
 						grid, "InterPSS Grid Aclf Calculation", algo).executeTask(timeout);
 				String str = result.getSerializedAclfNet();
-				aclfNet = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(str);
+				aclfNet = (AclfNetwork) SerializeEMFObjectUtil.loadModel(str);
 				aclfNet.rebuildLookupTable();
 			} catch (GridException e) {
 				SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());
