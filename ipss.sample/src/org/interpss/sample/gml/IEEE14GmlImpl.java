@@ -28,7 +28,7 @@ public class IEEE14GmlImpl {
     	// Build the base case network
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee14.ieee");
-		AclfNetwork adjNet = simuCtx.getAclfAdjNet();
+		AclfNetwork adjNet = simuCtx.getAclfNet();
 		
 		// load the Gml file
 		GraphmlType gml = GmlHelper.load("testData/gml/sample_001.gml");
