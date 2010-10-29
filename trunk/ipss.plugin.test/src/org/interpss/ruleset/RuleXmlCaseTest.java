@@ -57,10 +57,10 @@ import com.interpss.simu.SimuObjectFactory;
 public class RuleXmlCaseTest extends BaseTestSetup {
 	@Test
 	public void runAclfProtectCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14BusProtect.ipss", simuCtx);
   		// save net to a String
-  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
+  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfNet());
 
 		File xmlFile = new File("testData/xml/ruleset/RunAclfCaseProtection.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
@@ -102,10 +102,10 @@ public class RuleXmlCaseTest extends BaseTestSetup {
 
 	@Test
 	public void run3WXfrOffCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
   		// save net to a String
-  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
+  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfNet());
 
 		File xmlFile = new File("testData/xml/ruleset/IEEE14Bus_W3XfrOff.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
@@ -153,7 +153,7 @@ public class RuleXmlCaseTest extends BaseTestSetup {
 
 	@Test
 	public void run3WXfrOffAnotherApproachCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 
 		File xmlFile = new File("testData/xml/ruleset/IEEE14Bus_W3XfrOff.xml");
@@ -162,7 +162,7 @@ public class RuleXmlCaseTest extends BaseTestSetup {
 
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
   		
-	  	AclfNetwork net = simuCtx.getAclfAdjNet();
+	  	AclfNetwork net = simuCtx.getAclfNet();
 		net.getAclfBranch("0005->0006(1)").setRatingMva1(70.0);
 
 		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);

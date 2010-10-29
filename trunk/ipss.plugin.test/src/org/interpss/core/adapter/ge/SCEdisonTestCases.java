@@ -42,7 +42,7 @@ public class SCEdisonTestCases extends BaseTestSetup {
 	public void testCase2() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ge");
 		SimuContext simuCtx = adapter.load("testData/ge/lftest_083008.epc");
-		GeAclfNetwork net = (GeAclfNetwork)simuCtx.getAclfAdjNet();
+		GeAclfNetwork net = (GeAclfNetwork)simuCtx.getAclfNet();
 
 		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setTolerance(0.1);

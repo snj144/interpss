@@ -20,7 +20,7 @@ import com.interpss.simu.SimuObjectFactory;
 public class AclfAdjCaseTest  extends BaseTestSetup {
 	@Test
 	public void AclfAdj2BusFuncLoadCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusFuncLoad.ipss", simuCtx);
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -38,7 +38,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfAdj2BusPQLimit1Case() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusPQLimit1.ipss", simuCtx);
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -56,7 +56,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 	
 	@Test
 	public void AclfAdj2BusPQLimit2Case() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusPQLimit2.ipss", simuCtx);
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -74,7 +74,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfAdj2BusPVLimit1Case() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusPVLimit1.ipss", simuCtx);
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -92,7 +92,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfAdj2BusPVLimit2Case() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusPVLimit2.ipss", simuCtx);
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -110,7 +110,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfAdj2BusTapControlDiscreteStepsCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusTapControlDiscreteSteps.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
@@ -127,7 +127,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfAdj2BusTapControlNoViolationCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusTapControlNoViolation.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
@@ -144,7 +144,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfAdj2BusTapControlViolationCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusTapControlViolation.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
@@ -161,7 +161,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfAdj3BusPsXfrCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusPsXfr.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
@@ -178,7 +178,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfAdj3BusPsXfrPControlFromSideCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusPsXfrPControlFromSide.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
@@ -195,7 +195,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfAdj3BusPsXfrPControlFromSideViolationCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusPsXfrPControlFromSideViolation.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
@@ -212,7 +212,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfAdj3BusPsXfrPControlToSideCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusPsXfrPControlToSide.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
@@ -229,7 +229,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfAdj3BusReQBusNoViolationCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusReQBusNoViolation.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
@@ -246,7 +246,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfAdj3BusReQBusViolationCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusReQBusViolation.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
@@ -263,7 +263,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfAdj3BusReQMvarFlowFromSideCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusReQMvarFlowFromSide.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
@@ -280,7 +280,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfAdj3BusReQMvarFlowToSideCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusReQMvarFlowToSide.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
@@ -297,7 +297,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 
 	@Test
 	public void AclfAdj3BusTapControlMvarFlowFromSideCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusTapControlMvarFlowFromSide.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
@@ -313,7 +313,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 	}
 	@Test
 	public void AclfAdj3BusTapControlMvarFlowToSideCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusTapControlMvarFlowToSide.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
@@ -329,7 +329,7 @@ public class AclfAdjCaseTest  extends BaseTestSetup {
 	}
 	@Test
 	public void AclfAdj3BusTapControlMvarFlowToSideTapCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusTapControlMvarFlowToSideTap.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());

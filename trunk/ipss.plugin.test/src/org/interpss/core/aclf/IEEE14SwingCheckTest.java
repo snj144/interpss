@@ -16,7 +16,7 @@ import com.interpss.simu.SimuObjectFactory;
 public class IEEE14SwingCheckTest  extends BaseTestSetup {
 	@Test
 	public void run3WXfrOffCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();

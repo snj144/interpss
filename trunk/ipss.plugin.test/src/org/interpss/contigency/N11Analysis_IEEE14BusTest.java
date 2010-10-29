@@ -52,13 +52,13 @@ import com.interpss.simu.multicase.result.BranchResult;
 public class N11Analysis_IEEE14BusTest extends BaseTestSetup {
 	@Test
 	public void sampleTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 
-		AclfNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfNet();
 		//System.out.println(net.net2String());
 
-	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, net);
+	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, net);
 		
 	  	AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		algo.setNonDivergent(true);
@@ -71,13 +71,13 @@ public class N11Analysis_IEEE14BusTest extends BaseTestSetup {
 	
 	@Test
 	public void sample1Test() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 
-		AclfNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfNet();
 		//System.out.println(net.net2String());
 
-	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, net);
+	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, net);
 		
 	  	AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		algo.setNonDivergent(true);

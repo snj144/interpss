@@ -58,10 +58,10 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 		/*
 		 * step-1 Build the base case
 		 */
-    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		AclfNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfNet();
 		//System.out.println(net.net2String());	
 		// network id needs to be set. It is used for identification purpse
 		net.setId("IEEE 14_Bus");
@@ -75,7 +75,7 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 	  	/*
 	  	 * step-3 define multiple study cases
 	  	 */
-		ContingencyAnalysis mCaseContainer = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, net);
+		ContingencyAnalysis mCaseContainer = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, net);
 		// save the base case Network model to the netStr
 		mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(net));
 
@@ -154,10 +154,10 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 		/*
 		 * step-1 Build the base case
 		 */
-    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		AclfNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfNet();
 		//System.out.println(net.net2String());	
 		// network id needs to be set. It is used for identification purpse
 		net.setId("IEEE 14_Bus");
@@ -171,7 +171,7 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 	  	/*
 	  	 * step-3 define multiple study cases
 	  	 */
-		ContingencyAnalysis mCaseContainer = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, net);
+		ContingencyAnalysis mCaseContainer = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, net);
 		// save the base case Network model to the netStr
 		mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(net));
 

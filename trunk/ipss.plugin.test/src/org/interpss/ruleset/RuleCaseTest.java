@@ -132,10 +132,10 @@ public class RuleCaseTest extends BaseTestSetup {
 		RuleBase base = SimuObjectFactory.createRuleBase();
 		base.add(set);
 */		
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14BusProtect.ipss", simuCtx);
   		// save net to a String
-  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
+  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfNet());
 
 		File xmlFile = new File("testData/xml/ruleset/RunAclfCaseProtection.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
@@ -179,7 +179,7 @@ public class RuleCaseTest extends BaseTestSetup {
 	@Test
 	public void run3WXfrOffCaseTest() throws Exception {
 /*		
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
   		// save net to a String
   		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
@@ -232,7 +232,7 @@ public class RuleCaseTest extends BaseTestSetup {
 	@Test
 	public void run3WXfrOffAnotherApproachCaseTest() throws Exception {
 /*		
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 
 		File xmlFile = new File("testData/xml/ruleset/IEEE14Bus_W3XfrOff.xml");

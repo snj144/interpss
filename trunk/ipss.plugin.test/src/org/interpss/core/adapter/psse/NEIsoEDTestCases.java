@@ -44,7 +44,7 @@ public class NEIsoEDTestCases extends BaseTestSetup {
 		SimuContext simuCtx = adapter.load("testData/psse/test_model_V30.raw");
   		//System.out.println(simuCtx.getAclfNet().net2String());
 
-		AclfNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setNonDivergent(true);
 	  	algo.setLfMethod(AclfMethod.NR);

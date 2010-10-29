@@ -43,7 +43,7 @@ public class ContingencyControlFileCaseTest extends BaseTestSetup {
 		SimuContext simuCtx = adapter.load("testData/edispatch/CR113Bus.raw");
 // 		System.out.println(simuCtx.getAclfNet().net2String());
 
-  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
+  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfNet());
 
 		File xmlFile = new File("testData/edispatch/RunCR113Bus.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);

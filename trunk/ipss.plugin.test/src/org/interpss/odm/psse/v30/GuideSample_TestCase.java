@@ -52,14 +52,14 @@ public class GuideSample_TestCase extends BaseTestSetup {
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_GuideSample.raw"));		
 		
 		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		if (!mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
   	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
   	  		return;
 		}	
   		simuCtx.setName("Sample18Bus");
  	  	simuCtx.setDesc("This project is created by input file adapter.getModel()");
- 	  	AclfNetwork net = simuCtx.getAclfAdjNet();
+ 	  	AclfNetwork net = simuCtx.getAclfNet();
   		//System.out.println(net.net2String());
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, msg);
@@ -82,14 +82,14 @@ public class GuideSample_TestCase extends BaseTestSetup {
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_GuideSample.raw"));		
 		
 		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		if (!mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
   	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
   	  		return;
 		}	
   		simuCtx.setName("Sample18Bus");
  	  	simuCtx.setDesc("This project is created by input file adapter.getModel()");
- 	  	AclfNetwork net = simuCtx.getAclfAdjNet();
+ 	  	AclfNetwork net = simuCtx.getAclfNet();
   		//System.out.println(net.net2String());
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);

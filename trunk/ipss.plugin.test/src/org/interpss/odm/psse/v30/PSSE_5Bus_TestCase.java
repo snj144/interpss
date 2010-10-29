@@ -52,7 +52,7 @@ public class PSSE_5Bus_TestCase extends BaseTestSetup {
 		//parser.stdout();
 		
 		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		if (!mapper.mapping(parser, simuCtx, SimuContext.class)) {
   	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
   	  		return;

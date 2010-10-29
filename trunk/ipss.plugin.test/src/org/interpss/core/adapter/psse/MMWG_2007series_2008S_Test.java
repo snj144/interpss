@@ -43,7 +43,7 @@ public class MMWG_2007series_2008S_Test extends BaseTestSetup {
 		SimuContext simuCtx = adapter.load("testData/psse/MMWG_2007series_2008S_Final.raw");
 //  		System.out.println(simuCtx.getAclfNet().net2String());
 
-		AclfNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfNet();
 
 		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);

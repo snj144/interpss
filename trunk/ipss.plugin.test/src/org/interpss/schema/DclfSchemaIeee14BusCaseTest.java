@@ -19,10 +19,10 @@ import com.interpss.simu.SimuObjectFactory;
 public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	@Test
 	public void runSingleAclfCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		DclfAlgorithm algo = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfAdjNet())
+		DclfAlgorithm algo = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfNet())
 				.runSenAnalysis("testData/xml/RunDclfCase.xml");		
 
 		File xmlFile = new File("testData/xml/RunDclfCase.xml");
@@ -36,9 +36,9 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		if (dclfCase.getCaculatelDclf()) {
 			algo.calculateDclf();
 			//System.out.println("0014->" + algo.getBusAngle(simuCtx.getAclfAdjNet().getBus("0014").getSortNumber())*Constants.RtoD);
-			assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle(simuCtx.getAclfAdjNet().getBus("0012").getSortNumber()))+16.27115) < 0.0001);
-			assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle(simuCtx.getAclfAdjNet().getBus("0013").getSortNumber()))+16.43665) < 0.0001);
-			assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle(simuCtx.getAclfAdjNet().getBus("0014").getSortNumber()))+17.42943) < 0.0001);
+			assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle(simuCtx.getAclfNet().getBus("0012").getSortNumber()))+16.27115) < 0.0001);
+			assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle(simuCtx.getAclfNet().getBus("0013").getSortNumber()))+16.43665) < 0.0001);
+			assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle(simuCtx.getAclfNet().getBus("0014").getSortNumber()))+17.42943) < 0.0001);
 		}
 		
 		for (DclfBusSensitivityXmlType sen : dclfCase.getSensitivityArray()) {

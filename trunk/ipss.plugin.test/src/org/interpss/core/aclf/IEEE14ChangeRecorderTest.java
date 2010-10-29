@@ -22,7 +22,7 @@ import com.interpss.simu.SimuObjectFactory;
 public class IEEE14ChangeRecorderTest  extends BaseTestSetup {
 	@Test
 	public void runIEEE14BusAdjustChangeStep() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
