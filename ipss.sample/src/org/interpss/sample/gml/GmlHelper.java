@@ -48,7 +48,6 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.NetUtilFunc;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 
 public class GmlHelper {
 	private static final String Gml_NS = "org.graphdrawing.gml";
@@ -121,7 +120,7 @@ public class GmlHelper {
 	 * @return
 	 * @throws InterpssException
 	 */
-	public static AclfAdjNetwork createSubNet(AclfNetwork fromNet, GraphType gmlGraph) throws InterpssException {
+	public static AclfNetwork createSubNet(AclfNetwork fromNet, GraphType gmlGraph) throws InterpssException {
 		List<String> busIdList = new LinkedList<String>();
 		List<String> branchIdList = new LinkedList<String>();
 		// get bus id and branch id from the graph object
@@ -143,7 +142,7 @@ public class GmlHelper {
 
 		// create a sub network from the original AclfNetwork object, based
 		// on the bus ids and branch ids in the graph object
-		return (AclfAdjNetwork)fromNet.createSubNet(busIdAry, branchIdAry);
+		return (AclfNetwork)fromNet.createSubNet(busIdAry, branchIdAry);
 	}
 	
 	
