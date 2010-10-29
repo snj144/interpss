@@ -41,7 +41,6 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.aclf.netAdj.AclfAdjNetwork;
 import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -68,7 +67,7 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
     	assertTrue(result.getReturnStatus());
 		
 		String str = result.getSerializedAclfNet();
-		AclfAdjNetwork adjNet = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(str);
+		AclfNetwork adjNet = (AclfNetwork) SerializeEMFObjectUtil.loadModel(str);
 		adjNet.rebuildLookupTable();
 		assert(adjNet.isLfConverged());
     	
@@ -103,7 +102,7 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
     	assertTrue(result.getReturnStatus());
 		
 		String str = result.getSerializedAclfNet();
-		AclfAdjNetwork adjNet = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(str);
+		AclfNetwork adjNet = (AclfNetwork) SerializeEMFObjectUtil.loadModel(str);
 		adjNet.rebuildLookupTable();
 		assert(adjNet.isLfConverged());
     	
