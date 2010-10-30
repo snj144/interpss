@@ -40,11 +40,11 @@ public class LossAllocationCaseTest  extends BaseTestSetup {
   		LossCalNetAdapter netAdapter = (LossCalNetAdapter)net.getAdapter(LossCalNetAdapter.class);
   		assertTrue(!netAdapter.hasActivePowerLoop());
 
-  		netAdapter.initForWalkThrough();
+  		//netAdapter.initForWalkThrough();
   		netAdapter.lossAllocation(ActivePowerWalkDirection.SOURC2_LOAD); 
 		System.out.println(AclfOutFunc.loadLossAllocation(net));
 
-  		netAdapter.initForWalkThrough();
+  		//netAdapter.initForWalkThrough();
   		netAdapter.lossAllocation(ActivePowerWalkDirection.LOAD2_SOURCE); 
 		System.out.println(AclfOutFunc.genLossAllocation(net));
 	}	
@@ -66,11 +66,11 @@ public class LossAllocationCaseTest  extends BaseTestSetup {
   		LossCalNetAdapter netAdapter = (LossCalNetAdapter)net.getAdapter(LossCalNetAdapter.class);
   		assertTrue(!netAdapter.hasActivePowerLoop());
 
-  		netAdapter.initForWalkThrough();
+  		//netAdapter.initForWalkThrough();
   		netAdapter.lossAllocation(ActivePowerWalkDirection.SOURC2_LOAD); 
 		System.out.println(AclfOutFunc.loadLossAllocation(net));
 
-  		netAdapter.initForWalkThrough();
+  		//netAdapter.initForWalkThrough();
   		netAdapter.lossAllocation(ActivePowerWalkDirection.LOAD2_SOURCE); 
 		System.out.println(AclfOutFunc.genLossAllocation(net));
 	}	
