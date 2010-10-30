@@ -36,6 +36,7 @@ import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfNetHelper;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -60,7 +61,8 @@ public class Bus11856Test extends BaseTestSetup {
 
   		  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
   	  		starttime = System.currentTimeMillis() ;
-  	  		assertTrue(algo.checkSwingBus());
+			AclfNetHelper helper = CoreObjectFactory.createAclfNetHelper(net, msg);
+  	  		assertTrue(helper.checkSwingBus());
   	  		System.out.println("time for swing bus check : " + (System.currentTimeMillis() - starttime)*0.001);
 	  	
   			starttime = System.currentTimeMillis() ;
