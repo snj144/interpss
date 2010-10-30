@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfNetHelper;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
@@ -25,8 +26,9 @@ public class IEEE14SwingCheckTest  extends BaseTestSetup {
 	  	net.getBranch("0007", "0008").setStatus(false);
 	  	net.getBranch("0001", "0002").setStatus(false);
 	  	
-		if (!algo.checkSwingBus())
-			algo.assignSwingBus();
+		AclfNetHelper helper = CoreObjectFactory.createAclfNetHelper(net, msg);
+		if (!helper.checkSwingBus())
+			helper.assignSwingBus();
   		assertTrue(!net.getBus("0008").isActive());
 		//for (Bus bus : net.getBusList())
 		//	System.out.println("id, intFlag, status: " + 
