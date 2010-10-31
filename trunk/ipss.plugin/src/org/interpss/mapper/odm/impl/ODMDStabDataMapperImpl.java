@@ -62,7 +62,7 @@ import org.interpss.mapper.odm.impl.dstab.StabilizerDataHelper;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.algorithm.AclfAdjustAlgorithm;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
@@ -94,7 +94,7 @@ public class ODMDStabDataMapperImpl {
 				DynamicSimuAlgorithm dstabAlgo =DStabObjectFactory.createDynamicSimuAlgorithm(dstabNet,simuCtx.getMsgHub() );
 				simuCtx.setDynSimuAlgorithm(dstabAlgo);
 
-				AclfAdjustAlgorithm lfAlgo = CoreObjectFactory.createAclfAdjAlgorithm(dstabNet, dstabAlgo.getMsgHub());
+				LoadflowAlgorithm lfAlgo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, dstabAlgo.getMsgHub());
 				dstabAlgo.setAclfAlgorithm(lfAlgo);
 
 				// map the bus info
