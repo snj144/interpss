@@ -45,7 +45,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.AclfAdjustAlgorithm;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.RemoteMessageType;
@@ -93,7 +93,7 @@ public class XmlScriptContingency {
 
 		int cnt = 0;
 		for (AclfStudyCaseXmlType xmlCase : xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
-			AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(aclfNet, msg);
+			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet, msg);
 			// map to the Algo object including network modification at the study case level
 			IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 			if (!XmlScriptUtilFunc.mapAclfStudyCase(mapper, xmlCase, algo, 
