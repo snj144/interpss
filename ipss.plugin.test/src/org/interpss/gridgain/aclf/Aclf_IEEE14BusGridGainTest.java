@@ -41,7 +41,7 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.algorithm.AclfAdjustAlgorithm;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -94,7 +94,7 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
 		// network id needs to be set. It is used for identification purpse
 		net.setId("IEEE 14_Bus");
 		
-		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, msg);
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 	  	//algo.setLfMethod(AclfMethod.PQ);
 
 		RemoteMessageTable result = new GridRunner(grid, "Grid Aclf IEEE 14-Bus system", algo).executeTask(0);

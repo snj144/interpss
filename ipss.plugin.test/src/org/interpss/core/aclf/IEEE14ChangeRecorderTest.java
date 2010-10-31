@@ -7,6 +7,7 @@ import org.interpss.BaseTestSetup;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
@@ -36,9 +37,9 @@ public class IEEE14ChangeRecorderTest  extends BaseTestSetup {
   		assertTrue(algo.loadflow());
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
 		SwingBusAdapter swing = swingBus.toSwingBus();
-		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32428)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.26235)<0.0001);
+		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32394)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.20674)<0.0001);
   		
   		net.getAclfBus("0001").setGenCode(AclfGenCode.GEN_PV);
   		net.getBus("0008").setStatus(false);
@@ -49,8 +50,8 @@ public class IEEE14ChangeRecorderTest  extends BaseTestSetup {
   		assertTrue(algo.loadflow());
   		swingBus = (AclfBus)net.getBus("0001");
 		swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32428)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.26235)<0.0001);
+		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32394)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.20674)<0.0001);
 	}			
 }

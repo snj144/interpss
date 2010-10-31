@@ -32,8 +32,8 @@ import org.junit.Test;
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.core.algorithm.AclfMethod;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
 public class MMWG_2007series_2008S_Test extends BaseTestSetup {
@@ -45,7 +45,7 @@ public class MMWG_2007series_2008S_Test extends BaseTestSetup {
 
 		AclfNetwork net = simuCtx.getAclfNet();
 
-		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());

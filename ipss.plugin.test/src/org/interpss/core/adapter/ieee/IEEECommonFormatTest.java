@@ -131,10 +131,10 @@ public class IEEECommonFormatTest extends BaseTestSetup {
   		assertTrue(net.isLfConverged());		
  		AclfBus swingBus = (AclfBus)net.getBus("Bus69");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).re);
-		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).im);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.1348)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.8239)<0.0001);
+		System.out.println(swing.getGenResults(UnitType.PU).getReal());
+		System.out.println(swing.getGenResults(UnitType.PU).getImaginary());
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.13442)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.82383)<0.0001);
 	}
 }
 

@@ -62,7 +62,7 @@ public class GuideSample_TestCase extends BaseTestSetup {
  	  	AclfNetwork net = simuCtx.getAclfNet();
   		//System.out.println(net.net2String());
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, msg);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setNonDivergent(true);
 	  	algo.loadflow();
@@ -71,9 +71,9 @@ public class GuideSample_TestCase extends BaseTestSetup {
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus3011");
 		SwingBusAdapter swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
-  		//System.out.println(p.getReal() + ", " + p.getImaginary());
-  		assertTrue(Math.abs(p.getReal()-248.189)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()+658.676)<0.01);
+  		System.out.println(p.getReal() + ", " + p.getImaginary());
+  		assertTrue(Math.abs(p.getReal()-258.6568)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()-104.04017)<0.01);
 	}
 
 	@Test
@@ -101,7 +101,7 @@ public class GuideSample_TestCase extends BaseTestSetup {
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus3011");
 		SwingBusAdapter swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
-  		System.out.println(p.getReal() + ", " + p.getImaginary());
+  		//System.out.println(p.getReal() + ", " + p.getImaginary());
   		assertTrue(Math.abs(p.getReal()-258.657)<0.01);
   		assertTrue(Math.abs(p.getImaginary()-104.045)<0.01);
 	}
