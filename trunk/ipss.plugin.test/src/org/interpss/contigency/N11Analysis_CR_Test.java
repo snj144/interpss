@@ -33,7 +33,7 @@ import org.junit.Test;
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.AclfAdjustAlgorithm;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -51,7 +51,7 @@ public class N11Analysis_CR_Test extends BaseTestSetup {
 
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, net);
 		
-	  	AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		algo.setNonDivergent(true);
 		algo.setTolerance(0.01);
 		

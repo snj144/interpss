@@ -48,7 +48,7 @@ import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.AclfAdjustAlgorithm;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -70,7 +70,7 @@ public class RuleXmlCaseTest extends BaseTestSetup {
 	  	AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
 	  	AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 		net.rebuildLookupTable();
-		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
   		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 	  	
@@ -121,7 +121,7 @@ public class RuleXmlCaseTest extends BaseTestSetup {
 		mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 
 
-		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		mapper = new RunForm2AlgorithmMapper();
 		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
   		
@@ -168,7 +168,7 @@ public class RuleXmlCaseTest extends BaseTestSetup {
   		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 
-		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		mapper = new RunForm2AlgorithmMapper();
 		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
   		

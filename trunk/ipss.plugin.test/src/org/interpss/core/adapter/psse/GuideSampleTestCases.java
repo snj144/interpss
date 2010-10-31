@@ -42,7 +42,6 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.algorithm.AclfAdjustAlgorithm;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
@@ -56,7 +55,7 @@ public class GuideSampleTestCases extends BaseTestSetup {
 		SimuContext simuCtx = adapter.load("testData/psse/PSSE_GuideSample.raw");
   		//System.out.println(simuCtx.getAclfNet().net2String());
 		AclfNetwork net = simuCtx.getAclfNet();
-		AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setNonDivergent(true);
 	  	algo.loadflow();

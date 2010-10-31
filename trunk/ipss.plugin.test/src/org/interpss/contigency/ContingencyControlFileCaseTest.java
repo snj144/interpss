@@ -23,7 +23,7 @@ import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.AclfAdjustAlgorithm;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
 public class ContingencyControlFileCaseTest extends BaseTestSetup {
@@ -52,7 +52,7 @@ public class ContingencyControlFileCaseTest extends BaseTestSetup {
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
-			AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
+			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		  	IpssMapper mapper = new IpssXmlMapper();
 		  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 		  	

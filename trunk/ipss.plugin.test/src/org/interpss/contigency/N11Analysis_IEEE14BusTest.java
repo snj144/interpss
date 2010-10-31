@@ -38,7 +38,7 @@ import com.interpss.common.mapper.IpssMapper;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.AclfAdjustAlgorithm;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.net.Branch;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -60,7 +60,7 @@ public class N11Analysis_IEEE14BusTest extends BaseTestSetup {
 
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, net);
 		
-	  	AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		algo.setNonDivergent(true);
 		algo.setTolerance(0.001);
 		
@@ -79,7 +79,7 @@ public class N11Analysis_IEEE14BusTest extends BaseTestSetup {
 
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, net);
 		
-	  	AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		algo.setNonDivergent(true);
 		algo.setTolerance(0.001);
 		
@@ -101,12 +101,12 @@ public class N11Analysis_IEEE14BusTest extends BaseTestSetup {
 		algo.setInitBusVoltage(false);
 	  	IpssMapper mapper = new IpssXmlMapper();
 		while (!mscase.getStudyCaseList().isEmpty()) {
-			ChangeRecorder recorder = new ChangeRecorder(algo.getAclfAdjNetwork());
+			ChangeRecorder recorder = new ChangeRecorder(algo.getAclfNetwork());
 			
 			ContingencyCase scase1 = (ContingencyCase)mscase.getStudyCaseList().poll();
 			
 			ModificationXmlType mod1 = ModificationXmlType.Factory.parse(scase1.getModificationString()); 
-		  	mapper.mapping(mod1, algo.getAclfAdjNetwork(), ModificationXmlType.class);
+		  	mapper.mapping(mod1, algo.getAclfNetwork(), ModificationXmlType.class);
 			
 			scase1.runLoadflow(algo, mscase);
 			

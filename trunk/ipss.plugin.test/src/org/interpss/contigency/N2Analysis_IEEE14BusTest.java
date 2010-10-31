@@ -36,7 +36,7 @@ import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.AclfAdjustAlgorithm;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.net.Branch;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -56,7 +56,7 @@ public class N2Analysis_IEEE14BusTest extends BaseTestSetup {
 		
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, net);
 
-	  	AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		algo.setNonDivergent(true);
 		algo.setTolerance(0.001);
 		
@@ -74,7 +74,7 @@ public class N2Analysis_IEEE14BusTest extends BaseTestSetup {
 		
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, net);
 
-	  	AclfAdjustAlgorithm algo = CoreObjectFactory.createAclfAdjAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		algo.setNonDivergent(true);
 		algo.setTolerance(0.001);
 		
@@ -101,12 +101,12 @@ public class N2Analysis_IEEE14BusTest extends BaseTestSetup {
 		algo.setInitBusVoltage(false);
 	  	IpssMapper mapper = new IpssXmlMapper();
 		while (!mscase.getStudyCaseList().isEmpty()) {
-			ChangeRecorder recorder = new ChangeRecorder(algo.getAclfAdjNetwork());
+			ChangeRecorder recorder = new ChangeRecorder(algo.getAclfNetwork());
 			
 			AclfStudyCase scase = (AclfStudyCase)mscase.getStudyCaseList().poll();
 			
 		  	mapper.mapping(ModificationXmlType.Factory.parse(scase.getModificationString()), 
-		  			algo.getAclfAdjNetwork(), ModificationXmlType.class);
+		  			algo.getAclfNetwork(), ModificationXmlType.class);
 			
 			scase.runLoadflow(algo, mscase);
 	  		
