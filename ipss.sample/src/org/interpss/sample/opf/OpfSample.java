@@ -3,7 +3,7 @@ package org.interpss.sample.opf;
 import com.interpss.core.net.Bus;
 import com.interpss.opf.OpfGenBus;
 import com.interpss.opf.OpfNetwork;
-import com.interpss.opf.common.IOpfGenBusVisitor;
+import com.interpss.opf.common.visitor.IOpfGenBusVisitor;
 
 public class OpfSample {
 
