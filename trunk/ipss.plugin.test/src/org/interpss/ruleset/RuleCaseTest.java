@@ -30,7 +30,6 @@ import java.io.File;
 
 import org.interpss.BaseTestSetup;
 import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
-import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.PreventiveRuleSetXmlType;
 import org.interpss.schema.RuleBaseXmlType;
@@ -148,7 +147,7 @@ public class RuleCaseTest extends BaseTestSetup {
 		net.rebuildLookupTable();
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-  		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+  		mapper.mapping(aclfCase.getAclfAlgorithm(), algo);
 	  	
   		assertTrue(algo.getMaxIterations() == 20);
   		assertTrue(algo.getTolerance() == 1.0E-4);

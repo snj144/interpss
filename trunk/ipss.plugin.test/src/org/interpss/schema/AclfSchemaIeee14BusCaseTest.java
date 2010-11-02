@@ -145,8 +145,8 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	// modification of the study case also applied
 	  	IpssMapper mapper = new IpssXmlMapper();
-	  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
-	  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+	  	mapper.mapping(aclfCase.getModification(), net);
+	  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo);
 	  	
 	  	assertTrue(!net.getBranch("0010->0009(1)").isActive());
 	  	

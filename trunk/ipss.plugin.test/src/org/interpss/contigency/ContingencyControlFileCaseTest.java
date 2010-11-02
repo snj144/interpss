@@ -54,11 +54,10 @@ public class ContingencyControlFileCaseTest extends BaseTestSetup {
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		  	IpssMapper mapper = new IpssXmlMapper();
-		  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
+		  	mapper.mapping(aclfCase.getModification(), net);
 		  	
 		  	mapper = new RunForm2AlgorithmMapper();
-		  	mapper.mapping( parser.getRunAclfStudyCase().getDefaultAclfAlgorithm(), 
-	  							algo, AclfAlgorithmXmlType.class);
+		  	mapper.mapping( parser.getRunAclfStudyCase().getDefaultAclfAlgorithm(),	algo);
 	  	
 	  		assertTrue(algo.loadflow());
 	  	}	

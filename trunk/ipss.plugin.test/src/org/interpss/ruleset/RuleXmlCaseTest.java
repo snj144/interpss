@@ -118,7 +118,7 @@ public class RuleXmlCaseTest extends BaseTestSetup {
 
 		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
   		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-		mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
+		mapper.mapping(aclfCase.getModification(), net);
 
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
@@ -166,7 +166,7 @@ public class RuleXmlCaseTest extends BaseTestSetup {
 
 		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
   		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-		mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
+		mapper.mapping(aclfCase.getModification(), net);
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		mapper = new RunForm2AlgorithmMapper();

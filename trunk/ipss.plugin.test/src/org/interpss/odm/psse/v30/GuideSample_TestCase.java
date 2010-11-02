@@ -53,7 +53,7 @@ public class GuideSample_TestCase extends BaseTestSetup {
 		
 		IEEEODMMapper mapper = new IEEEODMMapper();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
-		if (!mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
+		if (!mapper.mapping(adapter.getModel(), simuCtx)) {
   	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
   	  		return;
 		}	
@@ -83,7 +83,7 @@ public class GuideSample_TestCase extends BaseTestSetup {
 		
 		IEEEODMMapper mapper = new IEEEODMMapper();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
-		if (!mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
+		if (!mapper.mapping(adapter.getModel(), simuCtx)) {
   	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
   	  		return;
 		}	

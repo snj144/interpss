@@ -55,7 +55,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 		
 		IEEEODMMapper mapper = new IEEEODMMapper();
 		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
-		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
+		if (mapper.mapping(adapter.getModel(), simuCtx)) {
   	  		simuCtx.setName("UCTE");
 		}		
 		AclfNetwork net = simuCtx.getAclfNet();

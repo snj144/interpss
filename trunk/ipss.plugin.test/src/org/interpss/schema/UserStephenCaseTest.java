@@ -49,8 +49,8 @@ public class UserStephenCaseTest extends BaseTestSetup {
 		  	if (aclfCase.getAclfAlgorithm() == null) 
 		  		aclfCase.setAclfAlgorithm(parser.getRunAclfStudyCase().getDefaultAclfAlgorithm());
 		  	if (aclfCase.getModification() != null)
-			  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
-		  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+			  	mapper.mapping(aclfCase.getModification(), net);
+		  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo);
 	  	
 	  		assertTrue(algo.loadflow());
 
@@ -98,10 +98,10 @@ public class UserStephenCaseTest extends BaseTestSetup {
 		  	IpssMapper mapper = new IpssXmlMapper();
 
 		  	if (aclfCase.getModification() != null)
-			  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
+			  	mapper.mapping(aclfCase.getModification(), net);
 		  	if (aclfCase.getAclfAlgorithm() == null) 
 		  		aclfCase.setAclfAlgorithm(parser.getRunAclfStudyCase().getDefaultAclfAlgorithm());
-		  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+		  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo);
 	  		
 		  	algo.setNonDivergent(true);
 	  		//assertTrue(algo.loadflow());
