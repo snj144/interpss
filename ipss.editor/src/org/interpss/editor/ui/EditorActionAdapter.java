@@ -34,7 +34,6 @@ import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.coreframework.IpssReportDocument;
 import org.interpss.editor.coreframework.IpssTextFile;
 import org.interpss.editor.doc.IpssProjectItem;
-import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.io.CustomFileUtility;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IIpssGraphModel;
@@ -87,7 +86,7 @@ public class EditorActionAdapter {
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
 			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
-			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
+			if (!mapper.mapping(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
@@ -107,7 +106,7 @@ public class EditorActionAdapter {
 		if (graphView && appSimuCtx.isSimuNetDataDirty()) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
 			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
-			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
+			if (!mapper.mapping(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
@@ -138,7 +137,7 @@ public class EditorActionAdapter {
 		if (graphView && appSimuCtx.isSimuNetDataDirty()) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
 			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
-			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
+			if (!mapper.mapping(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
@@ -169,7 +168,7 @@ public class EditorActionAdapter {
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
 			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
-			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
+			if (!mapper.mapping(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
@@ -198,7 +197,7 @@ public class EditorActionAdapter {
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
 			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
-			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
+			if (!mapper.mapping(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
@@ -228,7 +227,7 @@ public class EditorActionAdapter {
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
 			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
-			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
+			if (!mapper.mapping(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
@@ -255,7 +254,7 @@ public class EditorActionAdapter {
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
 			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
-			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
+			if (!mapper.mapping(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
