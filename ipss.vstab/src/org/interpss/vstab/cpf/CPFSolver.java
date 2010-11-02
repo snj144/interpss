@@ -4,11 +4,10 @@ import org.apache.commons.math.linear.RealMatrix;
 
 public interface CPFSolver {
 	
-	public RealMatrix getPredictedResult();
+
+	public boolean solveCPF();
 	
-	public RealMatrix getCorrectedResult();
-	
-	public Boolean isCPFConverged();
+	public boolean isCPFConverged();
 	
 	
 
