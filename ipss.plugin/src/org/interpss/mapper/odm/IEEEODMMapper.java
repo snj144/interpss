@@ -51,8 +51,8 @@ public class IEEEODMMapper extends AbstractMapper {
 	 * @param kclass class type of the toObj 
 	 */
 	@Override
-	public boolean mapping(Object fromObj, Object toObj, Class<?> klass) {
-		if (klass == SimuContext.class) {
+	public <T> boolean mapping(Object fromObj, T toObj) {
+		if (toObj instanceof SimuContext) {
 			if (fromObj instanceof OpfModelParser) {
 				OpfModelParser parser = (OpfModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;

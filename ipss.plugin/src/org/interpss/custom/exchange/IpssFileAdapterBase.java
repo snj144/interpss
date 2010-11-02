@@ -59,7 +59,7 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 		//System.out.println(adapter.getModel().toString());
 		
 		IEEEODMMapper mapper = new IEEEODMMapper();
-		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
+		if (mapper.mapping(adapter.getModel(), simuCtx)) {
   	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
   	  		simuCtx.setDesc("This project is created by input file " + filepath);
 		}
