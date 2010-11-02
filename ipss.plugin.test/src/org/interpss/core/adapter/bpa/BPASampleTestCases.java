@@ -53,7 +53,7 @@ public class BPASampleTestCases extends BaseTestSetup {
 		AclfNetwork net = null;
 		IEEEODMMapper mapper = new IEEEODMMapper();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, SpringAppContext.getIpssMsgHub());
-		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
+		if (mapper.mapping(adapter.getModel(), simuCtx)) {
   	  		simuCtx.setName("SampleBPA");
   	  		simuCtx.setDesc("This project is created by input file");
   			net = simuCtx.getAclfNet();
@@ -86,7 +86,7 @@ public class BPASampleTestCases extends BaseTestSetup {
 		AclfNetwork net = null;
 		IEEEODMMapper mapper = new IEEEODMMapper();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, SpringAppContext.getIpssMsgHub());
-		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
+		if (mapper.mapping(adapter.getModel(), simuCtx)) {
   	  		simuCtx.setName("Sample18Bus");
   	  		simuCtx.setDesc("This project is created by input file");
   			net = simuCtx.getAclfNet();

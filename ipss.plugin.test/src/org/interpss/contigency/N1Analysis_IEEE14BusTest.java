@@ -101,7 +101,7 @@ public class N1Analysis_IEEE14BusTest extends BaseTestSetup {
 			AclfStudyCase scase = (AclfStudyCase)mscase.getStudyCaseList().poll();
 			
 		  	mapper.mapping(ModificationXmlType.Factory.parse(scase.getModificationString()), 
-		  			algo.getAclfNetwork(), ModificationXmlType.class);
+		  			algo.getAclfNetwork());
 			
 			scase.runLoadflow(algo, mscase);
 	  		

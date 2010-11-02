@@ -48,8 +48,8 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		  	IpssMapper mapper = new IpssXmlMapper();
-		  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
-		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+		  	mapper.mapping(aclfCase.getModification(), net);
+		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
 		  	
 	  		assertTrue(algo.loadflow());
 	  		
@@ -104,8 +104,8 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		  	IpssMapper mapper = new IpssXmlMapper();
-		  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
-		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+		  	mapper.mapping(aclfCase.getModification(), net);
+		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
 		  	
 	  		assertTrue(algo.loadflow());
 	  		
@@ -144,8 +144,8 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		  	IpssMapper mapper = new IpssXmlMapper();
-		  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
-		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+		  	mapper.mapping(aclfCase.getModification(), net);
+		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
 		  	
 	  		assertTrue(algo.loadflow());
 			PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, parser.getRuleBase(), 1.1, 0.9, msg);

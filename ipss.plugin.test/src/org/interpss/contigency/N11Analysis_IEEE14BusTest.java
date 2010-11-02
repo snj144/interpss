@@ -106,7 +106,7 @@ public class N11Analysis_IEEE14BusTest extends BaseTestSetup {
 			ContingencyCase scase1 = (ContingencyCase)mscase.getStudyCaseList().poll();
 			
 			ModificationXmlType mod1 = ModificationXmlType.Factory.parse(scase1.getModificationString()); 
-		  	mapper.mapping(mod1, algo.getAclfNetwork(), ModificationXmlType.class);
+		  	mapper.mapping(mod1, algo.getAclfNetwork());
 			
 			scase1.runLoadflow(algo, mscase);
 			

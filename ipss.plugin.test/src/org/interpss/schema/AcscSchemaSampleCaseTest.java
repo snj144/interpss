@@ -59,7 +59,7 @@ public class AcscSchemaSampleCaseTest extends BaseTestSetup {
   		SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, SpringAppContext.getIpssMsgHub());
 	  	IpssMapper mapper = new IpssXmlMapper();
 	  	for ( AcscStudyCaseXmlType scase : parser.getRunAcscStudyCase().getAcscStudyCaseList().getAcscStudyCaseArray()) {
-	  		mapper.mapping(scase, algo, AcscStudyCaseXmlType.class);
+	  		mapper.mapping(scase, algo);
 	  		AcscBusFault fault = faultNet.getFaultList().get(0);
 	  		algo.calculateBusFault((AcscBusFault)fault);
 	  			/*

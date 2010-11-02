@@ -77,7 +77,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 		AclfNetwork net = null;
 		IEEEODMMapper mapper = new IEEEODMMapper();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, SpringAppContext.getIpssMsgHub());
-		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
+		if (mapper.mapping(adapter.getModel(), simuCtx)) {
   	  		simuCtx.setName("Sample18Bus");
   	  		simuCtx.setDesc("This project is created by input file adapter.getModel()");
   			net = simuCtx.getAclfNet();
@@ -128,7 +128,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 		
 		IEEEODMMapper mapper = new IEEEODMMapper();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, SpringAppContext.getIpssMsgHub());
-		mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class);	
+		mapper.mapping(adapter.getModel(), simuCtx);	
 		
 		AclfNetwork net = simuCtx.getAclfNet();
 
