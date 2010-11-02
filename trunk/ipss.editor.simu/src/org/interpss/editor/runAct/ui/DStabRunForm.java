@@ -241,7 +241,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 		simuCtx.getDStabilityNet().removeAllDEvent();
 
 		IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
-		mapper.mapping(this, simuCtx.getDynSimuAlgorithm(),	DynamicSimuAlgorithm.class);
+		mapper.mapping(this, simuCtx.getDynSimuAlgorithm());
 
 		return RunActUtilFunc.checkDStabSimuData(simuCtx.getDynSimuAlgorithm(),
 				msg);

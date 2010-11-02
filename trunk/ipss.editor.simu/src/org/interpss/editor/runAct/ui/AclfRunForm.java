@@ -173,7 +173,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	private boolean runLoadflow_internal(AclfNetwork aclfAdjNet,
 			LoadflowAlgorithm algo, IPSSMsgHub msg) {
 		IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
-		mapper.mapping(this, algo, LoadflowAlgorithm.class);
+		mapper.mapping(this, algo);
 
 		algo.loadflow();
 

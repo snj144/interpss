@@ -76,7 +76,7 @@ public class XmlScriptDclfRun {
 			for ( DclfStudyCaseXmlType xmlCase : xmlRunDclfCase.getDclfStudyCaseList().getDclfStudyCaseArray()) {
 				if (xmlCase.getModification() != null) {
 					IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-					mapper.mapping(xmlCase.getModification(), aclfNet, ModificationXmlType.class);
+					mapper.mapping(xmlCase.getModification(), aclfNet);
 				}
 
 				if (xmlCase == null) {

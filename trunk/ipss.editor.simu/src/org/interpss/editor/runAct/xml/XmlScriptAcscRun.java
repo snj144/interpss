@@ -72,8 +72,8 @@ public class XmlScriptAcscRun {
 					xmlCase = xmlDefaultCase;
 				} 
 				if (xmlCase.getModification() != null)
-					mapper.mapping(xmlCase.getModification(), faultNet, ModificationXmlType.class);
-				mapper.mapping(xmlCase, algo, AcscStudyCaseXmlType.class);
+					mapper.mapping(xmlCase.getModification(), faultNet);
+				mapper.mapping(xmlCase, algo);
 				Object fault = faultNet.getFaultList().get(0);
 				if (fault instanceof AcscBusFault)
 					algo.calculateBusFault((AcscBusFault) fault);
