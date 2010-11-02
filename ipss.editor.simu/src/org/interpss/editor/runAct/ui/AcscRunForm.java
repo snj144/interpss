@@ -113,7 +113,7 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 		algo.setSimpleFaultNetwork(faultNet);
 		algo.setDesc(faultIdStr);
 		IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
-		mapper.mapping(this, algo, SimpleFaultAlgorithm.class);
+		mapper.mapping(this, algo);
 
 		for (Object fault : faultNet.getFaultList()) {
 			if (fault instanceof AcscBusFault)

@@ -68,7 +68,7 @@ public class XmlScriptRunWorker {
 		IPSSMsgHub msg = simuCtx.getMsgHub();
 		if (parser.getModification() != null) {
 			IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-			mapper.mapping(parser.getModification(), simuCtx.getNetwork(), ModificationXmlType.class);
+			mapper.mapping(parser.getModification(), simuCtx.getNetwork());
 		}
 		
 		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();

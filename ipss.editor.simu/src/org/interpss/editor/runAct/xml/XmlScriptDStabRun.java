@@ -108,7 +108,7 @@ public class XmlScriptDStabRun {
 				}
 				if (xmlCase.getModification() != null) {
 					IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-					mapper.mapping(xmlCase.getModification(), dstabNet, ModificationXmlType.class);
+					mapper.mapping(xmlCase.getModification(), dstabNet);
 				}
 				if (!configDStaAlgo(dstabAlgo, xmlCase, msg))
 					return false;
@@ -189,7 +189,7 @@ public class XmlScriptDStabRun {
 					}
 					if (xmlCase.getModification() != null) {
 						IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-						mapper.mapping(xmlCase.getModification(), dstabNet, ModificationXmlType.class);
+						mapper.mapping(xmlCase.getModification(), dstabNet);
 					}
 					if (!configDStaAlgo(dstabAlgo, xmlCase, msg))
 						return false;
@@ -269,7 +269,7 @@ public class XmlScriptDStabRun {
 		// map the Xml study case data to dstabAlgo, including modification to
 		// the network model data
 		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-		mapper.mapping(dstabCase, dstabAlgo, DStabStudyCaseXmlType.class);
+		mapper.mapping(dstabCase, dstabAlgo);
 		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo, msg))
 			return false; // if something is wrong, we stop running here
 

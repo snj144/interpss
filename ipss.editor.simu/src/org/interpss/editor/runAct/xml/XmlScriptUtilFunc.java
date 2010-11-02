@@ -52,8 +52,8 @@ public class XmlScriptUtilFunc {
 			xmlCase.setAclfAlgorithm(xmlDefaultAlgo);
 		}
 		if (xmlCase.getModification() != null && !remoteJobCreation)
-			mapper.mapping(xmlCase.getModification(), algo.getAclfNetwork(), ModificationXmlType.class);
-		mapper.mapping(xmlCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+			mapper.mapping(xmlCase.getModification(), algo.getAclfNetwork());
+		mapper.mapping(xmlCase.getAclfAlgorithm(), algo);
 		
 		return true;
 	}
