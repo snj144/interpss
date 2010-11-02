@@ -56,13 +56,13 @@ public class IpssXmlMapper extends AbstractMapper {
 	 * @param kclass class type, used to determine mapping details 
 	 */
 	@Override
-	public boolean mapping(Object fromObj, Object toObj, Class<?> klass) {
-		if (klass == AclfAlgorithmXmlType.class) {
+	public <T> boolean mapping(Object fromObj, T toObj) {
+		if (fromObj instanceof AclfAlgorithmXmlType) {
 			// map an AclfAlgorithmXmlType xml record to an LoadflowAlgorithm object
 			Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(
 					(AclfAlgorithmXmlType) fromObj,
 					(LoadflowAlgorithm) toObj, msg);
-		} else if (klass == AcscStudyCaseXmlType.class) {
+		} else if (fromObj instanceof AcscStudyCaseXmlType) {
 			/*
 			 * map an AcscStudyCase xml record to an LoadflowAlgorithm object
 			 */
@@ -71,7 +71,7 @@ public class IpssXmlMapper extends AbstractMapper {
 			return Xml2AlgorithmMapperImpl.acscCaseData2AlgoMapping(
 					scase, (SimpleFaultAlgorithm) toObj, 
 					faultIdStr, msg);
-		} else if (klass == DStabStudyCaseXmlType.class) {
+		} else if (fromObj instanceof DStabStudyCaseXmlType) {
 			/*
 			 * map a DStabStudyCase xml record (fromObj) to an LoadflowAlgorithm object (toObj)
 			 */
@@ -79,7 +79,7 @@ public class IpssXmlMapper extends AbstractMapper {
 					(DStabStudyCaseXmlType) fromObj,
 					(DynamicSimuAlgorithm) toObj, msg);
 
-		} else if (klass == ModificationXmlType.class) {
+		} else if (fromObj instanceof ModificationXmlType) {
 			/*
 			 * Apply the modification (fromObj) info to the Network object (toObj) 
 			 */ 

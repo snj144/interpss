@@ -56,7 +56,7 @@ public class FileAdapter_IEEEODM_Xml extends IpssFileAdapterBase {
 		XBeanODMModelParser parser = new XBeanODMModelParser();
 		parser.parse(xmlFile);
 		IEEEODMMapper mapper = new IEEEODMMapper();
-		if (mapper.mapping(parser, simuCtx, SimuContext.class)) {
+		if (mapper.mapping(parser, simuCtx)) {
   	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
   	  		simuCtx.setDesc("This project is created by input file " + filepath);
 		}

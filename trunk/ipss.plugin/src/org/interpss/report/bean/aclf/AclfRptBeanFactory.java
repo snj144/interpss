@@ -286,7 +286,7 @@ public class AclfRptBeanFactory {
 	public static JRBeanArrayDataSource getMaxMismatchDataSource(
 			IAppSimuContext appSimuCtx, SimuCtxReportMapper mapper) {
 		RptAclfMaxMismatchBean misBean = new RptAclfMaxMismatchBean();
-		mapper.mapping(appSimuCtx, misBean, RptAclfMaxMismatchBean.class);
+		mapper.mapping(appSimuCtx, misBean);
 		return new JRBeanArrayDataSource(new Object[] { misBean });
 	}
 

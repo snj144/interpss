@@ -82,7 +82,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	  		if (ok) {
 	  			timer.start();
 				IEEEODMMapper mapper = new IEEEODMMapper();
-				mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class);
+				mapper.mapping(adapter.getModel(), simuCtx);
 				str = timer.log("Map ODM model to SimuCtx tiem: ");			
 				msgHub.sendStatusMsg(str);
 	  		}

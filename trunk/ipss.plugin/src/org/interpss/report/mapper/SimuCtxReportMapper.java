@@ -73,7 +73,7 @@ public class SimuCtxReportMapper extends AbstractMapper {
 	 *            class type of the toObj
 	 */
 	@Override
-	public boolean mapping(Object fromObj, Object toObj, Class<?> klass) {
+	public <T> boolean mapping(Object fromObj, T toObj) {
 		IAppSimuContext appSimuCtx = null;
 		SimuContext simuCtx = null;
 		if (fromObj instanceof IAppSimuContext) {
@@ -83,16 +83,16 @@ public class SimuCtxReportMapper extends AbstractMapper {
 			simuCtx = (SimuContext) fromObj;
 		}
 
-		if (klass == RptAclfMaxMismatchBean.class) {
+		if (toObj instanceof RptAclfMaxMismatchBean) {
 			AclfResultMapperImpl.mapAclfMaxMismatch(simuCtx.getAclfNet(),
 					(RptAclfMaxMismatchBean) toObj);
 			return true;
 		}
-		if (klass == RptFaultSummaryBean.class) {
+		if (toObj instanceof RptFaultSummaryBean) {
 			AcscResultMapperImpl.mapAcscFaultSummary(simuCtx.getAcscFaultNet(),
 					(RptFaultSummaryBean) toObj);
 			return true;
-		} else if (klass == RptMainTitleBean.class) {
+		} else if (toObj instanceof RptMainTitleBean) {
 			MasterfResultMapperImpl.mapMasterTitleBean(appSimuCtx,
 					(RptMainTitleBean) toObj);
 			return true;

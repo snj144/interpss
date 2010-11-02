@@ -62,7 +62,7 @@ public class AcscRptBeanFactory {
 	public static JRBeanArrayDataSource getFaultSummaryDataSource(
 			IAppSimuContext appSimuCtx, SimuCtxReportMapper mapper) {
 		RptFaultSummaryBean bean = new RptFaultSummaryBean();
-		mapper.mapping(appSimuCtx, bean, RptFaultSummaryBean.class);
+		mapper.mapping(appSimuCtx, bean);
 		return new JRBeanArrayDataSource(new Object[] { bean });
 	}
 
@@ -71,7 +71,7 @@ public class AcscRptBeanFactory {
 		RptFaultSummaryBean bean = new RptFaultSummaryBean();
 		SimuCtxReportMapper mapper = new SimuCtxReportMapper(simuCtx
 				.getMsgHub());
-		mapper.mapping(simuCtx, bean, RptFaultSummaryBean.class);
+		mapper.mapping(simuCtx, bean);
 		return new JRBeanArrayDataSource(new Object[] { bean });
 	}
 
