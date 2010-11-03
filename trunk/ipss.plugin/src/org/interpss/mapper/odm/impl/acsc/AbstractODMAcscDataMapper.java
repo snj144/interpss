@@ -1,5 +1,5 @@
 /*
- * @(#)ODMAclfDataMapperImpl.java   
+ * @(#)AbstractODMAcscDataMapper.java   
  *
  * Copyright (C) 2008 www.interpss.org
  *
@@ -76,10 +76,9 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 	}
 	
 	/**
-	 * transfer info stored in the parser object into simuCtx object. It creates a SimpleFaultNetwork object
-	 * and a SimpleFaultAlgorithm object, and transfer the info into the objects 
+	 * transfer info stored in the parser object into simuCtx object. 
 	 * 
-	 * @param parser
+	 * @param p a ODM parser object, representign an ODM xml file
 	 * @param simuCtx
 	 * @return
 	 */

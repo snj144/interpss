@@ -1,5 +1,5 @@
 /*
- * @(#)ODMAclfDataMapperImpl.java   
+ * @(#)AbstractODMAclfDataMapper.java   
  *
  * Copyright (C) 2008 www.interpss.org
  *
@@ -83,12 +83,17 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMNetDat
 		super(msg);
 	}
 	
+	/**
+	 * map into store in the ODM parser into simuCtx object
+	 * 
+	 * @param p ODM parser object, representing a ODM xml file
+	 * @param simuCtx
+	 */
 	@Override
 	public boolean map2Model(Tfrom p, SimuContext simuCtx) {
 		boolean noError = true;
 		AclfModelParser parser = (AclfModelParser)p;
 		if (parser.getAclfNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION ) {
-
 			LoadflowNetXmlType xmlNet = parser.getAclfNet();
 			simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
 			try {
@@ -147,6 +152,14 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMNetDat
 		return aclfBus;
 	}
 	
+	/**
+	 * Set Aclf data
+	 * 
+	 * @param busXmlData
+	 * @param aclfBus
+	 * @param adjNet
+	 * @throws InterpssException
+	 */
 	public void setAclfBusData(LoadflowBusXmlType busXmlData, AclfBus aclfBus, AclfNetwork adjNet) throws InterpssException {
 		VoltageXmlType vXml = busXmlData.getVoltage();
 		double vpu = vXml == null ? 1.0 : UnitType.vConversion(vXml.getValue(),
