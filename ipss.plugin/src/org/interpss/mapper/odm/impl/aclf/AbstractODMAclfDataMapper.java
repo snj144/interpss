@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.mapper.odm.impl;
+package org.interpss.mapper.odm.impl.aclf;
 
 import javax.xml.bind.JAXBElement;
 
@@ -50,6 +50,7 @@ import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
+import org.interpss.mapper.odm.impl.AbstractODMNetDataMapper;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
@@ -77,24 +78,22 @@ import com.interpss.core.aclf.adpter.XfrAdapter;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class ODMAclfDataMapperImpl {
-	/**
-	 * transfer info stored in the parser object into simuCtx object
-	 * 
-	 * @param parser
-	 * @param simuCtx
-	 * @return
-	 */
-	public static boolean odm2SimuCtxMapping(AclfModelParser parser, SimuContext simuCtx) {
+public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMNetDataMapper<Tfrom> {
+	public AbstractODMAclfDataMapper(IPSSMsgHub msg) {
+		super(msg);
+	}
+	
+	@Override
+	public boolean map2Model(Tfrom p, SimuContext simuCtx) {
 		boolean noError = true;
-		
+		AclfModelParser parser = (AclfModelParser)p;
 		if (parser.getAclfNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION ) {
 
 			LoadflowNetXmlType xmlNet = parser.getAclfNet();
 			simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
 			try {
 				AclfNetwork adjNet = CoreObjectFactory.createAclfAdjNetwork();
-				mapNetworkData(adjNet, xmlNet);
+				mapAclfNetworkData(adjNet, xmlNet);
 				simuCtx.setAclfNet(adjNet);
 
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
@@ -121,15 +120,15 @@ public class ODMAclfDataMapperImpl {
 		simuCtx.getNetwork().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
 		return noError;
 	}
-	
+
 	/**
 	 * Map the network info only
 	 * 
 	 * @param xmlNet
 	 * @return
 	 */
-	public static void mapNetworkData(AclfNetwork net, LoadflowNetXmlType xmlNet) {
-		ODMNetDataMapperImpl.mapNetworkData(net, xmlNet);
+	public void mapAclfNetworkData(AclfNetwork net, LoadflowNetXmlType xmlNet) {
+		mapNetworkData(net, xmlNet);
 	}
 	
 	/**
@@ -140,15 +139,15 @@ public class ODMAclfDataMapperImpl {
 	 * @return
 	 * @throws Exception
 	 */
-	public static AclfBus mapAclfBusData(LoadflowBusXmlType busRec, AclfNetwork adjNet) throws InterpssException {
+	public AclfBus mapAclfBusData(LoadflowBusXmlType busRec, AclfNetwork adjNet) throws InterpssException {
 		AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), adjNet);
 		//adjNet.addBus(aclfBus);
-		ODMNetDataMapperImpl.mapBaseBusData(busRec, aclfBus, adjNet);
+		mapBaseBusData(busRec, aclfBus, adjNet);
 		setAclfBusData(busRec, aclfBus, adjNet);
 		return aclfBus;
 	}
 	
-	public static void setAclfBusData(LoadflowBusXmlType busXmlData, AclfBus aclfBus, AclfNetwork adjNet) throws InterpssException {
+	public void setAclfBusData(LoadflowBusXmlType busXmlData, AclfBus aclfBus, AclfNetwork adjNet) throws InterpssException {
 		VoltageXmlType vXml = busXmlData.getVoltage();
 		double vpu = vXml == null ? 1.0 : UnitType.vConversion(vXml.getValue(),
 				aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
@@ -274,7 +273,7 @@ public class ODMAclfDataMapperImpl {
 	 * @param msg
 	 * @throws Exception
 	 */
-	public static void mapAclfBranchData(BaseBranchXmlType branch, AclfBranch aclfBranch, AclfNetwork adjNet, IPSSMsgHub msg) throws InterpssException {
+	public void mapAclfBranchData(BaseBranchXmlType branch, AclfBranch aclfBranch, AclfNetwork adjNet, IPSSMsgHub msg) throws InterpssException {
 		setAclfBranchData((BranchXmlType)branch, aclfBranch, adjNet);
 		if (branch instanceof LineBranchXmlType) {
 			LineBranchXmlType branchRec = (LineBranchXmlType) branch;
@@ -290,8 +289,8 @@ public class ODMAclfDataMapperImpl {
 		}		
 	}
 	
-	private static void setAclfBranchData(BranchXmlType branchRec, AclfBranch aclfBranch, AclfNetwork adjNet) throws InterpssException {
-		ODMNetDataMapperImpl.mapBaseBranchRec(branchRec, aclfBranch, adjNet);		
+	private void setAclfBranchData(BranchXmlType branchRec, AclfBranch aclfBranch, AclfNetwork adjNet) throws InterpssException {
+		mapBaseBranchRec(branchRec, aclfBranch, adjNet);		
 		if (branchRec.getRatingLimit() != null && branchRec.getRatingLimit().getMva() != null) {
 			double factor = 1.0;
 			if (branchRec.getRatingLimit().getMva().getUnit() == ApparentPowerUnitType.PU)
@@ -308,7 +307,7 @@ public class ODMAclfDataMapperImpl {
 		}
 	}
 
-	private static void setLineBranchData(LineBranchXmlType braLine, AclfBranch aclfBra, 
+	private void setLineBranchData(LineBranchXmlType braLine, AclfBranch aclfBra, 
 							AclfNetwork adjNet, IPSSMsgHub msg) throws InterpssException {
 		YXmlType fromShuntY = null, toShuntY = null;
 		double baseKva = adjNet.getBaseKva();
@@ -346,7 +345,7 @@ public class ODMAclfDataMapperImpl {
 		}
 	}
 
-	private static void setXfrBranchData(XfrBranchXmlType braXfr, AclfBranch aclfBra, 
+	private void setXfrBranchData(XfrBranchXmlType braXfr, AclfBranch aclfBra, 
 			AclfNetwork adjNet, IPSSMsgHub msg) throws InterpssException {
 		YXmlType fromShuntY = null;
 		double baseKva = adjNet.getBaseKva();
@@ -363,7 +362,7 @@ public class ODMAclfDataMapperImpl {
 		}
 	}
 	
-	private static void setPsXfrBranchData(PSXfrBranchXmlType braPsXfr, AclfBranch aclfBra, 
+	private void setPsXfrBranchData(PSXfrBranchXmlType braPsXfr, AclfBranch aclfBra, 
 			AclfNetwork adjNet, IPSSMsgHub msg) throws InterpssException {
 		aclfBra.setBranchCode(AclfBranchCode.PS_XFORMER);
 
@@ -378,7 +377,7 @@ public class ODMAclfDataMapperImpl {
 						ODMXmlHelper.toUnit(braPsXfr.getToAngle().getUnit()));
 	}
 
-	private static void setXformerInfoData(AclfBranch aclfBra, XfrBranchXmlType xfrBranch, 
+	private void setXformerInfoData(AclfBranch aclfBra, XfrBranchXmlType xfrBranch, 
 						AclfNetwork adjNet, IPSSMsgHub msg) {
 		double fromBaseV = aclfBra.getFromAclfBus().getBaseVoltage(), 
 		       toBaseV = aclfBra.getToAclfBus().getBaseVoltage();

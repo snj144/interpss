@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.mapper.odm.impl;
+package org.interpss.mapper.odm.impl.acsc;
 
 import javax.xml.bind.JAXBElement;
 
@@ -49,7 +49,7 @@ import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
-import org.interpss.mapper.odm.impl.acsc.AcscScenarioHelper;
+import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfDataMapper;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
@@ -70,7 +70,11 @@ import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class ODMAcscDataMapperImpl {
+public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDataMapper<Tfrom> {
+	public AbstractODMAcscDataMapper(IPSSMsgHub msg) {
+		super(msg);
+	}
+	
 	/**
 	 * transfer info stored in the parser object into simuCtx object. It creates a SimpleFaultNetwork object
 	 * and a SimpleFaultAlgorithm object, and transfer the info into the objects 
@@ -79,9 +83,11 @@ public class ODMAcscDataMapperImpl {
 	 * @param simuCtx
 	 * @return
 	 */
-	public static boolean odm2SimuCtxMapping(AcscModelParser parser, SimuContext simuCtx) {
+	@Override
+	public boolean map2Model(Tfrom p, SimuContext simuCtx) {
 		boolean noError = true;
 
+		AcscModelParser parser = (AcscModelParser) p;
 		if (simuCtx.getNetType() != SimuCtxType.ACSC_FAULT_NET) {
 			IpssLogger.getLogger().severe("SimuNetwork type should be set to ACSC_FAULT_NET for mapping ODM to SimpleFaultNetwork");
 			return false;
@@ -100,7 +106,7 @@ public class ODMAcscDataMapperImpl {
 											simuCtx.getMsgHub());
 				simuCtx.setSimpleFaultAlgorithm(acscAlgo);
 				
-				mapNetworkData(acscFaultNet,xmlNet);
+				mapAcscNetworkData(acscFaultNet,xmlNet);
 
 				// map the bus info
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
@@ -112,16 +118,16 @@ public class ODMAcscDataMapperImpl {
 						// lf info included
 						ShortCircuitBusXmlType acscBusXml = (ShortCircuitBusXmlType) bus.getValue();
 						// map the base bus info part
-						ODMNetDataMapperImpl.mapBaseBusData(acscBusXml, acscBus, acscFaultNet);
+						mapBaseBusData(acscBusXml, acscBus, acscFaultNet);
 						// map the Aclf info part						
-						ODMAclfDataMapperImpl.setAclfBusData(acscBusXml, acscBus, acscFaultNet);
-						ODMAcscDataMapperImpl.setAcscBusData(acscBusXml, acscBus);
+						setAclfBusData(acscBusXml, acscBus, acscFaultNet);
+						setAcscBusData(acscBusXml, acscBus);
 					} else if (bus.getValue() instanceof ScSimpleBusXmlType){
 						// no loadflow info included
 						ScSimpleBusXmlType acscBusXml = (ScSimpleBusXmlType) bus.getValue();
 						// map the base bus info part
-						ODMNetDataMapperImpl.mapBaseBusData(acscBusXml, acscBus, acscFaultNet);
-						ODMAcscDataMapperImpl.setAcscBusNoLFData(acscBusXml, acscBus);
+						mapBaseBusData(acscBusXml, acscBus, acscFaultNet);
+						AbstractODMAcscDataMapper.setAcscBusNoLFData(acscBusXml, acscBus);
 					}
 					else {
 						IpssLogger.getLogger().severe( "Error: only scscBus and pss:acscNoLFBus could be used for DStab study");
@@ -137,8 +143,8 @@ public class ODMAcscDataMapperImpl {
 						AcscBranch acscBranch = CoreObjectFactory.createAcscBranch();
 						BranchXmlType acscBraXml = (BranchXmlType)branch.getValue();
 						// the branch is added into acscNet in the mapAclfBranchData() method
-						ODMAclfDataMapperImpl.mapAclfBranchData(branch.getValue(), acscBranch, acscFaultNet, simuCtx.getMsgHub());
-						ODMAcscDataMapperImpl.setAcscBranchData(acscBraXml, acscBranch, simuCtx.getMsgHub());
+						mapAclfBranchData(branch.getValue(), acscBranch, acscFaultNet, simuCtx.getMsgHub());
+						setAcscBranchData(acscBraXml, acscBranch, simuCtx.getMsgHub());
 					}
 					else {
 						IpssLogger.getLogger().severe( "Error: only acsc<Branch> could be used for SC study");
@@ -174,8 +180,8 @@ public class ODMAcscDataMapperImpl {
 	 * @param xmlNet
 	 * @return
 	 */
-	public static void mapNetworkData(AcscNetwork net, ShortCircuitNetXmlType xmlNet) {
-		ODMAclfDataMapperImpl.mapNetworkData(net, xmlNet);
+	public void mapAcscNetworkData(AcscNetwork net, ShortCircuitNetXmlType xmlNet) {
+		mapAclfNetworkData(net, xmlNet);
 		net.setPositiveSeqDataOnly(xmlNet.isPositiveSeqDataOnly());		
 	}	
 
@@ -185,7 +191,7 @@ public class ODMAcscDataMapperImpl {
 	 * @param acscBusXml
 	 * @param acscBus
 	 */
-	public static void setAcscBusData(ShortCircuitBusXmlType acscBusXml, AcscBus acscBus) throws InterpssException {
+	public void setAcscBusData(ShortCircuitBusXmlType acscBusXml, AcscBus acscBus) throws InterpssException {
 		if (acscBusXml.getScCode() == ShortCircuitBusEnumType.CONTRIBUTING) {
 			setContributeBusInfo(acscBusXml, acscBus);
 		} else { // non-contributing
@@ -262,7 +268,7 @@ public class ODMAcscDataMapperImpl {
 	 * @param msg
 	 * @return
 	 */
-	public static void setAcscBranchData(BranchXmlType acscBraXml, AcscBranch acscBra, IPSSMsgHub msg) {
+	public void setAcscBranchData(BranchXmlType acscBraXml, AcscBranch acscBra, IPSSMsgHub msg) {
 
 		if (acscBraXml instanceof LineShortCircuitXmlType) { // line branch
 			setAcscLineFormInfo((LineShortCircuitXmlType)acscBraXml, acscBra, msg);
@@ -273,7 +279,7 @@ public class ODMAcscDataMapperImpl {
 		}
 	}
 
-	private static void setAcscLineFormInfo(LineShortCircuitXmlType braXml,	AcscBranch acscBra, IPSSMsgHub msg) {
+	private void setAcscLineFormInfo(LineShortCircuitXmlType braXml,	AcscBranch acscBra, IPSSMsgHub msg) {
 		double baseV = acscBra.getFromAclfBus().getBaseVoltage();
 		AcscLineAdapter line = (AcscLineAdapter) acscBra.getAdapter(AcscLineAdapter.class);
 		ZXmlType z0 = braXml.getZ0();
@@ -285,7 +291,7 @@ public class ODMAcscDataMapperImpl {
 	}
 
 	// for SC, Xfr and PSXfr behave the same
-	private static void setAcscXfrFormInfo(XfrShortCircuitXmlType braXml, AcscBranch acscBra, IPSSMsgHub msg) {
+	private void setAcscXfrFormInfo(XfrShortCircuitXmlType braXml, AcscBranch acscBra, IPSSMsgHub msg) {
 		double baseV = acscBra.getFromAclfBus().getBaseVoltage() > acscBra
 		.getToAclfBus().getBaseVoltage() ? acscBra.getFromAclfBus()
 				.getBaseVoltage() : acscBra.getToAclfBus().getBaseVoltage();
@@ -319,7 +325,7 @@ public class ODMAcscDataMapperImpl {
 				}	
 	}
 
-	private static XfrConnectCode calXfrConnectCode(XformerConnectionXmlType connect) {
+	private XfrConnectCode calXfrConnectCode(XformerConnectionXmlType connect) {
 		// connectCode : [Delta | Wye]
 		// groundCode : [SolidGrounded | ZGrounded | Ungrounded ]
 		if (connect.getXfrConnection() == XformrtConnectionEnumType.DELTA)

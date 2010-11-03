@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.mapper.odm.impl;
+package org.interpss.mapper.odm.impl.dstab;
 
 import javax.xml.bind.JAXBElement;
 
@@ -53,13 +53,10 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
-import org.interpss.mapper.odm.impl.dstab.DStabScenarioHelper;
-import org.interpss.mapper.odm.impl.dstab.ExciterDataHelper;
-import org.interpss.mapper.odm.impl.dstab.GovernorDataHelper;
-import org.interpss.mapper.odm.impl.dstab.MachDataHelper;
-import org.interpss.mapper.odm.impl.dstab.StabilizerDataHelper;
+import org.interpss.mapper.odm.impl.acsc.AbstractODMAcscDataMapper;
 
 import com.interpss.common.exp.InterpssException;
+import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -71,7 +68,11 @@ import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
 
-public class ODMDStabDataMapperImpl {
+public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscDataMapper<Tfrom> {
+	public AbstractODMDStabDataMapper(IPSSMsgHub msg) {
+		super(msg);
+	}
+		
 	/**
 	 * transfer info stored in the parser object into simuCtx object
 	 * 
@@ -79,16 +80,18 @@ public class ODMDStabDataMapperImpl {
 	 * @param simuCtx
 	 * @return
 	 */
-	public static boolean odm2SimuCtxMapping(DStabModelParser parser, SimuContext simuCtx) {
+	@Override
+	public boolean map2Model(Tfrom p, SimuContext simuCtx) {
 		boolean noError = true;
 		
+		DStabModelParser parser = (DStabModelParser) p;
 		if (parser.getDStabNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
 				&& parser.getAclfNet().getAnalysisCategory() == AnalysisCategoryEnumType.TRANSIENT_STABILITY) {
 			// get the base net xml record from the parser object
 			DStabNetXmlType xmlNet = parser.getDStabNet();
 			try {
 				// create a DStabilityNetwork object and map the net info 
-				DStabilityNetwork dstabNet = mapNetworkData(xmlNet);
+				DStabilityNetwork dstabNet = mapDStabNetworkData(xmlNet);
 				simuCtx.setDStabilityNet(dstabNet);
 				
 				DynamicSimuAlgorithm dstabAlgo =DStabObjectFactory.createDynamicSimuAlgorithm(dstabNet,simuCtx.getMsgHub() );
@@ -106,15 +109,15 @@ public class ODMDStabDataMapperImpl {
 						DStabBus dstabBus = DStabObjectFactory.createDStabBus(aclfBusXml.getId(), dstabNet);
 						
 						// base the base bus info part
-						ODMNetDataMapperImpl.mapBaseBusData(aclfBusXml, dstabBus, dstabNet);
+						mapBaseBusData(aclfBusXml, dstabBus, dstabNet);
 						
 						// map the Aclf info part
-						ODMAclfDataMapperImpl.setAclfBusData(aclfBusXml, dstabBus, dstabNet);
+						setAclfBusData(aclfBusXml, dstabBus, dstabNet);
 						
 						// if the record includes Acsc info, do the mapping
 						if (bus.getValue() instanceof ShortCircuitBusXmlType) {
 							ShortCircuitBusXmlType acscBusXml = (ShortCircuitBusXmlType) bus.getValue();
-							ODMAcscDataMapperImpl.setAcscBusData(acscBusXml, dstabBus);
+							setAcscBusData(acscBusXml, dstabBus);
 						}
 
 						// if the record includes DStab info, do the mapping
@@ -137,13 +140,13 @@ public class ODMDStabDataMapperImpl {
 							branch.getValue() instanceof XfrBranchXmlType ||
 								branch.getValue() instanceof PSXfrBranchXmlType) {
 						DStabBranch dstabBranch = DStabObjectFactory.createDStabBranch();
-						ODMAclfDataMapperImpl.mapAclfBranchData(branch.getValue(), dstabBranch, dstabNet, simuCtx.getMsgHub());
+						mapAclfBranchData(branch.getValue(), dstabBranch, dstabNet, simuCtx.getMsgHub());
 
 						if (branch.getValue() instanceof LineShortCircuitXmlType || 
 								branch.getValue() instanceof XfrShortCircuitXmlType ||
 									branch.getValue() instanceof PSXfrShortCircuitXmlType) {
 							BranchXmlType acscBraXml = (BranchXmlType)branch.getValue(); 
-							ODMAcscDataMapperImpl.setAcscBranchData(acscBraXml, dstabBranch, simuCtx.getMsgHub());
+							setAcscBranchData(acscBraXml, dstabBranch, simuCtx.getMsgHub());
 						}
 
 						if (branch.getValue() instanceof LineDStabXmlType || 
@@ -180,14 +183,14 @@ public class ODMDStabDataMapperImpl {
 		return noError;
 	}
 	
-	private static DStabilityNetwork mapNetworkData(DStabNetXmlType xmlNet) throws InterpssException {
+	private DStabilityNetwork mapDStabNetworkData(DStabNetXmlType xmlNet) throws InterpssException {
 		DStabilityNetwork dstabNet = DStabObjectFactory.createDStabilityNetwork();
-		ODMAcscDataMapperImpl.mapNetworkData(dstabNet, xmlNet);
+		mapAcscNetworkData(dstabNet, xmlNet);
 		dstabNet.setSaturatedMachineParameter(xmlNet.isSaturatedMachineParameter());
 		return dstabNet;
 	}	
 	
-	private static void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus)  throws InterpssException {
+	private void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus)  throws InterpssException {
 		int cnt = 0;
 		if (dstabBusXml.getMachineList() != null)
 			for (DynamicMachineXmlType dyGen : dstabBusXml.getMachineList().getMachine()) {

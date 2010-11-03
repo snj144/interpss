@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.mapper.odm.impl;
+package org.interpss.mapper.odm.impl.opf;
 
 import javax.xml.bind.JAXBElement;
 
@@ -36,9 +36,11 @@ import org.ieee.odm.schema.OpfGenBusXmlType;
 import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.interpss.mapper.odm.ODMXmlHelper;
+import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfDataMapper;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.exp.InterpssException;
+import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
@@ -49,7 +51,11 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
 
-public class ODMOpfDataMapperImpl {
+public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDataMapper<Tfrom> {
+	public AbstractODMOpfDataMapper(IPSSMsgHub msg) {
+		super(msg);
+	}
+	
 	/**
 	 * transfer info stored in the parser object into simuCtx object
 	 * 
@@ -57,8 +63,11 @@ public class ODMOpfDataMapperImpl {
 	 * @param simuCtx
 	 * @return
 	 */
-	public static boolean odm2SimuCtxMapping(OpfModelParser parser, SimuContext simuCtx) {
+	@Override
+	public boolean map2Model(Tfrom p, SimuContext simuCtx) {
 		boolean noError = true;
+		
+		OpfModelParser parser = (OpfModelParser) p;
 		
 		if (parser.getOpfNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
 				&& parser.getAclfNet().getAnalysisCategory() == AnalysisCategoryEnumType.OPF) {
@@ -75,13 +84,13 @@ public class ODMOpfDataMapperImpl {
 					} 
 					else {
 						LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
-						ODMAclfDataMapperImpl.mapAclfBusData(busRec, opfNet);
+						mapAclfBusData(busRec, opfNet);
 					}
 				}
 
 				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
 					AclfBranch aclfBranch = CoreObjectFactory.createAclfBranch();
-					ODMAclfDataMapperImpl.mapAclfBranchData(b.getValue(), aclfBranch, opfNet, simuCtx.getMsgHub());
+					mapAclfBranchData(b.getValue(), aclfBranch, opfNet, simuCtx.getMsgHub());
 				}
 			} catch (InterpssException e) {
 				e.printStackTrace();
@@ -105,9 +114,9 @@ public class ODMOpfDataMapperImpl {
 		return noError;
 	}
 	
-	private static OpfNetwork mapNetworkData(OpfNetworkXmlType xmlNet) throws InterpssException {
+	private OpfNetwork mapNetworkData(OpfNetworkXmlType xmlNet) throws InterpssException {
 		OpfNetwork opfNet = OpfObjectFactory.createOpfNetwork();
-		ODMNetDataMapperImpl.mapNetworkData(opfNet, xmlNet);
+		mapAclfNetworkData(opfNet, xmlNet);
 		opfNet.setAnglePenaltyFactor(xmlNet.getAnglePenaltyFactor());	
 		return opfNet;
 	}
@@ -120,11 +129,11 @@ public class ODMOpfDataMapperImpl {
 	 * @return
 	 * @throws Exception
 	 */
-	public static OpfGenBus mapGenBusData(OpfGenBusXmlType busRec, OpfNetwork net) throws InterpssException {
+	public OpfGenBus mapGenBusData(OpfGenBusXmlType busRec, OpfNetwork net) throws InterpssException {
 		OpfGenBus opfGenBus = OpfObjectFactory.createOpfGenBus(busRec.getId());
 		net.addBus(opfGenBus);
-		ODMNetDataMapperImpl.mapBaseBusData(busRec, opfGenBus, net);
-		ODMAclfDataMapperImpl.setAclfBusData(busRec, opfGenBus, net);
+		mapBaseBusData(busRec, opfGenBus, net);
+		setAclfBusData(busRec, opfGenBus, net);
 		
 		/*
     		<pss:coeffA>37.8896</pss:coeffA>
