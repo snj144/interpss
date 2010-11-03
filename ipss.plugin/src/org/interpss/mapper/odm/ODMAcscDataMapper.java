@@ -1,5 +1,5 @@
 /*
- * @(#)ODMAclfDataMapperImpl.java   
+ * @(#)ODMAclfDataMapper.java   
  *
  * Copyright (C) 2008 www.interpss.org
  *
@@ -15,7 +15,7 @@
  *
  * @Author Mike Zhou
  * @Version 1.0
- * @Date 02/15/2008
+ * @Date 11/15/2010
  * 
  *   Revision History
  *   ================

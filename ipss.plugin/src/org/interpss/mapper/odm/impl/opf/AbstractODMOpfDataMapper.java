@@ -1,5 +1,5 @@
 /*
- * @(#)ODMOpfDataMapperImpl.java   
+ * @(#)AbstractODMOpfDataMapper.java   
  *
  * Copyright (C) 2008 www.interpss.org
  *
@@ -59,7 +59,7 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDa
 	/**
 	 * transfer info stored in the parser object into simuCtx object
 	 * 
-	 * @param parser
+	 * @param p an ODM parser object, representing an ODM xml file
 	 * @param simuCtx
 	 * @return
 	 */
