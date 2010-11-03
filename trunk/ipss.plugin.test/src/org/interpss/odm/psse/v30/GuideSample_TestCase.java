@@ -29,8 +29,10 @@ import static org.junit.Assert.assertTrue;
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.BaseTestSetup;
 import org.interpss.mapper.odm.IEEEODMMapper;
+import org.interpss.mapper.odm.ODMAclfDataMapper;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
@@ -51,9 +53,11 @@ public class GuideSample_TestCase extends BaseTestSetup {
 		IODMPSSAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_GuideSample.raw"));		
 		
-		IEEEODMMapper mapper = new IEEEODMMapper();
+		AclfModelParser parser = (AclfModelParser)adapter.getModel();
+		
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
-		if (!mapper.mapping(adapter.getModel(), simuCtx)) {
+		if (!new ODMAclfDataMapper(msg)
+					.map2Model(parser, simuCtx)) {
   	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
   	  		return;
 		}	

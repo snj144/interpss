@@ -30,7 +30,7 @@ import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.BaseTestSetup;
-import org.interpss.mapper.odm.IEEEODMMapper;
+import org.interpss.mapper.odm.ODMAclfDataMapper;
 import org.junit.Test;
 
 import com.interpss.common.util.IpssLogger;
@@ -47,9 +47,9 @@ public class PSSE_5Bus_TestCase extends BaseTestSetup {
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		//parser.stdout();
 		
-		IEEEODMMapper mapper = new IEEEODMMapper();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
-		if (!mapper.mapping(parser, simuCtx)) {
+		if (!new ODMAclfDataMapper(msg)
+					.map2Model(parser, simuCtx)) {
   	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
   	  		return;
 		}			
