@@ -34,6 +34,8 @@ import org.ieee.odm.schema.VoltageUnitType;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
+import com.interpss.common.mapper.AbstractMapping;
+import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.net.Area;
@@ -42,15 +44,20 @@ import com.interpss.core.net.Bus;
 import com.interpss.core.net.CimRecord;
 import com.interpss.core.net.Network;
 import com.interpss.core.net.Zone;
+import com.interpss.simu.SimuContext;
 
-public class ODMNetDataMapperImpl {
+public abstract class AbstractODMNetDataMapper<Tfrom> extends AbstractMapping<Tfrom, SimuContext> {
+	public AbstractODMNetDataMapper(IPSSMsgHub msg) {
+		super(msg);
+	}
+	
 	/**
 	 * Map the network info only
 	 * 
 	 * @param xmlNet
 	 * @return
 	 */
-	public static void mapNetworkData(Network net, NetworkXmlType xmlNet) {
+	public void mapNetworkData(Network net, NetworkXmlType xmlNet) {
 		net.setId(xmlNet.getId());
 		net.setName(xmlNet.getName() == null? "ODM Loadflow Case" : xmlNet.getName());
 		net.setDesc(xmlNet.getDesc());
@@ -67,7 +74,7 @@ public class ODMNetDataMapperImpl {
 	 * @param bus
 	 * @param net
 	 */
-	public static void mapBaseBusData(BusXmlType busRec, Bus bus, Network net) {
+	public void mapBaseBusData(BusXmlType busRec, Bus bus, Network net) {
 		if (busRec.getNumber() != null)
 			bus.setNumber(busRec.getNumber());
 		bus.setName(busRec.getName() == null? "Bus" : busRec.getName());
@@ -106,7 +113,7 @@ public class ODMNetDataMapperImpl {
 	 * @param net
 	 * @throws InterpssException
 	 */
-	public static void mapBaseBranchRec(BranchXmlType branchRec, Branch branch, Network net) throws InterpssException {
+	public void mapBaseBranchRec(BranchXmlType branchRec, Branch branch, Network net) throws InterpssException {
 		String cirId = branchRec.getCircuitId() != null ?
 				branchRec.getCircuitId() : Constants.Token_DefaultBranchCirNo;
 		branch.setCircuitNumber(cirId);

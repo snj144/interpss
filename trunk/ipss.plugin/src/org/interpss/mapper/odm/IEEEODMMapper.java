@@ -30,10 +30,6 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
-import org.interpss.mapper.odm.impl.ODMAclfDataMapperImpl;
-import org.interpss.mapper.odm.impl.ODMAcscDataMapperImpl;
-import org.interpss.mapper.odm.impl.ODMDStabDataMapperImpl;
-import org.interpss.mapper.odm.impl.ODMOpfDataMapperImpl;
 
 import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.simu.SimuContext;
@@ -56,22 +52,26 @@ public class IEEEODMMapper extends AbstractMapper {
 			if (fromObj instanceof OpfModelParser) {
 				OpfModelParser parser = (OpfModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;
-				return ODMOpfDataMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
+				return new ODMOpfDataMapper(msg)
+								.map2Model(parser, simuCtx);
 			}
 			else if (fromObj instanceof DStabModelParser) {
 				DStabModelParser parser = (DStabModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;
-				return ODMDStabDataMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
+				return new ODMDStabDataMapper(msg)
+								.map2Model(parser, simuCtx);
 			}
 			else if (fromObj instanceof AcscModelParser) {
 				AcscModelParser parser = (AcscModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;
-				return ODMAcscDataMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
+				return new ODMAcscDataMapper(msg)
+								.map2Model(parser, simuCtx);
 			}
 			else if (fromObj instanceof AclfModelParser) {
 				AclfModelParser parser = (AclfModelParser) fromObj;
 				SimuContext simuCtx = (SimuContext) toObj;
-				return ODMAclfDataMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
+				return new ODMAclfDataMapper(msg)
+								.map2Model(parser, simuCtx);
 			}			
 			else if (fromObj instanceof XBeanODMModelParser) {
 				XBeanODMModelParser parser = (XBeanODMModelParser) fromObj;
