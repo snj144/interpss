@@ -8,7 +8,7 @@ import java.io.FileInputStream;
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.acsc.AcscModelParser;
 import org.interpss.BaseTestSetup;
-import org.interpss.mapper.odm.IEEEODMMapper;
+import org.interpss.mapper.odm.ODMAcscDataMapper;
 import org.junit.Test;
 
 import com.interpss.common.util.TestUtilFunc;
@@ -25,9 +25,9 @@ public class Acsc_5BusTest extends BaseTestSetup {
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
 			
-			IEEEODMMapper mapper = new IEEEODMMapper();
 			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_FAULT_NET, msg);
-			if (!mapper.mapping(parser, simuCtx, SimuContext.class)) {
+			if (!new ODMAcscDataMapper(msg)
+						.map2Model(parser, simuCtx)) {
 	  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 	  	  		return;
 			}	

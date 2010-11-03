@@ -31,7 +31,7 @@ import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.interpss.BaseTestSetup;
 import org.interpss.display.AclfOutFunc;
-import org.interpss.mapper.odm.IEEEODMMapper;
+import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
@@ -49,9 +49,9 @@ public class DStabSample_2AreaTest extends BaseTestSetup {
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
 			
-			IEEEODMMapper mapper = new IEEEODMMapper();
 			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
-			if (!mapper.mapping(parser, simuCtx, SimuContext.class)) {
+			if (!new ODMDStabDataMapper(msg)
+						.map2Model(parser, simuCtx)) {
 	  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 	  	  		return;
 			}	

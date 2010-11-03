@@ -32,7 +32,7 @@ import java.io.FileInputStream;
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.interpss.BaseTestSetup;
-import org.interpss.mapper.odm.IEEEODMMapper;
+import org.interpss.mapper.odm.ODMOpfDataMapper;
 import org.interpss.opf.dc.QuadProgCalculator;
 import org.interpss.opf.dc.util.OpfOutFunc;
 import org.junit.Test;
@@ -50,9 +50,9 @@ public class OpfSample_3BusTest  extends BaseTestSetup {
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
 			
-			IEEEODMMapper mapper = new IEEEODMMapper();
 			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.OPF_NET, msg);
-			if (!mapper.mapping(parser, simuCtx, SimuContext.class)) {
+			if (!new ODMOpfDataMapper(msg)
+						.map2Model(parser, simuCtx)) {
 	  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 	  	  		return;
 			}	
@@ -66,8 +66,8 @@ public class OpfSample_3BusTest  extends BaseTestSetup {
 			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
 			
 /*
-Minimun Total Variable Cost: 26.215
-Minimun Total Cost: 506.106
+			Minimun Total Variable Cost: 26.215
+			Minimun Total Cost: 506.106
  */
 		  	assertTrue(Math.abs(opfNet.getMinTotalVariableCost() - 26.215) < 0.01);			
 		  	assertTrue(Math.abs(opfNet.getTotalFixedCost() - (506.106-26.215)) < 0.01);			
