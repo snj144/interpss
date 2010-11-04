@@ -104,7 +104,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	    _simuCtx = (SimuContext)simuCtx;
     	_simuCtx.getLoadflowAlgorithm().setInitBusVoltage(false);
     	if (_simuCtx.getLoadflowAlgorithm() != null) {
-    		_simuCtx.getLoadflowAlgorithm().setActivateAllAdjust(false);
+    		_simuCtx.getLoadflowAlgorithm().getLfAdjAlgo().setActivateAllAdjust(false);
         	initAdvanceControlPanel();
     	}
 		msgOutTextArea.setText("");
@@ -135,7 +135,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		if (_simuCtx.getLoadflowAlgorithm() != null)
 			list = RunActUtilFunc.getXfrTapControlList(_simuCtx.getAclfNet(),		
 				_simuCtx.getLoadflowAlgorithm().getTolerance()*
-				        _simuCtx.getLoadflowAlgorithm().getVoltAdjToleranceFactor(),
+				        _simuCtx.getLoadflowAlgorithm().getLfAdjAlgo().getVoltAdjToleranceFactor(),
 				_simuCtx.getMsgHub());
 		if (list != null && list.length > 1) {
 			xfrTapControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(list));
@@ -178,7 +178,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		if (_simuCtx.getLoadflowAlgorithm() != null)
 			list = RunActUtilFunc.getRemoteQBusList(_simuCtx.getAclfNet(), 
 				_simuCtx.getLoadflowAlgorithm().getTolerance()*
-				_simuCtx.getLoadflowAlgorithm().getVoltAdjToleranceFactor(),
+				_simuCtx.getLoadflowAlgorithm().getLfAdjAlgo().getVoltAdjToleranceFactor(),
 				_simuCtx.getMsgHub());
 		if (list != null && list.length > 1) {
 			remoteQBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(list));
