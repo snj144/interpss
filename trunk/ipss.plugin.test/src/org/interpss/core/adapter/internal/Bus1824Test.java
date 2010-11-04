@@ -50,7 +50,7 @@ public class Bus1824Test extends BaseTestSetup {
   		assertTrue((net.getBusList().size() == 1824));
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
-	  	algo.setApplyAdjustAlgo(false);
+	  	algo.getLfAdjAlgo().setApplyAdjustAlgo(false);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
@@ -70,7 +70,7 @@ public class Bus1824Test extends BaseTestSetup {
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 	  	algo.setLfMethod(AclfMethod.PQ);
-	  	algo.setApplyAdjustAlgo(false);
+	  	algo.getLfAdjAlgo().setApplyAdjustAlgo(false);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
