@@ -10,7 +10,7 @@ import org.junit.Test;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.TestUtilFunc;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.acsc.SimpleFaultNetwork;
+import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
@@ -21,16 +21,17 @@ import com.interpss.simu.SimuObjectFactory;
 public class LGFault  extends BaseTestSetup {
 	@Test
 	public void lg() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_FAULT_NET, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_NET, msg);
 		loadCaseData("testData/support/Fitesa_1.ipss", simuCtx);
 		
-		SimpleFaultNetwork faultNet = simuCtx.getAcscFaultNet();
-		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("0003", faultNet);
+	  	AcscNetwork faultNet = simuCtx.getAcscNet();
+	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, SpringAppContext.getIpssMsgHub());
+
+		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("0003", algo);
 		fault.setFaultCode(SimpleFaultCode.GROUND_LG);
 		fault.setZLGFault(new Complex(0.0, 0.0));
 		fault.setZLLFault(new Complex(0.0, 0.0));
 		
-	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, SpringAppContext.getIpssMsgHub());
 	  	algo.calculateBusFault(fault);
   		//System.out.println(fault.toString(fault.getAcscBus().getBaseVoltage(), faultNet));
 	  	
@@ -48,21 +49,22 @@ public class LGFault  extends BaseTestSetup {
 	  	assertTrue(TestUtilFunc.compare(fault.getFaultResult().getSCCurrent_abc(), 
 	  			-0.15071023628251298, 0.029036786613257246, 0.0, 0.0, 0.0, 0.0) );  		
 
-		System.out.println(AcscOutFunc.faultResult2String(faultNet));
+		System.out.println(AcscOutFunc.faultResult2String(faultNet, algo));
 	}			
 
 	@Test
 	public void llg() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_FAULT_NET, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_NET, msg);
 		loadCaseData("testData/support/Fitesa_1.ipss", simuCtx);
 		
-		SimpleFaultNetwork faultNet = simuCtx.getAcscFaultNet();
-		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("0003", faultNet);
+		AcscNetwork faultNet = simuCtx.getAcscNet();
+	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, SpringAppContext.getIpssMsgHub());
+
+	  	AcscBusFault fault = CoreObjectFactory.createAcscBusFault("0003", algo);
 		fault.setFaultCode(SimpleFaultCode.GROUND_LLG);
 		fault.setZLGFault(new Complex(0.0, 0.0));
 		fault.setZLLFault(new Complex(0.0, 0.0));
 		
-	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, SpringAppContext.getIpssMsgHub());
 	  	algo.calculateBusFault(fault);
   		//System.out.println(fault.toString(fault.getAcscBus().getBaseVoltage(), faultNet));
 	  	
@@ -80,22 +82,23 @@ public class LGFault  extends BaseTestSetup {
 	  	//assertTrue(TestUtilFunc.compare(fault.getFaultResult().getSCCurrent_abc(), 
 	  	//		-0.15071023628251298, 0.029036786613257246, 0.0, 0.0, 0.0, 0.0) );  		
 
-		System.out.println(AcscOutFunc.faultResult2String(faultNet));
+		System.out.println(AcscOutFunc.faultResult2String(faultNet, algo));
 
 	}			
 
 	@Test
 	public void ll() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_FAULT_NET, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_NET, msg);
 		loadCaseData("testData/support/Fitesa_1.ipss", simuCtx);
 		
-		SimpleFaultNetwork faultNet = simuCtx.getAcscFaultNet();
-		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("0003", faultNet);
+		AcscNetwork faultNet = simuCtx.getAcscNet();
+	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, SpringAppContext.getIpssMsgHub());
+
+	  	AcscBusFault fault = CoreObjectFactory.createAcscBusFault("0003", algo);
 		fault.setFaultCode(SimpleFaultCode.GROUND_LL);
 		fault.setZLGFault(new Complex(0.0, 0.0));
 		fault.setZLLFault(new Complex(0.0, 0.0));
 		
-	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, SpringAppContext.getIpssMsgHub());
 	  	algo.calculateBusFault(fault);
   		//System.out.println(fault.toString(fault.getAcscBus().getBaseVoltage(), faultNet));
 	  	
@@ -113,7 +116,6 @@ public class LGFault  extends BaseTestSetup {
 	  	//assertTrue(TestUtilFunc.compare(fault.getFaultResult().getSCCurrent_abc(), 
 	  	//		-0.15071023628251298, 0.029036786613257246, 0.0, 0.0, 0.0, 0.0) );  		
 
-		System.out.println(AcscOutFunc.faultResult2String(faultNet));
-
+		System.out.println(AcscOutFunc.faultResult2String(faultNet, algo));
 	}			
 }
