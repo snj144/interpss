@@ -151,7 +151,7 @@ public class CmdLineRunner {
 						msg);
 			} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACSC) {
 				runType = SimuRunType.Acsc;
-				return XmlScriptAcscRun.runAcsc(parser.getRootDoc().getInterPSS(), simuCtx.getAcscFaultNet(),
+				return XmlScriptAcscRun.runAcsc(parser.getRootDoc().getInterPSS(), simuCtx.getAcscNet(),
 						msg);
 			} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_D_STAB) {
 				runType = SimuRunType.DStab;
