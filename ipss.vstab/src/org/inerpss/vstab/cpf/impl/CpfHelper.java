@@ -1,4 +1,4 @@
-package org.interpss.vstab.cpf;
+package org.inerpss.vstab.cpf.impl;
 /**
  * This is a helper class to conduct internal operations of Continuous Power Flow(CPF),
  * including prediction, correction and automatic step size control.

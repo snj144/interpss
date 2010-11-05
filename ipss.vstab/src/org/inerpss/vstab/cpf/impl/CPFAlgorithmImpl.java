@@ -1,5 +1,10 @@
-package org.interpss.vstab.cpf;
+package org.inerpss.vstab.cpf.impl;
 
+import org.interpss.vstab.cpf.CPFAlgorithm;
+import org.interpss.vstab.cpf.CPFSolver;
+import org.interpss.vstab.cpf.CpfStopCriteria;
+import org.interpss.vstab.cpf.GenDispPatten;
+import org.interpss.vstab.cpf.LoadIncPatten;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
 
 import com.interpss.common.datatype.UnitType;
@@ -15,6 +20,7 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
     protected AnalysisStopCriteria stopCriteria=null;
     protected GenDispPatten genDispPtn=null;
     protected LoadIncPatten loadIncPtn=null;
+    protected CPFSolver cpfSolver=null;
   
     
 
@@ -59,8 +65,9 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 
 	@Override
 	public boolean runCPF() {
-		// TODO Auto-generated method stub
-		return false;
+		cpfSolver= new CPFSolverImpl(acNetwork, loadIncPtn,genDispPtn);
+		cpfSolver.solveCPF();
+		return cpfSolver.isCPFConverged();
 	}
 
 	@Override
