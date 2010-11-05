@@ -28,13 +28,12 @@ import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.InterPSSXmlType;
-import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.acsc.SimpleFaultNetwork;
+import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBranchFault;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
@@ -49,7 +48,7 @@ public class XmlScriptAcscRun {
 	 * @return
 	 */
 	public static boolean runAcsc(InterPSSXmlType ipssXmlDoc,
-			SimpleFaultNetwork faultNet, IPSSMsgHub msg) {
+			AcscNetwork faultNet, IPSSMsgHub msg) {
 		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		if (ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAcscStudyCase() != null) {
 			RunStudyCaseXmlType.StandardRun.RunAcscStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getStandardRun()
@@ -74,12 +73,12 @@ public class XmlScriptAcscRun {
 				if (xmlCase.getModification() != null)
 					mapper.mapping(xmlCase.getModification(), faultNet);
 				mapper.mapping(xmlCase, algo);
-				Object fault = faultNet.getFaultList().get(0);
+				Object fault = algo.getFaultList().get(0);
 				if (fault instanceof AcscBusFault)
 					algo.calculateBusFault((AcscBusFault) fault);
 				else
 					algo.calculateBranchFault((AcscBranchFault) fault);
-				RunActUtilFunc.displayAcscSummaryResult(faultNet);
+				RunActUtilFunc.displayAcscSummaryResult(faultNet, algo);
 			}
 		}
 		return true;

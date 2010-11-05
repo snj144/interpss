@@ -30,7 +30,7 @@ import org.interpss.schema.AcscStudyCaseXmlType;
 
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.acsc.SimpleFaultNetwork;
+import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBranchFault;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
@@ -64,7 +64,7 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 	}
 
 	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
-		simuCtx.getAcscFaultNet().removeAllFault();
+		simuCtx.getSimpleFaultAlgorithm().removeAllFault();
 		if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET) {
 			runShortCircuit(simuCtx.getDistNet(), simuCtx
 					.getSimpleFaultAlgorithm(), simuCtx.getMsgHub());
@@ -72,14 +72,14 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 			if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
 				simuCtx.getDStabilityNet().initialization(simuCtx.getMsgHub());
 			}
-			runShortCircuit(simuCtx.getAcscFaultNet(), simuCtx
+			runShortCircuit(simuCtx.getAcscNet(), simuCtx
 					.getSimpleFaultAlgorithm(), simuCtx.getMsgHub());
 		}
 		return true;
 	}
 
 	public void displaySummaryResult(SimuContext simuCtx) {
-		RunActUtilFunc.displayAcscSummaryResult(simuCtx.getAcscFaultNet());
+		RunActUtilFunc.displayAcscSummaryResult(simuCtx.getAcscNet(), simuCtx.getSimpleFaultAlgorithm());
 	}
 
 	private void runShortCircuit(DistNetwork distNet,
@@ -96,7 +96,7 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 		}
 	}
 
-	private void runShortCircuit(SimpleFaultNetwork faultNet,
+	private void runShortCircuit(AcscNetwork faultNet,
 			SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
 		runShortCircuit(faultNet, "", algo, msg);
 	}
@@ -108,14 +108,14 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 	 * @param faultIdStr a string append to the fault object id, normally use ScPoint<n>
 	 * @param msg the SessionMsg object
 	 */
-	public void runShortCircuit(SimpleFaultNetwork faultNet, String faultIdStr,
+	public void runShortCircuit(AcscNetwork faultNet, String faultIdStr,
 			SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
-		algo.setSimpleFaultNetwork(faultNet);
+		algo.setAcscNetwork(faultNet);
 		algo.setDesc(faultIdStr);
 		IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
 		mapper.mapping(this, algo);
 
-		for (Object fault : faultNet.getFaultList()) {
+		for (Object fault : algo.getFaultList()) {
 			if (fault instanceof AcscBusFault)
 				algo.calculateBusFault((AcscBusFault) fault);
 			else

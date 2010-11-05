@@ -80,7 +80,7 @@ public class XmlScriptRunWorker {
 			return XmlScriptDclfRun.runDclf(parser.getRootDoc().getInterPSS(), simuCtx.getAclfNet(),
 					msg);
 		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACSC) {
-			return XmlScriptAcscRun.runAcsc(parser.getRootDoc().getInterPSS(), simuCtx.getAcscFaultNet(),
+			return XmlScriptAcscRun.runAcsc(parser.getRootDoc().getInterPSS(), simuCtx.getAcscNet(),
 					msg);
 		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_D_STAB) {
 			return XmlScriptDStabRun.runDStab(parser.getRootDoc().getInterPSS(), simuCtx, msg);

@@ -50,7 +50,8 @@ import com.interpss.core.aclf.adj.PVBusLimit;
 import com.interpss.core.aclf.adj.RemoteQBus;
 import com.interpss.core.aclf.adj.RemoteQControlType;
 import com.interpss.core.aclf.adj.TapControl;
-import com.interpss.core.acsc.SimpleFaultNetwork;
+import com.interpss.core.acsc.AcscNetwork;
+import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
@@ -182,10 +183,10 @@ public class RunActUtilFunc {
 	 * 
 	 * @parem faultNet
 	 */
-	public static void displayAcscSummaryResult(SimpleFaultNetwork faultNet) {
+	public static void displayAcscSummaryResult(AcscNetwork faultNet, SimpleFaultAlgorithm algo) {
 		IOutputTextDialog dialog = UISpringAppContext
 				.getOutputTextDialog("Short Circuit Analysis Result Summary");
-		dialog.display(AcscOutFunc.faultResult2String(faultNet));
+		dialog.display(AcscOutFunc.faultResult2String(faultNet, algo));
 	}
 
 	/**
