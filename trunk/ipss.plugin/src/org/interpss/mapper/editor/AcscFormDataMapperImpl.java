@@ -56,7 +56,6 @@ import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;
-import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.acsc.XfrConnectCode;
 import com.interpss.core.acsc.adpter.AcscLineAdapter;
 import com.interpss.core.acsc.adpter.AcscXfrAdapter;
@@ -77,10 +76,10 @@ public class AcscFormDataMapperImpl {
 	 *            the SessionMsg object
 	 * @return a SimpleFaultNetwork object
 	 */
-	public static SimpleFaultNetwork mapEditNet2AcscNet(GFormContainer editNet,
+	public static AcscNetwork mapEditNet2AcscNet(GFormContainer editNet,
 			IPSSMsgHub msg) {
-		SimpleFaultNetwork acscNet = CoreObjectFactory
-				.createSimpleFaultNetwork();
+		AcscNetwork acscNet = CoreObjectFactory
+				.createAcscNetwork();
 
 		BaseFormDataMapperImpl.setBaseNetInfo((GNetForm) editNet.getGNetForm(),
 				acscNet);

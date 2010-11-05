@@ -38,18 +38,19 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
-import com.interpss.core.acsc.SimpleFaultNetwork;
+import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBranchFault;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
+import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
 public class AcscResultMapperImpl {
-	public static void mapAcscFaultSummary(SimpleFaultNetwork faultNet,
+	public static void mapAcscFaultSummary(AcscNetwork faultNet, SimpleFaultAlgorithm algo,
 			RptFaultSummaryBean bean) {
 		double baseKVA = faultNet.getBaseKva();
-		Object fault = faultNet.getFaultList().get(0);
+		Object fault = algo.getFaultList().get(0);
 		if (fault instanceof AcscBranchFault) {
 			AcscBranchFault fBranch = (AcscBranchFault) fault;
 			double baseV = fBranch.getFaultBranch().getFromAcscBus()
@@ -84,11 +85,11 @@ public class AcscResultMapperImpl {
 	}
 
 	public static Object[] createAcscVoltAmpsBeanArray(
-			SimpleFaultNetwork faultNet) {
+			AcscNetwork faultNet, SimpleFaultAlgorithm algo) {
 		List<RptAcscVoltAmpsBean> list = new ArrayList<RptAcscVoltAmpsBean>();
 		try {
 			double baseKva = faultNet.getBaseKva();
-			AcscBusFault fault = faultNet.getFaultList().get(0);
+			AcscBusFault fault = algo.getFaultList().get(0);
 			if (fault != null) {
 				fault.getFaultResult().calContributingCurrent(faultNet);
 				if (fault.getFaultCode() == SimpleFaultCode.GROUND_3P) {
