@@ -70,20 +70,21 @@ public class SimuAppCtxTest extends BaseTestSetup {
 
 	@Test
 	public void testSimuCtxAcsc() {
-		SimuContext simuCtx = SimuSpringAppContext.getSimuContextTypeAcscFault();
-		SampleCases.load_SC_5BusSystem(simuCtx.getAcscFaultNet(), SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = SimuSpringAppContext.getSimuContextTypeAcscNet();
+		SampleCases.load_SC_5BusSystem(simuCtx.getAcscNet(), SpringAppContext.getIpssMsgHub());
 		simuCtx.setSimpleFaultAlgorithm(CoreSpringAppContext.getSimpleFaultAlgorithm());
 		//System.out.println(simuCtx.getAcscFaultNet().net2String());
 
-  		assertTrue((simuCtx.getAcscFaultNet().getBusList().size() == 5 && 
-  					       simuCtx.getAcscFaultNet().getBranchList().size() == 5));
+  		assertTrue((simuCtx.getAcscNet().getBusList().size() == 5 && 
+  					       simuCtx.getAcscNet().getBranchList().size() == 5));
   		
-  		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("2", simuCtx.getAcscFaultNet());
+	  	SimpleFaultAlgorithm algo = simuCtx.getSimpleFaultAlgorithm();
+
+	  	AcscBusFault fault = CoreObjectFactory.createAcscBusFault("2", algo);
 		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
 		fault.setZLGFault(new Complex(0.0, 0.0));
 		fault.setZLLFault(new Complex(0.0, 0.0));
 		
-	  	SimpleFaultAlgorithm algo = simuCtx.getSimpleFaultAlgorithm();
 	  	algo.calculateBusFault(fault);
   		//System.out.println(fault.toString(faultBus.getBaseVoltage(), faultNet.getBaseKva()));
 		/*
