@@ -47,7 +47,7 @@ import com.interpss.common.util.NetUtilFunc;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
-import com.interpss.core.acsc.SimpleFaultNetwork;
+import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBranchFault;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
@@ -104,7 +104,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 	 * @param algo
 	 */
 	public static boolean acscCaseData2AlgoMapping(AcscStudyCaseXmlType xmlCaseData, SimpleFaultAlgorithm algo) {
-		SimpleFaultNetwork faultNet = algo.getSimpleFaultNetwork();
+		AcscNetwork faultNet = algo.getAcscNetwork();
 		String faultIdStr = algo.getDesc();
 		if (xmlCaseData.getFaultData().getFaultType() == AcscFaultDataType.BUS_FAULT) {
 			String id  = NetUtilFunc.getBusIdFromDisplayNameId(xmlCaseData.getFaultData().getBusBranchId());
@@ -117,10 +117,10 @@ public class XmlCaseData2AlgorithmMapperImpl {
 			AcscBusFault fault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId + faultBus.getId());
 			acscFaultData2AcscBusFaultMapping(xmlCaseData.getFaultData(), fault);
 			if (xmlCaseData.getFaultData().getFaultCategory() == AcscFaultCategoryDataType.FAULT_ALL) {
-				addAllFaultCategory(faultBus.getId(), faultIdStr, fault, faultNet);
+				addAllFaultCategory(faultBus.getId(), faultIdStr, fault, algo);
 			} 
 			else
-				faultNet.addBusFault(faultBus.getId(), faultIdStr, fault);
+				algo.addBusFault(faultBus.getId(), faultIdStr, fault);
 		} 
 		else if (xmlCaseData.getFaultData().getFaultType() == AcscFaultDataType.BRANCH_FAULT) {
 			String id  = NetUtilFunc.getBranchIdFromDisplayNameId(xmlCaseData.getFaultData().getBusBranchId());
@@ -137,9 +137,9 @@ public class XmlCaseData2AlgorithmMapperImpl {
 			acscFaultData2AcscBranchFaultMapping(xmlCaseData.getFaultData(), fault);
 			if (xmlCaseData.getFaultData().getFaultCategory() == AcscFaultCategoryDataType.FAULT_ALL) {
 				addAllFaultCategory(faultBranch.getId(), faultIdStr, fault,
-						faultNet);
+						algo);
 			} else
-				faultNet.addBranchFault(faultBranch.getId(), faultIdStr, fault);
+				algo.addBranchFault(faultBranch.getId(), faultIdStr, fault);
 		} 
 		else {
 			IpssLogger.getLogger().severe(
@@ -393,23 +393,23 @@ public class XmlCaseData2AlgorithmMapperImpl {
 	}
 
 	private static void addAllFaultCategory(String busId, String faultIdStr,
-			AcscBusFault fault, SimpleFaultNetwork faultNet) {
+			AcscBusFault fault, SimpleFaultAlgorithm faultAlgo) {
 		String id = fault.getId();
 
 		fault.setId(id + "_3P");
 		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
-		faultNet.addBusFault(busId, faultIdStr, fault);
+		faultAlgo.addBusFault(busId, faultIdStr, fault);
 
 		fault.setId(id + "_LG");
 		fault.setFaultCode(SimpleFaultCode.GROUND_LG);
-		faultNet.addBusFault(busId, faultIdStr, fault);
+		faultAlgo.addBusFault(busId, faultIdStr, fault);
 
 		fault.setId(id + "_LLG");
 		fault.setFaultCode(SimpleFaultCode.GROUND_LLG);
-		faultNet.addBusFault(busId, faultIdStr, fault);
+		faultAlgo.addBusFault(busId, faultIdStr, fault);
 
 		fault.setId(id + "_LL");
 		fault.setFaultCode(SimpleFaultCode.GROUND_LL);
-		faultNet.addBusFault(busId, faultIdStr, fault);
+		faultAlgo.addBusFault(busId, faultIdStr, fault);
 	}
 }

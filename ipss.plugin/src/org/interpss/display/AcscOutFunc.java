@@ -35,19 +35,19 @@ import com.interpss.common.util.Number2String;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscNetwork;
-import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.acsc.fault.AcscBranchFault;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
+import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
 public class AcscOutFunc {
-	public static String faultResult2String(SimpleFaultNetwork faultNet) {
+	public static String faultResult2String(AcscNetwork faultNet, SimpleFaultAlgorithm algo) {
 		StringBuffer sb = new StringBuffer();
 		IpssLogger.getLogger().fine(
-				"# of Fault objects = " + faultNet.getFaultList().size());
-		for (Object fault : faultNet.getFaultList()) {
+				"# of Fault objects = " + algo.getFaultList().size());
+		for (Object fault : algo.getFaultList()) {
 			if (fault instanceof AcscBranchFault) {
 				AcscBranchFault fBranch = (AcscBranchFault) fault;
 				sb.append(branchFaultInfo(fBranch, faultNet));

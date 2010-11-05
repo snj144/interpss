@@ -62,7 +62,6 @@ import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;
-import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.acsc.XfrConnectCode;
 import com.interpss.core.acsc.adpter.AcscLineAdapter;
 import com.interpss.core.acsc.adpter.AcscXfrAdapter;
@@ -87,7 +86,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 		boolean noError = true;
 
 		AcscModelParser parser = (AcscModelParser) p;
-		if (simuCtx.getNetType() != SimuCtxType.ACSC_FAULT_NET) {
+		if (simuCtx.getNetType() != SimuCtxType.ACSC_NET) {
 			IpssLogger.getLogger().severe("SimuNetwork type should be set to ACSC_FAULT_NET for mapping ODM to SimpleFaultNetwork");
 			return false;
 		}
@@ -98,8 +97,8 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 			ShortCircuitNetXmlType xmlNet = parser.getAcscNet();
 			try {
 				// create a AcscFaultNetwork object and map the net info 
-				SimpleFaultNetwork acscFaultNet =  CoreObjectFactory.createSimpleFaultNetwork();						
-				simuCtx.setAcscFaultNet(acscFaultNet);
+				AcscNetwork acscFaultNet =  CoreObjectFactory.createAcscNetwork();						
+				simuCtx.setAcscNet(acscFaultNet);
 
 				SimpleFaultAlgorithm acscAlgo = CoreObjectFactory.createSimpleFaultAlgorithm(acscFaultNet, 
 											simuCtx.getMsgHub());
@@ -169,7 +168,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 		}
 
 		OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
-		simuCtx.getAcscFaultNet().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
+		simuCtx.getAcscNet().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
 		return noError;
 	}
 

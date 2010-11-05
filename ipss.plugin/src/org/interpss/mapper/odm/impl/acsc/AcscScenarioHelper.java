@@ -46,7 +46,7 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
-import com.interpss.core.acsc.SimpleFaultNetwork;
+import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBranchFault;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
@@ -55,10 +55,10 @@ import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.dstab.devent.BranchOutageType;
 
 public class AcscScenarioHelper {
-	private SimpleFaultNetwork acscFaultNet = null;
+	private AcscNetwork acscFaultNet = null;
 	SimpleFaultAlgorithm acscAglo = null;
 	
-	public AcscScenarioHelper(SimpleFaultNetwork acscFaultNet, SimpleFaultAlgorithm acscAglo) {
+	public AcscScenarioHelper(AcscNetwork acscFaultNet, SimpleFaultAlgorithm acscAglo) {
 		this.acscFaultNet = acscFaultNet;
 		this.acscAglo = acscAglo;
 	}
@@ -107,7 +107,7 @@ public class AcscScenarioHelper {
 		if(faultXml.getFaultType() == AcscFaultTypeEnumType.BUS_FAULT){			
 			String faultBusId = BaseJaxbHelper.getRecId(faultXml.getRefBusBranch());
 			AcscBusFault acscBusFault = CoreObjectFactory.createAcscBusFault(faultBusId);
-			acscFaultNet.addBusFault(faultBusId, idStr, acscBusFault);
+			acscAglo.addBusFault(faultBusId, idStr, acscBusFault);
 
 			AcscBus bus = acscFaultNet.getAcscBus(faultBusId);
 			double baseV=bus.getBaseVoltage();
@@ -118,7 +118,7 @@ public class AcscScenarioHelper {
 		else if(faultXml.getFaultType()== AcscFaultTypeEnumType.BRANCH_FAULT){
 			String faultBranchId = BaseJaxbHelper.getRecId(faultXml.getRefBusBranch());
 			AcscBranchFault acscBraFault = CoreObjectFactory.createAcscBranchFault(faultBranchId);
-			acscFaultNet.addBranchFault(faultBranchId, idStr, acscBraFault);
+			acscAglo.addBranchFault(faultBranchId, idStr, acscBraFault);
 
 			AcscBranch acscBra = acscFaultNet.getAcscBranch(faultBranchId);
 			double baseV = acscBra.getFromAclfBus().getBaseVoltage();

@@ -40,7 +40,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
-import com.interpss.core.acsc.SimpleFaultNetwork;
+import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBranchFault;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
@@ -89,7 +89,7 @@ public class Xml2AlgorithmMapperImpl {
 	 */
 	public static boolean acscCaseData2AlgoMapping(
 			AcscStudyCaseXmlType acscCase, SimpleFaultAlgorithm algo, String faultIdStr, IPSSMsgHub msg) {
-		SimpleFaultNetwork faultNet = algo.getSimpleFaultNetwork();
+		AcscNetwork faultNet = algo.getAcscNetwork();
 		if (acscCase.getFaultData().getFaultType() == AcscFaultDataType.BUS_FAULT) {
 			AcscBus faultBus = (AcscBus) faultNet.getBus(acscCase.getFaultData().getBusBranchId());
 			if (faultBus == null) {
@@ -102,7 +102,7 @@ public class Xml2AlgorithmMapperImpl {
 					.createAcscBusFault(Constants.Token_BusFaultId
 							+ faultBus.getId());
 			acscFaultData2AcscBusFaultMapping(acscCase.getFaultData(), fault);
-			faultNet.addBusFault(faultBus.getId(), faultIdStr, fault);
+			algo.addBusFault(faultBus.getId(), faultIdStr, fault);
 		} else {
 			AcscBranch faultBranch = (AcscBranch) faultNet.getBranch(acscCase.getFaultData().getBusBranchId()
 					+ Constants.Token_DefaultBranchCirNoStr);
@@ -118,7 +118,7 @@ public class Xml2AlgorithmMapperImpl {
 					.createAcscBranchFault(Constants.Token_BranchFaultId
 							+ faultBranch.getId());
 			acscFaultData2AcscBranchFaultMapping(acscCase.getFaultData(), fault);
-			faultNet.addBranchFault(faultBranch.getId(), faultIdStr, fault);
+			algo.addBranchFault(faultBranch.getId(), faultIdStr, fault);
 		}
 
 		if (acscCase.getMultiFactor() != 0.0)

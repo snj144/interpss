@@ -89,7 +89,7 @@ public class SimuCtxReportMapper extends AbstractMapper {
 			return true;
 		}
 		if (toObj instanceof RptFaultSummaryBean) {
-			AcscResultMapperImpl.mapAcscFaultSummary(simuCtx.getAcscFaultNet(),
+			AcscResultMapperImpl.mapAcscFaultSummary(simuCtx.getAcscNet(), simuCtx.getSimpleFaultAlgorithm(),
 					(RptFaultSummaryBean) toObj);
 			return true;
 		} else if (toObj instanceof RptMainTitleBean) {
@@ -149,8 +149,8 @@ public class SimuCtxReportMapper extends AbstractMapper {
 		}
 
 		else if (klass == RptAcscVoltAmpsBean.class) {
-			return AcscResultMapperImpl.createAcscVoltAmpsBeanArray(simuCtx
-					.getAcscFaultNet());
+			return AcscResultMapperImpl.createAcscVoltAmpsBeanArray(simuCtx.getAcscNet(),
+					simuCtx.getSimpleFaultAlgorithm());
 		}
 		throw new UnsupportedOperationException();
 	}
