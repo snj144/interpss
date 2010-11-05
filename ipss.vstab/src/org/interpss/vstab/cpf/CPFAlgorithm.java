@@ -1,26 +1,39 @@
 package org.interpss.vstab.cpf;
 
+
+
+import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
+
 import com.interpss.common.msg.IPSSMsgHub;
 
 public interface CPFAlgorithm {
 	public static final String copyright = "Copyright www.interpss.org 2005-2010";
 
-	public abstract int getMaxIterations();
-
-	public abstract void setMaxIterations(int paramInt);
+	public  int getMaxIterations();
 	
-    public void setLoadIncPatten();
+	public  void setMaxIterations(int paramInt);
+	
+	public  void setAnalysisCode(AnalysisStopCriteria stopCriteria);
+	
+	public  AnalysisStopCriteria getAnalysisCode();
+	
+	
+    public void setLoadIncPatten(LoadIncPatten loadIncPtn);
+    public LoadIncPatten getLoadIncPatten();
     
-    public void setGenDispPatten();
+    public void setGenDispPatten(GenDispPatten genDispPtn);
+    public GenDispPatten getGenDispPatten();
     
-    public abstract IPSSMsgHub getMsgHub();
-
-    public abstract void setMsgHub(IPSSMsgHub paramIPSSMsgHub);
+    public  IPSSMsgHub getMsgHub();
+    
+    public void setMsgHub(IPSSMsgHub paramIPSSMsgHub);
     
     public boolean runCPF();
     
-    public abstract double getTolerance(byte paramByte, double paramDouble);
+    public double getTolerance();
+    
+    public  double getTolerance(byte unit);
 
-    public abstract void setTolerance(double paramDouble1, byte paramByte, double paramDouble2);
+    public  void setTolerance(double tol, byte unit);
 
 }
