@@ -92,7 +92,7 @@ public class EditorJGraphDataMapper extends AbstractMapper {
 					simuCtx.setNetwork(net, SimuCtxType.ACLF_NETWORK);
 				} else if (gFormContainer.getGNetForm().getNetType().equals(
 						IGNetForm.NetType_AcscNetwork)) {
-					simuCtx.setNetwork(net, SimuCtxType.ACSC_FAULT_NET);
+					simuCtx.setNetwork(net, SimuCtxType.ACSC_NET);
 				}
 			}
 			SpringAppContext.getIpssMsgHub().sendStatusMsg(
@@ -112,7 +112,7 @@ public class EditorJGraphDataMapper extends AbstractMapper {
 							"Please see the message list for details");
 					return false;
 				}
-			} else if (simuCtx.getNetType() == SimuCtxType.ACSC_FAULT_NET) {
+			} else if (simuCtx.getNetType() == SimuCtxType.ACSC_NET) {
 				if (!simuCtx.checkData()) {
 					SpringAppContext.getEditorDialogUtil().showMsgDialog(
 							"Network Ac Short Circuit Data Error",

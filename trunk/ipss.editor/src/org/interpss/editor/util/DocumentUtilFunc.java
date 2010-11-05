@@ -146,8 +146,8 @@ public class DocumentUtilFunc  {
 					simuCxt.getNetType() == SimuCtxType.ACLF_NETWORK ||
 					simuCxt.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				return true;
-			} else if (simuCxt.getNetType() == SimuCtxType.ACSC_FAULT_NET) {
-				return simuCxt.getAcscFaultNet().isLfDataLoaded();
+			} else if (simuCxt.getNetType() == SimuCtxType.ACSC_NET) {
+				return simuCxt.getAcscNet().isLfDataLoaded();
 			}
 		} 
 		return false;
@@ -174,7 +174,7 @@ public class DocumentUtilFunc  {
 			}
 		} else if (doc instanceof IpssCustomDocument) {
 			SimuContext simuCxt = (SimuContext)(((IpssCustomDocument) doc).getSimuAppContext()).getSimuCtx();
-			if (simuCxt.getNetType() == SimuCtxType.ACSC_FAULT_NET) {
+			if (simuCxt.getNetType() == SimuCtxType.ACSC_NET) {
 				return true;
 			}
 		} 		

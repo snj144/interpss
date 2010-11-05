@@ -43,7 +43,7 @@ import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
 import com.interpss.core.aclf.adpter.GenBusAdapter;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
-import com.interpss.core.acsc.SimpleFaultNetwork;
+import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.simu.SimuContext;
 
@@ -103,10 +103,10 @@ public class GraphSimuUtilFunc {
 				} else if (LABEL_ACT_ACSC_POSITIVE.equals(action)
 						|| LABEL_ACT_ACSC_NEGATIVE.equals(action)
 						|| LABEL_ACT_ACSC_ZERO.equals(action)) {
-					SimpleFaultNetwork faultNet = simuCtx.getAcscFaultNet();
+					AcscNetwork faultNet = simuCtx.getAcscNet();
 					AcscBus bus = (AcscBus) simuCtx.getAclfNet().getBus(
 							form.getId());
-					AcscBusFault fBus = (AcscBusFault) faultNet.getFaultList()
+					AcscBusFault fBus = (AcscBusFault) simuCtx.getSimpleFaultAlgorithm().getFaultList()
 							.get(0);
 					if (fBus != null) {
 						double vpu = fBus.getFaultResult().getFaultVoltage_012(
@@ -153,8 +153,8 @@ public class GraphSimuUtilFunc {
 				} else if (LABEL_ACT_ACSC_POSITIVE.equals(action)
 						|| LABEL_ACT_ACSC_NEGATIVE.equals(action)
 						|| LABEL_ACT_ACSC_ZERO.equals(action)) {
-					SimpleFaultNetwork faultNet = simuCtx.getAcscFaultNet();
-					AcscBusFault fBus = (AcscBusFault) faultNet.getFaultList()
+					AcscNetwork faultNet = simuCtx.getAcscNet();
+					AcscBusFault fBus = (AcscBusFault) simuCtx.getSimpleFaultAlgorithm().getFaultList()
 							.get(0);
 					AcscBranch branch = (AcscBranch) faultNet.getBranch(form
 							.getFromId(), form.getToId());
