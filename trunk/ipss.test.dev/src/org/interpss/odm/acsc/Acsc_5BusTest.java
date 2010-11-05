@@ -33,7 +33,7 @@ public class Acsc_5BusTest extends BaseTestSetup {
 			}	
 			
 			// test fault network
-			AcscBusFault busFault = simuCtx.getAcscFaultNet().getFault("Bus-1_Ground_3P_Bus fault at Bus-1");
+			AcscBusFault busFault = simuCtx.getSimpleFaultAlgorithm().getFault("Bus-1_Ground_3P_Bus fault at Bus-1");
 			//assertTrue(busFault.getBus().getId().equals("Bus-1"));
 			//assertTrue(busFault.getFaultType().equals(SimpleFaultType.BUS_FAULT));
 			//assertTrue(Math.abs(busFault.getZLGFault().getImaginary()-0)==0);
