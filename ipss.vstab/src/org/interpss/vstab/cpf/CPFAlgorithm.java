@@ -13,9 +13,9 @@ public interface CPFAlgorithm {
 	
 	public  void setMaxIterations(int paramInt);
 	
-	public  void setAnalysisCode(AnalysisStopCriteria stopCriteria);
+	public  void setAnalysisStopCriteria(AnalysisStopCriteria stopCriteria);
 	
-	public  AnalysisStopCriteria getAnalysisCode();
+	public  AnalysisStopCriteria getAnalysisStopCriteria();
 	
 	
     public void setLoadIncPatten(LoadIncPatten loadIncPtn);
