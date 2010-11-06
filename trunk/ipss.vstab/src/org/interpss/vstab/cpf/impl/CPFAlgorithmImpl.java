@@ -71,7 +71,7 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 	}
 
 	@Override
-	public void setAnalysisCode(AnalysisStopCriteria newStopCriteria) {
+	public void setAnalysisStopCriteria(AnalysisStopCriteria newStopCriteria) {
 		this.stopCriteria=newStopCriteria;
 		
 	}
@@ -101,7 +101,7 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 	}
 
 	@Override
-	public AnalysisStopCriteria getAnalysisCode() {
+	public AnalysisStopCriteria getAnalysisStopCriteria() {
 		return this.stopCriteria;
 	}
 
