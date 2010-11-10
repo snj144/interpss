@@ -4,19 +4,24 @@ package org.interpss.vstab.cpf.impl;
  * including prediction, correction and automatic step size control.
  */
 
+import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.RealVector;
 
 import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.net.Bus;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
 import com.interpss.core.sparse.impl.SparseEqnMatrix2x2Impl;
 
 public class CpfHelper {
-	private RealMatrix operatingLFResult=null;
-	private RealMatrix predResult=null;
-	private RealMatrix corrResult=null;
+	private RealVector operatingLFResult=null;
+	private RealVector predResult=null;
+	private RealVector corrResult=null;
 	private double stepSize=0;
+	private Complex busLoadIncDir=null;
+	private RealVector loadIncDirVector=null;
 	private IPSSMsgHub msg=null;
 	
 	private AclfNetwork net=null;
@@ -24,23 +29,25 @@ public class CpfHelper {
 	public CpfHelper(AclfNetwork _net){
 		this.net=_net;
 	}
-    public RealMatrix getPredictedResult(double stepLength){
+    public RealVector getPredictedResult(double stepLength){
     	 //1. get the jacobian matrix (Swing bus is included in jacobi,so the dimension(N) equals to total number of buses, and index is 1 to N )
     	SparseEqnMatrix2x2 jacobi=this.net.formJMatrix(this.msg);
+    	
     	
     	/*
     	 *  2. augment the Jacobi with the differentiation of load flow equation 
     	 *  to Lamda(the load  increase index) 
     	 */
-        int n= jacobi.getDimension();
-        SparseEqnMatrix2x2 jacobiPlus=new SparseEqnMatrix2x2Impl(n+1);
-        for(int i=1;i<n+1;i++) {
-        	for(int j=1;j<n+1;i++) {
-        		Matrix_xy aij=jacobi.getElement(i, j);
-        		jacobiPlus.setAij(aij, i, j);
-        	}
+    	
+    	int n=jacobi.getDimension()/2;
+    	jacobi.increaseDimension(); //2n->2n+2
+        for(Bus b:this.net.getBusList()) {
+        	Matrix_xy m=jacobi.getElement(b.getSortNumber(), n+1);
+        	
         }
-        for(int i=1;i<n+1;i++) {
+
+  
+        for(int i=1;i<=net.getNoActiveBus();i++) {
         	//for the df/dLambda, the result is influenced by load increase patten
             
         }
@@ -54,7 +61,7 @@ public class CpfHelper {
     
     }
     
-    public RealMatrix getCorrectedResult(){
+    public RealVector getCorrectedResult(){
     	/*
     	 * 1. augment the traditional power flow equation with continuous parameter equation
     	 * 2. solve the augmented equation:[f(x,lambda),xl-xl_fixed]T=0
@@ -68,6 +75,36 @@ public class CpfHelper {
     	return stepSize;
     	
     }
+    
+    
+	public Complex getLoadIncDirection(int BusSortNumber) {
+		// To do
+		
+		return null;
+		
+		
+	}
+	public void setLoadIncDirVector(RealVector newLoadIncDirVector) {
+		this.loadIncDirVector=newLoadIncDirVector;
+		
+	}
+	public RealVector getLoadIncDirVector() {
+		return this.loadIncDirVector;
+	}
+	
+	public void genGovernorResponse() {
+		// calculate Load-Gen Mismatch
+		// distribute the mismatch according to governor Response
+	}
+	
+	public void AGC() {
+		// To do
+	}
+	
+	public void increaseLoad(double lambda) {
+		//To do
+	}
+	
     
     
 }
