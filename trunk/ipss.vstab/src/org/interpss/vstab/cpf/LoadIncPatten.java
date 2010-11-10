@@ -16,7 +16,7 @@ public class LoadIncPatten {
 	protected List<Area> incAreaList=null;
 	protected List<Zone> incZoneList=null;
 	protected List<Bus> incBusList=null;
-	private  Hashtable<String ,Bus > incBusTbl=null;
+	private  Hashtable<String ,Bus > incLoadBusTbl=null;
 	private  IPSSMsgHub _msg=null;
 	private AclfNetwork _net=null;
 
@@ -34,7 +34,7 @@ public class LoadIncPatten {
 		if(ptn==LoadIncPtn.AREA) {
 			if((!increaseObjList.isEmpty())&(increaseObjList.get(0) instanceof Area)) {
 				for(Area a:(List<Area>)increaseObjList) {
-					addBusByArea(a);	
+					addLdBus2ListByArea(a);	
 				}
 			}
 			else {
@@ -43,8 +43,8 @@ public class LoadIncPatten {
 			
 		if(ptn==LoadIncPtn.ZONE) {
 			if((!increaseObjList.isEmpty())&(increaseObjList.get(0) instanceof Zone)) {
-				for(Area a:(List<Area>)increaseObjList) {
-					addBusByArea(a);	
+				for(Zone z:(List<Zone>)increaseObjList) {
+					addLdBus2ListByZone(z);	
 				}
 			}
 			else {
@@ -53,17 +53,7 @@ public class LoadIncPatten {
 		}
 		if(ptn==LoadIncPtn.BUS) {
 			if((increaseObjList!=null)&(increaseObjList.get(0) instanceof Bus)) {
-				if((this.incBusList!=null)&(!this.incBusList.isEmpty())) {
-					for(Bus b:(List<Bus>)increaseObjList) {
-						if(!this.incBusTbl.containsValue(b)){
-							this.incBusList.add(b);
-							this.incBusTbl.put(b.getId(), b);
-						}
-					}
-				}
-				else {
-					this.incBusList=increaseObjList;
-				}
+				addLoadBus2ListByBus((List<Bus>)increaseObjList);
 			}
 			else {
 				_msg.sendErrorMsg("LoadIncPtn is by BUS, but inceaseObjList is not BUS type, not consistent with ptn");
@@ -93,36 +83,63 @@ public class LoadIncPatten {
 	public List<Bus> getIncBusList() {
 		return this.incBusList;
 	}
-	private void addBusByArea(Area a) {
+	private void addLdBus2ListByArea(Area a) {
 		for(Bus b:_net.getBusList()) {
-			if(b.getArea()==a) {
-				if (this.incBusTbl.containsKey(b.getId())){
-					_msg.sendWarnMsg("Bus "+b.getId()+"is already in incBusList");
+			AclfBus bus=(AclfBus) b;
+			if((b.getArea()==a)&bus.isLoad()) {
+				if (this.incLoadBusTbl.containsKey(b.getId())){
+					_msg.sendErrorMsg("Duplication Error,Bus "+b.getId()+"is already in incBusList");
 				}
 				else {
 					this.incBusList.add(b);
-					this.incBusTbl.put(b.getId(), b);
+					this.incLoadBusTbl.put(b.getId(), b);
 				}
 			}
 				
 		}
 	}
-	private void addBusByZone(Zone z) {
+	private void addLdBus2ListByZone(Zone z) {
 		for(Bus b:_net.getBusList()) {
-			if(b.getZone()==z) {
-				if (this.incBusTbl.containsKey(b.getId())){
-					_msg.sendWarnMsg("Bus "+b.getId()+"is already in incBusList");
+			AclfBus bus=(AclfBus) b;
+			if(b.getZone()==z&bus.isLoad()) {
+				if (this.incLoadBusTbl.containsKey(b.getId())){
+					_msg.sendErrorMsg("Duplication Error,Bus "+b.getId()+"is already in incBusList");
 				}
 				else {
 					this.incBusList.add(b);
-					this.incBusTbl.put(b.getId(), b);
+					this.incLoadBusTbl.put(b.getId(), b);
 				}
 			}
 				
 		}
 	}
-	public Hashtable<String,Bus> getIncBusTbl() {
-		return this.incBusTbl;
+	private void addLoadBus2ListByBus(List<Bus> loadIncBusList) {
+		if((this.incBusList!=null)&(!this.incBusList.isEmpty())) {
+			for(Bus b:loadIncBusList) {
+				if(!this.incLoadBusTbl.containsValue(b)){
+					if(((AclfBus)b).isLoad()) {
+					this.incBusList.add(b);
+					this.incLoadBusTbl.put(b.getId(), b);
+					}
+					else {
+						_msg.sendErrorMsg("Bus "+b.getId()+"is not a Load Bus");
+					}
+				}
+				else {
+					_msg.sendErrorMsg("Duplication Error,Bus "+b.getId()+"is already in incBusList");
+				}
+			}
+		}
+		else {
+			this.incBusList=loadIncBusList;
+			for(Bus b:loadIncBusList) {
+				this.incLoadBusTbl.put(b.getId(),b);
+			}
+		}
+	}
+	
+	public Hashtable<String,Bus> getIncLoadBusTbl() {
+		return this.incLoadBusTbl;
 	}
 
 

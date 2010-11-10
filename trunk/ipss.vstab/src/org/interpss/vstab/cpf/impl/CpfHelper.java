@@ -4,12 +4,17 @@ package org.interpss.vstab.cpf.impl;
  * including prediction, correction and automatic step size control.
  */
 
+import java.util.Hashtable;
+
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
+import org.interpss.vstab.cpf.AclfBus4CPF;
+import org.interpss.vstab.cpf.LoadIncPatten;
 
 import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
@@ -23,11 +28,15 @@ public class CpfHelper {
 	private Complex busLoadIncDir=null;
 	private RealVector loadIncDirVector=null;
 	private IPSSMsgHub msg=null;
-	
 	private AclfNetwork net=null;
+	
+	private LoadIncPatten ldIncPtn=null;
+	
     
-	public CpfHelper(AclfNetwork _net){
-		this.net=_net;
+	public CpfHelper(AclfNetwork net,IPSSMsgHub msg){
+		this.net=net;
+		this.msg=msg;
+		ldIncPtn=new LoadIncPatten(net, msg);
 	}
     public RealVector getPredictedResult(double stepLength){
     	 //1. get the jacobian matrix (Swing bus is included in jacobi,so the dimension(N) equals to total number of buses, and index is 1 to N )
@@ -39,10 +48,20 @@ public class CpfHelper {
     	 *  to Lamda(the load  increase index) 
     	 */
     	
-    	int n=jacobi.getDimension()/2;
+    	int n=jacobi.getDimension()/2; //n=num of bus
+    	
     	jacobi.increaseDimension(); //2n->2n+2
+    	Hashtable<String, Bus> incLdBusTbl=ldIncPtn.getIncLoadBusTbl();
         for(Bus b:this.net.getBusList()) {
-        	Matrix_xy m=jacobi.getElement(b.getSortNumber(), n+1);
+        	if(incLdBusTbl.containsValue(b)) {
+        		AclfBus4CPF bus=(AclfBus4CPF) b;
+        		Matrix_xy m=new Matrix_xy();
+        		if(bus.isActive()) {
+        			m.xx=bus.getLoadPIncDir();
+        			m.yx=bus.getLoadQIncDir();
+        		}
+        		jacobi.setAij(m,b.getSortNumber(), n+1);
+        	}
         	
         }
 
@@ -104,7 +123,9 @@ public class CpfHelper {
 	public void increaseLoad(double lambda) {
 		//To do
 	}
-	
+	private void JacobiAddRowNColVector() {
+		
+	}
     
     
 }
