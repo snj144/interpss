@@ -35,7 +35,7 @@ public class ExtendIpssGridImpl {
 	    	CustomSingleLocalTask.RemoteNodeId = GridUtil.getAnyRemoteNodeId();
 
 	    	// input data and create InterPSS Aclf net object
-	    	AclfNetwork adjNet = CoreObjectFactory.createAclfAdjNetwork();
+	    	AclfNetwork adjNet = CoreObjectFactory.createAclfNetwork();
     		SampleCases.load_LF_5BusSystem(adjNet, msg);
     		adjNet.setId("SampleNetId");
     		
@@ -45,7 +45,7 @@ public class ExtendIpssGridImpl {
         		RemoteMessageTable result = new GridRunner(grid).executeTask(CustomSingleLocalTask.class, adjNet, 0);
         		
         		// de-serialized the returning results
-        		adjNet = CoreObjectFactory.createAclfAdjNetwork(result.getSerializedAclfNet());
+        		adjNet = CoreObjectFactory.createAclfNetwork(result.getSerializedAclfNet());
         		
         		// print out the user-defined returning result
         		System.out.println("MyKey = " + result.get("MyKey").toString());
