@@ -30,7 +30,7 @@ public class UserCaseArneTest extends BaseTestSetup {
 	}
 	
 	private AclfNetwork createTestNet() {
-		AclfNetwork net = CoreObjectFactory.createAclfAdjNetwork();
+		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
 		
 		AclfBus bus1 = CoreObjectFactory.createAclfBus("Bus1", net);
         bus1.setBaseVoltage(1.0, UnitType.Volt);

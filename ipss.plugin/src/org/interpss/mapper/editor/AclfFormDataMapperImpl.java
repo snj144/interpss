@@ -54,8 +54,6 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.IAclfBranch;
-import com.interpss.core.aclf.IAclfBus;
 import com.interpss.core.aclf.adj.AdjControlType;
 import com.interpss.core.aclf.adj.FunctionLoad;
 import com.interpss.core.aclf.adj.PQBusLimit;
@@ -93,7 +91,7 @@ public class AclfFormDataMapperImpl {
 	 */
 	public static AclfNetwork mapEditNet2AclfNet(GFormContainer editNet,
 			IPSSMsgHub msg) {
-		AclfNetwork aclfNet = CoreObjectFactory.createAclfAdjNetwork();
+		AclfNetwork aclfNet = CoreObjectFactory.createAclfNetwork();
 
 		BaseFormDataMapperImpl.setBaseNetInfo((GNetForm) editNet.getGNetForm(),
 				aclfNet);

@@ -80,7 +80,7 @@ public class ODMV07DataMapperImpl {
 	 * @throws Exception
 	 */
 	public static AclfNetwork mapNetworkData(LoadflowNetXmlType xmlNet) throws Exception {
-		AclfNetwork net = CoreObjectFactory.createAclfAdjNetwork();
+		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
 		net.setId(xmlNet.getId());
 		net.setName(xmlNet.getName() == null? "ODM Loadflow Case" : xmlNet.getName());
 		net.setDesc(xmlNet.getDesc());

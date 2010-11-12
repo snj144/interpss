@@ -10,7 +10,7 @@ import com.interpss.core.aclf.AclfNetwork;
 
 public class BPAFormat_in {
     public static AclfNetwork loadFile(java.io.BufferedReader din, String filename, IPSSMsgHub msg) throws Exception {
-    	AclfNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
+    	AclfNetwork  adjNet = CoreObjectFactory.createAclfNetwork();
     	adjNet.setAllowParallelBranch(false);
 
 		// TODO ...    	return adjNet;

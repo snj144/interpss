@@ -55,7 +55,7 @@ public class XfrlTestCases extends BaseTestSetup {
 		String l4 = "   1.00000,  69.000";
 		String l5 = "   1.00000,   0.000";
 
-  		AclfNetwork adjNet = CoreObjectFactory.createAclfAdjNetwork();
+  		AclfNetwork adjNet = CoreObjectFactory.createAclfNetwork();
   		IpssAclf.addAclfBus("2", "", adjNet)
   					.setBaseVoltage(230.0, UnitType.kV);
   		IpssAclf.addAclfBus("1", "", adjNet)
@@ -85,7 +85,7 @@ public class XfrlTestCases extends BaseTestSetup {
 		String l4 = "   1.02000,  69.000";
 		String l5 = "   1.00000,   0.000";
 
-		AclfNetwork adjNet = CoreObjectFactory.createAclfAdjNetwork();
+		AclfNetwork adjNet = CoreObjectFactory.createAclfNetwork();
   		IpssAclf.addAclfBus("2", "", adjNet)
   					.setBaseVoltage(230.0, UnitType.kV);
   		IpssAclf.addAclfBus("1", "", adjNet)
@@ -116,7 +116,7 @@ public class XfrlTestCases extends BaseTestSetup {
 		String l4 = "   1.02000,  69.000";
 		String l5 = "   1.00000,   0.000";
 
-		AclfNetwork adjNet = CoreObjectFactory.createAclfAdjNetwork();
+		AclfNetwork adjNet = CoreObjectFactory.createAclfNetwork();
   		IpssAclf.addAclfBus("2", "", adjNet)
   					.setBaseVoltage(230.0, UnitType.kV);
   		IpssAclf.addAclfBus("1", "", adjNet)
@@ -152,7 +152,7 @@ public class XfrlTestCases extends BaseTestSetup {
 		l4 = "345.000, 345.000,   0.000,   200.00,   224.00,   200.00, 0,      0, 1.10000, 0.90000, 1.10000, 0.90000,  33, 0, 0.00000, 0.00000";
 		l5 = "13.8000,  13.800,   0.000,   200.00,   224.00,   200.00, 0,      0, 1.10000, 0.90000, 1.10000, 0.90000,  33, 0, 0.00000, 0.00000";
 		
-		AclfNetwork adjNet = CoreObjectFactory.createAclfAdjNetwork();
+		AclfNetwork adjNet = CoreObjectFactory.createAclfNetwork();
   		IpssAclf.addAclfBus("11037", "", adjNet)
   					.setBaseVoltage(115.0, UnitType.kV);
   		IpssAclf.addAclfBus("11038", "", adjNet)
