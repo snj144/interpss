@@ -28,7 +28,7 @@ public class PSATFormat_in {
 	private static final int PQBusData = 4;
 
     public static AclfNetwork loadFile(java.io.BufferedReader din, IPSSMsgHub msg) throws Exception {
-    	AclfNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
+    	AclfNetwork  adjNet = CoreObjectFactory.createAclfNetwork();
     	adjNet.setAllowParallelBranch(false);
 
 		String str = "";

@@ -53,7 +53,7 @@ public class SwitchedShuntTestCases extends BaseTestSetup {
 		 */
 		String l1 = "63010,2,1.02600,1.02600,     0,  100.0,'            ',  -13.76, 1,*******, 1,1216.00";
 
-  		AclfNetwork adjNet = CoreObjectFactory.createAclfAdjNetwork();
+  		AclfNetwork adjNet = CoreObjectFactory.createAclfNetwork();
   		IpssAclf.addAclfBus("63010", "", adjNet);
   		
   		PSSESwitchedShuntDataRec rec = new PSSESwitchedShuntDataRec(l1, VersionNo.PSS_E_30);

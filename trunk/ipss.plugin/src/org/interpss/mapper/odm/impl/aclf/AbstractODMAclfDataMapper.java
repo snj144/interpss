@@ -97,7 +97,7 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMNetDat
 			LoadflowNetXmlType xmlNet = parser.getAclfNet();
 			simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
 			try {
-				AclfNetwork adjNet = CoreObjectFactory.createAclfAdjNetwork();
+				AclfNetwork adjNet = CoreObjectFactory.createAclfNetwork();
 				mapAclfNetworkData(adjNet, xmlNet);
 				simuCtx.setAclfNet(adjNet);
 

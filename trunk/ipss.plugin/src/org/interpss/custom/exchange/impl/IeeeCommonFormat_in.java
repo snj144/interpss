@@ -72,7 +72,7 @@ public class IeeeCommonFormat_in {
 	private static final int TielineData = 5;
 
     public static AclfNetwork loadFile(final java.io.BufferedReader din, final IPSSMsgHub msg) throws Exception {
-    	final AclfNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
+    	final AclfNetwork  adjNet = CoreObjectFactory.createAclfNetwork();
     	adjNet.setAllowParallelBranch(true);
 
     	String str = din.readLine();
