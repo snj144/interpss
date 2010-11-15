@@ -100,6 +100,7 @@ public class LoadIncPatten {
 	}
 	private void addLdBus2ListByZone(Zone z) {
 		for(Bus b:_net.getBusList()) {
+			
 			AclfBus bus=(AclfBus) b;
 			if(b.getZone()==z&bus.isLoad()) {
 				if (this.incLoadBusTbl.containsKey(b.getId())){

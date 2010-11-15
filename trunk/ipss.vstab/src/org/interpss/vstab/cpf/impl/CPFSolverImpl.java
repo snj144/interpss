@@ -11,6 +11,8 @@ public class CPFSolverImpl implements CPFSolver{
     protected LoadIncPatten _loadIncPtn=null;
     protected GenDispPatten _genDispPtn=null;
     private boolean cpfConverged=false;
+    
+    
 	public CPFSolverImpl() {
 		
 	}

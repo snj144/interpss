@@ -95,13 +95,15 @@ public class CpfHelper {
        ek.yy=1;
        jacobi.setAij(ek, n+1, n+1);
        
-       
- 
    	
    	/**
    	 * 3. set the [B] elements(right-hand side of Jacobian matrix) to [0,+-1] ,
-   	 * only the element corresponding to Continuous parameter is set to 1
+   	 * only the element corresponding to Continuous parameter is set to +1,or -1, depending on the slope of continuous parameter
    	 */
+    int contPara=getContParameter();
+      
+    jacobi.setBi(new Complex(1,0),contPara);
+       
        
     /**
      * 4. solve Jau*[dx,dLamda]T=[0,+-1]
@@ -157,13 +159,32 @@ public class CpfHelper {
 	public void increaseLoad(double lambda) {
 		//To do
 	}
-    private void findContParameter() {
+	/**
+	 * @return sortNumber of the continuous parameter
+	 * 
+	 */
+    private int getContParameter() {
     	if(this.iterationCount==0) {
     		this.contParaSortNum=this.net.getNoBus()+1;
     	}
     	else {
+    		// contPara=max(i){|deltaXi/Xi|,|deltaL/Lambda|}
+    		int maxIdx=getVectorMaxIndex(this.deltaX_Lambda.ebeDivide(this.corrResult));
+    		if(maxIdx>this.net.getNoBus()*2-1) { 
+    			this.contParaSortNum=this.net.getNoBus()+1;
+    		}
+    		else {
+    			if(maxIdx%2==0) {
+    				this.contParaSortNum=maxIdx/2+1;
+    			}
+    			else {
+    				this.contParaSortNum=(maxIdx+1)/2;
+    			}
+    		}
+    		  
     		
     	}
+		return contParaSortNum;
     }
     public int getIterationCount() {
     	return this.iterationCount;
@@ -173,6 +194,24 @@ public class CpfHelper {
     }
     public void setIterCountToZero() {
     	this.iterationCount=0;
+    }
+    private int getVectorMaxIndex(RealVector vector){
+    	int maxIdx=0;
+    	double max=Math.abs(vector.getEntry(0));
+    	for(int i=1;i<vector.getDimension();i++) {
+    		if(max<Math.abs(vector.getEntry(i))){
+    			max=Math.abs(vector.getEntry(i));
+    			maxIdx=i;
+    		}	
+    	}
+    	return maxIdx;
+    	
+    }
+    private int getContParaSign() {
+    	
+    }
+    public boolean isCrossMaxPwrPnt() {
+    	//if
     }
     
     
