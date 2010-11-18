@@ -25,12 +25,12 @@
 package org.interpss.mapper.odm;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfDataMapper;
+import org.interpss.mapper.odm.impl.opf.AbstractODMOpfDataMapper;
 
 import com.interpss.common.msg.IPSSMsgHub;
 
 
-public class ODMOpfDataMapper extends AbstractODMAclfDataMapper<AclfModelParser> {
+public class ODMOpfDataMapper extends AbstractODMOpfDataMapper<AclfModelParser> {
 	public ODMOpfDataMapper(IPSSMsgHub msg) {
 		super(msg);
 	}

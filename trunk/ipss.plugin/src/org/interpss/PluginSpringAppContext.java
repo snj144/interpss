@@ -33,7 +33,6 @@ import org.interpss.custom.IpssFileAdapter;
 import org.interpss.custom.run.ICustomRunScriptPlugin;
 import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.output.IOutputSimuResult;
-
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.mapper.IpssMapper;
