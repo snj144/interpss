@@ -1,4 +1,4 @@
-package org.interpss.vstab;
+package org.interpss.vstab.util;
 
 public class VstabFuncOut {
 	
