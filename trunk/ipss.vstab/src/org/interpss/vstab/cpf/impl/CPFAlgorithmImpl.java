@@ -3,8 +3,8 @@ package org.interpss.vstab.cpf.impl;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.CPFSolver;
 import org.interpss.vstab.cpf.CpfStopCriteria;
-import org.interpss.vstab.cpf.GenDispPatten;
-import org.interpss.vstab.cpf.LoadIncPatten;
+import org.interpss.vstab.cpf.GenDispPattern;
+import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
 
 import com.interpss.common.datatype.UnitType;
@@ -18,8 +18,8 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
     protected double tolerance;
     protected AclfNetwork acNetwork=null;
     protected AnalysisStopCriteria stopCriteria=null;
-    protected GenDispPatten genDispPtn=null;
-    protected LoadIncPatten loadIncPtn=null;
+    protected GenDispPattern genDispPtn=null;
+    protected LoadIncPattern loadIncPtn=null;
     protected CPFSolver cpfSolver=null;
   
     
@@ -77,13 +77,13 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 	}
 
 	@Override
-	public void setGenDispPatten(GenDispPatten newGenDispPtn) {
+	public void setGenDispPattern(GenDispPattern newGenDispPtn) {
 		this.genDispPtn=newGenDispPtn;
 		
 	}
 
 	@Override
-	public void setLoadIncPatten(LoadIncPatten newLoadIncPtn) {
+	public void setLoadIncPattern(LoadIncPattern newLoadIncPtn) {
 		this.loadIncPtn=newLoadIncPtn;
 		
 	}
@@ -106,13 +106,13 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 	}
 
 	@Override
-	public GenDispPatten getGenDispPatten() {
+	public GenDispPattern getGenDispPatten() {
 		return this.genDispPtn;
 		
 	}
 
 	@Override
-	public LoadIncPatten getLoadIncPatten() {
+	public LoadIncPattern getLoadIncPatten() {
 		return this.loadIncPtn;
 		
 	}

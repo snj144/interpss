@@ -1,22 +1,22 @@
 package org.interpss.vstab.cpf.impl;
 
 import org.interpss.vstab.cpf.CPFSolver;
-import org.interpss.vstab.cpf.GenDispPatten;
-import org.interpss.vstab.cpf.LoadIncPatten;
+import org.interpss.vstab.cpf.GenDispPattern;
+import org.interpss.vstab.cpf.LoadIncPattern;
 
 import com.interpss.core.aclf.AclfNetwork;
 
 public class CPFSolverImpl implements CPFSolver{
     protected AclfNetwork net=null;
-    protected LoadIncPatten _loadIncPtn=null;
-    protected GenDispPatten _genDispPtn=null;
+    protected LoadIncPattern _loadIncPtn=null;
+    protected GenDispPattern _genDispPtn=null;
     private boolean cpfConverged=false;
     
     
 	public CPFSolverImpl() {
 		
 	}
-	public CPFSolverImpl(AclfNetwork acNetWork, LoadIncPatten loadIncPtn, GenDispPatten genDispPtn) {
+	public CPFSolverImpl(AclfNetwork acNetWork, LoadIncPattern loadIncPtn, GenDispPattern genDispPtn) {
 		this.net=acNetWork;
 		this._loadIncPtn=loadIncPtn;
 		this._genDispPtn=genDispPtn;

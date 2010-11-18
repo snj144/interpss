@@ -18,11 +18,11 @@ public interface CPFAlgorithm {
 	public  AnalysisStopCriteria getAnalysisStopCriteria();
 	
 	
-    public void setLoadIncPatten(LoadIncPatten loadIncPtn);
-    public LoadIncPatten getLoadIncPatten();
+    public void setLoadIncPattern(LoadIncPattern loadIncPtn);
+    public LoadIncPattern getLoadIncPatten();
     
-    public void setGenDispPatten(GenDispPatten genDispPtn);
-    public GenDispPatten getGenDispPatten();
+    public void setGenDispPattern(GenDispPattern genDispPtn);
+    public GenDispPattern getGenDispPatten();
     
     public  IPSSMsgHub getMsgHub();
     

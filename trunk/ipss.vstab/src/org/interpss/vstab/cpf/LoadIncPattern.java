@@ -13,7 +13,7 @@ import com.interpss.core.net.Area;
 import com.interpss.core.net.Zone;
 import java.io.File;
 
-public class LoadIncPatten {
+public class LoadIncPattern {
 
 	protected List<Area> incAreaList=null;
 	protected List<Zone> incZoneList=null;
@@ -25,7 +25,7 @@ public class LoadIncPatten {
 	
 	public enum LoadIncPtn{NETWORK,AREA,ZONE,BUS,CUSTOM_SPECIFIC};
 	
-	public LoadIncPatten(AclfNetwork net,IPSSMsgHub msg) {
+	public LoadIncPattern(AclfNetwork net,IPSSMsgHub msg) {
 		
 		this._net=net;
 		this._msg=msg;
