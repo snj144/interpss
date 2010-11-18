@@ -1,15 +1,17 @@
 package org.interpss.vstab.cpf;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.msg.IPSSMsgHubImpl;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Zone;
+import java.io.File;
 
 public class LoadIncPatten {
 
@@ -18,23 +20,32 @@ public class LoadIncPatten {
 	protected List<Bus> incBusList=null;
 	private  Hashtable<String ,Bus > incLoadBusTbl=null;
 	private  IPSSMsgHub _msg=null;
-	private AclfNetwork _net=null;
+	private  AclfNetwork _net=null;
 
 	
-	public enum LoadIncPtn{AREA,ZONE,BUS,CUSTOM_SPECIFIC};
+	public enum LoadIncPtn{NETWORK,AREA,ZONE,BUS,CUSTOM_SPECIFIC};
 	
 	public LoadIncPatten(AclfNetwork net,IPSSMsgHub msg) {
 		
 		this._net=net;
 		this._msg=msg;
+		this.incLoadBusTbl=new Hashtable<String, Bus>(net.getNoBus());
+		this.incAreaList=new ArrayList<Area>();
+		this.incZoneList=new ArrayList<Zone>();
+		this.incBusList=new ArrayList<Bus>();
 	}
-	
-	public void defLoadIncPtn(LoadIncPtn ptn, AclfNetwork net,List increaseObjList){
+	public void ldIncByNetwork() {
+		addLoadBus2ListByBus(this._net.getBusList());
+	}
+	public void defLoadIncPtn(LoadIncPtn ptn, AclfNetwork net,Object[]increaseObj){
 		this._net=net;
+		long areaNumber=0;
+		long zoneNumber=0;
 		if(ptn==LoadIncPtn.AREA) {
-			if((!increaseObjList.isEmpty())&(increaseObjList.get(0) instanceof Area)) {
-				for(Area a:(List<Area>)increaseObjList) {
-					addLdBus2ListByArea(a);	
+			if((increaseObj.length!=0)& increaseObj instanceof Long[]) {
+				for(int i=0;i<increaseObj.length;i++) {
+					areaNumber=(Long) increaseObj[i];
+					addLdBus2ListByArea(areaNumber);	
 				}
 			}
 			else {
@@ -42,21 +53,22 @@ public class LoadIncPatten {
 			}
 			
 		if(ptn==LoadIncPtn.ZONE) {
-			if((!increaseObjList.isEmpty())&(increaseObjList.get(0) instanceof Zone)) {
-				for(Zone z:(List<Zone>)increaseObjList) {
-					addLdBus2ListByZone(z);	
+			if((increaseObj.length!=0)& increaseObj instanceof Long[]) {
+				for(int i=0;i<increaseObj.length;i++) {
+					zoneNumber=(Long) increaseObj[i];
+					addLdBus2ListByZone(zoneNumber);	
 				}
 			}
 			else {
-				_msg.sendErrorMsg("LoadIncPtn is by ZONE, but inceaseObjList is not ZONE type, not consistent with ptn");
+				_msg.sendErrorMsg("LoadIncPtn is by ZONE, but inceaseObj is not ZONE type, not consistent with ptn");
 			}
 		}
 		if(ptn==LoadIncPtn.BUS) {
-			if((increaseObjList!=null)&(increaseObjList.get(0) instanceof Bus)) {
-				addLoadBus2ListByBus((List<Bus>)increaseObjList);
+			if((increaseObj!=null)&(increaseObj instanceof Bus[])) {
+				addLoadBus2ListByBus(Arrays.asList((Bus[])increaseObj));
 			}
 			else {
-				_msg.sendErrorMsg("LoadIncPtn is by BUS, but inceaseObjList is not BUS type, not consistent with ptn");
+				_msg.sendErrorMsg("LoadIncPtn is by BUS, but inceaseObj is not BUS type, not consistent with ptn");
 			}
 		}
 			
@@ -83,10 +95,10 @@ public class LoadIncPatten {
 	public List<Bus> getIncBusList() {
 		return this.incBusList;
 	}
-	private void addLdBus2ListByArea(Area a) {
+	private void addLdBus2ListByArea(long areaNum) {
 		for(Bus b:_net.getBusList()) {
 			AclfBus bus=(AclfBus) b;
-			if((b.getArea()==a)&bus.isLoad()) {
+			if((b.getArea().getNumber()==areaNum)&bus.isLoad()) {
 				if (this.incLoadBusTbl.containsKey(b.getId())){
 					_msg.sendErrorMsg("Duplication Error,Bus "+b.getId()+"is already in incBusList");
 				}
@@ -98,11 +110,11 @@ public class LoadIncPatten {
 				
 		}
 	}
-	private void addLdBus2ListByZone(Zone z) {
+	private void addLdBus2ListByZone(long zoneNum) {
 		for(Bus b:_net.getBusList()) {
 			
 			AclfBus bus=(AclfBus) b;
-			if(b.getZone()==z&bus.isLoad()) {
+			if(b.getZone().getNumber()==zoneNum&bus.isLoad()) {
 				if (this.incLoadBusTbl.containsKey(b.getId())){
 					_msg.sendErrorMsg("Duplication Error,Bus "+b.getId()+"is already in incBusList");
 				}
@@ -119,8 +131,8 @@ public class LoadIncPatten {
 			for(Bus b:loadIncBusList) {
 				if(!this.incLoadBusTbl.containsValue(b)){
 					if(((AclfBus)b).isLoad()) {
-					this.incBusList.add(b);
-					this.incLoadBusTbl.put(b.getId(), b);
+					     this.incBusList.add(b);
+					     this.incLoadBusTbl.put(b.getId(), b);
 					}
 					else {
 						_msg.sendErrorMsg("Bus "+b.getId()+"is not a Load Bus");
@@ -141,6 +153,9 @@ public class LoadIncPatten {
 	
 	public Hashtable<String,Bus> getIncLoadBusTbl() {
 		return this.incLoadBusTbl;
+	}
+	public void getLdPtnFromXmlDoc(File file) {
+		throw new UnsupportedOperationException();
 	}
 
 
