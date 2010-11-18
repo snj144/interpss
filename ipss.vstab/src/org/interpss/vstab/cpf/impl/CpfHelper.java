@@ -10,8 +10,7 @@ import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.RealVector;
 import java.util.Iterator;
 import org.interpss.vstab.cpf.AclfBus4CPF;
-import org.interpss.vstab.cpf.LoadIncPatten;
-
+import org.interpss.vstab.cpf.LoadIncPattern;
 import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.datatype.Vector_xy;
 import com.interpss.common.exp.InterpssException;
@@ -45,14 +44,14 @@ public class CpfHelper {
 	private IPSSMsgHub msg=null;
 	private AclfNetwork net=null;
 	
-	private LoadIncPatten ldIncPtn=null;
+	private LoadIncPattern ldIncPtn=null;
 	
     
 	public CpfHelper(AclfNetwork net, IPSSMsgHub msg){
 		this.net=net;
 		this.msg=msg;
 	}
-	public void setLoadIncPtn(LoadIncPatten loadIncPtn) {
+	public void setLoadIncPtn(LoadIncPattern loadIncPtn) {
 		if(loadIncPtn!=null) { 
 			this.ldIncPtn=loadIncPtn;
 		}
