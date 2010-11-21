@@ -5,14 +5,23 @@ import com.interpss.common.datatype.Vector_xy;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
 
+/**
+ * A SVC implementation
+ * 
+ *     i - The SVC connected bus position in the J-matrix
+ *     n - The SVC position in the J-matrix
+ * 
+ * @author mzhou
+ *
+ */
 public class SVCConstVControl {
 	// network variables
 	AclfBus busi = null;  // bus the SVC connected to
 	int position = 0;     // SVC position in the J-matrix
 
-	// SVC varbiles
+	// SVC variables
     private double vsh;
-    private double thetash;
+    private double thetash;  
     
     // SCV constants, do not change in the Loadflow calculation process
     private double gsh;
@@ -36,6 +45,11 @@ public class SVCConstVControl {
     	return this.position;
     }
     
+    /**
+     * J-matrix element at [i,i]. It will used to modify (add to) the network J-matrix element
+     * 
+     * @return
+     */
     public Matrix_xy getJii() {
     	double vi = busi.getVoltageMag();
     	double thetai = busi.getVoltageAng();
@@ -48,6 +62,11 @@ public class SVCConstVControl {
         return m;
     }
     
+    /**
+     * J-matrix element at [n,n]
+     * 
+     * @return
+     */
     public Matrix_xy getJnn() {
     	double vi = busi.getVoltageMag();
     	double thetai = busi.getVoltageAng();
@@ -60,6 +79,11 @@ public class SVCConstVControl {
         return m;
     }
 
+    /**
+     * J-matrix element at [i,n]
+     * 
+     * @return
+     */
     public Matrix_xy getJin() {
     	double vi = busi.getVoltageMag();
     	double thetai = busi.getVoltageAng();
@@ -73,6 +97,11 @@ public class SVCConstVControl {
         return m;
     }
 
+    /**
+     * J-matrix element at [n,i]
+     * 
+     * @return
+     */
     public Matrix_xy getJni() {
     	double vi = busi.getVoltageMag();
     	double thetai = busi.getVoltageAng();
@@ -86,6 +115,11 @@ public class SVCConstVControl {
     }
 
     
+    /**
+     * B vector element at [i]. It will be used to modify (add to) the network power mismatch vector
+     * 
+     * @return
+     */
     public Vector_xy getBi() {
         double vi = busi.getVoltageMag();
         double thetai = busi.getVoltageAng();
@@ -96,6 +130,11 @@ public class SVCConstVControl {
         return b;
     }
     
+    /**
+     * B vector element at [n].
+     * 
+     * @return
+     */
     public Vector_xy getBn() {
         double vi = busi.getVoltageMag();
         double thetai = busi.getVoltageAng();
@@ -108,6 +147,11 @@ public class SVCConstVControl {
         return b;
     }
 
+    /**
+     * Update the SVC controller internal states only
+     * 
+     * @param lfEqn
+     */
     public void update(SparseEqnMatrix2x2 lfEqn) {
         vsh -= lfEqn.getBVect_xy(this.position).x;
         thetash -= lfEqn.getBVect_xy(this.position).y;
