@@ -35,6 +35,7 @@ public class CpfHelper {
 	
 	private final int DEFAULT_CONT_PARA_SORTNUM=0;
 	private int contParaSortNum=DEFAULT_CONT_PARA_SORTNUM;
+	private double fixedValueOfContPara=0;
 	private final boolean DEFAULT_CROSS_MPP=false;
     private boolean crossMaxPwrPnt=DEFAULT_CROSS_MPP;
     
@@ -43,8 +44,8 @@ public class CpfHelper {
 	private double tolerance=DEFAULT_CPFSOLVER_TOLEARNCE;
 	private IPSSMsgHub msg=null;
 	private AclfNetwork net=null;
-	
 	private LoadIncPattern ldIncPtn=null;
+	private PredictorStepSolver preStepSolver;
 	
     
 	public CpfHelper(AclfNetwork net, IPSSMsgHub msg){
@@ -125,11 +126,10 @@ public class CpfHelper {
     	return deltaX_Lambda;
     }
     public boolean correctStep(){
-    	/*
-    	 * 1. augment the traditional power flow equation with continuous parameter equation
-    	 * 2. solve the augmented equation set:[f(x,lambda),xl-xl_fixed]T=0
-    	 */ 
-    	
+       this.preStepSolver=new PredictorStepSolver(net);
+       
+       this.preStepSolver.setContinueParameter(contParaSortNum,fixedValueOfContPara);
+    // to do more here
 		return true;
     	
     }
