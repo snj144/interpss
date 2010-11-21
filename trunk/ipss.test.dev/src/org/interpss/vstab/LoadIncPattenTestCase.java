@@ -1,9 +1,10 @@
 package org.interpss.vstab;
 
 import static org.junit.Assert.assertTrue;
+
 import org.interpss.BaseTestSetup;
-import org.interpss.vstab.cpf.LoadIncPatten;
-import org.interpss.vstab.cpf.LoadIncPatten.LoadIncPtn;
+import org.interpss.vstab.cpf.LoadIncPattern;
+import org.interpss.vstab.cpf.LoadIncPattern.LoadIncPtn;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -32,7 +33,7 @@ public class LoadIncPattenTestCase extends BaseTestSetup {
 		System.out.println(net.net2String());
 		System.out.println("the number of Areas : "+net.getAreaList().size());
 		System.out.println("Area1 Number: "+net.getZoneList().get(0).getNumber());
-        LoadIncPatten ldPtn=new LoadIncPatten(net, msg);
+        LoadIncPattern ldPtn=new LoadIncPattern(net, msg);
         Long[] incAreaAry = {1L,2L};    
         ldPtn.defLoadIncPtn(LoadIncPtn.AREA, net, incAreaAry);
         assertTrue(ldPtn.getIncBusList().size()==3); 
