@@ -4,7 +4,8 @@ import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.interpss.BaseTestSetup;
 import org.interpss.mapper.odm.IEEEODMMapper;
-import org.interpss.vstab.impl.EigenAnalysisImpl;
+import org.interpss.vstab.eigen.EigenAnalysis;
+import org.interpss.vstab.eigen.impl.EigenAnalysisImpl;
 import org.junit.Test;
 
 import com.interpss.common.util.IpssLogger;
