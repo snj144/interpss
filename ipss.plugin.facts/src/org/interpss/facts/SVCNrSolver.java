@@ -39,10 +39,10 @@ public class SVCNrSolver extends DefaultNrSolver {
             int i = svc.getBus().getSortNumber();
             int n = svc.getPosition();
             
-            lfEqn.setBi(svc.getBn(), n);
-            
             Vector_xy bi = svc.getBi();
             lfEqn.addToBi(bi,i);
+
+            lfEqn.setBi(svc.getBn(), n);
         }
     }
     
