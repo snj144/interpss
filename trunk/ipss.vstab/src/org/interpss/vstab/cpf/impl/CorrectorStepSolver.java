@@ -7,7 +7,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.impl.DefaultNrSolver;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
 
-public class PredictorStepSolver extends DefaultNrSolver {
+public class CorrectorStepSolver extends DefaultNrSolver {
 	private double zeroMismatch=0;
 	private Vector_xy bAug=null;
 	protected int DEFAULT_CONTPARA_SORTNUM=0;
@@ -16,7 +16,7 @@ public class PredictorStepSolver extends DefaultNrSolver {
 	private double fixedValOfContPara=0;
 	
 
-	public PredictorStepSolver(AclfNetwork net) {
+	public CorrectorStepSolver(AclfNetwork net) {
 		super(net);
 	}
 	@Override

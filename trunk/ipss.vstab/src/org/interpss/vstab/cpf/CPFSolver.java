@@ -9,6 +9,8 @@ public interface CPFSolver {
 	
 	public boolean isCPFConverged();
 	
+	public boolean predictorStep();
 	
+	public boolean correctorStep();
 
 }
