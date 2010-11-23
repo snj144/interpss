@@ -1,16 +1,10 @@
 package org.interpss.vstab.cpf;
 
-import java.util.Hashtable;
-
-import org.apache.commons.math.complex.Complex;
-
-import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.net.Bus;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
 
-public class AbstractStepSolver {
+public abstract class  AbstractStepSolver {
 	protected AclfNetwork net=null;
 	protected int sortNumofContParam=0;
 	protected IPSSMsgHub msg=null;
@@ -54,9 +48,8 @@ public class AbstractStepSolver {
 		this.augmentedJacobi = augmentedLfEqn;
 	}
 	
-	public boolean stepSolver() {
-		 throw new UnsupportedOperationException();
-	}
+	public abstract boolean stepSolver();
 	
+	public abstract void updateBusVoltage();
 
 }
