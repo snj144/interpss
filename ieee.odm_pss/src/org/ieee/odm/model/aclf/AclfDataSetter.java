@@ -1,7 +1,7 @@
  /*
-  * @(#)DataSetter.java   
+  * @(#)AclfDataSetter.java   
   *
-  * Copyright (C) 2008 www.interpss.org
+  * Copyright (C) 2009 www.interpss.org
   *
   * This program is free software; you can redistribute it and/or
   * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE

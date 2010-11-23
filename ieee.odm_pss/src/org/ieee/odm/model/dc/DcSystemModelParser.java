@@ -1,7 +1,7 @@
  /*
-  * @(#)AclfModelParser.java   
+  * @(#)DcSystemModelParser.java   
   *
-  * Copyright (C) 2009 www.interpss.org
+  * Copyright (C) 2010 www.interpss.org
   *
   * This program is free software; you can redistribute it and/or
   * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -15,14 +15,14 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 04/11/2009
+  * @Date 11/11/2010
   * 
   *   Revision History
   *   ================
   *
   */
 
-package org.ieee.odm.model.aclf;
+package org.ieee.odm.model.dc;
 
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseJaxbHelper;
@@ -47,7 +47,7 @@ import org.ieee.odm.schema.XfrBranchXmlType;
  * A Xml parser for the IEEE DOM schema. 
  */
 
-public class AclfModelParser extends AbstractModelParser {
+public class DcSystemModelParser extends AbstractModelParser {
 	/**
 	 * Constructor using an Xml string
 	 * 
@@ -72,7 +72,7 @@ public class AclfModelParser extends AbstractModelParser {
 	 * Default Constructor 
 	 * 
 	 */
-	public AclfModelParser() {
+	public DcSystemModelParser() {
 		super();
 	}	
 	

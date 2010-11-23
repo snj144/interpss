@@ -1,5 +1,5 @@
  /*
-  * @(#)DataSetter.java   
+  * @(#)DStabDataSetter.java   
   *
   * Copyright (C) 2008 www.interpss.org
   *
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 04/11/2009
+  * @Date 08/11/2010
   * 
   *   Revision History
   *   ================
