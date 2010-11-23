@@ -56,8 +56,7 @@
 								<element name="lossZone" maxOccurs="unbounded" minOccurs="0" type="pss:NetZoneXmlType"></element>
 							</sequence>
 						</complexType>
-					</element>
-				</sequence>
+					</element>				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
@@ -69,6 +68,7 @@
 			<enumeration value="TransientStability"></enumeration>
 			<enumeration value="OPF"></enumeration>
 			<enumeration value="DistributionAnalysis"></enumeration>
+			<enumeration value="DcSystemAnalysis"></enumeration>
 		</restriction>
 	</simpleType>
 
@@ -76,6 +76,7 @@
 		<restriction base="string">
 			<enumeration value="Transmission"></enumeration>
 			<enumeration value="Distribution"></enumeration>
+			<enumeration value="DcSystem"></enumeration>
 		</restriction>
 	</simpleType>
 	
