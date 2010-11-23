@@ -3,7 +3,6 @@ import java.util.Iterator;
 
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.ArrayRealVector;
-import org.apache.commons.math.linear.RealVector;
 import org.interpss.vstab.cpf.AbstractStepSolver;
 
 import com.interpss.common.datatype.Vector_xy;
@@ -60,12 +59,13 @@ public class PredictorStepSolver extends AbstractStepSolver{
 	 */
 	@Override
     public void updateBusVoltage() {
-		double actualStep=this.stepSize;
+		double x = this.stepSize;
 		if(isStepSizeControl()) {
-			actualStep=this.stepSize-this.oldStepSize;
+			x=this.stepSize-this.oldStepSize;
 		}
-    	this.net.forEachAclfBus(new IAclfBusVisitor(this,augmentedJacobi,actualStep) {
 
+		final double actualStep=x;
+    	this.net.forEachAclfBus(new IAclfBusVisitor() {
 			public void visit(AclfBus bus) {
 			  if((!bus.isSwing())&bus.isActive()) {
 				 Vector_xy v=augmentedJacobi.getBVect_xy(bus.getSortNumber());
@@ -79,7 +79,6 @@ public class PredictorStepSolver extends AbstractStepSolver{
 				 bus.setVoltage(vmag,vang);
 			  }
 		  }		
-    		
     	});
     }
 	/**
