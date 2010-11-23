@@ -31,6 +31,9 @@ import org.ieee.odm.schema.BaseRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
+import org.ieee.odm.schema.DcBranchXmlType;
+import org.ieee.odm.schema.DcBusXmlType;
+import org.ieee.odm.schema.DcNetworkXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
 import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
@@ -76,6 +79,8 @@ public class BaseJaxbHelper {
 			return getFactory().createAcscNet((ShortCircuitNetXmlType)net);
 		else if (net instanceof LoadflowNetXmlType) 
 			return getFactory().createAclfNet((LoadflowNetXmlType)net);
+		else if (net instanceof DcNetworkXmlType) 
+			return getFactory().createDcNet((DcNetworkXmlType)net);
 		else
 			return getFactory().createBaseCase(net);
 	}
@@ -100,6 +105,8 @@ public class BaseJaxbHelper {
 			return getFactory().createAclfPSXfr((PSXfrBranchXmlType)branch);
 		else if (branch instanceof XfrBranchXmlType) 
 			return getFactory().createAclfXfr((XfrBranchXmlType)branch);
+		else if (branch instanceof DcBranchXmlType) 
+			return getFactory().createDcBranch((DcBranchXmlType)branch);
 		else
 			return getFactory().createBranch(branch);
 	}
@@ -118,6 +125,8 @@ public class BaseJaxbHelper {
 			return getFactory().createOpfGenBus((OpfGenBusXmlType)bus);
 		else if (bus instanceof LoadflowBusXmlType)
 			return getFactory().createAclfBus((LoadflowBusXmlType)bus);
+		else if (bus instanceof DcBusXmlType)
+			return getFactory().createDcBus((DcBusXmlType)bus);
 		else
 			return getFactory().createBus(bus);
 	}

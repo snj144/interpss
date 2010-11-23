@@ -173,7 +173,7 @@ public class PSSEV26BranchRecord {
 		final String cirId = ModelStringUtil.formatCircuitId(strAry[2]);
 		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		
-		BranchXmlType branchRec = parser.getBranch(fid, tid, cirId);
+		BranchXmlType branchRec = (BranchXmlType)parser.getBranch(fid, tid, cirId);
 	    if (branchRec == null){
 			String branchId = ModelStringUtil.formBranchId(fid, tid, cirId);
 	    	logger.severe("Branch "+ branchId + " not found in the network");
