@@ -1,7 +1,7 @@
  /*
-  * @(#)AcscDataSetter.java   
+  * @(#)DcSystemDataSetter.java   
   *
-  * Copyright (C) 2008 www.interpss.org
+  * Copyright (C) 2010 www.interpss.org
   *
   * This program is free software; you can redistribute it and/or
   * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -15,18 +15,17 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 08/11/2010
+  * @Date 11/11/2010
   * 
   *   Revision History
   *   ================
   *
   */
 
-package org.ieee.odm.model.acsc;
+package org.ieee.odm.model.dc;
+
+import org.ieee.odm.model.BaseDataSetter;
 
 
-import org.ieee.odm.model.aclf.AclfDataSetter;
-
-
-public class AcscDataSetter extends AclfDataSetter {
+public class DcSystemDataSetter extends BaseDataSetter {
 }
