@@ -10,6 +10,7 @@
 	<include schemaLocation="dynamic/DstabRecordType.xsd"></include>
 	<include schemaLocation="opf/OPFRecordType.xsd"></include>
 	<include schemaLocation="distribution/DistRecordType.xsd"></include>
+	<include schemaLocation="dcsystem/DcSystemRecordType.xsd"></include>
 	
 	<include schemaLocation="Modification.xsd"></include>
 	<include schemaLocation="StudyScenario.xsd"></include>
@@ -72,7 +73,11 @@
 	</complexType>
 						
 	<simpleType name="ODMSchemaVersionEnumType">
+		<annotation><documentation>
+			V0.8.1 - added dc system analysis
+		</documentation></annotation>
 		<restriction base="string">
+			<enumeration value="V0.8.1"></enumeration>
 			<enumeration value="V0.8"></enumeration>
 			<enumeration value="V0.7"></enumeration>
 			<enumeration value="V0.6"></enumeration>
