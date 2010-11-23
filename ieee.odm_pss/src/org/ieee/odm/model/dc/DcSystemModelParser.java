@@ -26,48 +26,16 @@ package org.ieee.odm.model.dc;
 
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseJaxbHelper;
-import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.schema.BaseBranchXmlType;
-import org.ieee.odm.schema.BranchXmlType;
-import org.ieee.odm.schema.ConverterXmlType;
-import org.ieee.odm.schema.DCLineData2TXmlType;
-import org.ieee.odm.schema.InterchangeXmlType;
-import org.ieee.odm.schema.LineBranchXmlType;
-import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.NetZoneXmlType;
+import org.ieee.odm.schema.DcBranchXmlType;
+import org.ieee.odm.schema.DcBusXmlType;
+import org.ieee.odm.schema.DcNetworkXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
-import org.ieee.odm.schema.PSXfr3WBranchXmlType;
-import org.ieee.odm.schema.PSXfrBranchXmlType;
-import org.ieee.odm.schema.TielineXmlType;
-import org.ieee.odm.schema.Xfr3WBranchXmlType;
-import org.ieee.odm.schema.XfrBranchXmlType;
 
 /**
  * A Xml parser for the IEEE DOM schema. 
  */
 
 public class DcSystemModelParser extends AbstractModelParser {
-	/**
-	 * Constructor using an Xml string
-	 * 
-	 * @param xmlString
-	 * @throws XmlException
-	 */
-//	public AclfModelParser(String xmlString) throws Exception {
-//		super(xmlString);
-//	}
-	
-	/**
-	 * Constructor using an Xml string
-	 * 
-	 * @param in
-	 * @throws Exception
-	 */
-//	public AclfModelParser(InputStream in) throws Exception {
-//		super(in);
-//	}
-	
 	/**
 	 * Default Constructor 
 	 * 
@@ -77,21 +45,21 @@ public class DcSystemModelParser extends AbstractModelParser {
 	}	
 	
 	/**
-	 * get the base case object of type LoadflowXmlType
+	 * get the base case object of type DcNetworkXmlType
 	 * 
 	 * @return
 	 */
-	public LoadflowNetXmlType getAclfNet() {
-		return (LoadflowNetXmlType)getBaseCase();
+	public DcNetworkXmlType getDcNet() {
+		return (DcNetworkXmlType)getBaseCase();
 	}
 	
 	/**
-	 * create the base case object of type LoadflowXmlType
+	 * create the base case object of type DcNetworkXmlType
 	 */
 	@Override
 	public NetworkXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
-			LoadflowNetXmlType baseCase = this.getFactory().createLoadflowNetXmlType();
+			DcNetworkXmlType baseCase = this.getFactory().createDcNetworkXmlType();
 			
 			baseCase.setBusList(this.getFactory().createNetworkXmlTypeBusList());
 			baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
@@ -110,8 +78,8 @@ public class DcSystemModelParser extends AbstractModelParser {
 	 * 
 	 * @return
 	 */
-	public LoadflowBusXmlType createAclfBus() {
-		LoadflowBusXmlType busRec = this.getFactory().createLoadflowBusXmlType();
+	public DcBusXmlType createDcBus() {
+		DcBusXmlType busRec = this.getFactory().createDcBusXmlType();
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);
 		busRec.setZoneNumber(1);
@@ -126,8 +94,8 @@ public class DcSystemModelParser extends AbstractModelParser {
 	 * @return
 	 * @throws Exception
 	 */
-	public LoadflowBusXmlType createAclfBus(String id) throws Exception {
-		LoadflowBusXmlType busRec = createAclfBus();
+	public DcBusXmlType createDcBus(String id) throws Exception {
+		DcBusXmlType busRec = createDcBus();
 		busRec.setId(id);
 		if (this.objectCache.get(id) != null) {
 			throw new Exception("Bus record duplication, bus id: " + id);
@@ -142,8 +110,8 @@ public class DcSystemModelParser extends AbstractModelParser {
 	 * @param id
 	 * @return
 	 */
-	public LoadflowBusXmlType createAclfBus(String id, long number) throws Exception {
-		LoadflowBusXmlType busRec = createAclfBus(id);
+	public DcBusXmlType createDcBus(String id, long number) throws Exception {
+		DcBusXmlType busRec = createDcBus(id);
 		busRec.setNumber(number);
 		return busRec;
 	}	
@@ -154,8 +122,8 @@ public class DcSystemModelParser extends AbstractModelParser {
 	 * @param id
 	 * @return
 	 */
-	public LoadflowBusXmlType getAclfBus(String id) {
-		return (LoadflowBusXmlType)getBus(id);
+	public DcBusXmlType getDcBus(String id) {
+		return (DcBusXmlType)getBus(id);
 	}
 
 	/*
@@ -163,7 +131,7 @@ public class DcSystemModelParser extends AbstractModelParser {
 	 * 		================
 	 */
 	
-	public void addAclfBaseBranch(BranchXmlType branch) {
+	public void addDcBranch(DcBranchXmlType branch) {
 		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branch));
 		this.objectCache.put(branch.getId(), branch);
 	}
@@ -176,38 +144,8 @@ public class DcSystemModelParser extends AbstractModelParser {
 	 * @param cirId
 	 * @return
 	 */
-	public LineBranchXmlType getLineBranch(String fromId, String toId, String cirId) {
-		return (LineBranchXmlType)getBranch(fromId, toId, cirId);
-	}
-	
-	/**
-	 * get the xfr branch object
-	 * 
-	 * @param fromId
-	 * @param toId
-	 * @param cirId
-	 * @return
-	 */
-	public XfrBranchXmlType getXfrBranch(String fromId, String toId, String cirId) {
-		return (XfrBranchXmlType)getBranch(fromId, toId, cirId);
-	}
-	public Xfr3WBranchXmlType getXfr3WBranch(String fromId, String toId, String tertId, String cirId) {
-		return (Xfr3WBranchXmlType)getBranch(fromId, toId, tertId, cirId);
-	}
-
-	/**
-	 * get the ps xfr branch object
-	 * 
-	 * @param fromId
-	 * @param toId
-	 * @param cirId
-	 * @return
-	 */
-	public PSXfrBranchXmlType getPSXfrBranch(String fromId, String toId, String cirId) {
-		return (PSXfrBranchXmlType)getBranch(fromId, toId, cirId);
-	}
-	public PSXfr3WBranchXmlType getPSXfr3WBranch(String fromId, String toId, String tertId, String cirId) {
-		return (PSXfr3WBranchXmlType)getBranch(fromId, toId, tertId, cirId);
+	public DcBranchXmlType getDcBranch(String fromId, String toId, String cirId) {
+		return (DcBranchXmlType)getBranch(fromId, toId, cirId);
 	}
 
 	/**
@@ -215,187 +153,21 @@ public class DcSystemModelParser extends AbstractModelParser {
 	 * 
 	 * @return
 	 */
-	public LineBranchXmlType createLineBranch() {
-		LineBranchXmlType branch = this.getFactory().createLineBranchXmlType();
-		intiBranchData(branch);
-		return branch;
-	}
-	
-	/**
-	 * create a XfrBranchXmlType object
-	 * 
-	 * @return
-	 */
-	public XfrBranchXmlType createXfrBranch() {
-		XfrBranchXmlType branch = this.getFactory().createXfrBranchXmlType();
+	public DcBranchXmlType createDcBranch() {
+		DcBranchXmlType branch = this.getFactory().createDcBranchXmlType();
 		intiBranchData(branch);
 		return branch;
 	}
 
-	public Xfr3WBranchXmlType createXfr3WBranch() {
-		Xfr3WBranchXmlType branch = this.getFactory().createXfr3WBranchXmlType();
-		intiBranchData(branch);
-		return branch;
-	}
-
-	/**
-	 * create a PSXfrBranchXmlType object
-	 * 
-	 * @return
-	 */
-	public PSXfrBranchXmlType createPSXfrBranch() {
-		PSXfrBranchXmlType branch = this.getFactory().createPSXfrBranchXmlType();
-		intiBranchData(branch);
-		return branch;
-	}
-
-	public PSXfr3WBranchXmlType createPSXfr3WBranch() {
-		PSXfr3WBranchXmlType branch = this.getFactory().createPSXfr3WBranchXmlType();
-		intiBranchData(branch);
-		return branch;
-	}
-
-	private void intiBranchData(BaseBranchXmlType branch) {
-		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branch));
-		branch.setOffLine(false);
-		branch.setAreaNumber(1);
-		branch.setZoneNumber(1);
-	}
-	
 	/**
 	 * add a new Line branch record to the base case and to the cache table
 	 * 
 	 * @param id
 	 * @return
 	 */
-	public LineBranchXmlType createLineBranch(String fromId, String toId, String cirId) throws Exception {
-		LineBranchXmlType branch = createLineBranch();
+	public DcBranchXmlType createDcBranch(String fromId, String toId, String cirId) throws Exception {
+		DcBranchXmlType branch = createDcBranch();
 		addBranch2BaseCase(branch, fromId, toId, null, cirId);
 		return branch;
 	}
-
-	/**
-	 * add a new Xfr branch record to the base case and to the cache table
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public XfrBranchXmlType createXfrBranch(String fromId, String toId, String cirId) throws Exception {
-		XfrBranchXmlType branch = createXfrBranch();
-		addBranch2BaseCase(branch, fromId, toId, null, cirId);
-		return branch;
-	}
-
-	public Xfr3WBranchXmlType createXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws Exception {
-		Xfr3WBranchXmlType branch = createXfr3WBranch();
-		addBranch2BaseCase(branch, fromId, toId, tertId, cirId);
-		return branch;
-	}
-
-	/**
-	 * add a new PS Xfr branch record to the base case and to the cache table
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public PSXfrBranchXmlType createPSXfrBranch(String fromId, String toId, String cirId) throws Exception {
-		PSXfrBranchXmlType branch = createPSXfrBranch();
-		addBranch2BaseCase(branch, fromId, toId, null, cirId);
-		return branch;
-	}
-
-	public PSXfr3WBranchXmlType createPSXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws Exception {
-		PSXfr3WBranchXmlType branch = createPSXfr3WBranch();
-		addBranch2BaseCase(branch, fromId, toId, tertId, cirId);
-		return branch;
-	}
-	
-	private void addBranch2BaseCase(BaseBranchXmlType branch, String fromId, String toId, String tertId, String cirId)  throws Exception {
-		String id = tertId == null ?
-				ModelStringUtil.formBranchId(fromId, toId, cirId) : ModelStringUtil.formBranchId(fromId, toId, tertId, cirId);
-		if (this.objectCache.get(id) != null) {
-			throw new Exception("Branch record duplication, bus id: " + id);
-		}
-		this.objectCache.put(id, branch);		
-		branch.setCircuitId(cirId);
-		branch.setId(id);
-		branch.setFromBus(createBusRef(fromId));
-		branch.setToBus(createBusRef(toId));		
-		if (tertId != null)
-			branch.setTertiaryBus(createBusRef(tertId));		
-	}
-	
-	/**
-	 * Get the cashed dcLine2T object by id
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public DCLineData2TXmlType getDcLine2TRecord(String recId, String invId, long number) {
-		String id = ModelStringUtil.formBranchId(recId, invId, new Long(number).toString());
-		return (DCLineData2TXmlType)this.getCachedObject(id);
-	}
-	
-	/**
-	 * add a new 2T DcLine record to the base case and to the cache table
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public DCLineData2TXmlType createDCLine2TRecord(String recId, String invId, long number) throws Exception {
-		DCLineData2TXmlType dcLine = getFactory().createDCLineData2TXmlType();
-		addBranch2BaseCase(dcLine, recId, invId, null, new Long(number).toString());
-		
-		ConverterXmlType rectifier = getFactory().createConverterXmlType();
-		dcLine.setRectifier(rectifier);
-		dcLine.getRectifier().setBusId(createBusRef(recId));
-	
-		ConverterXmlType inverter = getFactory().createConverterXmlType();
-		dcLine.setInverter(inverter);
-		dcLine.getInverter().setBusId(createBusRef(invId));
-		return dcLine;
-	}	
-	/*
-	 * 		Network object functions
-	 * 		========================
-	 */
-	/**
-	 * create a tieLine object
-	 * 
-	 * @return
-	 */
-	public TielineXmlType createTieline() {
-		if (getAclfNet().getTieLineList() == null)
-			getAclfNet().setTieLineList(this.getFactory().createLoadflowNetXmlTypeTieLineList());
-		TielineXmlType tieLine = this.getFactory().createTielineXmlType();
-		getAclfNet().getTieLineList().getTieline().add(tieLine);
-		return tieLine;
-	}	
-	
-	/**
-	 * create a LossZone object
-	 * 
-	 * @return
-	 */
-	public NetZoneXmlType createNetworkLossZone() {
-		if(getBaseCase().getLossZoneList() == null){
-			getBaseCase().setLossZoneList(this.getFactory().createNetworkXmlTypeLossZoneList());
-		}
-		NetZoneXmlType zone = this.getFactory().createNetZoneXmlType();
-		getBaseCase().getLossZoneList().getLossZone().add(zone);
-		return zone;
-	}
-	
-	/**
-	 * create a Interchange object
-	 * 
-	 * @return
-	 */
-	public InterchangeXmlType createInterchange() {
-		if (getAclfNet().getInterchangeList() == null)
-			getAclfNet().setInterchangeList(this.getFactory().createLoadflowNetXmlTypeInterchangeList());
-		InterchangeXmlType interchange = this.getFactory().createInterchangeXmlType();
-		getAclfNet().getInterchangeList().getInterchange().add(interchange);
-		return interchange;
-	}	
 }

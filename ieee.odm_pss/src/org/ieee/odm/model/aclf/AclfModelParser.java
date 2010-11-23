@@ -27,7 +27,6 @@ package org.ieee.odm.model.aclf;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
@@ -35,7 +34,6 @@ import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
@@ -48,26 +46,6 @@ import org.ieee.odm.schema.XfrBranchXmlType;
  */
 
 public class AclfModelParser extends AbstractModelParser {
-	/**
-	 * Constructor using an Xml string
-	 * 
-	 * @param xmlString
-	 * @throws XmlException
-	 */
-//	public AclfModelParser(String xmlString) throws Exception {
-//		super(xmlString);
-//	}
-	
-	/**
-	 * Constructor using an Xml string
-	 * 
-	 * @param in
-	 * @throws Exception
-	 */
-//	public AclfModelParser(InputStream in) throws Exception {
-//		super(in);
-//	}
-	
 	/**
 	 * Default Constructor 
 	 * 
@@ -163,6 +141,10 @@ public class AclfModelParser extends AbstractModelParser {
 	 * 		================
 	 */
 	
+	/**
+	 * add a branch object into the branch list and to the cashe table
+	 * 
+	 */
 	public void addAclfBaseBranch(BranchXmlType branch) {
 		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branch));
 		this.objectCache.put(branch.getId(), branch);
@@ -231,7 +213,6 @@ public class AclfModelParser extends AbstractModelParser {
 		intiBranchData(branch);
 		return branch;
 	}
-
 	public Xfr3WBranchXmlType createXfr3WBranch() {
 		Xfr3WBranchXmlType branch = this.getFactory().createXfr3WBranchXmlType();
 		intiBranchData(branch);
@@ -248,18 +229,10 @@ public class AclfModelParser extends AbstractModelParser {
 		intiBranchData(branch);
 		return branch;
 	}
-
 	public PSXfr3WBranchXmlType createPSXfr3WBranch() {
 		PSXfr3WBranchXmlType branch = this.getFactory().createPSXfr3WBranchXmlType();
 		intiBranchData(branch);
 		return branch;
-	}
-
-	private void intiBranchData(BaseBranchXmlType branch) {
-		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branch));
-		branch.setOffLine(false);
-		branch.setAreaNumber(1);
-		branch.setZoneNumber(1);
 	}
 	
 	/**
@@ -285,7 +258,6 @@ public class AclfModelParser extends AbstractModelParser {
 		addBranch2BaseCase(branch, fromId, toId, null, cirId);
 		return branch;
 	}
-
 	public Xfr3WBranchXmlType createXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws Exception {
 		Xfr3WBranchXmlType branch = createXfr3WBranch();
 		addBranch2BaseCase(branch, fromId, toId, tertId, cirId);
@@ -303,26 +275,10 @@ public class AclfModelParser extends AbstractModelParser {
 		addBranch2BaseCase(branch, fromId, toId, null, cirId);
 		return branch;
 	}
-
 	public PSXfr3WBranchXmlType createPSXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws Exception {
 		PSXfr3WBranchXmlType branch = createPSXfr3WBranch();
 		addBranch2BaseCase(branch, fromId, toId, tertId, cirId);
 		return branch;
-	}
-	
-	private void addBranch2BaseCase(BaseBranchXmlType branch, String fromId, String toId, String tertId, String cirId)  throws Exception {
-		String id = tertId == null ?
-				ModelStringUtil.formBranchId(fromId, toId, cirId) : ModelStringUtil.formBranchId(fromId, toId, tertId, cirId);
-		if (this.objectCache.get(id) != null) {
-			throw new Exception("Branch record duplication, bus id: " + id);
-		}
-		this.objectCache.put(id, branch);		
-		branch.setCircuitId(cirId);
-		branch.setId(id);
-		branch.setFromBus(createBusRef(fromId));
-		branch.setToBus(createBusRef(toId));		
-		if (tertId != null)
-			branch.setTertiaryBus(createBusRef(tertId));		
 	}
 	
 	/**
@@ -355,10 +311,12 @@ public class AclfModelParser extends AbstractModelParser {
 		dcLine.getInverter().setBusId(createBusRef(invId));
 		return dcLine;
 	}	
+	
 	/*
 	 * 		Network object functions
 	 * 		========================
 	 */
+	
 	/**
 	 * create a tieLine object
 	 * 
@@ -371,20 +329,6 @@ public class AclfModelParser extends AbstractModelParser {
 		getAclfNet().getTieLineList().getTieline().add(tieLine);
 		return tieLine;
 	}	
-	
-	/**
-	 * create a LossZone object
-	 * 
-	 * @return
-	 */
-	public NetZoneXmlType createNetworkLossZone() {
-		if(getBaseCase().getLossZoneList() == null){
-			getBaseCase().setLossZoneList(this.getFactory().createNetworkXmlTypeLossZoneList());
-		}
-		NetZoneXmlType zone = this.getFactory().createNetZoneXmlType();
-		getBaseCase().getLossZoneList().getLossZone().add(zone);
-		return zone;
-	}
 	
 	/**
 	 * create a Interchange object

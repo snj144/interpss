@@ -1,5 +1,5 @@
 /*
- * @(#)JaxbODMModelParser.java   
+ * @(#)AbstractModelParser.java   
  *
  * Copyright (C) 2006-2010 www.interpss.org
  *
@@ -43,11 +43,11 @@ import javax.xml.bind.Unmarshaller;
 
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
-import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ContentInfoXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
+import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ObjectFactory;
@@ -62,11 +62,6 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 *	property definition
 	 * 	=================== 
 	 */
-//	private Logger logger = null;
-//	public Logger getLogger() { 
-//		if (this.logger == null) this.logger = Logger.getLogger("org.ieee.odm");
-//		return this.logger; }
-//	public void setLogger(Logger l) { this.logger = l; }
 	
 	// bus and branch object cache for fast lookup. 
 	protected Hashtable<String,IDRecordXmlType> objectCache = null;
@@ -197,6 +192,20 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		return this.pssStudyCase.getBaseCase().getValue();
 	}
 
+	/**
+	 * create a LossZone object
+	 * 
+	 * @return
+	 */
+	public NetZoneXmlType createNetworkLossZone() {
+		if(getBaseCase().getLossZoneList() == null){
+			getBaseCase().setLossZoneList(this.getFactory().createNetworkXmlTypeLossZoneList());
+		}
+		NetZoneXmlType zone = this.getFactory().createNetZoneXmlType();
+		getBaseCase().getLossZoneList().getLossZone().add(zone);
+		return zone;
+	}
+	
 	/*
 	 * 	Bus/Branch object, reference functions
 	 * 	======================================
@@ -231,12 +240,6 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		return (BusXmlType)this.getCachedObject(id);
 	}	
 
-//	public boolean removeBus(String busId) {
-//		Object bus = this.objectCache.get(busId);
-//		this.removeCachedObject(busId);
-//		return this.getBaseCase().getBusList().getBus().remove(bus); 
-//	}
-
 	/**
 	 * create a ref record with id
 	 * 
@@ -256,21 +259,22 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 * @param id
 	 * @return
 	 */
-	public BranchXmlType getBranch(String branchId) {
-		return (BranchXmlType)this.getCachedObject(branchId); 
+	public BaseBranchXmlType getBranch(String branchId) {
+		return (BaseBranchXmlType)this.getCachedObject(branchId); 
 	}
 
+	/**
+	 * remove the branch object from the cache and branch list
+	 * 
+	 * @param branchId
+	 * @return
+	 */
 	public boolean removeBranch(String branchId) {
 		Object branch = this.objectCache.get(branchId);
 		this.removeCachedObject(branchId);
 		return this.getBaseCase().getBranchList().getBranch().remove(branch); 
 	}
 
-//	public boolean removeBranch(String fromId, String toId, String cirId) {
-//		String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
-//		return removeBranch(id);
-//	}
-	
 	/**
 	 * get the cashed branch record using fromId, toId and cirId
 	 * 
@@ -279,14 +283,36 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 * @param cirId
 	 * @return
 	 */
-	public BranchXmlType getBranch(String fromId, String toId, String cirId) {
+	public BaseBranchXmlType getBranch(String fromId, String toId, String cirId) {
 		String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
 		return this.getBranch(id);
 	}	
-	
-	public BranchXmlType getBranch(String fromId, String toId, String tertId, String cirId) {
+	public BaseBranchXmlType getBranch(String fromId, String toId, String tertId, String cirId) {
 		String id = ModelStringUtil.formBranchId(fromId, toId, tertId, cirId);
 		return this.getBranch(id);
+	}	
+	
+
+	protected void intiBranchData(BaseBranchXmlType branch) {
+		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branch));
+		branch.setOffLine(false);
+		branch.setAreaNumber(1);
+		branch.setZoneNumber(1);
+	}
+	
+	protected void addBranch2BaseCase(BaseBranchXmlType branch, String fromId, String toId, String tertId, String cirId)  throws Exception {
+		String id = tertId == null ?
+				ModelStringUtil.formBranchId(fromId, toId, cirId) : ModelStringUtil.formBranchId(fromId, toId, tertId, cirId);
+		if (this.objectCache.get(id) != null) {
+			throw new Exception("Branch record duplication, bus id: " + id);
+		}
+		this.objectCache.put(id, branch);		
+		branch.setCircuitId(cirId);
+		branch.setId(id);
+		branch.setFromBus(createBusRef(fromId));
+		branch.setToBus(createBusRef(toId));		
+		if (tertId != null)
+			branch.setTertiaryBus(createBusRef(tertId));		
 	}	
 
 	/*
