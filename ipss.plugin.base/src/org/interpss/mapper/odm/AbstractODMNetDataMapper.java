@@ -27,7 +27,7 @@ package org.interpss.mapper.odm;
 
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.CimRdfXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
@@ -113,7 +113,7 @@ public abstract class AbstractODMNetDataMapper<Tfrom, Tto> extends AbstractMappi
 	 * @param net
 	 * @throws InterpssException
 	 */
-	public void mapBaseBranchRec(BranchXmlType branchRec, Branch branch, Network net) throws InterpssException {
+	public void mapBaseBranchRec(BaseBranchXmlType branchRec, Branch branch, Network net) throws InterpssException {
 		String cirId = branchRec.getCircuitId() != null ?
 				branchRec.getCircuitId() : Constants.Token_DefaultBranchCirNo;
 		branch.setCircuitNumber(cirId);
