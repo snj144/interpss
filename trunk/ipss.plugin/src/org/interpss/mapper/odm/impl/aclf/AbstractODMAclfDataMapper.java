@@ -49,8 +49,8 @@ import org.ieee.odm.schema.TransformerInfoXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YXmlType;
+import org.interpss.mapper.odm.AbstractODMNetDataMapper;
 import org.interpss.mapper.odm.ODMXmlHelper;
-import org.interpss.mapper.odm.impl.AbstractODMNetDataMapper;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
@@ -78,7 +78,7 @@ import com.interpss.core.aclf.adpter.XfrAdapter;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMNetDataMapper<Tfrom> {
+public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMNetDataMapper<Tfrom, SimuContext> {
 	public AbstractODMAclfDataMapper(IPSSMsgHub msg) {
 		super(msg);
 	}
