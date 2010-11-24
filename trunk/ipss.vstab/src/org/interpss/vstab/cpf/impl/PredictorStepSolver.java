@@ -28,13 +28,15 @@ public class PredictorStepSolver extends AbstractStepSolver{
 	private double oldStepSize=0;
 	private CpfHelper cpfHelper=null;
 	private ArrayRealVector deltaX_Lambda=null;
+	private LambdaParam lambda=null;
 	/**
 	 *  the constructor of the PredictorStepSolver class
 	 * @param net
 	 * @param msg
 	 */
-	public PredictorStepSolver(AclfNetwork net,IPSSMsgHub msg) {
+	public PredictorStepSolver(AclfNetwork net,LambdaParam newLambda ,IPSSMsgHub msg) {
 		super(net, msg);
+		this.lambda=newLambda;
 		cpfHelper=new CpfHelper(net,msg);
 	}
 	/**
@@ -72,14 +74,15 @@ public class PredictorStepSolver extends AbstractStepSolver{
 				 double vang=bus.getVoltageAng();
 				 double vmag=bus.getVoltageMag();
 				 if(!bus.isGenPV()) {
-					 vmag-=actualStep*vmag*v.y;
+					 vmag+=actualStep*vmag*v.y;// x(k+1)=x(k)+deltaX
 				  }
 				 
-				 vang-=actualStep*v.x;
+				 vang+=actualStep*v.x;
 				 bus.setVoltage(vmag,vang);
 			  }
 		  }		
     	});
+    	lambda.update(augmentedJacobi, actualStep); //update lambda
     }
 	/**
 	 * calculate the tangent vector
@@ -93,7 +96,7 @@ public class PredictorStepSolver extends AbstractStepSolver{
      //   only the element corresponding to Continuous parameter is set to +1,or -1, depending on the slope of continuous parameter
    	
     int contParaSign=getContParaSign();  
-    augmentedJacobi.setBi(new Complex(1*contParaSign,0),getSortNumofContParam());
+    augmentedJacobi.setBi(new Complex(1*contParaSign,0),lambda.getPosition());
 
      // solve Jau*[dx,dLamda]T=[0,+-1]
      
@@ -150,6 +153,9 @@ public class PredictorStepSolver extends AbstractStepSolver{
     	this.oldStepSize=stepSize;
     	this.stepSize*=0.5; // cut to the half of last step size
     	
+    }
+    public ArrayRealVector getDeltaXLambda() {
+    	return this.deltaX_Lambda;
     }
 
 }

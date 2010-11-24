@@ -9,19 +9,28 @@ import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.common.visitor.IAclfBranchVisitor;
+import com.interpss.core.common.visitor.IAclfBusVisitor;
 
 public class CPFAlgorithmImpl implements CPFAlgorithm{
 	
     protected int maxInterations;
     protected IPSSMsgHub msg=null;
     protected double tolerance;
-    protected AclfNetwork acNetwork=null;
+    protected AclfNetwork net=null;
+    protected LambdaParam lambda=null;
     protected AnalysisStopCriteria stopCriteria=null;
     protected GenDispPattern genDispPtn=null;
     protected LoadIncPattern loadIncPtn=null;
     protected CPFSolver cpfSolver=null;
-  
+    private boolean violation=false;
+   
+    public CPFAlgorithmImpl() {
+    	
+    }
     
 
 	@Override
@@ -38,7 +47,7 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 	@Override
 	public double getTolerance(byte unit) {
 		if(unit==UnitType.mVA) {
-			return this.tolerance*this.acNetwork.getBaseKva()/1000;
+			return this.tolerance*this.net.getBaseKva()/1000;
 		}
 		else if(unit==UnitType.PU) {
 			return this.tolerance;
@@ -52,7 +61,7 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 	@Override
 	public void setTolerance(double tol, byte unit) {
 		if(unit==UnitType.mVA) {
-			this.tolerance=tol/this.acNetwork.getBaseKva()*1000;
+			this.tolerance=tol/this.net.getBaseKva()*1000;
 		}
 		else if(unit==UnitType.PU) {
 			this.tolerance=tol;
@@ -65,7 +74,6 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 
 	@Override
 	public boolean runCPF() {
-		cpfSolver= new CPFSolverImpl(acNetwork, loadIncPtn,genDispPtn);
 		cpfSolver.solveCPF();
 		return cpfSolver.isCPFConverged();
 	}
@@ -122,7 +130,56 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 		
 		return this.tolerance;
 	}
+	public AclfNetwork getAclfNet() {
+		return net;
+	}
+	/**
+	 * @param net the net to set
+	 */
+	public void setAclfNet(AclfNetwork net) {
+		this.net = net;
+	}
+	@Override
+	public boolean isAnyViolation() {
+	          violation=false;
+		
+		this.getAclfNet().forEachAclfBranch(new IAclfBranchVisitor() {
 
+			@Override
+			public void visit(AclfBranch bra) {
+				// to do judgment of any violation in any branch
+				
+			}
+			
+		});
+		this.getAclfNet().forEachAclfBus(new IAclfBusVisitor() {
+
+			@Override
+			public void visit(AclfBus bus) {
+				// to do judgment of any violation in any bus
+				
+			}
+			
+		});
+		return false;
+		
+	}
+
+
+	@Override
+	public LambdaParam getLambdaParam() {
+		
+		return lambda;
+	}
+
+
+	@Override
+	public void setLambda(LambdaParam newLambda) {
+		this.lambda=newLambda;
+		
+	}
+	
+	
 
 
 }
