@@ -1,5 +1,7 @@
 package org.interpss.vstab.cpf.impl;
 
+import org.interpss.vstab.cpf.CPFAlgorithm;
+
 import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.datatype.Vector_xy;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -12,15 +14,13 @@ import com.interpss.core.sparse.SparseEqnMatrix2x2;
 public class CorrectorStepSolver extends DefaultNrSolver {
 	private double zeroMismatch=0;
 	private Vector_xy bAug=null;
-	protected int DEFAULT_CONTPARA_SORTNUM=0;
-	protected int sortNumOfContPara=DEFAULT_CONTPARA_SORTNUM;
 	private double valOfContPara=0;
-	private double fixedValOfContPara=0;
 	private LambdaParam lambda=null;
-
-	public CorrectorStepSolver(AclfNetwork net,LambdaParam lambda) {
-		super(net);
-		this.lambda=lambda;
+    private CPFAlgorithm cpf=null;
+	public CorrectorStepSolver(CPFAlgorithm cpfAlgo) {
+		super(cpfAlgo.getAclfNet());
+		cpf=cpfAlgo;
+		this.lambda=cpfAlgo.getLambdaParam();
 	}
 	@Override
 	public SparseEqnMatrix2x2 formJMatrix(IPSSMsgHub msg) {
@@ -34,7 +34,7 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 		m.yy = 1.0;
 		// add the matrix_xy element to J-matrix
 		int n = getAclfNet().getNoBus();
-		lfEqn.setAij(m, n+1, this.getSortNumOfContPara());
+		lfEqn.setAij(m, n+1, cpf.getSortNumOfContParam());
 		return lfEqn;
 	}
 	@Override
@@ -59,31 +59,21 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 		super.updateBusVoltage(lfEqn);
 		
 		// the solution result of the extra variable defined is stored at B(n+1)  
-        lambda.update(lfEqn);
+        lambda.update(lfEqn);// is any factor needed for update?
 
 	}
-	public int getSortNumOfContPara() {
-		return sortNumOfContPara;
+	
+	
+	private double getFixedValOfContPara() {
+		return cpf.getFixedValOfContPara();	
 	}
-	public void setSortNumOfContPara(int sortNum) {
-		sortNumOfContPara = sortNum;
-	}
-	public double getFixedValOfContPara() {
-		return fixedValOfContPara;
-	}
-	public void setFixedValOfContPara(double fixedValOfContPara) {
-		this.fixedValOfContPara = fixedValOfContPara;
-	}
-	public void setContinueParameter(int sortNumOfContPara,double fixedValOfContPara ) {
-		this.sortNumOfContPara = sortNumOfContPara;
-		this.fixedValOfContPara=fixedValOfContPara;
-	}
+
 	private double getValOfContParam() {
-		if(getSortNumOfContPara()==lambda.getPosition()) {
+		if(cpf.getSortNumOfContParam()==lambda.getPosition()) {
 			return lambda.getVal();
 		}
 		else {
-			final long sortNum=this.sortNumOfContPara;
+			final long sortNum=cpf.getSortNumOfContParam();
 			this.getAclfNet().forEachAclfBus(new IAclfBusVisitor() {
 
 				@Override
