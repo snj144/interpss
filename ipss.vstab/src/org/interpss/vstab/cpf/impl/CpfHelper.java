@@ -10,6 +10,8 @@ import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.RealVector;
 import java.util.Iterator;
 import org.interpss.vstab.cpf.LoadIncPattern;
+import org.interpss.vstab.util.VstabFuncOut;
+
 import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.datatype.Vector_xy;
 import com.interpss.common.exp.InterpssException;
@@ -55,10 +57,12 @@ public class CpfHelper {
 		   		Complex dir_pq=this.ldIncDirTbl.get(b.getId());
 		   		Matrix_xy m=new Matrix_xy();
 		   		if(b.isActive()) {
-		   			m.xx=dir_pq.getReal();// dirP
+		   			m.xx=dir_pq.getReal();// dirP  // sign is opposite to ordinary J-matrix;
 		   			m.yx=dir_pq.getImaginary();//dirQ
+		   			lfEqn.setAij(m,b.getSortNumber(), n+1);
+//		   			System.out.println(b.getId()+"  ,load P="+m.xx+"  Q="+m.yx );
 		   		}
-		   		lfEqn.setAij(m,b.getSortNumber(), n+1);
+		   		
 		   	}
 		   	
 		   }
@@ -66,6 +70,8 @@ public class CpfHelper {
 		   ek.xx=1;
 		   ek.yy=1;
 		   lfEqn.setAij(ek, this.getSortNumOfContParam(), n+1);
+		  // print J-matrix
+		    VstabFuncOut.printJmatix(lfEqn,6,2);
 		   return lfEqn;
 	}
     

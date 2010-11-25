@@ -33,9 +33,10 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
     protected int maxInterations;
     protected double fixedValOfContParam=0;
     
-    public CPFAlgorithmImpl(AclfNetwork net,LambdaParam lambda) {
+    public CPFAlgorithmImpl(AclfNetwork net,LambdaParam lambda,IPSSMsgHub msg) {
     	this.net=net;
     	this.lambda=lambda;
+    	this.msg=msg;
     }
     
     

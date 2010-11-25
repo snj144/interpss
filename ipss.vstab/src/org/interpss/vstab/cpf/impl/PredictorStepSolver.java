@@ -99,7 +99,7 @@ public class PredictorStepSolver extends AbstractStepSolver{
      //   only the element corresponding to Continuous parameter is set to +1,or -1, depending on the slope of continuous parameter
    	
     int contParaSign=getContParaSign();  
-    augmentedJacobi.setBi(new Complex(1*contParaSign,0),lambda.getPosition());
+    augmentedJacobi.setBi(new Complex(-1*contParaSign,0),lambda.getPosition());
 
      // solve Jau*[dx,dLamda]T=[0,+-1]
      
@@ -121,10 +121,10 @@ public class PredictorStepSolver extends AbstractStepSolver{
 
     public boolean isCrossMaxPwrPnt() {
     	// only sign of Lambda is used for judgment.
-    	if(this.sortNumofContParam!=this.net.getNoBus()+1) {
-    		if(deltaX_Lambda.getEntry(deltaX_Lambda.getDimension())<0)
-    			return this.isCrossMPP=true;
-    	}
+//    	if(this.sortNumofContParam!=this.net.getNoBus()+1) {
+//    		if(deltaX_Lambda.getEntry(deltaX_Lambda.getDimension())<0)
+//    			return this.isCrossMPP=true;
+//    	}
     	return this.isCrossMPP=false;
     }
     private int getContParaSign() {
@@ -136,15 +136,16 @@ public class PredictorStepSolver extends AbstractStepSolver{
     private void saveDeltaRslt2Vctr() {
     	
     	int i=0;
-    	for (Iterator localIterator = this.net.getBusList().iterator(); localIterator.hasNext(); ) { Bus b = (Bus)localIterator.next();
+    	for (Iterator localIterator = this.net.getBusList().iterator(); localIterator.hasNext(); ) { 
+    		Bus b = (Bus)localIterator.next();
             i=b.getSortNumber();
             Vector_xy dv=this.augmentedJacobi.getBVect_xy(i);   
             this.deltaX_Lambda.setEntry(2*i-2, dv.x);
             this.deltaX_Lambda.setEntry(2*i-1, dv.y);
         }
-    	i=this.augmentedJacobi.getDimension()-1; // lambda index 
+    	i=this.getAclfNetwork().getNoBus()+1; // lambda index 
     	double deltaL=this.augmentedJacobi.getBVect_xy(i).x;
-        this.deltaX_Lambda.setEntry(i, deltaL);
+        this.deltaX_Lambda.setEntry(this.getAclfNetwork().getNoBus()*2, deltaL);
     }
     protected boolean isStepSizeControl() {
     	return this.stepSizeCntrl;
