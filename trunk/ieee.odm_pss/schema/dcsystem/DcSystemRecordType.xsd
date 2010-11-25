@@ -77,12 +77,11 @@
 	</complexType>
 
 	<complexType name="PVModelPointXmlType">
-		<annotation><documentation>
-		</documentation></annotation>
-		<sequence>
-			<element name="volt" type="double" minOccurs="1" maxOccurs="1"></element>
-			<element name="amp" type="double" minOccurs="1" maxOccurs="1"></element>
-		</sequence>
+		<annotation>
+			<documentation></documentation>
+		</annotation>
+		<attribute name="volt" type="double" use="required"></attribute>
+		<attribute name="amp" type="double" use="required"></attribute>
 	</complexType>
 
 	<!--  
