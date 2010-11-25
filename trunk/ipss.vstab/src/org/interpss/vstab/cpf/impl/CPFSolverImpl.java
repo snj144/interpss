@@ -40,12 +40,12 @@ public class CPFSolverImpl implements CPFSolver{
 		cpfAlgo=cpf;
 		this.net=cpfAlgo.getAclfNet();
 		lambda=cpfAlgo.getLambdaParam();
+		initialize();
 		
 	}
 	public void initialize() {
-		this.predStepSolver=new PredictorStepSolver(net, lambda, msg);
-		this.corrStepSolver=new CorrectorStepSolver(net,lambda);
-	    this.corrStepSolver.setContinueParameter(contParaSortNum,fixedValueOfContPara);
+		this.predStepSolver=new PredictorStepSolver(cpfAlgo, msg);
+		this.corrStepSolver=new CorrectorStepSolver(cpfAlgo);
 	}
 	@Override
 	public boolean isCPFConverged() {
@@ -79,14 +79,14 @@ public class CPFSolverImpl implements CPFSolver{
 	}
 	private boolean isCpfStop() {
 		if(this.cpfAlgo.getAnalysisStopCriteria()==AnalysisStopCriteria.FULL_CUREVE) {
-			if(this.lambda.getVal()<0.1) return true;
+			if(this.lambda.getVal()<0.1) return this.isCpfStop=true;
 		}
 		else if(this.cpfAlgo.getAnalysisStopCriteria()==AnalysisStopCriteria.MAX_POWER_POINT) {
-			if(this.predStepSolver.isCrossMPP) return true;
+			if(this.predStepSolver.isCrossMPP) return isCpfStop=true;
 		}
-		else{ if(cpfAlgo.isAnyViolation()) return true;
+		else{ if(cpfAlgo.isAnyViolation()) return isCpfStop=true;
 		}
-		return false;
+		return isCpfStop=false;
 		
 	}
 

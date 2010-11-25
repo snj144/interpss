@@ -4,6 +4,7 @@ import java.util.Iterator;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.interpss.vstab.cpf.AbstractStepSolver;
+import org.interpss.vstab.cpf.CPFAlgorithm;
 
 import com.interpss.common.datatype.Vector_xy;
 import com.interpss.common.exp.InterpssException;
@@ -29,16 +30,17 @@ public class PredictorStepSolver extends AbstractStepSolver{
 	private CpfHelper cpfHelper=null;
 	private ArrayRealVector deltaX_Lambda=null;
 	private LambdaParam lambda=null;
+	private CPFAlgorithm cpf=null;
 	/**
 	 *  the constructor of the PredictorStepSolver class
 	 * @param net
 	 * @param msg
 	 */
-	public PredictorStepSolver(AclfNetwork net,LambdaParam newLambda ,IPSSMsgHub msg) {
-		super(net, msg);
-		this.lambda=newLambda;
+	public PredictorStepSolver(CPFAlgorithm cpfAlgo,IPSSMsgHub msg) {
+		super(cpfAlgo.getAclfNet(), msg);
+		this.lambda=cpfAlgo.getLambdaParam();
 		cpfHelper=new CpfHelper(net,msg);
-		this.deltaX_Lambda=new ArrayRealVector(this.net.getNoBus()+1); // swing bus is included
+		this.deltaX_Lambda=new ArrayRealVector(this.net.getNoBus()*2+1); // swing bus is included
 	}
 	/**
 	 * a step Solver, overrides the same method of AbstractStepSolver 
@@ -90,7 +92,7 @@ public class PredictorStepSolver extends AbstractStepSolver{
 	 * @return
 	 */
     private boolean calDeltaPredResult() {
-    
+//    cpfHelper.setSortNumOfContParam(getSortNumofContParam());
    	this.augmentedJacobi=cpfHelper.formAugmJacobiMatrix();
 
      //   set the [B] elements(right-hand side of Jacobian matrix) to [0,+-1] ,
@@ -157,6 +159,9 @@ public class PredictorStepSolver extends AbstractStepSolver{
     }
     public ArrayRealVector getDeltaXLambda() {
     	return this.deltaX_Lambda;
+    }
+    public CPFAlgorithm getCpfAlgo() {
+    	return this.cpf;
     }
 
 }

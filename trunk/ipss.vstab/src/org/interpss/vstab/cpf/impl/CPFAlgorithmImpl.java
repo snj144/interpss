@@ -17,20 +17,27 @@ import com.interpss.core.common.visitor.IAclfBusVisitor;
 
 public class CPFAlgorithmImpl implements CPFAlgorithm{
 	
-    protected int maxInterations;
+    
     protected IPSSMsgHub msg=null;
-    protected double tolerance;
     protected AclfNetwork net=null;
     protected LambdaParam lambda=null;
     protected AnalysisStopCriteria stopCriteria=null;
     protected GenDispPattern genDispPtn=null;
     protected LoadIncPattern loadIncPtn=null;
     protected CPFSolver cpfSolver=null;
-    private boolean violation=false;
-   
-    public CPFAlgorithmImpl() {
-    	
+    
+	protected int DEFAULT_CONTPARA_SORTNUM=0;
+	protected int sortNumOfContPara=DEFAULT_CONTPARA_SORTNUM; // used in whole process
+    protected boolean violation=false;
+    protected double tolerance;
+    protected int maxInterations;
+    protected double fixedValOfContParam=0;
+    
+    public CPFAlgorithmImpl(AclfNetwork net,LambdaParam lambda) {
+    	this.net=net;
+    	this.lambda=lambda;
     }
+    
     
 
 	@Override
@@ -178,6 +185,61 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 		this.lambda=newLambda;
 		
 	}
+
+
+	@Override
+	public int getSortNumOfContParam() {
+		
+		return this.sortNumOfContPara;
+	}
+
+
+	@Override
+	public void setSorNumofContParam(int sortNum) {
+		this.sortNumOfContPara=sortNum;
+		
+	}
+
+
+	@Override
+	public double getFixedValOfContPara() {
+		
+		return this.fixedValOfContParam;
+	}
+
+
+	@Override
+	public void setFixedValOfContPara(double fixedVal) {
+		this.fixedValOfContParam=fixedVal;
+		
+	}
+
+
+
+	@Override
+	public CorrectorStepSolver createCorrStepSolver() {
+		return new CorrectorStepSolver(this);
+	}
+
+
+
+	@Override
+	public CPFSolver createCpfSolver() {
+		
+		return new CPFSolverImpl(this,msg);
+	}
+
+
+
+	@Override
+	public PredictorStepSolver createPreStepSolver() {
+		
+		return new PredictorStepSolver(this,msg);
+	}
+
+
+
+	
 	
 	
 

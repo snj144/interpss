@@ -22,45 +22,41 @@ import com.interpss.core.sparse.SparseEqnMatrix2x2;
 
 public class CpfHelper {
 	private SparseEqnMatrix2x2 lfEqn=null;
-	private RealVector oldResult=null;
 	private RealVector deltaX_Lambda=null;
 	private RealVector corrResult=null;
 	private Hashtable<String,Complex> ldIncDirTbl=null;
-	
-
 	private final int DEFAULT_CONT_PARA_SORTNUM=0;
 	private int contParaSortNum=DEFAULT_CONT_PARA_SORTNUM;
 	private int iterationCount=0;
 	private IPSSMsgHub msg=null;
 	private AclfNetwork net=null;
-	private LoadIncPattern ldIncPtn=null;
 	
-	
-    
 	public CpfHelper(AclfNetwork net, IPSSMsgHub msg){
 		this.net=net;
 		this.msg=msg;
+		contParaSortNum=this.net.getNoBus()+1; // by default
 	}
 
 	public SparseEqnMatrix2x2 formAugmJacobiMatrix() {
 		// 1. get the jacobian matrix (Swing bus is included in jacobi,so the dimension(N) equals to total number of buses, and index is 1 to N )
 		  
-		lfEqn=this.net.formJMatrix(this.msg);
+		lfEqn=this.net.formJMatrix(1,this.msg);
 		 	
 		//2. augment the Jacobi with the differentiation of load flow equation 
 		// to Lamda(the load  increase index) 
 		
-		int n=lfEqn.getDimension()/2; //n=num of bus
-		
-		lfEqn.increaseDimension(); //2n->2n+2
-		Hashtable<String, Bus> incLdBusTbl=ldIncPtn.getIncLoadBusTbl();
+		int n=this.net.getNoBus(); //n=num of bus
+        if(ldIncDirTbl==null||ldIncDirTbl.isEmpty()) {
+        	msg.sendInfoMsg("No load increasement data/profile is defined, set it to default");
+        	setDefaultLoadIncData();
+        }
 		   for(Bus b:this.net.getBusList()) {
 		   	if(ldIncDirTbl.containsKey(b.getId())) {
 		   		Complex dir_pq=this.ldIncDirTbl.get(b.getId());
 		   		Matrix_xy m=new Matrix_xy();
 		   		if(b.isActive()) {
-		   			m.xx=dir_pq.getReal();
-		   			m.yx=dir_pq.getImaginary();
+		   			m.xx=dir_pq.getReal();// dirP
+		   			m.yx=dir_pq.getImaginary();//dirQ
 		   		}
 		   		lfEqn.setAij(m,b.getSortNumber(), n+1);
 		   	}
@@ -69,7 +65,7 @@ public class CpfHelper {
 		   Matrix_xy ek=new Matrix_xy();
 		   ek.xx=1;
 		   ek.yy=1;
-		   lfEqn.setAij(ek, n+1, n+1);
+		   lfEqn.setAij(ek, this.getSortNumOfContParam(), n+1);
 		   return lfEqn;
 	}
     
@@ -87,7 +83,15 @@ public class CpfHelper {
 	public void setLdIncDirTbl(Hashtable<String,Complex> ldIncDirTbl) {
 		this.ldIncDirTbl = ldIncDirTbl;
 	}
-	
+	public void setDefaultLoadIncData() {
+		this.ldIncDirTbl=new Hashtable(this.net.getNoBus());
+		for(Bus b: this.net.getBusList()) {
+			AclfBus bus=(AclfBus) b;
+			if((!bus.isSwing())&(!bus.isGen())&bus.isLoad()) {
+				ldIncDirTbl.put(b.getId(), new Complex(bus.getLoadP(),bus.getLoadQ()));
+			}
+		}
+	}
 	
 	public void increaseLoad(double lambda) {
 		//To do
@@ -121,6 +125,13 @@ public class CpfHelper {
     		
     	}
 		return contParaSortNum;
+    }
+    public int getSortNumOfContParam() {
+    	return this.contParaSortNum;
+    	
+    }
+    public void setSortNumOfContParam(int newSortNumOfContParam) {
+    	this.contParaSortNum=newSortNumOfContParam;
     }
     public int getIterationCount() {
     	return this.iterationCount;
