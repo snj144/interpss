@@ -38,6 +38,7 @@ public class PredictorStepSolver extends AbstractStepSolver{
 		super(net, msg);
 		this.lambda=newLambda;
 		cpfHelper=new CpfHelper(net,msg);
+		this.deltaX_Lambda=new ArrayRealVector(this.net.getNoBus()+1); // swing bus is included
 	}
 	/**
 	 * a step Solver, overrides the same method of AbstractStepSolver 
@@ -131,12 +132,12 @@ public class PredictorStepSolver extends AbstractStepSolver{
     	else return -1;
     }
     private void saveDeltaRslt2Vctr() {
-    	this.deltaX_Lambda=new ArrayRealVector(this.augmentedJacobi.getDimension()-1); // swing bus is included
+    	
     	int i=0;
     	for (Iterator localIterator = this.net.getBusList().iterator(); localIterator.hasNext(); ) { Bus b = (Bus)localIterator.next();
             i=b.getSortNumber();
             Vector_xy dv=this.augmentedJacobi.getBVect_xy(i);   
-            this.deltaX_Lambda.setEntry(2*1-2, dv.x);
+            this.deltaX_Lambda.setEntry(2*i-2, dv.x);
             this.deltaX_Lambda.setEntry(2*i-1, dv.y);
         }
     	i=this.augmentedJacobi.getDimension()-1; // lambda index 
