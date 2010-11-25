@@ -4,8 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
 import org.interpss.vstab.cpf.CPFAlgorithm;
-import org.interpss.vstab.cpf.impl.CPFAlgorithmImpl;
-import org.interpss.vstab.cpf.impl.LambdaParam;
 import org.interpss.vstab.cpf.impl.PredictorStepSolver;
 import org.junit.Test;
 
@@ -32,10 +30,13 @@ public class PreSolverTest extends BaseTestSetup {
 	// Loadflow alreagy run, commnted out by mike
 	//algo.loadflow(); // load flow to create a study base case
 	
-	LambdaParam lambda=new LambdaParam(net.getNoBus()+1,1);
-	CPFAlgorithm cpf=new CPFAlgorithmImpl(net,lambda,msg);
-	PredictorStepSolver preSolver=cpf.createPreStepSolver();
+	//LambdaParam lambda=new LambdaParam(net.getNoBus()+1,1);
+	
+	CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net, msg);
+	
+	PredictorStepSolver preSolver=cpfAlgo.getPreStepSolver();
 	preSolver.stepSolver();
+	
 	assertTrue((preSolver.getAugmentedJacobi().getElement(3, 6).xx-1.60)<1e-9);// bus1.loadP=1.60
 	assertTrue((preSolver.getDeltaXLambda().getEntry(0)-(-0.73935))<0.0001);
 	assertTrue((preSolver.getDeltaXLambda().getEntry(10)-1.0)<1e-9); // Delta_Lambda=1
