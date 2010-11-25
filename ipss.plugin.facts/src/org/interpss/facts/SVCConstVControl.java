@@ -20,8 +20,8 @@ public class SVCConstVControl {
 	int position = 0;     // SVC position in the J-matrix
 
 	// SVC variables
-    private double vsh;
-    private double thetash;  
+    private double vsh = 1.0;
+    private double thetash = 0.0;  
     
     // SCV constants, do not change in the Loadflow calculation process
     private double gsh;
