@@ -15,7 +15,11 @@ public class LambdaParam {
 	 */
 	private int n;
 	private double val=0;
-
+    public LambdaParam(int position,double value) {
+    	this.n=position;
+    	val=value;
+    	
+    }
 	/**
 	 * @return the sortNumber
 	 */
@@ -41,10 +45,13 @@ public class LambdaParam {
 		this.val = valOfLambdaParam;
 	}
 	public void update(SparseEqnMatrix2x2 lfEqn) {
+	    
 		this.val+=lfEqn.getBVect_xy(n).x;
 	}
 	public void update(SparseEqnMatrix2x2 lfEqn, double stepSize) {
+		System.out.println("lambda before update"+this.val);
 		this.val+=stepSize*lfEqn.getBVect_xy(n).x;
+		System.out.println("deltaL"+lfEqn.getBVect_xy(n).x+"   ,after update LAMBDA="+this.val);
 	}
 	
 	
