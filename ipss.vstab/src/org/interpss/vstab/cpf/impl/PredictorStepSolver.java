@@ -10,7 +10,6 @@ import com.interpss.common.datatype.Vector_xy;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.net.Bus;
 /**

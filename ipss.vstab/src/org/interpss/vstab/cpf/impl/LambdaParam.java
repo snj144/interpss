@@ -1,6 +1,5 @@
 package org.interpss.vstab.cpf.impl;
 
-import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
 
 public class LambdaParam {

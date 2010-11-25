@@ -59,8 +59,6 @@ public interface CPFAlgorithm {
     public double getFixedValOfContPara() ;
     
     public CPFSolver createCpfSolver() ;
-    public PredictorStepSolver createPreStepSolver();
+    public PredictorStepSolver getPreStepSolver();
     public CorrectorStepSolver createCorrStepSolver();
-    
-
 }

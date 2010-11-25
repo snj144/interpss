@@ -2,7 +2,6 @@ package org.interpss.vstab.cpf.impl;
 
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.CPFSolver;
-import org.interpss.vstab.cpf.CpfStopCriteria;
 import org.interpss.vstab.cpf.GenDispPattern;
 import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
@@ -20,7 +19,10 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
     
     protected IPSSMsgHub msg=null;
     protected AclfNetwork net=null;
+    
     protected LambdaParam lambda=null;
+    private PredictorStepSolver predictStepSolver; 
+    
     protected AnalysisStopCriteria stopCriteria=null;
     protected GenDispPattern genDispPtn=null;
     protected LoadIncPattern loadIncPtn=null;
@@ -33,10 +35,11 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
     protected int maxInterations;
     protected double fixedValOfContParam=0;
     
-    public CPFAlgorithmImpl(AclfNetwork net,LambdaParam lambda,IPSSMsgHub msg) {
+    public CPFAlgorithmImpl(AclfNetwork net, LambdaParam lambda, IPSSMsgHub msg) {
     	this.net=net;
-    	this.lambda=lambda;
     	this.msg=msg;
+    	this.lambda=lambda;
+    	this.predictStepSolver = new PredictorStepSolver(this,msg);
     }
     
     
@@ -233,9 +236,8 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 
 
 	@Override
-	public PredictorStepSolver createPreStepSolver() {
-		
-		return new PredictorStepSolver(this,msg);
+	public PredictorStepSolver getPreStepSolver() {
+		return this.predictStepSolver;
 	}
 
 
