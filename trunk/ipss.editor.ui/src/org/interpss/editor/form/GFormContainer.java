@@ -135,10 +135,11 @@ public class GFormContainer extends BaseFormContainer implements
 	 *
 	 * @return false if there are problems
 	 */
-	public Vector checkData(IPSSMsgHub msg) {
+	@Override
+	public Vector<String> checkData(IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("GFormContainer.checkData() called");
 		boolean ok = true;
-		Vector errMsg = new Vector();
+		Vector<String> errMsg = new Vector<String>();
 		if (gNetForm.isNewState()) {
 			errMsg.add("The current case is not defined yet");
 			ok = false;
