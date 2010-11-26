@@ -27,6 +27,7 @@ package org.interpss.editor.mapper;
 import java.util.Vector;
 
 import org.interpss.editor.form.GFormContainer;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.mapper.editor.AclfFormDataMapperImpl;
 import org.interpss.mapper.editor.AcscFormDataMapperImpl;
@@ -35,17 +36,19 @@ import org.interpss.mapper.editor.DistFormDataMapperImpl;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.exp.InvalidParameterException;
-import com.interpss.common.mapper.AbstractMapper;
-import com.interpss.simu.SimuCtxType;
+import com.interpss.common.mapper.AbstractMapping;
+import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuCtxType;
 
 /**
  * Map editor data NetContainer to a DistNetwork object for simulation purpose.
  */
 
-public class EditorJGraphDataMapper extends AbstractMapper {
+public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, SimuContext> {
 
-	public EditorJGraphDataMapper() {
+	public EditorJGraphDataMapper(IPSSMsgHub msg) {
+		this.msg = msg;
 	}
 
 	/**
@@ -56,36 +59,27 @@ public class EditorJGraphDataMapper extends AbstractMapper {
 	 * @param fContainer
 	 *            a GFormContainer object containing form data
 	 */
-	public boolean mapping(Object fromObj, Object toObj, Class<?> klass) {
-		if (klass == GFormContainer.class) {
-			GFormContainer gFormContainer = (GFormContainer) fromObj;
-			SimuContext simuCtx = (SimuContext) toObj;
-
-			// check if current case data is dirty and mapping to SimuContext
-			// object if necessary.
-			// Currently only project in graph mode needs the mapping
-			Vector errMsg = gFormContainer.checkData(SpringAppContext
-					.getIpssMsgHub());
-			if (errMsg != null) {
-				SpringAppContext.getEditorDialogUtil().showMsgDialog(
+	@Override
+	public boolean map2Model(IGFormContainer gFormContainer, SimuContext simuCtx) {
+		// check if current case data is dirty and mapping to SimuContext
+		// object if necessary.
+		// Currently only project in graph mode needs the mapping
+		Vector<String> errMsg = gFormContainer.checkData(msg);
+		if (errMsg != null) {
+			SpringAppContext.getEditorDialogUtil().showMsgDialog(
 						"Network data error", errMsg);
-				return false;
-			}
+			return false;
+		}
 
-			SpringAppContext
-					.getIpssMsgHub()
-					.sendStatusMsg(
+		msg.sendStatusMsg(
 							"SimuContext data is dirty, map editor date from GFormContainer to simuCtx");
-			Object net = createMappingObject(gFormContainer,
-					GFormContainer.class);
-			if (gFormContainer.getGNetForm().getAppType().equals(
-					IGNetForm.AppType_Distribution)) {
-				simuCtx.setNetwork(net, SimuCtxType.DISTRIBUTE_NET);
-			} else {
-				if (gFormContainer.getGNetForm().getNetType().equals(
-						IGNetForm.NetType_DStabilityNet)) {
-					simuCtx.setNetwork(net, SimuCtxType.DSTABILITY_NET);
-				} else if (gFormContainer.getGNetForm().getNetType().equals(
+		Object net = createMappingObject(gFormContainer, GFormContainer.class);
+		if (gFormContainer.getGNetForm().getAppType().equals(IGNetForm.AppType_Distribution)) {
+			simuCtx.setNetwork(net, SimuCtxType.DISTRIBUTE_NET);
+		} else {
+			if (gFormContainer.getGNetForm().getNetType().equals(IGNetForm.NetType_DStabilityNet)) {
+				simuCtx.setNetwork(net, SimuCtxType.DSTABILITY_NET);
+			} else if (gFormContainer.getGNetForm().getNetType().equals(
 						IGNetForm.NetType_AclfNetwork)
 						|| gFormContainer.getGNetForm().getNetType().equals(
 								IGNetForm.NetType_AclfAdjNetwork)) {
@@ -94,11 +88,10 @@ public class EditorJGraphDataMapper extends AbstractMapper {
 						IGNetForm.NetType_AcscNetwork)) {
 					simuCtx.setNetwork(net, SimuCtxType.ACSC_NET);
 				}
-			}
-			SpringAppContext.getIpssMsgHub().sendStatusMsg(
-					"Editor date mapped to simuCtx");
+		}
+		msg.sendStatusMsg("Editor date mapped to simuCtx");
 
-			if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
+		if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				if (!simuCtx.checkData()) {
 					SpringAppContext.getEditorDialogUtil().showMsgDialog(
 							"Network Loadflow Data Error",
@@ -127,8 +120,7 @@ public class EditorJGraphDataMapper extends AbstractMapper {
 					return false;
 				}
 			}
-			simuCtx.getNetwork().setDataChecked(false);
-		}
+		simuCtx.getNetwork().setDataChecked(false);
 		return true;
 	}
 

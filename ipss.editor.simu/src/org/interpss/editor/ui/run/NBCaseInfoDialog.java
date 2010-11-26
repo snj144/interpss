@@ -29,7 +29,7 @@ import java.util.Vector;
 
 import javax.swing.JFileChooser;
 
-import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.SimuAppSpringCtx;
 import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.ProjData;
@@ -342,7 +342,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			projData.setAclfCaseName(casename);
 			_aclfCaseInfoPanel.setXmlCaseData(scase.getAclfAlgorithm(), this.studyCaseXmlDoc.getGridOption());
 			_aclfCaseInfoPanel.saveEditor2Form(errMsg);
-			SimuAppSpringAppContext.getAclfRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
+			SimuAppSpringCtx.getAclfRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
 		}
 		else if (_caseType == SimuRunType.SenAnalysis) {
 			DclfStudyCaseXmlType scase = this.studyCaseXmlDoc.getDclfStudyCase(casename);
@@ -354,7 +354,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			projData.setDclfCaseName(casename);
 			_dclfCaseInfoPanel.setXmlCaseData(scase);
 			_dclfCaseInfoPanel.saveEditor2Form(errMsg);
-			SimuAppSpringAppContext.getDclfRunForm().setXmlCaseData(scase);
+			SimuAppSpringCtx.getDclfRunForm().setXmlCaseData(scase);
 		}
 		else if (_caseType == SimuRunType.Acsc) {
 			AcscStudyCaseXmlType scase = this.studyCaseXmlDoc.getAcscStudyCase(casename);
@@ -366,7 +366,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			projData.setAcscCaseName(casename);
 			_acscCaseInfoPanel.setXmlCaseData(scase);
 			_acscCaseInfoPanel.saveEditor2Form(errMsg);
-			SimuAppSpringAppContext.getAcscRunForm().setXmlCaseData(scase);
+			SimuAppSpringCtx.getAcscRunForm().setXmlCaseData(scase);
 		}
 		else if (_caseType == SimuRunType.DStab) {
 			DStabStudyCaseXmlType scase = this.studyCaseXmlDoc.getDStabStudyCase(casename);
@@ -379,7 +379,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			_dstabCaseInfoPanel.setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
 			_dstabCaseInfoPanel.saveEditor2Form(errMsg);
 			//System.out.println(scase.toString());
-			SimuAppSpringAppContext.getDStabRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
+			SimuAppSpringCtx.getDStabRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
 		}
 		else if (_caseType == SimuRunType.Scripts) {
 			projData.setScriptsCaseName(casename);

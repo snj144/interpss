@@ -28,7 +28,7 @@ import java.util.Vector;
 
 import javax.swing.JDialog;
 
-import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.SimuAppSpringCtx;
 import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.schema.AcscFaultDataType;
@@ -418,7 +418,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     		this.currentEvent.setRecName(eventName);   
     	}
         setForm2Editor();
-    	SimuAppSpringAppContext.getCaseInfoDialog().pack();
+    	SimuAppSpringCtx.getCaseInfoDialog().pack();
     }//GEN-LAST:event_eventListComboBoxActionPerformed
 
     private void branchFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchFaultRadioButtonActionPerformed
@@ -466,7 +466,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 	    		_dstabFaultDataPanel.refresh();
 			}
 		}
-    	SimuAppSpringAppContext.getCaseInfoDialog().pack();
+    	SimuAppSpringCtx.getCaseInfoDialog().pack();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

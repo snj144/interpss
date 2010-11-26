@@ -27,6 +27,7 @@ package org.interpss.editor;
 import javax.swing.JDialog;
 
 import org.interpss.editor.jgraph.ui.data.IProjectData;
+import org.interpss.editor.mapper.EditorJGraphDataMapper;
 import org.interpss.editor.runAct.ui.AclfRunForm;
 import org.interpss.editor.runAct.ui.AcscRunForm;
 import org.interpss.editor.runAct.ui.DStabRunForm;
@@ -36,9 +37,8 @@ import org.interpss.editor.ui.ICaseInfoDialog;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.SimuRunType;
-import com.interpss.common.mapper.IpssMapper;
 
-public class SimuAppSpringAppContext extends SpringAppContext {
+public class SimuAppSpringCtx extends SpringAppContext {
 	/**
 	 * Get the ProjectData from the SpringAppContext.
 	 *  
@@ -53,9 +53,8 @@ public class SimuAppSpringAppContext extends SpringAppContext {
 	 *  
 	 * @return the EditorJGraphDataMapper object
 	 */
-	public static IpssMapper getEditorJGraphDataMapper() {
-		return (IpssMapper) SpringAppCtx
-				.getBean(Constants.SID_EditorJGraphDataMapper);
+	public static EditorJGraphDataMapper getEditorDataMapper() {
+		return (EditorJGraphDataMapper)SpringAppCtx.getBean("editorJGraphDataMapper");
 	}
 
 	public static JDialog getCaseInfoDialog() {
