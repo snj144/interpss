@@ -28,7 +28,6 @@ import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.BaseTestSetup;
-import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.IIpssGraphModel;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.mapper.EditorJGraphDataMapper;
@@ -63,9 +62,8 @@ public class DStabTestSetupBase extends BaseTestSetup{
 	public void loadCaseData(String filename, SimuContext simuCtx) {
 		JGraph graph = IOUtilFunc.loadIpssGraphFile(filename);
 		IGFormContainer gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-		EditorJGraphDataMapper mapper = new EditorJGraphDataMapper();
-		mapper.setMsg(msg);
-		mapper.mapping(gFormContainer, simuCtx, GFormContainer.class);
+		EditorJGraphDataMapper mapper = new EditorJGraphDataMapper(msg);
+		mapper.map2Model(gFormContainer, simuCtx);
 	}
 	
 	public DynamicSimuAlgorithm createDStabAlgo(DStabilityNetwork net) {
