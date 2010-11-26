@@ -6,7 +6,7 @@ import java.io.OutputStream;
 
 import javax.swing.filechooser.FileFilter;
 
-import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.SimuAppSpringCtx;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.IpssTextDocument;
 import org.interpss.editor.io.CustomFileUtility;
