@@ -71,7 +71,7 @@ public class CpfHelper {
 		   ek.yy=1;
 		   lfEqn.setAij(ek, this.getSortNumOfContParam(), n+1);
 		  // print J-matrix
-		    VstabFuncOut.printJmatix(lfEqn,6,2);
+//		    VstabFuncOut.printJmatix(lfEqn,6,2);
 		   return lfEqn;
 	}
     
