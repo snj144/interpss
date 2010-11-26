@@ -24,7 +24,12 @@
 
 package org.interpss.editor.jgraph.ui.form;
 
+import java.util.Vector;
+
+import com.interpss.common.msg.IPSSMsgHub;
+
 public interface IGFormContainer {
+	Vector<String> checkData(IPSSMsgHub msg);
 	void reset();
 	
 	void removeBusForm(String id);

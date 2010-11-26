@@ -32,6 +32,7 @@ package org.interpss.editor.jgraph.ui.impl.form;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
@@ -42,6 +43,7 @@ import org.interpss.editor.jgraph.ui.impl.data.DummyProjData;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.DataChangeMessage;
+import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
 import com.interpss.common.util.XmlUtil;
@@ -67,6 +69,11 @@ public class DummyFormContainer implements IGFormContainer {
 	private boolean dataDirty = false;
     public boolean isDataDirty() { return dataDirty; }
     
+	public Vector<String> checkData(IPSSMsgHub msg) {
+		Vector<String> errMsg = new Vector<String>();
+		return errMsg;
+	}
+	
 	public void setDataDirty(boolean b) {
 		dataDirty = b;
 		if (b) {
