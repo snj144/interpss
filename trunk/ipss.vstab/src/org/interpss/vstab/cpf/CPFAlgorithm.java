@@ -60,5 +60,5 @@ public interface CPFAlgorithm {
     
     public CPFSolver createCpfSolver() ;
     public PredictorStepSolver getPreStepSolver();
-    public CorrectorStepSolver createCorrStepSolver();
+    public CorrectorStepSolver getCorrStepSolver();
 }

@@ -13,7 +13,6 @@ import com.interpss.core.sparse.SparseEqnMatrix2x2;
 
 public class CorrectorStepSolver extends DefaultNrSolver {
 	private double zeroMismatch=0;
-	private Vector_xy bAug=null;
 	private double valOfContPara=0;
 	private LambdaParam lambda=null;
     private CPFAlgorithm cpf=null;
