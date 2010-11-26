@@ -28,7 +28,7 @@ import java.util.Vector;
 
 import javax.swing.JDialog;
 
-import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.SimuAppSpringCtx;
 import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBFaultLocDataPanel;
@@ -252,7 +252,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
     	xmlCaseData.getFaultData().setFaultType(AcscFaultDataType.BRANCH_FAULT);
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
     	_faultLocDataPanel.setBusBranchFaultPanel();
-    	SimuAppSpringAppContext.getCaseInfoDialog().pack();
+    	SimuAppSpringCtx.getCaseInfoDialog().pack();
     }//GEN-LAST:event_branchFaultRadioButtonActionPerformed
 
     private void busFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busFaultRadioButtonActionPerformed
@@ -260,7 +260,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
     	xmlCaseData.getFaultData().setFaultType(AcscFaultDataType.BUS_FAULT);
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
     	_faultLocDataPanel.setBusBranchFaultPanel();
-    	SimuAppSpringAppContext.getCaseInfoDialog().pack();
+    	SimuAppSpringCtx.getCaseInfoDialog().pack();
     }//GEN-LAST:event_busFaultRadioButtonActionPerformed
 
     private void fixedVoltRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fixedVoltRadioButtonActionPerformed

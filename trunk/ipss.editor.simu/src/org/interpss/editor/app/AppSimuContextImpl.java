@@ -33,7 +33,7 @@ import java.util.Vector;
 
 import javax.swing.JPopupMenu;
 
-import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.SimuAppSpringCtx;
 import org.interpss.editor.chart.ChartManager;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.ProjData;
@@ -97,7 +97,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 
 	public IProjectData getProjData() {
 		if (this.projData == null) {
-			this.projData = SimuAppSpringAppContext.getProjectData();
+			this.projData = SimuAppSpringCtx.getProjectData();
 			this.projData.setDbSchemaVersion(DBManager.DB_SCHEMA_VERSION);
 		}
 		return this.projData;
@@ -131,7 +131,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 * @return
 	 */
 	public boolean isNonSymmetricFault() {
-		AcscRunForm form = SimuAppSpringAppContext.getAcscRunForm();
+		AcscRunForm form = SimuAppSpringCtx.getAcscRunForm();
 		if (form != null && form.getXmlCaseData() != null && form.getXmlCaseData().getFaultData() != null)
 			return form.getXmlCaseData().getFaultData().getFaultCategory() != AcscFaultCategoryDataType.FAULT_3_P;
 		else 
@@ -307,7 +307,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 
 	public DStabRunForm getDStabRunForm() {
 		if (this.dStabRunForm == null)
-			this.dStabRunForm = SimuAppSpringAppContext.getDStabRunForm();
+			this.dStabRunForm = SimuAppSpringCtx.getDStabRunForm();
 		return this.dStabRunForm;
 	}
 
