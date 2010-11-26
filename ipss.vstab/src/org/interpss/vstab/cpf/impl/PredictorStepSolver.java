@@ -37,6 +37,7 @@ public class PredictorStepSolver extends AbstractStepSolver{
 	 */
 	public PredictorStepSolver(CPFAlgorithm cpfAlgo,IPSSMsgHub msg) {
 		super(cpfAlgo.getAclfNet(), msg);
+		cpf=cpfAlgo;
 		this.lambda=cpfAlgo.getLambdaParam();
 		cpfHelper=new CpfHelper(net,msg);
 		this.deltaX_Lambda=new ArrayRealVector(this.net.getNoBus()*2+1); // swing bus is included
@@ -120,7 +121,8 @@ public class PredictorStepSolver extends AbstractStepSolver{
 
     public boolean isCrossMaxPwrPnt() {
     	// only sign of Lambda is used for judgment.
-    	if(cpf.getSortNumOfContParam()!=this.net.getNoBus()+1) {
+
+    	if(cpf.getSortNumOfContParam()!=lambda.getPosition()) {
     		if(deltaX_Lambda.getEntry(deltaX_Lambda.getDimension()-1)<0)// Lambda parameter is at the last of deltaX_Lambda vector
     			return this.isCrossMPP=true;
     	}

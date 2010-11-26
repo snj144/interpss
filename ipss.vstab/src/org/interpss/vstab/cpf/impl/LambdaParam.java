@@ -44,13 +44,14 @@ public class LambdaParam {
 		this.val = valOfLambdaParam;
 	}
 	public void update(SparseEqnMatrix2x2 lfEqn) {
-	    
+		System.out.println("before update lambda="+this.val);
 		this.val+=lfEqn.getBVect_xy(n).x;
+		System.out.println("deltaL="+lfEqn.getBVect_xy(n).x+"   ,after update, lambda="+this.val);
 	}
 	public void update(SparseEqnMatrix2x2 lfEqn, double stepSize) {
-		System.out.println("lambda before update"+this.val);
+		System.out.println("before update lambda="+this.val);
 		this.val+=stepSize*lfEqn.getBVect_xy(n).x;
-		System.out.println("deltaL="+lfEqn.getBVect_xy(n).x+"   ,after update LAMBDA="+this.val);
+		System.out.println("deltaL="+lfEqn.getBVect_xy(n).x+"   ,after update lambda="+this.val);
 	}
 	
 	
