@@ -24,7 +24,7 @@
 
 package org.interpss.editor.ui;
 
-import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.SimuAppSpringCtx;
 import org.interpss.editor.app.ProjectFileUtil;
 import org.interpss.editor.chart.DStabPlotSelectionDialog;
 import org.interpss.editor.coreframework.GPDocument;
@@ -40,6 +40,7 @@ import org.interpss.editor.jgraph.ui.IIpssGraphModel;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
+import org.interpss.editor.mapper.EditorJGraphDataMapper;
 import org.interpss.editor.report.ReportUtil;
 import org.interpss.editor.runAct.SimuRunWorker;
 import org.interpss.editor.util.Utilities;
@@ -48,7 +49,7 @@ import org.jgraph.JGraph;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.SimuRunType;
-import com.interpss.common.mapper.IpssMapper;
+import com.interpss.common.mapper.IMapping;
 import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreSpringAppContext;
@@ -85,8 +86,8 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null ;
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
-			if (!mapper.mapping(gFormContainer, simuCtx)) 
+			IMapping<IGFormContainer, SimuContext> mapper = (EditorJGraphDataMapper)SpringAppContext.ctx().getBean("editorJGraphDataMapper");
+			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
@@ -105,8 +106,8 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null ;
 		if (graphView && appSimuCtx.isSimuNetDataDirty()) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
-			if (!mapper.mapping(gFormContainer, simuCtx)) 
+			IMapping<IGFormContainer, SimuContext> mapper = (EditorJGraphDataMapper)SpringAppContext.ctx().getBean("editorJGraphDataMapper");
+			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
@@ -114,7 +115,7 @@ public class EditorActionAdapter {
 		simuCtx.setDclfAlgorithm(CoreSpringAppContext.getDclfAlgorithm());
 
 		try {
-			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(SimuRunType.SenAnalysis,
+			ICaseInfoDialog dialog = SimuAppSpringCtx.getCaseInfoDialog(SimuRunType.SenAnalysis,
 					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.SenAnalysis).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
@@ -136,8 +137,8 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null ;
 		if (graphView && appSimuCtx.isSimuNetDataDirty()) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
-			if (!mapper.mapping(gFormContainer, simuCtx)) 
+			IMapping<IGFormContainer, SimuContext> mapper = SimuAppSpringCtx.getEditorDataMapper();
+			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
@@ -145,7 +146,7 @@ public class EditorActionAdapter {
 		simuCtx.setDclfAlgorithm(CoreSpringAppContext.getDclfAlgorithm());
 
 		try {
-			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(SimuRunType.TradingAnalysis,
+			ICaseInfoDialog dialog = SimuAppSpringCtx.getCaseInfoDialog(SimuRunType.TradingAnalysis,
 					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.TradingAnalysis).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
@@ -167,15 +168,15 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null ;
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
-			if (!mapper.mapping(gFormContainer, simuCtx)) 
+			IMapping<IGFormContainer, SimuContext> mapper = SimuAppSpringCtx.getEditorDataMapper();
+			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
 		simuCtx.setLoadflowAlgorithm(CoreSpringAppContext.getLoadflowAlgorithm());
 
 		try {
-			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(SimuRunType.Aclf,
+			ICaseInfoDialog dialog = SimuAppSpringCtx.getCaseInfoDialog(SimuRunType.Aclf,
 					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.Aclf).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
@@ -196,8 +197,8 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null;
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
-			if (!mapper.mapping(gFormContainer, simuCtx)) 
+			IMapping<IGFormContainer, SimuContext> mapper = SimuAppSpringCtx.getEditorDataMapper();
+			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
@@ -205,7 +206,7 @@ public class EditorActionAdapter {
 		simuCtx.setSimpleFaultAlgorithm(CoreSpringAppContext.getSimpleFaultAlgorithm());
  
 		try {
-			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(SimuRunType.Acsc,
+			ICaseInfoDialog dialog = SimuAppSpringCtx.getCaseInfoDialog(SimuRunType.Acsc,
 					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.Acsc).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
@@ -226,15 +227,15 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null;
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
-			if (!mapper.mapping(gFormContainer, simuCtx)) 
+			IMapping<IGFormContainer, SimuContext> mapper = SimuAppSpringCtx.getEditorDataMapper();
+			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
 		simuCtx.setLoadflowAlgorithm(CoreSpringAppContext.getLoadflowAlgorithm());
 		simuCtx.setDynSimuAlgorithm(DStabSpringAppContext.getDynamicSimuAlgorithm());
 
-		ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(SimuRunType.DStab,
+		ICaseInfoDialog dialog = SimuAppSpringCtx.getCaseInfoDialog(SimuRunType.DStab,
 				ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.DStab).getFilePathName());
     	IpssTextFile file = ProjectFileUtil.getProjectFile(doc, ProjectFileUtil.DStabOutputScriptFilename);
     	dialog.setDStabOutputScriptFilename(file.getFilePathName());
@@ -253,8 +254,8 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null;
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
-			if (!mapper.mapping(gFormContainer, simuCtx)) 
+			IMapping<IGFormContainer, SimuContext> mapper = SimuAppSpringCtx.getEditorDataMapper();
+			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
@@ -264,7 +265,7 @@ public class EditorActionAdapter {
 		}
 		
 		IpssLogger.getLogger().info("Run Scripts");
-		ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(SimuRunType.Scripts,
+		ICaseInfoDialog dialog = SimuAppSpringCtx.getCaseInfoDialog(SimuRunType.Scripts,
 				ProjectFileUtil.getProjectScriptRunCaseFile(doc).getFilePathName());
 		dialog.init(gFormContainer, appSimuCtx);
     	if (dialog.isReturnOk()) {
