@@ -23,7 +23,7 @@ import com.interpss.core.net.Bus;
 public class PredictorStepSolver extends AbstractStepSolver{
 	protected boolean isCrossMPP=false;
 	protected boolean stepSizeCntrl=false;
-	private final double DEFAULT_STEP_SIZE=0.3;
+	private final double DEFAULT_STEP_SIZE=0.2;
 	private double stepSize=DEFAULT_STEP_SIZE;
 	private double oldStepSize=0;
 	private CpfHelper cpfHelper=null;
@@ -120,10 +120,10 @@ public class PredictorStepSolver extends AbstractStepSolver{
 
     public boolean isCrossMaxPwrPnt() {
     	// only sign of Lambda is used for judgment.
-//    	if(this.sortNumofContParam!=this.net.getNoBus()+1) {
-//    		if(deltaX_Lambda.getEntry(deltaX_Lambda.getDimension())<0)
-//    			return this.isCrossMPP=true;
-//    	}
+    	if(cpf.getSortNumOfContParam()!=this.net.getNoBus()+1) {
+    		if(deltaX_Lambda.getEntry(deltaX_Lambda.getDimension()-1)<0)// Lambda parameter is at the last of deltaX_Lambda vector
+    			return this.isCrossMPP=true;
+    	}
     	return this.isCrossMPP=false;
     }
     private int getContParaSign() {

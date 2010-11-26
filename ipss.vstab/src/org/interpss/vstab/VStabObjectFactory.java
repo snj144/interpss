@@ -11,7 +11,8 @@ public class VStabObjectFactory {
 
 	public static CPFAlgorithm createCPFAlgorithmImpl(AclfNetwork net, IPSSMsgHub msg) {
 		LambdaParam lambda = new LambdaParam(net.getNoBus()+1,1);
-		return new CPFAlgorithmImpl(net, lambda, msg);
+		CPFAlgorithm cpf=new CPFAlgorithmImpl(net, lambda, msg);
+		return cpf;
 	}
 
 }

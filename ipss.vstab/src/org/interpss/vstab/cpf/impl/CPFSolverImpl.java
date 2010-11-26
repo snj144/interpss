@@ -23,8 +23,6 @@ public class CPFSolverImpl implements CPFSolver{
     protected GenDispPattern _genDispPtn=null;
     private boolean cpfConverged=false;
     private boolean isCpfStop=false;
-    private final AnalysisStopCriteria DEFAULT_STOP_CRITERIA=AnalysisStopCriteria.FULL_CUREVE;
-    private AnalysisStopCriteria stopCriteria;
 	private final int DEFAULT_CONT_PARA_SORTNUM=0;
 	private int contParaSortNum=DEFAULT_CONT_PARA_SORTNUM;
 	private double fixedValueOfContPara=0;
@@ -40,13 +38,11 @@ public class CPFSolverImpl implements CPFSolver{
 		cpfAlgo=cpf;
 		this.net=cpfAlgo.getAclfNet();
 		lambda=cpfAlgo.getLambdaParam();
-		initialize();
+		this.corrStepSolver=cpf.getCorrStepSolver();
+		this.predStepSolver=cpf.getPreStepSolver();
 		
 	}
-	public void initialize() {
-		this.predStepSolver=new PredictorStepSolver(cpfAlgo, msg);
-		this.corrStepSolver=new CorrectorStepSolver(cpfAlgo);
-	}
+
 	@Override
 	public boolean isCPFConverged() {
 		

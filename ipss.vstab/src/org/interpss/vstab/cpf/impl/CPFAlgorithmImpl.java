@@ -22,7 +22,7 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
     
     protected LambdaParam lambda=null;
     private PredictorStepSolver predictStepSolver; 
-    
+    private CorrectorStepSolver corrStepSolver;
     protected AnalysisStopCriteria stopCriteria=null;
     protected GenDispPattern genDispPtn=null;
     protected LoadIncPattern loadIncPtn=null;
@@ -31,6 +31,7 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 	protected int DEFAULT_CONTPARA_SORTNUM=0;
 	protected int sortNumOfContPara=DEFAULT_CONTPARA_SORTNUM; // used in whole process
     protected boolean violation=false;
+    protected double DEFAULT_CPF_TOLEARANCE=1e-3;
     protected double tolerance;
     protected int maxInterations;
     protected double fixedValOfContParam=0;
@@ -39,7 +40,10 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
     	this.net=net;
     	this.msg=msg;
     	this.lambda=lambda;
+    	this.sortNumOfContPara=lambda.getPosition();
+    	this.fixedValOfContParam=lambda.getVal();
     	this.predictStepSolver = new PredictorStepSolver(this,msg);
+    	this.corrStepSolver=new CorrectorStepSolver(this);
     }
     
     
@@ -152,7 +156,7 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 	}
 	@Override
 	public boolean isAnyViolation() {
-	          violation=false;
+	         
 		
 		this.getAclfNet().forEachAclfBranch(new IAclfBranchVisitor() {
 
@@ -221,10 +225,9 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 
 
 	@Override
-	public CorrectorStepSolver createCorrStepSolver() {
-		return new CorrectorStepSolver(this);
+	public CorrectorStepSolver getCorrStepSolver() {
+		return this.corrStepSolver;
 	}
-
 
 
 	@Override
@@ -232,7 +235,6 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 		
 		return new CPFSolverImpl(this,msg);
 	}
-
 
 
 	@Override
