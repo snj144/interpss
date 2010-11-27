@@ -36,18 +36,18 @@ public class CpfHelper {
 	public CpfHelper(AclfNetwork net, IPSSMsgHub msg){
 		this.net=net;
 		this.msg=msg;
-		contParaSortNum=this.net.getNoBus()+1; // by default
+//		contParaSortNum=this.net.getNoBus()+1; // by default
 	}
 
 	public SparseEqnMatrix2x2 formAugmJacobiMatrix() {
 		// 1. get the jacobian matrix (Swing bus is included in jacobi,so the dimension(N) equals to total number of buses, and index is 1 to N )
 		  
 		lfEqn=this.net.formJMatrix(1,this.msg);
-		 	
-		//2. augment the Jacobi with the differentiation of load flow equation 
-		// to Lamda(the load  increase index) 
 		
 		int n=this.net.getNoBus(); //n=num of bus
+		
+		//2. augment the Jacobi with the differentiation of load flow equation 
+		// to Lamda(the load  increase index) 
         if(ldIncDirTbl==null||ldIncDirTbl.isEmpty()) {
         	msg.sendInfoMsg("No load increasement data/profile is defined, set it to default");
         	setDefaultLoadIncData();
@@ -60,7 +60,7 @@ public class CpfHelper {
 		   			m.xx=dir_pq.getReal();// dirP  // sign is opposite to ordinary J-matrix;
 		   			m.yx=dir_pq.getImaginary();//dirQ
 		   			lfEqn.setAij(m,b.getSortNumber(), n+1);
-//		   			System.out.println(b.getId()+"  ,load P="+m.xx+"  Q="+m.yx );
+
 		   		}
 		   		
 		   	}
@@ -69,7 +69,7 @@ public class CpfHelper {
 		   Matrix_xy ek=new Matrix_xy();
 		   ek.xx=1;
 		   ek.yy=1;
-		   lfEqn.setAij(ek, this.getSortNumOfContParam(), n+1);
+		   lfEqn.setAij(ek, n+1,this.getSortNumOfContParam());
 		  // print J-matrix
 //		    VstabFuncOut.printJmatix(lfEqn,6,2);
 		   return lfEqn;
