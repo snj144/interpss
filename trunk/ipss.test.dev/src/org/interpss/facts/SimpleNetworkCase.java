@@ -1,6 +1,5 @@
 package org.interpss.facts;
 
-
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
 
@@ -18,7 +17,7 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.net.Bus;
 import com.interpss.pssl.simu.IpssAclf;
 
-public class SimpleNetwork {
+public class SimpleNetworkCase {
 
 	public static void main(String[] args) {
         IPSSMsgHub msg = IpssAclf.getMsgHub();
