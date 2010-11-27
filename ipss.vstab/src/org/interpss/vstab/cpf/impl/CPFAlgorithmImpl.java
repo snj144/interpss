@@ -40,8 +40,8 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
     	this.net=net;
     	this.msg=msg;
     	this.lambda=lambda;
-    	this.sortNumOfContPara=lambda.getPosition();
-    	this.fixedValOfContParam=lambda.getVal();
+//    	this.sortNumOfContPara=lambda.getPosition();
+//    	this.fixedValOfContParam=lambda.getVal();
     	this.predictStepSolver = new PredictorStepSolver(this,msg);
     	this.corrStepSolver=new CorrectorStepSolver(this);
     }
