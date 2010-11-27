@@ -22,18 +22,19 @@ public class PreSolverTest extends BaseTestSetup {
 	// create a sample 5-bus system for Loadflow 
 	AclfNetwork net = CoreObjectFactory.createAclfNetwork();
 	SampleCases.load_LF_5BusSystem(net, msg);
-	System.out.println(net.net2String());
+	
 	
 	// run Loadflow analysis of the base case
 	LoadflowAlgorithm algo =CoreObjectFactory.createLoadflowAlgorithm(msg);
 	net.accept(algo);
+//	System.out.println(net.net2String());
 	// Loadflow alreagy run, commnted out by mike
 	//algo.loadflow(); // load flow to create a study base case
 	
 	//LambdaParam lambda=new LambdaParam(net.getNoBus()+1,1);
 	
 	CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net, msg);
-	
+	assertTrue(cpfAlgo.getSortNumOfContParam()==6);
 	PredictorStepSolver preSolver=cpfAlgo.getPreStepSolver();
 	preSolver.stepSolver();
 	
