@@ -1,11 +1,11 @@
 package org.interpss.facts;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.BaseTestSetup;
 import org.interpss.display.AclfOutFunc;
+import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
@@ -16,41 +16,13 @@ import com.interpss.core.aclf.adpter.LoadBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 
-public class SimpleNetworkCase {
-
-	public static void main(String[] args) {
-        IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
-        
-        // create a sample 5-bus system for Loadflow
-        AclfNetwork net = createNet();
-        
-//        SampleCases.load_LF_5BusSystem(net, SpringAppContext.getIpssMsgHub());
-        //System.out.println(net.net2String());
-
-//        for (Bus thisBus : net.getBusList()) {
-//            AclfBus thisAclfBus = net.getAclfBus(thisBus.getId());
-//            // Test the SVC constant V model at every load bus
-//            if (thisAclfBus.isLoad()) {
-//                SVCConstVControl svc = new SVCConstVControl(thisAclfBus, net.getNoBus() + 1, 1.0, 0.0, -5.0);
-//                SVCConstVControl[] svcArray = {svc};
-////                SVCConstVControl[] svcArray = {};
-//                SVCNrSolver thisSVCNrSolver = new SVCNrSolver(net, svcArray);
-//
-//                // create a Loadflow algo object
-//                LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(msg);
-//
-//                // set algo NR solver to the CustomNrSolver
-//                algo.setNrSolver(thisSVCNrSolver);
-//
-//                // run Loadflow
-//                net.accept(algo);
-//                // output loadflow calculation results
-//                System.out.println(AclfOutFunc.loadFlowSummary(net));
-//            }
-//        }
-        
+public class SimpleSVCTest extends BaseTestSetup { 
+	@Test
+	public void testCase() {
+		AclfNetwork net = createNet();
+		
         AclfBus bus = net.getAclfBus("Bus2");
-        SVCConstVControl svc = new SVCConstVControl(bus, net.getNoBus() + 1, 1.0, 0.0, -5.0);
+        SVCConstVControl svc = new SVCConstVControl(bus, net.getNoBus()+1, 1.0, 0.0, -5.0);
         SVCConstVControl[] svcArray = {svc};
         SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
         
@@ -62,9 +34,9 @@ public class SimpleNetworkCase {
         // run Loadflow
         net.accept(algo);
         // output loadflow calculation results
-        System.out.println(AclfOutFunc.loadFlowSummary(net));
+        System.out.println(AclfOutFunc.loadFlowSummary(net));		
 	}
-
+	
 	public static AclfNetwork createNet() {
         // create a sample 5-bus system for Loadflow
         AclfNetwork net = CoreObjectFactory.createAclfNetwork();
@@ -111,3 +83,4 @@ public class SimpleNetworkCase {
         return net;
 	}
 }
+
