@@ -18,6 +18,7 @@ public class SVCNrSolver extends DefaultNrSolver {
     @Override
     public SparseEqnMatrix2x2 formJMatrix(IPSSMsgHub msg) {
         SparseEqnMatrix2x2 lfEqn = this.getAclfNet().formJMatrix(svcAry.length, msg);
+//        System.out.println(lfEqn.toString());
 
         for (SVCConstVControl svc : svcAry) {
             int i = svc.getBus().getSortNumber();
@@ -26,8 +27,9 @@ public class SVCNrSolver extends DefaultNrSolver {
             lfEqn.setAij(svc.getJnn(), n, n);
             lfEqn.setAij(svc.getJni(), n, i);
             lfEqn.setAij(svc.getJin(), i, n);
-            lfEqn.addToAij(svc.getJnn(), i, i);
+            lfEqn.addToAij(svc.getJii(), i, i);
         }
+//        System.out.println(lfEqn.toString());
         return lfEqn;
     }
     

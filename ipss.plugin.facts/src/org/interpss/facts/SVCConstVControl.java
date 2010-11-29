@@ -55,10 +55,10 @@ public class SVCConstVControl {
     	double thetai = busi.getVoltageAng();
         // Update A part of the extended Jacobian
         Matrix_xy m = new Matrix_xy();
-        m.xx = (2 * vi * gsh - vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash))) * vi; // dPi/dVi
-        m.xy = vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dPi/dthetai
-        m.yx = (2 * vi * bsh + vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))) * vi; // dQi/dVi
-        m.yy = vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dQi/dthetai
+        m.xy = -(-(2 * vi * gsh - vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash))) * vi); // dPi/dVi
+        m.xx = -(vi * vsh * (-gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash))); // dPi/dthetai
+        m.yy = -((2 * vi * bsh + vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))) * vi); // dQi/dVi
+        m.yx = -(vi * vsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash))); // dQi/dthetai
         return m;
     }
     
@@ -72,10 +72,10 @@ public class SVCConstVControl {
     	double thetai = busi.getVoltageAng();
         // Update A part of the extended Jacobian
         Matrix_xy m = new Matrix_xy();
-        m.xx = (2 * vsh * gsh - vi * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash))); // dPeq/dVsh
-        m.xy = -vi * vsh * (gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash)); // dPeq/dthetash
-        m.yx = 0.0; // dFSVC/dVsh
-        m.yy = 0.0; // dFSVC/dthetash
+        m.yx = (2 * vsh * gsh - vi * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash))); // dPeq/dVsh
+        m.yy = -vi * vsh * (gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash)); // dPeq/dthetash
+        m.xx = 0.0; // dFSVC/dVsh
+        m.xy = 0.0; // dFSVC/dthetash
         return m;
     }
 
@@ -89,10 +89,10 @@ public class SVCConstVControl {
     	double thetai = busi.getVoltageAng();
         
     	Matrix_xy m = new Matrix_xy();
-    	m.xx = vi * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dPi/dVsh
-        m.xy = vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dPi/dthetash
-        m.yx = vi * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dQi/dVsh
-        m.yy = -vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dQi/dthetash
+    	m.xx = -(vi * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash))); // dPi/dVsh
+        m.xy = -(vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))); // dPi/dthetash
+        m.yx = -(vi * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))); // dQi/dVsh
+        m.yy = -(-vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash))); // dQi/dthetash
     
         return m;
     }
@@ -107,10 +107,10 @@ public class SVCConstVControl {
     	double thetai = busi.getVoltageAng();
         Matrix_xy m = new Matrix_xy();
         
-        m.xx = -vsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash)) * vi; // dPeq/dVi
-        m.xy = vi * vsh * (gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash)); // dPeq/dthetai
-        m.yx = 1.0 * vi; // dFSVC/dVi
-        m.yy = 0.0; // dFSVC/dthetai
+        m.yy = -vsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash)) * vi; // dPeq/dVi
+        m.yx = vi * vsh * (gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash)); // dPeq/dthetai
+        m.xy = 1.0 * vi; // dFSVC/dVi
+        m.xx = 0.0; // dFSVC/dthetai
         return m;
     }
 
@@ -125,8 +125,8 @@ public class SVCConstVControl {
         double thetai = busi.getVoltageAng();
         
         Vector_xy b = new Vector_xy();
-        b.x = -(vi * gsh - vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash))); // dFpi/Vi
-        b.y =  (vi * gsh + vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))); // dFqi/Vi
+        b.x = (vi * gsh - vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash))); // dFpi/Vi
+        b.y = -(vi * bsh + vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))); // dFqi/Vi
         return b;
     }
     
@@ -141,9 +141,9 @@ public class SVCConstVControl {
         
         Vector_xy b = new Vector_xy();
         // dPeq
-        b.x = (vsh * vsh * gsh - vi * vsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash)));
+        b.y = (vsh * vsh * gsh - vi * vsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash)));
         // dVi
-        b.y = (vi - vc);
+        b.x = (vi - vc);
         return b;
     }
 
@@ -155,7 +155,7 @@ public class SVCConstVControl {
     public void update(SparseEqnMatrix2x2 lfEqn) {
         vsh -= lfEqn.getBVect_xy(this.position).x;
         thetash -= lfEqn.getBVect_xy(this.position).y;
-        System.out.println("vsh: " + vsh + ", thetash: " + thetash);
+//        System.out.println("vsh: " + vsh + ", thetash: " + thetash);
     }
 }
 
