@@ -8,12 +8,9 @@ import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.custom.run.psseCon.ContingencyFileParser;
-import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
 import org.interpss.mapper.IpssXmlMapper;
-import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.InterPSSXmlType;
-import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
@@ -56,8 +53,8 @@ public class ContingencyControlFileCaseTest extends BaseTestSetup {
 		  	IpssMapper mapper = new IpssXmlMapper();
 		  	mapper.mapping(aclfCase.getModification(), net);
 		  	
-		  	mapper = new RunForm2AlgorithmMapper();
-		  	mapper.mapping( parser.getRunAclfStudyCase().getDefaultAclfAlgorithm(),	algo);
+		  	PluginSpringAppContext.getXml2LfAlgorithmMapper()
+		  		.map2Model(parser.getRunAclfStudyCase().getDefaultAclfAlgorithm(),	algo);
 	  	
 	  		assertTrue(algo.loadflow());
 	  	}	

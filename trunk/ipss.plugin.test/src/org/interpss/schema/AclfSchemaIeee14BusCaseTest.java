@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
+import org.interpss.PluginSpringAppContext;
 import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
@@ -46,8 +46,8 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
-		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-	  		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+			PluginSpringAppContext.getXml2LfAlgorithmMapper()
+					.map2Model(aclfCase.getAclfAlgorithm(), algo);
 	  	
 	  		assertTrue(algo.getMaxIterations() == 20);
 	  		assertTrue(algo.getTolerance() == 1.0E-4);
@@ -95,12 +95,12 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
-		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
 
 		  	if (aclfCase.getAclfAlgorithm() == null) 
 		  		aclfCase.setAclfAlgorithm(parser.getRunAclfStudyCase().getDefaultAclfAlgorithm());
 		  	
-		  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+		  	PluginSpringAppContext.getXml2LfAlgorithmMapper()
+		  			.map2Model(aclfCase.getAclfAlgorithm(), algo);
 	  	
 	  		assertTrue(algo.getMaxIterations() == 20);
 	  		assertTrue(algo.getTolerance() == 1.0E-4);

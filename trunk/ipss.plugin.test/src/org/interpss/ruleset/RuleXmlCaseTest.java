@@ -30,10 +30,7 @@ import java.io.File;
 
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
-import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
-import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
-import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.PreventiveRuleSetXmlType;
 import org.interpss.schema.RuleBaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
@@ -71,8 +68,8 @@ public class RuleXmlCaseTest extends BaseTestSetup {
 	  	AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 		net.rebuildLookupTable();
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
-	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-  		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+		PluginSpringAppContext.getXml2LfAlgorithmMapper()
+				.map2Model(aclfCase.getAclfAlgorithm(), algo);
 	  	
   		assertTrue(algo.getMaxIterations() == 20);
   		assertTrue(algo.getTolerance() == 1.0E-4);
@@ -122,8 +119,8 @@ public class RuleXmlCaseTest extends BaseTestSetup {
 
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
-		mapper = new RunForm2AlgorithmMapper();
-		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+		PluginSpringAppContext.getXml2LfAlgorithmMapper()
+				.map2Model(aclfCase.getAclfAlgorithm(), algo);
   		
   		assertTrue(algo.getMaxIterations() == 20);
   		assertTrue(algo.getTolerance() == 1.0E-4);
@@ -169,8 +166,8 @@ public class RuleXmlCaseTest extends BaseTestSetup {
 		mapper.mapping(aclfCase.getModification(), net);
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
-		mapper = new RunForm2AlgorithmMapper();
-		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+		PluginSpringAppContext.getXml2LfAlgorithmMapper()
+				.map2Model(aclfCase.getAclfAlgorithm(), algo);
   		
   		assertTrue(algo.getMaxIterations() == 20);
   		assertTrue(algo.getTolerance() == 1.0E-4);
