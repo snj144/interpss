@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.mapper.runCase.bak;
+package org.interpss.mapper.runCase.dep;
 
 import org.interpss.schema.AcscFaultCategoryDataType;
 import org.interpss.schema.AcscFaultDataType;

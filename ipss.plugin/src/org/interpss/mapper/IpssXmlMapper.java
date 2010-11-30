@@ -24,8 +24,8 @@
 
 package org.interpss.mapper;
 
-import org.interpss.mapper.runCase.bak.Xml2AlgorithmMapperImpl;
-import org.interpss.mapper.runCase.bak.Xml2DStabAlgorithmMapperImpl;
+import org.interpss.mapper.runCase.dep.Xml2AlgorithmMapperImpl;
+import org.interpss.mapper.runCase.dep.Xml2DStabAlgorithmMapperImpl;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
