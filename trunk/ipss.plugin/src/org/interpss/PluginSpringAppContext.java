@@ -33,9 +33,17 @@ import org.interpss.custom.IpssFileAdapter;
 import org.interpss.custom.run.ICustomRunScriptPlugin;
 import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.output.IOutputSimuResult;
+import org.interpss.schema.AclfAlgorithmXmlType;
+import org.interpss.schema.AcscStudyCaseXmlType;
+import org.interpss.schema.DStabStudyCaseXmlType;
+
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.mapper.IMapping;
 import com.interpss.common.mapper.IpssMapper;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algorithm.SimpleFaultAlgorithm;
+import com.interpss.dstab.DynamicSimuAlgorithm;
 
 public class PluginSpringAppContext extends SpringAppContext {
 	/**
@@ -48,16 +56,6 @@ public class PluginSpringAppContext extends SpringAppContext {
 			return new IpssXmlMapper(SpringAppContext.getIpssMsgHub());
 		return (IpssMapper) SpringAppCtx.getBean(Constants.SID_IpssXmlMapper);
 	}
-	
-	/**
-	 * Get the RunForm2AlgorithmMapper(singleton) from the SpringAppContext.
-	 *  
-	 * @return the RunForm2AlgorithmMapper object
-	 */
-	public static IpssMapper getRunForm2AlgorithmMapper() {
-		IpssMapper mapper = (IpssMapper) SpringAppCtx.getBean(Constants.SID_RunForm2AlgorithmMapper);
-		return mapper;
-	}
 
 	public static JDialog getCaseInfoDialog() {
 		return (JDialog) SpringAppCtx.getBean(Constants.SID_CaseInfoDialog);
@@ -68,6 +66,7 @@ public class PluginSpringAppContext extends SpringAppContext {
 	 *  
 	 * @return the CustomFileAdapterList object
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<IpssFileAdapter> getCustomFileAdapterList() {
 		return (List<IpssFileAdapter>) SpringAppCtx.getBean(Constants.SID_CustomFileAdapterList);
 	}
@@ -123,6 +122,7 @@ public class PluginSpringAppContext extends SpringAppContext {
 	 *  
 	 * @return the CustomFileAdapterList object
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<ICustomRunScriptPlugin> getCustomScriptRunPluginList() {
 		return (List<ICustomRunScriptPlugin>) SpringAppCtx.getBean(Constants.SID_CustomScriptRunPluginList);
 	}
@@ -166,4 +166,23 @@ public class PluginSpringAppContext extends SpringAppContext {
 		return (IOutputSimuResult) SpringAppCtx.getBean(Constants.SID_SimuResultOutput);
 	}
 	
+	/**
+	 * Get the RunForm2AlgorithmMapper(singleton) from the SpringAppContext.
+	 *  
+	 * @return the RunForm2AlgorithmMapper object
+	 */
+	@SuppressWarnings("unchecked")
+	public static IMapping<AclfAlgorithmXmlType, LoadflowAlgorithm> getXml2LfAlgorithmMapper() {
+		return (IMapping<AclfAlgorithmXmlType, LoadflowAlgorithm>) SpringAppCtx.getBean("xml2LfAlgorithmMapper");
+	}	
+
+	@SuppressWarnings("unchecked")
+	public static IMapping<AcscStudyCaseXmlType, SimpleFaultAlgorithm> getXml2ScAlgorithmMapper() {
+		return (IMapping<AcscStudyCaseXmlType, SimpleFaultAlgorithm>) SpringAppCtx.getBean("xml2ScAlgorithmMapper");
+	}	
+
+	@SuppressWarnings("unchecked")
+	public static IMapping<DStabStudyCaseXmlType, DynamicSimuAlgorithm> getXml2DStabAlgorithmMapper() {
+		return (IMapping<DStabStudyCaseXmlType, DynamicSimuAlgorithm>) SpringAppCtx.getBean("xml2DStabAlgorithmMapper");
+	}	
 }
