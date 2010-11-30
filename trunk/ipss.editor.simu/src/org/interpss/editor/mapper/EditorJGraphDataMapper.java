@@ -124,7 +124,7 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 		return true;
 	}
 
-	private Object createMappingObject(Object editNet, Class klass) {
+	private Object createMappingObject(Object editNet, Class<?> klass) {
 		if (klass == GFormContainer.class) {
 			IGNetForm netForm = ((GFormContainer) editNet).getGNetForm();
 			if (netForm.getAppType().equals(IGNetForm.AppType_Distribution)) {

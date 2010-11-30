@@ -84,7 +84,7 @@ public class RunActUtilFunc {
 		for (Bus b : adjNet.getBusList()) { 
 			AclfBus bus = (AclfBus)b;
 			if (bus.isPVBusLimit()) {
-				PVBusLimit pvLimit = (PVBusLimit)bus.getBranchList();
+				PVBusLimit pvLimit = (PVBusLimit)bus.getBusControl();
 				if (pvLimit.needAdjust(0.0))
 					list.add(pvLimit.getId() + " at " + pvLimit.getParentBus().getName()
 							+ "(" + (pvLimit.isActive() ? "on" : "off") + ")");
@@ -99,8 +99,8 @@ public class RunActUtilFunc {
 		list.add(AllControlDevices);
 		for (Bus b : adjNet.getBusList()) { 
 			AclfBus bus = (AclfBus)b;
-			if (bus.isPVBusLimit()) {
-				PQBusLimit pqLimit = (PQBusLimit)bus.getBranchList();
+			if (bus.isPQBusLimit()) {
+				PQBusLimit pqLimit = (PQBusLimit)bus.getBusControl();
 				if (pqLimit.needAdjust(0.0))
 					list.add(pqLimit.getId() + " at " + pqLimit.getParentBus().getName()
 							+ "(" + (pqLimit.isActive() ? "on" : "off") + ")");
@@ -115,8 +115,8 @@ public class RunActUtilFunc {
 		list.add(AllControlDevices);
 		for (Bus b : adjNet.getBusList()) { 
 			AclfBus bus = (AclfBus)b;
-			if (bus.isPVBusLimit()) {
-				RemoteQBus reQ = (RemoteQBus)bus.getBranchList();
+			if (bus.isRemoteQBus()) {
+				RemoteQBus reQ = (RemoteQBus)bus.getBusControl();
 				if (reQ.needAdjust(tolerance)) {
 					if (reQ.getControlType() == RemoteQControlType.BUS_VOLTAGE)
 						list.add(reQ.getId() + " at " + reQ.getParentBus().getName()

@@ -28,7 +28,6 @@ import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.schema.AcscStudyCaseXmlType;
 
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBranchFault;
@@ -112,8 +111,8 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 			SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
 		algo.setAcscNetwork(faultNet);
 		algo.setDesc(faultIdStr);
-		IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
-		mapper.mapping(this, algo);
+		PluginSpringAppContext.getXml2ScAlgorithmMapper()
+				.map2Model(this.getXmlCaseData(), algo);
 
 		for (Object fault : algo.getFaultList()) {
 			if (fault instanceof AcscBusFault)

@@ -37,7 +37,6 @@ import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
@@ -162,8 +161,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	}
 
 	private boolean runLoadflow(AclfNetwork aclfAdjNet, SimuContext simuCtx) {
-		boolean converge = runLoadflow_internal(aclfAdjNet, simuCtx
-				.getLoadflowAlgorithm(), simuCtx.getMsgHub());
+		boolean converge = runLoadflow_internal(aclfAdjNet, simuCtx.getLoadflowAlgorithm(), simuCtx.getMsgHub());
 		if (!converge)
 			simuCtx.getMsgHub().sendWarnMsg("Loadflow does not converge!");
 		displaySummaryResult(simuCtx);
@@ -172,8 +170,8 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 	private boolean runLoadflow_internal(AclfNetwork aclfAdjNet,
 			LoadflowAlgorithm algo, IPSSMsgHub msg) {
-		IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
-		mapper.mapping(this, algo);
+		PluginSpringAppContext.getXml2LfAlgorithmMapper()
+				.map2Model(this.getAclfCaseData().getAclfAlgorithm(), algo);
 
 		algo.loadflow();
 
