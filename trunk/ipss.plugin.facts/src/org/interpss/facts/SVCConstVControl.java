@@ -56,9 +56,19 @@ public class SVCConstVControl extends AbstractAclfBus {
     }
     
     @Override
+	public double getGenP() {
+    	double vi = busi.getVoltageMag();
+    	double thetai = busi.getVoltageAng();
+		return (-vi * vi * gsh + vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)));
+	}
+
+	@Override
     public double getGenQ() { 
-    	// return equivalent SVC Q here - Prof Wu to be modified
-    	return 0.0; 
+    	double vi = busi.getVoltageMag();
+    	double thetai = busi.getVoltageAng();
+    	System.out.println(vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)));
+		return (vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)));
+//    	return 0;
     }
 
     /*
