@@ -10,9 +10,7 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
-import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.LoadBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 
@@ -23,6 +21,10 @@ public class SimpleSVCTest extends BaseTestSetup {
 		
         AclfBus bus = net.getAclfBus("Bus2");
         SVCConstVControl svc = new SVCConstVControl(bus, net.getNoBus()+1, 1.0, 0.0, -5.0);
+
+        // set svc as AclfBus extension
+        bus.setExtensionObject(svc);
+        
         SVCConstVControl[] svcArray = {svc};
         SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
         
@@ -60,15 +62,15 @@ public class SimpleSVCTest extends BaseTestSetup {
         AclfBus bus2 = CoreObjectFactory.createAclfBus("Bus2", net);
         bus2.setAttributes("Bus 2", "");
         bus2.setBaseVoltage(4000.0);
-        // set the bus to a non-generator bus
-        bus2.setGenCode(AclfGenCode.NON_GEN);
-        // set the bus to a constant power load bus
-        bus2.setLoadCode(AclfLoadCode.CONST_P);
-        // adapt the bus object to a Load bus object
-        LoadBusAdapter loadBus = bus2.toLoadBus();
-        // set load to the bus
-        loadBus.setLoad(new Complex(1.0, 0.8), UnitType.PU);
-        //net.addBus(bus2);
+//        // set the bus to a non-generator bus
+//        bus2.setGenCode(AclfGenCode.NON_GEN);
+//        // set the bus to a constant power load bus
+//        bus2.setLoadCode(AclfLoadCode.CONST_P);
+//        // adapt the bus object to a Load bus object
+//        LoadBusAdapter loadBus = bus2.toLoadBus();
+//        // set load to the bus
+//        loadBus.setLoad(new Complex(1.0, 0.8), UnitType.PU);
+//        //net.addBus(bus2);
 
         // create an AclfBranch object
         AclfBranch branch = CoreObjectFactory.createAclfBranch();
