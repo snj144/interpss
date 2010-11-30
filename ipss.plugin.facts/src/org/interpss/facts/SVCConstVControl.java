@@ -3,6 +3,7 @@ package org.interpss.facts;
 import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.datatype.Vector_xy;
 import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.impl.AbstractAclfBus;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
 
 /**
@@ -14,7 +15,7 @@ import com.interpss.core.sparse.SparseEqnMatrix2x2;
  * @author mzhou
  *
  */
-public class SVCConstVControl {
+public class SVCConstVControl extends AbstractAclfBus {
 	// network variables
 	AclfBus busi = null;  // bus the SVC connected to
 	int position = 0;     // SVC position in the J-matrix
@@ -43,6 +44,40 @@ public class SVCConstVControl {
     
     public int getPosition() {
     	return this.position;
+    }
+
+    /*
+     * define as a capacitor bus. The Q will be treated as Yshunt
+     */
+    
+    @Override
+    public boolean isCapacitor() { 
+    	return true; 
+    }
+    
+    @Override
+    public double getGenQ() { 
+    	// return equivalent SVC Q here - Prof Wu to be modified
+    	return 0.0; 
+    }
+
+    /*
+     * define as a load bus
+     */
+    
+    @Override
+    public boolean isLoad() { 
+    	return true; 
+    }
+    
+    @Override
+    public double getLoadP() { 
+    	return 1.0; 
+    }
+    
+    @Override
+    public double getLoadQ() { 
+    	return 0.8; 
     }
     
     /**
