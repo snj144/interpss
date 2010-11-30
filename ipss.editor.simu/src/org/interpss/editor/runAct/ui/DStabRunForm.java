@@ -37,14 +37,12 @@ import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreSpringAppContext;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;
 import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
@@ -240,8 +238,8 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 	private boolean prepareSimuRunDataCheckError(SimuContext simuCtx, IPSSMsgHub msg) {
 		simuCtx.getDStabilityNet().removeAllDEvent();
 
-		IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
-		mapper.mapping(this, simuCtx.getDynSimuAlgorithm());
+		PluginSpringAppContext.getXml2DStabAlgorithmMapper()
+				.map2Model(this.getXmlCaseData(), simuCtx.getDynSimuAlgorithm());
 
 		return RunActUtilFunc.checkDStabSimuData(simuCtx.getDynSimuAlgorithm(),
 				msg);

@@ -22,12 +22,12 @@
  *
  */
 
-package org.interpss.editor.mapper;
+package org.interpss.editor.mapper.bak;
 
 import org.interpss.editor.runAct.ui.AclfRunForm;
 import org.interpss.editor.runAct.ui.AcscRunForm;
 import org.interpss.editor.runAct.ui.DStabRunForm;
-import org.interpss.mapper.runCase.XmlCaseData2AlgorithmMapperImpl;
+import org.interpss.mapper.runCase.bak.XmlCaseData2AlgorithmMapperImpl;
 
 import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.core.algorithm.LoadflowAlgorithm;

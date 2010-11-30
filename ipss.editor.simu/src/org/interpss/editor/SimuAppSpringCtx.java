@@ -103,5 +103,4 @@ public class SimuAppSpringCtx extends SpringAppContext {
 		dialog.setRunStudyCaseFilename(filename);
 		return dialog;
 	}
-	
 }
