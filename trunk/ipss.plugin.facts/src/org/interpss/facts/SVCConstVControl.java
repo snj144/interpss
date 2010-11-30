@@ -1,5 +1,7 @@
 package org.interpss.facts;
 
+import org.apache.commons.math.complex.Complex;
+
 import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.datatype.Vector_xy;
 import com.interpss.core.aclf.AclfBus;
@@ -56,20 +58,29 @@ public class SVCConstVControl extends AbstractAclfBus {
     }
     
     @Override
-	public double getGenP() {
+    public 	Complex getShuntY() {
     	double vi = busi.getVoltageMag();
     	double thetai = busi.getVoltageAng();
-		return (-vi * vi * gsh + vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)));
-	}
-
-	@Override
-    public double getGenQ() { 
-    	double vi = busi.getVoltageMag();
-    	double thetai = busi.getVoltageAng();
-    	System.out.println(vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)));
-		return (vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)));
-//    	return 0;
+		double g = gsh - vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)) / vi;
+		double b = bsh + vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)) / vi;
+    	return new Complex(g, b);
     }
+
+//    @Override
+//	public double getGenP() {
+//    	double vi = busi.getVoltageMag();
+//    	double thetai = busi.getVoltageAng();
+//		return (-vi * vi * gsh + vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)));
+//	}
+//
+//	@Override
+//    public double getGenQ() { 
+//    	double vi = busi.getVoltageMag();
+//    	double thetai = busi.getVoltageAng();
+//    	System.out.println(vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)));
+//		return (vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)));
+////    	return 0;
+//    }
 
     /*
      * define as a load bus
