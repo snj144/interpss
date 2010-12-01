@@ -10,9 +10,7 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
-import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.LoadBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 
@@ -24,33 +22,12 @@ public class SimpleNetworkCase {
         // create a sample 5-bus system for Loadflow
         AclfNetwork net = createNet();
         
-//        SampleCases.load_LF_5BusSystem(net, SpringAppContext.getIpssMsgHub());
-        //System.out.println(net.net2String());
-
-//        for (Bus thisBus : net.getBusList()) {
-//            AclfBus thisAclfBus = net.getAclfBus(thisBus.getId());
-//            // Test the SVC constant V model at every load bus
-//            if (thisAclfBus.isLoad()) {
-//                SVCConstVControl svc = new SVCConstVControl(thisAclfBus, net.getNoBus() + 1, 1.0, 0.0, -5.0);
-//                SVCConstVControl[] svcArray = {svc};
-////                SVCConstVControl[] svcArray = {};
-//                SVCNrSolver thisSVCNrSolver = new SVCNrSolver(net, svcArray);
-//
-//                // create a Loadflow algo object
-//                LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(msg);
-//
-//                // set algo NR solver to the CustomNrSolver
-//                algo.setNrSolver(thisSVCNrSolver);
-//
-//                // run Loadflow
-//                net.accept(algo);
-//                // output loadflow calculation results
-//                System.out.println(AclfOutFunc.loadFlowSummary(net));
-//            }
-//        }
-        
         AclfBus bus = net.getAclfBus("Bus2");
         SVCConstVControl svc = new SVCConstVControl(bus, net.getNoBus() + 1, 1.0, 0.0, -5.0);
+        
+        // set svc as AclfBus extension
+        bus.setExtensionObject(svc);
+        
         SVCConstVControl[] svcArray = {svc};
         SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
         
@@ -88,15 +65,15 @@ public class SimpleNetworkCase {
         AclfBus bus2 = CoreObjectFactory.createAclfBus("Bus2", net);
         bus2.setAttributes("Bus 2", "");
         bus2.setBaseVoltage(4000.0);
-        // set the bus to a non-generator bus
-        bus2.setGenCode(AclfGenCode.NON_GEN);
-        // set the bus to a constant power load bus
-        bus2.setLoadCode(AclfLoadCode.CONST_P);
-        // adapt the bus object to a Load bus object
-        LoadBusAdapter loadBus = bus2.toLoadBus();
-        // set load to the bus
-        loadBus.setLoad(new Complex(1.0, 0.8), UnitType.PU);
-        //net.addBus(bus2);
+//        // set the bus to a non-generator bus
+//        bus2.setGenCode(AclfGenCode.NON_GEN);
+//        // set the bus to a constant power load bus
+//        bus2.setLoadCode(AclfLoadCode.CONST_P);
+//        // adapt the bus object to a Load bus object
+//        LoadBusAdapter loadBus = bus2.toLoadBus();
+//        // set load to the bus
+//        loadBus.setLoad(new Complex(1.0, 0.8), UnitType.PU);
+//        //net.addBus(bus2);
 
         // create an AclfBranch object
         AclfBranch branch = CoreObjectFactory.createAclfBranch();
