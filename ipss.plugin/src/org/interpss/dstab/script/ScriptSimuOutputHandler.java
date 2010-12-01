@@ -31,7 +31,7 @@ import javax.swing.JTextArea;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.util.IpssLogger;
@@ -50,7 +50,7 @@ public class ScriptSimuOutputHandler extends AbstractSimuOutputHandler {
 
 	@Override
 	public boolean init(String scriptFilename, DStabilityNetwork net) {
-		this.msg = SpringAppContext.getIpssMsgHub();
+		this.msg = CoreCommonSpringCtx.getIpssMsgHub();
 		this.net = net;
 
 		JTextArea textarea = new JTextArea();

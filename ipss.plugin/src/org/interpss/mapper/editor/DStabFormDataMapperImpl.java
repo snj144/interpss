@@ -43,6 +43,7 @@ import com.interpss.common.datatype.ScGroundType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InvalidParameterException;
+import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;
@@ -69,7 +70,11 @@ import com.interpss.simu.util.SimuSpringAppCtxUtil;
  * Bus, Branch simu objects
  */
 
-public class DStabFormDataMapperImpl {
+public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DStabilityNetwork> {
+
+	public DStabFormDataMapperImpl(IPSSMsgHub msg) {
+		this.msg = msg;
+	}
 	/**
 	 * Map the GNetContainer object to a DStabilityNetwork object
 	 * 
@@ -79,8 +84,8 @@ public class DStabFormDataMapperImpl {
 	 *            the SessionMsg object
 	 * @return a DStabilityNetwork object
 	 */
-	public static DStabilityNetwork mapEditNet2DStabNet(GFormContainer editNet,
-			IPSSMsgHub msg) {
+	@Override
+	public DStabilityNetwork map2Model(GFormContainer editNet) {
 		DStabilityNetwork dstabNet = DStabObjectFactory
 				.createDStabilityNetwork();
 

@@ -31,21 +31,26 @@ import javax.swing.JDialog;
 
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.custom.run.ICustomRunScriptPlugin;
+import org.interpss.editor.form.GFormContainer;
 import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.output.IOutputSimuResult;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.mapper.IMapping;
 import com.interpss.common.mapper.IpssMapper;
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
+import com.interpss.dist.DistNetwork;
+import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 
-public class PluginSpringAppContext extends SpringAppContext {
+public class PluginSpringCtx extends CoreCommonSpringCtx {
 	/**
 	 * Get the IpssXmlMapper(singleton) from the SpringAppContext.
 	 *  
@@ -53,7 +58,7 @@ public class PluginSpringAppContext extends SpringAppContext {
 	 */
 	public static IpssMapper getIpssXmlMapper() {
 		if (SpringAppCtx == null) // for grid computing
-			return new IpssXmlMapper(SpringAppContext.getIpssMsgHub());
+			return new IpssXmlMapper(CoreCommonSpringCtx.getIpssMsgHub());
 		return (IpssMapper) SpringAppCtx.getBean(Constants.SID_IpssXmlMapper);
 	}
 
@@ -184,5 +189,25 @@ public class PluginSpringAppContext extends SpringAppContext {
 	@SuppressWarnings("unchecked")
 	public static IMapping<DStabStudyCaseXmlType, DynamicSimuAlgorithm> getXml2DStabAlgorithmMapper() {
 		return (IMapping<DStabStudyCaseXmlType, DynamicSimuAlgorithm>) SpringAppCtx.getBean("xml2DStabAlgorithmMapper");
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static IMapping<GFormContainer, AclfNetwork> getForm2AclfNetMapper() {
+		return (IMapping<GFormContainer, AclfNetwork>) SpringAppCtx.getBean("aclfForm2AclfNetMapper");
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public static IMapping<GFormContainer, AcscNetwork> getForm2AcscNetMapper() {
+		return (IMapping<GFormContainer, AcscNetwork>) SpringAppCtx.getBean("acscForm2AcscNetMapper");
+	}	
+
+	@SuppressWarnings("unchecked")
+	public static IMapping<GFormContainer, DStabilityNetwork> getForm2DStabNetMapper() {
+		return (IMapping<GFormContainer, DStabilityNetwork>) SpringAppCtx.getBean("dstabForm2DStabNetMapper");
+	}	
+
+	@SuppressWarnings("unchecked")
+	public static IMapping<GFormContainer, DistNetwork> getForm2DistNetMapper() {
+		return (IMapping<GFormContainer, DistNetwork>) SpringAppCtx.getBean("distForm2DistNetMapper");
 	}	
 }

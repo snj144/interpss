@@ -41,7 +41,7 @@ import org.interpss.report.bean.RptMainTitleBean;
 import org.interpss.report.bean.acsc.AcscRptBeanFactory;
 import org.interpss.report.mapper.SimuCtxReportMapper;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
@@ -59,7 +59,7 @@ public class AcscFaultReport implements IIpssReport {
 					.getIpssGraphicEditor().getCurrentAppSimuContext();
 			SimuContext simuCtx = (SimuContext) appSimuCtx.getSimuCtx();
 			SimuCtxReportMapper mapper = new SimuCtxReportMapper(
-					SpringAppContext.getIpssMsgHub());
+					CoreCommonSpringCtx.getIpssMsgHub());
 
 			// map the title bean
 			RptMainTitleBean titleBean = new RptMainTitleBean();
@@ -77,7 +77,7 @@ public class AcscFaultReport implements IIpssReport {
 							.getAcscVoltAmpsDataSource(simuCtx));
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			SpringAppContext.getIpssMsgHub().sendErrorMsg(e.toString());
+			CoreCommonSpringCtx.getIpssMsgHub().sendErrorMsg(e.toString());
 		}
 		return null;
 	}

@@ -25,9 +25,9 @@
 package org.interpss.report;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 
-public class SpringReportContext extends SpringAppContext {
+public class SpringReportContext extends CoreCommonSpringCtx {
 	/**
 	 * Get the AclfSummaryReport(singleton) from the SpringReportContext.
 	 *  

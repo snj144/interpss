@@ -42,6 +42,7 @@ import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
+import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;
@@ -79,7 +80,12 @@ import com.interpss.dstab.DStabilityNetwork;
  * Bus, Branch simu objects
  */
 
-public class AclfFormDataMapperImpl {
+public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, AclfNetwork> {
+
+	public AclfFormDataMapperImpl(IPSSMsgHub msg) {
+		this.msg = msg;
+	}
+	
 	/**
 	 * Map the GFormContainer object to a AclfNetwork object
 	 * 
@@ -89,8 +95,8 @@ public class AclfFormDataMapperImpl {
 	 *            a SessionMsg object
 	 * @return an AclfAdjNetwork object
 	 */
-	public static AclfNetwork mapEditNet2AclfNet(GFormContainer editNet,
-			IPSSMsgHub msg) {
+	@Override
+	public AclfNetwork map2Model(GFormContainer editNet) {
 		AclfNetwork aclfNet = CoreObjectFactory.createAclfNetwork();
 
 		BaseFormDataMapperImpl.setBaseNetInfo((GNetForm) editNet.getGNetForm(),

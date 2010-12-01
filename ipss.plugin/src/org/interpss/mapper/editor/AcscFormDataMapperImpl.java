@@ -44,6 +44,7 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.exp.InvalidParameterException;
+import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;
@@ -66,7 +67,12 @@ import com.interpss.core.util.CoreUtilFunc;
  * Bus, Branch simu objects
  */
 
-public class AcscFormDataMapperImpl {
+public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, AcscNetwork> {
+
+	public AcscFormDataMapperImpl(IPSSMsgHub msg) {
+		this.msg = msg;
+	}
+	
 	/**
 	 * Map the GNetContainer object to a SimpleFaultNetwork object
 	 * 
@@ -76,8 +82,8 @@ public class AcscFormDataMapperImpl {
 	 *            the SessionMsg object
 	 * @return a SimpleFaultNetwork object
 	 */
-	public static AcscNetwork mapEditNet2AcscNet(GFormContainer editNet,
-			IPSSMsgHub msg) {
+	@Override
+	public AcscNetwork map2Model(GFormContainer editNet) {
 		AcscNetwork acscNet = CoreObjectFactory
 				.createAcscNetwork();
 

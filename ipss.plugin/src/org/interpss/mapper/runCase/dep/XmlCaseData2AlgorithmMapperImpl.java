@@ -37,7 +37,7 @@ import org.interpss.schema.MachineControllerDataType;
 import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Event.LoadChangeData;
 import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Event.LoadChangeData.LoadChangeType;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InvalidParameterException;
@@ -242,7 +242,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 							xmlEvent.getRecName(), name, deType, dstabNet,
 							msg);
 					if (event == null) {
-						SpringAppContext.getEditorDialogUtil()
+						CoreCommonSpringCtx.getEditorDialogUtil()
 								.showErrMsgDialog("Error to create DynamicEvent", "Please see the log file for details");
 						return false;
 					}
@@ -252,7 +252,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 								dstabNet, msg);
 					} catch (Exception e) {
 						IpssLogger.logErr(e);
-						SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+						CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 										"Error to process DynamicEvent", "See log file for details, " + e.toString());
 						return false;
 					}

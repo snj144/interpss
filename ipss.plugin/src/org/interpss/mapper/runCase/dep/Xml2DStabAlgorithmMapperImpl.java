@@ -36,7 +36,7 @@ import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Even
 import org.interpss.schema.DStabStudyCaseXmlType.SimuConfig.SimuMethod;
 import org.interpss.schema.DStabStudyCaseXmlType.StaticLoadModel.StaticLoadType;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -172,7 +172,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 				// create the DStabEvent
 				DynamicEvent event = DStabObjectFactory.createDEvent(eventData.getRecName(), name, deType, dstabNet, msg);
 				if (event == null) {
-					SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+					CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 							"Error to create DynamicEvent",
 							"Please see the log file for details");
 					return false;
@@ -183,7 +183,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 							.getTotalSimuTimeSec(), dstabNet, msg);
 				} catch (Exception e) {
 					IpssLogger.logErr(e);
-					SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+					CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 							"Error to process DynamicEvent",
 							"See log file for details, " + e.toString());
 					return false;
@@ -196,7 +196,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 	private static Machine getMachine(DStabilityNetwork net, String machId) {
 		Machine mach = net.getMachine(machId);
 		if (mach == null) {
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 					"Machine Id Error",
 					"Machine cannot be found, mach id : " + machId);
 			IpssLogger.getLogger().severe(
@@ -221,7 +221,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 			else if (eventType == DynamicEventDataType.SET_POINT_CHANGE)
 				return DynamicEventType.SET_POINT_CHANGE;
 		}
-		SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+		CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 				"Dynamic Event Type Error", "EventDataType: " + eventType);
 		throw new InvalidParameterException(
 				"Programming error, eventDataType: " + eventType);
@@ -297,7 +297,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 				if (bus != null)
 					fault.setFaultBus(bus);
 				else {
-					SpringAppContext.getEditorDialogUtil()
+					CoreCommonSpringCtx.getEditorDialogUtil()
 							.showErrMsgDialog(
 									"Bus Data Error",
 									"Bus cannot be found, id:"
@@ -340,7 +340,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 		if (branch != null)
 			fault.setFaultBranch(branch);
 		else {
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 					"Branch Data Error",
 					"Branch cannot be found, id:" + fdata.getBusBranchId());
 			throw new InvalidParameterException(

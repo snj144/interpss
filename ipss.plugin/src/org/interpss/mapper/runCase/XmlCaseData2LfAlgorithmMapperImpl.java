@@ -25,6 +25,7 @@
 package org.interpss.mapper.runCase;
 
 import org.interpss.schema.AclfAlgorithmXmlType;
+import org.interpss.schema.UnitDataType;
 
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -53,7 +54,12 @@ public class XmlCaseData2LfAlgorithmMapperImpl extends AbstractMapping<AclfAlgor
 		 * AclfMethod.PQ) algo.setLfMethod(AclfMethod.NR);
 		 */
 		algo.setMaxIterations(xmlAlgo.getMaxIterations());
-		algo.setTolerance(xmlAlgo.getTolerance());
+		double factor = 1.0;
+		if (xmlAlgo.getToleranceUnit() == UnitDataType.KVA)
+			factor = 1.0/algo.getAclfNetwork().getBaseKva();
+		else if (xmlAlgo.getToleranceUnit() == UnitDataType.M_VA)
+			factor = 1000.0/algo.getAclfNetwork().getBaseKva();
+		algo.setTolerance(factor * xmlAlgo.getTolerance());
 		algo.setNonDivergent(xmlAlgo.getNonDivergent());
 		algo.setInitBusVoltage(xmlAlgo.getInitBusVoltage());
 		algo.setGsAccFactor(xmlAlgo.getAccFactor());

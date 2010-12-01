@@ -24,7 +24,7 @@
 
 package org.interpss.mapper.runCase;
 
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.schema.AcscFaultCategoryDataType;
 import org.interpss.schema.AcscFaultDataType;
@@ -35,7 +35,7 @@ import org.interpss.schema.MachineControllerDataType;
 import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Event.LoadChangeData;
 import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Event.LoadChangeData.LoadChangeType;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.mapper.AbstractMapping;
@@ -77,7 +77,7 @@ public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabS
 	public boolean map2Model(DStabStudyCaseXmlType xmlDstabData, DynamicSimuAlgorithm algo) {
 		//System.out.println(xmlDstabData.toString());
 		
-		PluginSpringAppContext.getXml2LfAlgorithmMapper()
+		PluginSpringCtx.getXml2LfAlgorithmMapper()
 				.map2Model(xmlDstabData.getAclfAlgorithm(), algo.getAclfAlgorithm());
 		algo.setSimuMethod(xmlDstabData.getSimuConfig().getSimuMethod() == DStabStudyCaseXmlType.SimuConfig.SimuMethod.MODIFIED_EULER ? 
 						DynamicSimuMethod.MODIFIED_EULER : DynamicSimuMethod.RUNGE_KUTTA );
@@ -156,7 +156,7 @@ public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabS
 							xmlEvent.getRecName(), name, deType, dstabNet,
 							msg);
 					if (event == null) {
-						SpringAppContext.getEditorDialogUtil()
+						CoreCommonSpringCtx.getEditorDialogUtil()
 								.showErrMsgDialog("Error to create DynamicEvent", "Please see the log file for details");
 						return false;
 					}
@@ -166,7 +166,7 @@ public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabS
 								dstabNet, msg);
 					} catch (Exception e) {
 						IpssLogger.logErr(e);
-						SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+						CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 										"Error to process DynamicEvent", "See log file for details, " + e.toString());
 						return false;
 					}
