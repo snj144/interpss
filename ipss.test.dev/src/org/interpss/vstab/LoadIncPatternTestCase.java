@@ -1,12 +1,13 @@
 package org.interpss.vstab;
 
 import static org.junit.Assert.assertTrue;
+
 import org.interpss.BaseTestSetup;
 import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncPtn;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -21,7 +22,7 @@ public class LoadIncPatternTestCase extends BaseTestSetup {
 		// create a sample 5-bus system for Loadflow 
      
   		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
-		SampleCases.load_LF_5BusSystem(net, SpringAppContext.getIpssMsgHub());
+		SampleCases.load_LF_5BusSystem(net, CoreCommonSpringCtx.getIpssMsgHub());
 		/*
 		 *   LoadBus(net, "1", 13800.0D, 1, 1, AclfLoadCode.CONST_P, 1.6000000000000001D, 0.80000000000000004D, 2);
              LoadBus(net, "2", 13800.0D, 1, 1, AclfLoadCode.CONST_P, 2.0D, 1D, 2);
