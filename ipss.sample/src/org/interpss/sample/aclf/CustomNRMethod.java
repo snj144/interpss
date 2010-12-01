@@ -26,7 +26,7 @@ package org.interpss.sample.aclf;
 
 import org.interpss.display.AclfOutFunc;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.datatype.Vector_xy;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -118,7 +118,7 @@ public class CustomNRMethod {
 		
 		// create a sample 5-bus system for Loadflow 
   		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
-		SampleCases.load_LF_5BusSystem(net, SpringAppContext.getIpssMsgHub());
+		SampleCases.load_LF_5BusSystem(net, CoreCommonSpringCtx.getIpssMsgHub());
 		//System.out.println(net.net2String());
 
 		// create a Loadflow algo object

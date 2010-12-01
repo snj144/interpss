@@ -5,7 +5,7 @@ import java.util.List;
 import org.graphdrawing.gml.GraphType;
 import org.graphdrawing.gml.GraphmlType;
 import org.gridgain.grid.Grid;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.gridgain.GridRunner;
 import org.interpss.gridgain.msg.RemoteMessageTable;
@@ -13,7 +13,7 @@ import org.interpss.gridgain.util.GridUtil;
 import org.interpss.sample.grid.impl.GridHelper;
 import org.interpss.sample.grid.impl.multi.CustomMultiLocalTask;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
@@ -29,10 +29,10 @@ public class IEEE14GmlGridImpl {
 	 */
 	public static void main(String[] args) throws Exception {
 		// InterPSS core simulation engine configuration
-		SpringAppContext.setAppContext(Constants.SpringConfigPath_Plugin);
+		CoreCommonSpringCtx.setAppContext(Constants.SpringConfigPath_Plugin);
 
     	// Build the base case network
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee14.ieee");
 		AclfNetwork adjNet = simuCtx.getAclfNet();
 		
