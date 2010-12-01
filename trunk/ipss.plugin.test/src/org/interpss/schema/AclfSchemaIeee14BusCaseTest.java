@@ -6,13 +6,11 @@ import java.io.File;
 
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringCtx;
-import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
 import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfLoadCode;
@@ -144,9 +142,12 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
   			
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	// modification of the study case also applied
-	  	IpssMapper mapper = new IpssXmlMapper();
-	  	mapper.mapping(aclfCase.getModification(), net);
-	  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo);
+	  	//IpssMapper mapper = new IpssXmlMapper();
+	  	PluginSpringCtx.getModXml2NetMapper()
+	  			.map2Model(aclfCase.getModification(), net);
+	  	
+	  	PluginSpringCtx.getXml2LfAlgorithmMapper()
+	  			.map2Model(aclfCase.getAclfAlgorithm(), algo);
 	  	
 	  	assertTrue(!net.getBranch("0010->0009(1)").isActive());
 	  	

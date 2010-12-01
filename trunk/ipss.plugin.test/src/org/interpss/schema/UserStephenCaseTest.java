@@ -7,12 +7,10 @@ import java.io.File;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
 import com.interpss.common.CoreCommonSpringCtx;
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
@@ -44,13 +42,16 @@ public class UserStephenCaseTest extends BaseTestSetup {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
-		  	IpssMapper mapper = new IpssXmlMapper();
+		  	//IpssMapper mapper = new IpssXmlMapper();
 	  		
 		  	if (aclfCase.getAclfAlgorithm() == null) 
 		  		aclfCase.setAclfAlgorithm(parser.getRunAclfStudyCase().getDefaultAclfAlgorithm());
 		  	if (aclfCase.getModification() != null)
-			  	mapper.mapping(aclfCase.getModification(), net);
-		  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo);
+		  		PluginSpringCtx.getModXml2NetMapper()
+		  				.map2Model(aclfCase.getModification(), net);
+		  	
+		  	PluginSpringCtx.getXml2LfAlgorithmMapper()
+		  			.map2Model(aclfCase.getAclfAlgorithm(), algo);
 	  	
 	  		assertTrue(algo.loadflow());
 
@@ -95,13 +96,16 @@ public class UserStephenCaseTest extends BaseTestSetup {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
-		  	IpssMapper mapper = new IpssXmlMapper();
+		  	//IpssMapper mapper = new IpssXmlMapper();
 
 		  	if (aclfCase.getModification() != null)
-			  	mapper.mapping(aclfCase.getModification(), net);
+		  		PluginSpringCtx.getModXml2NetMapper()
+		  				.map2Model(aclfCase.getModification(), net);
 		  	if (aclfCase.getAclfAlgorithm() == null) 
 		  		aclfCase.setAclfAlgorithm(parser.getRunAclfStudyCase().getDefaultAclfAlgorithm());
-		  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo);
+		  	
+		  	PluginSpringCtx.getXml2LfAlgorithmMapper()
+		  			.map2Model(aclfCase.getAclfAlgorithm(), algo);
 	  		
 		  	algo.setNonDivergent(true);
 	  		//assertTrue(algo.loadflow());

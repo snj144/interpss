@@ -40,7 +40,6 @@ import org.interpss.xml.PreventiveRuleHanlder;
 import org.junit.Test;
 
 import com.interpss.common.CoreCommonSpringCtx;
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfLoadCode;
@@ -114,8 +113,8 @@ public class RuleXmlCaseTest extends BaseTestSetup {
 		net.getAclfBranch("0005->0006(1)").setRatingMva1(70.0);
 
 		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
-  		IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
-		mapper.mapping(aclfCase.getModification(), net);
+		PluginSpringCtx.getModXml2NetMapper()
+				.map2Model(aclfCase.getModification(), net);
 
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
@@ -163,8 +162,8 @@ public class RuleXmlCaseTest extends BaseTestSetup {
 		net.getAclfBranch("0005->0006(1)").setRatingMva1(70.0);
 
 		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
-  		IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
-		mapper.mapping(aclfCase.getModification(), net);
+		PluginSpringCtx.getModXml2NetMapper()
+				.map2Model(aclfCase.getModification(), net);
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 		PluginSpringCtx.getXml2LfAlgorithmMapper()
