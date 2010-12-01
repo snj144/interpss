@@ -36,13 +36,11 @@ import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.gridgain.GridRunner;
 import org.interpss.output.IOutputSimuResult;
-import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 
 import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.SimuRunType;
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
@@ -133,8 +131,8 @@ public class CmdLineRunner {
 			
 			// Apply the modification to the base Network object
 			if (parser.getModification() != null) {
-				IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
-				mapper.mapping(parser.getModification(), simuCtx.getNetwork(), ModificationXmlType.class);
+				PluginSpringCtx.getModXml2NetMapper()
+							.map2Model(parser.getModification(), simuCtx.getNetwork());
 			}
 
 			RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
