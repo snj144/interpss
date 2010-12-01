@@ -13,7 +13,7 @@ import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.PreventiveRuleHanlder;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
@@ -46,7 +46,7 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
-			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 		  	IpssMapper mapper = new IpssXmlMapper();
 		  	mapper.mapping(aclfCase.getModification(), net);
 		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
@@ -102,7 +102,7 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
-			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 		  	IpssMapper mapper = new IpssXmlMapper();
 		  	mapper.mapping(aclfCase.getModification(), net);
 		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
@@ -142,7 +142,7 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
-			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 		  	IpssMapper mapper = new IpssXmlMapper();
 		  	mapper.mapping(aclfCase.getModification(), net);
 		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);

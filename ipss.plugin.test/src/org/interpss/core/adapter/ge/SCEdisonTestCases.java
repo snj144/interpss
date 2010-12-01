@@ -27,11 +27,11 @@ package org.interpss.core.adapter.ge;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
@@ -40,11 +40,11 @@ import com.interpss.simu.SimuContext;
 public class SCEdisonTestCases extends BaseTestSetup {
 	@Test
 	public void testCase2() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ge");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ge");
 		SimuContext simuCtx = adapter.load("testData/ge/lftest_083008.epc");
 		GeAclfNetwork net = (GeAclfNetwork)simuCtx.getAclfNet();
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.setTolerance(0.1);
 	  	algo.loadflow();
 		//System.out.println(net.net2String());

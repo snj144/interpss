@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.interpss.BaseTestSetup;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetHelper;
 import com.interpss.core.aclf.AclfNetwork;
@@ -21,7 +21,7 @@ public class IEEE14SwingCheckTest  extends BaseTestSetup {
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 
 	  	net.getBranch("0007", "0008").setStatus(false);
 	  	net.getBranch("0001", "0002").setStatus(false);

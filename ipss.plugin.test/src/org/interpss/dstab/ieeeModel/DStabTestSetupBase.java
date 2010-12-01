@@ -34,7 +34,7 @@ import org.interpss.editor.mapper.EditorJGraphDataMapper;
 import org.interpss.editor.util.IOUtilFunc;
 import org.jgraph.JGraph;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -55,7 +55,7 @@ public class DStabTestSetupBase extends BaseTestSetup{
 	protected IPSSMsgHub msg;
 
 	public DStabTestSetupBase() { 
-		msg = SpringAppContext.getIpssMsgHub();
+		msg = CoreCommonSpringCtx.getIpssMsgHub();
 		IpssLogger.getLogger().setLevel(Level.WARNING);
  	}
 

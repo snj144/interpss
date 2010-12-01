@@ -30,12 +30,12 @@ import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.xbean.psse.v30.XBeanPSSEV30Adapter;
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.mapper.odm.IEEEODMMapper;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
@@ -51,11 +51,11 @@ import com.interpss.simu.SimuObjectFactory;
 public class GuideSampleTestCases extends BaseTestSetup {
 	//@Test
 	public void testCase() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("psse");
 		SimuContext simuCtx = adapter.load("testData/psse/PSSE_GuideSample.raw");
   		//System.out.println(simuCtx.getAclfNet().net2String());
 		AclfNetwork net = simuCtx.getAclfNet();
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setNonDivergent(true);
 	  	algo.loadflow();
@@ -80,7 +80,7 @@ public class GuideSampleTestCases extends BaseTestSetup {
 		
 		AclfNetwork net = null;
 		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, CoreCommonSpringCtx.getIpssMsgHub());
 		if (mapper.mapping(adapter.getModel(), simuCtx)) {
   	  		simuCtx.setName("Sample18Bus");
   	  		simuCtx.setDesc("This project is created by input file adapter.getModel()");
@@ -92,7 +92,7 @@ public class GuideSampleTestCases extends BaseTestSetup {
   	  		return;
 		}	
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setNonDivergent(true);
 	  	algo.loadflow();

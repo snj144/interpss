@@ -25,7 +25,7 @@
 package org.interpss.core.adapter.ucte;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
@@ -34,7 +34,7 @@ import com.interpss.simu.SimuContext;
 public class UCTEFormatIEEE14BusTest extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("uct");
 		SimuContext simuCtx = adapter.load("testData/ucte/ieee14.uct");
   		System.out.println(simuCtx.getAclfNet().net2String());
 		

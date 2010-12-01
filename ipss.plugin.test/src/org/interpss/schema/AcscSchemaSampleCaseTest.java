@@ -33,7 +33,7 @@ import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.TestUtilFunc;
 import com.interpss.core.CoreObjectFactory;
@@ -52,11 +52,11 @@ public class AcscSchemaSampleCaseTest extends BaseTestSetup {
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACSC);
 
 	  	AcscNetwork faultNet = CoreObjectFactory.createAcscNetwork();
-		SampleCases.load_SC_5BusSystem(faultNet, SpringAppContext.getIpssMsgHub());
+		SampleCases.load_SC_5BusSystem(faultNet, CoreCommonSpringCtx.getIpssMsgHub());
 		//System.out.println(faultNet.net2String());
   		assertTrue((faultNet.getBusList().size() == 5 && faultNet.getBranchList().size() == 5));
 
-  		SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, SpringAppContext.getIpssMsgHub());
+  		SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, CoreCommonSpringCtx.getIpssMsgHub());
 	  	IpssMapper mapper = new IpssXmlMapper();
 	  	for ( AcscStudyCaseXmlType scase : parser.getRunAcscStudyCase().getAcscStudyCaseList().getAcscStudyCaseArray()) {
 	  		mapper.mapping(scase, algo);

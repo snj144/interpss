@@ -29,15 +29,15 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.junit.Test;
 
 public class CustomFileAdapterTest extends BaseTestSetup {
 	@Test
 	public void testcustomFileAdapterList() {
-		List list = PluginSpringAppContext.getCustomFileAdapterList();
+		List list = PluginSpringCtx.getCustomFileAdapterList();
 		assertTrue(list.size() >= 5);
 		// assertTrue(PluginSpringAppContext.getCustomFileAdapter("m") != null);  Matlab not support anymore
-		assertTrue(PluginSpringAppContext.getCustomFileAdapter("ieee") != null);
+		assertTrue(PluginSpringCtx.getCustomFileAdapter("ieee") != null);
 	}
 }

@@ -6,7 +6,7 @@ import org.interpss.BaseTestSetup;
 import org.interpss.display.AclfOutFunc;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
@@ -28,7 +28,7 @@ public class IEEE14BusCaseTest  extends BaseTestSetup {
 		loadCaseData("testData/aclf/IEEE14Bus_3WXfrOff.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	
   		assertTrue(algo.loadflow());
 
@@ -45,7 +45,7 @@ public class IEEE14BusCaseTest  extends BaseTestSetup {
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setNonDivergent(true);
 	  	
@@ -61,14 +61,14 @@ public class IEEE14BusCaseTest  extends BaseTestSetup {
 	public void runSampleAdjustChangeStep() throws Exception {
 		// step-1: define and load a EMF network object
   		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
-		SampleCases.load_LF_5BusSystem(net, SpringAppContext.getIpssMsgHub());
+		SampleCases.load_LF_5BusSystem(net, CoreCommonSpringCtx.getIpssMsgHub());
 		//System.out.println(net.net2String());
 		
 		AclfBus bus = net.getAclfBus("1");
 		bus.setLoadP(2.0);
 		bus.setLoadQ(1.1);
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setNonDivergent(true);
 

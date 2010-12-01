@@ -25,11 +25,11 @@
 package org.interpss.core.adapter.psse;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
@@ -39,13 +39,13 @@ import com.interpss.simu.SimuContext;
 public class NEIsoEDTestCases extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("psse");
 		//SimuContext simuCtx = adapter.load("testData/psse/test_model_V29.raw", SpringAppContext.getIpssMsgHub());
 		SimuContext simuCtx = adapter.load("testData/psse/test_model_V30.raw");
   		//System.out.println(simuCtx.getAclfNet().net2String());
 
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.setNonDivergent(true);
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	net.setBypassDataCheck(true);

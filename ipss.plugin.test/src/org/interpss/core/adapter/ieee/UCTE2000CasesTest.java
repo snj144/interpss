@@ -27,11 +27,11 @@ package org.interpss.core.adapter.ieee;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
@@ -41,13 +41,13 @@ import com.interpss.simu.SimuContext;
 public class UCTE2000CasesTest extends BaseTestSetup {
 	@Test 
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_format/UCTE_2000_WinterOffPeak.ieee");
 
 		AclfNetwork net = simuCtx.getAclfNet();
   		//assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.setNonDivergent(true);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
@@ -57,13 +57,13 @@ public class UCTE2000CasesTest extends BaseTestSetup {
 
 	//@Test 
 	public void testCase2() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_format/UCTE_2000_WinterPeak.ieee");
 
 		AclfNetwork net = simuCtx.getAclfNet();
   		//assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.setNonDivergent(true);
 	  	algo.loadflow();

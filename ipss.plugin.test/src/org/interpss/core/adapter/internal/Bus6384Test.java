@@ -27,11 +27,11 @@ package org.interpss.core.adapter.internal;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
@@ -42,7 +42,7 @@ public class Bus6384Test extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
   		System.out.println("Start loading data ...");
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/BUS6384.ipssdat");
   		System.out.println("End loading data ...");
 
@@ -50,7 +50,7 @@ public class Bus6384Test extends BaseTestSetup {
   		//System.out.println(net.net2String());
   		assertTrue((net.getBusList().size() == 6384));
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());

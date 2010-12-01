@@ -27,11 +27,11 @@ package org.interpss.core.adapter.odm;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
@@ -43,13 +43,13 @@ import com.interpss.simu.SimuContext;
 public class IEEEODMTest extends BaseTestSetup {
 	@Test 
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("odm");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("odm");
 		SimuContext simuCtx = adapter.load("testData/ieee_odm/ieee14Bus.xml");
 
 		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
