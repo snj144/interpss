@@ -30,7 +30,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
@@ -147,14 +147,14 @@ public class DStabPlotDialogRecord {
 						+ map.toString());
 
 		// retrieve rec from DB
-		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
+		ISimuRecManager simuRecManager = CoreCommonSpringCtx.getSimuRecManager();
 		List<BaseSimuDBRecord> elemRecList = null;
 		try {
 			elemRecList = simuRecManager.getSimuRecList(caseId, recTypeList,
 					elemIdList, IProjectDataManager.CaseType_DStabSimuRec);
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 					"Error to GetSimuRecList from DB",
 					ex.toString() + "\n Please contact InterPSS support");
 		}

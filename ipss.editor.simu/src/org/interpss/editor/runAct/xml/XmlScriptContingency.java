@@ -26,7 +26,7 @@ package org.interpss.editor.runAct.xml;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.gridgain.GridRunner;
@@ -39,7 +39,7 @@ import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.ContingencyAnalysisXmlType;
 import org.interpss.schema.InterPSSXmlType;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -65,14 +65,14 @@ public class XmlScriptContingency {
 	 */
 	public static boolean runContingencyAnalysis(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet, IPSSMsgHub msg) {
 		if (!GridUtil.isGridEnabled()) {
-			SpringAppContext.getEditorDialogUtil().showWarnMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showWarnMsgDialog(
 					"Contingency Analysis Warnning", "Contingency analysis requires Grid Computing env setup properly");
 			return false;
 		}
 
 		ContingencyAnalysisXmlType xmlRunCase = ipssXmlDoc.getRunStudyCase().getContingencyAnalysis();
 		if (xmlRunCase == null) {
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 					"Invalid Xml", "runAclfStudyCase element not defined");
 			return false;
 		}
@@ -95,7 +95,7 @@ public class XmlScriptContingency {
 		for (AclfStudyCaseXmlType xmlCase : xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet, msg);
 			// map to the Algo object including network modification at the study case level
-			IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
+			IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 			if (!XmlScriptUtilFunc.mapAclfStudyCase(mapper, xmlCase, algo, 
 					xmlRunCase.getDefaultAclfAlgorithm(), true, msg))
 				return false;
@@ -125,10 +125,10 @@ public class XmlScriptContingency {
 					resultHandler.transferRemoteResult(mCaseContainer, result);
 				}
 			} catch (GridException e) {
-				SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
+				CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
 				return false;
 			} catch (Exception e) {
-				SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Study Case Creation Error", e.toString());
+				CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog("Study Case Creation Error", e.toString());
 				return false;
 			}
 		}

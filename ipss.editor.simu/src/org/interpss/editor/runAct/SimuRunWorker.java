@@ -25,7 +25,7 @@
 package org.interpss.editor.runAct;
 
 import org.interpss.display.DclfOutFunc;
-import org.interpss.editor.SimuAppSpringCtx;
+import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.graph.GraphSimuUtilFunc;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
@@ -95,7 +95,7 @@ public class SimuRunWorker extends Thread {
 					"Run AC Loadflow Analysis ...", "Run Aclf");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run AC Loadflow");
 
-			boolean converge = SimuAppSpringCtx.getAclfRunForm()
+			boolean converge = EditorSimuSpringCtx.getAclfRunForm()
 					.runCase(simuCtx, simuCtx.getMsgHub());
 			appSimuCtx.setLfConverged(converge);
 
@@ -111,12 +111,12 @@ public class SimuRunWorker extends Thread {
 			IpssLogger.getLogger().info(
 					"SimuRunWorker starts Run AC Short Circuit");
 
-			SimuAppSpringCtx.getAcscRunForm().runCase(simuCtx,
+			EditorSimuSpringCtx.getAcscRunForm().runCase(simuCtx,
 					simuCtx.getMsgHub());
 
 			appStatus.busyStop("Run AC Short Circuit Analysis finished");
 
-			SimuAppSpringCtx.getAcscRunForm().displaySummaryResult(
+			EditorSimuSpringCtx.getAcscRunForm().displaySummaryResult(
 					simuCtx);
 			if (graph != null) {
 				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph,
@@ -127,7 +127,7 @@ public class SimuRunWorker extends Thread {
 					"Run Transient Stability Simulation ...", "Run DStab");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run Transient Stability");
 
-			DStabRunForm runForm = SimuAppSpringCtx.getDStabRunForm();
+			DStabRunForm runForm = EditorSimuSpringCtx.getDStabRunForm();
 			if (runForm.getXmlGridData() != null && runForm.getXmlGridData().getEnableGridRun())
 				runForm.runGridCase(simuCtx, simuCtx.getMsgHub());
 			else
@@ -189,7 +189,7 @@ public class SimuRunWorker extends Thread {
 					"Run Sensitivity Analysis ...", "Run SenAnalysis");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run Sensitivity Analysis");
 
-			SimuAppSpringCtx.getDclfRunForm().runCase(simuCtx, simuCtx.getMsgHub());
+			EditorSimuSpringCtx.getDclfRunForm().runCase(simuCtx, simuCtx.getMsgHub());
 
 			appStatus.busyStop("Run AC Loadflow Analysis finished");
 		}

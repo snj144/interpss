@@ -28,7 +28,7 @@ import java.io.File;
 
 import org.interpss.AppConstants;
 import org.interpss.InterPSS;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.runAct.xml.XmlScriptAclfRun;
 import org.interpss.editor.runAct.xml.XmlScriptAcscRun;
@@ -40,7 +40,7 @@ import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -104,8 +104,7 @@ public class CmdLineRunner {
 			}
 			
 			String ext = StringUtil.getFileExt(filename);
-			IpssFileAdapter adapter = PluginSpringAppContext
-					.getCustomFileAdapter(ext);
+			IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter(ext);
 			if (adapter == null) {
 				IpssLogger.getLogger().severe("Wrong file type, no adapter is available, ext: " + ext);
 				return null;
@@ -119,7 +118,7 @@ public class CmdLineRunner {
 	}
 
 	private static boolean runStudyCase(SimuContext simuCtx, String runTypeStr, String xmlControlFile) {
-		IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
+		IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
 		if (xmlControlFile != null && !xmlControlFile.equals("")) {
 			IpssLogger.getLogger().info("Run CmdLine using xml control file, " + xmlControlFile);
 		
@@ -134,7 +133,7 @@ public class CmdLineRunner {
 			
 			// Apply the modification to the base Network object
 			if (parser.getModification() != null) {
-				IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
+				IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 				mapper.mapping(parser.getModification(), simuCtx.getNetwork(), ModificationXmlType.class);
 			}
 
@@ -197,7 +196,7 @@ public class CmdLineRunner {
 
 	private static void outputResult(SimuContext simuCtx, SimuRunType runType,
 			String outFilename) {
-		IOutputSimuResult out = PluginSpringAppContext.getSimuResultOutput();
+		IOutputSimuResult out = PluginSpringCtx.getSimuResultOutput();
 		if (runType == SimuRunType.Dclf) {
 			if (InterPSS.RunAclfStr.equals(runType)) {
 				out.outAclfResult(simuCtx.getAclfNet(), outFilename);

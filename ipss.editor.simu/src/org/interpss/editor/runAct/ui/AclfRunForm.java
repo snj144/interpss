@@ -26,7 +26,7 @@ package org.interpss.editor.runAct.ui;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.gridgain.GridRunner;
@@ -36,7 +36,7 @@ import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
@@ -103,7 +103,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 						dialog.display(adjNet);
 					}
 				} catch (GridException e) {
-					SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+					CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 							"Grid Aclf Error", e.toString());
 					return false;
 				}
@@ -170,7 +170,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 	private boolean runLoadflow_internal(AclfNetwork aclfAdjNet,
 			LoadflowAlgorithm algo, IPSSMsgHub msg) {
-		PluginSpringAppContext.getXml2LfAlgorithmMapper()
+		PluginSpringCtx.getXml2LfAlgorithmMapper()
 				.map2Model(this.getAclfCaseData().getAclfAlgorithm(), algo);
 
 		algo.loadflow();

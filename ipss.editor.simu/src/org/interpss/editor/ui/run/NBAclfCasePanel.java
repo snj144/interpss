@@ -39,7 +39,7 @@ import org.interpss.editor.ui.run.common.NBGridComputingPanel;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.GridComputingXmlType;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
@@ -933,7 +933,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	accFactorTextField.setEnabled(false);
     	accFactorLabel.setEnabled(false);
     	if (_netContainer != null && _netContainer.isBranchR_LT_X()) {
-    		SpringAppContext.getEditorDialogUtil().showMsgDialog("Warning",
+    		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog("Warning",
                 "You have branch(es) R > X in your next work, PQ method may diverge. Use NR is recommended");
     	}
     }//GEN-LAST:event_pqRadioButtonActionPerformed

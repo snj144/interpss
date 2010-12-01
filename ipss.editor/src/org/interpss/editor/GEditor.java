@@ -75,7 +75,7 @@ public class GEditor extends Applet {
 			str = Translator.getString(Pty_UserWorkspace);
 			IpssPropertiesLoader.setUserPty(Pty_CurrentWorkspace, str);
 		}
-		EditorSpringAppContext.getAppContext().setWorkspaceDir(StringUtil.getInstallLocation() + str);
+		EditorSpringCtx.getAppContext().setWorkspaceDir(StringUtil.getInstallLocation() + str);
 	}
 	
 	/*
@@ -97,7 +97,7 @@ public class GEditor extends Applet {
 		setWorkspaceDirectory();
 		
 		// load ref data from DB
-		EditorSpringAppContext.getRefDataManager().loadAllRefData();
+		EditorSpringCtx.getRefDataManager().loadAllRefData();
 		showSplashInfo(info,Translator.getString("Splash.Database"));
 
 		// set the look and feel
@@ -116,7 +116,7 @@ public class GEditor extends Applet {
 		showSplashInfo(info,Translator.getString("Splash.Start"));
 
 		try {
-			GEditor.pad = EditorSpringAppContext.getGraphicEditor();
+			GEditor.pad = EditorSpringCtx.getGraphicEditor();
 			String str = IpssPropertiesLoader.getUserPty(Pty_CurrentWorkspace);
 			if (str.equals(Translator.getString("WorkSpace.Location")))
 				Workspace.setCurrentType(Workspace.Type.User);

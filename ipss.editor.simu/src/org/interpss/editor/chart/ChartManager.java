@@ -42,7 +42,7 @@ import org.interpss.editor.jgraph.ui.form.IGBusForm;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
@@ -75,16 +75,16 @@ public class ChartManager {
 					"No element selected for addPopupMenuAction()");
 			JMenu simuCaseMenu = new JMenu("Select SimuCase");
 			menu.add(simuCaseMenu);
-			String[] caseIdList = SpringAppContext.getSimuRecManager()
+			String[] caseIdList = CoreCommonSpringCtx.getSimuRecManager()
 					.getCaseIdList();
 			for (final String str : caseIdList) {
-				if (SpringAppContext.getSimuRecManager().getDBCaseId(str) != appSimuCtx
+				if (CoreCommonSpringCtx.getSimuRecManager().getDBCaseId(str) != appSimuCtx
 						.getDbSimuCaseId()) {
 					simuCaseMenu.add(new AbstractAction(str) {
 						private static final long serialVersionUID = 1L;
 
 						public void actionPerformed(ActionEvent e) {
-							appSimuCtx.setDbSimuCaseId(SpringAppContext
+							appSimuCtx.setDbSimuCaseId(CoreCommonSpringCtx
 									.getSimuRecManager().getDBCaseId(str));
 						}
 					});
@@ -175,7 +175,7 @@ public class ChartManager {
 		}
 		machStateMenu.add(new AbstractAction("Machine State Table Output") {
 			private static final long serialVersionUID = 1L;
-			ISimuRecManager simuRecManager = SpringAppContext
+			ISimuRecManager simuRecManager = CoreCommonSpringCtx
 					.getSimuRecManager();
 
 			public void actionPerformed(ActionEvent e) {
@@ -187,7 +187,7 @@ public class ChartManager {
 							IProjectDataManager.CaseType_DStabSimuRec);
 				} catch (Exception ex) {
 					IpssLogger.logErr(ex);
-					SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+					CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 							"Error to GetSimuRecList",
 							ex.toString()
 									+ "\n Please contact InterPSS support");
@@ -197,7 +197,7 @@ public class ChartManager {
 						IAppSimuContext appSimuCtx = GraphSpringAppContext
 									.getIpssGraphicEditor().getCurrentAppSimuContext();
 						if (appSimuCtx.isSimuNetDataDirty()) {
-							SpringAppContext.getIpssMsgHub().sendWarnMsg(
+							CoreCommonSpringCtx.getIpssMsgHub().sendWarnMsg(
 									"The SimuNetwork object is dirty. You may want to re-run the analysis");
 						}
 					} catch (Exception ex) {
@@ -438,14 +438,14 @@ public class ChartManager {
 	 */
 	public static Object[] getStatesNameList(int caseId, String elemId,
 			String recType) {
-		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
+		ISimuRecManager simuRecManager = CoreCommonSpringCtx.getSimuRecManager();
 		List<BaseSimuDBRecord> elemRecList = null;
 		try {
 			elemRecList = simuRecManager.getSimuRecList(caseId, recType,
 					elemId, IProjectDataManager.CaseType_DStabSimuRec);
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 					"Error to GetSimuRecList form DB",
 					ex.toString() + "\n Please contact InterPSS support");
 			return null;
@@ -484,7 +484,7 @@ public class ChartManager {
 			IAppSimuContext appSimuCtx = GraphSpringAppContext
 			.getIpssGraphicEditor().getCurrentAppSimuContext();
 			if (appSimuCtx.isSimuNetDataDirty()) {
-				SpringAppContext
+				CoreCommonSpringCtx
 						.getIpssMsgHub()
 						.sendWarnMsg(
 								"The SimuNetwork object is dirty. Network data may have been modified. You may want to re-run the analysis.");
@@ -493,7 +493,7 @@ public class ChartManager {
 			IpssLogger.logErr(ex);
 		}	
 		
-		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
+		ISimuRecManager simuRecManager = CoreCommonSpringCtx.getSimuRecManager();
 		List<BaseSimuDBRecord> elemRecList = null;
 		try {
 			elemRecList = simuRecManager.getSimuRecList(caseId, recType,
@@ -505,7 +505,7 @@ public class ChartManager {
 			 */
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 					"Error to GetSimuRecList from DB",
 					ex.toString() + "\n Please contact InterPSS support");
 			return;

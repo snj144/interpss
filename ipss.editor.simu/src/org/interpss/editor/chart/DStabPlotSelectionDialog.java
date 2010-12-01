@@ -34,7 +34,7 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -1241,7 +1241,7 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
 
 	private void scriptingButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_scriptingButtonActionPerformed
 		Object[] strList = stateItemSelectList.getSelectedValues();
-		IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
+		IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
 		if (strList.length > 0) {
 			List<String> nameList = DStabPlotDialogRecord
 					.getStateNameList(strList);
@@ -1266,7 +1266,7 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
 
 	private void plotButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_plotButtonActionPerformed
 		String str = (String) stateItemSelectList.getSelectedValue();
-		IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
+		IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
 		if (str != null) {
 			DStabPlotDialogRecord rec = DStabPlotDialogRecord
 					.parseStateSelection(str);

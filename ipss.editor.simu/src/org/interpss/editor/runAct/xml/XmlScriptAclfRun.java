@@ -26,7 +26,7 @@ package org.interpss.editor.runAct.xml;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
@@ -46,7 +46,7 @@ import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType.AclfOption.ReturnStudyCase;
 import org.interpss.xml.PreventiveRuleHanlder;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -74,7 +74,7 @@ public class XmlScriptAclfRun {
 	public static boolean runAclf(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet, IPSSMsgHub msg) {
 		RunStudyCaseXmlType.StandardRun.RunAclfStudyCase xmlRunAclfCase = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAclfStudyCase();
 		if (xmlRunAclfCase == null) {
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", "runAclfStudyCase element not defined");
+			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", "runAclfStudyCase element not defined");
 			return false;
 		}
 
@@ -111,7 +111,7 @@ public class XmlScriptAclfRun {
 
 				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 				// map to the Algo object including network modification at the study case level
-				IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
+				IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 				if (!XmlScriptUtilFunc.mapAclfStudyCase(mapper, xmlCase, algo, xmlDefaultAlgo, reJobCreation, msg))
 					return false;
 
@@ -146,7 +146,7 @@ public class XmlScriptAclfRun {
 						studyCase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
 					}
 				} catch (Exception e) {
-					SpringAppContext.getEditorDialogUtil()
+					CoreCommonSpringCtx.getEditorDialogUtil()
 								.showErrMsgDialog("Study Case Creation Error",
 										e.toString());
 					return false;
@@ -168,7 +168,7 @@ public class XmlScriptAclfRun {
 							resultHandler.transferRemoteResult(mCaseContainer, result);
 					}
 				} catch (GridException e) {
-					SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
+					CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
 					return false;
 				} 
 			}
@@ -182,7 +182,7 @@ public class XmlScriptAclfRun {
 
 	private static boolean aclfSingleRun(AclfNetwork aclfNet, AclfStudyCaseXmlType xmlCase, AclfAlgorithmXmlType xmlDefaultAlgo, 
 				RuleBaseXmlType ruleBase, boolean applyRuleBase, boolean gridRun, long timeout, IPSSMsgHub msg) {
-		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
+		IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet, msg);
 		if (!XmlScriptUtilFunc.mapAclfStudyCase(mapper, xmlCase, algo, xmlDefaultAlgo, false, msg))
 			return false;
@@ -198,7 +198,7 @@ public class XmlScriptAclfRun {
 				aclfNet = (AclfNetwork) SerializeEMFObjectUtil.loadModel(str);
 				aclfNet.rebuildLookupTable();
 			} catch (GridException e) {
-				SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());
+				CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());
 				return false;
 			}
 		} else {

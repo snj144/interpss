@@ -37,7 +37,7 @@ import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
@@ -239,7 +239,7 @@ public class RunActUtilFunc {
 				return null;
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 					"Error to Create DB SimuRecord",
 					e.toString() + "\nPlease contact InterPSS support");
 		}

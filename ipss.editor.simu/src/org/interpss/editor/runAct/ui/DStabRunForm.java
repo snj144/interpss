@@ -26,7 +26,7 @@ package org.interpss.editor.runAct.ui;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.gridgain.GridRunner;
 import org.interpss.gridgain.msg.GridMessageRouter;
@@ -36,10 +36,10 @@ import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreSpringAppContext;
+import com.interpss.core.CoreSpringCtx;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.dstab.DStabilityNetwork;
@@ -141,7 +141,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 		}
 
 		simuCtx.getDStabilityNet().setNetChangeListener(
-				CoreSpringAppContext.getNetChangeHandler());
+				CoreSpringCtx.getNetChangeHandler());
 
 		if (simuCtx.getDynSimuAlgorithm().initialization()) {
 			displaySummaryResult(simuCtx);
@@ -209,7 +209,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			// make sure net.id defined here. It has to be unique if run multiple grid runs
 			String caseId = "DStabNetId";
 			net.setId(caseId);
-			SpringAppContext.getSimuRecManager().addDBCaseId(caseId, dstabDbHandler.getDBCaseId());
+			CoreCommonSpringCtx.getSimuRecManager().addDBCaseId(caseId, dstabDbHandler.getDBCaseId());
 			RemoteMessageTable result = new GridRunner(grid,
 					"InterPSS Transient Stability Simulation", simuCtx
 							.getDynSimuAlgorithm()).executeTask(timeout);
@@ -219,7 +219,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			net.initialization(msg);
 			return result.getReturnStatus();
 		} catch (GridException e) {
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 					"Grid DStab Error", e.toString());
 			return false;
 		}
@@ -238,7 +238,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 	private boolean prepareSimuRunDataCheckError(SimuContext simuCtx, IPSSMsgHub msg) {
 		simuCtx.getDStabilityNet().removeAllDEvent();
 
-		PluginSpringAppContext.getXml2DStabAlgorithmMapper()
+		PluginSpringCtx.getXml2DStabAlgorithmMapper()
 				.map2Model(this.getXmlCaseData(), simuCtx.getDynSimuAlgorithm());
 
 		return RunActUtilFunc.checkDStabSimuData(simuCtx.getDynSimuAlgorithm(),

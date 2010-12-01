@@ -47,7 +47,7 @@ import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.view.JRSaveContributor;
 import net.sf.jasperreports.view.JRViewer;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.IpssLogger;
 
 public class IpssRptViewer extends JRViewer {
@@ -104,7 +104,7 @@ public class IpssRptViewer extends JRViewer {
 			jasperPrint = (JasperPrint) JRLoader.loadObject(is);
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			SpringAppContext.getIpssMsgHub().sendErrorMsg(e.toString());
+			CoreCommonSpringCtx.getIpssMsgHub().sendErrorMsg(e.toString());
 		}
 		loadReport(jasperPrint);
 	}
@@ -116,7 +116,7 @@ public class IpssRptViewer extends JRViewer {
 			this.refreshPage();
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			SpringAppContext.getEditorDialogUtil().showMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 					"InterPSS Report Error", e.toString());
 		}
 	}
@@ -127,7 +127,7 @@ public class IpssRptViewer extends JRViewer {
 			jasperPrint = (JasperPrint) JRLoader.loadObject(filename);
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			SpringAppContext.getEditorDialogUtil().showMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 					"InterPSS Report Error", e.toString());
 		}
 		loadReport(jasperPrint);
@@ -152,7 +152,7 @@ public class IpssRptViewer extends JRViewer {
 			JRSaver.saveObject(jasperPrint, new File(filename));
 		} catch (JRException e) {
 			IpssLogger.logErr(e);
-			SpringAppContext.getEditorDialogUtil().showMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 					"Save InterPSS Report Error", e.toString());
 		}
 	}
@@ -217,7 +217,7 @@ public class IpssRptViewer extends JRViewer {
 				}
 			} catch (JRException e) {
 				IpssLogger.logErr(e);
-				SpringAppContext.getIpssMsgHub().sendErrorMsg(e.toString());
+				CoreCommonSpringCtx.getIpssMsgHub().sendErrorMsg(e.toString());
 			}
 		}
 	}
@@ -248,7 +248,7 @@ public class IpssRptViewer extends JRViewer {
 				singleton = new IpssRptViewer();
 			} catch (Exception e) {
 				IpssLogger.logErr(e);
-				SpringAppContext.getIpssMsgHub().sendErrorMsg(e.toString());
+				CoreCommonSpringCtx.getIpssMsgHub().sendErrorMsg(e.toString());
 			}
 		}
 		return singleton;

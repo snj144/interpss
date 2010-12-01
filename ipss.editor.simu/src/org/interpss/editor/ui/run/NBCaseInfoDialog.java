@@ -29,7 +29,7 @@ import java.util.Vector;
 
 import javax.swing.JFileChooser;
 
-import org.interpss.editor.SimuAppSpringCtx;
+import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.ProjData;
@@ -49,7 +49,7 @@ import org.interpss.schema.TradingStudyCaseXmlType;
 import org.interpss.xml.IpssXmlUtilFunc;
 import org.interpss.xml.StudyCaseHanlder;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.ui.WinUtilities;
@@ -342,7 +342,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			projData.setAclfCaseName(casename);
 			_aclfCaseInfoPanel.setXmlCaseData(scase.getAclfAlgorithm(), this.studyCaseXmlDoc.getGridOption());
 			_aclfCaseInfoPanel.saveEditor2Form(errMsg);
-			SimuAppSpringCtx.getAclfRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
+			EditorSimuSpringCtx.getAclfRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
 		}
 		else if (_caseType == SimuRunType.SenAnalysis) {
 			DclfStudyCaseXmlType scase = this.studyCaseXmlDoc.getDclfStudyCase(casename);
@@ -354,7 +354,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			projData.setDclfCaseName(casename);
 			_dclfCaseInfoPanel.setXmlCaseData(scase);
 			_dclfCaseInfoPanel.saveEditor2Form(errMsg);
-			SimuAppSpringCtx.getDclfRunForm().setXmlCaseData(scase);
+			EditorSimuSpringCtx.getDclfRunForm().setXmlCaseData(scase);
 		}
 		else if (_caseType == SimuRunType.Acsc) {
 			AcscStudyCaseXmlType scase = this.studyCaseXmlDoc.getAcscStudyCase(casename);
@@ -366,7 +366,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			projData.setAcscCaseName(casename);
 			_acscCaseInfoPanel.setXmlCaseData(scase);
 			_acscCaseInfoPanel.saveEditor2Form(errMsg);
-			SimuAppSpringCtx.getAcscRunForm().setXmlCaseData(scase);
+			EditorSimuSpringCtx.getAcscRunForm().setXmlCaseData(scase);
 		}
 		else if (_caseType == SimuRunType.DStab) {
 			DStabStudyCaseXmlType scase = this.studyCaseXmlDoc.getDStabStudyCase(casename);
@@ -379,7 +379,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			_dstabCaseInfoPanel.setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
 			_dstabCaseInfoPanel.saveEditor2Form(errMsg);
 			//System.out.println(scase.toString());
-			SimuAppSpringCtx.getDStabRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
+			EditorSimuSpringCtx.getDStabRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
 		}
 		else if (_caseType == SimuRunType.Scripts) {
 			projData.setScriptsCaseName(casename);
@@ -608,7 +608,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		    casenameComboBoxActionPerformed(null);   // to refresh the edit screen
 		}
 		else {
-			SpringAppContext.getEditorDialogUtil().showMsgDialog("Warnning", "The project has to have minimum one case.");
+			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog("Warnning", "The project has to have minimum one case.");
 		}
     }//GEN-LAST:event_deleteCaseButtonActionPerformed
 
@@ -636,12 +636,12 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		Vector<String> errMsg = new Vector<String>();
 		try {
         	if (!saveEditor2Form(errMsg)) {
-        		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
+        		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
 				return;
         	}
         } catch (Exception e) {
         	IpssLogger.logErr(e);
-        	SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
+        	CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
 			return;
         }	
         
@@ -699,12 +699,12 @@ private void viewXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 	Vector<String> errMsg = new Vector<String>();	
 	try {
     	if (!saveEditor2Form(errMsg)) {
-    		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
+    		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
 			return;
     	}
     } catch (Exception e) {
     	IpssLogger.logErr(e);
-    	SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
+    	CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
 		return;
     }	
 	IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Run Study Case Xml");
