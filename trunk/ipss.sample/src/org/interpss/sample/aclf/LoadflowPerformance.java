@@ -26,10 +26,10 @@ package org.interpss.sample.aclf;
 
 import java.util.logging.Level;
 
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -44,7 +44,7 @@ import com.interpss.simu.SimuContext;
 
 public class LoadflowPerformance {
 	public static void main(String args[]) throws Exception {
-		SpringAppContext.setAppContext(Constants.SpringConfigPath_Plugin);
+		CoreCommonSpringCtx.setAppContext(Constants.SpringConfigPath_Plugin);
 
 		IpssLogger.getLogger().setLevel(Level.WARNING);
 
@@ -54,7 +54,7 @@ public class LoadflowPerformance {
 	  	 * time loading data, create ODM and InterPSS Simulation object
 	  	 */
 	  	timer.start();
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/UCTE_2000_WinterOffPeak.ieee");
 	  	timer.logStd("Time for loading the case: ");
 

@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.graphdrawing.gml.GraphType;
 import org.graphdrawing.gml.GraphmlType;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IPSSMsgHubImpl;
@@ -23,10 +23,10 @@ public class IEEE14GmlImpl {
 	 */
 	public static void main(String[] args) throws Exception {
 		// InterPSS core simulation engine configuration
-		SpringAppContext.setAppContext(Constants.SpringConfigPath_Plugin);
+		CoreCommonSpringCtx.setAppContext(Constants.SpringConfigPath_Plugin);
 
     	// Build the base case network
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee14.ieee");
 		AclfNetwork adjNet = simuCtx.getAclfNet();
 		

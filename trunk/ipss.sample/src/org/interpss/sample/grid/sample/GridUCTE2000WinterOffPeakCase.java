@@ -1,7 +1,7 @@
 package org.interpss.sample.grid.sample;
 
 import org.gridgain.grid.Grid;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.gridgain.GridRunner;
@@ -10,7 +10,7 @@ import org.interpss.gridgain.util.GridUtil;
 import org.interpss.sample.grid.impl.GridHelper;
 import org.interpss.sample.grid.impl.single.CustomSingleLocalTask;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -28,7 +28,7 @@ public class GridUCTE2000WinterOffPeakCase {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		SpringAppContext.setAppContext(Constants.SpringConfigPath_Plugin);
+		CoreCommonSpringCtx.setAppContext(Constants.SpringConfigPath_Plugin);
 		
 		// init grid computing env
 		Grid grid = GridHelper.initGridEnv();
@@ -37,7 +37,7 @@ public class GridUCTE2000WinterOffPeakCase {
 	    	CustomSingleLocalTask.RemoteNodeId = GridUtil.getAnyRemoteNodeId();
 
 	    	try {
-				IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
+				IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
 				SimuContext simuCtx = adapter.load("testData/UCTE_2000_WinterOffPeak.ieee");
 				AclfNetwork adjNet = simuCtx.getAclfNet();
 	    		adjNet.setId("SampleNetId");

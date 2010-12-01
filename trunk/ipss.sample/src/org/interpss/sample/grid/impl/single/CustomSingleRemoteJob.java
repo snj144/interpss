@@ -6,7 +6,7 @@ import org.interpss.gridgain.job.GridAclfJob;
 import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.result.RemoteResultFactory;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -41,7 +41,7 @@ public class CustomSingleRemoteJob extends GridAclfJob {
 			 * here. Loadflow is just used as an example.
 			 */
 			LoadflowAlgorithm algo = CoreObjectFactory
-						.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+						.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 			algo.loadflow();
 	 
 			/*
