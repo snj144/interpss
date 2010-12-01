@@ -35,7 +35,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.dstab.mach.Controller;
+import com.interpss.dstab.mach.MachineController;
 import com.interpss.simu.util.SimuSpringAppCtxUtil;
  
 public class NBStabilizerPanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -43,7 +43,7 @@ public class NBStabilizerPanel extends javax.swing.JPanel implements IFormDataPa
 	private JDialog parent = null;
 
     private DStabMachData machData = null;
-	private Controller controller = null;
+	private MachineController controller = null;
 
 	public void initPanel(JDialog aParent) {
 		parent = aParent;
@@ -62,7 +62,7 @@ public class NBStabilizerPanel extends javax.swing.JPanel implements IFormDataPa
 	}
 	
 	private void setEditPanel(String typeName) {
-		Controller aController = SimuSpringAppCtxUtil.getStabilizer(typeName);
+		MachineController aController = SimuSpringAppCtxUtil.getStabilizer(typeName);
    		if (controller == null || aController.getClass() != controller.getClass()) {
    			IpssLogger.getLogger().info("NBStabilizerPanel create a new controller class, " + aController.getName());
    			controller = aController;
