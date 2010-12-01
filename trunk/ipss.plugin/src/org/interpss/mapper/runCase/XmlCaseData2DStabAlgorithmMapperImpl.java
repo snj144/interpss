@@ -66,6 +66,7 @@ public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabS
 	public XmlCaseData2DStabAlgorithmMapperImpl(IPSSMsgHub msg) {
 		super(msg);
 	}
+	
 	/**
 	 * Map DstabCaseData to a stability algorithm object
 	 * 
@@ -111,11 +112,13 @@ public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabS
 			dstabNet.setNetEqnIterationWithEvent(xmlDstabData.getNetEqnSolveConfig().getNetEqnItrWithEvent());
 		}
 
-		dstabNet.setStaticLoadModel(xmlDstabData.getStaticLoadModel().getStaticLoadType() == 
-					DStabStudyCaseXmlType.StaticLoadModel.StaticLoadType.CONST_Z ? 
-							StaticLoadModel.CONST_Z	: StaticLoadModel.CONST_P);
-		dstabNet.setStaticLoadSwitchVolt(xmlDstabData.getStaticLoadModel().getSwitchVolt());
-		dstabNet.setStaticLoadSwitchDeadZone(xmlDstabData.getStaticLoadModel().getSwitchDeadZone());
+		if (xmlDstabData.getStaticLoadModel() != null) {
+			dstabNet.setStaticLoadModel(xmlDstabData.getStaticLoadModel().getStaticLoadType() == 
+				DStabStudyCaseXmlType.StaticLoadModel.StaticLoadType.CONST_Z ? 
+						StaticLoadModel.CONST_Z	: StaticLoadModel.CONST_P);
+			dstabNet.setStaticLoadSwitchVolt(xmlDstabData.getStaticLoadModel().getSwitchVolt());
+			dstabNet.setStaticLoadSwitchDeadZone(xmlDstabData.getStaticLoadModel().getSwitchDeadZone());
+		}
 
 		if (xmlDstabData.getDynamicEventData().getDisableEvent()) {
 			if (xmlDstabData.getDynamicEventData().getEventList() != null && 

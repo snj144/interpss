@@ -32,35 +32,26 @@ import javax.swing.JDialog;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.custom.run.ICustomRunScriptPlugin;
 import org.interpss.editor.form.GFormContainer;
-import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.output.IOutputSimuResult;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
+import org.interpss.schema.ModificationXmlType;
+import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.mapper.IMapping;
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
+import com.interpss.core.net.Network;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 
 public class PluginSpringCtx extends CoreCommonSpringCtx {
-	/**
-	 * Get the IpssXmlMapper(singleton) from the SpringAppContext.
-	 *  
-	 * @return the RunForm2AlgorithmMapper object
-	 */
-	public static IpssMapper getIpssXmlMapper() {
-		if (SpringAppCtx == null) // for grid computing
-			return new IpssXmlMapper(CoreCommonSpringCtx.getIpssMsgHub());
-		return (IpssMapper) SpringAppCtx.getBean(Constants.SID_IpssXmlMapper);
-	}
 
 	public static JDialog getCaseInfoDialog() {
 		return (JDialog) SpringAppCtx.getBean(Constants.SID_CaseInfoDialog);
@@ -171,10 +162,9 @@ public class PluginSpringCtx extends CoreCommonSpringCtx {
 		return (IOutputSimuResult) SpringAppCtx.getBean(Constants.SID_SimuResultOutput);
 	}
 	
-	/**
-	 * Get the RunForm2AlgorithmMapper(singleton) from the SpringAppContext.
-	 *  
-	 * @return the RunForm2AlgorithmMapper object
+	/*
+	 * 		Mapper definition Xml -> Algo
+	 * 		=============================
 	 */
 	@SuppressWarnings("unchecked")
 	public static IMapping<AclfAlgorithmXmlType, LoadflowAlgorithm> getXml2LfAlgorithmMapper() {
@@ -190,7 +180,18 @@ public class PluginSpringCtx extends CoreCommonSpringCtx {
 	public static IMapping<DStabStudyCaseXmlType, DynamicSimuAlgorithm> getXml2DStabAlgorithmMapper() {
 		return (IMapping<DStabStudyCaseXmlType, DynamicSimuAlgorithm>) SpringAppCtx.getBean("xml2DStabAlgorithmMapper");
 	}
+
+	@SuppressWarnings("unchecked")
+	public static IMapping<ModificationXmlType, Network> getModXml2NetMapper() {
+		if (SpringAppCtx == null) // for grid computing
+			return new XmlNetParamModifier(CoreCommonSpringCtx.getIpssMsgHub());
+		return (IMapping<ModificationXmlType, Network>) SpringAppCtx.getBean("modification2NetMapper");
+	}
 	
+	/*
+	 * 		Mapper definition InterPSS Form data  -> Network
+	 * 		=============================
+	 */
 	@SuppressWarnings("unchecked")
 	public static IMapping<GFormContainer, AclfNetwork> getForm2AclfNetMapper() {
 		return (IMapping<GFormContainer, AclfNetwork>) SpringAppCtx.getBean("aclfForm2AclfNetMapper");

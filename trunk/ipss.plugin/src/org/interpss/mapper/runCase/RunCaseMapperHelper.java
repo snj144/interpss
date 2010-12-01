@@ -16,8 +16,10 @@ public class RunCaseMapperHelper {
 						SimpleFaultCode.GROUND_LLG : (xmlData.getFaultCategory() == AcscFaultCategoryDataType.FAULT_LG) ? 
 								SimpleFaultCode.GROUND_LG : (xmlData.getFaultCategory() == AcscFaultCategoryDataType.FAULT_LL) ? 
 										SimpleFaultCode.GROUND_LL : SimpleFaultCode.GROUND_3P);
-		fault.setZLGFault(new Complex(xmlData.getZLG().getRe(), xmlData.getZLG().getIm()));
-		fault.setZLLFault(new Complex(xmlData.getZLL().getRe(), xmlData.getZLL().getIm()));
+		if (xmlData.getZLG() != null)
+			fault.setZLGFault(new Complex(xmlData.getZLG().getRe(), xmlData.getZLG().getIm()));
+		if (xmlData.getZLL() != null)
+			fault.setZLLFault(new Complex(xmlData.getZLL().getRe(), xmlData.getZLL().getIm()));
 	}
 
 	public static void acscFaultData2AcscBranchFaultMapping(AcscFaultXmlType xmlData, AcscBranchFault fault) {

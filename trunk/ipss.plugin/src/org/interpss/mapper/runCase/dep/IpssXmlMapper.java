@@ -22,21 +22,17 @@
  *
  */
 
-package org.interpss.mapper;
+package org.interpss.mapper.runCase.dep;
 
-import org.interpss.mapper.runCase.dep.Xml2AlgorithmMapperImpl;
-import org.interpss.mapper.runCase.dep.Xml2DStabAlgorithmMapperImpl;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.ModificationXmlType;
-import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
-import com.interpss.core.net.Network;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 
 public class IpssXmlMapper extends AbstractMapper {
@@ -83,9 +79,9 @@ public class IpssXmlMapper extends AbstractMapper {
 			/*
 			 * Apply the modification (fromObj) info to the Network object (toObj) 
 			 */ 
-			XmlNetParamModifier.applyModification(
-				(Network) toObj, 
-				(ModificationXmlType) fromObj, msg);
+			//XmlNetParamModifier.applyModification(
+			//	(Network) toObj, 
+			//	(ModificationXmlType) fromObj, msg);
 		}
 		return true;
 	}
