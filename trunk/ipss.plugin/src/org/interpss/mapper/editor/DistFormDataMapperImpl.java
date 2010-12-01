@@ -46,6 +46,7 @@ import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.dist.DistBranch;
@@ -58,7 +59,12 @@ import com.interpss.dist.ScStanderd;
 import com.interpss.dist.TransformConnectCode;
 import com.interpss.dist.datatype.ScPointType;
 
-public class DistFormDataMapperImpl {
+public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, DistNetwork> {
+
+	public DistFormDataMapperImpl(IPSSMsgHub msg) {
+		this.msg = msg;
+	}
+	
 	/**
 	 * Map the GNetContainer object to a DistNetwork object
 	 * 
@@ -68,8 +74,8 @@ public class DistFormDataMapperImpl {
 	 *            a SessionMsg object
 	 * @return the DistNetwork object
 	 */
-	public static DistNetwork mapEditNet2DistNet(GFormContainer editNet,
-			IPSSMsgHub msg) {
+	@Override
+	public DistNetwork map2Model(GFormContainer editNet) {
 		// Parse the AcscNet xml object into a AcscNet form object
 		DistNetwork distNet = DistFormDataMapperImpl
 				.createDistNet((GNetForm) editNet.getGNetForm());
