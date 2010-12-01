@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.mapper.IpssXmlMapper;
+import org.interpss.mapper.runCase.dep.IpssXmlMapper;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.ModificationXmlType;

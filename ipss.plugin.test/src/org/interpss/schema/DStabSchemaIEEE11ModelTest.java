@@ -29,12 +29,11 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.PluginSpringCtx;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
-import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabObjectFactory;
@@ -81,8 +80,8 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 	  		}
 
 	  		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, msg);
-		  	IpssMapper mapper = new IpssXmlMapper();
-	  		mapper.mapping(scase, algo);
+		  	//IpssMapper mapper = new IpssXmlMapper();
+	  		PluginSpringCtx.getXml2DStabAlgorithmMapper().map2Model(scase, algo);
 	  		//System.out.println(net.net2String());
 	  		
 	  		if (caseCnt == 1) {

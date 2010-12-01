@@ -29,12 +29,11 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.mapper.IpssXmlMapper;
+import org.interpss.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
 import com.interpss.common.CoreCommonSpringCtx;
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.TestUtilFunc;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscNetwork;
@@ -57,9 +56,9 @@ public class AcscSchemaSampleCaseTest extends BaseTestSetup {
   		assertTrue((faultNet.getBusList().size() == 5 && faultNet.getBranchList().size() == 5));
 
   		SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, CoreCommonSpringCtx.getIpssMsgHub());
-	  	IpssMapper mapper = new IpssXmlMapper();
+	  	//IpssMapper mapper = new IpssXmlMapper();
 	  	for ( AcscStudyCaseXmlType scase : parser.getRunAcscStudyCase().getAcscStudyCaseList().getAcscStudyCaseArray()) {
-	  		mapper.mapping(scase, algo);
+	  		PluginSpringCtx.getXml2ScAlgorithmMapper().map2Model(scase, algo);
 	  		AcscBusFault fault = algo.getFaultList().get(0);
 	  		algo.calculateBusFault((AcscBusFault)fault);
 	  			/*

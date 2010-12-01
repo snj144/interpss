@@ -27,7 +27,7 @@ package org.interpss.contigency;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.BaseTestSetup;
 import org.interpss.display.ContingencyOutFunc;
-import org.interpss.mapper.IpssXmlMapper;
+import org.interpss.mapper.runCase.dep.IpssXmlMapper;
 import org.interpss.schema.BranchChangeRecXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.xml.IpssXmlUtilFunc;

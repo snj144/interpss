@@ -8,7 +8,7 @@ import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.custom.run.psseCon.ContingencyFileParser;
-import org.interpss.mapper.IpssXmlMapper;
+import org.interpss.mapper.runCase.dep.IpssXmlMapper;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
