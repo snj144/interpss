@@ -37,12 +37,10 @@ import org.interpss.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.InterPSSXmlType;
-import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 
 import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.SimuRunType;
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -107,8 +105,8 @@ public class XmlScriptDStabRun {
 					xmlCase = xmlDefaultCase;
 				}
 				if (xmlCase.getModification() != null) {
-					IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
-					mapper.mapping(xmlCase.getModification(), dstabNet);
+					PluginSpringCtx.getModXml2NetMapper()
+							.map2Model(xmlCase.getModification(), dstabNet);
 				}
 				if (!configDStaAlgo(dstabAlgo, xmlCase, msg))
 					return false;
@@ -188,8 +186,8 @@ public class XmlScriptDStabRun {
 						xmlCase = xmlDefaultCase;
 					}
 					if (xmlCase.getModification() != null) {
-						IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
-						mapper.mapping(xmlCase.getModification(), dstabNet);
+						PluginSpringCtx.getModXml2NetMapper()
+								.map2Model(xmlCase.getModification(), dstabNet);
 					}
 					if (!configDStaAlgo(dstabAlgo, xmlCase, msg))
 						return false;
@@ -268,8 +266,9 @@ public class XmlScriptDStabRun {
 			DStabStudyCaseXmlType dstabCase, IPSSMsgHub msg) {
 		// map the Xml study case data to dstabAlgo, including modification to
 		// the network model data
-		IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
-		mapper.mapping(dstabCase, dstabAlgo);
+		PluginSpringCtx.getXml2DStabAlgorithmMapper()
+				.map2Model(dstabCase, dstabAlgo);
+		
 		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo, msg))
 			return false; // if something is wrong, we stop running here
 

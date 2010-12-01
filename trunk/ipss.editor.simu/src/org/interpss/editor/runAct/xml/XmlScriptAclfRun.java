@@ -26,7 +26,6 @@ package org.interpss.editor.runAct.xml;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.interpss.PluginSpringCtx;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
@@ -47,7 +46,6 @@ import org.interpss.schema.GridComputingXmlType.AclfOption.ReturnStudyCase;
 import org.interpss.xml.PreventiveRuleHanlder;
 
 import com.interpss.common.CoreCommonSpringCtx;
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
@@ -111,8 +109,8 @@ public class XmlScriptAclfRun {
 
 				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 				// map to the Algo object including network modification at the study case level
-				IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
-				if (!XmlScriptUtilFunc.mapAclfStudyCase(mapper, xmlCase, algo, xmlDefaultAlgo, reJobCreation, msg))
+				//IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
+				if (!XmlScriptUtilFunc.mapAclfStudyCase(xmlCase, algo, xmlDefaultAlgo, reJobCreation, msg))
 					return false;
 
 				try {
@@ -182,9 +180,9 @@ public class XmlScriptAclfRun {
 
 	private static boolean aclfSingleRun(AclfNetwork aclfNet, AclfStudyCaseXmlType xmlCase, AclfAlgorithmXmlType xmlDefaultAlgo, 
 				RuleBaseXmlType ruleBase, boolean applyRuleBase, boolean gridRun, long timeout, IPSSMsgHub msg) {
-		IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
+		//IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet, msg);
-		if (!XmlScriptUtilFunc.mapAclfStudyCase(mapper, xmlCase, algo, xmlDefaultAlgo, false, msg))
+		if (!XmlScriptUtilFunc.mapAclfStudyCase(xmlCase, algo, xmlDefaultAlgo, false, msg))
 			return false;
 
 		if (gridRun) {

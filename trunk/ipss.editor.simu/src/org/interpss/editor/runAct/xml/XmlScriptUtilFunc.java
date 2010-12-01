@@ -24,12 +24,11 @@
 
 package org.interpss.editor.runAct.xml;
 
+import org.interpss.PluginSpringCtx;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
-import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RuleBaseXmlType;
 
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.multicase.MultiStudyCase;
@@ -41,7 +40,7 @@ public class XmlScriptUtilFunc {
 			mscase.getRuleBase().setRuleBaseXmlString(ruleBase.xmlText());
 	}
 	
-	public static boolean mapAclfStudyCase(IpssMapper mapper, AclfStudyCaseXmlType xmlCase, 
+	public static boolean mapAclfStudyCase(AclfStudyCaseXmlType xmlCase, 
 			LoadflowAlgorithm algo, AclfAlgorithmXmlType xmlDefaultAlgo, 
 						boolean remoteJobCreation, IPSSMsgHub msg) {
 		if (xmlCase.getAclfAlgorithm() == null) {
@@ -52,8 +51,11 @@ public class XmlScriptUtilFunc {
 			xmlCase.setAclfAlgorithm(xmlDefaultAlgo);
 		}
 		if (xmlCase.getModification() != null && !remoteJobCreation)
-			mapper.mapping(xmlCase.getModification(), algo.getAclfNetwork());
-		mapper.mapping(xmlCase.getAclfAlgorithm(), algo);
+			PluginSpringCtx.getModXml2NetMapper()
+				.map2Model(xmlCase.getModification(), algo.getAclfNetwork());
+		
+		PluginSpringCtx.getXml2LfAlgorithmMapper()
+				.map2Model(xmlCase.getAclfAlgorithm(), algo);
 		
 		return true;
 	}
