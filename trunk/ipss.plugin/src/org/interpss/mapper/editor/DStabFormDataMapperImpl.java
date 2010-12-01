@@ -54,7 +54,7 @@ import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.device.DynamicBusDeviceType;
 import com.interpss.dstab.device.ScriptLangType;
-import com.interpss.dstab.mach.Controller;
+import com.interpss.dstab.mach.MachineController;
 import com.interpss.dstab.mach.DynamicMachine;
 import com.interpss.dstab.mach.EConstMachine;
 import com.interpss.dstab.mach.Eq1Ed1Machine;
@@ -262,7 +262,7 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 		IpssLogger.getLogger()
 				.info("Set Exciter info, machid: " + mach.getId());
 		DStabExcData excData = machData.getExcData();
-		Controller controller = SimuSpringAppCtxUtil
+		MachineController controller = SimuSpringAppCtxUtil
 				.getExciter(excData.getTypeName());
 		if (controller != null) {
 			controller.setData(excData.getDataXmlStr(), controller
@@ -285,7 +285,7 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 			IPSSMsgHub msg) {
 		IpssLogger.getLogger().info(
 				"Set Governor info, machid: " + mach.getId());
-		Controller controller = SimuSpringAppCtxUtil
+		MachineController controller = SimuSpringAppCtxUtil
 				.getGovernor(govData.getTypeName());
 		if (controller != null) {
 			controller.setData(govData.getDataXmlStr(), controller
@@ -305,7 +305,7 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 			IPSSMsgHub msg) {
 		IpssLogger.getLogger().info(
 				"Set Stabilizer info, machid: " + mach.getId());
-		Controller controller = SimuSpringAppCtxUtil
+		MachineController controller = SimuSpringAppCtxUtil
 				.getStabilizer(pssData.getTypeName());
 		if (controller != null) {
 			controller.setData(pssData.getDataXmlStr(), controller

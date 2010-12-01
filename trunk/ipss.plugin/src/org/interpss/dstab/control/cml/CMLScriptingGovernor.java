@@ -26,7 +26,7 @@ package org.interpss.dstab.control.cml;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.mach.ControllerType;
+import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.dstab.mach.Machine;
 
 public class CMLScriptingGovernor extends BaseCMLScriptingController {
@@ -40,7 +40,7 @@ public class CMLScriptingGovernor extends BaseCMLScriptingController {
 	 * Constructor 
 	 */
 	public CMLScriptingGovernor() {
-		super("govId", "govName", "govCaty", ControllerType.GOVERNOR);
+		super("govId", "govName", "govCaty", MachineControllerType.GOVERNOR);
 	}
 	
 	/**
@@ -50,7 +50,7 @@ public class CMLScriptingGovernor extends BaseCMLScriptingController {
 	 * @param name governor name
 	 */
 	public CMLScriptingGovernor(final String id, final String name, final String caty) {
-		super(id, name, caty, ControllerType.GOVERNOR);
+		super(id, name, caty, MachineControllerType.GOVERNOR);
 	}
 	
 	/**
