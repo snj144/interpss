@@ -170,6 +170,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 	private boolean runLoadflow_internal(AclfNetwork aclfAdjNet,
 			LoadflowAlgorithm algo, IPSSMsgHub msg) {
+		algo.setAclfNetwork(aclfAdjNet);
 		PluginSpringCtx.getXml2LfAlgorithmMapper()
 				.map2Model(this.getAclfCaseData().getAclfAlgorithm(), algo);
 
