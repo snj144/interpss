@@ -30,7 +30,6 @@ import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscNetwork;
@@ -49,7 +48,7 @@ public class XmlScriptAcscRun {
 	 */
 	public static boolean runAcsc(InterPSSXmlType ipssXmlDoc,
 			AcscNetwork faultNet, IPSSMsgHub msg) {
-		IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
+		//IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 		if (ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAcscStudyCase() != null) {
 			RunStudyCaseXmlType.StandardRun.RunAcscStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getStandardRun()
 					.getRunAcscStudyCase();
@@ -71,8 +70,12 @@ public class XmlScriptAcscRun {
 					xmlCase = xmlDefaultCase;
 				} 
 				if (xmlCase.getModification() != null)
-					mapper.mapping(xmlCase.getModification(), faultNet);
-				mapper.mapping(xmlCase, algo);
+					PluginSpringCtx.getModXml2NetMapper()
+						.map2Model(xmlCase.getModification(), faultNet);
+
+				PluginSpringCtx.getXml2ScAlgorithmMapper()
+						.map2Model(xmlCase, algo);
+				
 				Object fault = algo.getFaultList().get(0);
 				if (fault instanceof AcscBusFault)
 					algo.calculateBusFault((AcscBusFault) fault);

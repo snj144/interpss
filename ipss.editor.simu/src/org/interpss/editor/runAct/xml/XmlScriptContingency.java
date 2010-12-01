@@ -26,7 +26,6 @@ package org.interpss.editor.runAct.xml;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.interpss.PluginSpringCtx;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.gridgain.GridRunner;
@@ -40,7 +39,6 @@ import org.interpss.schema.ContingencyAnalysisXmlType;
 import org.interpss.schema.InterPSSXmlType;
 
 import com.interpss.common.CoreCommonSpringCtx;
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
@@ -95,8 +93,8 @@ public class XmlScriptContingency {
 		for (AclfStudyCaseXmlType xmlCase : xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet, msg);
 			// map to the Algo object including network modification at the study case level
-			IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
-			if (!XmlScriptUtilFunc.mapAclfStudyCase(mapper, xmlCase, algo, 
+			//IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
+			if (!XmlScriptUtilFunc.mapAclfStudyCase(xmlCase, algo, 
 					xmlRunCase.getDefaultAclfAlgorithm(), true, msg))
 				return false;
 

@@ -35,12 +35,10 @@ import org.interpss.schema.DclfBusSensitivityXmlType;
 import org.interpss.schema.DclfSensitivityXmlType;
 import org.interpss.schema.DclfStudyCaseXmlType;
 import org.interpss.schema.InterPSSXmlType;
-import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.SenAnalysisBusRecXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
 
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -75,8 +73,8 @@ public class XmlScriptDclfRun {
 			
 			for ( DclfStudyCaseXmlType xmlCase : xmlRunDclfCase.getDclfStudyCaseList().getDclfStudyCaseArray()) {
 				if (xmlCase.getModification() != null) {
-					IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
-					mapper.mapping(xmlCase.getModification(), aclfNet);
+					PluginSpringCtx.getModXml2NetMapper()
+							.map2Model(xmlCase.getModification(), aclfNet);
 				}
 
 				if (xmlCase == null) {
