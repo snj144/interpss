@@ -58,7 +58,7 @@ import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.devent.LoadChangeEvent;
 import com.interpss.dstab.devent.LoadChangeEventType;
 import com.interpss.dstab.devent.SetPointChangeEvent;
-import com.interpss.dstab.mach.ControllerType;
+import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.dstab.mach.Machine;
 
 public class Xml2DStabAlgorithmMapperImpl {
@@ -153,9 +153,9 @@ public class Xml2DStabAlgorithmMapperImpl {
 					event.setDurationSec(dstabData.getSimuConfig()
 							.getTotalSimuTimeSec());
 					SetPointChangeEvent eSetPoint = DStabObjectFactory.createSetPointChangeEvent(machId, dstabNet);
-					eSetPoint.setControllerType(scdata.getControllerType() == MachineControllerDataType.EXCITER ? ControllerType.EXCITER
-									: scdata.getControllerType() == MachineControllerDataType.GOVERNOR ? ControllerType.GOVERNOR
-											: ControllerType.STABILIZER);
+					eSetPoint.setControllerType(scdata.getControllerType() == MachineControllerDataType.EXCITER ? MachineControllerType.EXCITER
+									: scdata.getControllerType() == MachineControllerDataType.GOVERNOR ? MachineControllerType.GOVERNOR
+											: MachineControllerType.STABILIZER);
 					eSetPoint.setChangeValue(scdata.getChangeValue());
 					eSetPoint.setAbusoluteChange(scdata.getValueChangeType() == SetPointChangeData.ValueChangeType.ABSOLUTE);
 					event.setBusDynamicEvent(eSetPoint);

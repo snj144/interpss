@@ -26,7 +26,7 @@ package org.interpss.dstab.control.cml;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.mach.ControllerType;
+import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.dstab.mach.Machine;
 
 public class CMLScriptingStabilizer extends BaseCMLScriptingController {
@@ -40,7 +40,7 @@ public class CMLScriptingStabilizer extends BaseCMLScriptingController {
 	 * Constructor
 	 */
 	public CMLScriptingStabilizer() {
-		super("pssId", "pssName", "pssCaty", ControllerType.STABILIZER);
+		super("pssId", "pssName", "pssCaty", MachineControllerType.STABILIZER);
 	}
 	
 	/**
@@ -50,7 +50,7 @@ public class CMLScriptingStabilizer extends BaseCMLScriptingController {
 	 * @param name stabilizer name
 	 */
 	public CMLScriptingStabilizer(final String id, final String name, final String caty) {
-		super(id, name, caty, ControllerType.STABILIZER);
+		super(id, name, caty, MachineControllerType.STABILIZER);
 	}
 	
 	/**

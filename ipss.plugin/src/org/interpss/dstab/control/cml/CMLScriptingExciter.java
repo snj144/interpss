@@ -26,7 +26,7 @@ package org.interpss.dstab.control.cml;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.mach.ControllerType;
+import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.dstab.mach.Machine;
 
 public class CMLScriptingExciter extends BaseCMLScriptingController {
@@ -39,7 +39,7 @@ public class CMLScriptingExciter extends BaseCMLScriptingController {
 	 * Constructor
 	 */
 	public CMLScriptingExciter() {
-		super("excId", "excName", "excCaty", ControllerType.EXCITER);
+		super("excId", "excName", "excCaty", MachineControllerType.EXCITER);
 	}
 	
 	/**
@@ -49,7 +49,7 @@ public class CMLScriptingExciter extends BaseCMLScriptingController {
 	 * @param name excitor name
 	 */
 	public CMLScriptingExciter(final String id, final String name, final String caty) {
-		super(id, name, caty, ControllerType.EXCITER);
+		super(id, name, caty, MachineControllerType.EXCITER);
 	}
 	
 	/**

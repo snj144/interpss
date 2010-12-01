@@ -37,9 +37,9 @@ import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethod;
 import com.interpss.dstab.controller.annotate.AbstractAnnotateController;
 import com.interpss.dstab.controller.annotate.ICMLScriptingController;
-import com.interpss.dstab.mach.ControllerType;
+import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.dstab.mach.Machine;
-import com.interpss.dstab.mach.impl.ControllerImpl;
+import com.interpss.dstab.mach.impl.MachineControllerImpl;
 
 /**
  * A holder class to wrap an Annotation Controller. The java code is stored in the scripts (getScripts()) field.
@@ -49,7 +49,7 @@ import com.interpss.dstab.mach.impl.ControllerImpl;
  * @author mzhou
  *
  */
-public abstract class BaseCMLScriptingController extends ControllerImpl implements ICMLScriptingController {
+public abstract class BaseCMLScriptingController extends MachineControllerImpl implements ICMLScriptingController {
 	private AbstractAnnotateController anController = null;
 	
 	/**
@@ -68,7 +68,7 @@ public abstract class BaseCMLScriptingController extends ControllerImpl implemen
 	 * @param caty controller category
 	 * @param type controller type
 	 */
-	public BaseCMLScriptingController(final String id, final String name, final String caty, final ControllerType type) {
+	public BaseCMLScriptingController(final String id, final String name, final String caty, final MachineControllerType type) {
 		setId(id);
 		setName(name);
 		setCategory(caty);
@@ -104,8 +104,7 @@ public abstract class BaseCMLScriptingController extends ControllerImpl implemen
 	 */
 	@Override
 	public boolean nextStep(final double dt, final DynamicSimuMethod method, Machine mach, final IPSSMsgHub msg) {
-		Network net = mach.getDStabBus().getNetwork();
-		return anController.nextStep(dt, method, mach, net, msg);
+		return anController.nextStep(dt, method, mach, msg);
 	}
 	
 	/**

@@ -76,7 +76,7 @@ import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.devent.LoadChangeEvent;
 import com.interpss.dstab.devent.LoadChangeEventType;
 import com.interpss.dstab.devent.SetPointChangeEvent;
-import com.interpss.dstab.mach.ControllerType;
+import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.dstab.mach.Machine;
 
 public class DStabScenarioHelper {
@@ -341,9 +341,9 @@ public class DStabScenarioHelper {
 		eventObj.setBusDynamicEvent(eSetPoint);		
 
 		eSetPoint.setControllerType(
-				spcEventXml.getControllerType() == MachineControllerEnumType.EXCITER ? ControllerType.EXCITER
-						: spcEventXml.getControllerType() == MachineControllerEnumType.GOVERNOR ? ControllerType.GOVERNOR
-								: ControllerType.STABILIZER);
+				spcEventXml.getControllerType() == MachineControllerEnumType.EXCITER ? MachineControllerType.EXCITER
+						: spcEventXml.getControllerType() == MachineControllerEnumType.GOVERNOR ? MachineControllerType.GOVERNOR
+								: MachineControllerType.STABILIZER);
 		eSetPoint.setChangeValue(spcEventXml.getChangeValue());
 		eSetPoint.setAbusoluteChange(spcEventXml.getValueChangeType() == SetPointChangeEnumType.ABSOLUTE);
 	}
