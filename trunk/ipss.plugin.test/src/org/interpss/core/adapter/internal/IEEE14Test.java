@@ -27,11 +27,11 @@ package org.interpss.core.adapter.internal;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
@@ -46,7 +46,7 @@ public class IEEE14Test extends BaseTestSetup {
   		/*
   		 * Load the loadflow datafile into the application
   		 */
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
 		
 		/*
@@ -60,7 +60,7 @@ public class IEEE14Test extends BaseTestSetup {
   		 * Get the default loadflow algorithm and Run loadflow analysis. By default, it uses
   		 * NR method with convergence error tolerance 0.0001 pu
   		 */
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.loadflow();
   		System.out.println(net.net2String());
 	  	
@@ -83,7 +83,7 @@ public class IEEE14Test extends BaseTestSetup {
   		/*
   		 * Load the loadflow datafile into the application
   		 */
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
 		assertTrue(adapter.save("ieee14.ipssout", simuCtx));
 

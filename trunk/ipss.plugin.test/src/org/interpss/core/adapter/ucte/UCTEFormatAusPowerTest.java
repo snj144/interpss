@@ -30,12 +30,12 @@ import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.mapper.odm.IEEEODMMapper;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
@@ -61,7 +61,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 		AclfNetwork net = simuCtx.getAclfNet();
   		//System.out.println(net.net2String());
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
@@ -74,10 +74,10 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 	
 	@Test
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("uct");
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest1_Simple.uct");
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet(), SpringAppContext.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet(), CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.loadflow();
   		//System.out.println(simuCtx.getAclfNet().net2String());
   		
@@ -92,10 +92,10 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 
 	//@Test
 	public void testCase2() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("uct");
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest2_Xfr.uct");
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet(), SpringAppContext.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet(), CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.loadflow();
   		//System.out.println(simuCtx.getAclfNet().net2String());
   		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));
@@ -109,11 +109,11 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 
 	//@Test
 	public void testCase3() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("uct");
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest3_XfrReg.uct");
   		//System.out.println(simuCtx.getAclfNet().net2String());
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet(), SpringAppContext.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet(), CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.loadflow();
   		//System.out.println(simuCtx.getAclfNet().net2String());
   		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));
@@ -127,11 +127,11 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 
 	//@Test
 	public void testCase4() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("uct");
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest4_PSXfr1.uct");
   		//System.out.println(simuCtx.getAclfNet().net2String());
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet(), SpringAppContext.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet(), CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.loadflow();
   		//System.out.println(simuCtx.getAclfNet().net2String());
   		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));

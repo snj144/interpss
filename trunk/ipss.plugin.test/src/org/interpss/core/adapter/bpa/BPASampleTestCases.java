@@ -32,7 +32,7 @@ import org.interpss.BaseTestSetup;
 import org.interpss.mapper.odm.IEEEODMMapper;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
@@ -52,7 +52,7 @@ public class BPASampleTestCases extends BaseTestSetup {
 		
 		AclfNetwork net = null;
 		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, CoreCommonSpringCtx.getIpssMsgHub());
 		if (mapper.mapping(adapter.getModel(), simuCtx)) {
   	  		simuCtx.setName("SampleBPA");
   	  		simuCtx.setDesc("This project is created by input file");
@@ -64,7 +64,7 @@ public class BPASampleTestCases extends BaseTestSetup {
   	  		return;
 		}	
 		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.loadflow();
 		//System.out.println(net.net2String());
 	  	
@@ -85,7 +85,7 @@ public class BPASampleTestCases extends BaseTestSetup {
 		
 		AclfNetwork net = null;
 		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, CoreCommonSpringCtx.getIpssMsgHub());
 		if (mapper.mapping(adapter.getModel(), simuCtx)) {
   	  		simuCtx.setName("Sample18Bus");
   	  		simuCtx.setDesc("This project is created by input file");
@@ -97,7 +97,7 @@ public class BPASampleTestCases extends BaseTestSetup {
   	  		return;
 		}	
 		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.loadflow();
 		//System.out.println(net.net2String());
 	  	

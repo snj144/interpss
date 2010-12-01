@@ -25,12 +25,12 @@
 package org.interpss.contigency;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.ContingencyOutFunc;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -43,7 +43,7 @@ import com.interpss.simu.multicase.aclf.ContingencyAnalysisType;
 public class N11Analysis_CR_Test extends BaseTestSetup {
 	@Test
 	public void sampleTest() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("psse");
 		SimuContext simuCtx = adapter.load("testData/psse/MXV-1120MW_FNC475_FEC196_FAC212_InterPSS_3d.raw");
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -51,7 +51,7 @@ public class N11Analysis_CR_Test extends BaseTestSetup {
 
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, net);
 		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 		algo.setNonDivergent(true);
 		algo.setTolerance(0.01);
 		

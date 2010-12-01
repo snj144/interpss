@@ -7,7 +7,7 @@ import org.interpss.BaseTestSetup;
 import org.interpss.display.AcscOutFunc;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.TestUtilFunc;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscNetwork;
@@ -25,7 +25,7 @@ public class LGFault  extends BaseTestSetup {
 		loadCaseData("testData/support/Fitesa_1.ipss", simuCtx);
 		
 	  	AcscNetwork faultNet = simuCtx.getAcscNet();
-	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, SpringAppContext.getIpssMsgHub());
+	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, CoreCommonSpringCtx.getIpssMsgHub());
 
 		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("0003", algo);
 		fault.setFaultCode(SimpleFaultCode.GROUND_LG);
@@ -58,7 +58,7 @@ public class LGFault  extends BaseTestSetup {
 		loadCaseData("testData/support/Fitesa_1.ipss", simuCtx);
 		
 		AcscNetwork faultNet = simuCtx.getAcscNet();
-	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, SpringAppContext.getIpssMsgHub());
+	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, CoreCommonSpringCtx.getIpssMsgHub());
 
 	  	AcscBusFault fault = CoreObjectFactory.createAcscBusFault("0003", algo);
 		fault.setFaultCode(SimpleFaultCode.GROUND_LLG);
@@ -92,7 +92,7 @@ public class LGFault  extends BaseTestSetup {
 		loadCaseData("testData/support/Fitesa_1.ipss", simuCtx);
 		
 		AcscNetwork faultNet = simuCtx.getAcscNet();
-	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, SpringAppContext.getIpssMsgHub());
+	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, CoreCommonSpringCtx.getIpssMsgHub());
 
 	  	AcscBusFault fault = CoreObjectFactory.createAcscBusFault("0003", algo);
 		fault.setFaultCode(SimpleFaultCode.GROUND_LL);

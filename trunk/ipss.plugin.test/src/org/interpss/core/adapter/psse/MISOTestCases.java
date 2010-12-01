@@ -25,7 +25,7 @@
 package org.interpss.core.adapter.psse;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
@@ -34,7 +34,7 @@ import com.interpss.simu.SimuContext;
 public class MISOTestCases extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("psse");
 		SimuContext simuCtx = adapter.load("testData/psse/miso_se_20060302-1300.raw");
   		System.out.println(simuCtx.getAclfNet().net2String());
 

@@ -7,14 +7,14 @@ import org.interpss.editor.io.ProjectDataDBManager;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.ui.Workspace;
 
 public class DbUtilTools  extends BaseTestSetup {
 	public void createProjectId(String filename, String projName) {
 		Workspace.setCurrentType(Workspace.Type.Sample);
 		
-		ProjectDataDBManager manager = (ProjectDataDBManager)SpringAppContext.getProjectDataDBManager();
+		ProjectDataDBManager manager = (ProjectDataDBManager)CoreCommonSpringCtx.getProjectDataDBManager();
 		int projDbId = 0;
 		IProjectData projData = manager.loadProjectDataFromDB(projDbId, filename, projName);
 		assertTrue(projData.getProjectDbId() > 0);

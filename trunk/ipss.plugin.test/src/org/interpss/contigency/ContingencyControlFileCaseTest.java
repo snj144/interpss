@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.custom.run.psseCon.ContingencyFileParser;
 import org.interpss.mapper.IpssXmlMapper;
@@ -15,7 +15,7 @@ import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
@@ -26,7 +26,7 @@ import com.interpss.simu.SimuContext;
 public class ContingencyControlFileCaseTest extends BaseTestSetup {
 	@Test
 	public void cr113BusSwitchingModelCaseTest() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("psse");
 		SimuContext simuCtx = adapter.load("testData/edispatch/CR113Bus.raw");
  		System.out.println(simuCtx.getAclfNet().net2String());
 
@@ -36,7 +36,7 @@ public class ContingencyControlFileCaseTest extends BaseTestSetup {
 
 	//@Test
 	public void cr113BusCaseTest() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("psse");
 		SimuContext simuCtx = adapter.load("testData/edispatch/CR113Bus.raw");
 // 		System.out.println(simuCtx.getAclfNet().net2String());
 
@@ -49,11 +49,11 @@ public class ContingencyControlFileCaseTest extends BaseTestSetup {
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
-			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 		  	IpssMapper mapper = new IpssXmlMapper();
 		  	mapper.mapping(aclfCase.getModification(), net);
 		  	
-		  	PluginSpringAppContext.getXml2LfAlgorithmMapper()
+		  	PluginSpringCtx.getXml2LfAlgorithmMapper()
 		  		.map2Model(parser.getRunAclfStudyCase().getDefaultAclfAlgorithm(),	algo);
 	  	
 	  		assertTrue(algo.loadflow());
