@@ -26,7 +26,6 @@ package org.interpss;
 
 import java.util.logging.Level;
 
-import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.IIpssGraphModel;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.mapper.EditorJGraphDataMapper;
@@ -35,7 +34,7 @@ import org.jgraph.JGraph;
 import org.junit.BeforeClass;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -54,7 +53,7 @@ public class BaseTestSetup {
 
 	@BeforeClass
 	public static void setSpringAppCtx() {
-		if (SpringAppContext.SpringAppCtx == null) {
+		if (CoreCommonSpringCtx.SpringAppCtx == null) {
 			/*
 			TestUtilFunc.Simu_SpringConfigXmlFile = <springConfig File Location> + "springConfig/test/simuContext.xml";
 			TestUtilFunc.Plugin_SpringConfigXmlFile = <springConfig File Location> + "/springConfig/test/pluginContext.xml";
@@ -62,8 +61,8 @@ public class BaseTestSetup {
 			//String xmlFile = TestUtilFunc.Plugin_SpringConfigXmlFile;
 			// Set the SpringAppContext to all ApplicationContextAware objects.
 			//SpringAppContext.SpringAppCtx = new FileSystemXmlApplicationContext(xmlFile);
-			SpringAppContext.SpringAppCtx = new ClassPathXmlApplicationContext(Constants.SpringConfigPath_PluginTest);
-			msg = SpringAppContext.getIpssMsgHub();
+			CoreCommonSpringCtx.SpringAppCtx = new ClassPathXmlApplicationContext(Constants.SpringConfigPath_PluginTest);
+			msg = CoreCommonSpringCtx.getIpssMsgHub();
 			IpssLogger.getLogger().setLevel(Level.INFO);
 		}
 		IpssAclf.setMsgHub(msg);

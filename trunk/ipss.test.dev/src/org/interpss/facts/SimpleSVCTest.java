@@ -20,7 +20,7 @@ public class SimpleSVCTest extends BaseTestSetup {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
-        SVCConstVControl svc = new SVCConstVControl(bus, net.getNoBus()+1, 1.0, 0.0, -5.0);
+        SVCConstVControl svc = new SVCConstVControl(bus, net.getNoBus()+1, 1.0, 0.0, 1.0);
 
         // set svc as AclfBus extension
         bus.setExtensionObject(svc);

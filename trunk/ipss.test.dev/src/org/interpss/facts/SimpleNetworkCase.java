@@ -3,7 +3,7 @@ package org.interpss.facts;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
@@ -19,7 +19,7 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 public class SimpleNetworkCase {
 
 	public static void main(String[] args) {
-        IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
+        IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
         
         // create a sample 5-bus system for Loadflow
         AclfNetwork net = createNet();

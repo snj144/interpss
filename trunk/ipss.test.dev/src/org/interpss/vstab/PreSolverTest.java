@@ -7,7 +7,7 @@ import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.impl.PredictorStepSolver;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -17,7 +17,7 @@ import com.interpss.simu.util.sample.SampleCases;
 public class PreSolverTest extends BaseTestSetup {
 	@Test
 	public void testCase1() {
-    IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
+    IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
 	
 	// create a sample 5-bus system for Loadflow 
 	AclfNetwork net = CoreObjectFactory.createAclfNetwork();
