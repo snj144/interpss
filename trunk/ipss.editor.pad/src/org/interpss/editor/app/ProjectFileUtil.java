@@ -31,7 +31,7 @@ import org.interpss.editor.coreframework.IpssTextDocument;
 import org.interpss.editor.coreframework.IpssTextFile;
 import org.interpss.editor.doc.IpssProjectItem;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.SimuRunType;
 
 public class ProjectFileUtil {
@@ -81,7 +81,7 @@ public class ProjectFileUtil {
 			try {
 				file.createNewFile();
 			} catch (Exception e) {
-				SpringAppContext.getIpssMsgHub().sendErrorMsg("Cannot create DStab Scripting file: " + filepath);
+				CoreCommonSpringCtx.getIpssMsgHub().sendErrorMsg("Cannot create DStab Scripting file: " + filepath);
 				return null;
 			}
 			IpssTextFile ipssFile = new IpssTextFile(filepath);

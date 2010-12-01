@@ -2,7 +2,7 @@ package org.interpss.editor.doc;
 
 import java.util.ArrayList;
 
-import org.interpss.editor.EditorSpringAppContext;
+import org.interpss.editor.EditorSpringCtx;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.Utilities;
 
@@ -77,7 +77,7 @@ public class IpssProject extends IpssProjectItemCollector{
 
 	public void setParentPath(String filePath) {
 		if (filePath == null)
-			this.parentPath = EditorSpringAppContext.getAppContext().getWorkspaceDir();
+			this.parentPath = EditorSpringCtx.getAppContext().getWorkspaceDir();
 		else
 			this.parentPath = filePath;
 	}

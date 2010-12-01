@@ -29,13 +29,13 @@ import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.IRefDataManager;
 import com.interpss.common.io.ISimuRecManager;
 
-public class EditorSpringAppContext extends SpringAppContext {
+public class EditorSpringCtx extends CoreCommonSpringCtx {
 	/**
 	 * Get the GEditor(singleton) from the SpringAppContext.
 	 */

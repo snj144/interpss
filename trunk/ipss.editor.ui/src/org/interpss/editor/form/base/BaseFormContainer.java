@@ -39,7 +39,7 @@ import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.jgraph.ui.form.IGBusForm;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.DataChangeMessage;
 import com.interpss.common.util.IpssLogger;
 
@@ -57,7 +57,7 @@ public class BaseFormContainer {
 	public void setDataDirty(boolean b) {
 		dataDirty = b;
 		if (b) {
-			SpringAppContext.getIpssMsgHub().sendMsg(new DataChangeMessage(DataChangeMessage.DataDirty));
+			CoreCommonSpringCtx.getIpssMsgHub().sendMsg(new DataChangeMessage(DataChangeMessage.DataDirty));
 		}
 	}
 

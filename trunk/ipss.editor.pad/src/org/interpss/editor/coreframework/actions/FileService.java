@@ -13,7 +13,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.editor.SimuAppSpringCtx;
+import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.coreframework.GPPluginInvoker;
 import org.interpss.editor.io.FileChooserConfig;
 import org.interpss.editor.io.CustomFileUtility;

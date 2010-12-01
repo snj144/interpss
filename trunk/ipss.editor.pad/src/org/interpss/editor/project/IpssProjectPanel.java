@@ -27,9 +27,9 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.editor.EditorSpringAppContext;
+import org.interpss.editor.EditorSpringCtx;
 import org.interpss.editor.coreframework.GPBarFactory;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.IpssEditorDocument;
@@ -39,7 +39,7 @@ import org.interpss.editor.doc.IpssProjectItem;
 import org.interpss.editor.doc.IpssProjectItemCollector;
 import org.interpss.editor.util.Utilities;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.IpssLogger;
 
 public class IpssProjectPanel extends JPanel {
@@ -94,7 +94,7 @@ public class IpssProjectPanel extends JPanel {
 		icons.put("txt", IpssIconFactory.ICON_TEXT);
 		icons.put("ipssrpt", IpssIconFactory.ICON_REPORT);
 
-		List adapterList = PluginSpringAppContext.getCustomFileAdapterList();
+		List adapterList = PluginSpringCtx.getCustomFileAdapterList();
 		for (int i = 0; i < adapterList.size(); i++) {
 			IpssFileAdapter adapter = (IpssFileAdapter) adapterList.get(i);
 			icons.put(adapter.getExtension(), IpssIconFactory.ICON_CUS);
@@ -264,7 +264,7 @@ public class IpssProjectPanel extends JPanel {
 
 		removeNodebyObject(project);
 
-		EditorSpringAppContext.getAppContext().removeProject(project);
+		EditorSpringCtx.getAppContext().removeProject(project);
 
 	}
 
@@ -291,7 +291,7 @@ public class IpssProjectPanel extends JPanel {
 	}
 
 	public void showExistTree() {
-		String wsDir = EditorSpringAppContext.getAppContext().getWorkspaceDir();
+		String wsDir = EditorSpringCtx.getAppContext().getWorkspaceDir();
 		IpssLogger.getLogger().info("WS dir for building project tree, " + wsDir);
 
 		File dir = new File(wsDir);
@@ -323,9 +323,9 @@ public class IpssProjectPanel extends JPanel {
 						new FileInputStream(fileName), project);
 
 				addNewAllProject(project);
-				EditorSpringAppContext.getAppContext().addProject(project);
+				EditorSpringCtx.getAppContext().addProject(project);
 			} catch (Exception ex) {
-				SpringAppContext.getEditorDialogUtil().showMsgDialog(
+				CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 						"InterPSS Project '" + projectname + "' Open Error",
 						ex.toString());
 				ex.printStackTrace();
@@ -490,7 +490,7 @@ public class IpssProjectPanel extends JPanel {
 		else if (userObject instanceof IpssProjectItem) {
 			IpssProjectItem item = (IpssProjectItem) userObject;
 			return (item.getFileExt().equals("ipss"))
-					|| (Utilities.haveExt(PluginSpringAppContext
+					|| (Utilities.haveExt(PluginSpringCtx
 							.getCustomFileAdapterList(), item.getFileExt()));
 		}
 		return false;
@@ -513,7 +513,7 @@ public class IpssProjectPanel extends JPanel {
 		else if (userObject instanceof IpssProjectItem) {
 			IpssProjectItem item = (IpssProjectItem) userObject;
 			return (item.getFileExt().equals("ipss"))
-					|| (Utilities.haveExt(PluginSpringAppContext
+					|| (Utilities.haveExt(PluginSpringCtx
 							.getCustomFileAdapterList(), item.getFileExt()));
 		}
 		return false;

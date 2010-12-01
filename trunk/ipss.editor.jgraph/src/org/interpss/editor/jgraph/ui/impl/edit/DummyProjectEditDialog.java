@@ -31,7 +31,7 @@ import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.jgraph.ui.impl.form.DummyFormContainer;
 import org.interpss.editor.jgraph.ui.impl.form.DummyNetForm;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.ui.WinUtilities;
@@ -318,7 +318,7 @@ public class DummyProjectEditDialog extends javax.swing.JDialog implements IForm
 		try {
         	if (!saveEditor2Form(errMsg)) {
         		IpssLogger.getLogger().severe(errMsg.toString());
-        		SpringAppContext.getEditorDialogUtil().showMsgDialog("Network Data Error", errMsg);
+        		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog("Network Data Error", errMsg);
 				return;
         	}
         } catch (Exception e) {

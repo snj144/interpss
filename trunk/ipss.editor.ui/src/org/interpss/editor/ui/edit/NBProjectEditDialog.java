@@ -39,7 +39,7 @@ import org.interpss.editor.ui.edit.trans.NBAclfTransProjPanel;
 import org.interpss.editor.ui.edit.trans.NBAcscTransProjPanel;
 import org.interpss.editor.ui.edit.trans.NBDStabTransProjPanel;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.DataChangeMessage;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.ui.SwingInputVerifyUtil;
@@ -949,12 +949,12 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
 		Vector errMsg = new Vector();
 		try {
         	if (!saveEditor2Form(errMsg)) {
-        		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Network Input Data Error", errMsg);
+        		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Network Input Data Error", errMsg);
 				return;
         	}
         } catch (Exception e) {
       		IpssLogger.logErr(e);
-      		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Network Input Data Error", e.toString());
+      		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Network Input Data Error", e.toString());
 			return;
         }	
         _netContainer.getGNetForm().setNewState(false);
