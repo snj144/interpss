@@ -24,7 +24,7 @@
 
 package org.interpss.editor.runAct.xml;
 
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.display.DclfOutFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
@@ -75,7 +75,7 @@ public class XmlScriptDclfRun {
 			
 			for ( DclfStudyCaseXmlType xmlCase : xmlRunDclfCase.getDclfStudyCaseList().getDclfStudyCaseArray()) {
 				if (xmlCase.getModification() != null) {
-					IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
+					IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 					mapper.mapping(xmlCase.getModification(), aclfNet);
 				}
 

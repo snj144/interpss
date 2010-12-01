@@ -24,7 +24,7 @@
 
 package org.interpss.editor.runAct.ui;
 
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.schema.AcscStudyCaseXmlType;
 
@@ -111,7 +111,7 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 			SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
 		algo.setAcscNetwork(faultNet);
 		algo.setDesc(faultIdStr);
-		PluginSpringAppContext.getXml2ScAlgorithmMapper()
+		PluginSpringCtx.getXml2ScAlgorithmMapper()
 				.map2Model(this.getXmlCaseData(), algo);
 
 		for (Object fault : algo.getFaultList()) {

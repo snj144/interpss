@@ -33,7 +33,7 @@ import java.util.Vector;
 
 import javax.swing.JPopupMenu;
 
-import org.interpss.editor.SimuAppSpringCtx;
+import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.chart.ChartManager;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.ProjData;
@@ -48,7 +48,7 @@ import com.interpss.common.io.DBManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.SimuSpringAppContext;
+import com.interpss.simu.CoreSimuSpringCtx;
 
 public class AppSimuContextImpl implements IAppSimuContext {
 
@@ -84,7 +84,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	public Object getSimuCtx() {
 		if (this.simuCtx == null) {
 			IpssLogger.getLogger().info("SimuSpringAppContext.getSimuContext() called to create a new SimuContext object");
-			this.simuCtx = SimuSpringAppContext.getSimuContext();
+			this.simuCtx = CoreSimuSpringCtx.getSimuContext();
 		}
 		return this.simuCtx;
 	}
@@ -97,7 +97,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 
 	public IProjectData getProjData() {
 		if (this.projData == null) {
-			this.projData = SimuAppSpringCtx.getProjectData();
+			this.projData = EditorSimuSpringCtx.getProjectData();
 			this.projData.setDbSchemaVersion(DBManager.DB_SCHEMA_VERSION);
 		}
 		return this.projData;
@@ -131,7 +131,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 * @return
 	 */
 	public boolean isNonSymmetricFault() {
-		AcscRunForm form = SimuAppSpringCtx.getAcscRunForm();
+		AcscRunForm form = EditorSimuSpringCtx.getAcscRunForm();
 		if (form != null && form.getXmlCaseData() != null && form.getXmlCaseData().getFaultData() != null)
 			return form.getXmlCaseData().getFaultData().getFaultCategory() != AcscFaultCategoryDataType.FAULT_3_P;
 		else 
@@ -307,7 +307,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 
 	public DStabRunForm getDStabRunForm() {
 		if (this.dStabRunForm == null)
-			this.dStabRunForm = SimuAppSpringCtx.getDStabRunForm();
+			this.dStabRunForm = EditorSimuSpringCtx.getDStabRunForm();
 		return this.dStabRunForm;
 	}
 

@@ -34,11 +34,11 @@ import org.interpss.editor.runAct.ui.DStabRunForm;
 import org.interpss.editor.runAct.ui.DclfRunForm;
 import org.interpss.editor.ui.ICaseInfoDialog;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.SimuRunType;
 
-public class SimuAppSpringCtx extends SpringAppContext {
+public class EditorSimuSpringCtx extends CoreCommonSpringCtx {
 	/**
 	 * Get the ProjectData from the SpringAppContext.
 	 *  

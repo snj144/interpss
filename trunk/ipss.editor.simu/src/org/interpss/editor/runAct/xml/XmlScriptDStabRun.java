@@ -26,7 +26,7 @@ package org.interpss.editor.runAct.xml;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
@@ -40,13 +40,13 @@ import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
-import com.interpss.core.CoreSpringAppContext;
+import com.interpss.core.CoreSpringCtx;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
@@ -107,7 +107,7 @@ public class XmlScriptDStabRun {
 					xmlCase = xmlDefaultCase;
 				}
 				if (xmlCase.getModification() != null) {
-					IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
+					IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 					mapper.mapping(xmlCase.getModification(), dstabNet);
 				}
 				if (!configDStaAlgo(dstabAlgo, xmlCase, msg))
@@ -145,7 +145,7 @@ public class XmlScriptDStabRun {
 						simuCtx.setDStabilityNet(dstabNet);
 						return result.getReturnStatus();
 					} catch (GridException e) {
-						SpringAppContext.getEditorDialogUtil()
+						CoreCommonSpringCtx.getEditorDialogUtil()
 								.showErrMsgDialog("Grid DStab Error",
 										e.toString());
 						return false;
@@ -156,7 +156,7 @@ public class XmlScriptDStabRun {
 			} else {
 				// Multi-DStab run case
 				appSimuCtx.setLastRunType(SimuRunType.ScriptsMultiCase);
-				SpringAppContext.getSimuRecManager().clearDbCaseIdLookup();
+				CoreCommonSpringCtx.getSimuRecManager().clearDbCaseIdLookup();
 				
 				GridMessageRouter msgRouter = null;
 				if (RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase())) {
@@ -188,7 +188,7 @@ public class XmlScriptDStabRun {
 						xmlCase = xmlDefaultCase;
 					}
 					if (xmlCase.getModification() != null) {
-						IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
+						IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 						mapper.mapping(xmlCase.getModification(), dstabNet);
 					}
 					if (!configDStaAlgo(dstabAlgo, xmlCase, msg))
@@ -221,7 +221,7 @@ public class XmlScriptDStabRun {
 							studyCase.setDesc("DStab by Local Node");
 						}
 					} catch (Exception e) {
-						SpringAppContext.getEditorDialogUtil()
+						CoreCommonSpringCtx.getEditorDialogUtil()
 								.showErrMsgDialog("Study Case Creation Error",
 										e.toString());
 						return false;
@@ -237,7 +237,7 @@ public class XmlScriptDStabRun {
 						for (RemoteMessageTable result : objAry) {
 							Boolean b = result.getReturnStatus();
 							if (!b.booleanValue()) {
-								SpringAppContext
+								CoreCommonSpringCtx
 										.getEditorDialogUtil()
 										.showWarnMsgDialog("Grid DStab Error",
 												"Please check InterPSS log file for details");
@@ -245,7 +245,7 @@ public class XmlScriptDStabRun {
 							}
 						}
 					} catch (GridException e) {
-						SpringAppContext.getEditorDialogUtil()
+						CoreCommonSpringCtx.getEditorDialogUtil()
 								.showErrMsgDialog("Grid DStab Error",
 										e.toString());
 						return false;
@@ -257,7 +257,7 @@ public class XmlScriptDStabRun {
 				simuCtx.setDStabilityNet(dstabNet);
 			}
 		} else {
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 					"Invalid Xml", "runDStabStudyCase element not defined");
 			return false;
 		}
@@ -268,7 +268,7 @@ public class XmlScriptDStabRun {
 			DStabStudyCaseXmlType dstabCase, IPSSMsgHub msg) {
 		// map the Xml study case data to dstabAlgo, including modification to
 		// the network model data
-		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
+		IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 		mapper.mapping(dstabCase, dstabAlgo);
 		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo, msg))
 			return false; // if something is wrong, we stop running here
@@ -287,7 +287,7 @@ public class XmlScriptDStabRun {
 		
 		// correlate net.id, case.id and dbCaseId
 		dstabAlgo.getDStabNet().setId(dstabCase.getRecId());
-		SpringAppContext.getSimuRecManager().addDBCaseId(dstabCase.getRecId(), dstabDbHandler
+		CoreCommonSpringCtx.getSimuRecManager().addDBCaseId(dstabCase.getRecId(), dstabDbHandler
 				.getDBCaseId());
 
 		// transfer output variable filter info to the DStabAlgo object, which
@@ -306,7 +306,7 @@ public class XmlScriptDStabRun {
 	private static boolean runLocalDStabRun(DynamicSimuAlgorithm dstabAlgo,
 			DStabStudyCaseXmlType dstabCase, IPSSMsgHub msg) {
 		dstabAlgo.getDStabNet().setNetChangeListener(
-				CoreSpringAppContext.getNetChangeHandler());
+				CoreSpringCtx.getNetChangeHandler());
 
 		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 		aclfAlgo.loadflow();

@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.io.DBManager;
@@ -213,7 +213,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 						"selectIpssCaseForProject", projId);
 				for (int i = 0; i < caseList.size(); i++) {
 					IpssDBCase aCase = (IpssDBCase) caseList.get(i);
-					ISimuRecManager simuRecMgr = SpringAppContext
+					ISimuRecManager simuRecMgr = CoreCommonSpringCtx
 							.getSimuRecManager();
 					simuRecMgr.deleteAllSimuRec(aCase.getCaseDbId(),
 							IProjectDataManager.CaseType_DStabSimuRec);

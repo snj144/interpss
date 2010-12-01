@@ -24,7 +24,7 @@
 
 package org.interpss.editor.runAct.xml;
 
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.InterPSSXmlType;
@@ -49,7 +49,7 @@ public class XmlScriptAcscRun {
 	 */
 	public static boolean runAcsc(InterPSSXmlType ipssXmlDoc,
 			AcscNetwork faultNet, IPSSMsgHub msg) {
-		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
+		IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 		if (ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAcscStudyCase() != null) {
 			RunStudyCaseXmlType.StandardRun.RunAcscStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getStandardRun()
 					.getRunAcscStudyCase();

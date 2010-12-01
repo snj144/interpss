@@ -28,14 +28,14 @@ import java.util.Vector;
 
 import javax.swing.JDialog;
 
-import org.interpss.editor.SimuAppSpringCtx;
+import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBFaultLocDataPanel;
 import org.interpss.schema.AcscFaultDataType;
 import org.interpss.schema.AcscStudyCaseXmlType;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
@@ -252,7 +252,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
     	xmlCaseData.getFaultData().setFaultType(AcscFaultDataType.BRANCH_FAULT);
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
     	_faultLocDataPanel.setBusBranchFaultPanel();
-    	SimuAppSpringCtx.getCaseInfoDialog().pack();
+    	EditorSimuSpringCtx.getCaseInfoDialog().pack();
     }//GEN-LAST:event_branchFaultRadioButtonActionPerformed
 
     private void busFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busFaultRadioButtonActionPerformed
@@ -260,7 +260,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
     	xmlCaseData.getFaultData().setFaultType(AcscFaultDataType.BUS_FAULT);
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
     	_faultLocDataPanel.setBusBranchFaultPanel();
-    	SimuAppSpringCtx.getCaseInfoDialog().pack();
+    	EditorSimuSpringCtx.getCaseInfoDialog().pack();
     }//GEN-LAST:event_busFaultRadioButtonActionPerformed
 
     private void fixedVoltRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fixedVoltRadioButtonActionPerformed
@@ -274,7 +274,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 	        this.mFactorTextField.setEnabled(false);
 		}
 		else {
-			SpringAppContext.getEditorDialogUtil().showMsgDialog(parentDialog, "Warning", 
+			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(parentDialog, "Warning", 
 					"Loadflow not run yet. Please run load flow analysis first");
 	        this.mFactorLabel.setEnabled(true);
 	        this.mFactorTextField.setEnabled(true);

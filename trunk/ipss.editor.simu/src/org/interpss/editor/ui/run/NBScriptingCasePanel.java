@@ -29,7 +29,7 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 
-import org.interpss.PluginSpringAppContext;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.run.ICustomRunScriptPlugin;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
@@ -42,7 +42,7 @@ import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.IpssLogger;
 
 public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -58,7 +58,7 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
     public void init(Object netContainer, Object appCtx) {
 		IpssLogger.getLogger().info("NBScriptingCasePanel init() called");
 		customPluginComboBox.setModel(new DefaultComboBoxModel(
-				PluginSpringAppContext.getCustomScriptRunPluginNameList()));
+				PluginSpringCtx.getCustomScriptRunPluginNameList()));
     }
 
     public void setCaseData(CaseData data) {
@@ -240,9 +240,9 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
     private void displayXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayXmlButtonActionPerformed
     	String pluginName = (String)customPluginComboBox.getSelectedItem();
     	String scripts = scriptsTextArea.getText();
-		ICustomRunScriptPlugin adapter = PluginSpringAppContext.getCustomScriptRunPlugin(pluginName);
+		ICustomRunScriptPlugin adapter = PluginSpringCtx.getCustomScriptRunPlugin(pluginName);
 		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(RunStudyCaseXmlType.AnalysisRunType.CONTINGENCY_ANALYSIS,
-				scripts, SpringAppContext.getIpssMsgHub());
+				scripts, CoreCommonSpringCtx.getIpssMsgHub());
 		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("InterPSS Xml Docuement");
 		dialog.display(ipssXmlDoc.toString());		
     }//GEN-LAST:event_displayXmlButtonActionPerformed

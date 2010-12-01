@@ -11,7 +11,7 @@ import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.IpssLogger;
 
 
@@ -37,7 +37,7 @@ public class ToolsDebugIEEEODMXmlInfo extends IpssAbstractActionDefault {
 				str = adapter.getModel().toString();
 			}
 			else
-			SpringAppContext.getIpssMsgHub().sendErrorMsg("Error: model parsing error, " + adapter.errMessage());
+			CoreCommonSpringCtx.getIpssMsgHub().sendErrorMsg("Error: model parsing error, " + adapter.errMessage());
 		}
 		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("IEEE ODM Model Xml Document");
   		dialog.display(str);		

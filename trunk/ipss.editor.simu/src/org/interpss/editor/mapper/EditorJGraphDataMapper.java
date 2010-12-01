@@ -26,15 +26,12 @@ package org.interpss.editor.mapper;
 
 import java.util.Vector;
 
+import org.interpss.PluginSpringCtx;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
-import org.interpss.mapper.editor.AclfFormDataMapperImpl;
-import org.interpss.mapper.editor.AcscFormDataMapperImpl;
-import org.interpss.mapper.editor.DStabFormDataMapperImpl;
-import org.interpss.mapper.editor.DistFormDataMapperImpl;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -66,7 +63,7 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 		// Currently only project in graph mode needs the mapping
 		Vector<String> errMsg = gFormContainer.checkData(msg);
 		if (errMsg != null) {
-			SpringAppContext.getEditorDialogUtil().showMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 						"Network data error", errMsg);
 			return false;
 		}
@@ -93,28 +90,28 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 
 		if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				if (!simuCtx.checkData()) {
-					SpringAppContext.getEditorDialogUtil().showMsgDialog(
+					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 							"Network Loadflow Data Error",
 							"Please see the message list for details");
 					return false;
 				}
 			} else if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				if (!simuCtx.checkData()) {
-					SpringAppContext.getEditorDialogUtil().showMsgDialog(
+					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 							"Network Loadflow Data Error",
 							"Please see the message list for details");
 					return false;
 				}
 			} else if (simuCtx.getNetType() == SimuCtxType.ACSC_NET) {
 				if (!simuCtx.checkData()) {
-					SpringAppContext.getEditorDialogUtil().showMsgDialog(
+					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 							"Network Ac Short Circuit Data Error",
 							"Please see the message list for details");
 					return false;
 				}
 			} else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
 				if (!simuCtx.checkData()) {
-					SpringAppContext.getEditorDialogUtil().showMsgDialog(
+					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 							"Transient stabiliry Data Error",
 							"Please see the message list for details");
 					return false;
@@ -128,24 +125,24 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 		if (klass == GFormContainer.class) {
 			IGNetForm netForm = ((GFormContainer) editNet).getGNetForm();
 			if (netForm.getAppType().equals(IGNetForm.AppType_Distribution)) {
-				return DistFormDataMapperImpl.mapEditNet2DistNet(
-						(GFormContainer) editNet, this.msg);
+				return PluginSpringCtx.getForm2DistNetMapper()
+						.map2Model((GFormContainer) editNet);
 			} else if (netForm.getAppType().equals(
 					IGNetForm.AppType_Transmission)) {
 				if (netForm.getNetType()
 						.equals(IGNetForm.NetType_DStabilityNet)) {
-					return DStabFormDataMapperImpl.mapEditNet2DStabNet(
-							(GFormContainer) editNet, this.msg);
+					return PluginSpringCtx.getForm2DStabNetMapper()
+								.map2Model((GFormContainer) editNet);
 				} else if (netForm.getNetType().equals(
 						IGNetForm.NetType_AcscNetwork)) {
-					return AcscFormDataMapperImpl.mapEditNet2AcscNet(
-							(GFormContainer) editNet, this.msg);
+					return PluginSpringCtx.getForm2AcscNetMapper()
+								.map2Model((GFormContainer) editNet);
 				} else if (netForm.getNetType().equals(
 						IGNetForm.NetType_AclfNetwork)
 						|| netForm.getNetType().equals(
 								IGNetForm.NetType_AclfAdjNetwork)) {
-					return AclfFormDataMapperImpl.mapEditNet2AclfNet(
-							(GFormContainer) editNet, this.msg);
+					return PluginSpringCtx.getForm2AclfNetMapper()
+								.map2Model((GFormContainer) editNet);
 				}
 			}
 		}

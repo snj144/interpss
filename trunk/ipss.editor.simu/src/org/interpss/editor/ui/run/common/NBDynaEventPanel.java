@@ -28,7 +28,7 @@ import java.util.Vector;
 
 import javax.swing.JDialog;
 
-import org.interpss.editor.SimuAppSpringCtx;
+import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.schema.AcscFaultDataType;
@@ -38,7 +38,7 @@ import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData;
 import org.interpss.xml.IpssXmlUtilFunc;
 import org.interpss.xml.StudyCaseHanlder;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.IpssLogger;
 
 public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -391,12 +391,12 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 		Vector<String> errMsg = new Vector<String>();
 		try {
 			if (!saveEditor2Form(errMsg)) {
-				SpringAppContext.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", errMsg);
+				CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", errMsg);
         		return;
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			SpringAppContext.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", e.toString());
+			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", e.toString());
        		return;
 		}
 		// event name may be modified, refresh the event list
@@ -418,7 +418,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     		this.currentEvent.setRecName(eventName);   
     	}
         setForm2Editor();
-    	SimuAppSpringCtx.getCaseInfoDialog().pack();
+    	EditorSimuSpringCtx.getCaseInfoDialog().pack();
     }//GEN-LAST:event_eventListComboBoxActionPerformed
 
     private void branchFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchFaultRadioButtonActionPerformed
@@ -466,7 +466,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 	    		_dstabFaultDataPanel.refresh();
 			}
 		}
-    	SimuAppSpringCtx.getCaseInfoDialog().pack();
+    	EditorSimuSpringCtx.getCaseInfoDialog().pack();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

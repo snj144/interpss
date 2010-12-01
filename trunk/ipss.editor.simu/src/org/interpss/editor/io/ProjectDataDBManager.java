@@ -33,7 +33,7 @@ import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.io.DBManager;
@@ -100,7 +100,7 @@ public class ProjectDataDBManager implements IProjectDataManager {
 						projData);
 			} catch (Exception e) {
 				IpssLogger.logErr(e);
-				SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+				CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 						"Error to Create DB Project",
 						e.toString() + "\nPlease contact InterPSS support");
 			}
@@ -257,7 +257,7 @@ public class ProjectDataDBManager implements IProjectDataManager {
 	public static void deleteDbProject(int projDbId) {
 		try {
 			IpssLogger.getLogger().info("Delete project: " + projDbId);
-			ISimuRecManager simuRecMgr = SpringAppContext.getSimuRecManager();
+			ISimuRecManager simuRecMgr = CoreCommonSpringCtx.getSimuRecManager();
 			simuRecMgr.deleteAllSimuRecForProject(projDbId,
 				IProjectDataManager.CaseType_DStabSimuRec);
 			DBManager.getSqlMap().delete("deleteAllStudyCaseForProject", projDbId);
