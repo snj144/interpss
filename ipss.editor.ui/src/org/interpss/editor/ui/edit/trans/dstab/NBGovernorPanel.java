@@ -37,7 +37,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.dstab.mach.Controller;
+import com.interpss.dstab.mach.MachineController;
 import com.interpss.simu.util.SimuSpringAppCtxUtil;
  
 public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -45,7 +45,7 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
 	private JDialog parent = null;
 
     private DStabMachData machData = null;
-	private Controller controller = null;
+	private MachineController controller = null;
     
 	public void initPanel(JDialog aParent) {
 		parent = aParent;
@@ -64,7 +64,7 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
 	}
 	
 	private void setEditPanel(String typeName) {
-		Controller aController = SimuSpringAppCtxUtil.getGovernor(typeName);
+		MachineController aController = SimuSpringAppCtxUtil.getGovernor(typeName);
    		if (controller == null || aController.getClass() != controller.getClass()) {
    			IpssLogger.getLogger().info("NBGovernorPanel create a new controller class, " + aController.getName());
    			controller = aController;

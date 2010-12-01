@@ -40,7 +40,7 @@ import org.interpss.editor.data.dstab.DStabNetData;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
-import com.interpss.dstab.mach.Controller;
+import com.interpss.dstab.mach.MachineController;
 
 public class InitDataUtil {
     // the following fields are used to track last values entered by the user
@@ -217,7 +217,7 @@ public class InitDataUtil {
     /**
      * set init data to the data object, which will be edited.
      */
-  	public static void initDStabControllerData(DStabControllerData data, String typeName, Controller controller) {
+  	public static void initDStabControllerData(DStabControllerData data, String typeName, MachineController controller) {
   		data.setTypeName(typeName);
 		data.setDataXmlStr(controller.getDataXmlString());
 		data.setScripts("");

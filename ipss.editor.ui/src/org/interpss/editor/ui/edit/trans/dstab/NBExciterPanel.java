@@ -39,7 +39,7 @@ import org.interpss.editor.ui.edit.trans.bus.NBDStabTransBusEditPanel;
 
 import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.dstab.mach.Controller;
+import com.interpss.dstab.mach.MachineController;
 import com.interpss.simu.util.SimuSpringAppCtxUtil;
  
 public class NBExciterPanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -48,7 +48,7 @@ public class NBExciterPanel extends javax.swing.JPanel implements IFormDataPanel
 	private JPanel parent = null;
 
     private DStabMachData machData = null;
-	private Controller controller = null;
+	private MachineController controller = null;
 
 	public void initPanel(JPanel p, JDialog pdialog) {
 		parent = p;
@@ -68,7 +68,7 @@ public class NBExciterPanel extends javax.swing.JPanel implements IFormDataPanel
 	}
 
 	private void setEditPanel(String typeName) {
-		Controller aController = SimuSpringAppCtxUtil.getExciter(typeName);
+		MachineController aController = SimuSpringAppCtxUtil.getExciter(typeName);
    		if (controller == null || aController.getClass() != controller.getClass()) {
    			IpssLogger.getLogger().info("NBExciterPanel create a new controller class, " + aController.getName());
    			controller = aController;
