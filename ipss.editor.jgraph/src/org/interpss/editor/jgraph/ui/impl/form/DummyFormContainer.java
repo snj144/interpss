@@ -41,7 +41,7 @@ import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.jgraph.ui.impl.data.DummyProjData;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.DataChangeMessage;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -77,7 +77,7 @@ public class DummyFormContainer implements IGFormContainer {
 	public void setDataDirty(boolean b) {
 		dataDirty = b;
 		if (b) {
-			SpringAppContext.getIpssMsgHub().sendMsg(new DataChangeMessage(DataChangeMessage.DataDirty));
+			CoreCommonSpringCtx.getIpssMsgHub().sendMsg(new DataChangeMessage(DataChangeMessage.DataDirty));
 		}
 	}
 

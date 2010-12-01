@@ -18,7 +18,7 @@ import org.interpss.editor.project.IpssXmlCodec;
 import org.interpss.editor.project.IpssGraphCodec;
 import org.interpss.editor.project.IpssTextCodec;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.io.DBManager;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.util.IpssLogger;
@@ -46,7 +46,7 @@ public class FileSave extends IpssAbstractActionDefault {
 							.getIpssGraphicEditor().getCurrentAppSimuContext();
 					if (appSimuCtx.getProjData().isDirty()) {
                         /* following modefied by Mike 07/31/06 */
-						IProjectDataManager projManager = SpringAppContext
+						IProjectDataManager projManager = CoreCommonSpringCtx
 								.getProjectDataDBManager();
 						projManager.saveProjectDataToDB(getCurrentDocument().getProjData());
 						// added by Mike
@@ -70,7 +70,7 @@ public class FileSave extends IpssAbstractActionDefault {
 					IAppSimuContext appSimuCtx = GraphSpringAppContext
 							.getIpssGraphicEditor().getCurrentAppSimuContext();
 					if (appSimuCtx.getProjData().isDirty()) {
-						IProjectDataManager projManager = SpringAppContext.getProjectDataDBManager();
+						IProjectDataManager projManager = CoreCommonSpringCtx.getProjectDataDBManager();
 						/* modified by Mike. doc.projData and appSimuCtx.projData are out of synch
 						projManager.saveProjectDataToDB(getCurrentDocument().getProjData());
 						getCurrentDocument().getProjData().setDirty(false);

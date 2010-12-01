@@ -38,7 +38,7 @@ import org.interpss.editor.ui.edit.trans.bus.NBAclfTransBusEditPanel;
 import org.interpss.editor.ui.edit.trans.bus.NBAcscTransBusEditPanel;
 import org.interpss.editor.ui.edit.trans.bus.NBDStabTransBusEditPanel;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.DataChangeMessage;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.ui.SwingInputVerifyUtil;
@@ -379,13 +379,13 @@ public class NBBusEditDialog extends javax.swing.JDialog  implements IFormDataDi
 		Vector errMsg = new Vector();
 		try {
         	if (!saveEditor2Form(errMsg)) {
-        		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Bus Input Data Error", errMsg);
+        		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Bus Input Data Error", errMsg);
         		IpssLogger.getLogger().info("Bus Input Data Error" + errMsg.toString());
 				return;
         	}
         } catch (Exception e) {
       		IpssLogger.logErr(e);
-      		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Bus Input Data Error", e.toString());
+      		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Bus Input Data Error", e.toString());
 			return;
         }	
         _netContainer.addBaseVolt(_form.getBaseVoltage());

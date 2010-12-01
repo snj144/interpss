@@ -37,7 +37,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.refData.LoadScheduleItem;
 import org.interpss.editor.refData.LoadScheduleRefData;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.io.IRefDataManager;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
@@ -92,7 +92,7 @@ public class NBLoadScheduleDialog extends javax.swing.JDialog implements IFormDa
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBLoadScheduleDialog.setForm2Editor() called");
 
-	    LoadScheduleRefData refData = (LoadScheduleRefData)SpringAppContext.getRefDataManager().
+	    LoadScheduleRefData refData = (LoadScheduleRefData)CoreCommonSpringCtx.getRefDataManager().
 							getRefDataObject(IRefDataManager.REFDATA_LoadSchedule);
 	    refDataNameComboBox.setModel(new javax.swing.DefaultComboBoxModel(refData.getScheduleNameList(
 	    				((GNetForm)netContainer.getGNetForm()).getDistNetData().getLoadSchedulePeriodUnit())));
@@ -371,7 +371,7 @@ public class NBLoadScheduleDialog extends javax.swing.JDialog implements IFormDa
 
     private void refDataCopyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refDataCopyButtonActionPerformed
 	    String schedule = (String)refDataNameComboBox.getSelectedItem();
-	    LoadScheduleRefData refData = (LoadScheduleRefData)SpringAppContext.getRefDataManager().
+	    LoadScheduleRefData refData = (LoadScheduleRefData)CoreCommonSpringCtx.getRefDataManager().
 	    									getRefDataObject(IRefDataManager.REFDATA_LoadSchedule);
 	    Object[] itemList = refData.getItemList(schedule);
 
@@ -392,13 +392,13 @@ public class NBLoadScheduleDialog extends javax.swing.JDialog implements IFormDa
 		Vector errMsg = new Vector();
 		try {
         	if (!saveEditor2Form(errMsg)) {
-        		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Load Schedule Data Error", errMsg);
+        		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Load Schedule Data Error", errMsg);
         		IpssLogger.getLogger().info("Load Schedule Data Error" + errMsg.toString());
 				return;
         	}
         } catch (Exception e) {
       		IpssLogger.logErr(e);
-      		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Load Schedule Data Error", e.toString());
+      		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Load Schedule Data Error", e.toString());
 			return;
         }	
     	setVisible(false);

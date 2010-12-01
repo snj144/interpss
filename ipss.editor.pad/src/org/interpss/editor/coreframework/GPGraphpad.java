@@ -50,8 +50,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.interpss.PluginSpringAppContext;
-import org.interpss.editor.EditorSpringAppContext;
+import org.interpss.PluginSpringCtx;
+import org.interpss.editor.EditorSpringCtx;
 import org.interpss.editor.doc.IpssDocument;
 import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.doc.IpssProjectItem;
@@ -73,7 +73,7 @@ import org.interpss.editor.util.Utilities;
 import org.interpss.gridgain.util.GridUtil;
 import org.jgraph.JGraph;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.io.IRefDataManager;
 import com.interpss.common.resource.IpssPropertiesLoader;
 import com.interpss.common.util.IpssLogger;
@@ -364,7 +364,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 
 	public IpssProject getCurrentProject() {
-		IpssProject[] projects = EditorSpringAppContext.getAppContext()
+		IpssProject[] projects = EditorSpringCtx.getAppContext()
 				.getAllProjects();
 
 		// no project
@@ -916,7 +916,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			return false;
 		}
 
-		EditorSpringAppContext.getAppContext().addProject(p);
+		EditorSpringCtx.getAppContext().addProject(p);
 
 		this.getProjectPanel().addNewAllProject(p);
 
@@ -949,7 +949,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 						return;
 					addGraphDocument(item, file);
 				} catch (Exception ex) {
-					SpringAppContext.getEditorDialogUtil().showMsgDialog(
+					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 							"InterPSS Graphic File Open Error", ex.toString());
 					ex.printStackTrace();
 				}
@@ -957,7 +957,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			// Mike else if (item.getName().endsWith("ipssdat")) { we do not put
 			// any restriction here
 			// else if (item.getName().endsWith("ipssdat")) {
-			else if (Utilities.haveExt(PluginSpringAppContext
+			else if (Utilities.haveExt(PluginSpringCtx
 					.getCustomFileAdapterList(), item.getFileExt())) {
 				try {
 					// at this point, we open a file, for exmple PSS/E raw. version should be 
@@ -969,7 +969,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 						return;
 					addCustomDocument(item, file);
 				} catch (Exception ex) {
-					SpringAppContext.getEditorDialogUtil().showMsgDialog(
+					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 							"InterPSS Custom Data File Open Error",
 							ex.toString());
 					ex.printStackTrace();
@@ -983,7 +983,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 						return;
 					addXmlDocument(item, file);
 				} catch (Exception ex) {
-					SpringAppContext.getEditorDialogUtil().showMsgDialog(
+					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 							"InterPSS Xml Data File Open Error", ex.toString());
 					ex.printStackTrace();
 
@@ -997,7 +997,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 						return;
 					addTextDocument(item, file);
 				} catch (Exception ex) {
-					SpringAppContext.getEditorDialogUtil().showMsgDialog(
+					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 							"Text File Open Error", ex.toString());
 					ex.printStackTrace();
 				}
@@ -1010,7 +1010,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 						return;
 					loadReportDocument(item, file);
 				} catch (Exception ex) {
-					SpringAppContext.getEditorDialogUtil().showMsgDialog(
+					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 							"Report Open Error", ex.toString());
 					ex.printStackTrace();
 				}
@@ -1161,7 +1161,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	 */
 	public boolean isBGProcessingBusy() {
 		if (getStatusPanel().isBusy()) {
-			SpringAppContext.getEditorDialogUtil().showMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 					"Processing Thread Busy",
 					"Please wait for the completion of "
 							+ getStatusPanel().getBusyMsg());
@@ -1185,7 +1185,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 
 	public LoadScheduleRefData getLoadScheduleRefData() {
-		return (LoadScheduleRefData) EditorSpringAppContext.getRefDataManager()
+		return (LoadScheduleRefData) EditorSpringCtx.getRefDataManager()
 				.getRefDataObject(IRefDataManager.REFDATA_LoadSchedule);
 	}
 
@@ -1203,7 +1203,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	 * @see com.interpss.editor.jgraph.ui.IGraphicEditor#getAppStatus()
 	 */
 	public IAppStatus getAppStatus() {
-		return EditorSpringAppContext.getStatusPanel();
+		return EditorSpringCtx.getStatusPanel();
 	}
 
 	/*
@@ -1259,7 +1259,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 
 	public String getWorkspace() {
-		return EditorSpringAppContext.getAppContext().getWorkspaceDir();
+		return EditorSpringCtx.getAppContext().getWorkspaceDir();
 	}
 
 	public String getCurrentProjectFolder() {
@@ -1326,7 +1326,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 					items[i].setInit_Status(IpssProjectItem.STATUS_OPEN);
 			}
 		// Save projects
-		IpssProject[] projects = EditorSpringAppContext.getAppContext()
+		IpssProject[] projects = EditorSpringCtx.getAppContext()
 				.getAllProjects();
 		if ((projects != null) && (projects.length > 0))
 			for (int i = 0; i < projects.length; i++)

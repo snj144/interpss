@@ -66,7 +66,7 @@ import org.jgraph.graph.CellViewFactory;
 import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
@@ -319,7 +319,7 @@ public final class Utilities {
 			file = new GPGraphpadFile(new GraphLayoutCache(model, cellViewFactory));
 
 		} catch (Exception e ) {
-			SpringAppContext.getEditorDialogUtil().showMsgDialog(
+			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 					"InterPSS Graphic File Open Error", e.toString());
 			e.printStackTrace();
 		}
@@ -337,7 +337,7 @@ public final class Utilities {
 //		file.setModified(false);
 //		file.setFilePathName(filepath);
 		//graphpad.setStatus("Text loaded, File:" + filepath); no need anymore
-		SpringAppContext.getIpssMsgHub().sendStatusMsg("Text File:" + filepath);
+		CoreCommonSpringCtx.getIpssMsgHub().sendStatusMsg("Text File:" + filepath);
 		
 		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("Text File loaded, " + filepath);
 		return file;
@@ -353,7 +353,7 @@ public final class Utilities {
 //		file.setModified(false);
 //		file.setFilePathName(filepath);
 		//graphpad.setStatus("Report loaded, File:" + filepath); no need anymore
-		SpringAppContext.getIpssMsgHub().sendStatusMsg("Report File:" + filepath);
+		CoreCommonSpringCtx.getIpssMsgHub().sendStatusMsg("Report File:" + filepath);
 		
 		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("Report file loaded, " + filepath);
 		return file;
@@ -369,7 +369,7 @@ public final class Utilities {
 
 		IAppSimuContext appSimuContext = IpssCustomDataCodec.getInstance(graphpad).read(abpath, version);
 		if (appSimuContext == null) {
-			SpringAppContext.getEditorDialogUtil().showMsgDialog("InterPSS Custom Text File Open Error", "");
+			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog("InterPSS Custom Text File Open Error", "");
 			return null;
 		} else {
 			file.setSimuAppContext(appSimuContext);
@@ -380,7 +380,7 @@ public final class Utilities {
 			file.getSimuAppContext().getProjData().setProjectName(StringUtil.getFileName(abpath));
 			file.setFilePathName(abpath);
 			//graphpad.setStatus("Custom Data loaded, File:" + abpath); no need anymore
-			SpringAppContext.getIpssMsgHub().sendStatusMsg("Custom Data, File:" + abpath);
+			CoreCommonSpringCtx.getIpssMsgHub().sendStatusMsg("Custom Data, File:" + abpath);
 		}
 
 		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("Custom Data loaded, " + abpath);
@@ -397,7 +397,7 @@ public final class Utilities {
 //		file.setModified(false);
 //		file.setFilePathName(filepath);
 		//graphpad.setStatus("Text loaded, File:" + filepath); no need anymore
-		SpringAppContext.getIpssMsgHub().sendStatusMsg("XML File:" + filepath);
+		CoreCommonSpringCtx.getIpssMsgHub().sendStatusMsg("XML File:" + filepath);
 		
 		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("XML File loaded, " + filepath);
 		return file;
@@ -408,7 +408,7 @@ public final class Utilities {
 	public static IAppSimuContext loadProjectData(IpssProjectItem item) throws Exception  {
 		IpssLogger.getLogger().info("Load project data from DB ...");
 		IAppSimuContext appSimuContext = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-		IProjectDataManager projManager = SpringAppContext
+		IProjectDataManager projManager = CoreCommonSpringCtx
 				.getProjectDataDBManager();
 		projManager.loadProjectDataFromDB(item.getProjDbId(), item
 				.getName(), item.getFileNameNoExt(), appSimuContext);

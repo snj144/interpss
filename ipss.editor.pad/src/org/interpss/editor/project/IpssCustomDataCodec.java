@@ -3,13 +3,13 @@ package org.interpss.editor.project;
 import java.io.BufferedOutputStream;
 import java.io.OutputStream;
 
-import org.interpss.editor.EditorSpringAppContext;
+import org.interpss.editor.EditorSpringCtx;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.io.CustomFileUtility;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 
-import com.interpss.common.SpringAppContext;
+import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.simu.SimuContext;
 
 public class IpssCustomDataCodec {
@@ -67,7 +67,7 @@ public class IpssCustomDataCodec {
 	
 // Mike	public static IAppSimuContext read(String abpath) { since this a singleton, no need to static
 	public IAppSimuContext read(String abpath, String version) {
-		IAppSimuContext appSimuContext = EditorSpringAppContext.getAppSimuContext();
+		IAppSimuContext appSimuContext = EditorSpringCtx.getAppSimuContext();
 		SimuContext simuCtx = (SimuContext)appSimuContext.getSimuCtx();
 		boolean ok = CustomFileUtility.loadCustomFile(abpath, version, simuCtx);
 		if (ok) {
@@ -75,7 +75,7 @@ public class IpssCustomDataCodec {
 		}
 		else {
 			appSimuContext.setSimuCtx(null);
-			SpringAppContext.getIpssMsgHub().sendWarnMsg("Custom data file loading error, filename: " + abpath);
+			CoreCommonSpringCtx.getIpssMsgHub().sendWarnMsg("Custom data file loading error, filename: " + abpath);
 		}
 		return appSimuContext;
 	}
