@@ -1,4 +1,3 @@
-package org.interpss.mapper.odm;
 /*
  * @(#)AbstractODMNetDataMapper.java   
  *
@@ -23,7 +22,7 @@ package org.interpss.mapper.odm;
  *
  */
 
-
+package org.interpss.mapper.odm;
 
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.schema.ApparentPowerUnitType;
@@ -45,6 +44,15 @@ import com.interpss.core.net.Bus;
 import com.interpss.core.net.CimRecord;
 import com.interpss.core.net.Network;
 import com.interpss.core.net.Zone;
+
+/**
+ * Base class for implementing mapper from ODM model to Network object 
+ * 
+ * @author mzhou
+ *
+ * @param <Tfrom> a ODM parser object 
+ * @param <Tto> a Network object (AclfNetwork, AcscNetwork)
+ */
 
 public abstract class AbstractODMNetDataMapper<Tfrom, Tto> extends AbstractMapping<Tfrom, Tto> {
 	public AbstractODMNetDataMapper(IPSSMsgHub msg) {
