@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.mapper.odm;
+package org.interpss.mapper.odm.dep;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.acsc.AcscModelParser;
@@ -30,8 +30,12 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.interpss.mapper.odm.ODMAclfDataMapper;
+import org.interpss.mapper.odm.ODMAcscDataMapper;
+import org.interpss.mapper.odm.ODMDStabDataMapper;
+import org.interpss.mapper.odm.ODMOpfDataMapper;
 
-import com.interpss.common.mapper.AbstractMapper;
+import com.interpss.common.mapper.dep.AbstractMapper;
 import com.interpss.simu.SimuContext;
 
 public class IEEEODMMapper extends AbstractMapper {

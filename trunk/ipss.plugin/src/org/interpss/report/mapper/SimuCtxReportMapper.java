@@ -37,7 +37,7 @@ import org.interpss.report.bean.aclf.RptAclfSummaryBusBean;
 import org.interpss.report.bean.acsc.RptAcscVoltAmpsBean;
 import org.interpss.report.bean.acsc.RptFaultSummaryBean;
 
-import com.interpss.common.mapper.AbstractMapper;
+import com.interpss.common.mapper.dep.AbstractMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.adj.FunctionLoad;
 import com.interpss.core.aclf.adj.PQBusLimit;

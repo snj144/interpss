@@ -29,7 +29,7 @@ import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.ModificationXmlType;
 
-import com.interpss.common.mapper.AbstractMapper;
+import com.interpss.common.mapper.dep.AbstractMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
