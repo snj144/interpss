@@ -1,5 +1,5 @@
  /*
-  * @(#)FileAdapter_JavaScripts.java   
+  * @(#)FileAdapter_IeeeCommonFormat.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -15,37 +15,37 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 05/01/2007
+  * @Date 09/15/2006
   * 
   *   Revision History
   *   ================
   *
   */
 
-package org.interpss.custom.script.proj;
+package org.interpss.custom.dep.exchange;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+/**
+ *  Custom input file adapter for IEEE Common Format. It loads a data file in the format and create an
+ *  AclfAdjNetwork object. The data fields could be positional or separeted by comma  
+ */
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
 
-import org.interpss.custom.dep.exchange.IpssFileAdapterBase;
+import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.script.ScriptingUtil;
 
-public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
-	public FileAdapter_JavaScripts(IPSSMsgHub msgHub) {
+public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
+	
+	public FileAdapter_IeeeCommonFormat(IPSSMsgHub msgHub) {
 		super(msgHub);
 	}
+	
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
 	 * object will be created to hold the data for loadflow analysis.
@@ -56,19 +56,11 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 */
 	@Override
 	public void load(final SimuContext simuCtx, final String filepath) throws Exception{
-		final File file = new File(filepath);
-		final InputStream stream = new FileInputStream(file);
-		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
-      	String scripts = "", s;
-      	while ((s = din.readLine()) != null) {
-      		scripts += s + "\n";
-       	}
-      	// System.out.println(str);
-      	
-		ScriptEngine engine = SimuObjectFactory.createScriptEngine();
-		engine.eval(scripts);
-		Object loader = ScriptingUtil.getScritingObject(engine, msgHub);
-		((Invocable)engine).invokeMethod(loader, "load", simuCtx, msgHub);		
+		//IODMPSSAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
+		IODMPSSAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
+		loadByODMTransformation(adapter, simuCtx, filepath, msgHub);
+
+		//loadByAdpter(simuCtx, filepath, msg);
 	}
 	
 	/**
@@ -80,7 +72,7 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 * @return the created SimuContext object.
 	 */
 	@Override
-	public SimuContext load(final String filepath) throws Exception {
+	public SimuContext load(final String filepath) throws Exception{
   		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
   		load(simuCtx, filepath);
   		return simuCtx;
@@ -92,6 +84,22 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 */
 	@Override
 	public boolean save(final String filepath, final SimuContext net) throws Exception{
-		throw new InvalidOperationException("FileAdapter_IpssInternalFormat.save not implemented");
+		throw new InvalidOperationException("FileAdapter_IeeeCommonFormat.save not implemented");
 	}
+	
+/*	
+	private void loadByAdpter(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg)  throws Exception{
+		final File file = new File(filepath);
+		final InputStream stream = new FileInputStream(file);
+		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
+		
+		final AclfAdjNetwork adjNet = IeeeCommonFormat_in.loadFile(din, msg);
+  		// System.out.println(adjNet.net2String());
+	  		
+  		simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
+  		simuCtx.setAclfAdjNet(adjNet);
+  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
+  		simuCtx.setDesc("This project is created by input file " + filepath);	
+	}
+*/		
 }

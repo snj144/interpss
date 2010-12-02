@@ -2,12 +2,12 @@ package org.interpss.custom;
 
 import org.interpss.custom.IpssFileAdapter.FileFormat;
 import org.interpss.custom.IpssFileAdapter.PsseVersion;
-import org.interpss.custom.exchange.FileAdapter_GEFormat;
-import org.interpss.custom.exchange.FileAdapter_IeeeCommonFormat;
-import org.interpss.custom.exchange.FileAdapter_PTIFormat;
-import org.interpss.custom.exchange.FileAdapter_UCTEFormat;
-import org.interpss.custom.exchange.psse.PSSEDataRec;
-import org.interpss.custom.ieee_odm.FileAdapter_IEEEODM_Xml;
+import org.interpss.custom.dep.exchange.FileAdapter_GEFormat;
+import org.interpss.custom.dep.exchange.FileAdapter_IeeeCommonFormat;
+import org.interpss.custom.dep.exchange.FileAdapter_PTIFormat;
+import org.interpss.custom.dep.exchange.FileAdapter_UCTEFormat;
+import org.interpss.custom.dep.exchange.psse.PSSEDataRec;
+import org.interpss.custom.dep.ieee_odm.FileAdapter_IEEEODM_Xml;
 
 import com.interpss.common.msg.IPSSMsgHub;
 

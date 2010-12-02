@@ -1,7 +1,7 @@
  /*
-  * @(#)FileAdapter_JavaScripts.java   
+  * @(#)FileAdapter_GEFormat.java   
   *
-  * Copyright (C) 2006 www.interpss.org
+  * Copyright (C) 2006-2008 www.interpss.org
   *
   * This program is free software; you can redistribute it and/or
   * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -15,14 +15,14 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 05/01/2007
+  * @Date 05/01/2008
   * 
   *   Revision History
   *   ================
   *
   */
 
-package org.interpss.custom.script.proj;
+package org.interpss.custom.dep.exchange;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,20 +30,20 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-
-import org.interpss.custom.dep.exchange.IpssFileAdapterBase;
+import org.interpss.custom.dep.exchange.ge.GEDataRec;
+import org.interpss.custom.dep.exchange.impl.GEFormat_in;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.StringUtil;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.script.ScriptingUtil;
 
-public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
-	public FileAdapter_JavaScripts(IPSSMsgHub msgHub) {
+public class FileAdapter_GEFormat extends IpssFileAdapterBase {
+	public FileAdapter_GEFormat(IPSSMsgHub msgHub) {
 		super(msgHub);
 	}
 	/**
@@ -56,20 +56,8 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 */
 	@Override
 	public void load(final SimuContext simuCtx, final String filepath) throws Exception{
-		final File file = new File(filepath);
-		final InputStream stream = new FileInputStream(file);
-		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
-      	String scripts = "", s;
-      	while ((s = din.readLine()) != null) {
-      		scripts += s + "\n";
-       	}
-      	// System.out.println(str);
-      	
-		ScriptEngine engine = SimuObjectFactory.createScriptEngine();
-		engine.eval(scripts);
-		Object loader = ScriptingUtil.getScritingObject(engine, msgHub);
-		((Invocable)engine).invokeMethod(loader, "load", simuCtx, msgHub);		
-	}
+		loadByAdpter(simuCtx, filepath);
+ 	}
 	
 	/**
 	 * Create a SimuContext object and Load the data in the data file, specified by the filepath, into the object. 
@@ -80,7 +68,7 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 * @return the created SimuContext object.
 	 */
 	@Override
-	public SimuContext load(final String filepath) throws Exception {
+	public SimuContext load(final String filepath) throws Exception{
   		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
   		load(simuCtx, filepath);
   		return simuCtx;
@@ -92,6 +80,27 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 */
 	@Override
 	public boolean save(final String filepath, final SimuContext net) throws Exception{
-		throw new InvalidOperationException("FileAdapter_IpssInternalFormat.save not implemented");
+		throw new InvalidOperationException("FileAdapter_UCTEFormat.save not implemented");
+	}
+	
+	
+	private void loadByAdpter(final SimuContext simuCtx, final String filepath)  throws Exception{
+		final File file = new File(filepath);
+		final InputStream stream = new FileInputStream(file);
+		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
+		
+		final AclfNetwork adjNet = GEFormat_in.loadFile(din, StringUtil.getFileName(filepath), GEDataRec.VersionNo.PSLF15, msgHub);
+  		// System.out.println(adjNet.net2String());
+	  		
+  		if (adjNet != null) {
+  			simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
+  	  		simuCtx.setAclfNet(adjNet);
+  	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
+  	  		simuCtx.setDesc("This project is created by input file " + filepath);
+  		}
+  		else { 
+  			msgHub.sendErrorMsg("Error to load file: " + filepath);
+  			IpssLogger.getLogger().severe("Error to load file: " + filepath);
+  		}		
 	}
 }
