@@ -1,5 +1,5 @@
  /*
-  * @(#)FileAdapter_JavaScripts.java   
+  * @(#)FileAdapter_IpssInternalFormat.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -15,37 +15,39 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 05/01/2007
+  * @Date 09/15/2006
   * 
   *   Revision History
   *   ================
   *
   */
 
-package org.interpss.custom.script.proj;
+package org.interpss.custom.dep.exchange;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
+import org.interpss.custom.dep.exchange.impl.IpssInternalFormat_in;
+import org.interpss.custom.dep.exchange.impl.IpssInternalFormat_out;
 
-import org.interpss.custom.dep.exchange.IpssFileAdapterBase;
-
-import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.script.ScriptingUtil;
 
-public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
-	public FileAdapter_JavaScripts(IPSSMsgHub msgHub) {
+public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
+	public FileAdapter_IpssInternalFormat(IPSSMsgHub msgHub) {
 		super(msgHub);
-	}
+	}	
+
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
 	 * object will be created to hold the data for loadflow analysis.
@@ -59,16 +61,16 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 		final File file = new File(filepath);
 		final InputStream stream = new FileInputStream(file);
 		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
-      	String scripts = "", s;
-      	while ((s = din.readLine()) != null) {
-      		scripts += s + "\n";
-       	}
-      	// System.out.println(str);
-      	
-		ScriptEngine engine = SimuObjectFactory.createScriptEngine();
-		engine.eval(scripts);
-		Object loader = ScriptingUtil.getScritingObject(engine, msgHub);
-		((Invocable)engine).invokeMethod(loader, "load", simuCtx, msgHub);		
+		
+		// load the loadflow data into the AclfAdjNetwork object
+		final AclfNetwork adjNet = IpssInternalFormat_in.loadFile(din, msgHub);
+  		// System.out.println(adjNet.net2String());
+
+		// set the simuContext object
+  		simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
+  		simuCtx.setAclfNet(adjNet);
+  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
+  		simuCtx.setDesc("This project is created by input file " + filepath);
 	}
 	
 	/**
@@ -80,7 +82,7 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 * @return the created SimuContext object.
 	 */
 	@Override
-	public SimuContext load(final String filepath) throws Exception {
+	public SimuContext load(final String filepath) throws Exception{
   		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
   		load(simuCtx, filepath);
   		return simuCtx;
@@ -91,7 +93,15 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 * back to a data file.
 	 */
 	@Override
-	public boolean save(final String filepath, final SimuContext net) throws Exception{
-		throw new InvalidOperationException("FileAdapter_IpssInternalFormat.save not implemented");
-	}
+	public boolean save(final String filepath, final SimuContext simuCtx) throws Exception{
+        final File file = new File(filepath);
+        final OutputStream stream = new FileOutputStream(file);
+        final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(stream));
+
+        boolean r = IpssInternalFormat_out.save(out, simuCtx, msgHub);
+        
+        out.flush();
+        out.close();
+        return r;
+   }
 }
