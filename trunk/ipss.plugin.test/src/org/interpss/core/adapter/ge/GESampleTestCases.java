@@ -27,11 +27,11 @@ package org.interpss.core.adapter.ge;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.xbean.ge.XBeanGE_PSLF_Adapter;
+import org.ieee.odm.adapter.dep.xbean.ge.XBeanGE_PSLF_Adapter;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.mapper.odm.dep.IEEEODMMapper;
 import org.junit.Test;
 
 import com.interpss.common.CoreCommonSpringCtx;
@@ -44,8 +44,6 @@ import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class GESampleTestCases extends BaseTestSetup {
 	@Test
@@ -73,19 +71,10 @@ public class GESampleTestCases extends BaseTestSetup {
 		IODMPSSAdapter adapter = new XBeanGE_PSLF_Adapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testdata/ge/Sample18Bus.epc"));		
 		
-		AclfNetwork net = null;
-		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, CoreCommonSpringCtx.getIpssMsgHub());
-		if (mapper.mapping(adapter.getModel(), simuCtx)) {
-  	  		simuCtx.setName("Sample18Bus");
-  	  		simuCtx.setDesc("This project is created by input file adapter.getModel()");
-  			net = simuCtx.getAclfNet();
-  			//System.out.println(net.net2String());
-		}
-		else {
-  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
-  	  		return;
-		}	
+		AclfNetwork net = PluginSpringCtx
+				.getOdm2AclfMapper()
+				.map2Model((AclfModelParser)adapter.getModel())
+				.getAclfNet();
 		
 		assertTrue(net.getNoBus() == 18);
 		assertTrue(net.getNoBranch() == 24);

@@ -28,7 +28,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.xbean.psse.v30.XBeanPSSEV30Adapter;
+import org.ieee.odm.adapter.dep.xbean.psse.v30.XBeanPSSEV30Adapter;
+import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
@@ -45,8 +46,6 @@ import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class GuideSampleTestCases extends BaseTestSetup {
 	//@Test
@@ -78,19 +77,9 @@ public class GuideSampleTestCases extends BaseTestSetup {
 		IODMPSSAdapter adapter = new XBeanPSSEV30Adapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_GuideSample.raw"));		
 		
-		AclfNetwork net = null;
-		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, CoreCommonSpringCtx.getIpssMsgHub());
-		if (mapper.mapping(adapter.getModel(), simuCtx)) {
-  	  		simuCtx.setName("Sample18Bus");
-  	  		simuCtx.setDesc("This project is created by input file adapter.getModel()");
-  			net = simuCtx.getAclfNet();
-  			System.out.println(net.net2String());
-		}
-		else {
-  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
-  	  		return;
-		}	
+		IEEEODMMapper<XBeanODMModelParser> mapper = new IEEEODMMapper<XBeanODMModelParser>(msg);
+		SimuContext simuCtx = mapper.map2Model((XBeanODMModelParser)adapter.getModel());
+		AclfNetwork net = simuCtx.getAclfNet();
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.NR);
@@ -98,7 +87,7 @@ public class GuideSampleTestCases extends BaseTestSetup {
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
-  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus3011");
+  		AclfBus swingBus = net.getAclfBus("Bus3011");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
   		Complex p = swing.getGenResults(UnitType.mW);
   		//System.out.println(p.getReal() + ", " + p.getImaginary());

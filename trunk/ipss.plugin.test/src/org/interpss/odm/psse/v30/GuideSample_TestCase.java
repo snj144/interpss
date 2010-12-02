@@ -31,6 +31,7 @@ import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.BaseTestSetup;
+import org.interpss.PluginSpringCtx;
 import org.interpss.mapper.odm.ODMAclfDataMapper;
 import org.interpss.mapper.odm.dep.IEEEODMMapper;
 import org.junit.Test;
@@ -85,15 +86,11 @@ public class GuideSample_TestCase extends BaseTestSetup {
 		IODMPSSAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_GuideSample.raw"));		
 		
-		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
-		if (!mapper.mapping(adapter.getModel(), simuCtx)) {
-  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
-  	  		return;
-		}	
-  		simuCtx.setName("Sample18Bus");
- 	  	simuCtx.setDesc("This project is created by input file adapter.getModel()");
- 	  	AclfNetwork net = simuCtx.getAclfNet();
+		AclfNetwork net = PluginSpringCtx
+				.getOdm2AclfMapper()
+				.map2Model((AclfModelParser)adapter.getModel())
+				.getAclfNet();
+		
   		//System.out.println(net.net2String());
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
@@ -102,7 +99,7 @@ public class GuideSample_TestCase extends BaseTestSetup {
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
-  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus3011");
+  		AclfBus swingBus = net.getAclfBus("Bus3011");
 		SwingBusAdapter swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		//System.out.println(p.getReal() + ", " + p.getImaginary());
