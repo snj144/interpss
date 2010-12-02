@@ -42,7 +42,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.xbean.XBeanIeeeCDFAdapter;
+import org.ieee.odm.adapter.dep.xbean.XBeanIeeeCDFAdapter;
 import org.ieee.odm.model.xbean.XBeanODMModelParser;
 import org.ieee.odm.model.xbean.XBeanParserHelper;
 import org.junit.Test;

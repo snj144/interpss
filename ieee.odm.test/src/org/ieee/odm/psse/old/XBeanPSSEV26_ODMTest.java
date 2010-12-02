@@ -31,7 +31,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.v07.psse.v26.PSSEV26Adapter;
+import org.ieee.odm.adapter.dep.v07.psse.v26.PSSEV26Adapter;
 import org.ieee.odm.model.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.jaxb.JaxbParserHelper;
 import org.ieee.odm.schema.BranchRecordXmlType;
