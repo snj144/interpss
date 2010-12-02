@@ -31,8 +31,8 @@ import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.BaseTestSetup;
-import org.interpss.mapper.odm.IEEEODMMapper;
 import org.interpss.mapper.odm.ODMAclfDataMapper;
+import org.interpss.mapper.odm.dep.IEEEODMMapper;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;

@@ -26,14 +26,13 @@ package org.interpss.contigency;
 
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.BaseTestSetup;
+import org.interpss.PluginSpringCtx;
 import org.interpss.display.ContingencyOutFunc;
-import org.interpss.mapper.runCase.dep.IpssXmlMapper;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.xml.IpssXmlUtilFunc;
 import org.junit.Test;
 
 import com.interpss.common.CoreCommonSpringCtx;
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -94,13 +93,14 @@ public class N1Analysis_IEEE14BusTest extends BaseTestSetup {
 		mscase.setLfTolerance(algo.getTolerance());
 		algo.loadflow();
 		algo.setInitBusVoltage(false);
-	  	IpssMapper mapper = new IpssXmlMapper();
+	  	//IpssMapper mapper = new IpssXmlMapper();
 		while (!mscase.getStudyCaseList().isEmpty()) {
 			ChangeRecorder recorder = new ChangeRecorder(algo.getAclfNetwork());
 			
 			AclfStudyCase scase = (AclfStudyCase)mscase.getStudyCaseList().poll();
 			
-		  	mapper.mapping(ModificationXmlType.Factory.parse(scase.getModificationString()), 
+			PluginSpringCtx.getModXml2NetMapper().map2Model(
+					ModificationXmlType.Factory.parse(scase.getModificationString()), 
 		  			algo.getAclfNetwork());
 			
 			scase.runLoadflow(algo, mscase);

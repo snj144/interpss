@@ -27,8 +27,8 @@ package org.interpss.core.adapter.psse;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.custom.exchange.psse.PSSEXfrDataRec;
-import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
+import org.interpss.custom.dep.exchange.psse.PSSEXfrDataRec;
+import org.interpss.custom.dep.exchange.psse.PSSEDataRec.VersionNo;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;

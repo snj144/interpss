@@ -31,7 +31,7 @@ import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.mapper.odm.IEEEODMMapper;
+import org.interpss.mapper.odm.dep.IEEEODMMapper;
 import org.junit.Test;
 
 import com.interpss.common.CoreCommonSpringCtx;
