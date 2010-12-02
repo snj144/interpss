@@ -33,8 +33,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.odm.adapter.dep.xbean.ge.XBeanGE_PSLF_Adapter;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.dep.xbean.XBeanDataSetter;
+import org.ieee.odm.model.dep.xbean.XBeanParserHelper;
 
 public class XBeanNetDataRec {
 	static public class TitleRec {

@@ -33,8 +33,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ShuntCompensatorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanDataSetter;
+import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 
 public class XBeanPSSEBusRecord {
 	public static  void processSwitchedShuntData(final String str, PsseVersion version, final XBeanODMModelParser parser, Logger logger) {

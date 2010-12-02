@@ -35,7 +35,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.odm.adapter.bpa.xbean.BPAAdapter;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
+import org.ieee.odm.model.dep.xbean.XBeanDataSetter;
 
 public class BPABusRecord {
 	

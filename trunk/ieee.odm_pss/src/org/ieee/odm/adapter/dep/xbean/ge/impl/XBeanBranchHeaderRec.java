@@ -29,8 +29,8 @@ import java.util.StringTokenizer;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanParserHelper;
 
 public class XBeanBranchHeaderRec {
 	public int f_bus, t_bus, sec;

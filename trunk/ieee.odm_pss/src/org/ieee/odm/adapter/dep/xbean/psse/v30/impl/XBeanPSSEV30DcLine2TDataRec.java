@@ -11,8 +11,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineData2TXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanDataSetter;
+import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 
 public class XBeanPSSEV30DcLine2TDataRec {
 	private static int I, MDC, CCCITMX;

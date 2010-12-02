@@ -40,8 +40,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.bpa.xbean.BPAAdapter;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.dep.xbean.XBeanDataSetter;
+import org.ieee.odm.model.dep.xbean.XBeanParserHelper;
 
 public class BPADynamicFaultOperationRecord {
 	

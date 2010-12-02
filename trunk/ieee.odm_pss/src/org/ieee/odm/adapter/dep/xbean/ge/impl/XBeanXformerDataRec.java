@@ -35,8 +35,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.dep.xbean.ge.XBeanGE_PSLF_Adapter;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.dep.xbean.XBeanDataSetter;
+import org.ieee.odm.model.dep.xbean.XBeanParserHelper;
 
 public class XBeanXformerDataRec extends XBeanBaseBranchDataRec {
 	public int type, kregBus, zt, iintBus, tertBus;

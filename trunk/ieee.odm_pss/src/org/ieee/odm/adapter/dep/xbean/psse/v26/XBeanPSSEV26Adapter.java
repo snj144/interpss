@@ -35,8 +35,8 @@ import org.ieee.odm.adapter.dep.xbean.psse.v26.impl.XBeanPSSEV26BranchRecord;
 import org.ieee.odm.adapter.dep.xbean.psse.v26.impl.XBeanPSSEV26BusRecord;
 import org.ieee.odm.adapter.dep.xbean.psse.v26.impl.XBeanPSSEV26NetRecord;
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanParserHelper;
 
 public class XBeanPSSEV26Adapter extends AbstractODMAdapter{
 	private final int 
