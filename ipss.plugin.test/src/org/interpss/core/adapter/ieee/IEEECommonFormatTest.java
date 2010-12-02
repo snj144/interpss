@@ -28,10 +28,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.mapper.odm.dep.IEEEODMMapper;
 import org.junit.Test;
 
 import com.interpss.common.CoreCommonSpringCtx;
@@ -43,8 +43,6 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class IEEECommonFormatTest extends BaseTestSetup {
 	@Test 
@@ -52,12 +50,11 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 		IODMPSSAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
 		adapter.parseInputFile("testdata/ieee_format/Ieee14Bus.ieee");
 		
-		IEEEODMMapper mapper = new IEEEODMMapper();
-		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
-		if (mapper.mapping(adapter.getModel(), simuCtx)) {
-  	  		simuCtx.setName("IEEE14");
-		}		
-		AclfNetwork net = simuCtx.getAclfNet();
+		AclfNetwork net = PluginSpringCtx
+				.getOdm2AclfMapper()
+				.map2Model((AclfModelParser)adapter.getModel())
+				.getAclfNet();
+		
   		//System.out.println(net.net2String());
 		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 

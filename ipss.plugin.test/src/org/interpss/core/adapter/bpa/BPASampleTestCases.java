@@ -28,6 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.bpa.xbean.BPAAdapter;
+import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 import org.interpss.BaseTestSetup;
 import org.interpss.mapper.odm.dep.IEEEODMMapper;
 import org.junit.Test;
@@ -41,8 +42,6 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class BPASampleTestCases extends BaseTestSetup {
 	@Test
@@ -50,19 +49,9 @@ public class BPASampleTestCases extends BaseTestSetup {
 		IODMPSSAdapter adapter = new BPAAdapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testdata/bpa/IEEE9.dat"));		
 		
-		AclfNetwork net = null;
-		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, CoreCommonSpringCtx.getIpssMsgHub());
-		if (mapper.mapping(adapter.getModel(), simuCtx)) {
-  	  		simuCtx.setName("SampleBPA");
-  	  		simuCtx.setDesc("This project is created by input file");
-  			net = simuCtx.getAclfNet();
-  			//System.out.println(net.net2String());
-		}
-		else {
-  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
-  	  		return;
-		}	
+		IEEEODMMapper<XBeanODMModelParser> mapper = new IEEEODMMapper<XBeanODMModelParser>(msg);
+		SimuContext simuCtx = mapper.map2Model((XBeanODMModelParser)adapter.getModel());
+		AclfNetwork net = simuCtx.getAclfNet();
 		
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.loadflow();
@@ -83,19 +72,9 @@ public class BPASampleTestCases extends BaseTestSetup {
 		IODMPSSAdapter adapter = new BPAAdapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testdata/bpa/Test009bpa.dat"));		
 		
-		AclfNetwork net = null;
-		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, CoreCommonSpringCtx.getIpssMsgHub());
-		if (mapper.mapping(adapter.getModel(), simuCtx)) {
-  	  		simuCtx.setName("Sample18Bus");
-  	  		simuCtx.setDesc("This project is created by input file");
-  			net = simuCtx.getAclfNet();
-  			//System.out.println(net.net2String());
-		}
-		else {
-  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
-  	  		return;
-		}	
+		IEEEODMMapper<XBeanODMModelParser> mapper = new IEEEODMMapper<XBeanODMModelParser>(msg);
+		SimuContext simuCtx = mapper.map2Model((XBeanODMModelParser)adapter.getModel());
+		AclfNetwork net = simuCtx.getAclfNet();
 		
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.loadflow();

@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
@@ -53,19 +54,17 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 		IODMPSSAdapter adapter = new UCTE_DEFAdapter(IpssLogger.getLogger());
 		adapter.parseInputFile("testData/ucte/MarioTest1_Simple.uct");
 		
-		IEEEODMMapper mapper = new IEEEODMMapper();
-		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
-		if (mapper.mapping(adapter.getModel(), simuCtx)) {
-  	  		simuCtx.setName("UCTE");
-		}		
-		AclfNetwork net = simuCtx.getAclfNet();
+		AclfNetwork net = PluginSpringCtx
+				.getOdm2AclfMapper()
+				.map2Model((AclfModelParser)adapter.getModel())
+				.getAclfNet();
   		//System.out.println(net.net2String());
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
-  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("B4____1");
+  		AclfBus swingBus = net.getAclfBus("B4____1");
 		SwingBusAdapter swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		assertTrue(Math.abs(p.getReal()-6.326)<0.01);
