@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.mapper.odm.impl.old.xbean;
+package org.interpss.mapper.odm.impl.dep.xbean;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
@@ -42,7 +42,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.dep.xbean.XBeanParserHelper;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;

@@ -31,8 +31,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.v07.psse.v26.PSSEV26Adapter;
-import org.ieee.odm.adapter.v07.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.adapter.dep.v07.psse.v26.PSSEV26Adapter;
+import org.ieee.odm.adapter.dep.v07.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.custom.dep.exchange.impl.PSSEFormat_in;
 import org.interpss.custom.dep.exchange.psse.PSSEDataRec;
 import org.interpss.mapper.odm.dep.IEEEODMMapper;
@@ -81,8 +82,8 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 
 	  		if (ok) {
 	  			timer.start();
-				IEEEODMMapper mapper = new IEEEODMMapper();
-				mapper.mapping(adapter.getModel(), simuCtx);
+				IEEEODMMapper<AclfModelParser> mapper = new IEEEODMMapper<AclfModelParser>(msgHub);
+				mapper.map2Model((AclfModelParser)adapter.getModel(), simuCtx);
 				str = timer.log("Map ODM model to SimuCtx tiem: ");			
 				msgHub.sendStatusMsg(str);
 	  		}

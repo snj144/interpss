@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.mapper.odm.impl.old.xbean;
+package org.interpss.mapper.odm.impl.dep.xbean;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;

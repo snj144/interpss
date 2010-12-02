@@ -32,6 +32,10 @@ import javax.swing.JDialog;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.custom.run.ICustomRunScriptPlugin;
 import org.interpss.editor.form.GFormContainer;
+import org.interpss.mapper.odm.ODMAclfDataMapper;
+import org.interpss.mapper.odm.ODMAcscDataMapper;
+import org.interpss.mapper.odm.ODMDStabDataMapper;
+import org.interpss.mapper.odm.ODMOpfDataMapper;
 import org.interpss.output.IOutputSimuResult;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
@@ -162,6 +166,26 @@ public class PluginSpringCtx extends CoreCommonSpringCtx {
 		return (IOutputSimuResult) SpringAppCtx.getBean(Constants.SID_SimuResultOutput);
 	}
 	
+	/*
+	 * 		Mapper definition Odm -> SimuCtx
+	 * 		================================
+	 */
+	public static ODMAclfDataMapper getOdm2AclfMapper() {
+		return (ODMAclfDataMapper) SpringAppCtx.getBean("odm2AclfMapper");
+	}	
+
+	public static ODMAcscDataMapper getOdm2AcscMapper() {
+		return (ODMAcscDataMapper) SpringAppCtx.getBean("odm2AcscMapper");
+	}	
+	
+	public static ODMDStabDataMapper getOdm2DStabMapper() {
+		return (ODMDStabDataMapper) SpringAppCtx.getBean("odm2DStabMapper");
+	}	
+
+	public static ODMOpfDataMapper getOdm2OpfMapper() {
+		return (ODMOpfDataMapper) SpringAppCtx.getBean("odm2OpfMapper");
+	}	
+
 	/*
 	 * 		Mapper definition Xml -> Algo
 	 * 		=============================

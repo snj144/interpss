@@ -28,8 +28,9 @@ import java.io.File;
 
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.model.IODMModelParser;
+import org.ieee.odm.model.aclf.AclfModelParser;
+import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.mapper.odm.dep.IEEEODMMapper;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -58,8 +59,8 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 		this.parser = adapter.getModel();
 		//System.out.println(adapter.getModel().toString());
 		
-		IEEEODMMapper mapper = new IEEEODMMapper();
-		if (mapper.mapping(adapter.getModel(), simuCtx)) {
+		
+		if (PluginSpringCtx.getOdm2AclfMapper().map2Model((AclfModelParser)adapter.getModel(), simuCtx)) {
   	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
   	  		simuCtx.setDesc("This project is created by input file " + filepath);
 		}
