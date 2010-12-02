@@ -22,11 +22,11 @@
  *
  */
 
-package org.interpss.mapper.odm.impl.old.v07;
+package org.interpss.mapper.odm.impl.dep.v07;
 
 import javax.xml.bind.JAXBElement;
 
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
+import org.ieee.odm.model.dep.jaxb.JaxbODMModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchRecordXmlType;

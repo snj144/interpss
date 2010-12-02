@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.mapper.odm.impl.old.xbean;
+package org.interpss.mapper.odm.impl.dep.xbean;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
@@ -30,7 +30,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.net.OriginalDataFormat;

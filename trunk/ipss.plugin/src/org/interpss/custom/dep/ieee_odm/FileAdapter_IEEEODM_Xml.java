@@ -26,7 +26,7 @@ package org.interpss.custom.dep.ieee_odm;
 
 import java.io.File;
 
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 import org.interpss.custom.dep.exchange.IpssFileAdapterBase;
 import org.interpss.mapper.odm.dep.IEEEODMMapper;
 
@@ -55,8 +55,8 @@ public class FileAdapter_IEEEODM_Xml extends IpssFileAdapterBase {
 		final File xmlFile = new File(filepath);
 		XBeanODMModelParser parser = new XBeanODMModelParser();
 		parser.parse(xmlFile);
-		IEEEODMMapper mapper = new IEEEODMMapper();
-		if (mapper.mapping(parser, simuCtx)) {
+		IEEEODMMapper<XBeanODMModelParser> mapper = new IEEEODMMapper<XBeanODMModelParser>(msgHub);
+		if (mapper.map2Model(parser, simuCtx)) {
   	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
   	  		simuCtx.setDesc("This project is created by input file " + filepath);
 		}

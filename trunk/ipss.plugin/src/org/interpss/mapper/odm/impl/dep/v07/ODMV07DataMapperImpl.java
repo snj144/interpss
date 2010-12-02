@@ -22,10 +22,10 @@
  *
  */
 
-package org.interpss.mapper.odm.impl.old.v07;
+package org.interpss.mapper.odm.impl.dep.v07;
 
 import org.apache.commons.math.complex.Complex;
-import org.ieee.odm.model.jaxb.JaxbParserHelper;
+import org.ieee.odm.model.dep.jaxb.JaxbParserHelper;
 import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchRecordXmlType;
