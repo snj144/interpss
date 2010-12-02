@@ -34,9 +34,9 @@ import org.ieee.odm.adapter.dep.v07.psse.PsseVersion;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
-import org.ieee.odm.model.jaxb.JaxbDataSetter;
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
-import org.ieee.odm.model.jaxb.JaxbParserHelper;
+import org.ieee.odm.model.dep.jaxb.JaxbDataSetter;
+import org.ieee.odm.model.dep.jaxb.JaxbODMModelParser;
+import org.ieee.odm.model.dep.jaxb.JaxbParserHelper;
 
 public class PSSEV30LoadDataRec {
 	private static int i, status, area = 1, zone = 1, owner = 1;

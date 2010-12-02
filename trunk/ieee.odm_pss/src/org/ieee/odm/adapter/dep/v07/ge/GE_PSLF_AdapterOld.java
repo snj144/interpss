@@ -34,8 +34,8 @@ import org.ieee.odm.adapter.dep.v07.ge.impl.GenDataRec;
 import org.ieee.odm.adapter.dep.v07.ge.impl.LoadDataRec;
 import org.ieee.odm.adapter.dep.v07.ge.impl.NetDataRec;
 import org.ieee.odm.adapter.dep.v07.ge.impl.XformerDataRec;
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
-import org.ieee.odm.model.jaxb.JaxbParserHelper;
+import org.ieee.odm.model.dep.jaxb.JaxbODMModelParser;
+import org.ieee.odm.model.dep.jaxb.JaxbParserHelper;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 
