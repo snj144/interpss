@@ -33,7 +33,7 @@ import org.ieee.odm.adapter.dep.v07.psse.PsseVersion;
 import org.ieee.odm.adapter.dep.v07.psse.v26.impl.PSSEV26BranchRecord;
 import org.ieee.odm.adapter.dep.v07.psse.v26.impl.PSSEV26BusRecord;
 import org.ieee.odm.adapter.dep.v07.psse.v26.impl.PSSEV26NetRecord;
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
+import org.ieee.odm.model.dep.jaxb.JaxbODMModelParser;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;

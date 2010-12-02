@@ -28,7 +28,7 @@ import java.util.StringTokenizer;
 
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.jaxb.JaxbODMModelParser;
+import org.ieee.odm.model.dep.jaxb.JaxbODMModelParser;
 import org.ieee.odm.schema.BranchRecordXmlType;
 
 public class BranchHeaderRec {
