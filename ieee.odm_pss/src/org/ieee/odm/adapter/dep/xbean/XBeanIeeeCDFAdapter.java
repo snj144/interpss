@@ -52,9 +52,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.xbean.XBeanDataSetter;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanDataSetter;
+import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanParserHelper;
 
 public class XBeanIeeeCDFAdapter  extends AbstractODMAdapter {
 	public final static String Token_Date = "Date";

@@ -36,8 +36,8 @@ import org.ieee.odm.adapter.dep.xbean.ge.impl.XBeanGenDataRec;
 import org.ieee.odm.adapter.dep.xbean.ge.impl.XBeanLoadDataRec;
 import org.ieee.odm.adapter.dep.xbean.ge.impl.XBeanNetDataRec;
 import org.ieee.odm.adapter.dep.xbean.ge.impl.XBeanXformerDataRec;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanParserHelper;
 
 public class XBeanGE_PSLF_Adapter  extends AbstractODMAdapter {
 	public static enum VersionNo {PSLF15};

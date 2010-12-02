@@ -39,8 +39,8 @@ import org.ieee.odm.adapter.dep.xbean.psse.v30.impl.XBeanPSSEV30LineDataRec;
 import org.ieee.odm.adapter.dep.xbean.psse.v30.impl.XBeanPSSEV30LoadDataRec;
 import org.ieee.odm.adapter.dep.xbean.psse.v30.impl.XBeanPSSEV30XfrDataRec;
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanParserHelper;
 
 public class XBeanPSSEV30Adapter extends AbstractODMAdapter{
 	public final static String Token_CaseDesc = "Case Description";     
