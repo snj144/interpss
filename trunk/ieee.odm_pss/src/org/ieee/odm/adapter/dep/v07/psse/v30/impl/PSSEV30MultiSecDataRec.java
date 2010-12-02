@@ -4,7 +4,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.dep.v07.psse.PsseVersion;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 
 public class PSSEV30MultiSecDataRec {
 	/*
