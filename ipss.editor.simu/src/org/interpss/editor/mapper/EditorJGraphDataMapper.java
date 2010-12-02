@@ -32,6 +32,7 @@ import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
 import com.interpss.common.CoreCommonSpringCtx;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -68,9 +69,15 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 			return false;
 		}
 
-		msg.sendStatusMsg(
-							"SimuContext data is dirty, map editor date from GFormContainer to simuCtx");
-		Object net = createMappingObject(gFormContainer, GFormContainer.class);
+		msg.sendStatusMsg("SimuContext data is dirty, map editor date from GFormContainer to simuCtx");
+		Object net = null;
+		try {
+			net = createMappingObject(gFormContainer, GFormContainer.class);
+		} catch (InterpssException e) {
+			msg.sendErrorMsg(e.toString());
+			return false;
+		}
+		
 		if (gFormContainer.getGNetForm().getAppType().equals(IGNetForm.AppType_Distribution)) {
 			simuCtx.setNetwork(net, SimuCtxType.DISTRIBUTE_NET);
 		} else {
@@ -95,33 +102,33 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 							"Please see the message list for details");
 					return false;
 				}
-			} else if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
+		} else if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				if (!simuCtx.checkData()) {
 					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 							"Network Loadflow Data Error",
 							"Please see the message list for details");
 					return false;
 				}
-			} else if (simuCtx.getNetType() == SimuCtxType.ACSC_NET) {
+		} else if (simuCtx.getNetType() == SimuCtxType.ACSC_NET) {
 				if (!simuCtx.checkData()) {
 					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 							"Network Ac Short Circuit Data Error",
 							"Please see the message list for details");
 					return false;
 				}
-			} else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
+		} else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
 				if (!simuCtx.checkData()) {
 					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 							"Transient stabiliry Data Error",
 							"Please see the message list for details");
 					return false;
 				}
-			}
+		}
 		simuCtx.getNetwork().setDataChecked(false);
 		return true;
 	}
 
-	private Object createMappingObject(Object editNet, Class<?> klass) {
+	private Object createMappingObject(Object editNet, Class<?> klass) throws InterpssException {
 		if (klass == GFormContainer.class) {
 			IGNetForm netForm = ((GFormContainer) editNet).getGNetForm();
 			if (netForm.getAppType().equals(IGNetForm.AppType_Distribution)) {
