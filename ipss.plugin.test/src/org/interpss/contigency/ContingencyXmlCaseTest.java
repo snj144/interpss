@@ -5,16 +5,13 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.mapper.runCase.dep.IpssXmlMapper;
-import org.interpss.schema.AclfAlgorithmXmlType;
+import org.interpss.PluginSpringCtx;
 import org.interpss.schema.AclfStudyCaseXmlType;
-import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.PreventiveRuleHanlder;
 
 import com.interpss.common.CoreCommonSpringCtx;
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -47,9 +44,8 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 			AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
-		  	IpssMapper mapper = new IpssXmlMapper();
-		  	mapper.mapping(aclfCase.getModification(), net);
-		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
+			PluginSpringCtx.getModXml2NetMapper().map2Model(aclfCase.getModification(), net);
+			PluginSpringCtx.getXml2LfAlgorithmMapper().map2Model(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
 		  	
 	  		assertTrue(algo.loadflow());
 	  		
@@ -103,9 +99,8 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
-		  	IpssMapper mapper = new IpssXmlMapper();
-		  	mapper.mapping(aclfCase.getModification(), net);
-		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
+			PluginSpringCtx.getModXml2NetMapper().map2Model(aclfCase.getModification(), net);
+			PluginSpringCtx.getXml2LfAlgorithmMapper().map2Model(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
 		  	
 	  		assertTrue(algo.loadflow());
 	  		
@@ -143,9 +138,8 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
-		  	IpssMapper mapper = new IpssXmlMapper();
-		  	mapper.mapping(aclfCase.getModification(), net);
-		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
+			PluginSpringCtx.getModXml2NetMapper().map2Model(aclfCase.getModification(), net);
+			PluginSpringCtx.getXml2LfAlgorithmMapper().map2Model(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
 		  	
 	  		assertTrue(algo.loadflow());
 			PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, parser.getRuleBase(), 1.1, 0.9, msg);

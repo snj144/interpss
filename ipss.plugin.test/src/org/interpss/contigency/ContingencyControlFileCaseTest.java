@@ -8,7 +8,6 @@ import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.custom.run.psseCon.ContingencyFileParser;
-import org.interpss.mapper.runCase.dep.IpssXmlMapper;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
@@ -16,7 +15,6 @@ import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
 import com.interpss.common.CoreCommonSpringCtx;
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -50,8 +48,7 @@ public class ContingencyControlFileCaseTest extends BaseTestSetup {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
-		  	IpssMapper mapper = new IpssXmlMapper();
-		  	mapper.mapping(aclfCase.getModification(), net);
+			PluginSpringCtx.getModXml2NetMapper().map2Model(aclfCase.getModification(), net);
 		  	
 		  	PluginSpringCtx.getXml2LfAlgorithmMapper()
 		  		.map2Model(parser.getRunAclfStudyCase().getDefaultAclfAlgorithm(),	algo);

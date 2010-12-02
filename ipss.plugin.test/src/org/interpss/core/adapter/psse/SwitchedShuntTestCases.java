@@ -25,8 +25,8 @@
 package org.interpss.core.adapter.psse;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.custom.exchange.psse.PSSESwitchedShuntDataRec;
-import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
+import org.interpss.custom.dep.exchange.psse.PSSESwitchedShuntDataRec;
+import org.interpss.custom.dep.exchange.psse.PSSEDataRec.VersionNo;
 import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;

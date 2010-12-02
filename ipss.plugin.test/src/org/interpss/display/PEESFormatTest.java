@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.xbean.psse.v30.XBeanPSSEV30Adapter;
 import org.interpss.display.impl.AclfOut_PSSE;
-import org.interpss.mapper.odm.IEEEODMMapper;
+import org.interpss.mapper.odm.dep.IEEEODMMapper;
 import org.junit.Test;
 
 import com.interpss.common.CoreCommonSpringCtx;
