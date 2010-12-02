@@ -27,7 +27,7 @@ package org.ieee.odm.sample;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 
 public class CreateSimpleNetwork {
 	public static void main(String[] args) {
