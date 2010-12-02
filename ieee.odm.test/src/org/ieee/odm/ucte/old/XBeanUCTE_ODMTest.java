@@ -43,8 +43,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.odm.adapter.IODMPSSAdapter;
 import org.ieee.odm.adapter.dep.xbean.XBeanUCTE_DEFAdapter;
-import org.ieee.odm.model.xbean.XBeanODMModelParser;
-import org.ieee.odm.model.xbean.XBeanParserHelper;
+import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
+import org.ieee.odm.model.dep.xbean.XBeanParserHelper;
 import org.junit.Test;
 
 public class XBeanUCTE_ODMTest {
