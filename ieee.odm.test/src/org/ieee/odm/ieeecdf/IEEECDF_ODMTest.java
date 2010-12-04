@@ -30,7 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.dep.jaxb.JaxbODMModelParser;
@@ -59,7 +59,7 @@ public class IEEECDF_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new IeeeCDFAdapter(logger);
+		IODMAdapter adapter = new IeeeCDFAdapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/ieee_format/Ieee14Bus.ieee"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
@@ -158,7 +158,7 @@ public class IEEECDF_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new IeeeCDFAdapter(logger);
+		IODMAdapter adapter = new IeeeCDFAdapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/ieee_format/Ieee14Bus.ieee"));
 		
 		JaxbODMModelParser parser = (JaxbODMModelParser)adapter.getModel();

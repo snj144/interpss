@@ -30,7 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.dep.v07.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.dep.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.dep.jaxb.JaxbParserHelper;
@@ -52,7 +52,7 @@ public class XBeanPSSEV30_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new PSSEV30Adapter(logger);
+		IODMAdapter adapter = new PSSEV30Adapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/psse/PSSE_5Bus_Test.raw"));
 		
 //		System.out.println(adapter.getModel().toString());

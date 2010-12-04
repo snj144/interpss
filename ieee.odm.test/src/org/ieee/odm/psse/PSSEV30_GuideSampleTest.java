@@ -30,7 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.LoadflowBusXmlType;
@@ -45,7 +45,7 @@ public class PSSEV30_GuideSampleTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new PSSEV30Adapter(logger);
+		IODMAdapter adapter = new PSSEV30Adapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/psse/PSSEV30_GuideSample.raw"));
 		
 		//System.out.println(adapter.getModel().toString());
