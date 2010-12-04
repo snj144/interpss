@@ -18,10 +18,10 @@ import org.interpss.editor.project.IpssXmlCodec;
 import org.interpss.editor.project.IpssGraphCodec;
 import org.interpss.editor.project.IpssTextCodec;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.io.DBManager;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 /**
  * Action opens a dialog to select the file. After that the action saves the

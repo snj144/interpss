@@ -27,7 +27,6 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
-import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.EditorSpringCtx;
 import org.interpss.editor.coreframework.GPBarFactory;
@@ -38,9 +37,10 @@ import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.doc.IpssProjectItem;
 import org.interpss.editor.doc.IpssProjectItemCollector;
 import org.interpss.editor.util.Utilities;
+import org.interpss.spring.PluginSpringCtx;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class IpssProjectPanel extends JPanel {
 

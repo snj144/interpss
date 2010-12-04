@@ -2,7 +2,6 @@ package org.interpss.editor.project;
 
 import javax.swing.ImageIcon;
 
-import org.interpss.PluginSpringCtx;
 import org.interpss.editor.coreframework.GPDocument;
 import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.coreframework.IpssReportDocument;
@@ -11,6 +10,7 @@ import org.interpss.editor.coreframework.IpssXmlDocument;
 import org.interpss.editor.resources.ImageLoader;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.Utilities;
+import org.interpss.spring.PluginSpringCtx;
 
 public class IpssIconFactory {
 
