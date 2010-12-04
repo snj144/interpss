@@ -37,9 +37,9 @@ import org.interpss.editor.jgraph.ui.form.IGBusForm;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.jgraph.JGraph;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class GraphSpringAppContext extends CoreCommonSpringCtx {
 	public static int EditorType_FindDistObject = 1,

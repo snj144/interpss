@@ -41,12 +41,12 @@ import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.jgraph.ui.impl.data.DummyProjData;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.DataChangeMessage;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
 import com.interpss.common.util.XmlUtil;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class DummyFormContainer implements IGFormContainer {
 	private DummyNetForm gNetForm = null;
