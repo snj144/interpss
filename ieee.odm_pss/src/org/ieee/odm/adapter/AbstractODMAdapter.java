@@ -35,7 +35,7 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.model.IODMModelParser;
 
-public abstract class AbstractODMAdapter implements IODMPSSAdapter {
+public abstract class AbstractODMAdapter implements IODMAdapter {
 	private boolean status;
 	private Logger logger;
 	private List<String> errMsgList;

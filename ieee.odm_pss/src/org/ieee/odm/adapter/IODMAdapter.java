@@ -28,7 +28,7 @@ import java.io.InputStream;
 
 import org.ieee.odm.model.IODMModelParser;
 
-public interface IODMPSSAdapter {
+public interface IODMAdapter {
 	/**
 	 * parse the input file into a ODM model according the the ODM schema
 	 * 

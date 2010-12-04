@@ -34,11 +34,10 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.bpa.xbean.BPAAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
-import org.ieee.odm.model.IODMModelParser;
 
 public class Data2ODMXml {
 	private final static String InOptStr 	= "-in";
@@ -81,7 +80,7 @@ public class Data2ODMXml {
 		try {
 			// load the input file into the reader buffer
 			String xmlStr = "";
-			IODMPSSAdapter adapter = null;
+			IODMAdapter adapter = null;
 			if (Token_IEEECDF.equals(appParameters.getParamLowerCase(FmtOptStr))) {
 				logger.info("Input file is of format IEEE Common Data Format");
 				adapter = new IeeeCDFAdapter(logger);
