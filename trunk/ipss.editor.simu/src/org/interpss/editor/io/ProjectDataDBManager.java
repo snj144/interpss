@@ -33,7 +33,6 @@ import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.io.DBManager;
@@ -43,6 +42,7 @@ import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.common.util.XmlUtil;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class ProjectDataDBManager implements IProjectDataManager {
 	/**

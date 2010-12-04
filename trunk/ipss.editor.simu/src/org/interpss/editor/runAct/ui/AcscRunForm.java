@@ -24,9 +24,9 @@
 
 package org.interpss.editor.runAct.ui;
 
-import org.interpss.PluginSpringCtx;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.schema.AcscStudyCaseXmlType;
+import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.acsc.AcscNetwork;

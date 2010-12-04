@@ -42,7 +42,6 @@ import org.interpss.editor.jgraph.ui.form.IGBusForm;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
@@ -61,6 +60,7 @@ import com.interpss.dstab.device.ScriptDynamicBusDevice;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class ChartManager {
 	public static void addPopupMenuAction(JPopupMenu menu, final Object cell) throws Exception {

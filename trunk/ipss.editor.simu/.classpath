@@ -20,7 +20,6 @@
 	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.ext_EMF"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.grid"/>

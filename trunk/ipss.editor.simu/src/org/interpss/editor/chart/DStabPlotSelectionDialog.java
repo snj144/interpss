@@ -34,7 +34,6 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -45,6 +44,7 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.datatype.DStabSimuDBRecord;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxUtilFunc;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 /**
  * 

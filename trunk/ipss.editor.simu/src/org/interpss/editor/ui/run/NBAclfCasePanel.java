@@ -39,7 +39,6 @@ import org.interpss.editor.ui.run.common.NBGridComputingPanel;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.GridComputingXmlType;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
@@ -53,6 +52,7 @@ import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.reg.IRegulationDevice;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPanel, IpssMsgListener {
 	private static final long serialVersionUID = 1;

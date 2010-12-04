@@ -24,10 +24,10 @@
 
 package org.interpss.editor.runAct.xml;
 
-import org.interpss.PluginSpringCtx;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.RuleBaseXmlType;
+import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
