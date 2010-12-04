@@ -35,11 +35,11 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.impl.form.DummyBranchForm;
 import org.interpss.editor.jgraph.ui.impl.form.DummyFormContainer;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
+import com.interpss.spring.CoreCommonSpringCtx;
    
 public class DummyBranchEditDialog extends javax.swing.JDialog  implements IFormDataDialog {
 	private static final long serialVersionUID = 1;
