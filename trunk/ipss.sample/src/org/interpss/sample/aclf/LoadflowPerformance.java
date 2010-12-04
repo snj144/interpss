@@ -26,10 +26,9 @@ package org.interpss.sample.aclf;
 
 import java.util.logging.Level;
 
-import org.interpss.PluginSpringCtx;
+import org.interpss.spring.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -40,6 +39,7 @@ import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 
 public class LoadflowPerformance {

@@ -6,10 +6,10 @@ import org.interpss.gridgain.job.GridAclfJob;
 import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.result.RemoteResultFactory;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 /**
  * This is the place where actual loadflow is implemented. This class will be

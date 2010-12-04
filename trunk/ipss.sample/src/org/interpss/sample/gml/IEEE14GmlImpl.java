@@ -4,11 +4,10 @@ import java.util.List;
 
 import org.graphdrawing.gml.GraphType;
 import org.graphdrawing.gml.GraphmlType;
-import org.interpss.PluginSpringCtx;
+import org.interpss.spring.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IPSSMsgHubImpl;
@@ -16,6 +15,7 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class IEEE14GmlImpl {
 	/**

@@ -28,7 +28,6 @@ import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
@@ -40,6 +39,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.sparse.SparseEqnComplex;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.util.sample.SampleCases;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 
 public class ZBusSample {
