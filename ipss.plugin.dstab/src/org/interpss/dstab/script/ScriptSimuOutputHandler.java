@@ -31,7 +31,6 @@ import javax.swing.JTextArea;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.util.IpssLogger;
@@ -39,6 +38,7 @@ import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.datatype.DStabSimuAction;
 import com.interpss.dstab.util.AbstractSimuOutputHandler;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class ScriptSimuOutputHandler extends AbstractSimuOutputHandler {
 	private IPSSMsgHub msg = null;
