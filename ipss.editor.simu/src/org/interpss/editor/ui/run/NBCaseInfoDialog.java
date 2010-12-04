@@ -49,13 +49,13 @@ import org.interpss.schema.TradingStudyCaseXmlType;
 import org.interpss.xml.IpssXmlUtilFunc;
 import org.interpss.xml.StudyCaseHanlder;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.FileUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDialog {
 	private static final long serialVersionUID = 1;

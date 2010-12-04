@@ -38,7 +38,6 @@ import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.ContingencyAnalysisXmlType;
 import org.interpss.schema.InterPSSXmlType;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
@@ -49,6 +48,7 @@ import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.RemoteMessageType;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class XmlScriptContingency {
 	public static long GridgainTimeout = 0; 

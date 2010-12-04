@@ -24,7 +24,6 @@
 
 package org.interpss.editor.runAct.xml;
 
-import org.interpss.PluginSpringCtx;
 import org.interpss.display.DclfOutFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
@@ -38,6 +37,7 @@ import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.SenAnalysisBusRecXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
+import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;

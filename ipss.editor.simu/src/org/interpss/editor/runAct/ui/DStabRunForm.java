@@ -26,7 +26,6 @@ package org.interpss.editor.runAct.ui;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.interpss.PluginSpringCtx;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.gridgain.GridRunner;
 import org.interpss.gridgain.msg.GridMessageRouter;
@@ -35,17 +34,18 @@ import org.interpss.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
+import org.interpss.spring.PluginSpringCtx;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreSpringCtx;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;
 import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreSpringCtx;
 
 public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 	//private AclfCaseData aclfCaseData = null;

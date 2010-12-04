@@ -38,8 +38,8 @@ import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData;
 import org.interpss.xml.IpssXmlUtilFunc;
 import org.interpss.xml.StudyCaseHanlder;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;

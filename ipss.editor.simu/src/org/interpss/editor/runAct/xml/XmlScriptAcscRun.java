@@ -24,11 +24,11 @@
 
 package org.interpss.editor.runAct.xml;
 
-import org.interpss.PluginSpringCtx;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
+import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;

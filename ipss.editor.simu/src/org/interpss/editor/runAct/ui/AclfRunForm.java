@@ -26,7 +26,6 @@ package org.interpss.editor.runAct.ui;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.interpss.PluginSpringCtx;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.gridgain.GridRunner;
@@ -35,8 +34,8 @@ import org.interpss.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
+import org.interpss.spring.PluginSpringCtx;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
@@ -48,6 +47,7 @@ import com.interpss.dist.adpter.DistBusAdapter;
 import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	private AclfStudyCaseXmlType xmlCaseData;

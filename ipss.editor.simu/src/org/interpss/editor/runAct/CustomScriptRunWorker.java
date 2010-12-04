@@ -24,11 +24,11 @@
 
 package org.interpss.editor.runAct;
 
-import org.interpss.PluginSpringCtx;
 import org.interpss.custom.run.ICustomRunScriptPlugin;
 import org.interpss.editor.runAct.xml.XmlScriptContingency;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.AnalysisRunType;
+import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.simu.SimuContext;
 

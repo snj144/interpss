@@ -35,10 +35,10 @@ import org.interpss.editor.ui.run.common.NBFaultLocDataPanel;
 import org.interpss.schema.AcscFaultDataType;
 import org.interpss.schema.AcscStudyCaseXmlType;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;

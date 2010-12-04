@@ -30,7 +30,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
@@ -39,6 +38,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
 import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.datatype.DStabSimuDBRecord;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 /**
  * Utility class for translate plot dialog selection strings to plot records

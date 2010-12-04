@@ -48,7 +48,7 @@ import com.interpss.common.io.DBManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.CoreSimuSpringCtx;
+import com.interpss.spring.CoreSimuSpringCtx;
 
 public class AppSimuContextImpl implements IAppSimuContext {
 

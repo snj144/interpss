@@ -45,7 +45,6 @@ import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType.AclfOption.ReturnStudyCase;
 import org.interpss.xml.PreventiveRuleHanlder;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
@@ -57,6 +56,7 @@ import com.interpss.simu.multicase.RemoteMessageType;
 import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class XmlScriptAclfRun {
 	public static double DefaultUpperVoltageLimit = 1.2, DefaultLowerVoltageLimit = 0.8; 

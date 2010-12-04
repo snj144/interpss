@@ -29,7 +29,6 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 
-import org.interpss.PluginSpringCtx;
 import org.interpss.custom.run.ICustomRunScriptPlugin;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
@@ -40,10 +39,11 @@ import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
+import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;

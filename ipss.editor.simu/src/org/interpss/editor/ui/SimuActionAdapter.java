@@ -30,10 +30,10 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.jgraph.JGraph;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class SimuActionAdapter {
 	public static void menu_annotate_loadflow(JGraph graph) {

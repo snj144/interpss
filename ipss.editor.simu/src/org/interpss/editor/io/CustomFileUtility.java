@@ -24,12 +24,12 @@
 
 package org.interpss.editor.io;
 
-import org.interpss.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.spring.PluginSpringCtx;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class CustomFileUtility {
 	public static boolean loadCustomFile(String filepath, String version, SimuContext simuCtx) {

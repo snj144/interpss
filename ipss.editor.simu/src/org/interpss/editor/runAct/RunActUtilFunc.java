@@ -37,7 +37,6 @@ import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
@@ -58,6 +57,7 @@ import com.interpss.core.net.Bus;
 import com.interpss.core.net.reg.IRegulationDevice;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class RunActUtilFunc {
 	public static String AllControlDevices = "All Control Devices";
