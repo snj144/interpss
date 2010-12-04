@@ -17,7 +17,7 @@ import org.interpss.editor.ui.edit.NBBusEditDialog;
 import org.interpss.editor.ui.edit.NBProjectEditDialog;
 
 
-import com.interpss.common.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class CellEditorFactory {
 	public final static byte EditorType_Normal = 0,

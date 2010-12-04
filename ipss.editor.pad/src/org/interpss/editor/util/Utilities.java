@@ -66,10 +66,10 @@ import org.jgraph.graph.CellViewFactory;
 import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 /**
  * Utility methods. A utility method is characterized as a method which is of

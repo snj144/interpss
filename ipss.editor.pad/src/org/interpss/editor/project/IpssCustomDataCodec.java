@@ -9,8 +9,8 @@ import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.io.CustomFileUtility;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class IpssCustomDataCodec {
 	private static IpssCustomDataCodec _instance;

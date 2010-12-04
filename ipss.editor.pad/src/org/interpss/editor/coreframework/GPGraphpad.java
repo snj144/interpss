@@ -50,7 +50,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.interpss.PluginSpringCtx;
 import org.interpss.editor.EditorSpringCtx;
 import org.interpss.editor.doc.IpssDocument;
 import org.interpss.editor.doc.IpssProject;
@@ -71,13 +70,14 @@ import org.interpss.editor.util.ICommandRegistery;
 import org.interpss.editor.util.SmartFrame;
 import org.interpss.editor.util.Utilities;
 import org.interpss.gridgain.util.GridUtil;
+import org.interpss.spring.PluginSpringCtx;
 import org.jgraph.JGraph;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.io.IRefDataManager;
 import com.interpss.common.resource.IpssPropertiesLoader;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 /**
  * This is the UI delegate of the JGraphpad multi JGraph document interface. To

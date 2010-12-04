@@ -31,8 +31,8 @@ import org.interpss.editor.coreframework.IpssTextDocument;
 import org.interpss.editor.coreframework.IpssTextFile;
 import org.interpss.editor.doc.IpssProjectItem;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.SimuRunType;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class ProjectFileUtil {
 	public static String StdRunStudyCase_Aclf = "RunStudyCaseStdAclf.xml";
