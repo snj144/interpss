@@ -5,8 +5,8 @@ import java.awt.event.ActionEvent;
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
 import org.interpss.gridgain.util.GridUtil;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class ToolsDebugGridEnv extends IpssAbstractActionDefault {
 	private static final long serialVersionUID = 1;
