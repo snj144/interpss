@@ -2,10 +2,9 @@ package org.interpss.core.aclf;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.BaseTestSetup;
+import org.interpss.PluginTestSetup;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetHelper;
 import com.interpss.core.aclf.AclfNetwork;
@@ -13,8 +12,9 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class IEEE14SwingCheckTest  extends BaseTestSetup {
+public class IEEE14SwingCheckTest  extends PluginTestSetup {
 	@Test
 	public void run3WXfrOffCase() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);

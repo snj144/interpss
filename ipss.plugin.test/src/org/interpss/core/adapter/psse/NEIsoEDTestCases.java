@@ -24,19 +24,19 @@
 
 package org.interpss.core.adapter.psse;
 
-import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringCtx;
+import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class NEIsoEDTestCases extends BaseTestSetup {
+public class NEIsoEDTestCases extends PluginTestSetup {
 	@Test
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("psse");

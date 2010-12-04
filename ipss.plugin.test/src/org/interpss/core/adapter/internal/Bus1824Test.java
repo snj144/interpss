@@ -26,9 +26,10 @@ package org.interpss.core.adapter.internal;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringCtx;
+import org.interpss.PluginTestSetup;
+import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
@@ -37,11 +38,11 @@ import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
-public class Bus1824Test extends BaseTestSetup {
+public class Bus1824Test extends PluginTestSetup {
 	@Test
 	public void testCaseNR() throws Exception {
   		System.out.println("Start loading data ...");
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IpssInternal);
 		SimuContext simuCtx = adapter.load("testData/ipssdata/BUS1824.ipssdat");
   		System.out.println("End loading data ...");
 

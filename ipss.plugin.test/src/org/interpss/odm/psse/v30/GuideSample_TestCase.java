@@ -27,13 +27,13 @@ package org.interpss.odm.psse.v30;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringCtx;
+import org.interpss.PluginTestSetup;
 import org.interpss.mapper.odm.ODMAclfDataMapper;
 import org.interpss.mapper.odm.dep.IEEEODMMapper;
+import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
@@ -48,10 +48,10 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class GuideSample_TestCase extends BaseTestSetup {
+public class GuideSample_TestCase extends PluginTestSetup {
 	@Test
 	public void testCase() throws Exception {
-		IODMPSSAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
+		IODMAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_GuideSample.raw"));		
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
@@ -83,7 +83,7 @@ public class GuideSample_TestCase extends BaseTestSetup {
 
 	@Test
 	public void testCase1() throws Exception {
-		IODMPSSAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
+		IODMAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_GuideSample.raw"));		
 		
 		AclfNetwork net = PluginSpringCtx

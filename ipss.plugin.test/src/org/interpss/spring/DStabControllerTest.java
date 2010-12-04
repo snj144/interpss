@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.interpss.BaseTestSetup;
+import org.interpss.PluginTestSetup;
 import org.junit.Test;
 
 import com.interpss.common.datatype.Constants;
@@ -36,7 +36,7 @@ import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.dstab.mach.MachineController;
 import com.interpss.simu.util.SimuSpringAppCtxUtil;
 
-public class DStabControllerTest extends BaseTestSetup {
+public class DStabControllerTest extends PluginTestSetup {
 	@Test
 	public void testSimuControllerList() {
 		List<MachineController> excList = DStabSpringAppContext.getControllerList(Constants.SID_ExciterList);

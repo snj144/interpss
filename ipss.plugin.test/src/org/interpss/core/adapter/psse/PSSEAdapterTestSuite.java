@@ -7,7 +7,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
 	CR_UserTestCases.class,
-	RecLevelTestCases.class,
 })
 public class PSSEAdapterTestSuite {
 }

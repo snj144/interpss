@@ -28,18 +28,17 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringCtx;
+import org.interpss.PluginTestSetup;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.PreventiveRuleSetXmlType;
 import org.interpss.schema.RuleBaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.ViolationConditionXmlType;
+import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.PreventiveRuleHanlder;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfLoadCode;
@@ -48,8 +47,9 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class RuleXmlCaseTest extends BaseTestSetup {
+public class RuleXmlCaseTest extends PluginTestSetup {
 	@Test
 	public void runAclfProtectCaseTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);

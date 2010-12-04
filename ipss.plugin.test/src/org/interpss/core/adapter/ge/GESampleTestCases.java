@@ -26,49 +26,26 @@ package org.interpss.core.adapter.ge;
 
 import static org.junit.Assert.assertTrue;
 
-import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.dep.xbean.ge.XBeanGE_PSLF_Adapter;
+import org.ieee.odm.ODMFileFormatEnum;
+import org.ieee.odm.ODMObjectFactory;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringCtx;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.PluginTestSetup;
+import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.ext.ge.aclf.GeAclfNetwork;
-import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class GESampleTestCases extends BaseTestSetup {
-	@Test
-	public void testCase2() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ge");
-		SimuContext simuCtx = adapter.load("testData/ge/Sample18Bus.epc");
-		GeAclfNetwork net = (GeAclfNetwork)simuCtx.getAclfNet();
-
-		assertTrue(net.getNoBus() == 18);
-		assertTrue(net.getNoBranch() == 24);
-		
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
-	  	algo.loadflow();
-		//System.out.println(net.net2String());
-	  	
-  		assertTrue(net.isLfConverged());		
-  		AclfBus swingBus = (AclfBus)net.getBus("101");
-		SwingBusAdapter swing = swingBus.toSwingBus();
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.234)<0.01);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-1.108)<0.01);
-	}	
-
+public class GESampleTestCases extends PluginTestSetup {
 	@Test
 	public void odmAdapterTestCase() throws Exception {
-		IODMPSSAdapter adapter = new XBeanGE_PSLF_Adapter(IpssLogger.getLogger());
+		IODMAdapter adapter = ODMObjectFactory.createODMAdapter(ODMFileFormatEnum.GePSLF);
 		assertTrue(adapter.parseInputFile("testdata/ge/Sample18Bus.epc"));		
 		
 		AclfNetwork net = PluginSpringCtx

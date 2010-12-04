@@ -4,14 +4,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringCtx;
+import org.interpss.PluginTestSetup;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
+import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.PreventiveRuleHanlder;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -23,8 +22,9 @@ import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.simu.multicase.result.AclfBranchResultRec;
 import com.interpss.simu.multicase.result.AclfBusResultRec;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class ContingencyXmlCaseTest extends BaseTestSetup {
+public class ContingencyXmlCaseTest extends PluginTestSetup {
 	//@Test
 	public void simpleCaseTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);

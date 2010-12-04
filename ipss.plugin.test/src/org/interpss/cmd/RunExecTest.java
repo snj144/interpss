@@ -2,12 +2,12 @@ package org.interpss.cmd;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.BaseTestSetup;
+import org.interpss.PluginTestSetup;
 import org.junit.Test;
 
 import com.interpss.common.util.IpssJavaExec;
 
-public class RunExecTest  extends BaseTestSetup {
+public class RunExecTest  extends PluginTestSetup {
 	@Test
 	public void runExec() throws Exception {
     	/*

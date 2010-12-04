@@ -26,14 +26,13 @@ package org.interpss.core.adapter.bpa;
 
 import static org.junit.Assert.assertTrue;
 
-import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.bpa.xbean.BPAAdapter;
 import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
-import org.interpss.BaseTestSetup;
+import org.interpss.PluginTestSetup;
 import org.interpss.mapper.odm.dep.IEEEODMMapper;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
@@ -42,11 +41,12 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class BPASampleTestCases extends BaseTestSetup {
+public class BPASampleTestCases extends PluginTestSetup {
 	@Test
 	public void odmAdapterTestCase() throws Exception {
-		IODMPSSAdapter adapter = new BPAAdapter(IpssLogger.getLogger());
+		IODMAdapter adapter = new BPAAdapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testdata/bpa/IEEE9.dat"));		
 		
 		IEEEODMMapper<XBeanODMModelParser> mapper = new IEEEODMMapper<XBeanODMModelParser>(msg);
@@ -69,7 +69,7 @@ public class BPASampleTestCases extends BaseTestSetup {
 		/*
 		 * This test case results are the sample as BPA China results
 		 */
-		IODMPSSAdapter adapter = new BPAAdapter(IpssLogger.getLogger());
+		IODMAdapter adapter = new BPAAdapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testdata/bpa/Test009bpa.dat"));		
 		
 		IEEEODMMapper<XBeanODMModelParser> mapper = new IEEEODMMapper<XBeanODMModelParser>(msg);

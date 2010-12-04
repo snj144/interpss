@@ -29,8 +29,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.PluginSpringCtx;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
+import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 

@@ -26,7 +26,7 @@ package org.interpss.schema;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.BaseTestSetup;
+import org.interpss.PluginTestSetup;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
@@ -39,7 +39,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class ModificationCaseTest extends BaseTestSetup {
+public class ModificationCaseTest extends PluginTestSetup {
 	@Test
 	public void modificationOnlyTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);

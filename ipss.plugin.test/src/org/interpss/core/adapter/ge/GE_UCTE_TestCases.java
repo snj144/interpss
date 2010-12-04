@@ -24,10 +24,10 @@
 
 package org.interpss.core.adapter.ge;
 
-import org.interpss.BaseTestSetup;
+import org.interpss.PluginTestSetup;
 import org.junit.Test;
 
-public class GE_UCTE_TestCases extends BaseTestSetup {
+public class GE_UCTE_TestCases extends PluginTestSetup {
 	@Test
 	public void testCase1() throws Exception {
 	}

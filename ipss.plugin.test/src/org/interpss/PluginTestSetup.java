@@ -34,14 +34,13 @@ import org.jgraph.JGraph;
 import org.junit.BeforeClass;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.interpss.common.CoreCommonSpringCtx;
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class BaseTestSetup {
+public class PluginTestSetup {
 	protected static IPSSMsgHub msg;
 
 	public void loadCaseData(String filename, SimuContext simuCtx) {
@@ -54,14 +53,12 @@ public class BaseTestSetup {
 	@BeforeClass
 	public static void setSpringAppCtx() {
 		if (CoreCommonSpringCtx.SpringAppCtx == null) {
-			/*
-			TestUtilFunc.Simu_SpringConfigXmlFile = <springConfig File Location> + "springConfig/test/simuContext.xml";
-			TestUtilFunc.Plugin_SpringConfigXmlFile = <springConfig File Location> + "/springConfig/test/pluginContext.xml";
-			*/
-			//String xmlFile = TestUtilFunc.Plugin_SpringConfigXmlFile;
-			// Set the SpringAppContext to all ApplicationContextAware objects.
-			//SpringAppContext.SpringAppCtx = new FileSystemXmlApplicationContext(xmlFile);
-			CoreCommonSpringCtx.SpringAppCtx = new ClassPathXmlApplicationContext(Constants.SpringConfigPath_PluginTest);
+			//CoreCommonSpringCtx.SpringAppCtx = new ClassPathXmlApplicationContext(
+			//		"com/interpss/config/spring/test/pluginContext.xml");
+			CoreCommonSpringCtx.SpringAppCtx = new ClassPathXmlApplicationContext(
+					new String[] {
+							"org/interpss/spring/PluginSpringCtx.xml",
+							"com/interpss/spring/SimuCtxSpringCtx.xml"});
 			msg = CoreCommonSpringCtx.getIpssMsgHub();
 			IpssLogger.getLogger().setLevel(Level.INFO);
 		}

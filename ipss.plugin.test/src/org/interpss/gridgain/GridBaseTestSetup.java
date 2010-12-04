@@ -32,7 +32,7 @@ import java.util.UUID;
 import org.apache.commons.math.complex.Complex;
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridMessageListener;
-import org.interpss.BaseTestSetup;
+import org.interpss.PluginTestSetup;
 import org.interpss.gridgain.util.GridUtil;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -50,7 +50,7 @@ import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.mach.Machine;
 
-public class GridBaseTestSetup extends BaseTestSetup {
+public class GridBaseTestSetup extends PluginTestSetup {
 	public static String GridGainHome = "c:/Program Files (x86)/gridgain-2.1.1";
 	
 	protected static IPSSMsgHub msg;
