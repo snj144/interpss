@@ -31,8 +31,13 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 
 public interface IpssFileAdapter extends IpssCustomAdapter {
-	public static enum FileFormat { IEEECommonFormat, PSSE, GE_PSLF, UCTE, IEEE_ODM, BPA, Custom };
-	public static enum PsseVersion { NotDefined, PSSE_30, PSSE_29, PSSE_26 };
+	public static enum FileFormat { 
+			IEEECDF, PSSE, GE_PSLF, 
+			UCTE, IEEE_ODM, BPA, 
+			IpssInternal, Custom };
+	public static enum Version { 
+			NotDefined, 
+			PSSE_30, PSSE_29, PSSE_26 };
 	
 	/**
 	 * get the file extension of the adapter
