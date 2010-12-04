@@ -29,10 +29,10 @@ import java.util.List;
 
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.ui.IScriptPluginEditing;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class UISpringAppContext extends CoreCommonSpringCtx {
 	public static int BrowserDialog_TextRows = 30;
