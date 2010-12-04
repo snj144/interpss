@@ -27,37 +27,27 @@ package org.interpss.core.adapter.ucte;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.ieee.odm.adapter.IODMPSSAdapter;
-import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
-import org.ieee.odm.model.aclf.AclfModelParser;
-import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringCtx;
+import org.interpss.PluginTestSetup;
+import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.mapper.odm.dep.IEEEODMMapper;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class UCTEFormatAusPowerTest extends BaseTestSetup { 
+public class UCTEFormatAusPowerTest extends PluginTestSetup { 
 	@Test 
 	public void testCaseAclfNet() throws Exception {
-		IODMPSSAdapter adapter = new UCTE_DEFAdapter(IpssLogger.getLogger());
-		adapter.parseInputFile("testData/ucte/MarioTest1_Simple.uct");
+		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
+		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest1_Simple.uct");
 		
-		AclfNetwork net = PluginSpringCtx
-				.getOdm2AclfMapper()
-				.map2Model((AclfModelParser)adapter.getModel())
-				.getAclfNet();
+		AclfNetwork net = simuCtx.getAclfNet();
   		//System.out.println(net.net2String());
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
@@ -73,7 +63,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 	
 	@Test
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("uct");
+		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest1_Simple.uct");
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet(), CoreCommonSpringCtx.getIpssMsgHub());
@@ -91,7 +81,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 
 	//@Test
 	public void testCase2() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("uct");
+		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest2_Xfr.uct");
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet(), CoreCommonSpringCtx.getIpssMsgHub());
@@ -108,7 +98,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 
 	//@Test
 	public void testCase3() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("uct");
+		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest3_XfrReg.uct");
   		//System.out.println(simuCtx.getAclfNet().net2String());
 
@@ -126,7 +116,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 
 	//@Test
 	public void testCase4() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("uct");
+		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest4_PSXfr1.uct");
   		//System.out.println(simuCtx.getAclfNet().net2String());
 

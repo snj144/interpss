@@ -2,7 +2,7 @@ package org.interpss.core.dclf;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.BaseTestSetup;
+import org.interpss.PluginTestSetup;
 import org.interpss.display.DclfOutFunc;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class DclfIeee14BusCaseTest extends BaseTestSetup {
+public class DclfIeee14BusCaseTest extends PluginTestSetup {
 	@Test
 	public void runSingleAclfCaseTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);

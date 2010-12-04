@@ -28,20 +28,20 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringCtx;
+import org.interpss.PluginTestSetup;
+import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.TestUtilFunc;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.simu.util.sample.SampleCases;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class AcscSchemaSampleCaseTest extends BaseTestSetup {
+public class AcscSchemaSampleCaseTest extends PluginTestSetup {
 	@Test
 	public void sampleTest() throws Exception {
 		File xmlFile = new File("testData/xml/RunAcscCase.xml");

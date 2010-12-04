@@ -26,11 +26,11 @@ package org.interpss.gridgain;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.BaseTestSetup;
+import org.interpss.PluginTestSetup;
 import org.interpss.gridgain.util.GridUtil;
 import org.junit.Test;
 
-public class GridGainFuncTest extends BaseTestSetup {
+public class GridGainFuncTest extends PluginTestSetup {
 	@Test
 	public void isGridLibLoadedCaseTest() {
 		GridUtil.startDefaultGrid(GridBaseTestSetup.GridGainHome);

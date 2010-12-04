@@ -1,7 +1,7 @@
 package org.interpss.core.dclf;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.BaseTestSetup;
+import org.interpss.PluginTestSetup;
 import org.interpss.display.DclfOutFunc;
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ import com.interpss.pssl.simu.IpssPTrading;
  *   This test case is contributed by Arne Lüllmann 
  * 
  */
-public class UserCaseArneTest extends BaseTestSetup {
+public class UserCaseArneTest extends PluginTestSetup {
 	@Test
 	public void runSingleAclfCaseTest() throws Exception {
 		DclfAlgorithm algo = IpssPTrading.createDclfAlgorithm(createTestNet())

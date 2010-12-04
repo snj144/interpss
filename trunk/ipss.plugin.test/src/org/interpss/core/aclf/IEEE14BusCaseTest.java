@@ -2,11 +2,10 @@ package org.interpss.core.aclf;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.BaseTestSetup;
+import org.interpss.PluginTestSetup;
 import org.interpss.display.AclfOutFunc;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
@@ -20,8 +19,9 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.util.sample.SampleCases;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class IEEE14BusCaseTest  extends BaseTestSetup {
+public class IEEE14BusCaseTest  extends PluginTestSetup {
 	//@Test
 	public void run3WXfrOffCase() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);

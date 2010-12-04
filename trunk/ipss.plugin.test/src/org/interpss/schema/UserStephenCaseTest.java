@@ -4,13 +4,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringCtx;
+import org.interpss.PluginTestSetup;
+import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
@@ -21,11 +21,12 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class UserStephenCaseTest extends BaseTestSetup {
+public class UserStephenCaseTest extends PluginTestSetup {
 	@Test
 	public void caseTest1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
 		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee14.ieee");
   		// save net to a String
   		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfNet());
@@ -79,7 +80,7 @@ public class UserStephenCaseTest extends BaseTestSetup {
 
 	@Test
 	public void caseTest2() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
 		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee14.ieee");
   		// save net to a String
   		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfNet());

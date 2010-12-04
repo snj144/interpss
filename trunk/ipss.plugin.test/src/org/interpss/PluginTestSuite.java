@@ -20,7 +20,6 @@ import org.interpss.core.adapter.internal.Bus1824Test;
 import org.interpss.core.adapter.internal.IEEE14Test;
 import org.interpss.core.adapter.psse.CR_UserTestCases;
 import org.interpss.core.adapter.psse.GuideSampleTestCases;
-import org.interpss.core.adapter.psse.RecLevelTestCases;
 import org.interpss.core.adapter.ucte.UCTEFormatAusPowerTest;
 import org.interpss.core.dclf.DclfIeee14BusCaseTest;
 import org.interpss.dstab.control.cml.block.DelayControlBlockTests;
@@ -32,6 +31,12 @@ import org.interpss.dstab.ieeeModel.IEEE11ModelTest;
 import org.interpss.dstab.ieeeModel.IEEE12ModelTest;
 import org.interpss.dstab.ieeeModel.IEEE21ModelTest;
 import org.interpss.dstab.ieeeModel.IEEE22ModelTest;
+import org.interpss.dstab.mach.EConstMachineTest;
+import org.interpss.dstab.mach.Eq1Ed1MachineTest;
+import org.interpss.dstab.mach.Eq1MachineCaseTest;
+import org.interpss.dstab.mach.MachineSaturationTest;
+import org.interpss.dstab.mach.RoundRotorMachineTest;
+import org.interpss.dstab.mach.SalientPoleMachineTest;
 import org.interpss.odm.psse.v30.GuideSample_TestCase;
 import org.interpss.ruleset.RuleXmlCaseTest;
 import org.interpss.schema.AclfSchemaIeee14BusCaseTest;
@@ -60,12 +65,12 @@ import org.junit.runners.Suite.SuiteClasses;
 	WashoutControlBlockTests.class,
 	
 	// DStab Machine
-//	Eq1Ed1MachineTest.class,
-//	EConstMachineTest.class,
-//	Eq1MachineCaseTest.class,
-//	MachineSaturationTest.class,
-//	RoundRotorMachineTest.class,
-//	SalientPoleMachineTest.class,
+	Eq1Ed1MachineTest.class,
+	EConstMachineTest.class,
+	Eq1MachineCaseTest.class,
+	MachineSaturationTest.class,
+	RoundRotorMachineTest.class,
+	SalientPoleMachineTest.class,
 	
 	// IEEE Models
 	IEEE11ModelTest.class,
@@ -84,7 +89,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	BPASampleTestCases.class,
 	UCTEFormatAusPowerTest.class,
 	CR_UserTestCases.class,
-	RecLevelTestCases.class,
 	GuideSampleTestCases.class,
 	
 	IEEE14Test.class,

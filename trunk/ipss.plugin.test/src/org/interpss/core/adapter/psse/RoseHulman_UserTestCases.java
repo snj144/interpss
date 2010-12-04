@@ -27,14 +27,13 @@ package org.interpss.core.adapter.psse;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.dep.xbean.psse.v30.XBeanPSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringCtx;
+import org.interpss.PluginTestSetup;
+import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
@@ -43,11 +42,12 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class RoseHulman_UserTestCases extends BaseTestSetup {
+public class RoseHulman_UserTestCases extends PluginTestSetup {
 	@Test
 	public void odm_testCase() throws Exception {
-		IODMPSSAdapter adapter = new XBeanPSSEV30Adapter(IpssLogger.getLogger());
+		IODMAdapter adapter = new XBeanPSSEV30Adapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testData/psse/v30/HEonly_with_loads_added_for_interconnects3.raw"));		
 		
 		AclfNetwork net = PluginSpringCtx

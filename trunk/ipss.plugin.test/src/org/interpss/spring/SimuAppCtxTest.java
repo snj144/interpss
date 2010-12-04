@@ -27,14 +27,12 @@ package org.interpss.spring;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.BaseTestSetup;
+import org.interpss.PluginTestSetup;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.TestUtilFunc;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.CoreSpringCtx;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.acsc.fault.AcscBusFault;
@@ -42,10 +40,12 @@ import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.CoreSimuSpringCtx;
 import com.interpss.simu.util.sample.SampleCases;
+import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreSimuSpringCtx;
+import com.interpss.spring.CoreSpringCtx;
 
-public class SimuAppCtxTest extends BaseTestSetup {
+public class SimuAppCtxTest extends PluginTestSetup {
 	
 	@Test
 	public void testSimuCtxAclf() {

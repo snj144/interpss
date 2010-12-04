@@ -2,10 +2,9 @@ package org.interpss.geditor;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.BaseTestSetup;
+import org.interpss.PluginTestSetup;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
@@ -15,8 +14,9 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class AclfCaseTest  extends BaseTestSetup {
+public class AclfCaseTest  extends PluginTestSetup {
 	@Test
 	public void AclfNegativeBranchXCase() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);

@@ -2,15 +2,15 @@ package org.interpss.db;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.BaseTestSetup;
+import org.interpss.PluginTestSetup;
 import org.interpss.editor.io.ProjectDataDBManager;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.ui.Workspace;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class DbUtilTools  extends BaseTestSetup {
+public class DbUtilTools  extends PluginTestSetup {
 	public void createProjectId(String filename, String projName) {
 		Workspace.setCurrentType(Workspace.Type.Sample);
 		

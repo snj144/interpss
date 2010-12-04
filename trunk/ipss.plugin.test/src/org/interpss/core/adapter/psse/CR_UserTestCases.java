@@ -27,16 +27,15 @@ package org.interpss.core.adapter.psse;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.dep.xbean.psse.v30.XBeanPSSEV30Adapter;
 import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
-import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringCtx;
+import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.mapper.odm.dep.IEEEODMMapper;
+import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
@@ -46,8 +45,9 @@ import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class CR_UserTestCases extends BaseTestSetup {
+public class CR_UserTestCases extends PluginTestSetup {
 	//@Test
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("psse");
@@ -70,7 +70,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 
 	@Test
 	public void odm_testCase() throws Exception {
-		IODMPSSAdapter adapter = new XBeanPSSEV30Adapter(IpssLogger.getLogger());
+		IODMAdapter adapter = new XBeanPSSEV30Adapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_5Bus_Test.raw"));		
 		
 		IEEEODMMapper<XBeanODMModelParser> mapper = new IEEEODMMapper<XBeanODMModelParser>(msg);
@@ -112,7 +112,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 	
 	@Test
 	public void testCase2ODM() throws Exception {
-		IODMPSSAdapter adapter = new XBeanPSSEV30Adapter(IpssLogger.getLogger());
+		IODMAdapter adapter = new XBeanPSSEV30Adapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testData/psse/MXV-1120MW_FNC475_FEC196_FAC212_InterPSS_3d.raw"));		
 		
 		IEEEODMMapper<XBeanODMModelParser> mapper = new IEEEODMMapper<XBeanODMModelParser>(msg);

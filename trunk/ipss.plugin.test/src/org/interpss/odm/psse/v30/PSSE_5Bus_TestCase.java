@@ -26,10 +26,10 @@ package org.interpss.odm.psse.v30;
 
 import static org.junit.Assert.assertTrue;
 
-import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.interpss.BaseTestSetup;
+import org.interpss.PluginTestSetup;
 import org.interpss.mapper.odm.ODMAclfDataMapper;
 import org.junit.Test;
 
@@ -38,10 +38,10 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class PSSE_5Bus_TestCase extends BaseTestSetup { 
+public class PSSE_5Bus_TestCase extends PluginTestSetup { 
 	@Test
 	public void testCase1() throws Exception {
-		IODMPSSAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
+		IODMAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testdata/psse/PSSE_5Bus_Test.raw"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();

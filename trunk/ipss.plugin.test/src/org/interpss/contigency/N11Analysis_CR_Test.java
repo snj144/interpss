@@ -24,13 +24,12 @@
 
 package org.interpss.contigency;
 
-import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringCtx;
+import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.ContingencyOutFunc;
+import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -39,8 +38,9 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysisType;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class N11Analysis_CR_Test extends BaseTestSetup {
+public class N11Analysis_CR_Test extends PluginTestSetup {
 	@Test
 	public void sampleTest() throws Exception {
 		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("psse");
