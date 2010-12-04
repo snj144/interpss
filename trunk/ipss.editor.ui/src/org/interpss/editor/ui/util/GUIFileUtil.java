@@ -32,9 +32,9 @@ import javax.swing.JTextArea;
 
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.FileUtil;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class GUIFileUtil {
 	/**

@@ -39,9 +39,9 @@ import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.jgraph.ui.form.IGBusForm;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.DataChangeMessage;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class BaseFormContainer {
 	private List     busFormList = null;

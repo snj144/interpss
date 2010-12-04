@@ -37,10 +37,10 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.refData.LoadScheduleItem;
 import org.interpss.editor.refData.LoadScheduleRefData;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.io.IRefDataManager;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.spring.CoreCommonSpringCtx;
  
 public class NBLoadScheduleDialog extends javax.swing.JDialog implements IFormDataDialog {
 	private static final long serialVersionUID = 1;

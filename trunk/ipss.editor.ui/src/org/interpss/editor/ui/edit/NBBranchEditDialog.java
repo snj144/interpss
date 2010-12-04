@@ -44,13 +44,13 @@ import org.interpss.editor.ui.edit.trans.branch.NBAclfTransBranchEditPanel;
 import org.interpss.editor.ui.edit.trans.branch.NBAcscTransBranchEditPanel;
 import org.interpss.editor.ui.edit.trans.branch.NBDStabTransBranchEditPanel;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.DataChangeMessage;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
+import com.interpss.spring.CoreCommonSpringCtx;
    
 
 public class NBBranchEditDialog extends javax.swing.JDialog  implements IFormDataDialog {
