@@ -39,7 +39,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.dep.xbean.ge.XBeanGE_PSLF_Adapter;
 import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 import org.ieee.odm.model.dep.xbean.XBeanParserHelper;
@@ -53,7 +53,7 @@ public class GE_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new XBeanGE_PSLF_Adapter(logger);
+		IODMAdapter adapter = new XBeanGE_PSLF_Adapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/ge/Sample18Bus.epc"));
 		
 		//System.out.println(adapter.getModel().toString());

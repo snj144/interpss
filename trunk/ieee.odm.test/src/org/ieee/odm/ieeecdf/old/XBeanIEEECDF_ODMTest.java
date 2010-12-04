@@ -41,7 +41,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.dep.xbean.XBeanIeeeCDFAdapter;
 import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 import org.ieee.odm.model.dep.xbean.XBeanParserHelper;
@@ -55,7 +55,7 @@ public class XBeanIEEECDF_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new XBeanIeeeCDFAdapter(logger);
+		IODMAdapter adapter = new XBeanIeeeCDFAdapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/ieee_format/Ieee14Bus.ieee"));
 		
 		PSSNetworkXmlType baseCaseNet = ((XBeanODMModelParser)adapter.getModel()).getBaseCase();
@@ -150,7 +150,7 @@ public class XBeanIEEECDF_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new XBeanIeeeCDFAdapter(logger);
+		IODMAdapter adapter = new XBeanIeeeCDFAdapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/ieee_format/Ieee300Bus.txt"));
 	}
 }

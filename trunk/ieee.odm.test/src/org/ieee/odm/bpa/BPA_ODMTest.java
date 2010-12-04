@@ -44,7 +44,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.bpa.xbean.BPAAdapter;
 import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 import org.ieee.odm.model.dep.xbean.XBeanParserHelper;
@@ -58,7 +58,7 @@ public class BPA_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new BPAAdapter(logger);
+		IODMAdapter adapter = new BPAAdapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/bpa/Test009bpa.dat"));
 		
 		//System.out.println(adapter.getModel().toXmlDoc(true));
@@ -71,7 +71,7 @@ public class BPA_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new BPAAdapter(logger);
+		IODMAdapter adapter = new BPAAdapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/bpa/IEEE9.dat"));
 		
 		PSSNetworkXmlType baseCaseNet = ((XBeanODMModelParser)adapter.getModel()).getBaseCase();

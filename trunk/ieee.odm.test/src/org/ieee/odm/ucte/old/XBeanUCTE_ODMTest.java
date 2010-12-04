@@ -41,7 +41,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.dep.xbean.XBeanUCTE_DEFAdapter;
 import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 import org.ieee.odm.model.dep.xbean.XBeanParserHelper;
@@ -55,7 +55,7 @@ public class XBeanUCTE_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new XBeanUCTE_DEFAdapter(logger);
+		IODMAdapter adapter = new XBeanUCTE_DEFAdapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/ucte/AusPower_TestCase_Xfr.uct"));
 		
 		PSSNetworkXmlType baseCaseNet = ((XBeanODMModelParser)adapter.getModel()).getBaseCase();
