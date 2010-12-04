@@ -41,10 +41,10 @@ import org.interpss.report.bean.RptMainTitleBean;
 import org.interpss.report.bean.acsc.AcscRptBeanFactory;
 import org.interpss.report.mapper.SimuCtxReportMapper;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class AcscFaultReport implements IIpssReport {
 	private String fnameAcscFaultMaster = "reportTemplate/acsc/Acsc3PFaultMaster.jasper";

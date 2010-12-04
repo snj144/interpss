@@ -25,7 +25,7 @@
 package org.interpss.report;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class SpringReportContext extends CoreCommonSpringCtx {
 	/**

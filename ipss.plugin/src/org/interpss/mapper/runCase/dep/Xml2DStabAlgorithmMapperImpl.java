@@ -36,7 +36,6 @@ import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Even
 import org.interpss.schema.DStabStudyCaseXmlType.SimuConfig.SimuMethod;
 import org.interpss.schema.DStabStudyCaseXmlType.StaticLoadModel.StaticLoadType;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -60,6 +59,7 @@ import com.interpss.dstab.devent.LoadChangeEventType;
 import com.interpss.dstab.devent.SetPointChangeEvent;
 import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.dstab.mach.Machine;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class Xml2DStabAlgorithmMapperImpl {
 	/**
