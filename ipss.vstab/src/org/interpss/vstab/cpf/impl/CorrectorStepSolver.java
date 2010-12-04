@@ -24,10 +24,11 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 		cpf=cpfAlgo;
 		this.lambda=cpfAlgo.getLambdaParam();
 		cpfHelper=new CpfHelper(getAclfNet(), cpf.getMsgHub());
-		cpfHelper.setSortNumOfContParam(cpfAlgo.getSortNumOfContParam());
+//		cpfHelper.setSortNumOfContParam(cpfAlgo.getSortNumOfContParam());
 	}
 	@Override
 	public SparseEqnMatrix2x2 formJMatrix(IPSSMsgHub msg) {
+		cpfHelper.setSortNumOfContParam(cpf.getSortNumOfContParam());
 		System.out.println("cpf sortNum="+cpf.getSortNumOfContParam());
 		System.out.println("cpfHelper sortNum="+cpfHelper.getSortNumOfContParam());
 		SparseEqnMatrix2x2 lfEqn=cpfHelper.formAugmJacobiMatrix();

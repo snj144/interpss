@@ -36,7 +36,7 @@ public class CpfHelper {
 	public CpfHelper(AclfNetwork net, IPSSMsgHub msg){
 		this.net=net;
 		this.msg=msg;
-//		contParaSortNum=this.net.getNoBus()+1; // by default
+		contParaSortNum=this.net.getNoBus()+1; // by default
 	}
 
 	public SparseEqnMatrix2x2 formAugmJacobiMatrix() {
@@ -67,11 +67,20 @@ public class CpfHelper {
 		   	
 		   }
 		   Matrix_xy ek=new Matrix_xy();
-		   ek.xx=1;
-		   ek.yy=1;
+		   if(this.getSortNumOfContParam()!=this.net.getNoBus()+1) {
+			   ek.xy=1; // Corresponding to vmag(i) in B vector [theta(i), vmag(i)];
+		   }
+	       else ek.xx=1;// corresponding to lambda;
+	       
 		   lfEqn.setAij(ek, n+1,this.getSortNumOfContParam());
+		   if(lfEqn.getElement(n+1, n+1).yy==0) {
+			   Matrix_xy m_lambda=new Matrix_xy();
+			   m_lambda.yy=1;
+			   lfEqn.addToAij(m_lambda, n+1, n+1);
+			   
+		   }
 		  // print J-matrix
-//		    VstabFuncOut.printJmatix(lfEqn,6,2);
+		    VstabFuncOut.printJmatix(lfEqn,6,2);
 		   return lfEqn;
 	}
     
