@@ -5,7 +5,7 @@ import java.util.List;
 import org.graphdrawing.gml.GraphType;
 import org.graphdrawing.gml.GraphmlType;
 import org.gridgain.grid.Grid;
-import org.interpss.PluginSpringCtx;
+import org.interpss.spring.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.gridgain.GridRunner;
 import org.interpss.gridgain.msg.RemoteMessageTable;
@@ -13,7 +13,6 @@ import org.interpss.gridgain.util.GridUtil;
 import org.interpss.sample.grid.impl.GridHelper;
 import org.interpss.sample.grid.impl.multi.CustomMultiLocalTask;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
@@ -22,6 +21,7 @@ import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.modify.Modification;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class IEEE14GmlGridImpl {
 	/**

@@ -26,7 +26,6 @@ package org.interpss.sample.aclf;
 
 import org.interpss.display.AclfOutFunc;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.datatype.Vector_xy;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -37,6 +36,7 @@ import com.interpss.core.algorithm.impl.DefaultNrSolver;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.util.sample.SampleCases;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 
 public class CustomNRMethod {
