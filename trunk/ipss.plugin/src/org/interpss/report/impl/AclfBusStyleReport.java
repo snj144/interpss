@@ -37,10 +37,10 @@ import org.interpss.report.bean.RptMainTitleBean;
 import org.interpss.report.bean.aclf.AclfRptBeanFactory;
 import org.interpss.report.mapper.SimuCtxReportMapper;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class AclfBusStyleReport extends AclfBaseReport implements IIpssReport {
 	private String fnameAclfBusStyleMaster = "reportTemplate/aclf/AclfBusStyleMaster.jasper";

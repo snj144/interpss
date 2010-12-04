@@ -37,7 +37,6 @@ import org.interpss.schema.MachineControllerDataType;
 import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Event.LoadChangeData;
 import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Event.LoadChangeData.LoadChangeType;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InvalidParameterException;
@@ -72,6 +71,7 @@ import com.interpss.dstab.devent.LoadChangeEventType;
 import com.interpss.dstab.devent.SetPointChangeEvent;
 import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.dstab.mach.Machine;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class XmlCaseData2AlgorithmMapperImpl {
 	/**
