@@ -31,7 +31,7 @@ import java.io.FileInputStream;
 
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.opf.OpfModelParser;
-import org.interpss.BaseTestSetup;
+import org.interpss.DevTestSetup;
 import org.interpss.mapper.odm.ODMOpfDataMapper;
 import org.interpss.opf.dc.QuadProgCalculator;
 import org.interpss.opf.dc.util.OpfOutFunc;
@@ -42,7 +42,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class OpfSample_3BusTest  extends BaseTestSetup { 
+public class OpfSample_3BusTest  extends DevTestSetup { 
 	@Test
 	public void testCase() throws Exception {
 		File file = new File("testdata/opf/opf_3bus_test.xml");

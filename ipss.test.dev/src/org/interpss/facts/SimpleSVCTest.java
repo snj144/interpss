@@ -1,7 +1,7 @@
 package org.interpss.facts;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.BaseTestSetup;
+import org.interpss.DevTestSetup;
 import org.interpss.display.AclfOutFunc;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 
-public class SimpleSVCTest extends BaseTestSetup { 
+public class SimpleSVCTest extends DevTestSetup { 
 	@Test
 	public void testCase() {
 		AclfNetwork net = createNet();

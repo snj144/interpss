@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class DummyTest  extends BaseTestSetup {
+public class DummyTest  extends DevTestSetup {
 	@Test
 	public void dummyTestCase() {
 	    assertTrue(true);		

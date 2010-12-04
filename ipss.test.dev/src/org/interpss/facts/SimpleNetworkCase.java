@@ -3,7 +3,7 @@ package org.interpss.facts;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
 
-import com.interpss.common.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
