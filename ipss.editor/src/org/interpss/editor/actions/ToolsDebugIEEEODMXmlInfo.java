@@ -2,7 +2,7 @@ package org.interpss.editor.actions;
 
 import java.awt.event.ActionEvent;
 
-import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.dep.xbean.XBeanIeeeCDFAdapter;
 import org.ieee.odm.adapter.dep.xbean.XBeanUCTE_DEFAdapter;
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
@@ -11,8 +11,8 @@ import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 
 public class ToolsDebugIEEEODMXmlInfo extends IpssAbstractActionDefault {
@@ -25,7 +25,7 @@ public class ToolsDebugIEEEODMXmlInfo extends IpssAbstractActionDefault {
 		IpssEditorDocument doc = getCurrentDocument();
 		String filepath = graphpad.getCurrentProject().getProjectPath() + "/" +	((IpssCustomDocument)doc).getFileName();
 		String str = "IEEE ODM Adapter not implemented";
-		IODMPSSAdapter adapter = null;
+		IODMAdapter adapter = null;
 		if (doc.getFileName().endsWith(".uct")) {
 			adapter = new XBeanUCTE_DEFAdapter(IpssLogger.getLogger());
 		}

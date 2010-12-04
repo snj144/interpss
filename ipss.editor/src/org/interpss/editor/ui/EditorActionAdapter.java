@@ -47,14 +47,14 @@ import org.interpss.editor.util.Utilities;
 import org.interpss.report.IpssReportFactory;
 import org.jgraph.JGraph;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.mapper.IMapping;
 import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreSpringCtx;
 import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreSpringCtx;
 
 public class EditorActionAdapter {
 	
