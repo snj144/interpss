@@ -28,7 +28,7 @@ import java.io.File;
 
 import org.interpss.AppConstants;
 import org.interpss.InterPSS;
-import org.interpss.PluginSpringCtx;
+import org.interpss.spring.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.runAct.xml.XmlScriptAclfRun;
 import org.interpss.editor.runAct.xml.XmlScriptAcscRun;
@@ -39,7 +39,6 @@ import org.interpss.output.IOutputSimuResult;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -49,6 +48,7 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class CmdLineRunner {
 	private static SimuRunType runType = SimuRunType.NotDefined;

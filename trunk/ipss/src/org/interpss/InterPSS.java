@@ -32,10 +32,10 @@ import org.interpss.editor.EditorConfig;
 import org.interpss.editor.GEditor;
 import org.interpss.gridgain.util.GridUtil;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.resource.IpssPropertiesLoader;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class InterPSS {
 	/*
