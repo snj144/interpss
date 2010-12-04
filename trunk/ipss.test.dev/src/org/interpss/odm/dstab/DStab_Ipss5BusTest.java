@@ -31,7 +31,7 @@ import java.io.FileInputStream;
 
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.dstab.DStabModelParser;
-import org.interpss.BaseTestSetup;
+import org.interpss.DevTestSetup;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.junit.Test;
 
@@ -47,7 +47,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class DStab_Ipss5BusTest extends BaseTestSetup { 		
+public class DStab_Ipss5BusTest extends DevTestSetup { 		
 	@Test
 	public void testCase() throws Exception {
 		File file = new File("testdata/ieee_odm/Tran_5bus.xml");

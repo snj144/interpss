@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.acsc.AcscModelParser;
-import org.interpss.BaseTestSetup;
+import org.interpss.DevTestSetup;
 import org.interpss.mapper.odm.ODMAcscDataMapper;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class Acsc_5BusTest extends BaseTestSetup { 
+public class Acsc_5BusTest extends DevTestSetup { 
 	@Test
 	public void testCase() throws Exception {
 		File file = new File("testdata/ieee_odm/SC_5bus.xml");

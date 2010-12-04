@@ -28,7 +28,7 @@ import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.LUDecomposition;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-import org.interpss.BaseTestSetup;
+import org.interpss.DevTestSetup;
 import org.junit.Test;
 
 import com.interpss.common.exp.InterpssException;
@@ -39,7 +39,7 @@ import com.interpss.core.sparse.impl.SparseEqnDoubleImpl;
  * @author mzhou
  *
  */
-public class SparseEqnDoubleTest extends BaseTestSetup {
+public class SparseEqnDoubleTest extends DevTestSetup {
 	@Test
 	public void testProfWuSample1() throws InterpssException {
 		/*

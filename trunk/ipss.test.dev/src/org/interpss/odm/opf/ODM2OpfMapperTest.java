@@ -5,14 +5,14 @@ import java.io.FileNotFoundException;
 
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.opf.OpfModelParser;
-import org.interpss.BaseTestSetup;
+import org.interpss.DevTestSetup;
 import org.interpss.mapper.odm.ODMOpfDataMapper;
 
 import com.interpss.opf.OpfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-public class ODM2OpfMapperTest extends BaseTestSetup {
+public class ODM2OpfMapperTest extends DevTestSetup {
 
 	/**
 	 * @param args

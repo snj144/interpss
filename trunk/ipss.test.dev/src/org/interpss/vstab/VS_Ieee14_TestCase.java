@@ -1,10 +1,10 @@
 package org.interpss.vstab;
 
-import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringCtx;
+import org.interpss.DevTestSetup;
+import org.interpss.spring.PluginSpringCtx;
 import org.interpss.vstab.eigen.EigenAnalysis;
 import org.interpss.vstab.eigen.impl.EigenAnalysisImpl;
 import org.junit.Test;
@@ -12,10 +12,10 @@ import org.junit.Test;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfNetwork;
 
-public class VS_Ieee14_TestCase extends BaseTestSetup {
+public class VS_Ieee14_TestCase extends DevTestSetup {
 	@Test 
 	public void testCase1() throws Exception {
-		IODMPSSAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
+		IODMAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
 		adapter.parseInputFile("testdata/ieee_cdf/Ieee14.ieee");
 		
 		AclfNetwork net = PluginSpringCtx

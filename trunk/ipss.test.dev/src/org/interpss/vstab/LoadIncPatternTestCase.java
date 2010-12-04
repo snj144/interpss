@@ -2,19 +2,19 @@ package org.interpss.vstab;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.BaseTestSetup;
+import org.interpss.DevTestSetup;
 import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncPtn;
 import org.junit.Test;
 
-import com.interpss.common.CoreCommonSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.util.sample.SampleCases;
+import com.interpss.spring.CoreCommonSpringCtx;
 
-public class LoadIncPatternTestCase extends BaseTestSetup {
+public class LoadIncPatternTestCase extends DevTestSetup {
 	@Test
 	public void testCase1() throws Exception {
        IPSSMsgHub msg = IpssAclf.getMsgHub();
