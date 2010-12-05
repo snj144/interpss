@@ -3,6 +3,9 @@ package org.interpss.test.facts;
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.interpss.IpssPlugin;
+import org.interpss.PluginObjectFactory;
+import org.interpss.custom.IpssFileAdapter;
 import org.interpss.spring.PluginSpringCtx;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
@@ -49,13 +52,11 @@ public class IPSSActivePowerDigraph {
 	}
 
 	public static void main(String[] args) throws Exception {
-//		IPSSActivePowerDigraph apd = new IPSSActivePowerDigraph("testdata/ieee_cdf/Ieee14.ieee");
-		IODMAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
-		adapter.parseInputFile("testdata/ieee_cdf/Ieee14.ieee");
+		IpssPlugin.init();
 		
-		AclfNetwork net = PluginSpringCtx
-				.getOdm2AclfMapper()
-				.map2Model((AclfModelParser)adapter.getModel())
+		AclfNetwork net = PluginObjectFactory
+				.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
+				.load("testdata/ieee_cdf/Ieee14.ieee")
 				.getAclfNet();
 	}
 
