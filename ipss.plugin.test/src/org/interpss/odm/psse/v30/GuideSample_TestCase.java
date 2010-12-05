@@ -32,7 +32,6 @@ import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.PluginTestSetup;
 import org.interpss.mapper.odm.ODMAclfDataMapper;
-import org.interpss.mapper.odm.dep.IEEEODMMapper;
 import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 

@@ -24,18 +24,14 @@
 
 package org.interpss;
 
-import java.util.logging.Level;
-
 import org.interpss.editor.jgraph.ui.IIpssGraphModel;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.mapper.EditorJGraphDataMapper;
 import org.interpss.editor.util.IOUtilFunc;
 import org.jgraph.JGraph;
 import org.junit.BeforeClass;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringCtx;
@@ -52,16 +48,8 @@ public class PluginTestSetup {
 
 	@BeforeClass
 	public static void setSpringAppCtx() {
-		if (CoreCommonSpringCtx.SpringAppCtx == null) {
-			//CoreCommonSpringCtx.SpringAppCtx = new ClassPathXmlApplicationContext(
-			//		"com/interpss/config/spring/test/pluginContext.xml");
-			CoreCommonSpringCtx.SpringAppCtx = new ClassPathXmlApplicationContext(
-					new String[] {
-							"org/interpss/spring/PluginSpringCtx.xml",
-							"com/interpss/spring/SimuCtxSpringCtx.xml"});
-			msg = CoreCommonSpringCtx.getIpssMsgHub();
-			IpssLogger.getLogger().setLevel(Level.INFO);
-		}
+		IpssPlugin.init();
+		msg = CoreCommonSpringCtx.getIpssMsgHub();
 		IpssAclf.setMsgHub(msg);
 	}
 }

@@ -27,17 +27,11 @@ package org.interpss.core.adapter.psse;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.dep.xbean.psse.v30.XBeanPSSEV30Adapter;
-import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.mapper.odm.dep.IEEEODMMapper;
 import org.interpss.spring.PluginSpringCtx;
-import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
@@ -67,7 +61,7 @@ public class CR_UserTestCases extends PluginTestSetup {
   		assertTrue(Math.abs(p.getReal()-22.547)<0.01);
   		assertTrue(Math.abs(p.getImaginary()-15.852)<0.01);	  	
 	}
-
+/*
 	@Test
 	public void odm_testCase() throws Exception {
 		IODMAdapter adapter = new XBeanPSSEV30Adapter(IpssLogger.getLogger());
@@ -88,7 +82,7 @@ public class CR_UserTestCases extends PluginTestSetup {
   		assertTrue(Math.abs(p.getReal()-22.547)<0.01);
   		assertTrue(Math.abs(p.getImaginary()-15.852)<0.01);	  	
 	}
-	
+*/	
 	//@Test
 	public void testCase2() throws Exception {
 		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("psse");
@@ -110,6 +104,7 @@ public class CR_UserTestCases extends PluginTestSetup {
   		assertTrue(Math.abs(p.getImaginary()-11.714)<0.01);	  	
 	}
 	
+/*	
 	@Test
 	public void testCase2ODM() throws Exception {
 		IODMAdapter adapter = new XBeanPSSEV30Adapter(IpssLogger.getLogger());
@@ -130,6 +125,7 @@ public class CR_UserTestCases extends PluginTestSetup {
   		System.out.println(p.getReal() + ", " + p.getImaginary());
   		assertTrue(Math.abs(p.getReal()-1841.665)<0.01);
   		assertTrue(Math.abs(p.getImaginary()-11.7380)<0.01);	  	
-	}	
+	}
+*/		
 }
 

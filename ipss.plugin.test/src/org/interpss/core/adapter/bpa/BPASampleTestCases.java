@@ -24,26 +24,10 @@
 
 package org.interpss.core.adapter.bpa;
 
-import static org.junit.Assert.assertTrue;
-
-import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.bpa.xbean.BPAAdapter;
-import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 import org.interpss.PluginTestSetup;
-import org.interpss.mapper.odm.dep.IEEEODMMapper;
-import org.junit.Test;
-
-import com.interpss.common.datatype.UnitType;
-import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class BPASampleTestCases extends PluginTestSetup {
+/*
 	@Test
 	public void odmAdapterTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter(IpssLogger.getLogger());
@@ -66,9 +50,6 @@ public class BPASampleTestCases extends PluginTestSetup {
 
 	@Test
 	public void odmAdapterTestCase1() throws Exception {
-		/*
-		 * This test case results are the sample as BPA China results
-		 */
 		IODMAdapter adapter = new BPAAdapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testdata/bpa/Test009bpa.dat"));		
 		
@@ -85,6 +66,7 @@ public class BPASampleTestCases extends PluginTestSetup {
 		SwingBusAdapter swing = swingBus.toSwingBus();
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.7164)<0.01);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.2705)<0.01);
-	}	
+	}
+*/
 }
 
