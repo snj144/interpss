@@ -114,6 +114,6 @@ public class SparseEqnDoubleTest extends DevTestSetup {
 		eqn.setAij( 0.0, 6, 6 );
 		eqn.setAij( 1.0, 6, 4 );
 		
-		eqn.luMatrix(1.0e-20, msg);
+		eqn.luMatrix(1.0e-20);
    }	
 }

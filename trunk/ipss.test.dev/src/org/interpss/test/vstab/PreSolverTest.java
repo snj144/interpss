@@ -22,7 +22,7 @@ public class PreSolverTest extends DevTestSetup {
 	
 	// create a sample 5-bus system for Loadflow 
 	AclfNetwork net = CoreObjectFactory.createAclfNetwork();
-	SampleCases.load_LF_5BusSystem(net, msg);
+	SampleCases.load_LF_5BusSystem(net);
 	
 	
 	// run Loadflow analysis of the base case
