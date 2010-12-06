@@ -334,7 +334,7 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 		
 		line.setZ(new Complex(braLine.getZ().getRe(), braLine.getZ().getIm()), 
 					ODMXmlHelper.toUnit(braLine.getZ().getUnit()), 
-					aclfBra.getFromAclfBus().getBaseVoltage(), msg);
+					aclfBra.getFromAclfBus().getBaseVoltage());
 		if (braLine.getTotalShuntY() != null)
 			line.setHShuntY(new Complex(0.5 * braLine.getTotalShuntY().getRe(),
 							0.5 * braLine.getTotalShuntY().getIm()),
@@ -423,7 +423,7 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		XfrAdapter xfr = aclfBra.toXfr();
 		xfr.setZ(new Complex(xfrBranch.getZ().getRe()*zratio, xfrBranch.getZ().getIm()*zratio),
-				ODMXmlHelper.toUnit(xfrBranch.getZ().getUnit()), baseV,	msg);
+				ODMXmlHelper.toUnit(xfrBranch.getZ().getUnit()), baseV);
 		xfr.setFromTurnRatio(xfrBranch.getFromTurnRatio().getValue() == 0.0 ? 1.0 : 
 				xfrBranch.getFromTurnRatio().getValue()*tapratio, UnitType.PU);
 		xfr.setToTurnRatio(xfrBranch.getToTurnRatio().getValue() == 0.0 ? 1.0 : 
