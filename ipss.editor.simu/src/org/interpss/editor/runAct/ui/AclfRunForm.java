@@ -124,9 +124,9 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	private boolean runLoadflow(DistNetwork distNet, SimuContext simuCtx) {
 		boolean converge = true;
 		if (distNet.getLoadNetData().getSchedulePoints() == 0) {
-			distNet.setNameplateAclfNetData(simuCtx.getMsgHub());
+			distNet.setNameplateAclfNetData();
 			converge = runLoadflow_internal(distNet.getAcscNet(), simuCtx
-					.getLoadflowAlgorithm(), simuCtx.getMsgHub());
+					.getLoadflowAlgorithm());
 
 			if (this.xmlCaseData.getAclfAlgorithm().getDisplaySummary()) {
 				IOutputTextDialog dialog = UISpringAppContext
@@ -136,9 +136,9 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 		} else {
 			double loss = 0.0;
 			for (int i = 0; i < distNet.getLoadNetData().getSchedulePoints(); i++) {
-				distNet.setPointAclfNetData(i, simuCtx.getMsgHub());
+				distNet.setPointAclfNetData(i);
 				if (!runLoadflow_internal(distNet.getAcscNet(), simuCtx
-						.getLoadflowAlgorithm(), simuCtx.getMsgHub()))
+						.getLoadflowAlgorithm()))
 					converge = false;
 
 				for (Bus b : distNet.getBusList()) {
@@ -161,7 +161,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	}
 
 	private boolean runLoadflow(AclfNetwork aclfAdjNet, SimuContext simuCtx) {
-		boolean converge = runLoadflow_internal(aclfAdjNet, simuCtx.getLoadflowAlgorithm(), simuCtx.getMsgHub());
+		boolean converge = runLoadflow_internal(aclfAdjNet, simuCtx.getLoadflowAlgorithm());
 		if (!converge)
 			simuCtx.getMsgHub().sendWarnMsg("Loadflow does not converge!");
 		displaySummaryResult(simuCtx);
@@ -169,7 +169,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	}
 
 	private boolean runLoadflow_internal(AclfNetwork aclfAdjNet,
-			LoadflowAlgorithm algo, IPSSMsgHub msg) {
+			LoadflowAlgorithm algo) {
 		algo.setAclfNetwork(aclfAdjNet);
 		PluginSpringCtx.getXml2LfAlgorithmMapper()
 				.map2Model(this.getAclfCaseData().getAclfAlgorithm(), algo);

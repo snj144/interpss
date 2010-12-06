@@ -256,14 +256,14 @@ public class RunActUtilFunc {
 	 */
 	public static boolean checkDStabSimuData(DynamicSimuAlgorithm algo,
 			IPSSMsgHub msg) {
-		if (!algo.checkData(msg)) {
+		if (!algo.checkData()) {
 			IpssLogger.getLogger().warning(
 					"DStab simulation data checking failed");
 			return false;
 		}
 
 		// dstab net data changed in the mapping process
-		if (!algo.getDStabNet().checkData(msg)) {
+		if (!algo.getDStabNet().checkData()) {
 			IpssLogger.getLogger()
 					.warning("DStab network data checking failed");
 			return false;
