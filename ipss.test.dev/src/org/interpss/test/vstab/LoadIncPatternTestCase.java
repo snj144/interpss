@@ -22,7 +22,7 @@ public class LoadIncPatternTestCase extends DevTestSetup {
 		// create a sample 5-bus system for Loadflow 
      
   		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
-		SampleCases.load_LF_5BusSystem(net, CoreCommonSpringCtx.getIpssMsgHub());
+		SampleCases.load_LF_5BusSystem(net);
 		/*
 		 *   LoadBus(net, "1", 13800.0D, 1, 1, AclfLoadCode.CONST_P, 1.6000000000000001D, 0.80000000000000004D, 2);
              LoadBus(net, "2", 13800.0D, 1, 1, AclfLoadCode.CONST_P, 2.0D, 1D, 2);

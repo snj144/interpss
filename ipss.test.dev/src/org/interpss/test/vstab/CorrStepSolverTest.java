@@ -53,7 +53,7 @@ public class CorrStepSolverTest extends DevTestSetup {
 			
 			// create a sample 5-bus system for Loadflow 
 			AclfNetwork net = CoreObjectFactory.createAclfNetwork();
-			SampleCases.load_LF_5BusSystem(net, msg);
+			SampleCases.load_LF_5BusSystem(net);
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(msg);
 			net.accept(algo);
 //			System.out.println(AclfOutFunc.loadFlowSummary(net));
