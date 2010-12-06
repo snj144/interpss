@@ -2,6 +2,7 @@ package org.interpss.test.facts;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.facts.SVCConstQControl;
 import org.interpss.facts.SVCConstVControl;
 import org.interpss.facts.SVCNrSolver;
 
@@ -12,7 +13,9 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
+import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.adpter.LoadBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 
@@ -25,13 +28,16 @@ public class SimpleNetworkCase {
         AclfNetwork net = createNet();
         
         AclfBus bus = net.getAclfBus("Bus2");
-        SVCConstVControl svc = new SVCConstVControl(bus, net.getNoBus() + 1, 1.0, 0.0, -5.0);
+//        SVCConstVControl svcConstV = new SVCConstVControl(bus, net.getNoBus() + 1, 1.0, 0.0, -5.0);
+        SVCConstQControl svcConstQ = new SVCConstQControl(bus, net.getNoBus() + 1, 0.85, 0.0, -5.0);
         
         // set svc as AclfBus extension
-        bus.setExtensionObject(svc);
+//        bus.setExtensionObject(svc);
         
-        SVCConstVControl[] svcArray = {svc};
-        SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
+//        SVCConstVControl[] svcConstVArray = {svcConstV};
+//        SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcConstVArray, null);
+        SVCConstQControl[] svcConstQArray = {svcConstQ};
+        SVCNrSolver svcNrSolver = new SVCNrSolver(net, null, svcConstQArray);
         
         // create a Loadflow algo object
         LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(msg);
@@ -67,15 +73,16 @@ public class SimpleNetworkCase {
         AclfBus bus2 = CoreObjectFactory.createAclfBus("Bus2", net);
         bus2.setAttributes("Bus 2", "");
         bus2.setBaseVoltage(4000.0);
-//        // set the bus to a non-generator bus
-//        bus2.setGenCode(AclfGenCode.NON_GEN);
-//        // set the bus to a constant power load bus
-//        bus2.setLoadCode(AclfLoadCode.CONST_P);
-//        // adapt the bus object to a Load bus object
-//        LoadBusAdapter loadBus = bus2.toLoadBus();
-//        // set load to the bus
-//        loadBus.setLoad(new Complex(1.0, 0.8), UnitType.PU);
-//        //net.addBus(bus2);
+        // set the bus to a non-generator bus
+        bus2.setGenCode(AclfGenCode.NON_GEN);
+        // set the bus to a constant power load bus
+        bus2.setLoadCode(AclfLoadCode.CONST_P);
+        bus2.setVoltageMag(1.0);
+        // adapt the bus object to a Load bus object
+        LoadBusAdapter loadBus = bus2.toLoadBus();
+        // set load to the bus
+        loadBus.setLoad(new Complex(1.0, 0.8), UnitType.PU);
+        //net.addBus(bus2);
 
         // create an AclfBranch object
         AclfBranch branch = CoreObjectFactory.createAclfBranch();
