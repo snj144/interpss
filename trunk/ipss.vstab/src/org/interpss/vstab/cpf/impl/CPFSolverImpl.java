@@ -75,7 +75,7 @@ public class CPFSolverImpl implements CPFSolver{
 	}
 	private boolean isCpfStop() {
 		if(this.cpfAlgo.getAnalysisStopCriteria()==AnalysisStopCriteria.FULL_CUREVE) {
-			if(this.lambda.getVal()<0.1) return this.isCpfStop=true;
+			if(this.lambda.getValue()<0.1) return this.isCpfStop=true;
 		}
 		else if(this.cpfAlgo.getAnalysisStopCriteria()==AnalysisStopCriteria.MAX_POWER_POINT) {
 			if(this.predStepSolver.isCrossMPP) return isCpfStop=true;

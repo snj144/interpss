@@ -80,9 +80,10 @@ public class CpfHelper {
 			   
 		   }
 		  // print J-matrix
-		    VstabFuncOut.printJmatix(lfEqn,6,2);
+//		    VstabFuncOut.printJmatix(lfEqn,6,2);
 		   return lfEqn;
 	}
+
     
 	public Complex getLoadIncDirection(String busId) {
 		// To do

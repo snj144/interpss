@@ -6,6 +6,10 @@ import java.util.Locale;
 
 import org.apache.commons.math.linear.RealVector;
 import com.interpss.common.datatype.Matrix_xy;
+import com.interpss.common.datatype.Vector_xy;
+import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
 
 public class VstabFuncOut {
@@ -65,4 +69,21 @@ public class VstabFuncOut {
 	   return mAry;
 	   
    }
+   public static void printBVector(AclfNetwork net, final SparseEqnMatrix2x2 lfEqn){
+	   String s="\n";
+	   net.forEachAclfBus(new IAclfBusVisitor(){
+		@Override
+		public void visit(AclfBus bus) {
+			int i=bus.getSortNumber();
+			Vector_xy bxy=lfEqn.getBVect_xy(i);
+			System.out.println(bus.getId()+":  dAng="+bxy.x+",  dMag="+bxy.y);
+		}
+		   
+	   });
+	   if(lfEqn.getDimension()>net.getNoBus()*2){
+		   Vector_xy v=lfEqn.getBVect_xy(net.getNoBus()+1);
+		   System.out.println("B("+(net.getNoBus()+1)+") :  dAng="+v.x+",  dMag="+v.y);
+	   }
+   }
+   
 }
