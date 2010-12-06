@@ -24,6 +24,7 @@
 
 package org.interpss.custom.script.aclf.indgen;
 
+import org.apache.commons.math.complex.Complex;
 import org.interpss.custom.script.aclf.AbstractAclfBusScriptEditing;
 
 import com.interpss.common.datatype.Constants;
@@ -88,4 +89,10 @@ public class InductionGenerator extends AbstractAclfBusScriptEditing {
         	 return Constants.LargeBusZ.abs();
          }
     }
+    
+	@Override
+	public Complex mismatch() {
+		Complex p = getParentAclfBus().powerIntoNet();
+		return new Complex(getGenP(), getGenQ()).subtract(p);
+	}    
 }
