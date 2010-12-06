@@ -31,7 +31,7 @@ public class SimpleSVCTest extends DevTestSetup {
         SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
         
         // create a Loadflow algo object
-        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(msg);
+        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
         // set algo NR solver to the CustomNrSolver
         algo.setNrSolver(svcNrSolver);
 

@@ -26,7 +26,7 @@ public class PreSolverTest extends DevTestSetup {
 	
 	
 	// run Loadflow analysis of the base case
-	LoadflowAlgorithm algo =CoreObjectFactory.createLoadflowAlgorithm(msg);
+	LoadflowAlgorithm algo =CoreObjectFactory.createLoadflowAlgorithm();
 	net.accept(algo);
 //	System.out.println(net.net2String());
 	// Loadflow alreagy run, commnted out by mike

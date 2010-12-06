@@ -59,7 +59,7 @@ public class DStabSample_2AreaTest extends DevTestSetup {
 			DStabilityNetwork dstabNet = simuCtx.getDStabilityNet();
 			System.out.println(dstabNet.net2String());
 
-			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, msg);
+			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet);
 		  	algo.loadflow();
 		  	
 		  	System.out.println(AclfOutFunc.loadFlowSummary(dstabNet));
