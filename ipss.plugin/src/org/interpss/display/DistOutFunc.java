@@ -41,7 +41,7 @@ public class DistOutFunc {
 			str.append("\n                      ==========================");
 
 			// set bus voltage
-			distNet.setPointAclfNetData(i, msg);
+			distNet.setPointAclfNetData(i);
 			for (Bus b : distNet.getBusList()) {
 				DistBus distBus = (DistBus) b;
 				DistBusAdapter aBusApt = (DistBusAdapter) distBus
