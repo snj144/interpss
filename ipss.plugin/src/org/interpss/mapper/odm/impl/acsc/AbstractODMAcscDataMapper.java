@@ -282,7 +282,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 		AcscLineAdapter line = (AcscLineAdapter) acscBra.getAdapter(AcscLineAdapter.class);
 		ZXmlType z0 = braXml.getZ0();
 		if (z0 != null)
-			line.setZ0(new Complex(z0.getRe(), z0.getIm()),	ODMXmlHelper.toUnit(z0.getUnit()), baseV, msg);
+			line.setZ0(new Complex(z0.getRe(), z0.getIm()),	ODMXmlHelper.toUnit(z0.getUnit()), baseV);
 		YXmlType y0 = braXml.getY0Shunt();
 		if (y0 != null)
 			line.setHB0(0.5*y0.getIm(), ODMXmlHelper.toUnit(y0.getUnit()), baseV);
@@ -296,7 +296,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 				AcscXfrAdapter xfr = (AcscXfrAdapter) acscBra.getAdapter(AcscXfrAdapter.class);
 				ZXmlType z0 = braXml.getZ0();
 				if (z0 != null)
-					xfr.setZ0(new Complex(z0.getRe(), z0.getIm()), ODMXmlHelper.toUnit(z0.getUnit()), baseV, msg);
+					xfr.setZ0(new Complex(z0.getRe(), z0.getIm()), ODMXmlHelper.toUnit(z0.getUnit()), baseV);
 
 				XformerConnectionXmlType connect = braXml.getFromSideConnection();
 				if(connect != null){
