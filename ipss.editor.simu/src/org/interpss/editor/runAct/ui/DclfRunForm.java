@@ -53,7 +53,7 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	
 	@Override
 	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
-		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfNet(), msg);
+		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfNet());
 		simuCtx.setDclfAlgorithm(algo);
 		if (!algo.checkCondition())
 			return false;

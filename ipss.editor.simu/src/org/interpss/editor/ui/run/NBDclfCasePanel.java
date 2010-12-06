@@ -1174,7 +1174,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private void ptdfCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfCalculateButtonActionPerformed
     	this.parent.setAlwaysOnTop(false);
-    	DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet(), _simuCtx.getMsgHub());
+    	DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet());
     	_simuCtx.setDclfAlgorithm(algo);
     	if (!algo.checkCondition())
     		return;
@@ -1304,7 +1304,7 @@ private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
 
 private void atCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atCalculateButtonActionPerformed
 	this.parent.setAlwaysOnTop(false);
-	DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet(), _simuCtx.getMsgHub());
+	DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet());
 	_simuCtx.setDclfAlgorithm(algo);
 	if (!algo.checkCondition())
 		return;

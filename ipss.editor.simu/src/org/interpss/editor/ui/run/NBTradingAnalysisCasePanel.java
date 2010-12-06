@@ -860,7 +860,7 @@ private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
 
 private void tradeCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tradeCalculateButtonActionPerformed
 	this.parent.setAlwaysOnTop(false);
-	DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet(), _simuCtx.getMsgHub());
+	DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet());
 	_simuCtx.setDclfAlgorithm(algo);
 	if (!algo.checkCondition())
 		return;

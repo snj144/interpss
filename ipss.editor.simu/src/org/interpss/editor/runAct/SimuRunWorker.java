@@ -172,7 +172,7 @@ public class SimuRunWorker extends Thread {
 
 			AclfNetwork net = simuCtx.getAclfNet();
 			// create DCLoadflow Algorithm object
-			DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(net, simuCtx.getMsgHub());
+			DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(net);
 			// run DCLoadflow to calculate bus voltage angle
 			if (!algo.checkCondition())
 				return;

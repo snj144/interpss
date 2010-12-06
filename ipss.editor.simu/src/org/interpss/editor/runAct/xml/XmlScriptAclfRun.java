@@ -107,7 +107,7 @@ public class XmlScriptAclfRun {
 				    net.rebuildLookupTable();
 				}
 
-				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
+				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 				// map to the Algo object including network modification at the study case level
 				//IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 				if (!XmlScriptUtilFunc.mapAclfStudyCase(xmlCase, algo, xmlDefaultAlgo, reJobCreation, msg))
@@ -181,7 +181,7 @@ public class XmlScriptAclfRun {
 	private static boolean aclfSingleRun(AclfNetwork aclfNet, AclfStudyCaseXmlType xmlCase, AclfAlgorithmXmlType xmlDefaultAlgo, 
 				RuleBaseXmlType ruleBase, boolean applyRuleBase, boolean gridRun, long timeout, IPSSMsgHub msg) {
 		//IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet, msg);
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
 		if (!XmlScriptUtilFunc.mapAclfStudyCase(xmlCase, algo, xmlDefaultAlgo, false, msg))
 			return false;
 
