@@ -52,35 +52,28 @@ public class SVCConstVControl extends AbstractAclfBus {
      * define as a capacitor bus. The Q will be treated as Yshunt
      */
     
-    @Override
-    public boolean isCapacitor() { 
-    	return true; 
-    }
-    
-    @Override
-    public 	Complex getShuntY() {
+//    @Override
+//    public boolean isCapacitor() { 
+//    	return true; 
+//    }
+//    
+//    @Override
+//    public 	Complex getShuntY() {
+//    	double vi = busi.getVoltageMag();
+//    	double thetai = busi.getVoltageAng();
+//		double g = gsh - vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)) / vi;
+//		double b = bsh + vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)) / vi;
+//    	return new Complex(g, b);
+//    }
+
+	public Complex getGen() {
     	double vi = busi.getVoltageMag();
     	double thetai = busi.getVoltageAng();
-		double g = gsh - vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)) / vi;
-		double b = bsh + vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)) / vi;
-    	return new Complex(g, b);
+		Complex gen = new Complex(
+				-vi * vi * gsh + vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)),
+		         vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)));
+		return gen;
     }
-
-//    @Override
-//	public double getGenP() {
-//    	double vi = busi.getVoltageMag();
-//    	double thetai = busi.getVoltageAng();
-//		return (-vi * vi * gsh + vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)));
-//	}
-//
-//	@Override
-//    public double getGenQ() { 
-//    	double vi = busi.getVoltageMag();
-//    	double thetai = busi.getVoltageAng();
-//    	System.out.println(vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)));
-//		return (vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)));
-////    	return 0;
-//    }
 
     /*
      * define as a load bus
@@ -100,6 +93,13 @@ public class SVCConstVControl extends AbstractAclfBus {
     public double getLoadQ() { 
     	return 0.8; 
     }
+    
+	@Override
+	public Complex mismatch() {
+		Complex p = getBus().powerIntoNet();
+		Complex gen = getGen();
+		return new Complex(gen.getReal()-getLoadP(), gen.getImaginary()-getLoadQ()).subtract(p);
+	}    
     
     /**
      * J-matrix element at [i,i]. It will used to modify (add to) the network J-matrix element
