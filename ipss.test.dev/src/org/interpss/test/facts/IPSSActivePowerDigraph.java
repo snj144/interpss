@@ -58,6 +58,7 @@ public class IPSSActivePowerDigraph {
 				.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
 				.load("testdata/ieee_cdf/Ieee14.ieee")
 				.getAclfNet();
+		System.out.println(net.net2String());
 	}
 
 }
