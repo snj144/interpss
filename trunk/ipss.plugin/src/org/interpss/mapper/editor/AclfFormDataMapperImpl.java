@@ -497,7 +497,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 			LineAdapter line = branch.toLine();
 			line.setZ(new Complex(data.getZR(), data.getZX()), UnitType
 					.toUnit(data.getZUnit()), branch.getFromAclfBus()
-					.getBaseVoltage(), msg);
+					.getBaseVoltage());
 			line.setHShuntY(new Complex(0.0, data.getHalfShuntB()), UnitType
 					.toUnit(data.getHalfShuntBUnit()), branch.getFromAclfBus()
 					.getBaseVoltage());
@@ -527,7 +527,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 			double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 			XfrAdapter xfr = branch.toXfr();
 			xfr.setZ(new Complex(data.getZR(), data.getZX()), UnitType
-					.toUnit(data.getZUnit()), baseV, msg);
+					.toUnit(data.getZUnit()), baseV);
 
 			xfr.setFromTurnRatio(data.getXfrTapFromSideTap(), UnitType
 					.toUnit(data.getXfrTapUnit()));

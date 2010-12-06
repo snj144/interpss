@@ -307,7 +307,7 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 		AcscLineAdapter line = (AcscLineAdapter) branch
 				.getAdapter(AcscLineAdapter.class);
 		line.setZ0(new Complex(branchData.getZ0R(), branchData.getZ0X()),
-				UnitType.toUnit(branchData.getZ0Unit()), baseV, msg);
+				UnitType.toUnit(branchData.getZ0Unit()), baseV);
 		line.setHB0(branchData.getHalfShuntB0(), UnitType.toUnit(branchData
 				.getHalfShuntB0Unit()), baseV);
 		return true;
@@ -321,7 +321,7 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 		AcscXfrAdapter xfr = (AcscXfrAdapter) branch
 				.getAdapter(AcscXfrAdapter.class);
 		xfr.setZ0(new Complex(branchData.getZ0R(), branchData.getZ0X()),
-				UnitType.toUnit(branchData.getZ0Unit()), baseV, msg);
+				UnitType.toUnit(branchData.getZ0Unit()), baseV);
 
 		XfrConnectData connect = branchData.getFromXfrConnectData();
 		xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(

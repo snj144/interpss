@@ -98,7 +98,7 @@ public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, Dist
 		}
 
 		// populate the FaultNet with initial data.
-		distNet.createAcscNetData(msg);
+		distNet.createAcscNetData();
 
 		distNet.getFaultNet().setLfDataLoaded(true);
 		distNet.getFaultNet().setScDataLoaded(true);
