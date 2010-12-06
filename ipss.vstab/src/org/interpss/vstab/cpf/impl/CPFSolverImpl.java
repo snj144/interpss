@@ -59,7 +59,7 @@ public class CPFSolverImpl implements CPFSolver{
 	}
 	@Override
 	public boolean correctorStep() {
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(msg);
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
 		algo.setNrSolver(corrStepSolver);
 		if(!net.accept(algo)) {
 			return false;
