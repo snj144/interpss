@@ -85,7 +85,7 @@ public class Bus11856Test extends PluginTestSetup {
   		System.out.println("time for loading data : " + (System.currentTimeMillis() - starttime)*0.001);
   		
 		AclfNetwork net = simuCtx.getAclfNet();
-		final SparseEqnComplex eqn = net.formYMatrix(msg);
+		final SparseEqnComplex eqn = net.formYMatrix();
 		net.forEachAclfBus(new IAclfBusVisitor() {
 			public void visit(AclfBus bus) {
 				if (bus.isSwing()) {
