@@ -58,7 +58,7 @@ public class GESampleTestCases extends PluginTestSetup {
 		assertTrue(net.getNoBus() == 18);
 		assertTrue(net.getNoBranch() == 24);
 		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.loadflow();
 		//System.out.println(net.net2String());
 	  	

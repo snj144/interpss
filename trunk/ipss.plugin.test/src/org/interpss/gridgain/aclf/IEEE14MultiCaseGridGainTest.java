@@ -68,7 +68,7 @@ public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 		/*
 		 * step-2 Define LF algorithem
 		 */
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	//algo.setLfMethod(AclfMethod.PQ);
 
 	  	/*

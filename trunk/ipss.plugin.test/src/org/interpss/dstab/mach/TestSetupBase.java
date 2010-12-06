@@ -83,7 +83,7 @@ public class TestSetupBase extends PluginTestSetup {
 		branch.setZ(new Complex(0.0, 0.1));
 		
 		// run load flow
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.loadflow();
 	  	

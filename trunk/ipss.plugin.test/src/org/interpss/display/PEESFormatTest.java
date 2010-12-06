@@ -27,7 +27,7 @@ public class PEESFormatTest {
 				.map2Model((AclfModelParser)adapter.getModel())
 				.getAclfNet();	
 		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
 	  	

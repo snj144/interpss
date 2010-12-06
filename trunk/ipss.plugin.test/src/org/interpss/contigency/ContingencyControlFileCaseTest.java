@@ -4,8 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.interpss.PluginTestSetup;
 import org.interpss.PluginObjectFactory;
+import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.custom.run.psseCon.ContingencyFileParser;
 import org.interpss.schema.AclfStudyCaseXmlType;
@@ -20,7 +20,6 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class ContingencyControlFileCaseTest extends PluginTestSetup {
 	@Test
@@ -50,7 +49,7 @@ public class ContingencyControlFileCaseTest extends PluginTestSetup {
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
-			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 			PluginSpringCtx.getModXml2NetMapper().map2Model(aclfCase.getModification(), net);
 		  	
 		  	PluginSpringCtx.getXml2LfAlgorithmMapper()

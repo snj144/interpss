@@ -17,7 +17,6 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class IEEE14ChangeRecorderTest  extends PluginTestSetup {
 	@Test
@@ -29,7 +28,7 @@ public class IEEE14ChangeRecorderTest  extends PluginTestSetup {
 		
 		ChangeRecorder recorder = new ChangeRecorder(net);
 		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setNonDivergent(true);
 	  	

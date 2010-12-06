@@ -32,7 +32,7 @@ public class DclfAreaTransferIeee14BusCaseTest extends PluginTestSetup {
 		
 	  	IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
 	  	
-		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfNet(), msg);
+		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfNet());
 		assertTrue(algo.checkCondition());
 			
 		DclfStudyCaseXmlType dclfCase = parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCaseArray(0);

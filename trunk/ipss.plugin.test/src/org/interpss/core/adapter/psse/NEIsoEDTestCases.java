@@ -45,7 +45,7 @@ public class NEIsoEDTestCases extends PluginTestSetup {
   		//System.out.println(simuCtx.getAclfNet().net2String());
 
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setNonDivergent(true);
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	net.setBypassDataCheck(true);

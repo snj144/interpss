@@ -50,7 +50,7 @@ public class UCTEFormatAusPowerTest extends PluginTestSetup {
 				.getAclfNet();
   		//System.out.println(net.net2String());
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
@@ -66,7 +66,7 @@ public class UCTEFormatAusPowerTest extends PluginTestSetup {
 		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest1_Simple.uct");
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet(), CoreCommonSpringCtx.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
 	  	algo.loadflow();
   		//System.out.println(simuCtx.getAclfNet().net2String());
   		
@@ -84,7 +84,7 @@ public class UCTEFormatAusPowerTest extends PluginTestSetup {
 		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest2_Xfr.uct");
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet(), CoreCommonSpringCtx.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
 	  	algo.loadflow();
   		//System.out.println(simuCtx.getAclfNet().net2String());
   		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));
@@ -102,7 +102,7 @@ public class UCTEFormatAusPowerTest extends PluginTestSetup {
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest3_XfrReg.uct");
   		//System.out.println(simuCtx.getAclfNet().net2String());
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet(), CoreCommonSpringCtx.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
 	  	algo.loadflow();
   		//System.out.println(simuCtx.getAclfNet().net2String());
   		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));
@@ -120,7 +120,7 @@ public class UCTEFormatAusPowerTest extends PluginTestSetup {
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest4_PSXfr1.uct");
   		//System.out.println(simuCtx.getAclfNet().net2String());
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet(), CoreCommonSpringCtx.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
 	  	algo.loadflow();
   		//System.out.println(simuCtx.getAclfNet().net2String());
   		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));

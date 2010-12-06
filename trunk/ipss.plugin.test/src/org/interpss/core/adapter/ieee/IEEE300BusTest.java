@@ -54,7 +54,7 @@ public class IEEE300BusTest extends PluginTestSetup {
 		
   		assertTrue((net.getBusList().size() == 300 && net.getBranchList().size() == 411));
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	

@@ -19,7 +19,6 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.util.sample.SampleCases;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class IEEE14BusCaseTest  extends PluginTestSetup {
 	//@Test
@@ -28,7 +27,7 @@ public class IEEE14BusCaseTest  extends PluginTestSetup {
 		loadCaseData("testData/aclf/IEEE14Bus_3WXfrOff.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
 
@@ -45,7 +44,7 @@ public class IEEE14BusCaseTest  extends PluginTestSetup {
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setNonDivergent(true);
 	  	
@@ -68,7 +67,7 @@ public class IEEE14BusCaseTest  extends PluginTestSetup {
 		bus.setLoadP(2.0);
 		bus.setLoadQ(1.1);
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setNonDivergent(true);
 

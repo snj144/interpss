@@ -26,7 +26,7 @@ public class LossAllocationCaseTest  extends PluginTestSetup {
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setNonDivergent(true);
   		assertTrue(algo.loadflow());
@@ -55,7 +55,7 @@ public class LossAllocationCaseTest  extends PluginTestSetup {
 		SampleCases.load_LF_5BusSystem(net);
 		//System.out.println(net.net2String());
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setMaxIterations(20);
 	  	algo.setTolerance(0.0001, UnitType.PU, net.getBaseKva());

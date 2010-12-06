@@ -50,7 +50,7 @@ public class Bus6384Test extends PluginTestSetup {
   		//System.out.println(net.net2String());
   		assertTrue((net.getBusList().size() == 6384));
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
