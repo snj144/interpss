@@ -44,10 +44,10 @@ import com.interpss.spring.CoreCommonSpringCtx;
 public class UCTEFormatAusPowerTest extends PluginTestSetup { 
 	@Test 
 	public void testCaseAclfNet() throws Exception {
-		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
-		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest1_Simple.uct");
-		
-		AclfNetwork net = simuCtx.getAclfNet();
+		AclfNetwork net = PluginObjectFactory
+				.getFileAdapter(IpssFileAdapter.FileFormat.UCTE)
+				.load("testData/ucte/MarioTest1_Simple.uct")
+				.getAclfNet();
   		//System.out.println(net.net2String());
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());

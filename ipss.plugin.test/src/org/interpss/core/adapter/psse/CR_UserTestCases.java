@@ -27,6 +27,7 @@ package org.interpss.core.adapter.psse;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.spring.PluginSpringCtx;
@@ -44,18 +45,23 @@ import com.interpss.spring.CoreCommonSpringCtx;
 public class CR_UserTestCases extends PluginTestSetup {
 	//@Test
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("psse");
-		SimuContext simuCtx = adapter.load("testData/psse/PSSE_5Bus_Test.raw");
-//  		System.out.println(simuCtx.getAclfNet().net2String());
-
-		AclfNetwork net = simuCtx.getAclfNet();
+		AclfNetwork net = PluginObjectFactory
+				.getFileAdapter(IpssFileAdapter.FileFormat.PSSE, IpssFileAdapter.Version.PSSE_30)
+				.load("testData/psse/PSSE_5Bus_Test.raw")
+				.getAclfNet();	
+		
+//		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("psse");
+//		SimuContext simuCtx = adapter.load("testData/psse/PSSE_5Bus_Test.raw");
+////  		System.out.println(simuCtx.getAclfNet().net2String());
+//
+//		AclfNetwork net = simuCtx.getAclfNet();
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
-  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("1");
+  		AclfBus swingBus = net.getAclfBus("1");
 		SwingBusAdapter swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		assertTrue(Math.abs(p.getReal()-22.547)<0.01);

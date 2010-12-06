@@ -50,7 +50,7 @@ public class SimuAppCtxTest extends PluginTestSetup {
 	@Test
 	public void testSimuCtxAclf() {
 		SimuContext simuCtx = CoreSimuSpringCtx.getSimuContextTypeAclf();
-		SampleCases.load_LF_5BusSystem(simuCtx.getAclfNet(), CoreCommonSpringCtx.getIpssMsgHub());
+		SampleCases.load_LF_5BusSystem(simuCtx.getAclfNet());
 		simuCtx.setLoadflowAlgorithm(CoreSpringCtx.getLoadflowAlgorithm());
 		simuCtx.getLoadflowAlgorithm().setAclfNetwork(simuCtx.getAclfNet());
 		//System.out.println(net.net2String());
@@ -71,7 +71,7 @@ public class SimuAppCtxTest extends PluginTestSetup {
 	@Test
 	public void testSimuCtxAcsc() {
 		SimuContext simuCtx = CoreSimuSpringCtx.getSimuContextTypeAcscNet();
-		SampleCases.load_SC_5BusSystem(simuCtx.getAcscNet(), CoreCommonSpringCtx.getIpssMsgHub());
+		SampleCases.load_SC_5BusSystem(simuCtx.getAcscNet());
 		simuCtx.setSimpleFaultAlgorithm(CoreSpringCtx.getSimpleFaultAlgorithm());
 		//System.out.println(simuCtx.getAcscFaultNet().net2String());
 

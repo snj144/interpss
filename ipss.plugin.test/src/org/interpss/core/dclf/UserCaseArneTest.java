@@ -63,28 +63,28 @@ public class UserCaseArneTest extends PluginTestSetup {
         branch1.setBranchCode(AclfBranchCode.LINE);
         branch1.setFromBus(net.getBus("Bus1"));
         branch1.setToBus(net.getBus("Bus2"));
-        branch1.setZ(new Complex(.0, 1.0), msg);
+        branch1.setZ(new Complex(.0, 1.0));
         net.addBranch(branch1, "Bus1", "Bus2");
 
         AclfBranch branch2 = CoreObjectFactory.createAclfBranch();
         branch2.setBranchCode(AclfBranchCode.LINE);
         branch2.setFromBus(net.getBus("Bus2"));
         branch2.setToBus(net.getBus("Bus3"));
-        branch2.setZ(new Complex(.0, 1.0), msg);
+        branch2.setZ(new Complex(.0, 1.0));
         net.addBranch(branch2, "Bus2", "Bus3");
 
         AclfBranch branch3 = CoreObjectFactory.createAclfBranch();
         branch3.setBranchCode(AclfBranchCode.LINE);
         branch3.setFromBus(net.getBus("Bus2"));
         branch3.setToBus(net.getBus("Bus4"));
-        branch3.setZ(new Complex(.0, 1.0), msg);
+        branch3.setZ(new Complex(.0, 1.0));
         net.addBranch(branch3, "Bus2", "Bus4");
 
         AclfBranch branch4 = CoreObjectFactory.createAclfBranch();
         branch4.setBranchCode(AclfBranchCode.LINE);
         branch4.setFromBus(net.getBus("Bus1"));
         branch4.setToBus(net.getBus("Bus4"));
-        branch4.setZ(new Complex(.0, 1.0), msg);
+        branch4.setZ(new Complex(.0, 1.0));
         net.addBranch(branch4, "Bus1", "Bus4");
         
         return net;

@@ -26,15 +26,12 @@ package org.interpss.core.adapter.ieee;
 
 import static org.junit.Assert.assertTrue;
 
-import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
-import org.ieee.odm.model.aclf.AclfModelParser;
+import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
@@ -43,13 +40,18 @@ import com.interpss.pssl.simu.IpssAclf;
 public class IEEECommonFormat_CommaTest extends PluginTestSetup {
 	@Test 
 	public void testCase1() throws Exception {
-		IODMAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
-		adapter.parseInputFile("testdata/ieee_format/ieee14_comma.ieee");
+		AclfNetwork net = PluginObjectFactory
+				.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
+				.load("testdata/ieee_format/ieee14_comma.ieee")
+				.getAclfNet();	
 		
-		AclfNetwork net = PluginSpringCtx
-				.getOdm2AclfMapper()
-				.map2Model((AclfModelParser)adapter.getModel())
-				.getAclfNet();		
+//		IODMAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
+//		adapter.parseInputFile("testdata/ieee_format/ieee14_comma.ieee");
+//		
+//		AclfNetwork net = PluginSpringCtx
+//				.getOdm2AclfMapper()
+//				.map2Model((AclfModelParser)adapter.getModel())
+//				.getAclfNet();		
 		
 		//System.out.println(adapter.getODMModelParser().toString());
 		

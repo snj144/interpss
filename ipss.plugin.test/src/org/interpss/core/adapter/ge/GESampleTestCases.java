@@ -26,12 +26,9 @@ package org.interpss.core.adapter.ge;
 
 import static org.junit.Assert.assertTrue;
 
-import org.ieee.odm.ODMFileFormatEnum;
-import org.ieee.odm.ODMObjectFactory;
-import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.model.aclf.AclfModelParser;
+import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
@@ -45,13 +42,18 @@ import com.interpss.spring.CoreCommonSpringCtx;
 public class GESampleTestCases extends PluginTestSetup {
 	@Test
 	public void odmAdapterTestCase() throws Exception {
-		IODMAdapter adapter = ODMObjectFactory.createODMAdapter(ODMFileFormatEnum.GePSLF);
-		assertTrue(adapter.parseInputFile("testdata/ge/Sample18Bus.epc"));		
+		AclfNetwork net = PluginObjectFactory
+				.getFileAdapter(IpssFileAdapter.FileFormat.GE_PSLF)
+				.load("testdata/ge/Sample18Bus.epc")
+				.getAclfNet();	
 		
-		AclfNetwork net = PluginSpringCtx
-				.getOdm2AclfMapper()
-				.map2Model((AclfModelParser)adapter.getModel())
-				.getAclfNet();
+//		IODMAdapter adapter = ODMObjectFactory.createODMAdapter(ODMFileFormatEnum.GePSLF);
+//		assertTrue(adapter.parseInputFile("testdata/ge/Sample18Bus.epc"));		
+//		
+//		AclfNetwork net = PluginSpringCtx
+//				.getOdm2AclfMapper()
+//				.map2Model((AclfModelParser)adapter.getModel())
+//				.getAclfNet();
 		
 		assertTrue(net.getNoBus() == 18);
 		assertTrue(net.getNoBranch() == 24);

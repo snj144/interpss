@@ -61,7 +61,7 @@ public class IEEE14BusCaseTest  extends PluginTestSetup {
 	public void runSampleAdjustChangeStep() throws Exception {
 		// step-1: define and load a EMF network object
   		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
-		SampleCases.load_LF_5BusSystem(net, CoreCommonSpringCtx.getIpssMsgHub());
+		SampleCases.load_LF_5BusSystem(net);
 		//System.out.println(net.net2String());
 		
 		AclfBus bus = net.getAclfBus("1");

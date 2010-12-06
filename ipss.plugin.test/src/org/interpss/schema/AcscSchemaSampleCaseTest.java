@@ -51,7 +51,7 @@ public class AcscSchemaSampleCaseTest extends PluginTestSetup {
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACSC);
 
 	  	AcscNetwork faultNet = CoreObjectFactory.createAcscNetwork();
-		SampleCases.load_SC_5BusSystem(faultNet, CoreCommonSpringCtx.getIpssMsgHub());
+		SampleCases.load_SC_5BusSystem(faultNet);
 		//System.out.println(faultNet.net2String());
   		assertTrue((faultNet.getBusList().size() == 5 && faultNet.getBranchList().size() == 5));
 

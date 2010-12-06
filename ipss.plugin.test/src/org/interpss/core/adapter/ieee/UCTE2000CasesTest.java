@@ -26,6 +26,7 @@ package org.interpss.core.adapter.ieee;
 
 import static org.junit.Assert.assertTrue;
 
+import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.spring.PluginSpringCtx;
@@ -41,10 +42,15 @@ import com.interpss.spring.CoreCommonSpringCtx;
 public class UCTE2000CasesTest extends PluginTestSetup {
 	@Test 
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
-		SimuContext simuCtx = adapter.load("testData/ieee_format/UCTE_2000_WinterOffPeak.ieee");
-
-		AclfNetwork net = simuCtx.getAclfNet();
+		AclfNetwork net = PluginObjectFactory
+				.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
+				.load("testData/ieee_format/UCTE_2000_WinterOffPeak.ieee")
+				.getAclfNet();
+		
+//		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
+//		SimuContext simuCtx = adapter.load("testData/ieee_format/UCTE_2000_WinterOffPeak.ieee");
+//
+//		AclfNetwork net = simuCtx.getAclfNet();
   		//assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());

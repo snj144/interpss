@@ -6,7 +6,6 @@ import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.PluginTestSetup;
 import org.junit.Test;
 
-import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
