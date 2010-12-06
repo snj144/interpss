@@ -144,7 +144,7 @@ public class RuleCaseTest extends PluginTestSetup {
 	  	AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
 	  	AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 		net.rebuildLookupTable();
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		PluginSpringCtx.getXml2LfAlgorithmMapper()
 				.map2Model(aclfCase.getAclfAlgorithm(), algo);
 	  	

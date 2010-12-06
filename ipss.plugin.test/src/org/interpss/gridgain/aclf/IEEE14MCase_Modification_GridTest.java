@@ -72,7 +72,7 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 		/*
 		 * step-2 Define LF algorithm
 		 */
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	//algo.setLfMethod(AclfMethod.PQ);
 
 	  	/*
@@ -162,7 +162,7 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 		/*
 		 * step-2 Define LF algorithm
 		 */
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	//algo.setLfMethod(AclfMethod.PQ);
 
 	  	/*

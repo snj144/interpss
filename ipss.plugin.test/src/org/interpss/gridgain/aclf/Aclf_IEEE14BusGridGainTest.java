@@ -94,7 +94,7 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
 		// network id needs to be set. It is used for identification purpse
 		net.setId("IEEE 14_Bus");
 		
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	//algo.setLfMethod(AclfMethod.PQ);
 
 		RemoteMessageTable result = new GridRunner(grid, "Grid Aclf IEEE 14-Bus system", algo).executeTask(0);

@@ -55,7 +55,7 @@ public class AcscSchemaSampleCaseTest extends PluginTestSetup {
 		//System.out.println(faultNet.net2String());
   		assertTrue((faultNet.getBusList().size() == 5 && faultNet.getBranchList().size() == 5));
 
-  		SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, CoreCommonSpringCtx.getIpssMsgHub());
+  		SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet);
 	  	//IpssMapper mapper = new IpssXmlMapper();
 	  	for ( AcscStudyCaseXmlType scase : parser.getRunAcscStudyCase().getAcscStudyCaseList().getAcscStudyCaseArray()) {
 	  		PluginSpringCtx.getXml2ScAlgorithmMapper().map2Model(scase, algo);

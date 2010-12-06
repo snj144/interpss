@@ -48,7 +48,7 @@ public class GuideSampleTestCases extends PluginTestSetup {
 		SimuContext simuCtx = adapter.load("testData/psse/PSSE_GuideSample.raw");
   		//System.out.println(simuCtx.getAclfNet().net2String());
 		AclfNetwork net = simuCtx.getAclfNet();
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setNonDivergent(true);
 	  	algo.loadflow();

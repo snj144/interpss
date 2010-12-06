@@ -45,7 +45,7 @@ public class MMWG_2007series_2008S_Test extends PluginTestSetup {
 
 		AclfNetwork net = simuCtx.getAclfNet();
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());

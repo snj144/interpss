@@ -42,7 +42,6 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.sparse.SparseEqnComplex;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class Bus11856Test extends PluginTestSetup {
 	@Test
@@ -59,9 +58,9 @@ public class Bus11856Test extends PluginTestSetup {
   	  		//System.out.println(net.net2String());
   	  		assertTrue((net.getBusList().size() == 11856));
 
-  		  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+  		  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
   	  		starttime = System.currentTimeMillis() ;
-			AclfNetHelper helper = CoreObjectFactory.createAclfNetHelper(net, msg);
+			AclfNetHelper helper = CoreObjectFactory.createAclfNetHelper(net);
   	  		assertTrue(helper.checkSwingBus());
   	  		System.out.println("time for swing bus check : " + (System.currentTimeMillis() - starttime)*0.001);
 	  	

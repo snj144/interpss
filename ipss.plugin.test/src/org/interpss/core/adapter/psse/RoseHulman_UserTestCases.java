@@ -55,7 +55,7 @@ public class RoseHulman_UserTestCases extends PluginTestSetup {
 				.map2Model((AclfModelParser)adapter.getModel())
 				.getAclfNet();		
 		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());

@@ -21,12 +21,12 @@ public class IEEE14SwingCheckTest  extends PluginTestSetup {
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 
 	  	net.getBranch("0007", "0008").setStatus(false);
 	  	net.getBranch("0001", "0002").setStatus(false);
 	  	
-		AclfNetHelper helper = CoreObjectFactory.createAclfNetHelper(net, msg);
+		AclfNetHelper helper = CoreObjectFactory.createAclfNetHelper(net);
 		if (!helper.checkSwingBus())
 			helper.assignSwingBus();
   		assertTrue(!net.getBus("0008").isActive());

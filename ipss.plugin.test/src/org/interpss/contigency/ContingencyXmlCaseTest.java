@@ -22,7 +22,6 @@ import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.simu.multicase.result.AclfBranchResultRec;
 import com.interpss.simu.multicase.result.AclfBusResultRec;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class ContingencyXmlCaseTest extends PluginTestSetup {
 	//@Test
@@ -43,7 +42,7 @@ public class ContingencyXmlCaseTest extends PluginTestSetup {
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
-			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 			PluginSpringCtx.getModXml2NetMapper().map2Model(aclfCase.getModification(), net);
 			PluginSpringCtx.getXml2LfAlgorithmMapper().map2Model(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
 		  	
@@ -98,7 +97,7 @@ public class ContingencyXmlCaseTest extends PluginTestSetup {
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
-			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 			PluginSpringCtx.getModXml2NetMapper().map2Model(aclfCase.getModification(), net);
 			PluginSpringCtx.getXml2LfAlgorithmMapper().map2Model(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
 		  	
@@ -137,7 +136,7 @@ public class ContingencyXmlCaseTest extends PluginTestSetup {
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
-			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 			PluginSpringCtx.getModXml2NetMapper().map2Model(aclfCase.getModification(), net);
 			PluginSpringCtx.getXml2LfAlgorithmMapper().map2Model(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
 		  	

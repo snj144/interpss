@@ -15,7 +15,6 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class AclfAdjCaseTest  extends PluginTestSetup {
 	@Test
@@ -24,7 +23,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusFuncLoad.ipss", simuCtx);
 
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -42,7 +41,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusPQLimit1.ipss", simuCtx);
 
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -60,7 +59,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusPQLimit2.ipss", simuCtx);
 
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -78,7 +77,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusPVLimit1.ipss", simuCtx);
 
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -96,7 +95,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusPVLimit2.ipss", simuCtx);
 
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -113,7 +112,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusTapControlDiscreteSteps.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -130,7 +129,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusTapControlNoViolation.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -147,7 +146,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj2BusTapControlViolation.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -164,7 +163,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusPsXfr.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -181,7 +180,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusPsXfrPControlFromSide.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -198,7 +197,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusPsXfrPControlFromSideViolation.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -215,7 +214,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusPsXfrPControlToSide.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -232,7 +231,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusReQBusNoViolation.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -249,7 +248,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusReQBusViolation.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -266,7 +265,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusReQMvarFlowFromSide.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -283,7 +282,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusReQMvarFlowToSide.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -300,7 +299,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusTapControlMvarFlowFromSide.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -316,7 +315,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusTapControlMvarFlowToSide.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
@@ -332,7 +331,7 @@ public class AclfAdjCaseTest  extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/geditor/aclfadj/AclfAdj3BusTapControlMvarFlowToSideTap.ipss", simuCtx);
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	
   		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());

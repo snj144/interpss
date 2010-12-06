@@ -46,7 +46,6 @@ import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysisType;
 import com.interpss.simu.multicase.aclf.ContingencyCase;
 import com.interpss.simu.multicase.result.BranchResult;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class N11Analysis_IEEE14BusTest extends PluginTestSetup {
 	@Test
@@ -59,7 +58,7 @@ public class N11Analysis_IEEE14BusTest extends PluginTestSetup {
 
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, net);
 		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		algo.setNonDivergent(true);
 		algo.setTolerance(0.001);
 		
@@ -78,7 +77,7 @@ public class N11Analysis_IEEE14BusTest extends PluginTestSetup {
 
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, net);
 		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		algo.setNonDivergent(true);
 		algo.setTolerance(0.001);
 		

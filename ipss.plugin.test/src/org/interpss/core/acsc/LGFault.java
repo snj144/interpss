@@ -16,7 +16,6 @@ import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class LGFault  extends PluginTestSetup {
 	@Test
@@ -25,7 +24,7 @@ public class LGFault  extends PluginTestSetup {
 		loadCaseData("testData/support/Fitesa_1.ipss", simuCtx);
 		
 	  	AcscNetwork faultNet = simuCtx.getAcscNet();
-	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, CoreCommonSpringCtx.getIpssMsgHub());
+	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet);
 
 		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("0003", algo);
 		fault.setFaultCode(SimpleFaultCode.GROUND_LG);
@@ -58,7 +57,7 @@ public class LGFault  extends PluginTestSetup {
 		loadCaseData("testData/support/Fitesa_1.ipss", simuCtx);
 		
 		AcscNetwork faultNet = simuCtx.getAcscNet();
-	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, CoreCommonSpringCtx.getIpssMsgHub());
+	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet);
 
 	  	AcscBusFault fault = CoreObjectFactory.createAcscBusFault("0003", algo);
 		fault.setFaultCode(SimpleFaultCode.GROUND_LLG);
@@ -92,7 +91,7 @@ public class LGFault  extends PluginTestSetup {
 		loadCaseData("testData/support/Fitesa_1.ipss", simuCtx);
 		
 		AcscNetwork faultNet = simuCtx.getAcscNet();
-	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, CoreCommonSpringCtx.getIpssMsgHub());
+	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet);
 
 	  	AcscBusFault fault = CoreObjectFactory.createAcscBusFault("0003", algo);
 		fault.setFaultCode(SimpleFaultCode.GROUND_LL);
