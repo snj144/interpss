@@ -34,13 +34,13 @@ public class LambdaParam {
 	/**
 	 * @return the value of Lambda Parameter
 	 */
-	public double getVal() {
+	public double getValue() {
 		return val;
 	}
 	/**
 	 * @param valOfLambdaParam the valOfLambdaParam to set
 	 */
-	public void setVal(double valOfLambdaParam) {
+	public void setValue(double valOfLambdaParam) {
 		this.val = valOfLambdaParam;
 	}
 	public void update(SparseEqnMatrix2x2 lfEqn) {

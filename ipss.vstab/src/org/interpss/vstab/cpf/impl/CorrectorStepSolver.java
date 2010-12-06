@@ -13,7 +13,7 @@ import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
 
 public class CorrectorStepSolver extends DefaultNrSolver {
-	private final Vector_xy zeroMismatch=new Vector_xy(0,0);
+	private Vector_xy contParaMismatch;
 	private double valOfContPara=0;
 	private LambdaParam lambda=null;
     private CPFAlgorithm cpf=null;
@@ -59,35 +59,38 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 		// calculate bus power mismatch. The mismatch stored on 
 		// the right-hand side of the sparse eqn
 		super.setPowerMismatch(lfEqn);
-		
-//		// define a 2x1 vector
-//		Vector_xy b = new Vector_xy();
-//		b.x = this.getFixedValOfContPara()-this.getValOfContParam();
-//		b.y = zeroMismatch;
-//		
-//		// set the vector to the right-hand side of the sparse eqn
-//		int n = getAclfNet().getNoBus();
-		lfEqn.setBi(zeroMismatch, this.getAclfNet().getNoBus()+1); // explicitly set B(n+1) to Zero
+		contParaMismatch=calContParaMismatch();
+
+		lfEqn.setBi(contParaMismatch, this.lambda.getPosition()); // explicitly set B(n+1) to Zero
 	}
 
 	@Override
 	public void updateBusVoltage(SparseEqnMatrix2x2 lfEqn) {
+		
 		// update the bus voltage using the solution results store in the sparse eqn
 		super.updateBusVoltage(lfEqn);
 		
 		// the solution result of the extra variable defined is stored at B(n+1)  
         lambda.update(lfEqn);// is any factor needed for update?
-
+        // out put the B vector for test
+        VstabFuncOut.printBVector(getAclfNet(), lfEqn);
 	}
 	
 	
+
+	private Vector_xy calContParaMismatch(){
+		Vector_xy misVxy=new Vector_xy(0,0);
+		misVxy.x=getFixedValOfContPara()-getValOfContParam(); // Psp-P;
+		return misVxy;
+		
+		
+	}
 	private double getFixedValOfContPara() {
 		return cpf.getFixedValOfContPara();	
 	}
-
 	private double getValOfContParam() {
 		if(cpf.getSortNumOfContParam()==lambda.getPosition()) {
-			return lambda.getVal();
+			return lambda.getValue();
 		}
 		else {
 			final long sortNum=cpf.getSortNumOfContParam();
