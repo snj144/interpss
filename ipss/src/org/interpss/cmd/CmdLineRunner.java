@@ -161,13 +161,13 @@ public class CmdLineRunner {
 			if (InterPSS.RunAclfStr.equals(runTypeStr)) {
 				// create the default loadflow algorithm
 				LoadflowAlgorithm algo = CoreObjectFactory
-						.createLoadflowAlgorithm(simuCtx.getAclfNet(), msg);
+						.createLoadflowAlgorithm(simuCtx.getAclfNet());
 				// use the loadflow algorithm to perform loadflow calculation
 				algo.loadflow();
 				runType = SimuRunType.Aclf;
 			} else if (runTypeStr != null && InterPSS.RunDclfStr.equals(runTypeStr)) {
 				DclfAlgorithm algo = CoreObjectFactory
-						.createDclfAlgorithm(simuCtx.getAclfNet(), msg);
+						.createDclfAlgorithm(simuCtx.getAclfNet());
 				simuCtx.setDclfAlgorithm(algo);
 				if (algo.checkCondition())
 					algo.calculateDclf();
@@ -179,7 +179,7 @@ public class CmdLineRunner {
 					|| simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				// create the default loadflow algorithm
 				LoadflowAlgorithm algo = CoreObjectFactory
-						.createLoadflowAlgorithm(simuCtx.getAclfNet(), msg);
+						.createLoadflowAlgorithm(simuCtx.getAclfNet());
 				// use the loadflow algorithm to perform loadflow calculation
 				algo.loadflow();
 				runType = SimuRunType.Aclf;
