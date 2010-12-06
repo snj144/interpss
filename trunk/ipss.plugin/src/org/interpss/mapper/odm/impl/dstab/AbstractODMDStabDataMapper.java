@@ -97,7 +97,7 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 				DynamicSimuAlgorithm dstabAlgo =DStabObjectFactory.createDynamicSimuAlgorithm(dstabNet,simuCtx.getMsgHub() );
 				simuCtx.setDynSimuAlgorithm(dstabAlgo);
 
-				LoadflowAlgorithm lfAlgo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet, dstabAlgo.getMsgHub());
+				LoadflowAlgorithm lfAlgo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet);
 				dstabAlgo.setAclfAlgorithm(lfAlgo);
 
 				// map the bus info

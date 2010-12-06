@@ -100,8 +100,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 				AcscNetwork acscFaultNet =  CoreObjectFactory.createAcscNetwork();						
 				simuCtx.setAcscNet(acscFaultNet);
 
-				SimpleFaultAlgorithm acscAlgo = CoreObjectFactory.createSimpleFaultAlgorithm(acscFaultNet, 
-											simuCtx.getMsgHub());
+				SimpleFaultAlgorithm acscAlgo = CoreObjectFactory.createSimpleFaultAlgorithm(acscFaultNet);
 				simuCtx.setSimpleFaultAlgorithm(acscAlgo);
 				
 				mapAcscNetworkData(acscFaultNet,xmlNet);
