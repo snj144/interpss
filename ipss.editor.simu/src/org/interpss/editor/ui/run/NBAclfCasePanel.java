@@ -964,7 +964,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
     	IpssLogger.getLogger().info("Reset ...");
     	_simuCtx.getAclfNet().initializeBusVoltage();
-    	_simuCtx.getAclfNet().getAclfNetAdjust().activateAllAdjust(_simuCtx.getMsgHub());
+    	_simuCtx.getAclfNet().getAclfNetAdjust().activateAllAdjust();
 		msgOutTextArea.setText("");
         initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfNet().maxMismatch(AclfMethod.NR).toString());
@@ -1037,7 +1037,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			if (area.getRegDeviceList().size() > 0) {
 				// there should be only one controller per area
 				IRegulationDevice regDevice = (IRegulationDevice)area.getRegDeviceList().get(0);
-				regDevice.performAdjusment(area, _simuCtx.getAclfNet(), _simuCtx.getMsgHub());
+				regDevice.performAdjusment(area, _simuCtx.getAclfNet());
 			}
 			IpssLogger.getLogger().info("Apply Interarea exchagnge controls: " + no);
         }
