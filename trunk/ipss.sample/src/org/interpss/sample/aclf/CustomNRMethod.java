@@ -122,7 +122,7 @@ public class CustomNRMethod {
 		//System.out.println(net.net2String());
 
 		// create a Loadflow algo object
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(msg);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
 
 	  	// set algo NR solver to the CustomNrSolver
 	  	algo.setNrSolver(new CustomNrSolver(net));

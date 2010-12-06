@@ -42,7 +42,7 @@ public class IEEE14GmlImpl {
 
 			// Define LF algorithm for the sub network 
 			IPSSMsgHub msg = new IPSSMsgHubImpl();
-		  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(subNet, msg);
+		  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(subNet);
 		  	algo.setNonDivergent(true);
 		  	//algo.setLfMethod(AclfMethod.PQ);
 		  	

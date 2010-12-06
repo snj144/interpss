@@ -79,7 +79,7 @@ public class SampleLoadflow {
 	  	set2BusNetworkData(net, msg);
 	  	
 	  	// create the default loadflow algorithm
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 
 	  	// use the loadflow algorithm to perform loadflow calculation
 	  	PerformanceTimer timer = new PerformanceTimer();
@@ -116,7 +116,7 @@ public class SampleLoadflow {
   		}
 	  	
 	  	// create the default loadflow algorithm
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 
 	  	// use the loadflow algorithm to perform loadflow calculation
 	  	algo.loadflow();
@@ -191,7 +191,7 @@ public class SampleLoadflow {
   		net.addBranch(branch, "Bus1", "Bus2");
 	  	
 	  	// create the default loadflow algorithm
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 
 	  	// use the loadflow algorithm to perform loadflow calculation
 	  	algo.loadflow();

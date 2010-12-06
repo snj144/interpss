@@ -41,7 +41,7 @@ public class CustomSingleRemoteJob extends GridAclfJob {
 			 * here. Loadflow is just used as an example.
 			 */
 			LoadflowAlgorithm algo = CoreObjectFactory
-						.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+						.createLoadflowAlgorithm(net);
 			algo.loadflow();
 	 
 			/*
