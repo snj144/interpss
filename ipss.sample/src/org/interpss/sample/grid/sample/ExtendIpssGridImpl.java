@@ -36,7 +36,7 @@ public class ExtendIpssGridImpl {
 
 	    	// input data and create InterPSS Aclf net object
 	    	AclfNetwork adjNet = CoreObjectFactory.createAclfNetwork();
-    		SampleCases.load_LF_5BusSystem(adjNet, msg);
+    		SampleCases.load_LF_5BusSystem(adjNet);
     		adjNet.setId("SampleNetId");
     		
 	    	try {

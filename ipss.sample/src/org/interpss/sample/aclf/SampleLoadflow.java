@@ -186,7 +186,7 @@ public class SampleLoadflow {
   		// adapte the branch object to a line branch object
 		LineAdapter lineBranch = branch.toLine();
 		// set branch parameters
-  		lineBranch.setZ(new Complex(0.05, 0.1), UnitType.PU, 4000.0, msg);
+  		lineBranch.setZ(new Complex(0.05, 0.1), UnitType.PU, 4000.0);
   		// add the branch from Bus1 to Bus2
   		net.addBranch(branch, "Bus1", "Bus2");
 	  	
