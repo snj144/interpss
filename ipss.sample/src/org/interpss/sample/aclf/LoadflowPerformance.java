@@ -83,7 +83,7 @@ public class LoadflowPerformance {
 	  	 */
 	  	timer.start();
 	  	adjNet.setBusNumberArranged(false);
-	  	adjNet.accept(CoreObjectFactory.createBusNoArrangeVisitor(msg));
+	  	adjNet.accept(CoreObjectFactory.createBusNoArrangeVisitor());
 	  	timer.logStd("Time for bus arrangement: ");
 	}	
 }
