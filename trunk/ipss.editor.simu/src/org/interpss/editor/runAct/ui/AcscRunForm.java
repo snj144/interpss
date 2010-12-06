@@ -86,7 +86,7 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 		if (distNet.getScPointNetData().getScPointList().size() > 1) {
 			for (int i = 0; i < distNet.getScPointNetData().getScPointList()
 					.size(); i++) {
-				distNet.updateAcscNetData(i, msg);
+				distNet.updateAcscNetData(i);
 				runShortCircuit(distNet.getFaultNet(), "ScPoint" + (i + 1),
 						algo, msg);
 			}
