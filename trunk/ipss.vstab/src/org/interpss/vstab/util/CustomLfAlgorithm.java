@@ -112,7 +112,7 @@ public class CustomLfAlgorithm implements IAclfNetBVisitor{
 	    return false;
 	  }
 	public boolean nrStep(INrSolver solver){
-		SparseEqnMatrix2x2 lfEqn=solver.formJMatrix(getMsg());
+		SparseEqnMatrix2x2 lfEqn=solver.formJMatrix();
 		solver.setPowerMismatch(lfEqn);
 		if(solveEqnByCommonMath(lfEqn)){
 			solver.updateBusVoltage(lfEqn);

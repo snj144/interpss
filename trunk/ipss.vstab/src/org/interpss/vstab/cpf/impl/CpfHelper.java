@@ -42,7 +42,7 @@ public class CpfHelper {
 	public SparseEqnMatrix2x2 formAugmJacobiMatrix() {
 		// 1. get the jacobian matrix (Swing bus is included in jacobi,so the dimension(N) equals to total number of buses, and index is 1 to N )
 		  
-		lfEqn=this.net.formJMatrix(1,this.msg);
+		lfEqn=this.net.formJMatrix(1);
 		
 		int n=this.net.getNoBus(); //n=num of bus
 		
