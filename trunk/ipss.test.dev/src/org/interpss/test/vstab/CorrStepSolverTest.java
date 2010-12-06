@@ -7,6 +7,7 @@ import org.interpss.test.DevTestSetup;
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.impl.CorrectorStepSolver;
+import org.interpss.vstab.util.CustomLfAlgorithm;
 import org.junit.Test;
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -54,8 +55,8 @@ public class CorrStepSolverTest extends DevTestSetup {
 			// create a sample 5-bus system for Loadflow 
 			AclfNetwork net = CoreObjectFactory.createAclfNetwork();
 			SampleCases.load_LF_5BusSystem(net);
-			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(msg);
-			net.accept(algo);
+//			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(msg);
+//			net.accept(algo);
 //			System.out.println(AclfOutFunc.loadFlowSummary(net));
 			// create CPF algorithm;
 			CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net, msg);
@@ -66,9 +67,10 @@ public class CorrStepSolverTest extends DevTestSetup {
 			cpfAlgo.setSorNumofContParam(4);// sortNumber=4 ,namely vmag of bus2 is selected as the continuation parameter
 			cpfAlgo.setFixedValOfContPara(fixVal);// set fixedVal to 1.5 intentionally for testing
 			System.out.println("cpfAlgo SortNum="+cpfAlgo.getSortNumOfContParam());
-			CorrectorStepSolver corSolver=cpfAlgo.getCorrStepSolver();
-			algo.setNrSolver(corSolver);
-			net.accept(algo);
+			//CorrectorStepSolver corSolver=cpfAlgo.getCorrStepSolver();
+			CustomLfAlgorithm customAlgo=new CustomLfAlgorithm(cpfAlgo);
+//			algo.setNrSolver(corSolver);
+			net.accept(customAlgo);
 			System.out.println(AclfOutFunc.loadFlowSummary(net));
 			System.out.println("SortNumber of bus2 ="+net.getAclfBus("2").getSortNumber());
 			assertTrue(net.isLfConverged());
