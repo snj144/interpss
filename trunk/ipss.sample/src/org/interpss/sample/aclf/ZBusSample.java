@@ -51,7 +51,7 @@ public class ZBusSample {
 		IpssLogger.getLogger().setLevel(Level.WARNING);
 		
   		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
-		SampleCases.load_LF_5BusSystem(net, msg);
+		SampleCases.load_LF_5BusSystem(net);
 
 		// bus number is arranged during the process to minimize the fill-ins 
 		SparseEqnComplex eqn = net.formYMatrix(msg);
@@ -66,7 +66,7 @@ public class ZBusSample {
 		busNo = bus1.getSortNumber();
 		eqn.setB2Unit(busNo);
 		
-		eqn.luMatrixAndSolveEqn(1.0e-20, msg);
+		eqn.luMatrixAndSolveEqn(1.0e-20);
 		Complex z = eqn.getBi(busNo);
 		System.out.println("Zii: " + ComplexFunc.toString(z));  
 
@@ -76,7 +76,7 @@ public class ZBusSample {
 		eqn.setB2Unit(busNo);
 		
 		// Y-matrix already LUed, so no need to LU again
-		eqn.solveEqn(msg);
+		eqn.solveEqn();
 		z = eqn.getBi(busNo);
 		System.out.println("Zii: " + ComplexFunc.toString(z));  
 	}	
