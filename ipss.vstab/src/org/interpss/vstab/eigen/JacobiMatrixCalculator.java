@@ -34,7 +34,7 @@ public class JacobiMatrixCalculator {
 	
 	private  void transSparse2RealFmt (AclfNetwork net,IPSSMsgHub msg){
 		
-		SparseEqnMatrix2x2 S=net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE, msg);   
+		SparseEqnMatrix2x2 S=net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE);   
 		 // get sortIndex
 	   int[] sortNumberToMatrixIndex = new int[net.getNoBus()+1];
 	   int[] sortPQNumberToMatrixIndex = new int[net.getNoBus()+1];
@@ -135,7 +135,7 @@ public class JacobiMatrixCalculator {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		SparseEqnMatrix2x2 S=_net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE, msg);
+		SparseEqnMatrix2x2 S=_net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE);
 		if(acBus.isActive()&&!acBus.isSwing()){ // both PQ and PV
 			
 			elem = S.getElement(acBus.getSortNumber(),acBus.getSortNumber());
@@ -155,7 +155,7 @@ public class JacobiMatrixCalculator {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		SparseEqnMatrix2x2 S=_net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE, msg);
+		SparseEqnMatrix2x2 S=_net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE);
 		if(acBus.isActive()&&acBus.isGenPQ()){ // only for PQ
 			
 			elem = S.getElement(acBus.getSortNumber(),acBus.getSortNumber());
