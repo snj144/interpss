@@ -52,7 +52,7 @@ public class LossAllocationCaseTest  extends PluginTestSetup {
 	@Test
 	public void sample5BusTest() {
   		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
-		SampleCases.load_LF_5BusSystem(net, CoreCommonSpringCtx.getIpssMsgHub());
+		SampleCases.load_LF_5BusSystem(net);
 		//System.out.println(net.net2String());
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());

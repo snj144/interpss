@@ -24,20 +24,24 @@
 
 package org.interpss.core.adapter.ucte;
 
+import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
-import com.interpss.simu.SimuContext;
+import com.interpss.core.aclf.AclfNetwork;
 
 public class UCTEFormatIEEE14BusTest extends PluginTestSetup {
 	@Test
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("uct");
-		SimuContext simuCtx = adapter.load("testData/ucte/ieee14.uct");
-  		System.out.println(simuCtx.getAclfNet().net2String());
+		AclfNetwork net = PluginObjectFactory
+				.getFileAdapter(IpssFileAdapter.FileFormat.UCTE)
+				.load("testData/ucte/ieee14.uct")
+				.getAclfNet();
 		
+//		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("uct");
+//		SimuContext simuCtx = adapter.load("testData/ucte/ieee14.uct");
+//  		//System.out.println(simuCtx.getAclfNet().net2String());
 	}
 }
 

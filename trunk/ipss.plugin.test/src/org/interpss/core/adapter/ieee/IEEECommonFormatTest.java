@@ -26,17 +26,12 @@ package org.interpss.core.adapter.ieee;
 
 import static org.junit.Assert.assertTrue;
 
-import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
-import org.ieee.odm.model.aclf.AclfModelParser;
-import org.interpss.PluginTestSetup;
 import org.interpss.PluginObjectFactory;
+import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
@@ -48,13 +43,10 @@ import com.interpss.spring.CoreCommonSpringCtx;
 public class IEEECommonFormatTest extends PluginTestSetup {
 	@Test 
 	public void testCase1() throws Exception {
-		IODMAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
-		adapter.parseInputFile("testdata/ieee_format/Ieee14Bus.ieee");
-		
-		AclfNetwork net = PluginSpringCtx
-				.getOdm2AclfMapper()
-				.map2Model((AclfModelParser)adapter.getModel())
-				.getAclfNet();
+		AclfNetwork net = PluginObjectFactory
+				.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
+				.load("testdata/ieee_format/Ieee14Bus.ieee")
+				.getAclfNet();		
 		
   		//System.out.println(net.net2String());
 		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));

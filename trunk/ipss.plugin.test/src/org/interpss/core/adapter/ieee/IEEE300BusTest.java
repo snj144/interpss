@@ -26,9 +26,9 @@ package org.interpss.core.adapter.ieee;
 
 import static org.junit.Assert.assertTrue;
 
+import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
@@ -37,16 +37,21 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class IEEE300BusTest extends PluginTestSetup {
 	@Test
 	public void xtestCase5() throws Exception{
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
-		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee300.ieee");
-
-		AclfNetwork net = simuCtx.getAclfNet();
+		AclfNetwork net = PluginObjectFactory
+				.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
+				.load("testData/ieee_format/ieee300.ieee")
+				.getAclfNet();	
+		
+//		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
+//		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee300.ieee");
+//
+//		AclfNetwork net = simuCtx.getAclfNet();
+		
   		assertTrue((net.getBusList().size() == 300 && net.getBranchList().size() == 411));
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());

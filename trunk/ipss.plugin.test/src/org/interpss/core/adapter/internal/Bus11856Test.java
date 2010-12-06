@@ -94,14 +94,14 @@ public class Bus11856Test extends PluginTestSetup {
 				}
 			}
 		});
-		eqn.luMatrix(1.0e-20, msg);
+		eqn.luMatrix(1.0e-20);
 		
 		AclfBus bus1 = net.getAclfBus("9a");
 		int busNo = bus1.getSortNumber();
 		eqn.setB2Unit(busNo);
 		
         starttime = System.currentTimeMillis() ;
-		eqn.solveEqn(msg);
+		eqn.solveEqn();
 		Complex z = eqn.getBi(busNo);
 		System.out.println("Zii: " + ComplexFunc.toString(z));    		
   		System.out.println("time for finding zii : " + (System.currentTimeMillis() - starttime)*0.001);
