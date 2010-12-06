@@ -53,7 +53,7 @@ public class XmlScriptAcscRun {
 			RunStudyCaseXmlType.StandardRun.RunAcscStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getStandardRun()
 					.getRunAcscStudyCase();
 			SimpleFaultAlgorithm algo = CoreObjectFactory
-					.createSimpleFaultAlgorithm(faultNet, msg);
+					.createSimpleFaultAlgorithm(faultNet);
 			
 			AcscStudyCaseXmlType xmlDefaultCase = xmlRunCase.getDefaultAcscStudyCase(); 
 			

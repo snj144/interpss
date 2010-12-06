@@ -61,7 +61,7 @@ public class XmlScriptDclfRun {
 		if (ipssXmlDoc.getRunStudyCase().getStandardRun().getRunDclfStudyCase() != null) {
 			RunStudyCaseXmlType.StandardRun.RunDclfStudyCase xmlRunDclfCase = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunDclfStudyCase();
 
-			DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(aclfNet, msg);
+			DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(aclfNet);
 			if (!algo.checkCondition())
 				return false;
 
