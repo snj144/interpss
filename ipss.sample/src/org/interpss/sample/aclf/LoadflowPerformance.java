@@ -65,7 +65,7 @@ public class LoadflowPerformance {
 		 * time running a full NR loadflow
 		 */
 		timer.start();
-	  	LoadflowAlgorithm algoLF = CoreObjectFactory.createLoadflowAlgorithm(adjNet, msg);
+	  	LoadflowAlgorithm algoLF = CoreObjectFactory.createLoadflowAlgorithm(adjNet);
 	  	algoLF.setLfMethod(AclfMethod.NR);
 	  	algoLF.loadflow();
 	  	timer.logStd("Time for running Loadflow: ");

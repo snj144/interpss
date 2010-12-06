@@ -55,7 +55,7 @@ public class IEEE14_ContingencyAnalysis {
 		 * step-2 Define LF algorithm
 		 */
 		IPSSMsgHub msg = new IPSSMsgHubImpl();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(adjNet, msg);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(adjNet);
 	  	algo.setNonDivergent(true);
 	  	//algo.setLfMethod(AclfMethod.PQ);
 	  	
