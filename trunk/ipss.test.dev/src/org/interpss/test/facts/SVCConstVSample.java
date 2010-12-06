@@ -39,7 +39,7 @@ public class SVCConstVSample {
     	
     	SVCConstVControl svc = new SVCConstVControl(bus, n+1, this.vc, gsh, bsh);
         // create a Loadflow algo object
-        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(msg);
+        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
         
         // set algo NR solver to the CustomNrSolver
         SVCConstVControl[] svcAry = {svc};
