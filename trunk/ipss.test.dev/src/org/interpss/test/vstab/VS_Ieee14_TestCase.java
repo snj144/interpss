@@ -1,5 +1,7 @@
 package org.interpss.test.vstab;
 
+import static org.junit.Assert.assertTrue;
+
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -16,17 +18,17 @@ public class VS_Ieee14_TestCase extends DevTestSetup {
 	@Test 
 	public void testCase1() throws Exception {
 		IODMAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
-		adapter.parseInputFile("testdata/ieee_cdf/Ieee14.ieee");
+		assertTrue(adapter.parseInputFile("testdata/ieee_cdf/Ieee14.ieee"));
 		
 		AclfNetwork net = PluginSpringCtx
 				.getOdm2AclfMapper()
 				.map2Model((AclfModelParser)adapter.getModel())
 				.getAclfNet();
-//  		System.out.println(net.net2String());
+  		System.out.println(net.net2String());
 		
 		// VStab analysis and test
-		EigenAnalysis ea=new EigenAnalysisImpl(net, msg);
-		ea.runEigenStrAnalysis();
-		System.out.print(ea.getESAResult().getMinEigenValue());
+//		EigenAnalysis ea=new EigenAnalysisImpl(net, msg);
+//		ea.runEigenStrAnalysis();
+//		System.out.print(ea.getESAResult().getMinEigenValue());
 	}
 }
