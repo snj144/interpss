@@ -104,7 +104,7 @@ public class PredictorStepSolver extends AbstractStepSolver{
      // solve Jau*[dx,dLamda]T=[0,+-1]
      
     try {
-		if (!augmentedJacobi.luMatrixAndSolveEqn(this.tolerance, msg)) {
+		if (!augmentedJacobi.luMatrixAndSolveEqn(this.tolerance)) {
 			return false;
 		}
 	} catch (InterpssException e) {
