@@ -54,7 +54,7 @@ public class ZBusSample {
 		SampleCases.load_LF_5BusSystem(net);
 
 		// bus number is arranged during the process to minimize the fill-ins 
-		SparseEqnComplex eqn = net.formYMatrix(msg);
+		SparseEqnComplex eqn = net.formYMatrix();
 		
 		// assume swing connect to the ground
 		AclfBus swing = net.getAclfBus("5");

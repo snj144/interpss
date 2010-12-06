@@ -53,9 +53,9 @@ public class CustomNRMethod {
 		 * formJMatrix method is called at the beginning of each NR iteration
 		 */
 		@Override
-		public SparseEqnMatrix2x2 formJMatrix(IPSSMsgHub msg) {
+		public SparseEqnMatrix2x2 formJMatrix() {
 			// create network J-matrix with one extra-dimension
-			SparseEqnMatrix2x2 lfEqn = getAclfNet().formJMatrix(1, msg);
+			SparseEqnMatrix2x2 lfEqn = getAclfNet().formJMatrix(1);
 			
 			// create a 2x2 matrix element
 			Matrix_xy m = new Matrix_xy();
