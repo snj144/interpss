@@ -57,10 +57,29 @@ public class SVCControl extends AbstractAclfBus {
 
 	public Complex mismatch() {
 		Complex pIn2Net = this.getParentAclfBus().powerIntoNet();
+		// equivalent P+jQ of SVC
 		Vector_xy pq = getBi();
-		return new Complex(pq.x,pq.y).subtract(pIn2Net);
+		// extra load on the same bus
+		Complex load = new Complex(getLoadP(), getLoadQ());
+		return new Complex(pq.x,pq.y).subtract(load).subtract(pIn2Net);
 	}
-	 
+	
+	// define extra load on the same bus
+	@Override
+	public boolean isLoad() {
+		return true;
+	}
+
+	@Override
+	public double getLoadP() {
+		return 1.0;
+	}
+
+	@Override
+	public double getLoadQ() {
+		return 0.8;
+	}
+
     /**
      * J-matrix element at [i,i]. It will used to modify (add to) the network J-matrix element
      * 

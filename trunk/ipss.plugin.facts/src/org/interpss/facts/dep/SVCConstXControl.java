@@ -1,4 +1,4 @@
-package org.interpss.facts;
+package org.interpss.facts.dep;
 
 import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.datatype.Vector_xy;
