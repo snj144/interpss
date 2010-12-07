@@ -1,5 +1,6 @@
 package org.interpss.facts;
 
+import com.interpss.common.datatype.Vector_xy;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.impl.DefaultNrSolver;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
@@ -19,7 +20,6 @@ public class SVCNrSolver extends DefaultNrSolver {
     	if (svcAry != null)
     		svcLength = svcAry.length;
         SparseEqnMatrix2x2 lfEqn = this.getAclfNet().formJMatrix(svcLength);
-//        System.out.println(lfEqn.toString());
 
         if (svcAry != null) {
             for (SVCControl svc : svcAry) {
@@ -33,7 +33,6 @@ public class SVCNrSolver extends DefaultNrSolver {
             }
         }
 
-//        System.out.println(lfEqn.toString());
         return lfEqn;
     }
     
@@ -44,14 +43,12 @@ public class SVCNrSolver extends DefaultNrSolver {
         if (svcAry != null) {
             for (SVCControl svc : svcAry) {
                 // bi is already added into the mismatch() method
-                //int i = svc.getBus().getSortNumber();
-                //Vector_xy bi = svc.getBi();
-                //lfEqn.addToBi(bi,i);
+                int i = svc.getBus().getSortNumber();
+                Vector_xy bi = svc.getBi();
+                lfEqn.addToBi(bi,i);
 
                 int n = svc.getPosition();
                 lfEqn.setBi(svc.getBn(), n);
-//                System.out.println(lfEqn.toString());
-//                System.out.println(svc.getBus().mismatch(AclfMethod.NR).getReal() + " " + svc.getBus().mismatch(AclfMethod.NR).getImaginary());
             }
         }
     }
