@@ -50,6 +50,14 @@ public class SVCControl extends AbstractAclfBus {
 		this.qc = qc;
 	}
 	
+	public double getVsh() {
+		return this.vsh;
+	}
+
+	public double getThedash() {
+		return this.thetash;
+	}
+
 	public void setYsh(double gsh, double bsh) {
 		this.gsh = gsh;
 		this.bsh = bsh;
