@@ -1,7 +1,7 @@
-package org.interpss.test.facts;
+package org.interpss.test.facts.tmp;
 
-import org.interpss.facts.SVCConstVControl;
 import org.interpss.facts.SVCNrSolver;
+import org.interpss.facts.dep.SVCConstVControl;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;

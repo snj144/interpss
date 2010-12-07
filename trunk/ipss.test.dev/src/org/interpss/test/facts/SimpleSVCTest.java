@@ -2,7 +2,8 @@ package org.interpss.test.facts;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
-import org.interpss.facts.SVCConstVControl;
+import org.interpss.facts.SVCControl;
+import org.interpss.facts.SVCControlType;
 import org.interpss.facts.SVCNrSolver;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
@@ -22,12 +23,14 @@ public class SimpleSVCTest extends DevTestSetup {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
-        SVCConstVControl svc = new SVCConstVControl(bus, net.getNoBus()+1, 1.0, 0.0, 1.0);
+        SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstV);
+        svc.setQc(1.0);
+        svc.setYsh(0.0, -1.0);
 
         // set svc as AclfBus extension
         bus.setExtensionObject(svc);
         
-        SVCConstVControl[] svcArray = {svc};
+        SVCControl[] svcArray = {svc};
         SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
         
         // create a Loadflow algo object
@@ -38,7 +41,9 @@ public class SimpleSVCTest extends DevTestSetup {
         // run Loadflow
         net.accept(algo);
         // output loadflow calculation results
-        System.out.println(AclfOutFunc.loadFlowSummary(net));		
+        System.out.println(AclfOutFunc.loadFlowSummary(net));	
+        
+        System.out.println("Vsh, Thedash: " + svc.getVsh() + ", " + svc.getThedash());	
 	}
 	
 	public static AclfNetwork createNet() {

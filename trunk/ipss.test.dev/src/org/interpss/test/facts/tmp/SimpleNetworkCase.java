@@ -1,10 +1,10 @@
-package org.interpss.test.facts;
+package org.interpss.test.facts.tmp;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
-import org.interpss.facts.SVCConstQControl;
-import org.interpss.facts.SVCConstVControl;
 import org.interpss.facts.SVCNrSolver;
+import org.interpss.facts.dep.SVCConstQControl;
+import org.interpss.facts.dep.SVCConstVControl;
 
 import com.interpss.spring.CoreCommonSpringCtx;
 import com.interpss.common.datatype.UnitType;
