@@ -40,7 +40,7 @@ public class SimpleNetworkCase {
         SVCNrSolver svcNrSolver = new SVCNrSolver(net, null, svcConstQArray);
         
         // create a Loadflow algo object
-        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(msg);
+        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
         // set algo NR solver to the CustomNrSolver
         algo.setNrSolver(svcNrSolver);
 
