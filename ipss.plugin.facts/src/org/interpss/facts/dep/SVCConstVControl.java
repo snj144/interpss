@@ -1,4 +1,4 @@
-package org.interpss.facts;
+package org.interpss.facts.dep;
 
 import org.apache.commons.math.complex.Complex;
 
