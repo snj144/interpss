@@ -43,9 +43,9 @@ public class SVCNrSolver extends DefaultNrSolver {
         if (svcAry != null) {
             for (SVCControl svc : svcAry) {
                 // bi is already added into the mismatch() method
-                int i = svc.getBus().getSortNumber();
-                Vector_xy bi = svc.getBi();
-                lfEqn.addToBi(bi,i);
+                //int i = svc.getBus().getSortNumber();
+                //Vector_xy bi = svc.getBi();
+                //lfEqn.addToBi(bi,i);
 
                 int n = svc.getPosition();
                 lfEqn.setBi(svc.getBn(), n);
