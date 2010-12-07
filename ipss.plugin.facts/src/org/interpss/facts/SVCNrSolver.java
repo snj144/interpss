@@ -1,7 +1,6 @@
 package org.interpss.facts;
 
 import com.interpss.common.datatype.Vector_xy;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.impl.DefaultNrSolver;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
@@ -18,13 +17,13 @@ public class SVCNrSolver extends DefaultNrSolver {
     }
     
     @Override
-    public SparseEqnMatrix2x2 formJMatrix(IPSSMsgHub msg) {
+    public SparseEqnMatrix2x2 formJMatrix() {
     	int svcConstVLength = 0, svcConstQLength = 0;
     	if (svcConstVAry != null)
     		svcConstVLength = svcConstVAry.length;
     	if (svcConstQAry != null)
     		svcConstQLength = svcConstQAry.length;
-        SparseEqnMatrix2x2 lfEqn = this.getAclfNet().formJMatrix(svcConstVLength + svcConstQLength, msg);
+        SparseEqnMatrix2x2 lfEqn = this.getAclfNet().formJMatrix(svcConstVLength + svcConstQLength);
 //        System.out.println(lfEqn.toString());
 
         if (svcConstVAry != null) {
