@@ -30,7 +30,7 @@ public class SimpleSVCTest extends DevTestSetup {
         svc.setYsh(0.0, -5.0);
 
         // set svc as AclfBus extension
-//        bus.setExtensionObject(svc);
+        bus.setExtensionObject(svc);
         
         SVCControl[] svcArray = {svc};
         SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
