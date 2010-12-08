@@ -28,6 +28,13 @@ import org.interpss.numeric.sparse.SparseEqnDouble;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+/**
+ * for object creation from the Spring container. There are two methods - one for creating object
+ * using its default implementation, and the other using user supplied Spring bean id
+ * 
+ * @author mzhou
+ *
+ */
 public class NumericSpringCtx {
 	private static final String DefaultSparseEqnDoubleId = "sparseEqnDoubleCommonMath";
 
@@ -44,9 +51,12 @@ public class NumericSpringCtx {
 		return (SparseEqnDouble) SpringAppCtx.getBean(beanId);
 	}
 	
+	/*
+	 * private area
+	 */
 	private static ApplicationContext SpringAppCtx = null;
 
-	public static void setup() {
+	private static void setup() {
 		if (SpringAppCtx == null) {
 			// Set the SpringAppContext to all ApplicationContextAware objects.
 			SpringAppCtx = new ClassPathXmlApplicationContext("org/interpss/spring/NumericSpringCtx.xml");
