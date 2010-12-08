@@ -25,8 +25,8 @@ public class SimpleSVCTest extends DevTestSetup {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
-        SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstQ);
-        svc.setQc(0.85);
+        SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstV);
+        svc.setQc(1.05);
         svc.setYsh(0.0, -5.0);
 
         // set svc as AclfBus extension
@@ -75,6 +75,7 @@ public class SimpleSVCTest extends DevTestSetup {
         bus2.setGenCode(AclfGenCode.NON_GEN);
         // set the bus to a constant power load bus
         bus2.setLoadCode(AclfLoadCode.CONST_P);
+//        bus2.setVoltageMag(1.05);
         // adapt the bus object to a Load bus object
         LoadBusAdapter loadBus = bus2.toLoadBus();
         // set load to the bus
