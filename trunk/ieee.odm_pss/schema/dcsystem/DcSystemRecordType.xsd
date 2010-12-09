@@ -51,6 +51,7 @@
 			<extension base="pss:BusXmlType">
 				<sequence>
 					<element name="voltage" type="pss:VoltageXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="power" type="pss:ActivePowerXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="load" type="pss:ActivePowerXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="pvModel" type="pss:SolarPVModelXmlType" minOccurs="0" maxOccurs="1"></element>
 				</sequence>
@@ -62,6 +63,7 @@
 	<simpleType name="DcBusCodeEnumType">
 		<restriction base="string">
 			<enumeration value="Load"></enumeration>
+			<enumeration value="PowerSource"></enumeration>
 			<enumeration value="VoltageSource"></enumeration>
 			<enumeration value="PVModel"></enumeration>
 			<enumeration value="Inverter"></enumeration>
