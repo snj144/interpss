@@ -26,10 +26,11 @@ package org.interpss.core.sparse;
 
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.LUDecomposition;
 import org.apache.commons.math.linear.LUDecompositionImpl;
+import org.apache.commons.math.linear.OpenMapRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.SparseRealMatrix;
 import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
@@ -56,6 +57,7 @@ public class UCTE2000SparseMatrixCasesTest extends PluginTestSetup {
 		for ( int i = 0; i < m.getRowDimension(); i++)
 			b[i] = 1.0;
 
+	  	System.out.println("Common Math ... ");
 		long starttime = System.currentTimeMillis() ;
 		LUDecomposition lu = new LUDecompositionImpl(m);
 		double[] result = lu.getSolver().solve(b);
@@ -70,6 +72,7 @@ public class UCTE2000SparseMatrixCasesTest extends PluginTestSetup {
 			eqn.setBi(new Vector_xy(1.0,1.0), i+1);
 		
 		
+	  	System.out.println("Interpss ... ");
 		starttime = System.currentTimeMillis() ;
 		eqn.luMatrixAndSolveEqn(1.0e-20);
 	  	System.out.println("time for spase matrix : " + (System.currentTimeMillis() - starttime)*0.001);
@@ -84,24 +87,29 @@ public class UCTE2000SparseMatrixCasesTest extends PluginTestSetup {
 		}
 		
 		/*
-		J-matrix Demension:2508
+		J-matrix Dimension:2508
 		time for full matrix : 54.321
 		time for sparse matrix : 0.197
 		 */
 	}
 	
-	private RealMatrix sparseMatrix2Ary(SparseEqnMatrix2x2 eqn){
+	private SparseRealMatrix sparseMatrix2Ary(SparseEqnMatrix2x2 eqn){
 		int n = eqn.getDimension();
 		System.out.println("J-matrix Demension:" + n);
-		RealMatrix m = new Array2DRowRealMatrix( n, n );
+		//RealMatrix m = new Array2DRowRealMatrix( n, n );
+		SparseRealMatrix m = new OpenMapRealMatrix( n, n );
 		int n_2 = n / 2;
 		for(int i=0; i< n_2; i++) { // index 1-N
 			for(int j=0; j < n_2; j++) {//index 1-N
 				Matrix_xy mxy=eqn.getElement(i+1, j+1);
-				m.setEntry(2*i,   2*j,   mxy.xx);
-				m.setEntry(2*i,   2*j+1, mxy.xy);
-				m.setEntry(2*i+1, 2*j,   mxy.yx);
-				m.setEntry(2*i+1, 2*j+1, mxy.yy);
+				if(mxy.xx != 0.0)
+					m.setEntry(2*i,   2*j,   mxy.xx);
+				if(mxy.xy != 0.0)
+					m.setEntry(2*i,   2*j+1, mxy.xy);
+				if(mxy.yx != 0.0)
+					m.setEntry(2*i+1, 2*j,   mxy.yx);
+				if(mxy.yy != 0.0)
+					m.setEntry(2*i+1, 2*j+1, mxy.yy);
 			}
 		}
 		return m;
