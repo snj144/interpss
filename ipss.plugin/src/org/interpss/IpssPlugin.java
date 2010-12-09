@@ -53,8 +53,7 @@ public class IpssPlugin {
 		if (CoreCommonSpringCtx.SpringAppCtx == null) {
 			CoreCommonSpringCtx.SpringAppCtx = new ClassPathXmlApplicationContext(
 					new String[] {
-							"org/interpss/spring/PluginSpringCtx.xml",
-							"com/interpss/spring/SimuCtxSpringCtx.xml"});
+							"org/interpss/spring/PluginSpringCtx.xml"});
 		}
 	}	
 }
