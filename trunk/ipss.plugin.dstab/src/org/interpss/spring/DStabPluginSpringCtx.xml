@@ -4,9 +4,9 @@
 	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<import resource="DstabExciterSpringCtx.xml"/>
-	<import resource="DstabGovernorSpringCtx.xml"/>
-	<import resource="DstabStabilizerSpringCtx.xml"/>	
+	<import resource="classpath:org/interpss/spring/DstabExciterSpringCtx.xml"/>
+	<import resource="classpath:org/interpss/spring/DstabGovernorSpringCtx.xml"/>
+	<import resource="classpath:org/interpss/spring/DstabStabilizerSpringCtx.xml"/>	
 
 	<bean id="cmlFieldObjectFactory" 
 	      class="org.interpss.dstab.control.cml.CMLFieldObjectFactoryImpl"	
