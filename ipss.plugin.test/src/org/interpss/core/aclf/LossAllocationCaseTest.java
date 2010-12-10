@@ -10,14 +10,13 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
+import com.interpss.core.algorithm.ActivePowerWalkDirectionEnum;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.algorithm.loss.ActivePowerWalkDirection;
 import com.interpss.core.algorithm.loss.LossCalNetAdapter;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.util.sample.SampleCases;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class LossAllocationCaseTest  extends PluginTestSetup {
 	@Test
@@ -41,11 +40,11 @@ public class LossAllocationCaseTest  extends PluginTestSetup {
   		assertTrue(!netAdapter.hasActivePowerLoop());
 
   		//netAdapter.initForWalkThrough();
-  		netAdapter.lossAllocation(ActivePowerWalkDirection.SOURC2_LOAD); 
+  		netAdapter.lossAllocation(ActivePowerWalkDirectionEnum.SOURCE_TO_LOAD); 
 		System.out.println(AclfOutFunc.loadLossAllocation(net));
 
   		//netAdapter.initForWalkThrough();
-  		netAdapter.lossAllocation(ActivePowerWalkDirection.LOAD2_SOURCE); 
+  		netAdapter.lossAllocation(ActivePowerWalkDirectionEnum.LOAD_TO_SOURCE); 
 		System.out.println(AclfOutFunc.genLossAllocation(net));
 	}	
 	
@@ -67,11 +66,11 @@ public class LossAllocationCaseTest  extends PluginTestSetup {
   		assertTrue(!netAdapter.hasActivePowerLoop());
 
   		//netAdapter.initForWalkThrough();
-  		netAdapter.lossAllocation(ActivePowerWalkDirection.SOURC2_LOAD); 
+  		netAdapter.lossAllocation(ActivePowerWalkDirectionEnum.SOURCE_TO_LOAD); 
 		System.out.println(AclfOutFunc.loadLossAllocation(net));
 
   		//netAdapter.initForWalkThrough();
-  		netAdapter.lossAllocation(ActivePowerWalkDirection.LOAD2_SOURCE); 
+  		netAdapter.lossAllocation(ActivePowerWalkDirectionEnum.LOAD_TO_SOURCE); 
 		System.out.println(AclfOutFunc.genLossAllocation(net));
 	}	
 }
