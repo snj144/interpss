@@ -36,10 +36,14 @@ import com.interpss.spring.CoreCommonSpringCtx;
 public class IpssPlugin {
 
 	public static void init() {
-		setSpringAppCtx();
-		setLoggerLevel(Level.INFO);
+		init(Level.INFO);
 	}
 	
+	public static void init(Level level) {
+		setSpringAppCtx();
+		setLoggerLevel(level);
+	}
+
 	public static IPSSMsgHub getMsgHub() {
 		return CoreCommonSpringCtx.getIpssMsgHub();
 	}
