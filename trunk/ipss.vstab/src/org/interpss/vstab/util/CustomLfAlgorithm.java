@@ -108,7 +108,7 @@ public class CustomLfAlgorithm implements IAclfNetBVisitor{
 	      if (!(nrStep(solver)))
 	        return false;
 	    }
-	    getMsg().sendStatusMsg("Load Flow dose not Converge !");
+	    getMsg().sendStatusMsg("Load Flow does not Converge !");
 	    return false;
 	  }
 	public boolean nrStep(INrSolver solver){
