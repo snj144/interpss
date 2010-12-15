@@ -36,7 +36,7 @@ public class PreSolverTest extends DevTestSetup {
 	
 	CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net, msg);
 	assertTrue(cpfAlgo.getSortNumOfContParam()==6);
-	PredictorStepSolver preSolver=cpfAlgo.getPreStepSolver();
+	PredictorStepSolver preSolver=cpfAlgo.getCpfSolver().getPredStepSolver();
 	preSolver.stepSolver();
 	
 	assertTrue((preSolver.getAugmentedJacobi().getElement(3, 6).xx-1.60)<1e-9);// bus1.loadP=1.60

@@ -7,7 +7,6 @@ import org.interpss.test.DevTestSetup;
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.impl.CorrectorStepSolver;
-import org.interpss.vstab.util.CustomLfAlgorithm;
 import org.junit.Test;
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -61,7 +60,7 @@ public class CorrStepSolverTest extends DevTestSetup {
 			cpfAlgo.setSorNumofContParam(4);// sortNumber=4 ,namely vmag of bus2 is selected as the continuation parameter
 			cpfAlgo.setFixedValOfContPara(fixVal);// set fixedVal to 1.5 intentionally for testing
 			System.out.println("cpfAlgo SortNum="+cpfAlgo.getSortNumOfContParam());
-			CorrectorStepSolver corSolver=cpfAlgo.getCorrStepSolver();
+			CorrectorStepSolver corSolver=cpfAlgo.getCpfSolver().getCorrStepSolver();
 
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
 			algo.setNrSolver(corSolver);
