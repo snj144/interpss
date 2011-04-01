@@ -10,26 +10,31 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.coreframework.GPGraphpad;
-import org.interpss.editor.coreframework.GPGraphpadFile;
 import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.NamedInputStream;
 import org.interpss.editor.util.Utilities;
+import org.interpss.spring.PluginSpringCtx;
 
 
+public class IpssNewCustomDialog extends javax.swing.JDialog {
+	private JComboBox versionComboBox;
 
-public class IpssNewGraphDialog extends javax.swing.JDialog {
+	private JComboBox adapterComboBox;
+
 	private JLabel dirLabel;
 
 	private JPanel browsePanel;
@@ -50,15 +55,9 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 
 	private JButton browseButton;
 
-	private JRadioButton fromRadioButton;
-
-	private JRadioButton newRadioButton;
-
 	private JTextField dirTextField;
 
 	private JTextField nameTextField;
-
-	private javax.swing.ButtonGroup selectButtonGroup;
 
 	private String docName;
 
@@ -67,20 +66,21 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 	private String srcFileName;
 
 	protected GPGraphpad graphpad;
-	
+
 	private Frame parentFrame;
 
-	private GPGraphpadFile file;
-	
 	private boolean isCancelExit;
+	
+	private IpssFileAdapter adapter;
 
-	public IpssNewGraphDialog(GPGraphpad graphpad, String title) {
-//		super(graphpad.getFrame(), title, true);
-		super(graphpad.getFrame(), Translator.getString("GraphDialog.Title"), true);
-		
-		this.graphpad=graphpad;
+
+	public IpssNewCustomDialog(GPGraphpad graphpad, String title) {
+		// super(graphpad.getFrame(), title, true);
+		super(graphpad.getFrame(), Translator.getString("CustomDialog.Title"), true);
+
+		this.graphpad = graphpad;
 		this.parentFrame = graphpad.getFrame();
-		
+
 		setResizable(false);
 
 		// initLocalData();
@@ -108,23 +108,10 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 			}
 		});
 
-		newRadioButton.addActionListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent e) {
-
-				setBrowsePanelVisable();
-			}
-		});
-
-		fromRadioButton.addActionListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent e) {
-
-				setBrowsePanelVisable();
-			}
-		});
-
 		browseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
 				selectFile();
+
 			}
 		});
 
@@ -134,23 +121,18 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 			}
 		});
 
+		adapterComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(final ActionEvent e) {
+				setVersionComboBoxData();
+			}
+		});
+
 	}
 
 	protected void setBrowsePanelVisable() {
-		if (selectButtonGroup.getSelection() == fromRadioButton.getModel()) {
-			dirLabel.setEnabled(true);
-			dirTextField.setEnabled(true);
-			browseButton.setEnabled(true);
-		} else {
-			dirLabel.setEnabled(false);
-			dirTextField.setEnabled(false);
-			browseButton.setEnabled(false);
-		}
 	}
 
 	protected void initGuiComponents() {
-
-		selectButtonGroup = new javax.swing.ButtonGroup();
 
 		getContentPane().setLayout(
 				new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -160,7 +142,8 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 		messagePanel.setPreferredSize(new Dimension(0, 30));
 
 		messagePanel.setBorder(new EmptyBorder(0, 5, 0, 0));
-		messagePanel.getMessageLabel().setPreferredSize(new Dimension(0, 30));
+		// messagePanel.getMessageLabel().setPreferredSize(new Dimension(0,
+		// 30));
 
 		getContentPane().add(Box.createVerticalStrut(10));
 
@@ -169,48 +152,68 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 		mainPanel.setBorder(new EmptyBorder(0, 5, 0, 5));
 		getContentPane().add(mainPanel);
 
-		mainPanel.add(Box.createVerticalStrut(10));
-
 		selectpanel = new JPanel();
 		mainPanel.add(selectpanel);
 		final GridLayout gridLayout = new GridLayout(0, 1);
 		selectpanel.setLayout(gridLayout);
-		selectpanel.setBorder(new TitledBorder(null, Translator.getString("Contents"),
+		selectpanel.setBorder(new TitledBorder(null, Translator.getString("CustomDialog.Contexts"),
 				TitledBorder.DEFAULT_JUSTIFICATION,
 				TitledBorder.DEFAULT_POSITION, null, null));
 
-		newRadioButton = new JRadioButton();
-		selectpanel.add(newRadioButton);
-		newRadioButton.setSelected(true);
-		newRadioButton.setMnemonic('N');
-		newRadioButton.setText(Translator.getString("GraphDialog.CreateANewGraphicProject.Text"));
-		selectButtonGroup.add(newRadioButton);
-
-		fromRadioButton = new JRadioButton();
-		selectpanel.add(fromRadioButton);
-		fromRadioButton.setMnemonic('x');
-		fromRadioButton.setText(Translator.getString("GraphDialog.ImportAGraphicProjectFromExistingSource.Text"));
-
 		browsePanel = new JPanel();
+		browsePanel.setLayout(new BoxLayout(browsePanel, BoxLayout.Y_AXIS));
 		selectpanel.add(browsePanel);
-		browsePanel.setLayout(new BorderLayout());
 
-		dirTextField = new JTextField();
-		dirTextField.setEditable(false);
-		dirTextField.setFocusAccelerator('f');
-		browsePanel.add(dirTextField);
+		final JPanel panel_2 = new JPanel();
+		browsePanel.add(panel_2);
+		panel_2.setLayout(new BorderLayout());
+
+		final JLabel adapterLabel = new JLabel();
+		adapterLabel.setDisplayedMnemonic(KeyEvent.VK_A);
+		adapterLabel.setText(Translator.getString("CustomDialog.Adapter"));
+		panel_2.add(adapterLabel, BorderLayout.WEST);
+
+		adapterComboBox = new JComboBox();
+		panel_2.add(adapterComboBox, BorderLayout.CENTER);
+
+		browsePanel.add(Box.createVerticalStrut(10));
+
+		final JPanel panel_2_1 = new JPanel();
+		panel_2_1.setLayout(new BorderLayout());
+		browsePanel.add(panel_2_1);
+
+		final JLabel versionLabel = new JLabel();
+		versionLabel.setDisplayedMnemonic(KeyEvent.VK_V);
+		versionLabel.setText(Translator.getString("CustomDialog.Version"));
+		panel_2_1.add(versionLabel, BorderLayout.WEST);
+
+		versionComboBox = new JComboBox();
+		panel_2_1.add(versionComboBox, BorderLayout.CENTER);
+
+		browsePanel.add(Box.createVerticalStrut(10));
+
+		final JPanel panel_1 = new JPanel();
+		browsePanel.add(panel_1);
+		panel_1.setLayout(new BorderLayout());
 
 		dirLabel = new JLabel();
+		panel_1.add(dirLabel, BorderLayout.WEST);
+		dirLabel.setName("dirLabel");
 		dirLabel.setDisplayedMnemonic(KeyEvent.VK_F);
-		browsePanel.add(dirLabel, BorderLayout.WEST);
 		dirLabel.setText(Translator.getString("File")+":  ");
 
+		dirTextField = new JTextField();
+		panel_1.add(dirTextField);
+		dirTextField.setName("dirTextField");
+		dirTextField.setEditable(false);
+		dirTextField.setFocusAccelerator('f');
+
 		browseButton = new JButton();
+		panel_1.add(browseButton, BorderLayout.EAST);
+		browseButton.setName("browseButton");
 
 		browseButton.setMnemonic(Translator.getString("Browse.Mnemonic").toCharArray()[0]);
 		browseButton.setText(Translator.getString("Browse"));
-		browsePanel.add(browseButton, BorderLayout.EAST);
-		selectButtonGroup.add(fromRadioButton);
 
 		final JPanel panel = new JPanel();
 		mainPanel.add(panel, BorderLayout.NORTH);
@@ -218,15 +221,17 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 
 		nameLabel = new JLabel();
 		panel.add(nameLabel, BorderLayout.WEST);
-		nameLabel.setDisplayedMnemonic(KeyEvent.VK_G);
-		nameLabel.setText(Translator.getString("GraphDialog.GraphicProjectFileName"));
+		nameLabel.setDisplayedMnemonic(KeyEvent.VK_P);
+		nameLabel.setText(Translator.getString("CustomDialog.CustomProjectName"));
 
 		nameTextField = new JTextField();
 		panel.add(nameTextField, BorderLayout.CENTER);
 
-		nameTextField.setFocusAccelerator('g');
+		nameTextField.setFocusAccelerator('p');
 
 		buttonPanel = new JPanel();
+
+		getContentPane().add(Box.createVerticalStrut(10));
 		getContentPane().add(buttonPanel);
 
 		okButton = new JButton();
@@ -241,7 +246,51 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 		cancelButton.setMnemonic(Translator.getString("Cancel.Mnemonic").toCharArray()[0]);
 		cancelButton.setText(Translator.getString("Cancel"));
 
-		// selectpanel.setVisible(false);
+		adapterComboBox.setModel(new DefaultComboBoxModel(
+				PluginSpringCtx.getCustomFileAdapterNameList()));
+		setVersionComboBoxData();
+
+	}
+
+	private IpssFileAdapter getCustomFileAdapter() {
+
+		Object adapterName = adapterComboBox.getSelectedItem();
+		if (adapterName == null) {
+			return null;
+		}
+
+		return PluginSpringCtx.getCustomFileAdapterByName(adapterName
+				.toString());
+	}
+
+	private void setVersionComboBoxData() {
+
+		adapter = getCustomFileAdapter();
+
+		if (adapter == null) {
+			setVersionEnabled(false);
+			return;
+		}
+
+		String[] versionList = adapter.getVersionList();
+
+		if (versionList != null){
+			versionComboBox.setModel(new DefaultComboBoxModel(versionList));
+//			adapter.setVersionSelected((versionComboBox.getSelectedItem()).toString());
+		}
+		else {
+			setVersionEnabled(false);
+		}
+
+	}
+
+	private void setVersionEnabled(boolean b) {
+		if (b)
+			versionComboBox.setEnabled(false);
+		else {
+			versionComboBox.removeAllItems();
+			versionComboBox.setEnabled(false);
+		}
 	}
 
 	public void setDocName(String docName) {
@@ -264,28 +313,12 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 		return filepath;
 	}
 
-	public void setFile(GPGraphpadFile file) {
-		this.file = file;
-	}
-
-	public GPGraphpadFile getFile() {
-		return file;
-	}
-
 	public void setSrcFileName(String srcFileName) {
 		this.srcFileName = srcFileName;
 	}
 
 	public String getSrcFileName() {
 		return srcFileName;
-	}
-
-	public boolean isNewFile() {
-		return selectButtonGroup.getSelection() == newRadioButton.getModel();
-	}
-
-	public boolean isExistFile() {
-		return selectButtonGroup.getSelection() == fromRadioButton.getModel();
 	}
 
 	public void setCancelExit(boolean isCancelExit) {
@@ -302,13 +335,28 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 		// pack the form and display
 		pack();
 		setLocationRelativeTo(parentFrame);
-		setSize(new Dimension(629, 243));
+		setSize(new Dimension(611, 254));
 		setVisible(true);
 	}
 
 	public void showMessage(String messageInfo, boolean isError) {
 		messagePanel.showMessage(messageInfo, isError);
-		okButton.setEnabled(!isError);
+
+		if (isError) {
+			okButton.setEnabled(false);
+			return;
+		} else
+			setOKActable();
+	}
+
+	private void setOKActable() {
+		if ((dirTextField.getText() != null)
+				&& (dirTextField.getText().length() > 0)) {
+			okButton.setEnabled(true);
+		} else {
+			okButton.setEnabled(false);
+		}
+
 	}
 
 	public void showMessage(String messageInfo) {
@@ -320,13 +368,13 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 	}
 
 	public String getFileName() {
-		return Utilities.getFilePathName(getFilepath(), nameTextField.getText() +"."
-				+ Translator.getString("GraphFileExtension"));
+		return Utilities.getFilePathName(getFilepath(), nameTextField.getText()
+				+ "." + adapter.getExtension());
 	}
 
 	public void updateState() {
 		if (nameTextField.getText().equals("")) {
-			showError(Translator.getString("GraphDialog.Name.Error"));
+			showError(Translator.getString("CustomDialog.Name.Error"));
 			return;
 		}
 		String filePathName = getFileName();
@@ -334,113 +382,49 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 			java.io.File myFile = new java.io.File(filePathName);
 			if (myFile.exists()) {
 
-				showError(Translator.getString("GraphDialog.File.Exists"));
+				showError(Translator.getString("CustomDialog.File.Exists"));
 				return;
 			}
 			// else myFilePath.mkdir();
 		} catch (Exception e) {
-			showError(Translator.getString("GraphDialog.CreateGraphError") + e.getMessage());
+			showError(Translator.getString("CustomDialog.CreateCustomError") + e.getMessage());
 			return;
 		}
 
-		showMessage(Translator.getString("GraphDialog.OK"));
+		showMessage(Translator.getString("CustomDialog.OK"));
 		// showMessage(filePathName);
 	}
 
 	public void selectFile() {
 		try {
-			NamedInputStream in = org.interpss.editor.util.Utilities.provideInput(Translator.getString("GraphFileExtension"),Translator.getString("GraphFileExtensionDescription"));
+
+// List adapterList = SimuAppSpringAppContext
+// .getCustomFileAdapterList();
+// NamedInputStream in = org.interpss.editor.util.Utilities
+// .provideInput(adapterList);
+
+	
+			String fileExtension = adapter.getFileFilterString();
+			String extensionDescription = adapter.getDescription();
+			
+			NamedInputStream in = org.interpss.editor.util.Utilities.provideInput(fileExtension,extensionDescription);
+			
 			if (in != null) {
-				
-				setFile(org.interpss.editor.util.Utilities.OpenGraphFile(graphpad,in.getInputStream()));
 				this.setSrcFileName(in.getName());
 				dirTextField.setText(in.getName());
-				if (getFile() == null){
-					showError(Translator.getString("GraphDialog.CantOpenError"));
+				setOKActable();
+				if (this.getSrcFileName() == null) {
+					showError(Translator.getString("CustomDialog.CantOpenError"));
 					return;
 				}
 			}
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			showError(ex.toString());
 			ex.printStackTrace();
 		}
 	}
 
-	//
-	// public static void showDialog(Frame parent, String title, IpssProject
-	// oldProject) {
-	//
-	// final IpssNewProjectDialog dialog = new
-	// IpssNewProjectDialog(parent,title);
-	//
-	// dialog.pack();
-	// dialog.setLocationRelativeTo(parent);
-	//
-	// dialog.addComponentListener(new ComponentAdapter() {
-	// public void componentResized(ComponentEvent e) {
-	// dialog.pack();
-	// }
-	// });
-	// okButton.addActionListener(new ActionListener() {
-	// public void actionPerformed(ActionEvent e) {
-	// dialog.setVisible(false);
-	// }
-	// });
-	//
-	// cancelButton.addActionListener(new ActionListener() {
-	// public void actionPerformed(ActionEvent e) {
-	// dialog.setVisible(false);
-	// dialog.setProject(null);
-	// }
-	// });
-	//
-	// dialog.setVisible(true);
-	//
-	// return dialog.getProject();
-	// }// showDialog
-
-	// static void selectDirectory(Component parent, String selectedFile) {
-	// JDirectoryChooser chooser;
-	//
-	// if (System.getProperty("javawebstart.version") != null) {
-	// chooser = new JDirectoryChooser(new FakeFileSystemView()) {
-	// public void rescanCurrentDirectory() {
-	// }
-	// public void setCurrentDirectory(File dir) {
-	// }
-	// };
-	// } else {
-	// chooser = new JDirectoryChooser();
-	// if (selectedFile != null) {
-	// chooser.setSelectedFile(new File(selectedFile));
-	// }
-	// }
-	//		    
-	// JTextArea accessory = new
-	// JTextArea(Translator.getString("selectDirectory.message"));
-	// accessory.setLineWrap(true);
-	// accessory.setWrapStyleWord(true);
-	// accessory.setEditable(false);
-	// accessory.setOpaque(false);
-	// accessory.setFont(UIManager.getFont("Tree.font"));
-	// chooser.setAccessory(accessory);
-	//
-	// chooser.setMultiSelectionEnabled(true);
-	//
-	// int choice = chooser.showOpenDialog(parent);
-	// if (choice == JDirectoryChooser.APPROVE_OPTION) {
-	// String filenames = "";
-	// File[] selectedFiles = chooser.getSelectedFiles();
-	// for (int i = 0, c = selectedFiles.length; i < c; i++) {
-	// filenames += "\n" + selectedFiles[i];
-	// }
-	// JOptionPane.showMessageDialog(parent, Translator.getString(
-	// "selectDirectory.confirm", new Object[] {filenames}));
-	// } else {
-	// JOptionPane.showMessageDialog(parent, Translator
-	// .getString("selectDirectory.cancel"));
-	// }
-	// }
-
+	public String getVersion() {
+		return 	(String)versionComboBox.getSelectedItem();
+	}
 }

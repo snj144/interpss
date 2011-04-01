@@ -75,7 +75,7 @@ public class IpssNewTextDialog extends javax.swing.JDialog {
 
 	public IpssNewTextDialog(GPGraphpad graphpad, String title) {
 		// super(graphpad.getFrame(), title, true);
-		super(graphpad.getFrame(), Translator.getString("TextDialog.Text"), true);
+		super(graphpad.getFrame(), Translator.getString("TextDialog.Title"), true);
 
 		this.graphpad = graphpad;
 		this.parentFrame = graphpad.getFrame();
@@ -181,13 +181,13 @@ public class IpssNewTextDialog extends javax.swing.JDialog {
 		newRadioButton = new JRadioButton();
 		selectpanel.add(newRadioButton);
 		newRadioButton.setSelected(true);
-		newRadioButton.setMnemonic(Translator.getString("TextDialog.CreateANewTextFile.Mnemonic").toCharArray()[0]);
+		newRadioButton.setMnemonic('N');
 		newRadioButton.setText(Translator.getString("TextDialog.CreateANewTextFile"));
 		selectButtonGroup.add(newRadioButton);
 
 		fromRadioButton = new JRadioButton();
 		selectpanel.add(fromRadioButton);
-		fromRadioButton.setMnemonic(Translator.getString("TextDialog.ImportATextFileFromExistingSource.Mnemonic").toCharArray()[0]);
+		fromRadioButton.setMnemonic('x');
 		fromRadioButton.setText(Translator.getString("TextDialog.ImportATextFileFromExistingSource"));
 
 		browsePanel = new JPanel();
@@ -196,7 +196,7 @@ public class IpssNewTextDialog extends javax.swing.JDialog {
 
 		dirTextField = new JTextField();
 		dirTextField.setEditable(false);
-		dirTextField.setFocusAccelerator(Translator.getString("TextDialog.FocusAccelerator.Mnemonic").toCharArray()[0]);
+		dirTextField.setFocusAccelerator('f');
 		browsePanel.add(dirTextField);
 
 		dirLabel = new JLabel();
@@ -206,7 +206,7 @@ public class IpssNewTextDialog extends javax.swing.JDialog {
 
 		browseButton = new JButton();
 
-		browseButton.setMnemonic('B');
+		browseButton.setMnemonic(Translator.getString("Browse.Mnemonic").toCharArray()[0]);
 		browseButton.setText(Translator.getString("Browse"));
 		browsePanel.add(browseButton, BorderLayout.EAST);
 		selectButtonGroup.add(fromRadioButton);
@@ -223,21 +223,21 @@ public class IpssNewTextDialog extends javax.swing.JDialog {
 		nameTextField = new JTextField();
 		panel.add(nameTextField, BorderLayout.CENTER);
 
-		nameTextField.setFocusAccelerator(Translator.getString("TextDialog.TextField.Mnemonic").toCharArray()[0]);
+		nameTextField.setFocusAccelerator('t');
 
 		buttonPanel = new JPanel();
 		getContentPane().add(buttonPanel);
 
 		okButton = new JButton();
 
-		okButton.setMnemonic('O');
+		okButton.setMnemonic(Translator.getString("OK.Mnemonic").toCharArray()[0]);
 		buttonPanel.add(okButton);
 		okButton.setText(Translator.getString("OK"));
 
 		cancelButton = new JButton();
 
 		buttonPanel.add(cancelButton);
-		cancelButton.setMnemonic('C');
+		cancelButton.setMnemonic(Translator.getString("Cancel.Mnemonic").toCharArray()[0]);
 		cancelButton.setText(Translator.getString("Cancel"));
 
 		// selectpanel.setVisible(false);
@@ -338,7 +338,7 @@ public class IpssNewTextDialog extends javax.swing.JDialog {
 			}
 			// else myFilePath.mkdir();
 		} catch (Exception e) {
-			showError("Create text error:" + e.getMessage());
+			showError(Translator.getString("TextDialog.CreateTextError") + e.getMessage());
 			return;
 		}
 

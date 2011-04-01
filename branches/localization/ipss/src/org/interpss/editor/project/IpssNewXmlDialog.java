@@ -21,15 +21,14 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
 import org.interpss.editor.coreframework.GPGraphpad;
-import org.interpss.editor.coreframework.GPGraphpadFile;
+import org.interpss.editor.coreframework.IpssXmlFile;
 import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.NamedInputStream;
 import org.interpss.editor.util.Utilities;
 
 
-
-public class IpssNewGraphDialog extends javax.swing.JDialog {
+public class IpssNewXmlDialog extends javax.swing.JDialog {
 	private JLabel dirLabel;
 
 	private JPanel browsePanel;
@@ -67,20 +66,20 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 	private String srcFileName;
 
 	protected GPGraphpad graphpad;
-	
+
 	private Frame parentFrame;
 
-	private GPGraphpadFile file;
-	
+	private IpssXmlFile file;
+
 	private boolean isCancelExit;
 
-	public IpssNewGraphDialog(GPGraphpad graphpad, String title) {
-//		super(graphpad.getFrame(), title, true);
-		super(graphpad.getFrame(), Translator.getString("GraphDialog.Title"), true);
-		
-		this.graphpad=graphpad;
+	public IpssNewXmlDialog(GPGraphpad graphpad, String title) {
+		// super(graphpad.getFrame(), title, true);
+		super(graphpad.getFrame(), Translator.getString("XMLDialog.Title"), true);
+
+		this.graphpad = graphpad;
 		this.parentFrame = graphpad.getFrame();
-		
+
 		setResizable(false);
 
 		// initLocalData();
@@ -175,7 +174,7 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 		mainPanel.add(selectpanel);
 		final GridLayout gridLayout = new GridLayout(0, 1);
 		selectpanel.setLayout(gridLayout);
-		selectpanel.setBorder(new TitledBorder(null, Translator.getString("Contents"),
+		selectpanel.setBorder(new TitledBorder(null, Translator.getString("XMLDialog.Contents"),
 				TitledBorder.DEFAULT_JUSTIFICATION,
 				TitledBorder.DEFAULT_POSITION, null, null));
 
@@ -183,13 +182,13 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 		selectpanel.add(newRadioButton);
 		newRadioButton.setSelected(true);
 		newRadioButton.setMnemonic('N');
-		newRadioButton.setText(Translator.getString("GraphDialog.CreateANewGraphicProject.Text"));
+		newRadioButton.setText(Translator.getString("XMLDialog.CreateANewXMLFile"));
 		selectButtonGroup.add(newRadioButton);
 
 		fromRadioButton = new JRadioButton();
 		selectpanel.add(fromRadioButton);
 		fromRadioButton.setMnemonic('x');
-		fromRadioButton.setText(Translator.getString("GraphDialog.ImportAGraphicProjectFromExistingSource.Text"));
+		fromRadioButton.setText(Translator.getString("XMLDialog.ImportAXMLFileFromExistingSource"));
 
 		browsePanel = new JPanel();
 		selectpanel.add(browsePanel);
@@ -218,13 +217,13 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 
 		nameLabel = new JLabel();
 		panel.add(nameLabel, BorderLayout.WEST);
-		nameLabel.setDisplayedMnemonic(KeyEvent.VK_G);
-		nameLabel.setText(Translator.getString("GraphDialog.GraphicProjectFileName"));
+		nameLabel.setDisplayedMnemonic(KeyEvent.VK_T);
+		nameLabel.setText(Translator.getString("XMLDialog.TextFileName"));
 
 		nameTextField = new JTextField();
 		panel.add(nameTextField, BorderLayout.CENTER);
 
-		nameTextField.setFocusAccelerator('g');
+		nameTextField.setFocusAccelerator('t');
 
 		buttonPanel = new JPanel();
 		getContentPane().add(buttonPanel);
@@ -264,11 +263,11 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 		return filepath;
 	}
 
-	public void setFile(GPGraphpadFile file) {
+	public void setFile(IpssXmlFile file) {
 		this.file = file;
 	}
 
-	public GPGraphpadFile getFile() {
+	public IpssXmlFile getFile() {
 		return file;
 	}
 
@@ -302,7 +301,7 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 		// pack the form and display
 		pack();
 		setLocationRelativeTo(parentFrame);
-		setSize(new Dimension(629, 243));
+		setSize(new Dimension(556, 241));
 		setVisible(true);
 	}
 
@@ -320,13 +319,13 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 	}
 
 	public String getFileName() {
-		return Utilities.getFilePathName(getFilepath(), nameTextField.getText() +"."
-				+ Translator.getString("GraphFileExtension"));
+		return Utilities.getFilePathName(getFilepath(), nameTextField.getText() + "."
+				+ Translator.getString("XMLFileExtension"));
 	}
 
 	public void updateState() {
 		if (nameTextField.getText().equals("")) {
-			showError(Translator.getString("GraphDialog.Name.Error"));
+			showError(Translator.getString("XMLDialog.Name.Error"));
 			return;
 		}
 		String filePathName = getFileName();
@@ -334,113 +333,39 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 			java.io.File myFile = new java.io.File(filePathName);
 			if (myFile.exists()) {
 
-				showError(Translator.getString("GraphDialog.File.Exists"));
+				showError(Translator.getString("XMLDialog.File.Exists"));
 				return;
 			}
 			// else myFilePath.mkdir();
 		} catch (Exception e) {
-			showError(Translator.getString("GraphDialog.CreateGraphError") + e.getMessage());
+			showError(Translator.getString("XMLDialog.CreateXmlError") + e.getMessage());
 			return;
 		}
 
-		showMessage(Translator.getString("GraphDialog.OK"));
+		showMessage(Translator.getString("XMLDialog.OK"));
 		// showMessage(filePathName);
 	}
 
 	public void selectFile() {
 		try {
-			NamedInputStream in = org.interpss.editor.util.Utilities.provideInput(Translator.getString("GraphFileExtension"),Translator.getString("GraphFileExtensionDescription"));
+			NamedInputStream in = org.interpss.editor.util.Utilities
+					.provideInput(Translator.getString("XMLFileExtension"),
+							Translator
+									.getString("XMLFileExtensionDescription"));
 			if (in != null) {
-				
-				setFile(org.interpss.editor.util.Utilities.OpenGraphFile(graphpad,in.getInputStream()));
+				setFile(org.interpss.editor.util.Utilities.OpenXmlFile(
+						graphpad, in.getName()));
 				this.setSrcFileName(in.getName());
 				dirTextField.setText(in.getName());
-				if (getFile() == null){
-					showError(Translator.getString("GraphDialog.CantOpenError"));
+				if (getFile() == null) {
+					showError(Translator.getString("XMLDialog.CantOpenError"));
 					return;
 				}
 			}
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			showError(ex.toString());
 			ex.printStackTrace();
 		}
 	}
-
-	//
-	// public static void showDialog(Frame parent, String title, IpssProject
-	// oldProject) {
-	//
-	// final IpssNewProjectDialog dialog = new
-	// IpssNewProjectDialog(parent,title);
-	//
-	// dialog.pack();
-	// dialog.setLocationRelativeTo(parent);
-	//
-	// dialog.addComponentListener(new ComponentAdapter() {
-	// public void componentResized(ComponentEvent e) {
-	// dialog.pack();
-	// }
-	// });
-	// okButton.addActionListener(new ActionListener() {
-	// public void actionPerformed(ActionEvent e) {
-	// dialog.setVisible(false);
-	// }
-	// });
-	//
-	// cancelButton.addActionListener(new ActionListener() {
-	// public void actionPerformed(ActionEvent e) {
-	// dialog.setVisible(false);
-	// dialog.setProject(null);
-	// }
-	// });
-	//
-	// dialog.setVisible(true);
-	//
-	// return dialog.getProject();
-	// }// showDialog
-
-	// static void selectDirectory(Component parent, String selectedFile) {
-	// JDirectoryChooser chooser;
-	//
-	// if (System.getProperty("javawebstart.version") != null) {
-	// chooser = new JDirectoryChooser(new FakeFileSystemView()) {
-	// public void rescanCurrentDirectory() {
-	// }
-	// public void setCurrentDirectory(File dir) {
-	// }
-	// };
-	// } else {
-	// chooser = new JDirectoryChooser();
-	// if (selectedFile != null) {
-	// chooser.setSelectedFile(new File(selectedFile));
-	// }
-	// }
-	//		    
-	// JTextArea accessory = new
-	// JTextArea(Translator.getString("selectDirectory.message"));
-	// accessory.setLineWrap(true);
-	// accessory.setWrapStyleWord(true);
-	// accessory.setEditable(false);
-	// accessory.setOpaque(false);
-	// accessory.setFont(UIManager.getFont("Tree.font"));
-	// chooser.setAccessory(accessory);
-	//
-	// chooser.setMultiSelectionEnabled(true);
-	//
-	// int choice = chooser.showOpenDialog(parent);
-	// if (choice == JDirectoryChooser.APPROVE_OPTION) {
-	// String filenames = "";
-	// File[] selectedFiles = chooser.getSelectedFiles();
-	// for (int i = 0, c = selectedFiles.length; i < c; i++) {
-	// filenames += "\n" + selectedFiles[i];
-	// }
-	// JOptionPane.showMessageDialog(parent, Translator.getString(
-	// "selectDirectory.confirm", new Object[] {filenames}));
-	// } else {
-	// JOptionPane.showMessageDialog(parent, Translator
-	// .getString("selectDirectory.cancel"));
-	// }
-	// }
 
 }

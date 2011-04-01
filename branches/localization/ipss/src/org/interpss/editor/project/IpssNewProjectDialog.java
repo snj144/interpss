@@ -137,7 +137,7 @@ public class IpssNewProjectDialog extends javax.swing.JDialog {
 	}
 
 	protected void initGuiComponents() {
-		setTitle(Translator.getString("ProjectDialog.Text"));
+		setTitle(Translator.getString("ProjectDialog.Title"));
 
 		selectButtonGroup = new javax.swing.ButtonGroup();
 
@@ -171,7 +171,7 @@ public class IpssNewProjectDialog extends javax.swing.JDialog {
 		newRadioButton = new JRadioButton();
 		selectpanel.add(newRadioButton);
 		newRadioButton.setSelected(true);
-		newRadioButton.setMnemonic(Translator.getString("ProjectDialog.CreateNewProjectFolderInWorkspace.Mnemonic").toCharArray()[0]);
+		newRadioButton.setMnemonic('N');
 		newRadioButton.setText(Translator.getString("ProjectDialog.CreateNewProjectFolderInWorkspace.Text"));		
 		selectButtonGroup.add(newRadioButton);
 
@@ -181,7 +181,7 @@ public class IpssNewProjectDialog extends javax.swing.JDialog {
 			}
 		});
 		selectpanel.add(fromRadioButton);
-		fromRadioButton.setMnemonic(Translator.getString("ProjectDialog.CreateProjectFolderFromExistingSource.Text").toCharArray()[0]);
+		fromRadioButton.setMnemonic('x');
 		fromRadioButton.setText(Translator.getString("ProjectDialog.CreateProjectFolderFromExistingSource.Text"));
 
 		browsePanel = new JPanel();
@@ -199,7 +199,7 @@ public class IpssNewProjectDialog extends javax.swing.JDialog {
 
 		browseButton = new JButton();
 
-		browseButton.setMnemonic('B');
+		browseButton.setMnemonic(Translator.getString("Browse.Mnemonic").toCharArray()[0]);
 		browseButton.setText(Translator.getString("Browse"));
 		browsePanel.add(browseButton, BorderLayout.EAST);
 		selectButtonGroup.add(fromRadioButton);
@@ -225,14 +225,14 @@ public class IpssNewProjectDialog extends javax.swing.JDialog {
 
 		okButton = new JButton();
 
-		okButton.setMnemonic('O');
+		okButton.setMnemonic(Translator.getString("OK.Mnemonic").toCharArray()[0]);
 		buttonPanel.add(okButton);
 		okButton.setText(Translator.getString("OK"));
 
 		cancelButton = new JButton();
 
 		buttonPanel.add(cancelButton);
-		cancelButton.setMnemonic('C');
+		cancelButton.setMnemonic(Translator.getString("Cancel.Mnemonic").toCharArray()[0]);
 		cancelButton.setText(Translator.getString("Cancel"));
 
 		// selectpanel.setVisible(false);
