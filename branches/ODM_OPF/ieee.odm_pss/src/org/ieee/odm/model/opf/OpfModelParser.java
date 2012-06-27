@@ -30,6 +30,7 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.OpfDclfNetworkXmlType;
+import org.ieee.odm.schema.OpfNetworkXmlType;
 
 /**
  * A Xml parser for the IEEE DOM schema. 
@@ -71,6 +72,10 @@ public class OpfModelParser extends AclfModelParser {
 	 */
 	public OpfDclfNetworkXmlType getOpfNet() {
 		return (OpfDclfNetworkXmlType)getBaseCase();
+	}
+	
+	public OpfNetworkXmlType getOpfNetwork(){
+		return (OpfNetworkXmlType) getBaseCase();
 	}
 	
 	/**

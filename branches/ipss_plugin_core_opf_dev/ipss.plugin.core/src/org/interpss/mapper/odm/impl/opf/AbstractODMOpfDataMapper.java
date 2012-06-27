@@ -214,7 +214,7 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 			inc.setCostModel(NumericCurveModel.PIECE_WISE);
 			if (busRec.getIncCost().getPieceWiseLinearModel()!=null){
 				PieceWiseLinearModelXmlType pw = busRec.getIncCost().getPieceWiseLinearModel();
-				PieceWiseCurve pwcurve = CommonCurveFactory.eINSTANCE.createPieceWiseCurve();
+				PieceWiseCurve pwIpss = CommonCurveFactory.eINSTANCE.createPieceWiseCurve();
 				for (StairStepXmlType stair : pw.getStairStep()){
 					double price = stair.getPrice().getValue();
 					double mw = stair.getAmount().getValue();
@@ -222,15 +222,20 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 					// point in format of: (mw, price)
 					costPoint.x = mw;
 					costPoint.y = price;				
-					
+					// Mike, here I expect the method: pwIpss.setPoint(costPoint);. 
+					// However, I don't see this method in com.interpss.core.common.curve.PieceWiseCurve.
+					// I see the method of getPoint though. Why there is no the method setPoint?
+					// Do I need to manually add it?
 					
 				}
+				inc.setPieceWiseCurve(pwIpss);				
+				
 			}else{
 				ipssLogger.severe("Can not find a piece-wise cost model for bus: "+ opfGenBus.getId());
 			}
 
 		}
-		
+		opfGenBus.setIncCost(inc);
 		return opfGenBus;
 	}
 	
