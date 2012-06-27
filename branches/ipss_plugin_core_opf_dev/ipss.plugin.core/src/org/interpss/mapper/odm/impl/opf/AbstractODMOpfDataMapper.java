@@ -33,26 +33,39 @@ import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BaseOpfNetworkXmlType;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.CostModelEnumType;
+import org.ieee.odm.schema.IncCostXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OpfDclfGenBusXmlType;
 import org.ieee.odm.schema.OpfDclfNetworkXmlType;
 import org.ieee.odm.schema.OpfGenBusXmlType;
+import org.ieee.odm.schema.OpfGenOperatingModeEnumType;
 import org.ieee.odm.schema.OpfNetworkEnumType;
 import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
+import org.ieee.odm.schema.PieceWiseLinearModelXmlType;
+import org.ieee.odm.schema.StairStepXmlType;
 import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.mapper.odm.ODMHelper;
 import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfParserMapper;
 import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.numeric.datatype.LimitType;
+import org.interpss.numeric.datatype.Point;
 
 import com.interpss.OpfObjectFactory;
 import com.interpss.common.exp.InterpssException;
+import com.interpss.core.common.curve.CommonCurveFactory;
+import com.interpss.core.common.curve.NumericCurveModel;
+import com.interpss.core.common.curve.PieceWiseCurve;
+import com.interpss.core.common.curve.impl.PieceWiseCurveImpl;
 import com.interpss.opf.BaseOpfNetwork;
+import com.interpss.opf.IncrementalCost;
 import com.interpss.opf.OpfBranch;
 import com.interpss.opf.OpfBus;
+import com.interpss.opf.OpfFactory;
 import com.interpss.opf.OpfGenBus;
+import com.interpss.opf.OpfGenOperatingMode;
 import com.interpss.opf.OpfNetwork;
 import com.interpss.opf.dclf.DclfOpfBranch;
 import com.interpss.opf.dclf.DclfOpfBus;
@@ -179,6 +192,44 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 		helper.setAclfBusData(busRec);
 		
 		// TODO: mapping details
+		OpfGenOperatingModeEnumType genMode = busRec.getOperatingMode();
+		if (genMode.equals(OpfGenOperatingModeEnumType.PV_GENERATOR)){
+			opfGenBus.setOperatingMode(OpfGenOperatingMode.PV_GENERATOR);
+			
+		}else if(genMode.equals(OpfGenOperatingModeEnumType.PUMPING)) {
+			opfGenBus.setOperatingMode(OpfGenOperatingMode.PUMPING);
+			
+		}else if(genMode.equals(OpfGenOperatingModeEnumType.PQ_GENERATOR)) {
+			opfGenBus.setOperatingMode(OpfGenOperatingMode.PQ_GENERATOR);
+		}else {
+			// synchronized condensor
+			opfGenBus.setOperatingMode(OpfGenOperatingMode.SYCHRONOUS_COMPENSATOR);
+		}
+		
+		// set gen incremental cost model
+		IncCostXmlType incCostRec = busRec.getIncCost();
+		CostModelEnumType costModelRec = incCostRec.getCostModel();
+		IncrementalCost inc = OpfFactory.eINSTANCE.createIncrementalCost();
+		if (costModelRec.equals(CostModelEnumType.PIECE_WISE_LINEAR_MODEL)){
+			inc.setCostModel(NumericCurveModel.PIECE_WISE);
+			if (busRec.getIncCost().getPieceWiseLinearModel()!=null){
+				PieceWiseLinearModelXmlType pw = busRec.getIncCost().getPieceWiseLinearModel();
+				PieceWiseCurve pwcurve = CommonCurveFactory.eINSTANCE.createPieceWiseCurve();
+				for (StairStepXmlType stair : pw.getStairStep()){
+					double price = stair.getPrice().getValue();
+					double mw = stair.getAmount().getValue();
+					Point costPoint = new Point();
+					// point in format of: (mw, price)
+					costPoint.x = mw;
+					costPoint.y = price;				
+					
+					
+				}
+			}else{
+				ipssLogger.severe("Can not find a piece-wise cost model for bus: "+ opfGenBus.getId());
+			}
+
+		}
 		
 		return opfGenBus;
 	}
