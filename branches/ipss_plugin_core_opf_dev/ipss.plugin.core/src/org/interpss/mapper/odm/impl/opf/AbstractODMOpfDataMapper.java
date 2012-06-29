@@ -230,13 +230,7 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 					// point in format of: (mw, price)
 					costPoint.x = mw;
 					costPoint.y = price;		
-					pwIpss.getPoints().add(costPoint);
-					// Mike, here I expect the method: pwIpss.setPoint(costPoint);. 
-					// However, I don't see this method in com.interpss.core.common.curve.PieceWiseCurve.
-					// I see the method of getPoint though. Why there is no the method setPoint?
-					// Do I need to manually add it?
-					// Point is defined [0-*], therefore it is a list
-					
+					pwIpss.getPoints().add(costPoint);					
 				}
 				inc.setPieceWiseCurve(pwIpss);				
 				
