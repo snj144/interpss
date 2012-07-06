@@ -25,19 +25,26 @@
 package org.interpss.mapper.odm.impl.opf;
 
 import static com.interpss.common.util.IpssLogger.ipssLogger;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToActivePowerUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToReactivePowerUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToApparentPowerUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToVoltageUnit;
 
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.ieee.odm.schema.ActivePowerLimitXmlType;
+import org.ieee.odm.schema.ActivePowerPriceEnumType;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BaseOpfNetworkXmlType;
+import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ConstraintsXmlType;
 import org.ieee.odm.schema.CostModelEnumType;
 import org.ieee.odm.schema.IncCostXmlType;
+import org.ieee.odm.schema.LinCoeffXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OpfDclfGenBusXmlType;
@@ -50,16 +57,21 @@ import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PieceWiseLinearModelXmlType;
 import org.ieee.odm.schema.QuadraticModelXmlType;
 import org.ieee.odm.schema.ReactivePowerLimitXmlType;
+import org.ieee.odm.schema.ReactivePowerUnitType;
+import org.ieee.odm.schema.SqrCoeffXmlType;
 import org.ieee.odm.schema.StairStepXmlType;
 import org.ieee.odm.schema.VoltageLimitXmlType;
+import org.ieee.odm.schema.VoltageUnitType;
 import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.mapper.odm.ODMHelper;
 import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfParserMapper;
 import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.datatype.Point;
+import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.OpfObjectFactory;
+import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.common.curve.CommonCurveFactory;
 import com.interpss.core.common.curve.NumericCurveModel;
@@ -110,8 +122,8 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 		OpfModelParser parser = (OpfModelParser) p;
 		
 		if (parser.getStudyCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
-				&& parser.getStudyCase().getAnalysisCategory() == AnalysisCategoryEnumType.OPF) {
-			BaseOpfNetworkXmlType xmlNet = parser.getOpfNet();
+				&& parser.getStudyCase().getAnalysisCategory() == AnalysisCategoryEnumType.OPF) {			
+			BaseOpfNetworkXmlType xmlNet = parser.getBaseOpfNet();
 			simuCtx.setNetType(SimuCtxType.OPF_NET);
 			try {
 				BaseOpfNetwork opfNet = null;
@@ -123,7 +135,8 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 
 				ODMAclfNetMapper aclfNetMapper = new ODMAclfNetMapper();
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
-					if (bus.getValue() instanceof OpfDclfGenBusXmlType) {
+					if (bus.getValue() instanceof OpfDclfGenBusXmlType ||
+							bus.getValue() instanceof OpfGenBusXmlType) {
 						if (xmlNet.getOpfNetType() == OpfNetworkEnumType.SIMPLE_DCLF) {
 							OpfDclfGenBusXmlType opfDclfGen = (OpfDclfGenBusXmlType) bus.getValue();
 							mapDclfOpfGenBusData(opfDclfGen, (DclfOpfNetwork)opfNet);
@@ -153,7 +166,19 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 					}
 					else {
 						OpfBranch opfBranch = OpfObjectFactory.createOpfBranch();
-						aclfNetMapper.mapAclfBranchData(b.getValue(), opfBranch, (DclfOpfNetwork)opfNet);
+						aclfNetMapper.mapAclfBranchData(b.getValue(), opfBranch, (OpfNetwork)opfNet);
+						// map MW rating
+						BranchXmlType branchXml = (BranchXmlType)b.getValue();
+						if(branchXml.getRatingLimit()!=null){
+							if (branchXml.getRatingLimit().getMw()!=null){
+								OpfBranchDataHelper helper = new OpfBranchDataHelper(opfBranch, b.getValue());
+								
+								helper.setMwRating();
+							}
+						}
+						
+						
+						
 					}
 				}
 			} catch (InterpssException e) {
@@ -243,10 +268,34 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 			if (busRec.getIncCost().getQuadraticModel()!=null){
 				QuadraticModelXmlType quaXml = busRec.getIncCost().getQuadraticModel();
 				QuadraticCurve quaIpss = CommonCurveFactory.eINSTANCE.createQuadraticCurve();
-				double sqrCoeff = quaXml.getSqrCoeff();
-				double linCoeff = quaXml.getLinCoeff();
-				double constCoeff = quaXml.getConstCoeff();
+				
 				// quadratic function in the form of: C = Ax^2+Bx+C;
+				// convert to pu: squCoeff: $/(mw*mw)
+				//                linCoeff: $/mw	
+				
+				SqrCoeffXmlType sqrCoeffXml=   quaXml.getSqrCoeff();
+				ActivePowerPriceEnumType unit = sqrCoeffXml.getUnit();				
+				double sqrCoeff = sqrCoeffXml.getValue();
+				double baseKva = net.getBaseKva(); // in KW
+				//baseKva = baseKva/1000; // in MW
+				if(unit.equals(ActivePowerPriceEnumType.DOLLAR_PER_KW_SQUARE)){
+					sqrCoeff = sqrCoeff*baseKva*baseKva;
+				}else if(unit.equals(ActivePowerPriceEnumType.DOLLAR_PER_MW_SQUARE)){
+					sqrCoeff = sqrCoeff*baseKva*baseKva/1000/1000;
+				}				
+				
+				LinCoeffXmlType linCoeffXml = quaXml.getLinCoeff();
+				unit = linCoeffXml.getUnit();
+				double linCoeff = linCoeffXml.getValue();
+				if(unit.equals(ActivePowerPriceEnumType.DOLLAR_PER_KW)){
+					linCoeff = linCoeff*baseKva;
+				}else if(unit.equals(ActivePowerPriceEnumType.DOLLAR_PER_MW)){
+					linCoeff = linCoeff*baseKva/1000;
+				}
+				
+				
+				double constCoeff = quaXml.getConstCoeff();
+							
 				quaIpss.setA(sqrCoeff);
 				quaIpss.setB(linCoeff);
 				quaIpss.setC(constCoeff);				
@@ -258,42 +307,43 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 		opfGenBus.setIncCost(inc);
 		
 		// set constraints
-		ConstraintsXmlType ctrtXml = busRec.getConstraints();
-		Constraint ctrtIpss = opfGenBus.getConstraints();
-		double factor=net.getBaseKva()*0.001;
-		if(ctrtXml.getActivePowerLimit()!=null){			
-			ActivePowerLimitXmlType pLmt = ctrtXml.getActivePowerLimit();			
-			double pmax = pLmt.getMax();
-			double pmin = pLmt.getMin();
-			String unit= pLmt.getUnit().toString();
-			if(unit.equals("PU")){				
-				ctrtIpss.setPLimit( new LimitType(pmax*factor, pmin*factor));
-			}else { // mva
-			    ctrtIpss.setPLimit( new LimitType(pmax, pmin));
-			}			
-		}else if(ctrtXml.getReactivePowerLimit()!=null){
-			ReactivePowerLimitXmlType qLmt = ctrtXml.getReactivePowerLimit();
-			double qmax = qLmt.getMax();
-			double qmin = qLmt.getMin();
-			String unit = qLmt.getUnit().toString();
-			if(unit.equals("PU")){
-				ctrtIpss.setQLimit(new LimitType(qmax*factor, qmin*factor));
-			}else{
-				ctrtIpss.setQLimit(new LimitType(qmax, qmin));
-			}
+		if(busRec.getConstraints()!=null){
+			ConstraintsXmlType ctrtXml = busRec.getConstraints();		
+			Constraint ctrtIpss = OpfFactory.eINSTANCE.createConstraint();			
 			
-		}else if(ctrtXml.getVolLimit()!=null){
-			VoltageLimitXmlType vLmt = ctrtXml.getVolLimit();
-			double vmax = vLmt.getMax();
-			double vmin = vLmt.getMin();
-			String unit = vLmt.getUnit().toString();
-			if(unit.equals("PU")){
-				ctrtIpss.setVLimit(new LimitType(vmax*factor, vmin*factor));
-			}else {
-				ctrtIpss.setVLimit(new LimitType(vmax, vmin));
-			}
+			double baseKva = net.getBaseKva();
+			double factor = net.getBaseKva()*0.001;
+			if(ctrtXml.getActivePowerLimit()!=null){			
+				ActivePowerLimitXmlType pLmt = ctrtXml.getActivePowerLimit();			
+				double pmax = pLmt.getMax();
+				double pmin = pLmt.getMin();
+				ActivePowerUnitType unit= pLmt.getUnit();
+				UnitType ipssUnit = ToActivePowerUnit.f(unit);
+				// convert all to pu				
+				LimitType limit = UnitHelper.pConversion(new LimitType(pmax, pmin), baseKva, ipssUnit, UnitType.PU);
+				ctrtIpss.setPLimit( limit);			
+			}else if(ctrtXml.getReactivePowerLimit()!=null){
+				ReactivePowerLimitXmlType qLmt = ctrtXml.getReactivePowerLimit();
+				double qmax = qLmt.getMax();
+				double qmin = qLmt.getMin();
+				ReactivePowerUnitType unit = qLmt.getUnit();
+				UnitType ipssUnit = ToReactivePowerUnit.f(unit);
+				LimitType limit = UnitHelper.pConversion(new LimitType(qmax, qmin), baseKva, ipssUnit, UnitType.PU);
+				ctrtIpss.setQLimit( limit);					
+			}else if(ctrtXml.getVolLimit()!=null){
+				VoltageLimitXmlType vLmt = ctrtXml.getVolLimit();
+				double vmax = vLmt.getMax();
+				double vmin = vLmt.getMin();
+				VoltageUnitType unit = vLmt.getUnit();
+				UnitType ipssUnit = ToVoltageUnit.f(unit);
+				LimitType limit = UnitHelper.pConversion(new LimitType(vmax, vmin), baseKva, ipssUnit, UnitType.PU);
+				ctrtIpss.setVLimit(limit);						
+			}			
+			opfGenBus.setConstraints(ctrtIpss);
 			
 		}
+		
+		
 		
 		return opfGenBus;
 	}

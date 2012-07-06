@@ -28,6 +28,7 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
+import org.ieee.odm.schema.BaseOpfNetworkXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.OpfDclfNetworkXmlType;
 import org.ieee.odm.schema.OpfNetworkXmlType;
@@ -72,6 +73,10 @@ public class OpfModelParser extends AclfModelParser {
 	 */
 	public OpfDclfNetworkXmlType getOpfNet() {
 		return (OpfDclfNetworkXmlType)getBaseCase();
+	}
+	
+	public BaseOpfNetworkXmlType getBaseOpfNet() {
+		return (BaseOpfNetworkXmlType)getBaseCase();
 	}
 	
 	public OpfNetworkXmlType getOpfNetwork(){

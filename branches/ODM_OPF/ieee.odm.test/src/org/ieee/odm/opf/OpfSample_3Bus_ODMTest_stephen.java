@@ -31,6 +31,7 @@ import java.io.FileInputStream;
 
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.opf.OpfModelParser;
+import org.ieee.odm.schema.BaseOpfNetworkXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.CostModelEnumType;
 import org.ieee.odm.schema.OpfBranchXmlType;
@@ -52,6 +53,9 @@ public class OpfSample_3Bus_ODMTest_stephen {
 		assertTrue(opfParser.getAclfNet().getBusList().getBus().size() == 3);
 		
 		OpfNetworkXmlType opfNet = opfParser.getOpfNetwork();
+		/*BaseOpfNetworkXmlType bopfnet = opfParser.getBaseOpfNetwork();
+		opfNet = (OpfNetworkXmlType) bopfnet;*/
+		
 		
 		assertTrue(opfNet.getAnglePenaltyFactor() == 1);
 		assertTrue(opfNet.getOpfNetType().equals(OpfNetworkEnumType.OPF_NETWORK));
@@ -59,7 +63,7 @@ public class OpfSample_3Bus_ODMTest_stephen {
 		// bus1
 		OpfGenBusXmlType bus1 = (OpfGenBusXmlType) opfParser.getBus("bus1");
 		assertTrue(bus1.getIncCost().getCostModel().equals(CostModelEnumType.QUADRATIC_MODEL));
-		assertTrue(bus1.getIncCost().getQuadraticModel().getSqrCoeff()==1);
+		//assertTrue(bus1.getIncCost().getQuadraticModel().getSqrCoeff()==1);
 		assertTrue(bus1.getConstraints().getActivePowerLimit().getMax()==4);
 		
 		// bus2

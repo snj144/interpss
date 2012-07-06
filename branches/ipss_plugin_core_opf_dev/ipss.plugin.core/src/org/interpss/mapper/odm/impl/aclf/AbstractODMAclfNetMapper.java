@@ -261,15 +261,8 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 					aclfBranch.setRatingMva3(branchRec.getRatingLimit().getMva().getRating3() * factor);
 				//if (branchRec.getRatingLimit().getMva().getRating4())
 				//	aclfBranch.setRatingMva4(branchRec.getRatingLimit().getMva().getRating3() * factor);
-			}else if(branchRec.getRatingLimit() != null && branchRec.getRatingLimit().getMw() != null){
-				double factor =1.0;
-				if (branchRec.getRatingLimit().getMw().getUnit() == ActivePowerUnitType.PU){
-					factor = adjNet.getBaseKva()*0.001;
-				}else if(branchRec.getRatingLimit().getMw().getUnit() == ActivePowerUnitType.KW){
-					factor = 0.001;
-				}
-				//aclfBranch.setr
 			}else if(branchRec.getRatingLimit() != null && branchRec.getRatingLimit().getCurrent() != null){
+				ipssLogger.severe("current rating is not yet implemented.");
 				
 			}
 		}
