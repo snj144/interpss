@@ -247,6 +247,11 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 			inc.setCostModel(NumericCurveModel.PIECE_WISE);
 			if (busRec.getIncCost().getPieceWiseLinearModel()!=null){
 				PieceWiseLinearModelXmlType pw = busRec.getIncCost().getPieceWiseLinearModel();
+				boolean isConvex = checkConvex(pw);
+				if(isConvex == false){
+					ipssLogger.severe("Gen cost function must be in ascending order. Please check gen cost function at bus: "
+							+ busRec.getNumber());
+				}
 				PieceWiseCurve pwIpss = CommonCurveFactory.eINSTANCE.createPieceWiseCurve();
 				for (StairStepXmlType stair : pw.getStairStep()){
 					double price = stair.getPrice().getValue();
@@ -257,6 +262,7 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 					costPoint.y = price;		
 					pwIpss.getPoints().add(costPoint);					
 				}
+				
 				inc.setPieceWiseCurve(pwIpss);				
 				
 			}else{
@@ -394,5 +400,24 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 			opfGenBus.setCapacityLimit(new LimitType(busRec.getCapacityLimit().getMax(), busRec.getCapacityLimit().getMin()));
 		}
 		return opfGenBus;
+	}
+	
+	private boolean checkConvex(PieceWiseLinearModelXmlType pw){
+		boolean isConvex = true;
+		int n = pw.getStairStep().size();
+		
+		if(n>2){			
+			for (int i =0; i<n-1; i++){
+				double mw0 = pw.getStairStep().get(i).getAmount().getValue();
+				double price0 = pw.getStairStep().get(i).getPrice().getValue();
+				double mw1 = pw.getStairStep().get(i+1).getAmount().getValue();
+				double price1 = pw.getStairStep().get(i+1).getPrice().getValue();
+				if(mw1 < mw0 || price1 < price0){
+					return false;
+				}
+			}
+		}		
+		
+		return isConvex;
 	}
 }
