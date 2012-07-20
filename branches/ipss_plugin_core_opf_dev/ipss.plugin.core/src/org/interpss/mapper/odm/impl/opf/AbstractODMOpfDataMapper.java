@@ -254,11 +254,13 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 				}
 				PieceWiseCurve pwIpss = CommonCurveFactory.eINSTANCE.createPieceWiseCurve();
 				for (StairStepXmlType stair : pw.getStairStep()){
-					double price = stair.getPrice().getValue();
-					double mw = stair.getAmount().getValue();
+					double price = stair.getPrice().getValue(); // price in $/MWh
+					double mw = stair.getAmount().getValue();  // amount in MW
 					Point costPoint = new Point();
-					// point in format of: (mw, price)
-					costPoint.x = mw;
+					// point in format of: (mw, price),  converted to pu
+					/*double baseKva = net.getBaseKva(); // in KW
+					baseKva = baseKva/1000; // in MW
+*/					costPoint.x = mw;
 					costPoint.y = price;		
 					pwIpss.getPoints().add(costPoint);					
 				}
