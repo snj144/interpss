@@ -72,11 +72,11 @@ public class OpfDataSetter extends AclfDataSetter {
 		PieceWiseLinearModelXmlType pwModel = odmObjFactory.createPieceWiseLinearModelXmlType();
 		int size = point.length;
 		List<StairStepXmlType> stepList = pwModel.getStairStep();
-		for(int i =0 ; i<size/2; i++){
+		for(int i =0 ; i<size/2-1; i++){
 			double p0 = point[2*i];
-			double f0 = point[2*i];
-			double p1 = point[2*i+1];
-			double f1 = point[2*i+1];
+			double f0 = point[2*i+1];
+			double p1 = point[2*i+2];
+			double f1 = point[2*i+3];
 			double price_val = (f1-f0)/(p1-p0);
 			
 			setStep(stepList,price_val,OPFUnitCostXmlType.DOLLAR_PER_M_WH,

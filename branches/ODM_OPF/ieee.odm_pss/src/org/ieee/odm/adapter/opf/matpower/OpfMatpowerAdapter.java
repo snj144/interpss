@@ -251,17 +251,17 @@ public class OpfMatpowerAdapter extends AbstractODMAdapter{
 					ql , ApparentPowerUnitType.MVA);
 		}
 		
-        //		1 -  PQ
-		//		2 - pv
-		//		3 - swing
-		//		4 - isolated
+        //		1 -  PQ;	2 - pv; 3 - swing; 4 - isolated
 
 		LFGenCodeEnumType genType = type == 3? LFGenCodeEnumType.SWING :
 				( type == 2? LFGenCodeEnumType.PV : (type == 1? LFGenCodeEnumType.PQ : LFGenCodeEnumType.OFF));		
 
-		AclfDataSetter.setGenData(
-				aclfBus, genType, vm, VoltageUnitType.PU, va, AngleUnitType.DEG, 
-				0, 0,	ApparentPowerUnitType.MVA);
+		if(type ==2 || type ==3){
+			AclfDataSetter.setGenData(
+					aclfBus, genType, vm, VoltageUnitType.PU, va, AngleUnitType.DEG, 
+					0, 0,	ApparentPowerUnitType.MVA);
+		}
+		
 		
 		double baseKva = parser.getBaseOpfNet().getBasePower().getValue()/1000;
 		if (pshunt != 0.0 || qshunt != 0.0) {

@@ -36,11 +36,15 @@ import org.ieee.odm.adapter.opf.matpower.OpfMatpowerAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.CostModelEnumType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.OpfGenBusXmlType;
+import org.ieee.odm.schema.OpfGenOperatingModeEnumType;
+import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
@@ -62,8 +66,10 @@ public class OPF_Matpower_ODMTest {
 		System.out.println(parser.toXmlDoc("out/matpower/case3bus.xml"));
 		
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
-		assertTrue(baseCaseNet.getBusList().getBus().size() == 14);
-		assertTrue(baseCaseNet.getBranchList().getBranch().size() == 20);
+		OpfNetworkXmlType net = parser.getOpfNetwork();
+		
+		assertTrue(baseCaseNet.getBusList().getBus().size() == 3);
+		assertTrue(baseCaseNet.getBranchList().getBranch().size() == 3);
 
 		assertTrue(baseCaseNet.getBasePower().getValue() == 100.0);
 		assertTrue(baseCaseNet.getBasePower().getUnit() == ApparentPowerUnitType.MVA);
@@ -73,76 +79,41 @@ public class OPF_Matpower_ODMTest {
 		
 		// Bus 1 is a swing bus
 		//    1 Bus 1     HV  1  1  3 1.060    0.0      0.0      0.0    232.4   -16.9   132.0  1.060     0.0     0.0   0.0    0.0        0
-		LoadflowBusXmlType busRec = parser.getAclfBus("Bus1");
+		OpfGenBusXmlType busRec = (OpfGenBusXmlType) parser.getAclfBus("Bus1");
 		//System.out.println(busRec);
-		assertTrue(busRec.getBaseVoltage().getValue() == 132.0);
-		assertTrue(busRec.getVoltage().getValue() == 1.060);
+		assertTrue(busRec.getBaseVoltage().getValue() == 10.0);
+		assertTrue(busRec.getVoltage().getValue() == 1.0);
 		assertTrue(busRec.getAngle().getValue() == 0.0);
 		assertTrue(busRec.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.SWING);
 		assertTrue(busRec.getLoadData() == null);
-		assertTrue(busRec.getShuntY() == null);
-
+		assertTrue(busRec.getOperatingMode().equals(OpfGenOperatingModeEnumType.PV_GENERATOR));
+		assertTrue(busRec.getIncCost().getCostModel().equals(CostModelEnumType.PIECE_WISE_LINEAR_MODEL));
+		assertTrue(busRec.getIncCost().getPieceWiseLinearModel().getStairStep().get(0).getPrice().getValue()==10);
+		assertTrue(busRec.getIncCost().getPieceWiseLinearModel().getStairStep().get(0).getAmount().getValue()==20);
+		assertTrue(busRec.getConstraints().getActivePowerLimit().getMax() == 200);
+		assertTrue(busRec.getConstraints().getActivePowerLimit().getMin() == 20);
+		
 		// Bus 2 is a PV bus with load
 		//   2 Bus 2     HV  1  1  2 1.045  -4.98     21.7     12.7     40.0    42.4   132.0  1.045    50.0   -40.0   0.0    0.0        0
-		busRec = parser.getAclfBus("Bus2");
+		LoadflowBusXmlType bus3 =  parser.getAclfBus("Bus3");
 		//System.out.println(busRec);
-		assertTrue(busRec.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
-		assertTrue(busRec.getGenData().getEquivGen().getPower().getRe() == 40.0);
-		assertTrue(busRec.getGenData().getEquivGen().getPower().getUnit() == ApparentPowerUnitType.MVA);
-		assertTrue(busRec.getGenData().getEquivGen().getQLimit().getMax() == 50.0);
-		assertTrue(busRec.getGenData().getEquivGen().getQLimit().getMin() == -40.0);
-		assertTrue(busRec.getGenData().getEquivGen().getQLimit().getUnit() == ReactivePowerUnitType.MVAR);
-		
-		assertTrue(busRec.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);
-		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getRe() == 21.7);
-		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getIm() == 12.7);
-		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getUnit() == ApparentPowerUnitType.MVA);
+		assertTrue(bus3.getLoadData().getEquivLoad().getConstPLoad().getRe()==150);		
+		assertTrue(bus3.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);		
+		assertTrue(bus3.getLoadData().getEquivLoad().getConstPLoad().getIm() == 0);
+		assertTrue(bus3.getLoadData().getEquivLoad().getConstPLoad().getUnit() == ApparentPowerUnitType.MVA);
 
-		// Bus 9 is a load bus, also there is a capacitor of 0.19 pu
-		//    9 Bus 9     LV  1  1  0 1.056 -14.94     29.5     16.6      0.0     0.0    35.0  0.0       0.0     0.0   0.0    0.19       0
-		busRec = parser.getAclfBus("Bus9");
-		assertTrue(busRec.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);
-		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getRe() == 29.5);
-		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getIm() == 16.6);
-		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getUnit() == ApparentPowerUnitType.MVA);
 		
-		assertTrue(busRec.getShuntY().getRe() == 0.0);
-		assertTrue(busRec.getShuntY().getIm() == 0.19);
-		assertTrue(busRec.getShuntY().getUnit() == YUnitType.PU);
-		
-		// Bus 7 is non-gen and non-load bus
-		//    7 Bus 7     ZV  1  1  0 1.062 -13.37      0.0      0.0      0.0     0.0    35.0  0.0       0.0     0.0   0.0    0.0        0
-		busRec = parser.getAclfBus("Bus7");
-		//assertTrue(busRec.getLoadflowData().getGenData() == null);
-		assertTrue(busRec.getLoadData() == null);
-		assertTrue(busRec.getShuntY() == null);
-
 		// Check Branch Data
 		// =================
-		
-		// Branch 1->2 is a LIne
-		//    1    2  1  1 1 0  0.01938   0.05917     0.0528     0     0     0    0 0  0.0       0.0 0.0    0.0     0.0    0.0   0.0
+				
 		LineBranchXmlType braRec = parser.getLineBranch("Bus1", "Bus2", "1");
 		assertTrue(braRec != null);
 		
-		assertTrue(braRec.getZ().getRe() == 0.01938); 
-		assertTrue(braRec.getZ().getIm() == 0.05917); 
+		assertTrue(braRec.getZ().getRe() == 0); 
+		assertTrue(braRec.getZ().getIm() == 0.2); 
 		assertTrue(braRec.getZ().getUnit() == ZUnitType.PU); 
-		assertTrue(braRec.getTotalShuntY().getRe() == 0.0); 
-		assertTrue(braRec.getTotalShuntY().getIm() == 0.0528); 
-		assertTrue(braRec.getTotalShuntY().getUnit() == YUnitType.PU); 
+		assertTrue(braRec.getRatingLimit().getMw().getRating1() == 30);	
 		
-		// Branch 4->7 is a Xfr
-		//   4    7  1  1 1 1  0.0       0.20912     0.0        0     0     0    0 0  0.978     0.0 0.0    0.0     0.0    0.0   0.0
-		XfrBranchXmlType xfrBraRec = parser.getXfrBranch("Bus4", "Bus7", "1");
-		assertTrue(braRec != null);
-		assertTrue(xfrBraRec.getZ().getRe() == 0.0); 
-		assertTrue(xfrBraRec.getZ().getIm() == 0.20912); 
-		assertTrue(xfrBraRec.getZ().getUnit() == ZUnitType.PU); 
-		//System.out.println(braRec.getLoadflowData().getXformerData().getFromTap());
-		//System.out.println(braRec.getLoadflowData().getXformerData().getToTap());
-		assertTrue(xfrBraRec.getFromTurnRatio().getValue() == 0.978); 
-		assertTrue(xfrBraRec.getToTurnRatio().getValue() == 1.0);
 
 		//parser.stdout();
 	}

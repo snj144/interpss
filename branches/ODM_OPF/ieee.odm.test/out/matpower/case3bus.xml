@@ -26,20 +26,12 @@
                     <costModel>Piece-wise linear model</costModel>
                     <pieceWiseLinearModel>
                         <stairStep>
-                            <price value="1.0" unit="dollarPerMWh"/>
-                            <amount value="0.0" unit="MW"/>
+                            <price value="10.0" unit="dollarPerMWh"/>
+                            <amount value="20.0" unit="MW"/>
                         </stairStep>
                         <stairStep>
-                            <price value="1.0" unit="dollarPerMWh"/>
-                            <amount value="10.0" unit="MW"/>
-                        </stairStep>
-                        <stairStep>
-                            <price value="1.0" unit="dollarPerMWh"/>
-                            <amount value="100.0" unit="MW"/>
-                        </stairStep>
-                        <stairStep>
-                            <price value="1.0" unit="dollarPerMWh"/>
-                            <amount value="10.0" unit="MW"/>
+                            <price value="10.0" unit="dollarPerMWh"/>
+                            <amount value="200.0" unit="MW"/>
                         </stairStep>
                     </pieceWiseLinearModel>
                 </incCost>
@@ -62,20 +54,12 @@
                     <costModel>Piece-wise linear model</costModel>
                     <pieceWiseLinearModel>
                         <stairStep>
-                            <price value="1.0" unit="dollarPerMWh"/>
-                            <amount value="0.0" unit="MW"/>
+                            <price value="12.0" unit="dollarPerMWh"/>
+                            <amount value="10.0" unit="MW"/>
                         </stairStep>
                         <stairStep>
-                            <price value="1.0" unit="dollarPerMWh"/>
-                            <amount value="12.0" unit="MW"/>
-                        </stairStep>
-                        <stairStep>
-                            <price value="1.0" unit="dollarPerMWh"/>
+                            <price value="12.0" unit="dollarPerMWh"/>
                             <amount value="150.0" unit="MW"/>
-                        </stairStep>
-                        <stairStep>
-                            <price value="1.0" unit="dollarPerMWh"/>
-                            <amount value="12.0" unit="MW"/>
                         </stairStep>
                     </pieceWiseLinearModel>
                 </incCost>
@@ -87,14 +71,9 @@
                 <baseVoltage unit="KV" value="10.0"/>
                 <voltage unit="PU" value="1.0"/>
                 <angle unit="DEG" value="0.0"/>
-                <genData>
-                    <equivGen code="PQ">
-                        <power unit="MVA" re="0.0" im="0.0"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
-                        <constPLoad unit="MVA" re="0.0" im="150.0"/>
+                        <constPLoad unit="MVA" re="150.0" im="0.0"/>
                     </equivLoad>
                 </loadData>
             </aclfBus>
