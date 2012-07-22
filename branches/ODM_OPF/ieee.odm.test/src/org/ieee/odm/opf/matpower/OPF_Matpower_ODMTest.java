@@ -65,21 +65,21 @@ public class OPF_Matpower_ODMTest {
 		OpfModelParser parser = (OpfModelParser)adapter.getModel();
 		System.out.println(parser.toXmlDoc("out/matpower/case3bus.xml"));
 		
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		//LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 		OpfNetworkXmlType net = parser.getOpfNetwork();
 		
-		assertTrue(baseCaseNet.getBusList().getBus().size() == 3);
-		assertTrue(baseCaseNet.getBranchList().getBranch().size() == 3);
+		assertTrue(net.getBusList().getBus().size() == 3);
+		assertTrue(net.getBranchList().getBranch().size() == 3);
 
-		assertTrue(baseCaseNet.getBasePower().getValue() == 100.0);
-		assertTrue(baseCaseNet.getBasePower().getUnit() == ApparentPowerUnitType.MVA);
+		assertTrue(net.getBasePower().getValue() == 100.0);
+		assertTrue(net.getBasePower().getUnit() == ApparentPowerUnitType.MVA);
 
 		// Check Bus Data
 		// ==============
 		
 		// Bus 1 is a swing bus
 		//    1 Bus 1     HV  1  1  3 1.060    0.0      0.0      0.0    232.4   -16.9   132.0  1.060     0.0     0.0   0.0    0.0        0
-		OpfGenBusXmlType busRec = (OpfGenBusXmlType) parser.getAclfBus("Bus1");
+		OpfGenBusXmlType busRec = parser.getOpfGenBus("Bus1");
 		//System.out.println(busRec);
 		assertTrue(busRec.getBaseVoltage().getValue() == 10.0);
 		assertTrue(busRec.getVoltage().getValue() == 1.0);
