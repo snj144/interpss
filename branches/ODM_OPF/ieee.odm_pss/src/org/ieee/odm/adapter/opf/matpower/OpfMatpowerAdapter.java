@@ -297,10 +297,12 @@ public class OpfMatpowerAdapter extends AbstractODMAdapter{
 		double pgmax = str2d(s[8]);
 		double pgmin = str2d(s[9]);
 		
-		ActivePowerLimitXmlType plimit = parser.createActivePowerLimit();
-		plimit.setMax(pgmax);
-		plimit.setMin(pgmin);
-		plimit.setUnit(ActivePowerUnitType.MW);	
+		ActivePowerLimitXmlType plimit = BaseDataSetter.createActivePowerLimit(pgmax, pgmin, ActivePowerUnitType.MW);
+		//ActivePowerLimitXmlType plimit = parser.createActivePowerLimit();
+		//plimit.setMax(pgmax);
+		//plimit.setMin(pgmin);
+		//plimit.setUnit(ActivePowerUnitType.MW);	
+		
 		//ConstraintsXmlType constraint = bus.getConstraints();	
 		ConstraintsXmlType  constraint = new ConstraintsXmlType();
 		constraint.setActivePowerLimit(plimit);
