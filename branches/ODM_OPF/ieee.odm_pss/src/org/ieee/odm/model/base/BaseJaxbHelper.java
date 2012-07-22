@@ -60,6 +60,7 @@ import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.NonContributingDistBusXmlType;
 import org.ieee.odm.schema.OpfDclfGenBusXmlType;
 import org.ieee.odm.schema.OpfDclfNetworkXmlType;
+import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.OwnerXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
@@ -98,14 +99,21 @@ public class BaseJaxbHelper {
 		// be careful with inheritance here 
 		if (net instanceof DStabNetXmlType) 
 			return odmObjFactory.createDstabNet((DStabNetXmlType)net);
+		
 		else if (net instanceof OpfDclfNetworkXmlType) 
 			return odmObjFactory.createDclfOpfNet((OpfDclfNetworkXmlType)net);
+		else if (net instanceof OpfNetworkXmlType) 
+			return odmObjFactory.createOpfNet((OpfNetworkXmlType)net);
+		
 		else if (net instanceof ShortCircuitNetXmlType) 
 			return odmObjFactory.createAcscNet((ShortCircuitNetXmlType)net);
+		
 		else if (net instanceof LoadflowNetXmlType) 
 			return odmObjFactory.createAclfNet((LoadflowNetXmlType)net);
+		
 		else if (net instanceof DcNetworkXmlType) 
 			return odmObjFactory.createDcNet((DcNetworkXmlType)net);
+		
 		else if (net instanceof DistributionNetXmlType) 
 			return odmObjFactory.createDistNet((DistributionNetXmlType)net);
 		else
