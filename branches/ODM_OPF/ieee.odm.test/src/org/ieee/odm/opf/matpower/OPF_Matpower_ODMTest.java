@@ -53,7 +53,7 @@ import org.junit.Test;
 
 public class OPF_Matpower_ODMTest { 
 	@Test
-	public void testCaseNew() throws Exception {
+	public void testCase3buslp() throws Exception {
 		final LogManager logMgr = LogManager.getLogManager();
 		Logger logger = Logger.getLogger("OPF_Matpower Logger");
 		logger.setLevel(Level.INFO);
@@ -113,6 +113,66 @@ public class OPF_Matpower_ODMTest {
 		assertTrue(braRec.getZ().getIm() == 0.2); 
 		assertTrue(braRec.getZ().getUnit() == ZUnitType.PU); 
 		assertTrue(braRec.getRatingLimit().getMw().getRating1() == 30);	
+		
+
+		//parser.stdout();
+	}
+	
+	@Test
+	public void testCase3busqp() throws Exception {
+		final LogManager logMgr = LogManager.getLogManager();
+		Logger logger = Logger.getLogger("OPF_Matpower Logger");
+		logger.setLevel(Level.INFO);
+		logMgr.addLogger(logger);
+		
+		IODMAdapter adapter = new OpfMatpowerAdapter();
+		assertTrue(adapter.parseInputFile("testdata/matpower/case3bus_qp.m"));
+		
+		OpfModelParser parser = (OpfModelParser)adapter.getModel();
+		System.out.println(parser.toXmlDoc("out/matpower/case3bus_qp.xml"));
+		
+		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		OpfNetworkXmlType net = parser.getOpfNetwork();
+		
+		assertTrue(baseCaseNet.getBusList().getBus().size() == 3);
+		assertTrue(baseCaseNet.getBranchList().getBranch().size() == 3);
+
+		assertTrue(baseCaseNet.getBasePower().getValue() == 100.0);
+		assertTrue(baseCaseNet.getBasePower().getUnit() == ApparentPowerUnitType.MVA);
+
+		// Check Bus Data
+		// ==============
+		
+		// Bus 1 is a swing bus
+		//    1 Bus 1     HV  1  1  3 1.060    0.0      0.0      0.0    232.4   -16.9   132.0  1.060     0.0     0.0   0.0    0.0        0
+		OpfGenBusXmlType busRec = (OpfGenBusXmlType) parser.getAclfBus("Bus1");
+		//System.out.println(busRec);
+		assertTrue(busRec.getBaseVoltage().getValue() == 10.0);
+		assertTrue(busRec.getVoltage().getValue() == 1.0);
+		assertTrue(busRec.getAngle().getValue() == 0.0);
+		assertTrue(busRec.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.SWING);		
+		assertTrue(busRec.getOperatingMode().equals(OpfGenOperatingModeEnumType.PV_GENERATOR));
+		assertTrue(busRec.getIncCost().getCostModel().equals(CostModelEnumType.QUADRATIC_MODEL));
+		assertTrue(busRec.getIncCost().getQuadraticModel().getSqrCoeff().getValue() == 0.00463);
+		assertTrue(busRec.getIncCost().getQuadraticModel().getLinCoeff().getValue() == 10.694);
+		assertTrue(busRec.getIncCost().getQuadraticModel().getConstCoeff() == 10000);
+		assertTrue(busRec.getConstraints().getActivePowerLimit().getMax() == 200);
+		assertTrue(busRec.getConstraints().getActivePowerLimit().getMin() == 20);
+		
+		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getRe()== 132.66);
+		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getUnit() == ApparentPowerUnitType.MVA);
+
+		
+		// Check Branch Data
+		// =================
+				
+		LineBranchXmlType braRec = parser.getLineBranch("Bus1", "Bus2", "1");
+		assertTrue(braRec != null);
+		
+		assertTrue(braRec.getZ().getRe() == 0); 
+		assertTrue(braRec.getZ().getIm() == 0.2); 
+		assertTrue(braRec.getZ().getUnit() == ZUnitType.PU); 
+		assertTrue(braRec.getRatingLimit().getMw().getRating1() == 55);	
 		
 
 		//parser.stdout();

@@ -21,19 +21,19 @@
                         <ns2:desiredAngle unit="DEG" value="0.0"/>
                     </ns2:equivGen>
                 </ns2:genData>
+                <ns2:loadData>
+                    <ns2:equivLoad code="CONST_P">
+                        <ns2:constPLoad unit="MVA" re="132.66" im="0.0"/>
+                    </ns2:equivLoad>
+                </ns2:loadData>
                 <ns2:operatingMode>PVGenerator</ns2:operatingMode>
                 <ns2:incCost>
-                    <ns2:costModel>Piece-wise linear model</ns2:costModel>
-                    <ns2:pieceWiseLinearModel>
-                        <ns2:stairStep>
-                            <ns2:price value="10.0" unit="dollarPerMWh"/>
-                            <ns2:amount value="20.0" unit="MW"/>
-                        </ns2:stairStep>
-                        <ns2:stairStep>
-                            <ns2:price value="10.0" unit="dollarPerMWh"/>
-                            <ns2:amount value="200.0" unit="MW"/>
-                        </ns2:stairStep>
-                    </ns2:pieceWiseLinearModel>
+                    <ns2:costModel>Quadratic model</ns2:costModel>
+                    <ns2:quadraticModel>
+                        <ns2:sqrCoeff value="0.00463" unit="dollarPerMWSquare"/>
+                        <ns2:linCoeff value="10.694" unit="dollarPerMW"/>
+                        <ns2:constCoeff>10000.0</ns2:constCoeff>
+                    </ns2:quadraticModel>
                 </ns2:incCost>
                 <ns2:constraints>
                     <ns2:activePowerLimit unit="MW" max="200.0" min="20.0"/>
@@ -45,38 +45,56 @@
                 <ns2:angle unit="DEG" value="0.0"/>
                 <ns2:genData>
                     <ns2:equivGen code="PV" offLine="false">
-                        <ns2:power unit="MVA" re="30.0" im="0.0"/>
+                        <ns2:power unit="MVA" re="120.0" im="0.0"/>
                         <ns2:desiredVoltage unit="PU" value="1.0"/>
                     </ns2:equivGen>
                 </ns2:genData>
+                <ns2:loadData>
+                    <ns2:equivLoad code="CONST_P">
+                        <ns2:constPLoad unit="MVA" re="44.22" im="0.0"/>
+                    </ns2:equivLoad>
+                </ns2:loadData>
                 <ns2:operatingMode>PVGenerator</ns2:operatingMode>
                 <ns2:incCost>
-                    <ns2:costModel>Piece-wise linear model</ns2:costModel>
-                    <ns2:pieceWiseLinearModel>
-                        <ns2:stairStep>
-                            <ns2:price value="12.0" unit="dollarPerMWh"/>
-                            <ns2:amount value="10.0" unit="MW"/>
-                        </ns2:stairStep>
-                        <ns2:stairStep>
-                            <ns2:price value="12.0" unit="dollarPerMWh"/>
-                            <ns2:amount value="150.0" unit="MW"/>
-                        </ns2:stairStep>
-                    </ns2:pieceWiseLinearModel>
+                    <ns2:costModel>Quadratic model</ns2:costModel>
+                    <ns2:quadraticModel>
+                        <ns2:sqrCoeff value="0.00612" unit="dollarPerMWSquare"/>
+                        <ns2:linCoeff value="18.1" unit="dollarPerMW"/>
+                        <ns2:constCoeff>10000.0</ns2:constCoeff>
+                    </ns2:quadraticModel>
                 </ns2:incCost>
                 <ns2:constraints>
                     <ns2:activePowerLimit unit="MW" max="150.0" min="10.0"/>
                 </ns2:constraints>
             </ns2:opfGenBus>
-            <ns2:aclfBus id="Bus3" areaNumber="1" zoneNumber="1" number="3" offLine="false" name="Bus3">
+            <ns2:opfGenBus id="Bus3" areaNumber="1" zoneNumber="1" number="3" offLine="false" name="Bus3">
                 <ns2:baseVoltage unit="KV" value="10.0"/>
                 <ns2:voltage unit="PU" value="1.0"/>
                 <ns2:angle unit="DEG" value="0.0"/>
+                <ns2:genData>
+                    <ns2:equivGen code="PV" offLine="false">
+                        <ns2:power unit="MVA" re="10.0" im="0.0"/>
+                        <ns2:desiredVoltage unit="PU" value="1.0"/>
+                    </ns2:equivGen>
+                </ns2:genData>
                 <ns2:loadData>
                     <ns2:equivLoad code="CONST_P">
-                        <ns2:constPLoad unit="MVA" re="150.0" im="0.0"/>
+                        <ns2:constPLoad unit="MVA" re="44.22" im="0.0"/>
                     </ns2:equivLoad>
                 </ns2:loadData>
-            </ns2:aclfBus>
+                <ns2:operatingMode>PVGenerator</ns2:operatingMode>
+                <ns2:incCost>
+                    <ns2:costModel>Quadratic model</ns2:costModel>
+                    <ns2:quadraticModel>
+                        <ns2:sqrCoeff value="0.01433" unit="dollarPerMWSquare"/>
+                        <ns2:linCoeff value="37.8896" unit="dollarPerMW"/>
+                        <ns2:constCoeff>10000.0</ns2:constCoeff>
+                    </ns2:quadraticModel>
+                </ns2:incCost>
+                <ns2:constraints>
+                    <ns2:activePowerLimit unit="MW" max="20.0" min="5.0"/>
+                </ns2:constraints>
+            </ns2:opfGenBus>
         </ns2:busList>
         <ns2:branchList>
             <ns2:aclfLine xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:OpfBranchXmlType" circuitId="1" id="Bus1_to_Bus2_cirId_1" areaNumber="1" zoneNumber="1" offLine="false">
@@ -84,25 +102,25 @@
                 <ns2:toBus idRef="Bus2"/>
                 <ns2:z unit="PU" re="0.0" im="0.2"/>
                 <ns2:ratingLimit>
-                    <ns2:mw unit="MW" rating1="30.0" rating2="30.0" rating3="30.0"/>
+                    <ns2:mw unit="MW" rating1="55.0" rating2="55.0" rating3="55.0"/>
                 </ns2:ratingLimit>
                 <ns2:lineInfo/>
             </ns2:aclfLine>
             <ns2:aclfLine xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:OpfBranchXmlType" circuitId="2" id="Bus1_to_Bus3_cirId_2" areaNumber="1" zoneNumber="1" offLine="false">
                 <ns2:fromBus idRef="Bus1"/>
                 <ns2:toBus idRef="Bus3"/>
-                <ns2:z unit="PU" re="0.0" im="0.2"/>
+                <ns2:z unit="PU" re="0.0" im="0.4"/>
                 <ns2:ratingLimit>
-                    <ns2:mw unit="MW" rating1="150.0" rating2="150.0" rating3="150.0"/>
+                    <ns2:mw unit="MW" rating1="55.0" rating2="55.0" rating3="55.0"/>
                 </ns2:ratingLimit>
                 <ns2:lineInfo/>
             </ns2:aclfLine>
             <ns2:aclfLine xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:OpfBranchXmlType" circuitId="3" id="Bus2_to_Bus3_cirId_3" areaNumber="1" zoneNumber="1" offLine="false">
                 <ns2:fromBus idRef="Bus2"/>
                 <ns2:toBus idRef="Bus3"/>
-                <ns2:z unit="PU" re="0.0" im="0.2"/>
+                <ns2:z unit="PU" re="0.0" im="0.25"/>
                 <ns2:ratingLimit>
-                    <ns2:mw unit="MW" rating1="150.0" rating2="150.0" rating3="150.0"/>
+                    <ns2:mw unit="MW" rating1="55.0" rating2="55.0" rating3="55.0"/>
                 </ns2:ratingLimit>
                 <ns2:lineInfo/>
             </ns2:aclfLine>

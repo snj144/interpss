@@ -258,10 +258,11 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 					double mw = stair.getAmount().getValue();  // amount in MW
 					Point costPoint = new Point();
 					// point in format of: (mw, price),  converted to pu
-					/*double baseKva = net.getBaseKva(); // in KW
+					double baseKva = net.getBaseKva(); // in KW
 					baseKva = baseKva/1000; // in MW
-*/					costPoint.x = mw;
-					costPoint.y = price;		
+					
+					costPoint.x = mw/baseKva;
+					costPoint.y = price*baseKva;		
 					pwIpss.getPoints().add(costPoint);					
 				}
 				

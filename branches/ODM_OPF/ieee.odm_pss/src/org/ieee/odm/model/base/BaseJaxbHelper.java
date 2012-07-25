@@ -60,6 +60,8 @@ import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.NonContributingDistBusXmlType;
 import org.ieee.odm.schema.OpfDclfGenBusXmlType;
 import org.ieee.odm.schema.OpfDclfNetworkXmlType;
+import org.ieee.odm.schema.OpfGenBusXmlType;
+import org.ieee.odm.schema.OpfBranchXmlType;
 import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.OwnerXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
@@ -165,6 +167,8 @@ public class BaseJaxbHelper {
 
 		else if (branch instanceof DcBranchXmlType) 
 			return odmObjFactory.createDcBranch((DcBranchXmlType)branch);
+		else if (branch instanceof OpfBranchXmlType) 
+			return odmObjFactory.createOpfBranch((OpfBranchXmlType)branch);
 		
 		/*
 		<element name="distFeederBranch" type="pss:FeederDistBranchXmlType" substitutionGroup="pss:branch"/>
@@ -214,6 +218,8 @@ public class BaseJaxbHelper {
 			return odmObjFactory.createDstabBus((DStabBusXmlType)bus);
 		else if (bus instanceof OpfDclfGenBusXmlType)
 			return odmObjFactory.createDclfOpfGenBus((OpfDclfGenBusXmlType)bus);
+		else if (bus instanceof OpfGenBusXmlType)
+			return odmObjFactory.createOpfGenBus(((OpfGenBusXmlType)bus));
 		else if (bus instanceof LoadflowBusXmlType)
 			return odmObjFactory.createAclfBus((LoadflowBusXmlType)bus);
 		else if (bus instanceof DcBusXmlType)
