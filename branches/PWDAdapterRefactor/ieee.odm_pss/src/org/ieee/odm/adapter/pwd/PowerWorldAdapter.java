@@ -24,18 +24,6 @@ import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
  /**
   * PowerWorld-TO-ODM Adapter based on power world v16 data definition
   * 
-  * @version 0.1  04/03/2012
-  * @author Tony Huang
-  * 
-  */
-public class PowerWorldAdapter extends AbstractODMAdapter{
-	public static class NVPair {
-		public String name, value;
-		public NVPair(String name) {this.name = name;}
-		public String toString() { return "<" + name + "," + (value==null?"null":value) + ">"; }
-	}
-
-	/**
 	 * Stores input data name/value pairs, For example,  
 	 * 
 		  [BusNum,BusNum:1,LineCircuit,LineStatus,LineR,LineX,LineC,LineG,LineAMVA,LineBMVA,
@@ -52,8 +40,32 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 	 *  Step-2: Parsing the input date string, After the parsing, the nv pair list will store
 	 * 
 	 *       <"BusNum","4">, <"BusNum:1","5">, ....	 
+	 *   
+	 * [Mike 08/12/2012] 
+	 * 
+	 * The header and data could be presented in multiple lines, as shown below
+	 *  
+		  [BusNum,BusNum:1,LineCircuit,LineStatus,LineR,LineX,LineC,LineG,LineAMVA,LineBMVA,
+             LineCMVA,LineShuntMW,LineShuntMW:1,LineShuntMVR,LineShuntMVR:1,LineXfmr,LineTap,
+             LinePhase,SeriesCapStatus]
+		    4     5 " 1" "Closed"  0.000000  0.100000  0.000000  0.000000  1000.000  1000.000  1000.000     
+		    0.000     0.000     0.000     0.000  "YES"    0.993750   0.000000 "Not Bypassed"
+		    
+		 Assumptions:
+		 
+		    - The number of header fields should be exactly the same as the number of data fields    
 	 *       
-	 */
+  * @version 1.0  04/03/2012
+  * @author Tony Huang
+  * 
+  */
+
+public class PowerWorldAdapter extends AbstractODMAdapter{
+	public static class NVPair {
+		public String name, value;
+		public NVPair(String name) {this.name = name;}
+		public String toString() { return "<" + name + "," + (value==null?"null":value) + ">"; }
+	}
 	private List<NVPair> inputNvPairs;
 	
 	private  static final String Token_Data="DATA";
@@ -70,9 +82,9 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 	
 	private enum RecType{BUS,LOAD,GEN,SHUNT,BRANCH,XFORMER,TRI_W_XFORMER,AREA,ZONE,CASE_INFO,Undefined};
 
-	public static enum FileTypeSpecifier{CSV,Blank};
+	//public static enum FileTypeSpecifier{CSV,Blank};
+	public static enum FileTypeSpecifier{CSV,Blank};   // Comma, Space
 	public static FileTypeSpecifier dataSeparator=FileTypeSpecifier.Blank;//By default
-
 
 	public PowerWorldAdapter(){
 		super();
@@ -90,6 +102,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 		baseCaseNet.setId("Base_Case_from_PowerWorld_format");
 		baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(100.0));//not defined in the file
+
 		String str;
 		String dataType;
 		RecType recordType=null;
@@ -97,102 +110,124 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		NetDataProcessor netProc = new NetDataProcessor(this.inputNvPairs, parser);
 		BusDataProcessor busProc = new BusDataProcessor(this.inputNvPairs, parser);
 		BranchDataProcessor branchProc = new BranchDataProcessor(this.inputNvPairs, parser);
+
+		String separator = dataSeparator==FileTypeSpecifier.Blank? " " : ",";
 		try{
 			do{
 				str=din.readLine();
 				//System.out.println("processing data#"+str);
+		
 				if(str!=null){
-				  if(str.startsWith(Token_Data)){
-					dataType=getDataType(str);
-				    if(dataType.equals(Token_Bus)){
+					/*
+					 * Process header info
+					 */
+					if(str.startsWith(Token_Data)){
+						dataType=getDataType(str);
+						if(dataType.equals(Token_Bus)){
 					  		recordType=RecType.BUS;		
-					}
-				    else if(dataType.equals(Token_Load)){
+						}
+						else if(dataType.equals(Token_Load)){
 					  		recordType=RecType.LOAD;		
-					} 
-				    else if(dataType.equals(Token_Gen)){
-				  		recordType=RecType.GEN;		
-				    }
-				    else if(dataType.equals(Token_Shunt)){
-				  		recordType=RecType.SHUNT;		
-				    }
-				    else if(dataType.equals(Token_Branch)){
-				  		recordType=RecType.BRANCH;		
-				    }
-				    else if(dataType.equals(Token_XFormer)){
-				  		recordType=RecType.XFORMER;		
-				    }
-				    else if(dataType.equals(Token_3WXFormer)){
-				  		recordType=RecType.TRI_W_XFORMER;		
-				    }
-				    else if(dataType.equals(Token_Area)){
-				  		recordType=RecType.AREA;		
-				    }
-				    else if(dataType.equals(Token_Zone)){
-				  		recordType=RecType.ZONE;
-				    }
-				    else if(dataType.equals(Token_CaseInfo)){
-				  		recordType=RecType.CASE_INFO;
-				    }
-				    else {
-				    	//TODO add undefined record type
-				    	recordType=RecType.Undefined;
-				    	ODMLogger.getLogger().warning("Undifined data type:"+dataType);
-				    }
+						} 
+						else if(dataType.equals(Token_Gen)){
+							recordType=RecType.GEN;		
+						}
+						else if(dataType.equals(Token_Shunt)){
+							recordType=RecType.SHUNT;		
+						}
+						else if(dataType.equals(Token_Branch)){
+							recordType=RecType.BRANCH;		
+						}
+						else if(dataType.equals(Token_XFormer)){
+							recordType=RecType.XFORMER;		
+						}
+						else if(dataType.equals(Token_3WXFormer)){
+							recordType=RecType.TRI_W_XFORMER;		
+						}
+						else if(dataType.equals(Token_Area)){
+							recordType=RecType.AREA;		
+						}
+						else if(dataType.equals(Token_Zone)){
+							recordType=RecType.ZONE;
+						}
+						else if(dataType.equals(Token_CaseInfo)){
+							recordType=RecType.CASE_INFO;
+						}
+						else {
+							//TODO add undefined record type
+							recordType=RecType.Undefined;
+							ODMLogger.getLogger().warning("Undifined data type:"+dataType);
+						}
 				    
-				    //get all the argument fields of a record, then save them to a list.
-				    while(!isArgumentFieldsCompleted(str)){
-						str+=din.readLine();
-					}
+						//get all the argument fields of a record, then save them to a list.
+						while(!isArgumentFieldsCompleted(str)){
+							str+=din.readLine();
+						}
 				    
-				    // parse the str for the field definition 
-				    parseFieldNames(str);
+						// parse the str for the field definition 
+						parseFieldNames(str);
 				    
-				} //end of processing data type
+					} //end of processing data type
 				
-				
-				 else if(str.trim().startsWith("//"))
-					 ODMLogger.getLogger().fine("comments:"+str);
-				 else if(str.trim().startsWith("{"))
+					/*
+					 * Process comments and extra info
+					 */
+					else if(str.trim().startsWith("//"))
+						ODMLogger.getLogger().fine("comments:"+str);
+					else if(str.trim().startsWith("{"))
 				    	ODMLogger.getLogger().info(recordType.toString()+" type data begins");
 				 
-				 else if(str.trim().startsWith("}")){
+					else if(str.trim().startsWith("}")){
 						ODMLogger.getLogger().info(recordType.toString()+" type data ends");
-				 }
-				 // start processing record data
-				//TODO assume all data in one line; 
-				 else if(!str.trim().isEmpty()){
+					}
+					
+					/*
+					 * Process record data
+					 */
+					//TODO assume all data in one line; 
+					else if(!str.trim().isEmpty()){
 		
-					   if(recordType==RecType.BUS) 
-						   busProc.processBusBasicData(str);
-					   else if(recordType==RecType.LOAD)
-						   busProc.processBusLoadData(str);
-					   else if(recordType==RecType.GEN)
-						   busProc.processBusGenData(str);
-					   else if(recordType==RecType.SHUNT)
-						   busProc.processBusShuntData(str);
-					   else if(recordType==RecType.BRANCH){
-						   //TODO
-						   //NE-ISO file uses multiple lines to store some data, e.g. transformer data;
-						   while(!isDataFiledsCompleted(str)){
+						// At this point, we can do a simple count to see if the number of data fields
+						// is equal to the number of header fields to detect multiple line input situation
+						/*
+						int fieldCnt = str.split(separator).length;
+						while(fieldCnt < this.inputNvPairs.size()){
+							String s = din.readLine();
+							fieldCnt += s.split(separator).length;
+							str+=s;
+						}
+						*/
+
+						if(recordType==RecType.BUS) 
+							busProc.processBusBasicData(str);
+						else if(recordType==RecType.LOAD)
+							busProc.processBusLoadData(str);
+						else if(recordType==RecType.GEN)
+							busProc.processBusGenData(str);
+						else if(recordType==RecType.SHUNT)
+							busProc.processBusShuntData(str);
+						else if(recordType==RecType.BRANCH){
+							//TODO
+							//NE-ISO file uses multiple lines to store some data, e.g. transformer data;
+							while(!isDataFiledsCompleted(str)){
 								str+=din.readLine();
-						   }
-						   branchProc.processBranchData(str);
-					   }
+							}
+							branchProc.processBranchData(str);
+						}
 						   
-					   else if(recordType==RecType.XFORMER)
+						else if(recordType==RecType.XFORMER)
 						   branchProc.processXFormerData(str);
-					   else if(recordType==RecType.TRI_W_XFORMER)
+						else if(recordType==RecType.TRI_W_XFORMER)
 						   branchProc.process3WXFomerData(str);
-					   else if(recordType==RecType.AREA)
+						else if(recordType==RecType.AREA)
 						   netProc.processAreaData(str);
-					   else if(recordType==RecType.ZONE)
+						else if(recordType==RecType.ZONE)
 						   netProc.processZoneData(str);
-					   else{
+						else{
 						  // ODMLogger.getLogger().warning("unsupported data #"+str);
-					   }
-					  
-				   }
+						}
+					}
+					
 				}//end of if str is not null  
 			}while (str!=null);
 		}catch(Exception e){
