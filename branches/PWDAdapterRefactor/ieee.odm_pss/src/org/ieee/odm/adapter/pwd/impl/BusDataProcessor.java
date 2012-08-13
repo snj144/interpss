@@ -226,7 +226,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 	
 	if (!isSubDataSection) {// if there is no subData or subData ends
 		
-			PWDHelper.parseDataFields(busGenDataStr, inputNvPairs);
+			//PWDHelper.parseDataFields(busGenDataStr, inputNvPairs);
             
 			for (PowerWorldAdapter.NVPair nv : inputNvPairs) {
 				if (nv.name.equals("BusNum"))
