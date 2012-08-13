@@ -83,8 +83,8 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 	private enum RecType{BUS,LOAD,GEN,SHUNT,BRANCH,XFORMER,TRI_W_XFORMER,AREA,ZONE,CASE_INFO,Undefined};
 
 	//public static enum FileTypeSpecifier{CSV,Blank};
-	public static enum FileTypeSpecifier{CSV,Blank};   // Comma, Space
-	public static FileTypeSpecifier dataSeparator=FileTypeSpecifier.Blank;//By default
+	public static enum FileTypeSpecifier{Comma,Space};   
+	public static FileTypeSpecifier dataSeparator=FileTypeSpecifier.Space;//By default
 
 	public PowerWorldAdapter(){
 		super();
@@ -111,7 +111,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		BusDataProcessor busProc = new BusDataProcessor(this.inputNvPairs, parser);
 		BranchDataProcessor branchProc = new BranchDataProcessor(this.inputNvPairs, parser);
 
-		String separator = dataSeparator==FileTypeSpecifier.Blank? " " : ",";
+		String separator = dataSeparator==FileTypeSpecifier.Space? " " : ",";
 		try{
 			do{
 				str=din.readLine();
@@ -184,45 +184,60 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 					/*
 					 * Process record data
 					 */
-					//TODO assume all data in one line; 
 					else if(!str.trim().isEmpty()){
-		
-						// At this point, we can do a simple count to see if the number of data fields
-						// is equal to the number of header fields to detect multiple line input situation
-						/*
-						int fieldCnt = str.split(separator).length;
-						while(fieldCnt < this.inputNvPairs.size()){
-							String s = din.readLine();
-							fieldCnt += s.split(separator).length;
-							str+=s;
+						if(recordType==RecType.BUS) {
+							while(!PWDHelper.parseDataFields(str, this.inputNvPairs))
+								str+=din.readLine();
+							// at this point the input data line(s) are parsed and the data fields 
+							// are stored in the inputNvPairs
+							busProc.processBusBasicData();
 						}
-						*/
-
-						if(recordType==RecType.BUS) 
-							busProc.processBusBasicData(str);
-						else if(recordType==RecType.LOAD)
-							busProc.processBusLoadData(str);
-						else if(recordType==RecType.GEN)
+						else if(recordType==RecType.LOAD) {
+							while(!PWDHelper.parseDataFields(str, this.inputNvPairs))
+								str+=din.readLine();
+							busProc.processBusLoadData();
+						}
+						else if(recordType==RecType.GEN) {
+							while(!PWDHelper.parseDataFields(str, this.inputNvPairs))
+								str+=din.readLine();
 							busProc.processBusGenData(str);
-						else if(recordType==RecType.SHUNT)
-							busProc.processBusShuntData(str);
+						}
+						else if(recordType==RecType.SHUNT) {
+							while(!PWDHelper.parseDataFields(str, this.inputNvPairs))
+								str+=din.readLine();
+							busProc.processBusShuntData();
+						}
 						else if(recordType==RecType.BRANCH){
-							//TODO
 							//NE-ISO file uses multiple lines to store some data, e.g. transformer data;
+							/*
 							while(!isDataFiledsCompleted(str)){
 								str+=din.readLine();
 							}
-							branchProc.processBranchData(str);
+							*/
+							while(!PWDHelper.parseDataFields(str, this.inputNvPairs))
+								str+=din.readLine();
+							branchProc.processBranchData();
 						}
-						   
-						else if(recordType==RecType.XFORMER)
-						   branchProc.processXFormerData(str);
-						else if(recordType==RecType.TRI_W_XFORMER)
-						   branchProc.process3WXFomerData(str);
-						else if(recordType==RecType.AREA)
-						   netProc.processAreaData(str);
-						else if(recordType==RecType.ZONE)
-						   netProc.processZoneData(str);
+						else if(recordType==RecType.XFORMER) {
+							while(!PWDHelper.parseDataFields(str, this.inputNvPairs))
+								str+=din.readLine();
+						   branchProc.processXFormerData();
+						}
+						else if(recordType==RecType.TRI_W_XFORMER) {
+							while(!PWDHelper.parseDataFields(str, this.inputNvPairs))
+								str+=din.readLine();
+						   branchProc.process3WXFomerData();
+						}
+						else if(recordType==RecType.AREA) {
+							while(!PWDHelper.parseDataFields(str, this.inputNvPairs))
+								str+=din.readLine();
+						   netProc.processAreaData();
+						}
+						else if(recordType==RecType.ZONE) {
+							while(!PWDHelper.parseDataFields(str, this.inputNvPairs))
+								str+=din.readLine();
+						   netProc.processZoneData();
+						}
 						else{
 						  // ODMLogger.getLogger().warning("unsupported data #"+str);
 						}
@@ -275,10 +290,12 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		
 	}
 	
+	/* not used anymore
 	private boolean isDataFiledsCompleted(String dataStr){
-		/*
-		 * data fields are completed only when all nvPairs in the list are completed 
-		 */
+		//
+		// data fields are completed only when all nvPairs in the list are completed or
+		// the last item.value != null
+		//
 		boolean dataCompleted=true;
 		PWDHelper.parseDataFields(dataStr, inputNvPairs);
 		for(NVPair nv:inputNvPairs){
@@ -288,8 +305,10 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			}
 		}
 		return dataCompleted;
+		return PWDHelper.parseDataFields(dataStr, inputNvPairs);
 	}
-	
+	*/
+
 	private boolean endsWithRightParenthesis(String str){
 		return str.trim().endsWith(")");
 	}

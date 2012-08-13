@@ -19,20 +19,23 @@ public class PWDHelper {
 	 * 
 	 *       <"BusNum","4">, <"BusNum:1","5">, ....
 	 * 
+	 * return true if all data fields specified in the nvpairs are parsed.
+	 * 
 	 * @param str
 	 * @param nvpairs
+	 * @return true if all data fields are parsed
 	 */
-	public static void parseDataFields(String str, List<PowerWorldAdapter.NVPair> nvpairs){
-		parseDataFields(str, nvpairs, false);
+	public static boolean parseDataFields(String str, List<PowerWorldAdapter.NVPair> nvpairs){
+		return parseDataFields(str, nvpairs, false);
 	}
 	
-	public static void parseDataFields(String str, List<PowerWorldAdapter.NVPair> nvpairs, boolean debug){
+	public static boolean parseDataFields(String str, List<PowerWorldAdapter.NVPair> nvpairs, boolean debug){
 		
 		String[] dataFields=new String[nvpairs.size()];
 		//System.out.println("nv size="+nvpairs.size());
 		str=str.trim();
 		try{
-		if (PowerWorldAdapter.dataSeparator == FileTypeSpecifier.Blank) {
+		if (PowerWorldAdapter.dataSeparator == FileTypeSpecifier.Space) {
 				int j = -1;
 				int k = 0;
 				// get the quote index
@@ -106,5 +109,7 @@ public class PWDHelper {
 		
 		if (debug)
 			System.out.println(nvpairs);
+		
+		return nvpairs.get(nvpairs.size()-1).value != null;
 	}
 }

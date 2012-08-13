@@ -20,7 +20,7 @@ public class NetDataProcessor extends BaseDataProcessor  {
 		super(nvPairs, parser);
 	}
 	
-	public void processAreaData(String areaDataStr){
+	public void processAreaData(){
 		/*
 		 * DATA (AREA, [AreaNum,AreaName,BGAGC,BGAutoSS,BGAutoXF,EnforceGenMWLimits,SchedName,SAName,
            ConvergenceTol,AreaEDIncludeLossPF,BusSlack,AreaUnSpecifiedStudyMW])
@@ -29,7 +29,7 @@ public class NetDataProcessor extends BaseDataProcessor  {
 		
 		int areaNum=-1;
 		String areaName="";
-		PWDHelper.parseDataFields(areaDataStr, inputNvPairs);
+		//PWDHelper.parseDataFields(areaDataStr, inputNvPairs);
 		for (PowerWorldAdapter.NVPair nv: inputNvPairs) {
 			if (nv.name.equals("AreaNum"))
 				areaNum=Integer.valueOf(nv.value);
@@ -46,13 +46,13 @@ public class NetDataProcessor extends BaseDataProcessor  {
 		parser.getAclfNet().getAreaList().getArea().add(area);
 	}
 	
-	public void processZoneData(String zoneDataStr){
+	public void processZoneData(){
 		/*
 		 * DATA (ZONE, [ZoneNum,ZoneName,SchedName])
 		 */
 		int zoneNum=-1;
 		String zoneName="";
-		PWDHelper.parseDataFields(zoneDataStr, inputNvPairs);
+		//PWDHelper.parseDataFields(zoneDataStr, inputNvPairs);
 		for (PowerWorldAdapter.NVPair nv: inputNvPairs) {
 			if (nv.name.equals("ZoneNum"))
 					zoneNum=Integer.valueOf(nv.value);

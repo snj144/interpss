@@ -43,7 +43,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		super(nvPairs, parser);
 	}
 	
-	public void processBranchData(String branchDataStr){
+	public void processBranchData(){
 		/*
 		 * DATA (BRANCH, [BusNum,BusNum:1,LineCircuit,LineStatus,LineR,LineX,LineC,LineG,LineAMVA,LineBMVA,
               LineCMVA,LineShuntMW,LineShuntMW:1,LineShuntMVR,LineShuntMVR:1,LineTap,
@@ -75,7 +75,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		String idToken="CustomString:1"; //branch Id
 		
 		//System.out.println("processing branch#"+branchDataStr);
-		PWDHelper.parseDataFields(branchDataStr, inputNvPairs);
+		//PWDHelper.parseDataFields(branchDataStr, inputNvPairs);
 		try{
 			for(PowerWorldAdapter.NVPair nv:inputNvPairs){
 				//TODO branch id, NE-ISO use "customString:1" as the corresponding argument;	
@@ -269,7 +269,7 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 		}
 	}
 	
-	public void processXFormerData(String xfomerDataStr){
+	public void processXFormerData(){
 		/*
 		DATA (TRANSFORMER, [BusNum,BusNum:1,LineCircuit,LineXFType,XFAuto,XFRegMin,XFRegMax,XFTapMin,
 		                    XFTapMax,XFStep,XFTableNum,XFRegBus])
@@ -279,7 +279,7 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 		int tableNum=0;
 		double xTapMin=0,xTapMax=0,xTapStep=0,xRegMin=0,xRegMax=0;
 		double xfmrBaseMva=0;
-		PWDHelper.parseDataFields(xfomerDataStr, inputNvPairs);
+//		PWDHelper.parseDataFields(xfomerDataStr, inputNvPairs);
 		try{
 			for(PowerWorldAdapter.NVPair nv:inputNvPairs){
 				if (nv.name.equals("BusNum"))
@@ -332,7 +332,7 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 		}
 	}
 	
-	public void process3WXFomerData(String triWXformerDataStr){
+	public void process3WXFomerData(){
 		/*
 		 * the 3-winding transformers are treated as 3 2-winding transformers
 		 *  with an additional star bus added to the network;

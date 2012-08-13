@@ -39,7 +39,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 	}
 	
 	
-	public void processBusBasicData(String busDataStr){
+	public void processBusBasicData(){
 		/*
 		 * DATA (BUS, [BusNum,BusName,BusNomVolt,BusPUVolt,BusAngle,BusG:1,BusB:1,AreaNum,ZoneNum,
             SubNum,BusSlack])
@@ -52,7 +52,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 		double basekV=0, puVolt=0,kvVolt=0,angle=-360,busG=0,busB=0;
 		boolean isSlackBus=false,busConnected=true;
 		
-		PWDHelper.parseDataFields(busDataStr, inputNvPairs);
+		//PWDHelper.parseDataFields(busDataStr, inputNvPairs);
 		try {
 		for(PowerWorldAdapter.NVPair nv:inputNvPairs){// fields are already trimmed.
 			// Note the sequence of the arguments are not defined by PowerWorld, 
@@ -145,7 +145,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 		
 	}
 	
-	public void processBusLoadData(String busLoadDataStr){
+	public void processBusLoadData(){
 		/*
 		 * DATA (LOAD, [BusNum,LoadID,LoadStatus,LoadSMW,LoadSMVR,LoadIMW,LoadIMVR,LoadZMW,LoadZMVR,
    AreaNum,ZoneNum])
@@ -157,7 +157,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 		int areaNum=-1,zoneNum=-1;
 		boolean loadOnLine=false;
 		
-		PWDHelper.parseDataFields(busLoadDataStr, inputNvPairs);
+		//PWDHelper.parseDataFields(busLoadDataStr, inputNvPairs);
 		for(PowerWorldAdapter.NVPair nv:inputNvPairs){
 			if(nv.name.equals("BusNum")) busNum=Long.valueOf(nv.value); //mandatory filed
 			else if(nv.name.equals("LoadID")) loadId=nv.value;
@@ -377,7 +377,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 		}//end of if-subData
 	}
 	
-	public void processBusShuntData(String shuntDataStr){
+	public void processBusShuntData(){
 		/*
 		 * DATA (SHUNT, [BusNum,ShuntID,AreaNum,ZoneNum,SSRegNum,SSStatus,SSCMode,SSVHigh,SSVLow,SSNMVR,
             SSBlockNumSteps,SSBlockMVarPerStep,SSBlockNumSteps:1,SSBlockMVarPerStep:1,
@@ -394,7 +394,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 		double vHigh=1.0,vLow=1.0,normalMVR=0,MVarPerStep1=0,MVarPerStep2=0;
 		ShuntCompensatorModeEnumType mode=null; //Control Mode: Fixed, Discrete, Continuous, or Bus Shunt;
 		
-		PWDHelper.parseDataFields(shuntDataStr, inputNvPairs);
+		//PWDHelper.parseDataFields(shuntDataStr, inputNvPairs);
 		for(PowerWorldAdapter.NVPair nv:inputNvPairs){
 			if (nv.name.equals("BusNum"))
 				busNum=Long.valueOf(nv.value); //mandatory field
